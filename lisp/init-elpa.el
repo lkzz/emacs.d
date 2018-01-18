@@ -33,17 +33,21 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+(eval-when-compile
+  (require 'use-package))
+
+(setq use-package-always-ensure t)
+(setq use-package-always-defer t)
+(setq use-package-expand-minimally t)
+
+;; Required by `use-package'
+(use-package diminish)
+(use-package bind-key)
+
 
 (require-package 'anzu)
 (require-package 'company)
-(require-package 'magit)
 (require-package 'git-blamed)
-(require-package 'gitignore-mode)
-(require-package 'gitconfig-mode)
-(require-package 'git-timemachine)
-(require-package 'fringe-helper)
-(require-package 'git-gutter-fringe)
-(require-package 'git-commit)
 (require-package 'go-mode)
 (require-package 'company-go)
 (require-package 'go-eldoc)
@@ -57,7 +61,6 @@
 (require-package 'markdown-mode)
 (require-package 'mwim)
 (require-package 'nlinum)
-(require-package 'highlight-parentheses)
 (require-package 'smex)
 (require-package 'switch-window)
 (require-package 'window-numbering)

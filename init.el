@@ -58,7 +58,7 @@
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
 (require 'init-elpa)      ;; Machinery for installing required packages
-(require 'init-utils)
+(require 'init-funcs)
 (require 'init-exec-path) ;; Set up $PATH
 
 ;;----------------------------------------------------------------------------
@@ -69,14 +69,16 @@
 (require 'init-anzu)
 (require 'init-ui)
 (require 'init-modeline)
-(require 'init-smex)
-(require 'init-dash)
 (require 'init-recentf)
 (require 'init-company)
-(require 'init-paren-mode)
+(require 'init-highlight)
 (require 'init-ivy)
 (require 'init-mwim)
+
+;; programming set up
+(require 'init-programming)
 (require 'init-golang)
+
 (require 'init-markdown)
 (require 'init-git)
 (require 'init-which-key)
@@ -84,8 +86,9 @@
 (require 'init-windows)
 (require 'init-flycheck)
 (require 'init-dired)
-;; (require 'init-treemacs)
+(require 'init-treemacs)
 (require 'init-projectile)
+(require 'init-evil)
 
 (require 'init-better-default)
 ;;; init.el ends here
