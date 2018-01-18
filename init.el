@@ -89,7 +89,9 @@
 (require 'init-treemacs)
 (require 'init-projectile)
 (require 'init-evil)
+(require 'init-eshell)
 
 (require 'init-better-default)
+(require 'init-keybinds)
+
 ;;; init.el ends here
-(put 'dired-find-alternate-file 'disabled nil)
