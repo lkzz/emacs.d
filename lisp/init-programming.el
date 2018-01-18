@@ -7,5 +7,9 @@
     :bind (("\C-cd" . dash-at-point)
            ("\C-ce" . dash-at-point-with-docset))))
 
+(use-package toml-mode
+  :init
+  :after go-mode)
+
 (provide 'init-programming)
 ;;; init-programming.el ends here

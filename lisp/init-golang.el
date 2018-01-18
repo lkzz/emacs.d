@@ -16,53 +16,62 @@
 ;; go get -u github.com/fatih/gomodifytags
 ;; go get -u github.com/davidrjenni/reftools/cmd/fillstruct
 
-;; (eval-after-load 'go-mode
-;;   (require 'toml-mode))
-
-;; ;; Ignore go test -c output files
-;; (add-to-list 'completion-ignored-extensions ".test")
-
-;; (define-key 'help-command (kbd "G") 'godoc)
-
-;; (eval-after-load 'go-mode
-;;   '(progn
-;;      (defun kevin/go-mode-defaults ()
-;;        ;; Add to default go-mode key bindings
-;;        (let ((map go-mode-map))
-;;          (define-key map (kbd "C-c a") 'go-test-current-project) ;; current package, really
-;;          (define-key map (kbd "C-c m") 'go-test-current-file)
-;;          (define-key map (kbd "C-c .") 'go-test-current-test)
-;;          (define-key map (kbd "C-c b") 'go-run)
-;;          (define-key map (kbd "C-c r") 'go-guru-referrers)
-;;          (define-key map (kbd "C-h f") 'godoc-at-point))
-
-;;        ;; Prefer goimports to gofmt if installed
-;;        (let ((goimports (executable-find "goimports")))
-;;          (when goimports
-;;            (setq gofmt-command goimports)))
-
-;;        ;; gofmt on save
-;;        (add-hook 'before-save-hook 'gofmt-before-save nil t)
-
-;;        ;; stop whitespace being highlighted
-;;        (whitespace-toggle-options '(tabs))
-
-;;        ;; Company mode settings
-;;        (set (make-local-variable 'company-backends) '(company-go))
-
-;;        ;; El-doc for Go
-;;        (go-eldoc-setup)
-
-;;        ;; CamelCase aware editing operations
-;;        (subword-mode +1))
-
-;;      (setq kevin/go-mode-hook 'kevin/go-mode-defaults)
-
-;;      (add-hook 'go-mode-hook (lambda ()
-;;                                (run-hooks 'kevin/go-mode-hook)))))
+;; FIXME: `go-guru' doesn't work on Windows. Use `godef' instead.
+;; https://github.com/dominikh/go-mode.el/issues/218
 
 (use-package go-mode
-  )
+  :bind (:map go-mode-map
+              ("M-." . godef-jump)
+              ("C-c C-r" . go-remove-unused-imports)
+              ("<f1>" . godoc-at-point))
+  :config
+  ;; `goimports' or `gofmt'
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook #'gofmt-before-save)
+
+  (use-package go-dlv)
+  (use-package go-fill-struct)
+  (use-package go-impl)
+  (use-package go-playground)
+  (use-package golint)
+  (use-package govet)
+
+  (use-package go-eldoc
+    :init (add-hook 'go-mode-hook #'go-eldoc-setup))
+
+  (use-package go-guru
+    :bind (:map go-mode-map
+                ("C-c d" . go-guru-definition)
+                ("C-c r" . go-guru-referrers)))
+
+  (use-package go-tag
+    :bind (:map go-mode-map
+                ("C-c t" . go-tag-add)
+                ("C-c T" . go-tag-remove)))
+
+  (use-package gotest
+    :bind (:map go-mode-map
+                ("C-c a" . go-test-current-project)
+                ("C-c m" . go-test-current-file)
+                ("C-c ." . go-test-current-test)
+                ("C-c x" . go-run)))
+
+  (use-package go-gen-test
+    :bind (:map go-mode-map
+                ("C-c C-g" . go-gen-test-dwim)))
+
+  (with-eval-after-load 'company
+    (use-package company-go
+      :init (cl-pushnew (company-backend-with-yas 'company-go) company-backends)))
+
+  (with-eval-after-load 'projectile
+    ;; M-x `go-projectile-install-tools'
+    (use-package go-projectile
+      :commands (go-projectile-mode go-projectile-switch-project)
+      :init
+      (add-hook 'projectile-after-switch-project-hook #'go-projectile-switch-project)
+      (add-hook 'go-mode-hook #'go-projectile-mode))))
+
 
 (provide 'init-golang)
 ;;; init-golang ends here

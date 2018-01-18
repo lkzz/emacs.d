@@ -3,26 +3,35 @@
 ;;; Code:
 
 
-(require 'company)
+(use-package company
+  :diminish company-mode
+  :bind (("M-/" . company-complete)
+         ("C-c C-y" . company-yasnippet)
+         :map company-active-map
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next)
+         ("<tab>" . company-complete-selection)
+         :map company-search-map
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next))
+  :init (add-hook 'after-init-hook #'global-company-mode)
+  :config
+  ;; aligns annotation to the right hand side
+  (setq company-tooltip-align-annotations t)
+  (setq company-idle-delay 0.2
+        company-minimum-prefix-length 2
+        company-tooltip-limit 10
+        company-require-match nil
+        company-dabbrev-ignore-case nil
+        company-dabbrev-downcase nil)
 
-(setq company-idle-delay 0.5)
-(setq company-tooltip-limit 10)
-(setq company-minimum-prefix-length 2)
-;; invert the navigation direction if the the completion popup-isearch-match
-;; is displayed on top (happens near the bottom of windows)
-(setq company-tooltip-flip-when-above t)
-
-(setq tab-always-indent 'complete)
-
-(global-company-mode 1)
-
-;; company keybinds
-
-(define-key company-active-map (kbd "M-n") nil)
-(define-key company-active-map (kbd "M-p") nil)
-(define-key company-active-map (kbd "C-n") 'company-select-next)
-(define-key company-active-map (kbd "C-p") 'company-select-previous)
-(define-key company-active-map (kbd "C-s") 'company-filter-candidates)
+  ;; Popup documentation for completion candidates
+  (use-package company-quickhelp
+    :if (display-graphic-p)
+    :bind (:map company-active-map
+                ("M-h" . company-quickhelp-manual-begin))
+    :init (company-quickhelp-mode 1)
+    :config (setq company-quickhelp-delay 1)))
 
 (provide 'init-company)
 ;;; init-company.el ends here

@@ -6,8 +6,9 @@
 ;; (require 'package)
 
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-                         ("melpa" . "https://melpa.org/packages/")
-                         ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")))
+			 ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+			 ; ("melpa" . "https://melpa.org/packages/")
+             ))
 
 (defun require-package (package)
   "Install PACKAGE unless already installed."

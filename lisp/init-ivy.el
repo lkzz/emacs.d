@@ -3,14 +3,14 @@
 (add-hook 'after-init-hook 'ivy-mode)
 (after-load 'ivy
   (setq-default ivy-use-virtual-buffers t
-				ivy-virtual-abbreviate 'fullpath
-				ivy-count-format ""
-				projectile-completion-system 'ivy
-				ivy-magic-tilde nil
-				ivy-dynamic-exhibit-delay-ms 150
-				ivy-initial-inputs-alist
-				'((man . "^")
-				  (woman . "^")))
+                ivy-virtual-abbreviate 'fullpath
+                ivy-count-format ""
+                projectile-completion-system 'ivy
+                ivy-magic-tilde nil
+                ivy-dynamic-exhibit-delay-ms 150
+                ivy-initial-inputs-alist
+                '((man . "^")
+                  (woman . "^")))
 
     ;; IDO-style directory navigation
     (define-key ivy-minibuffer-map (kbd "RET") #'ivy-alt-done)
@@ -18,22 +18,22 @@
       (define-key ivy-minibuffer-map (kbd k) #'ivy-immediate-done))
 
     (define-key ivy-minibuffer-map (kbd "<up>") #'ivy-previous-line-or-history)
-	(global-set-key (kbd "C-x C-r") 'counsel-recentf)
-	(global-set-key (kbd "C-s") 'swiper)
-	(global-set-key (kbd "C-c C-r") 'ivy-resume)
-	(global-set-key (kbd "M-x") 'counsel-M-x)
-	(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-	(global-set-key (kbd "C-h f") 'counsel-describe-function)
-	(global-set-key (kbd "C-h v") 'counsel-describe-variable)
-	(global-set-key (kbd "<f1> l") 'counsel-find-library)
-	(global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
-	(global-set-key (kbd "<f2> u") 'counsel-unicode-char)
-	(global-set-key (kbd "C-c g") 'counsel-git)
-	(global-set-key (kbd "C-c j") 'counsel-git-grep)
-	(global-set-key (kbd "C-c /") 'counsel-ag)
-	(global-set-key (kbd "C-x l") 'counsel-locate)
-	(global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
-	(define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
+    (global-set-key (kbd "C-x C-r") 'counsel-recentf)
+    (global-set-key (kbd "C-s") 'swiper)
+    (global-set-key (kbd "C-c C-r") 'ivy-resume)
+    (global-set-key (kbd "M-x") 'counsel-M-x)
+    (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+    (global-set-key (kbd "C-h f") 'counsel-describe-function)
+    (global-set-key (kbd "C-h v") 'counsel-describe-variable)
+    (global-set-key (kbd "<f1> l") 'counsel-find-library)
+    (global-set-key (kbd "<f2> i") 'counsel-info-lookup-symbol)
+    (global-set-key (kbd "<f2> u") 'counsel-unicode-char)
+    (global-set-key (kbd "C-c g") 'counsel-git)
+    (global-set-key (kbd "C-c j") 'counsel-git-grep)
+    (global-set-key (kbd "C-c /") 'counsel-ag)
+    (global-set-key (kbd "C-x l") 'counsel-locate)
+    (global-set-key (kbd "C-S-o") 'counsel-rhythmbox)
+    (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 
     (when (maybe-require-package 'diminish)
       (diminish 'ivy-mode)))
