@@ -2,32 +2,38 @@
 ;;; Commentary:
 ;;; Code:
 
-;; 显示 whetespace
-(whitespace-mode)
-(setq-default whitespace-style '(face tabs trailing tab-mark))
+(use-package whitespace
+  :ensure nil
+  :diminish whitespace-mode
+  :init
+  (dolist (hook '(prog-mode-hook outline-mode-hook conf-mode-hook))
+    (add-hook hook #'whitespace-mode))
+  :config
+  (setq whitespace-line-column fill-column) ;; limit line length
+  ;; automatically clean up bad whitespace
+  (setq whitespace-action '(auto-cleanup))
+  ;; only show bad whitespace
+  (setq whitespace-style '(face tabs trailing tab-mark space-before-tab
+                           indentation empty space-after-tab))
 
-;; 自动 trailing whitespace
-(setq-default show-trailqing-whitespace t)
+  (with-eval-after-load 'popup
+    ;; advice for whitespace-mode conflict with popup
+    (defvar my-prev-whitespace-mode nil)
+    (make-local-variable 'my-prev-whitespace-mode)
 
-(defun no-trailing-whitespace ()
-  "Turn off display of trailing whitespace in this buffer."
-  (setq show-trailing-whitespace nil))
+    (defadvice popup-draw (before my-turn-off-whitespace activate compile)
+      "Turn off whitespace mode before showing autocomplete box."
+      (if whitespace-mode
+          (progn
+            (setq my-prev-whitespace-mode t)
+            (whitespace-mode -1))
+        (setq my-prev-whitespace-mode nil)))
 
-;; But don't show trailing whitespace in SQLi, inf-ruby etc.
-(dolist (hook '(special-mode-hook
-                Info-mode-hook
-                eww-mode-hook
-                term-mode-hook
-                comint-mode-hook
-                compilation-mode-hook
-                twittering-mode-hook
-                minibuffer-setup-hook))
-  (add-hook hook #'no-trailing-whitespace))
-
-(require-package 'whitespace-cleanup-mode)
-
-(add-hook 'after-init-hook 'global-whitespace-cleanup-mode)
-(global-set-key [remap just-one-space] 'cycle-spacing)
+    (defadvice popup-delete (after my-restore-whitespace activate compile)
+      "Restore previous whitespace mode when deleting autocomplete box."
+      (if my-prev-whitespace-mode
+          (whitespace-mode 1)))))
 
 
 (provide 'init-whitespace)
+;;; init-whitespace ends here

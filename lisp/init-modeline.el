@@ -149,8 +149,8 @@
                   "%1"
 
                   " "
-                  ;; ;; evil state
-                  ;; '(:eval evil-mode-line-tag)
+                  ;; evil state
+                  '(:eval evil-mode-line-tag)
 
                   ;; git info
                   '(:eval (when (> (window-width) 120)

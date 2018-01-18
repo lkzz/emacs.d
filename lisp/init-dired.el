@@ -5,33 +5,25 @@
 
 
 (use-package dired
-  :defer t
+  :ensure nil
   :config
+  ;; Show directory first
+  (setq dired-listing-switches "-alh --group-directories-first")
   (setq dired-dwim-target t)            ; copy in a split window
   (setq dired-recursive-deletes 'top)   ; "top" means ask cone
   (setq dired-recursive-copies 'always);; "always" means no asking
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
-  (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file ".."))))  ; was dired-up-directory
-
-
-
-;; Highlights dired buffer like k
-(use-package dired-k
-  :after dired
-  :bind (:map dired-mode-map
-              ("K" . dired-k)
-              ("g" . dired-k))
-  :init
-  (add-hook 'dired-initial-position-hook 'dired-k)
-  (add-hook 'dired-after-readin-hook #'dired-k-no-revert)
-  :config
-  (setq dired-k-padding 1)
-  (setq dired-k-style 'git)
-  (setq dired-k-human-readable t))
-
-(use-package dired-x
-  :after dired)
-
+  (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
+  ;; Suppress the warning: `ls does not support --dired'.
+  (setq dired-use-ls-dired nil)
+  ;; Highlights dired buffer like k
+  (use-package dired-k
+    :bind (:map dired-mode-map ("K" . dired-k))
+    :init
+    (setq dired-k-padding 1)
+    (setq dired-k-human-readable t)
+    (setq dired-k-style 'git)
+    (setq dired-k-human-readable t)))
 
 (provide 'init-dired)
 ;;; init-dired ends here

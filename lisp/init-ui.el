@@ -16,7 +16,7 @@
   (set-scroll-bar-mode nil))
 ;; 移除菜单栏
 (if (fboundp 'menu-bar-mode)
-	(menu-bar-mode -1))
+    (menu-bar-mode -1))
 ;; 禁止启动画面
 (setq inhibit-startup-screen t)
 ;; 高亮当前行
@@ -45,10 +45,6 @@
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
 
-;; show the cursor when moving after big movements in the window
-(require-package 'beacon)
-(beacon-mode +1)
-
 ;; ----------------------------------------------------------------------------
 ;; fringe 美化
 ;; ----------------------------------------------------------------------------
@@ -74,7 +70,6 @@
    #b00000000
    #b00000000
    #b00000000])
-
 
 ;; -----------------------------------------------------------------------------
 ;; setting font for mac system
