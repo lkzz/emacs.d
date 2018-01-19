@@ -7,6 +7,9 @@
 (setq user-full-name "kevin leung")
 (setq user-mail-address "kevin.scnu@gmail.com")
 
+;; default directory
+(setq default-directory "~/Code/gopath/src")
+
 (setq select-enable-primary t  ;; 复制粘贴
       select-enable-clipboard t)
 
@@ -30,16 +33,15 @@
               truncate-lines nil
               truncate-partial-width-windows nil
               visible-bell nil)
-;; Newline at end of file
-(setq require-final-newline t)
+
+
+(setq require-final-newline t     ;; Newline at end of file
+      next-line-add-newlines nil) ;; NO automatic new line when scrolling down at buffer bottom
 
 ;; delete the selection with a keypress
 (delete-selection-mode t)
 
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; NO automatic new line when scrolling down at buffer bottom
-(setq next-line-add-newlines nil)
 
 (require-package 'hungry-delete)
 (global-hungry-delete-mode t)

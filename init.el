@@ -64,30 +64,34 @@
 ;;----------------------------------------------------------------------------
 ;; personal package config
 ;;----------------------------------------------------------------------------
+;; ui setup
 (require 'init-color-theme)
 (require 'init-nlinum)
-(require 'init-anzu)
 (require 'init-ui)
 (require 'init-modeline)
+(require 'init-highlight)
+(require 'init-treemacs)
+(require 'init-whitespace)
+
+(require 'init-anzu)
 (require 'init-recentf)
 (require 'init-company)
-(require 'init-highlight)
 (require 'init-ivy)
 (require 'init-mwim)
+(require 'init-chinese)
 
 ;; programming set up
 (require 'init-programming)
 (require 'init-golang)
-
+(require 'init-yasnippet)
 (require 'init-markdown)
+
+(require 'init-projectile)
 (require 'init-git)
 (require 'init-which-key)
-(require 'init-whitespace)
 (require 'init-windows)
 (require 'init-flycheck)
 (require 'init-dired)
-(require 'init-treemacs)
-(require 'init-projectile)
 (require 'init-evil)
 (require 'init-eshell)
 
