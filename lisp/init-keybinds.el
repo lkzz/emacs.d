@@ -7,14 +7,15 @@
   "f f" 'counsel-find-file
   "f r" 'ivy-recentf
   "f s" 'save-buffer
-  "f e d" 'eval-buffer)
+  "f e d" 'eval-buffer
+  "p f" 'project-find-file)
 
 ;; buffer
 (evil-leader/set-key
-  "bb" 'ivy-switch-buffer
-  "bd" 'kill-buffer
-  "bl" 'ibuffer-list-buffers
-  "bg" 'revert-buffer)
+  "b b" 'ivy-switch-buffer
+  "b d" 'kill-this-buffer
+  "b l" 'ibuffer-list-buffers
+  "b g" 'revert-buffer)
 
 ;; jump
 (evil-leader/set-key
@@ -28,10 +29,10 @@
   "1"  'select-window-1
   "2"  'select-window-2
   "3"  'select-window-3
-  "w/" 'split-window-right
-  "w-" 'split-window-below
+  "w /" 'split-window-right
+  "w -" 'split-window-below
   ":"  'counsel-M-x
-  "wM" 'delete-other-windows)
+  "w M" 'delete-other-windows)
 
 ;; magit
 (evil-leader/set-key

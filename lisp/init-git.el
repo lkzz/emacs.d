@@ -10,6 +10,9 @@
          ("C-x M-g" . magit-dispatch-popup)
          ("C-c M-g" . magit-file-popup))
   :config
+  ;; git-commit
+  (use-package git-commit)
+
   ;; Gitflow externsion for Magit
   (use-package magit-gitflow
     :diminish magit-gitflow-mode
