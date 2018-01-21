@@ -3,6 +3,12 @@
 ;;; Code:
 ;; Show directory first
 
+(autoload 'dired-jump "dired-x"
+  "Jump to Dired buffer corresponding to current buffer." t)
+
+(autoload 'dired-jump-other-window "dired-x"
+  "Like \\[dired-jump] (dired-jump) but in other window." t)
+
 (use-package dired
   :ensure nil
   :config
@@ -25,14 +31,12 @@
     (setq dired-k-human-readable t))
 
   ;; Extra Dired functionality
-  ;; (use-package dired-aux :ensure nil)
+  (use-package dired-aux :ensure nil)
   (use-package dired-x
     :ensure nil
-    :commands (dired-jump
-               dired-jump-other-window
-               dired-omit-mode)
-    :demand
     :after dired
+    :bind (("C-x C-j" . 'dired-jump)
+           ("C-x 4 j" . 'dired-jump-other-window))
     :config
     (setq dired-omit-files
       (concat dired-omit-files "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*"))))

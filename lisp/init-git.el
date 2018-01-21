@@ -5,13 +5,14 @@
 ;; TODO: smerge-mode
 
 (use-package magit
-  :init
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch-popup)
          ("C-c M-g" . magit-file-popup))
   :config
+  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   ;; git-commit
   (use-package git-commit)
+  (use-package evil-magit)
 
   ;; Gitflow externsion for Magit
   (use-package magit-gitflow
@@ -26,6 +27,9 @@
 ;;; Pop up last commit information of current line
 (use-package git-messenger
   :commands git-messenger:copy-message
+  :init
+  (evil-leader/set-key
+    "g M" 'git-messenger:popup-message)
   :bind (("C-x v p" . git-messenger:popup-message)
          :map git-messenger-map
          ("m" . git-messenger:copy-message))
