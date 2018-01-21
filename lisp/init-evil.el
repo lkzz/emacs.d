@@ -2,7 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(require-package 'evil)
 (require-package 'goto-chg)
 (require-package 'evil-surround)
 (require-package 'evil-visualstar)
@@ -11,10 +10,16 @@
 
 (require 'evil-visualstar)
 
+(use-package evil
+  :init
+  ;; (global-evil-leader-mode t)
+  (add-hook 'after-init-hook #'global-evil-leader-mode)
+  (add-hook 'after-init-hook #'evil-mode)
+  :config)
+
 (setq evil-mode-line-format 'before)
 
 (global-evil-leader-mode)
-(evil-leader/set-leader "<SPC>")
 
 ;; UI
 (setq evil-normal-state-tag   (propertize "[N]" 'face '((:background "DarkGoldenrod2" :foreground "black")))
@@ -27,11 +32,6 @@
 ;; prevent esc-key from translating to meta-key in terminal mode
 (setq evil-esc-delay 0)
 (global-evil-surround-mode 1)
-
-(require 'evil)
-(global-evil-leader-mode) ;; enable evil-leader
-(evil-mode 1)
-
 
 ;; Scrolling
 (defun prelude-evil-scroll-down-other-window ()

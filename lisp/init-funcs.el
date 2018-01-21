@@ -11,6 +11,7 @@
        '(progn ,@body))))
 
 (defun buffer-too-big-p ()
+  "Judge if the buffer is too big."
   (or (> (buffer-size) (* 5000 64))
       (> (line-number-at-pos (point-max)) 5000)))
 
@@ -18,8 +19,8 @@
   (eq system-type 'darwin)
   "Are we running on a Mac system?")
 
-(defun kevin/goto-match-parent (arg)
-  "Go to the matching  if on (){}[], similar to vi style of % "
+(defun kevin/goto-match-parent ()
+  "Go to the matching  if on (){}[], similar to vi style of %."
   (interactive "p")
   ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
   (cond ((looking-at "[\[\(\{]") (evil-jump-item))
@@ -30,9 +31,15 @@
         (t nil)))
 
 (defun kevin/iterm-focus ()
+  "Open iTerm and move cursor to it."
   (interactive)
   (do-applescript
    " do shell script \"open -a iTerm\"\n"))
+
+(defun kevin/revert-buffer-no-confirm ()
+  "Revert buffer without confirmation."
+  (interactive)
+  (revert-buffer t t))
 
 (provide 'init-funcs)
 ;;; init-funcs.el ends here

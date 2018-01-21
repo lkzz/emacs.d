@@ -3,13 +3,11 @@
 ;;; Code:
 
 (use-package treemacs
-  :ensure t
-  :defer t
+  :after evil
   :config
   (progn
     (use-package treemacs-evil
-      :ensure t
-      :demand t)
+      :demand t))
     (setq treemacs-follow-after-init          t
           treemacs-width                      35
           treemacs-position                   'left
@@ -39,8 +37,7 @@
     "f C-t" #'treemacs-find-file))
 
 (use-package treemacs-projectile
-  :defer t
-  :ensure t
+  :after evil
   :config
   (setq treemacs-header-function #'treemacs-projectile-create-header)
   :init

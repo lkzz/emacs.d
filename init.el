@@ -70,7 +70,7 @@
 (require 'init-ui)
 (require 'init-modeline)
 (require 'init-highlight)
-(require 'init-treemacs)
+;; (require 'init-treemacs)
 (require 'init-whitespace)
 
 (require 'init-anzu)
@@ -79,6 +79,7 @@
 (require 'init-ivy)
 (require 'init-mwim)
 (require 'init-chinese)
+(require 'init-evil)
 
 ;; programming set up
 (require 'init-programming)
@@ -90,9 +91,9 @@
 (require 'init-git)
 (require 'init-which-key)
 (require 'init-windows)
+(require 'init-persp-mode)
 (require 'init-flycheck)
 (require 'init-dired)
-(require 'init-evil)
 (require 'init-eshell)
 
 (require 'init-better-default)

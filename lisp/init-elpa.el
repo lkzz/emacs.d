@@ -6,9 +6,8 @@
 ;; (require 'package)
 
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-			 ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-			 ; ("melpa" . "https://melpa.org/packages/")
-             ))
+                         ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+                         ("melpa" . "https://melpa.org/packages/")))
 
 (defun require-package (package)
   "Install PACKAGE unless already installed."
@@ -46,23 +45,9 @@
 (use-package bind-key)
 
 
-(require-package 'anzu)
-(require-package 'company)
-(require-package 'git-blamed)
-(require-package 'go-mode)
-(require-package 'company-go)
-(require-package 'go-eldoc)
-(require-package 'go-projectile)
-(require-package 'gotest)
-(require-package 'toml-mode)
-(require-package 'ivy)
-(require-package 'swiper)
-(require-package 'projectile)
-(require-package 'counsel)
 (require-package 'markdown-mode)
 (require-package 'mwim)
 (require-package 'nlinum)
-(require-package 'smex)
 (require-package 'switch-window)
 (require-package 'window-numbering)
 (require-package 'which-key)
