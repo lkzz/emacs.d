@@ -24,26 +24,19 @@
 ;; 设置光标形状
 (setq-default cursor-type '(bar . 3))
 ;; 设置光标颜色
-(add-to-list 'default-frame-alist '(cursor-color . "red"))
+;; (add-to-list 'default-frame-alist '(cursor-color . "red"))
 ;; 禁止光标闪烁
-;; (blink-cursor-mode -1)
+(blink-cursor-mode -1)
 ;; 禁止响铃
 (setq ring-bell-function 'ignore)
-
-;; 启动时最大化
-(add-hook 'window-setup-hook 'toggle-frame-maximized t)
-
 ;; 标题栏格式设置
 (setq frame-title-format
       '("" " Kevin "
         (:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
-
-;; nice scrolling
-(setq scroll-margin 0
-      scroll-conservatively 100000
-      scroll-preserve-screen-position 1)
+;; 设置启动logo
+;; (setq fancy-splash-image my-logo)
 
 ;; ----------------------------------------------------------------------------
 ;; fringe 美化
@@ -80,8 +73,19 @@
 ;; -----------------------------------------------------------------------------
 ;; 英文字体设置
 (set-face-attribute
-  'default nil :font "Monaco 13")
- ;; 'default nil :font "Source Code Pro 14")
+ 'default nil :font "Monaco 13")
+;; 'default nil :font "Source Code Pro 14")
+
+
+;; Show native line numbers if possible, otherwise use linum
+(if (fboundp 'display-line-numbers-mode)
+    (use-package display-line-numbers
+      :ensure nil
+      :init (add-hook 'prog-mode-hook #'display-line-numbers-mode))
+  (use-package linum-off
+    :demand
+    :init (add-hook 'after-init-hook #'global-linum-mode)
+    :config (setq linum-format "%4d ")))
 
 (provide 'init-ui)
 ;;; init-ui ends here

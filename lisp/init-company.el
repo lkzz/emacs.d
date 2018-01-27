@@ -8,22 +8,20 @@
   :bind (("M-/" . company-complete)
          ("C-c C-y" . company-yasnippet)
          :map company-active-map
+         ("C-s" . company-filter-candidates)
          ("C-p" . company-select-previous)
          ("C-n" . company-select-next)
-         ("<tab>" . company-complete-selection)
-         :map company-search-map
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next))
+         ("<tab>" . company-complete-selection))
   :init (add-hook 'after-init-hook #'global-company-mode)
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t)
-  (setq company-idle-delay 0.2
-        company-minimum-prefix-length 2
-        company-tooltip-limit 10
-        company-require-match nil
-        company-dabbrev-ignore-case nil
-        company-dabbrev-downcase nil)
+  (setq company-idle-delay 0.2)
+  (setq company-minimum-prefix-length 2)
+  (setq company-tooltip-limit 10)
+  (setq company-require-match nil)
+  (setq company-dabbrev-ignore-case nil)
+  (setq company-dabbrev-downcase nil)
 
   ;; Popup documentation for completion candidates
   (use-package company-quickhelp

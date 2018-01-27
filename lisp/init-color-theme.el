@@ -2,9 +2,11 @@
 ;;; Commentary:
 ;;; Code:
 
-(require-package 'color-theme-sanityinc-tomorrow)
+(use-package zenburn-theme)
+(use-package monokai-theme)
 
-(load-theme 'sanityinc-tomorrow-night t)
+;; (load-theme 'zenburn t)
+(load-theme 'monokai t)
 
 (provide 'init-color-theme)
 ;;; init-color-theme ends here

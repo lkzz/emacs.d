@@ -7,7 +7,8 @@
 
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
                          ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ;; ("melpa" . "https://melpa.org/packages/")
+                         ))
 
 (defun require-package (package)
   "Install PACKAGE unless already installed."
@@ -45,14 +46,5 @@
 (use-package bind-key)
 
 
-(require-package 'markdown-mode)
-(require-package 'mwim)
-(require-package 'nlinum)
-(require-package 'switch-window)
-(require-package 'window-numbering)
-(require-package 'which-key)
-
-
 (provide 'init-elpa)
-
 ;;; init-elpa ends here

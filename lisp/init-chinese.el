@@ -1,25 +1,19 @@
-;;; packages.el --- kevin-chinese-layer layer packages file for Spacemacs.
-;; Author: kevin <kevin.scnu@gmail.com>
-;; URL: https://github.com/syl20bnr/spacemacs
-;;
-;; This file is not part of GNU Emacs.
-;;
-;;; License: GPLv3
-
+;;; init-packages.el --- chinese package config for emacs.
 ;;; Commentary:
+;;; Author: kevin <kevin.scnu@gmail.com>
+;;; URL: https://github.com/lkzz/emacs.d
 ;;; Code:
 
 (use-package youdao-dictionary
-  :ensure t
+  :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
   (progn
     ;; Enable Cache
-    (setq url-automatic-caching t
-          ;; Set file path for saving search history
-          youdao-dictionary-search-history-file
-          (concat user-emacs-directory ".youdao")
-          ;; Enable Chinese word segmentation support
-          youdao-dictionary-use-chinese-word-segmentation t)))
+    (setq url-automatic-caching t)
+    ;; Set file path for saving search history
+    (setq youdao-dictionary-search-history-file (concat user-emacs-directory ".youdao"))
+    ;; Enable Chinese word segmentation support
+    (setq youdao-dictionary-use-chinese-word-segmentation t)))
 
 (use-package pyim
   :init
@@ -41,11 +35,9 @@
               #'(lambda () (pyim-restart-1 t)))
     ;; 如果当前的 mode 衍生自 prog-mode，那么仅仅在字符串和 comment 中开启中文输入模式
     (setq-default pyim-english-input-switch-functions
-                  '(pyim-probe-program-mode))
-    (evilified-state-evilify pyim-dm-mode pyim-dm-mode-map)))
+                  '(pyim-probe-program-mode))))
 
 (use-package pangu-spacing
-  :defer t
   :init (progn (global-pangu-spacing-mode 1)
                ;; Always insert `real' space in org-mode.
                (add-hook 'org-mode-hook
@@ -57,14 +49,11 @@
   :commands cal-china-x-setup
   :init (add-hook 'calendar-load-hook #'cal-china-x-setup)
   :config
-  ;; `S' can show the time of sunrise and sunset on Calendar
-  (setq calendar-location-name "Chengdu"
-        calendar-latitude 30.67
-        calendar-longitude 104.06)
-
+  (setq calendar-location-name "Chengdu")
+  (setq calendar-latitude 30.67)
+  (setq calendar-longitude 104.06)
   ;; Holidays
   (setq calendar-mark-holidays-flag t)
-
   (setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
   (setq cal-china-x-general-holidays
         '((holiday-lunar 1 15 "元宵节")
