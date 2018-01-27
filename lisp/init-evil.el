@@ -12,7 +12,6 @@
 
 (use-package evil
   :init
-  ;; (global-evil-leader-mode t)
   (add-hook 'after-init-hook #'global-evil-leader-mode)
   (add-hook 'after-init-hook #'evil-mode)
   :config)
