@@ -3,14 +3,14 @@
 ;;; Code:
 
 ;; global-keybindings
-(global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
+(global-set-key (kbd "C-M-\\") 'kevin/indent-region-or-buffer)
 
 (evil-leader/set-leader "<SPC>")
 
 ;; file
 (evil-leader/set-key
   "ff"  'counsel-find-file
-  "fr"  'ivy-recentf
+  "fr"  'counsel-recentf
   "fs"  'save-buffer
   "fed" 'eval-buffer
   "pf"  'counsel-projectile-find-file
@@ -23,6 +23,8 @@
   "bb" 'ivy-switch-buffer
   "bd" 'kill-this-buffer
   "bl" 'ibuffer-list-buffers
+  "bp" 'previous-buffer
+  "bn" 'next-buffer
   "bg" 'revert-buffer)
 
 ;; jump
@@ -54,6 +56,13 @@
   "w-" 'split-window-below
   "wM" 'delete-other-windows)
 
+;; treemacs
+(evil-leader/set-key
+    "ft" #'treemacs-toggle
+    "fT" #'treemacs
+    "fB" #'treemacs-bookmark
+    "f C-t" #'treemacs-find-file)
+
 ;; application
 (evil-leader/set-key
   "<SPC>" 'counsel-M-x
@@ -66,13 +75,16 @@
 (evil-leader/set-key "obs" 'bookmark-set)
 (evil-leader/set-key "obr" 'bookmark-rename)
 (evil-leader/set-key "obd" 'bookmark-delete)
-(evil-leader/set-key "obj" 'helm-filtered-bookmarks)
+(evil-leader/set-key "obj" 'counsel-bookmark)
 (evil-leader/set-key "obl" 'bookmark-bmenu-list)
 ;; toggle
 (evil-leader/set-key "ot" nil)
 (evil-leader/set-key "otm" 'toggle-major-mode)
 (evil-leader/set-key "otb" 'toggle-scroll-bar)
 (evil-leader/set-key "otw" 'toggle-word-wrap)
+(evil-leader/set-key "otm" 'toggle-frame-maximized)
+(evil-leader/set-key "otf" 'toggle-frame-fullscreen)
+
 ;; open iterm2
 (evil-leader/set-key "oi" 'kevin/iterm-focus)
 
@@ -80,8 +92,6 @@
 ;; flycheck error
 (evil-leader/set-key "en" 'flycheck-next-error)
 (evil-leader/set-key "ep" 'flycheck-previous-error)
-
-(define-key global-map (kbd "C-c y") 'youdao-dictionary-search-at-point+)
 
 (provide 'init-keybinds)
 ;;; init-keybinds ends here

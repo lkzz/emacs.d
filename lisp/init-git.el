@@ -8,8 +8,9 @@
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch-popup)
          ("C-c M-g" . magit-file-popup))
-  :config
+  :init
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  :config
   ;; git-commit
   (use-package git-commit)
   (use-package evil-magit)
