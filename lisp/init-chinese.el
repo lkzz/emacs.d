@@ -15,29 +15,42 @@
     ;; Enable Chinese word segmentation support
     (setq youdao-dictionary-use-chinese-word-segmentation t)))
 
+;; ** 设置拼音输入法
 (use-package pyim
-  :init
+  :demand t
+  :bind (("M-j" . pyim-convert-code-at-point)
+         ("C-;" . pyim-delete-word-from-personal-buffer))
+
   :config
-  ;; 激活 basedict 拼音词库
-  (use-package pyim-basedict
-    :ensure nil
-    :config (pyim-basedict-enable))
-  (progn
-    (setq pyim-directory (expand-file-name "pyim/" user-emacs-directory))
-    (setq pyim-dcache-directory (expand-file-name "dcache/" pyim-directory))
-    (setq default-input-method "pyim")
-    (setq pyim-default-scheme 'quanpin)
-    (setq pyim-page-tooltip t)
-    ;; 选词框显示6个候选词
-    (setq pyim-page-length 6)
-    ;; 让 Emacs 启动时自动加载 pyim 词库
-    (add-hook 'emacs-startup-hook
-              #'(lambda () (pyim-restart-1 t)))
-    ;; 如果当前的 mode 衍生自 prog-mode，那么仅仅在字符串和 comment 中开启中文输入模式
-    (setq-default pyim-english-input-switch-functions
-                  '(pyim-probe-program-mode))))
+  (setq default-input-method "pyim")
+  ;; 使用 emacs thread 来生成 dcache。
+  (setq pyim-dcache-prefer-emacs-thread t)
+
+  ;; 使用全拼
+  (setq pyim-default-scheme 'quanpin)
+
+  ;; 设置选词框的绘制方式
+  (if (and (display-graphic-p)
+           (>= emacs-major-version 26))
+      (setq pyim-page-tooltip 'child-frame)
+    (setq pyim-page-tooltip 'popup))
+
+  ;; 显示6个候选词。
+  (setq pyim-page-length 6)
+
+  ;; emacs 启动时加载 pyim 词库
+  (add-hook 'emacs-startup-hook
+            #'(lambda ()
+                (pyim-restart-1 t)))
+
+  )
+;; 激活 basedict 拼音词库
+(use-package pyim-basedict
+  :after pyim
+  :ensure nil)
 
 (use-package pangu-spacing
+  :diminish pangu-spacing-mode
   :init (progn (global-pangu-spacing-mode 1)
                ;; Always insert `real' space in org-mode.
                (add-hook 'org-mode-hook

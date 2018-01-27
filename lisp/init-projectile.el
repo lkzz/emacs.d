@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package projectile
+  :diminish projectile-mode " ⓟ"
   :bind (("C-c p f" . 'projectile-find-file))
   :init (add-hook 'after-init-hook 'projectile-mode)
   :config

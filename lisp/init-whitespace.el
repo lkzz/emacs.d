@@ -14,7 +14,7 @@
   (setq whitespace-action '(auto-cleanup))
   ;; only show bad whitespace
   (setq whitespace-style '(face tabs trailing tab-mark space-before-tab
-                           indentation empty space-after-tab))
+                                indentation empty space-after-tab))
 
   (with-eval-after-load 'popup
     ;; advice for whitespace-mode conflict with popup

@@ -2,13 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (require 'cl)
-;; (require 'package)
-
-(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-                         ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-                         ;; ("melpa" . "https://melpa.org/packages/")
-                         ))
+(setq package-archives '(("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+                           ("org-cn"   . "http://elpa.emacs-china.org/org/")
+                           ("gnu-cn"   . "http://elpa.emacs-china.org/gnu/")))
 
 (defun require-package (package)
   "Install PACKAGE unless already installed."
@@ -36,10 +32,10 @@
 
 (eval-when-compile
   (require 'use-package))
-
 (setq use-package-always-ensure t)
 (setq use-package-always-defer t)
 (setq use-package-expand-minimally t)
+(setq use-package-enable-imenu-support t)
 
 ;; Required by `use-package'
 (use-package diminish)
