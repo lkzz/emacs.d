@@ -159,6 +159,11 @@
                  ;; git info
                  '(:eval (when (> (window-width) 120)
                            `(vc-mode vc-mode)))
+                 " "
+
+                 ;; nyan progressbar
+                 '(:eval (when (> (window-width) 150)
+                           (list (nyan-create))))
 
                  ;; minor modes
                  '(:eval (when (> (window-width) 90)
