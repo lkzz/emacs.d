@@ -31,7 +31,9 @@
 (evil-leader/set-key
   "jd" 'dired-jump
   "jl" 'goto-line
-  "jp" 'kevin/goto-match-parent)
+  "jp" 'kevin/goto-match-parent
+  "jc" 'avy-goto-char-2
+  )
 
 ;; magit
 (evil-leader/set-key

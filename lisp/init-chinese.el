@@ -19,7 +19,8 @@
 (use-package pyim
   :demand t
   :bind (("M-j" . pyim-convert-code-at-point)
-         ("C-;" . pyim-delete-word-from-personal-buffer))
+         ;; ("C-;" . Pyim-Delete-Word-from-personal-buffer)
+         )
 
   :config
   (setq default-input-method "pyim")
