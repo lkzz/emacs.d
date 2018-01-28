@@ -87,5 +87,15 @@
     :init (add-hook 'after-init-hook #'global-linum-mode)
     :config (setq linum-format "%4d ")))
 
+(use-package nyan-mode
+  :init
+  (add-hook 'after-init-hook #'nyan-mode)
+  :config
+  (progn
+    (setq nyan-wavy-trail t)
+    (setq nyan-animate-nyancat t)
+    )
+  )
+
 (provide 'init-ui)
 ;;; init-ui ends here
