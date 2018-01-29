@@ -22,16 +22,16 @@
   "Set Centaur logo.  nil means official logo."
   :type 'string)
 
-;; (defun kevin/goto-match-parent ()
-;;   "Go to the matching  if on (){}[], similar to vi style of %."
-;;   (interactive "p")
-;;   ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
-;;   (cond ((looking-at "[\[\(\{]") (evil-jump-item))
-;;         ((looking-back "[\]\)\}]" 1) (evil-jump-item))
-;;         ;; now, try to succeed from inside of a bracket
-;;         ((looking-at "[\]\)\}]") (forward-char) (evil-jump-item))
-;;         ((looking-back "[\[\(\{]" 1) (backward-char) (evil-jump-item))
-;;         (t nil)))
+(defun kevin/goto-match-parent ()
+  "Go to the matching  if on (){}[], similar to vi style of %."
+  (interactive)
+  ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
+  (cond ((looking-at "[\[\(\{]") (evil-jump-item))
+        ((looking-back "[\]\)\}]" 1) (evil-jump-item))
+        ;; now, try to succeed from inside of a bracket
+        ((looking-at "[\]\)\}]") (forward-char) (evil-jump-item))
+        ((looking-back "[\[\(\{]" 1) (backward-char) (evil-jump-item))
+        (t nil)))
 
 ;; -----------------------------------------------------------------------------
 ;; custom functions

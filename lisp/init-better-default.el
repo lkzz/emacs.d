@@ -62,10 +62,10 @@
 ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
 (setq mouse-autoselect-window t)
 ;; 鼠标滚动设置
-(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-scroll-amount '(3 ((shift) . 1)))
 (setq mouse-wheel-progressive-speed nil)
-(setq scroll-step 1
-      scroll-margin 1
+(setq scroll-step 3
+      scroll-margin 3
       scroll-conservatively 100000)
 (use-package smooth-scrolling
   :init (add-hook 'after-init-hook #'smooth-scrolling-mode)
