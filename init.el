@@ -83,7 +83,7 @@
 (require 'init-flycheck)
 (require 'init-dired)
 (require 'init-eshell)
-(require 'init-restore)
+;; (require 'init-restore)
 
 (require 'init-windows)
 (require 'init-better-default)
