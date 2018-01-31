@@ -2,126 +2,76 @@
 ;;; Commentary:
 ;;; Code:
 
-(require-package 'goto-chg)
-(require-package 'evil-surround)
-(require-package 'evil-visualstar)
-(require-package 'evil-leader)
-(require-package 'evil-numbers)
-
-(require 'evil-visualstar)
+(use-package evil-leader
+  :config
+  (global-evil-leader-mode t)
+  (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
-  :init
-  (add-hook 'after-init-hook #'global-evil-leader-mode)
-  (add-hook 'after-init-hook #'evil-mode)
-  :config)
+  :config
+  (evil-mode t)
+  (setq evil-default-state 'normal)
+  (setq evil-magic t
+        evil-echo-state t
+        evil-indent-convert-tabs t
+        evil-ex-search-vim-style-regexp t
+        evil-ex-substitute-global t
+        evil-ex-visual-char-range t  ; column range for ex commands
+        evil-insert-skip-empty-lines t
+        evil-mode-line-format 'nil
+        ;; more vim-like behavior
+        evil-symbol-word-search t
+        ;; don't activate mark on shift-click
+        shift-select-mode nil)
+  (setq evil-esc-delay 0)
+  (setq evil-mode-line-format 'before)
+  ;; modeline UI
+  (setq evil-normal-state-tag   (propertize "[N]" 'face '((:background "DarkGoldenrod2" :foreground "black")))
+        evil-emacs-state-tag    (propertize "[E]" 'face '((:background "SkyBlue2" :foreground "black")))
+        evil-insert-state-tag   (propertize "[I]" 'face '((:background "chartreuse3") :foreground "white"))
+        evil-motion-state-tag   (propertize "[M]" 'face '((:background "plum3") :foreground "white"))
+        evil-visual-state-tag   (propertize "[V]" 'face '((:background "gray" :foreground "black")))
+        evil-operator-state-tag (propertize "[O]" 'face '((:background "purple"))))
+  ;; evil cursor color
+  (setq  evil-default-cursor '("#98f5ff" box)
+         evil-normal-state-cursor '("#98f5ff" box)
+         evil-insert-state-cursor '("#98f5ff" (bar . 2))
+         evil-visual-state-cursor '("#98f5ff" box)
+         evil-replace-state-cursor '("#cd5c5c" box)
+         evil-operator-state-cursor '("#98f5ff" box)
+         evil-motion-state-cursor '("#98f5ff" box)
+         evil-emacs-state-cursor '("#adfa2f" (bar . 2)))
+  )
 
-(setq evil-mode-line-format 'before)
+(use-package evil-surround
+  :config
+  (global-evil-surround-mode t))
 
-(global-evil-leader-mode)
+(use-package evil-visualstar
+  :config
+  (global-evil-visualstar-mode t))
 
-;; UI
-(setq evil-normal-state-tag   (propertize "[N]" 'face '((:background "DarkGoldenrod2" :foreground "black")))
-      evil-emacs-state-tag    (propertize "[E]" 'face '((:background "SkyBlue2" :foreground "black")))
-      evil-insert-state-tag   (propertize "[I]" 'face '((:background "chartreuse3") :foreground "white"))
-      evil-motion-state-tag   (propertize "[M]" 'face '((:background "plum3") :foreground "white"))
-      evil-visual-state-tag   (propertize "[V]" 'face '((:background "gray" :foreground "black")))
-      evil-operator-state-tag (propertize "[O]" 'face '((:background "purple"))))
-
-;; prevent esc-key from translating to meta-key in terminal mode
-(setq evil-esc-delay 0)
-(global-evil-surround-mode 1)
+(use-package evil-numbers)
 
 ;; Scrolling
 (defun prelude-evil-scroll-down-other-window ()
   (interactive)
   (scroll-other-window))
 
-(defun prelude-evil-scroll-up-other-window ()
-  (interactive)
-  (scroll-other-window '-))
-
-(define-key evil-normal-state-map
-  (kbd "C-S-d") 'prelude-evil-scroll-down-other-window)
-
-(define-key evil-normal-state-map
-  (kbd "C-S-u") 'prelude-evil-scroll-up-other-window)
-
-;; evil keybindings
-(define-key evil-normal-state-map (kbd ",a") 'mwim-beginning-of-code-or-line)
-(define-key evil-normal-state-map (kbd ",e") 'mwim-end-of-code-or-line)
-(define-key evil-normal-state-map (kbd ",w") 'evil-write)
-(define-key evil-normal-state-map (kbd ",W") 'evil-write-all)
-(define-key evil-normal-state-map (kbd ",q") 'evil-quit)
-(define-key evil-normal-state-map (kbd "C-w") 'evil-delete-backward-word)
-(define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
-(define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
-(define-key evil-insert-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
-(define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-(define-key evil-motion-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-(define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-(define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
-(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-
-
-;;
-;; Magit from avsej
-;;
-(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs
-  "K" 'magit-discard
-  "L" 'magit-log-popup)
-(evil-add-hjkl-bindings magit-status-mode-map 'emacs
-  "K" 'magit-discard
-  "l" 'magit-log-popup
-  "h" 'magit-diff-toggle-refine-hunk)
-
-(setq evil-shift-width 2)
-
-;;; enable avy with evil-mode
-(define-key evil-normal-state-map (kbd "SPC") 'avy-goto-word-1)
-
-;;; snagged from Eric S. Fraga
-;;; http://lists.gnu.org/archive/html/emacs-orgmode/2012-05/msg00153.html
-(defun prelude-evil-key-bindings-for-org ()
-  ;;(message "Defining evil key bindings for org")
-  (evil-declare-key 'normal org-mode-map
-    "gk" 'outline-up-heading
-    "gj" 'outline-next-visible-heading
-    "H" 'org-beginning-of-line ; smarter behaviour on headlines etc.
-    "L" 'org-end-of-line ; smarter behaviour on headlines etc.
-    "t" 'org-todo ; mark a TODO item as DONE
-    ",c" 'org-cycle
-    (kbd "TAB") 'org-cycle
-    ",e" 'org-export-dispatch
-    ",n" 'outline-next-visible-heading
-    ",p" 'outline-previous-visible-heading
-    ",t" 'org-set-tags-command
-    ",u" 'outline-up-heading
-    "$" 'org-end-of-line ; smarter behaviour on headlines etc.
-    "^" 'org-beginning-of-line ; ditto
-    "-" 'org-ctrl-c-minus ; change bullet style
-    "<" 'org-metaleft ; out-dent
-    ">" 'org-metaright ; indent
-    ))
-(prelude-evil-key-bindings-for-org)
-
 (use-package evil-nerd-commenter
-  :after evil-mode)
-
-(evil-leader/set-key
-  "ci" 'evilnc-comment-or-uncomment-lines
-  "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-  "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
-  "cc" 'evilnc-copy-and-comment-lines
-  "cp" 'evilnc-comment-or-uncomment-paragraphs
-  "cr" 'comment-or-uncomment-region
-  "cv" 'evilnc-toggle-invert-comment-line-by-line
-  "."  'evilnc-copy-and-comment-operator
-  "\\" 'evilnc-comment-operator ; if you prefer backslash key
-)
+  :after evil-mode
+  :config
+  (evil-leader/set-key
+    "ci" 'evilnc-comment-or-uncomment-lines
+    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+    "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
+    "cc" 'evilnc-copy-and-comment-lines
+    "cp" 'evilnc-comment-or-uncomment-paragraphs
+    "cr" 'comment-or-uncomment-region
+    "cv" 'evilnc-toggle-invert-comment-line-by-line
+    "."  'evilnc-copy-and-comment-operator
+    "\\" 'evilnc-comment-operator ; if you prefer backslash key
+    ))
 
 (provide 'init-evil)
 ;;; init-evil ends here
