@@ -2,6 +2,33 @@
 ;;; Commentary:
 ;;; Code:
 
+
+;; ;;; snagged from Eric S. Fraga
+;; ;;; http://lists.gnu.org/archive/html/emacs-orgmode/2012-05/msg00153.html
+;; (defun prelude-evil-key-bindings-for-org ()
+;;   ;;(message "Defining evil key bindings for org")
+;;   (evil-declare-key 'normal org-mode-map
+;;     "gk" 'outline-up-heading
+;;     "gj" 'outline-next-visible-heading
+;;     "H" 'org-beginning-of-line ; smarter behaviour on headlines etc.
+;;     "L" 'org-end-of-line ; smarter behaviour on headlines etc.
+;;     "t" 'org-todo ; mark a TODO item as DONE
+;;     ",c" 'org-cycle
+;;     (kbd "TAB") 'org-cycle
+;;     ",e" 'org-export-dispatch
+;;     ",n" 'outline-next-visible-heading
+;;     ",p" 'outline-previous-visible-heading
+;;     ",t" 'org-set-tags-command
+;;     ",u" 'outline-up-heading
+;;     "$" 'org-end-of-line ; smarter behaviour on headlines etc.
+;;     "^" 'org-beginning-of-line ; ditto
+;;     "-" 'org-ctrl-c-minus ; change bullet style
+;;     "<" 'org-metaleft ; out-dent
+;;     ">" 'org-metaright ; indent
+;;     ))
+;; (prelude-evil-key-bindings-for-org)
+
+
 (use-package org
   :ensure nil
   :bind (("C-c a" . org-agenda)

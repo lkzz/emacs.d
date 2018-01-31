@@ -5,7 +5,6 @@
 ;; global-keybindings
 (global-set-key (kbd "C-M-\\") 'kevin/indent-region-or-buffer)
 
-(evil-leader/set-leader "<SPC>")
 
 ;; file
 (evil-leader/set-key
@@ -94,6 +93,46 @@
 ;; flycheck error
 (evil-leader/set-key "en" 'flycheck-next-error)
 (evil-leader/set-key "ep" 'flycheck-previous-error)
+
+
+(defun prelude-evil-scroll-up-other-window ()
+  (interactive)
+  (scroll-other-window '-))
+
+(define-key evil-normal-state-map
+  (kbd "C-S-d") 'prelude-evil-scroll-down-other-window)
+
+(define-key evil-normal-state-map
+  (kbd "C-S-u") 'prelude-evil-scroll-up-other-window)
+
+;; evil keybindings
+(define-key evil-normal-state-map (kbd ",a") 'mwim-beginning-of-code-or-line)
+(define-key evil-normal-state-map (kbd ",e") 'mwim-end-of-code-or-line)
+(define-key evil-normal-state-map (kbd ",w") 'evil-write)
+(define-key evil-normal-state-map (kbd ",W") 'evil-write-all)
+(define-key evil-normal-state-map (kbd ",q") 'evil-quit)
+(define-key evil-normal-state-map (kbd "C-w") 'evil-delete-backward-word)
+(define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
+(define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
+(define-key evil-insert-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
+(define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+(define-key evil-motion-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+(define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+(define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
+(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
+(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+
+;; Magit from avsej
+;;
+(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
+(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs
+  "K" 'magit-discard
+  "L" 'magit-log-popup)
+(evil-add-hjkl-bindings magit-status-mode-map 'emacs
+  "K" 'magit-discard
+  "l" 'magit-log-popup
+  "h" 'magit-diff-toggle-refine-hunk)
 
 (provide 'init-keybinds)
 ;;; init-keybinds ends here
