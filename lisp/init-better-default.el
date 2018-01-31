@@ -52,12 +52,16 @@
 (setq auto-save-default nil)
 ;; 关闭lockfile,NOTE:有风险，建议开启
 (setq create-lockfiles nil)
+;; 设置scratch message
+(setq initial-scratch-message "")
+
 ;; 自动刷新文件
 (use-package autorevert
   :ensure nil
   :diminish auto-revert-mode
   :init (add-hook 'after-init-hook #'global-auto-revert-mode))
 ;; 光标靠近鼠标指针时，让鼠标指针自动让开，别挡住视线
+
 (mouse-avoidance-mode 'animate)
 ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
 (setq mouse-autoselect-window t)
@@ -71,10 +75,15 @@
   :init (add-hook 'after-init-hook #'smooth-scrolling-mode)
   :config (setq smooth-scroll-margin 0))
 
+;; 打开文件时不再创建新的frame
+(when (boundp 'ns-pop-up-frames)
+  (setq ns-pop-up-frames nil))
+
 ;; 文件末尾插入新行
 (setq require-final-newline t)
 (setq next-line-add-newlines nil)
 (define-key global-map (kbd "RET") 'newline-and-indent)
+
 ;;删除时移到回收站
 (setq delete-by-moving-to-trash t)
 
