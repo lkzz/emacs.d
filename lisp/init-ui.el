@@ -36,7 +36,7 @@
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
 ;; 设置启动logo
-;; (setq fancy-splash-image my-logo)
+(setq fancy-splash-image my-logo)
 
 (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 

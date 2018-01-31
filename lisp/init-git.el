@@ -23,7 +23,7 @@
     :init (add-hook 'magit-mode-hook #'turn-on-magit-gitflow)
     :config
     (magit-define-popup-action 'magit-dispatch-popup
-                               ?G "GitFlow" #'magit-gitflow-popup ?!)))
+      ?G "GitFlow" #'magit-gitflow-popup ?!)))
 
 ;;; Pop up last commit information of current line
 (use-package git-messenger

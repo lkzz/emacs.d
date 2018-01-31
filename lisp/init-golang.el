@@ -37,6 +37,7 @@
   (use-package govet)
 
   (use-package go-eldoc
+    :diminish eldoc-mode
     :init (add-hook 'go-mode-hook #'go-eldoc-setup))
 
   (use-package go-guru
