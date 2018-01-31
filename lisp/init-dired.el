@@ -10,12 +10,12 @@
   :config
   (progn
     (setq dired-listing-switches "-alh --group-directories-first") ; Show directory first
-    (setq dired-dwim-target t)            ; copy in a split window
+    ;; (setq dired-dwim-target t)            ; copy in a split window
     (setq dired-recursive-deletes 'top)   ; "top" means ask cone
     (setq dired-recursive-copies 'always);; "always" means no asking
-    (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
-    (put 'dired-find-alternate-file 'disabled nil)
-    (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
+    ;; (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
+    ;; (put 'dired-find-alternate-file 'disabled nil)
+    ;; (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))
     (cond
      (sys/macp
       ;; Suppress the warning: `ls does not support --dired'.
