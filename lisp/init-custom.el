@@ -37,14 +37,6 @@
 ;; custom functions
 ;; -----------------------------------------------------------------------------
 
-;; (if (fboundp 'with-eval-after-load)
-;;     (defalias 'after-load 'with-eval-after-load)
-;;   (defmacro after-load (feature &rest body)
-;;     "After FEATURE is loaded, evaluate BODY."
-;;     (declare (indent defun))
-;;     `(eval-after-load ,feature
-;;        '(progn ,@body))))
-
 (defun buffer-too-big-p ()
   (or (> (buffer-size) (* 1024 1024))
       (> (line-number-at-pos (point-max)) 5000)))
@@ -69,12 +61,12 @@
   (interactive)
   (save-excursion
     (if (region-active-p)
-    (progn
-      (indent-region (region-beginning) (region-end))
-      (message "Indent selected region."))
+        (progn
+          (indent-region (region-beginning) (region-end))
+          (message "Indent selected region."))
       (progn
-    (indent-buffer)
-    (message "Indent buffer.")))))
+        (indent-buffer)
+        (message "Indent buffer.")))))
 
 (provide 'init-custom)
 ;;; init-custom.el ends here

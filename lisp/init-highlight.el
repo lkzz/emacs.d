@@ -38,6 +38,10 @@
   :init (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
   :config (setq highlight-indent-guides-method 'character))
 
+;; Colorize color names in buffers
+(use-package rainbow-mode
+  :init (add-hook 'after-init-hook #'rainbow-mode))
+
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
@@ -77,7 +81,6 @@
 (use-package volatile-highlights
   :diminish volatile-highlights-mode
   :init (add-hook 'after-init-hook #'volatile-highlights-mode))
-
 
 
 (provide 'init-highlight)

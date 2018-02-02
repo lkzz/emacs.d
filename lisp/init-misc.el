@@ -23,10 +23,10 @@
   :init (add-hook 'after-init-hook #'global-hungry-delete-mode)
   :config (setq-default hungry-delete-chars-to-skip " \t\f\v"))
 
-;; Start server
 (use-package server
-  :ensure nil
-  :init (add-hook 'after-init-hook #'server-mode))
+  :config
+  (or (server-running-p)
+      (server-start)))
 
 ;; History
 (use-package saveplace
@@ -241,6 +241,12 @@
   :bind (("C-a" . mwim-beginning-of-code-or-line)
          ("C-e" . mwim-end-of-code-or-line)))
 
+;; golden-ratio
+(use-package golden-ratio
+  :disabled t
+  :config
+  (setq golden-ratio-auto-scale t)
+  (golden-ratio-mode 1))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

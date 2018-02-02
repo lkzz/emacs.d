@@ -40,8 +40,7 @@
          evil-replace-state-cursor '("#cd5c5c" box)
          evil-operator-state-cursor '("#98f5ff" box)
          evil-motion-state-cursor '("#98f5ff" box)
-         evil-emacs-state-cursor '("#adfa2f" (bar . 2)))
-  )
+         evil-emacs-state-cursor '("#adfa2f" (bar . 2))))
 
 (use-package evil-surround
   :config
@@ -59,19 +58,7 @@
   (scroll-other-window))
 
 (use-package evil-nerd-commenter
-  :after evil-mode
-  :config
-  (evil-leader/set-key
-    "ci" 'evilnc-comment-or-uncomment-lines
-    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-    "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
-    "cc" 'evilnc-copy-and-comment-lines
-    "cp" 'evilnc-comment-or-uncomment-paragraphs
-    "cr" 'comment-or-uncomment-region
-    "cv" 'evilnc-toggle-invert-comment-line-by-line
-    "."  'evilnc-copy-and-comment-operator
-    "\\" 'evilnc-comment-operator ; if you prefer backslash key
-    ))
+  :after evil-leader-mode)
 
 (provide 'init-evil)
 ;;; init-evil ends here

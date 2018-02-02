@@ -53,7 +53,6 @@
 ;; personal package config
 ;;----------------------------------------------------------------------------
 ;; ui setup
-(require 'init-color-theme)
 (require 'init-ui)
 (require 'init-modeline)
 (require 'init-highlight)
