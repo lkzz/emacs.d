@@ -12,6 +12,14 @@
 
 ;; 设置编码
 (prefer-coding-system 'utf-8)
+(set-language-environment "UTF-8")
+(set-buffer-file-coding-system 'utf-8-unix)
+(set-clipboard-coding-system 'utf-8-unix)
+(set-file-name-coding-system 'utf-8-unix)
+(set-keyboard-coding-system 'utf-8-unix)
+(set-next-selection-coding-system 'utf-8-unix)
+(set-selection-coding-system 'utf-8-unix)
+(set-terminal-coding-system 'utf-8-unix)
 
 ;; 复制粘贴
 (setq select-enable-primary t)
@@ -52,16 +60,21 @@
 (setq auto-save-default nil)
 ;; 关闭lockfile,NOTE:有风险，建议开启
 (setq create-lockfiles nil)
-;; 设置scratch message
-(setq initial-scratch-message "")
-
 ;; 自动刷新文件
 (use-package autorevert
   :ensure nil
   :diminish auto-revert-mode
   :init (add-hook 'after-init-hook #'global-auto-revert-mode))
-;; 光标靠近鼠标指针时，让鼠标指针自动让开，别挡住视线
 
+;; 显示文件大小信息
+(when (fboundp size-indication-mode)
+  (size-indication-mode t))
+
+;; Keep cursor at end of lines. Require line-move-visual is nil.
+(setq track-eol t)
+(setq line-move-visual nil)
+
+;; 当
 (mouse-avoidance-mode 'animate)
 ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
 (setq mouse-autoselect-window t)
@@ -74,10 +87,6 @@
 (use-package smooth-scrolling
   :init (add-hook 'after-init-hook #'smooth-scrolling-mode)
   :config (setq smooth-scroll-margin 0))
-
-;; 打开文件时不再创建新的frame
-(when (boundp 'ns-pop-up-frames)
-  (setq ns-pop-up-frames nil))
 
 ;; 文件末尾插入新行
 (setq require-final-newline t)
