@@ -131,6 +131,8 @@
 (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
 (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
 (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+(define-key evil-insert-state-map (kbd "C-p") 'evil-previous-visual-line)
+(define-key evil-insert-state-map (kbd "C-n") 'evil-next-visual-line)
 
 ;; Magit from avsej
 ;;
