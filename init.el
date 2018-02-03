@@ -17,6 +17,8 @@
   (message "Your Emacs is old, and some custom.elality in this config will be disabled. Please upgrade if possible."))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name  "extensions" user-emacs-directory))
+
 (require 'init-benchmarking) ;; Measure startup time
 
 ;;----------------------------------------------------------------------------
@@ -33,11 +35,6 @@
             (setq gc-cons-threshold 800000)))
 
 ;;----------------------------------------------------------------------------
-;; custom file.
-;;----------------------------------------------------------------------------
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-
-;;----------------------------------------------------------------------------
 ;; be quiet at startup; don't load or display anything unnecessary
 ;;----------------------------------------------------------------------------
 (advice-add #'display-startup-echo-area-message :override #'ignore)
@@ -48,6 +45,7 @@
 (require 'init-elpa)      ;; Machinery for installing required packages
 (require 'init-custom)
 (require 'init-exec-path) ;; Set up $PATH
+(require 'init-better-default)
 
 ;;----------------------------------------------------------------------------
 ;; personal package config
@@ -62,7 +60,6 @@
 (require 'init-anzu)
 (require 'init-company)
 (require 'init-ivy)
-(require 'init-mwim)
 (require 'init-chinese)
 (require 'init-evil)
 (require 'init-misc)
@@ -85,7 +82,13 @@
 ;; (require 'init-restore)
 
 (require 'init-windows)
-(require 'init-better-default)
 (require 'init-keybinds)
+
+;;----------------------------------------------------------------------------
+;; custom file.
+;;----------------------------------------------------------------------------
+(setq custom-file (expand-file-name "custom.el" kevin/cache-directory))
+(load custom-file 'no-error 'no-message)
+
 
 ;;; init.el ends here

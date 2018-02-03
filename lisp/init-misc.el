@@ -41,7 +41,6 @@
   :ensure nil
   :init
   (setq recentf-max-saved-items 100)
-
   ;; lazy load recentf
   ;; (add-hook 'after-init-hook #'recentf-mode)
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
@@ -50,7 +49,8 @@
   :config
   (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
   (add-to-list 'recentf-exclude "bookmarks")
-  (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'"))
+  (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
+  (add-to-list 'recentf-exclude kevin/cache-directory))
 
 (use-package savehist
   :ensure nil

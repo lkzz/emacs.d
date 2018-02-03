@@ -28,9 +28,6 @@
 ;;; Pop up last commit information of current line
 (use-package git-messenger
   :commands git-messenger:copy-message
-  :init
-  (evil-leader/set-key
-    "g M" 'git-messenger:popup-message)
   :bind (("C-x v p" . git-messenger:popup-message)
          :map git-messenger-map
          ("m" . git-messenger:copy-message))

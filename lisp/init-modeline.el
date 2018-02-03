@@ -106,6 +106,8 @@
                  " "
                  '(:eval (kevin/update-persp-name))
 
+                 mode-line-mule-info
+
                  anzu--mode-line-format
 
                  "%1"

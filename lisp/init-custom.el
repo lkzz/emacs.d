@@ -22,6 +22,9 @@
   "Set Centaur logo.  nil means official logo."
   :type 'string)
 
+(defvar kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
+  "Emacs cache directory.")
+
 (defun kevin/goto-match-parent ()
   "Go to the matching  if on (){}[], similar to vi style of %."
   (interactive)
