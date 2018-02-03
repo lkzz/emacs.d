@@ -91,13 +91,15 @@
   :init
   (add-hook 'after-init-hook #'vi-tilde-fringe-mode))
 
-(use-package nlinum
-  :config
-  (progn
-    (add-hook 'prog-mode-hook 'nlinum-mode)
-    ;; (add-hook 'text-mode-hook 'nlinum-mode)
-    (setq nlinum-highlight-current-line t)
-    (setq nlinum-format "%4d ")))
+;; Show native line numbers if possible, otherwise use linum
+(if (fboundp 'display-line-numbers-mode)
+    (use-package display-line-numbers
+      :ensure nil
+      :init (add-hook 'prog-mode-hook #'display-line-numbers-mode))
+  (use-package linum-off
+    :demand
+    :init (add-hook 'after-init-hook #'global-linum-mode)
+    :config (setq linum-format "%4d ")))
 
 (use-package nyan-mode
   :init (add-hook 'after-init-hook #'nyan-mode)
