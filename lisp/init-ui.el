@@ -47,11 +47,6 @@
 (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 
 ;; 配置主题
-;; (use-package doom-themes
-;;   :init
-;;   (add-hook 'after-init-hook (lambda ()
-;;                                (load-theme 'doom-molokai t))))
-
 (use-package monokai-theme
   :init
   (add-hook 'after-init-hook (lambda ()
@@ -98,15 +93,14 @@
   :init
   (add-hook 'after-init-hook #'vi-tilde-fringe-mode))
 
-;; Show native line numbers if possible, otherwise use linum
-(if (fboundp 'display-line-numbers-mode)
-    (use-package display-line-numbers
-      :ensure nil
-      :init (add-hook 'prog-mode-hook #'display-line-numbers-mode))
-  (use-package linum-off
-    :demand
-    :init (add-hook 'after-init-hook #'global-linum-mode)
-    :config (setq linum-format "%4d ")))
+(use-package nlinum
+  :init
+  :config
+  (progn
+    (add-hook 'prog-mode-hook 'nlinum-mode)
+    ;; (add-hook 'text-mode-hook 'nlinum-mode)
+    (setq nlinum-highlight-current-line t)
+    (setq nlinum-format "%4d ")))
 
 (use-package nyan-mode
   :init

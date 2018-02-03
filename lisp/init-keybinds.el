@@ -5,7 +5,6 @@
 ;; global-keybindings
 (global-set-key (kbd "C-M-\\") 'kevin/indent-region-or-buffer)
 
-
 ;; file
 (evil-leader/set-key
   "ff"  'counsel-find-file
@@ -59,10 +58,10 @@
 
 ;; treemacs
 (evil-leader/set-key
-    "ft" #'treemacs-toggle
-    "fT" #'treemacs
-    "fB" #'treemacs-bookmark
-    "f C-t" #'treemacs-find-file)
+  "ft" #'treemacs-toggle
+  "fT" #'treemacs
+  "fB" #'treemacs-bookmark
+  "f C-t" #'treemacs-find-file)
 
 ;; application
 (evil-leader/set-key

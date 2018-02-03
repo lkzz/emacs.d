@@ -23,32 +23,27 @@
          )
 
   :config
+  ;; 激活 basedict 拼音词库
+  (use-package pyim-basedict
+    :config (pyim-basedict-enable))
+  ;; 激活 basedict 拼音词库
+  (require 'pyim-greatdict)
+  (pyim-greatdict-enable)
+  (setq pyim-directory (expand-file-name "pyim/" kevin/cache-directory))
+  (setq pyim-dcache-directory (expand-file-name "dcache/" pyim-directory))
   (setq default-input-method "pyim")
   ;; 使用 emacs thread 来生成 dcache。
   (setq pyim-dcache-prefer-emacs-thread t)
-
   ;; 使用全拼
   (setq pyim-default-scheme 'quanpin)
-
-  ;; 设置选词框的绘制方式
-  (if (and (display-graphic-p)
-           (>= emacs-major-version 26))
-      (setq pyim-page-tooltip 'child-frame)
-    (setq pyim-page-tooltip 'popup))
-
   ;; 显示6个候选词。
   (setq pyim-page-length 6)
-
+  ;; 设置选词框的绘制方式
+  (setq pyim-page-tooltip 'popup)
   ;; emacs 启动时加载 pyim 词库
   (add-hook 'emacs-startup-hook
             #'(lambda ()
-                (pyim-restart-1 t)))
-
-  )
-;; 激活 basedict 拼音词库
-(use-package pyim-basedict
-  :after pyim
-  :ensure nil)
+                (pyim-restart-1 t))))
 
 (use-package pangu-spacing
   :diminish pangu-spacing-mode
