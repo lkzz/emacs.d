@@ -24,9 +24,7 @@
   :config (setq-default hungry-delete-chars-to-skip " \t\f\v"))
 
 (use-package server
-  :config
-  (or (server-running-p)
-      (server-start)))
+  :init (add-hook 'after-init-hook 'server-start t))
 
 ;; History
 (use-package saveplace

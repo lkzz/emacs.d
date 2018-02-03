@@ -18,9 +18,7 @@
 ;; ** 设置拼音输入法
 (use-package pyim
   :demand t
-  :bind (("M-j" . pyim-convert-code-at-point)
-         ;; ("C-;" . Pyim-Delete-Word-from-personal-buffer)
-         )
+  :bind (("M-j" . pyim-convert-code-at-point))
 
   :config
   ;; 激活 basedict 拼音词库
