@@ -35,8 +35,6 @@
         (:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
-;; 设置启动logo
-(setq fancy-splash-image my-logo)
 ;; 设置scratch message
 (setq initial-scratch-message "")
 ;; 打开文件时不再创建新的frame
@@ -94,7 +92,6 @@
   (add-hook 'after-init-hook #'vi-tilde-fringe-mode))
 
 (use-package nlinum
-  :init
   :config
   (progn
     (add-hook 'prog-mode-hook 'nlinum-mode)
@@ -103,8 +100,7 @@
     (setq nlinum-format "%4d ")))
 
 (use-package nyan-mode
-  :init
-  (add-hook 'after-init-hook #'nyan-mode)
+  :init (add-hook 'after-init-hook #'nyan-mode)
   :config
   (progn
     (setq nyan-wavy-trail t)

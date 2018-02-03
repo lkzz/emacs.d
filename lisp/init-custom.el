@@ -18,10 +18,6 @@
   (eq system-type 'darwin)
   "Are we running on a Mac system?")
 
-(defcustom my-logo (expand-file-name "logo.png" user-emacs-directory)
-  "Set Centaur logo.  nil means official logo."
-  :type 'string)
-
 (defvar kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
