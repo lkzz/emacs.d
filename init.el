@@ -76,6 +76,7 @@
 (require 'init-git)
 (require 'init-which-key)
 ;; (require 'init-persp-mode)
+(require 'init-buffer)
 (require 'init-flycheck)
 (require 'init-dired)
 (require 'init-eshell)
