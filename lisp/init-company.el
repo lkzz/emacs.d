@@ -11,8 +11,19 @@
          ("C-s" . company-filter-candidates)
          ("C-p" . company-select-previous)
          ("C-n" . company-select-next)
-         ("<tab>" . company-complete-selection))
-  :init (add-hook 'after-init-hook #'global-company-mode)
+         ("<tab>" . company-complete-selection)
+         :map company-search-map
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next))
+  :init
+  (add-hook 'after-init-hook #'global-company-mode)
+  (add-hook 'company-completion-started-hook
+            (lambda (&rest ignore)
+              (when evil-mode
+                (when (evil-insert-state-p)
+                  (define-key evil-insert-state-map (kbd "C-n") nil)
+                  (define-key evil-insert-state-map (kbd "C-p") nil)
+                  ))))
   :config
   (progn
     ;; aligns annotation to the right hand side
@@ -25,7 +36,6 @@
     (setq company-selection-wrap-around t)
     (setq company-dabbrev-ignore-case nil)
     (setq company-dabbrev-downcase nil)
-
     ;; Popup documentation for completion candidates
     (use-package company-quickhelp
       :if (display-graphic-p)
@@ -45,9 +55,10 @@
           backend
         (append (if (consp backend) backend (list backend))
                 '(:with company-yasnippet))))
+    (setq company-backends (mapcar #'company-backend-with-yas company-backends))
 
-    (setq company-backends (mapcar #'company-backend-with-yas company-backends)))
-  )
+
+    ))
 
 (provide 'init-company)
 ;;; init-company.el ends here
