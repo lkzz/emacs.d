@@ -7,8 +7,14 @@
 (setq user-full-name "kevin leung")
 (setq user-mail-address "kevin.scnu@gmail.com")
 
+
+;; Don't ask me when kill process buffer
+(setq kill-buffer-query-functions
+      (remq 'process-kill-buffer-query-function
+            kill-buffer-query-functions))
+
 ;; default directory
-(setq default-directory "~/Code/gopath/src")
+(setq default-directory "~/Code/gopath/src/go-common")
 
 ;; 设置编码
 (prefer-coding-system 'utf-8)
@@ -55,6 +61,8 @@
 ;; 关闭备份功能
 (setq make-backup-files nil)
 ;; 关闭自动保存模式
+(setq auto-save-list-file-prefix
+      (concat kevin/cache-directory "auto-save-list/.saves-"))
 (setq-default auto-save-mode nil)
 ;; 不生成 #filename# 临时文件
 (setq auto-save-default nil)
@@ -69,6 +77,18 @@
 ;; 显示文件大小信息
 (when (fboundp size-indication-mode)
   (size-indication-mode t))
+
+;; bookmark 设置
+(eval-after-load 'bookmark
+  '(progn
+     (setq bookmark-default-file
+           (concat kevin/cache-directory "bookmarks"))))
+
+(eval-after-load 'url
+  '(progn
+     (setq url-configuration-directory
+           (file-name-as-directory
+            (concat kevin/cache-directory "url")))))
 
 ;; Keep cursor at end of lines. Require line-move-visual is nil.
 (setq track-eol t)

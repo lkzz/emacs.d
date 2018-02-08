@@ -11,6 +11,7 @@
          ("C-s" . company-filter-candidates)
          ("C-p" . company-select-previous)
          ("C-n" . company-select-next)
+         ("C-g" . company-abort)
          ("<tab>" . company-complete-selection)
          :map company-search-map
          ("C-p" . company-select-previous)
@@ -56,8 +57,14 @@
         (append (if (consp backend) backend (list backend))
                 '(:with company-yasnippet))))
     (setq company-backends (mapcar #'company-backend-with-yas company-backends))
-
-
+    ;; Show you likelier candidates at the top of the list
+    (use-package company-statistics
+      :config
+      ;; save cache file to `user-cache-directory'
+      (setq company-statistics-file (concat kevin/cache-directory
+                                            "company-statistics-cache.el"))
+      ;; start company-statictics-mode after init
+      (add-hook 'after-init-hook 'company-statistics-mode))
     ))
 
 (provide 'init-company)

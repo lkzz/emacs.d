@@ -4,7 +4,11 @@
 
 ;; global-keybindings
 (global-set-key (kbd "C-M-\\") 'kevin/indent-region-or-buffer)
-
+;; multiple cursors
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-+") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 ;; file
 (evil-leader/set-key
   "ff"  'counsel-find-file
@@ -23,7 +27,8 @@
   "bl" 'ibuffer-list-buffers
   "bp" 'previous-buffer
   "bn" 'next-buffer
-  "bg" 'revert-buffer)
+  "bg" 'revert-buffer
+  )
 
 ;; jump
 (evil-leader/set-key

@@ -11,7 +11,7 @@
   :init
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   :config
-  ;; git-commit
+  (setq auto-revert-check-vc-info t)
   (use-package git-commit)
   (use-package evil-magit)
 
@@ -23,7 +23,7 @@
     :init (add-hook 'magit-mode-hook #'turn-on-magit-gitflow)
     :config
     (magit-define-popup-action 'magit-dispatch-popup
-      ?G "GitFlow" #'magit-gitflow-popup ?!)))
+                               ?G "GitFlow" #'magit-gitflow-popup ?!)))
 
 ;;; Pop up last commit information of current line
 (use-package git-messenger
@@ -46,7 +46,17 @@
 
 ;; Git modes
 (use-package gitattributes-mode)
-(use-package gitconfig-mode)
+(use-package gitconfig-mode
+  :mode (("/\\.?git/?config\\'" . gitconfig-mode)
+         ("/\\.gitmodules\\'" . gitconfig-mode)
+         ("/_gitconfig\\'" . gitconfig-mode))
+  :config
+  (add-hook 'gitconfig-mode-hook 'flyspell-mode))
+
+(use-package gitignore-mode
+  :mode (("/\\.gitignore\\'" . gitignore-mode)
+         ("/\\.git/info/exclude\\'" . gitignore-mode)
+         ("/git/ignore\\'" . gitignore-mode)))
 (use-package gitignore-mode)
 
 

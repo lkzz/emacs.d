@@ -14,7 +14,7 @@
   ;; turn off 'nlinum-mode when there are more than 5000 lines
   (if (buffer-too-big-p) (nlinum-mode -1))
   ;; show trailing spaces in a programming mode
-  (setq show-trailing-whitespace t))
+  )
 (add-hook 'prog-mode-hook 'kevin/prog-mode-hook)
 
 (use-package prog-mode
@@ -41,8 +41,7 @@
   :mode (("\\.xaml$" . xml-mode)))
 
 
-(use-package toml-mode:
-  :ensure nil
+(use-package toml-mode
   :mode (("\\.toml$" . toml-mode)))
 
 (use-package quickrun
