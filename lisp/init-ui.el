@@ -59,7 +59,7 @@
   (setq cnfonts-use-cache t)
   (setq cnfonts-profiles
         '("program" "org-mode" "read-book"))
-  (setq cnfonts--profiles-steps '(("program" . 4)
+  (setq cnfonts--profiles-steps '(("program" . 5)
                                   ("org-mode" . 5)
                                   ("read-book" . 8))))
 

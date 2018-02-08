@@ -67,5 +67,20 @@
         (indent-buffer)
         (message "Indent buffer.")))))
 
+(defun kevin/remove-elc-on-save ()
+  "If you're saving an elisp file, likely the .elc is no longer valid."
+  (make-local-variable 'after-save-hook)
+  (add-hook 'after-save-hook
+            (lambda ()
+              (if (file-exists-p (concat buffer-file-name "c"))
+                  (delete-file (concat buffer-file-name "c"))))))
+
+;; Kill all buffers except scratch buffer
+(defun kevin/kill-all-buffers ()
+  "Kill all buffers, leaving *scratch* only."
+  (interactive)
+  (mapcar (lambda (x) (kill-buffer x)) (buffer-list))
+  (delete-other-windows))
+
 (provide 'init-custom)
 ;;; init-custom.el ends here

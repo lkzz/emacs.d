@@ -9,12 +9,12 @@
   (dolist (hook '(prog-mode-hook outline-mode-hook conf-mode-hook))
     (add-hook hook #'whitespace-mode))
   :config
+  (setq show-trailing-whitespace t)
   (setq whitespace-line-column fill-column) ;; limit line length
   ;; automatically clean up bad whitespace
   (setq whitespace-action '(auto-cleanup))
   ;; only show bad whitespace
-  (setq whitespace-style '(face tabs trailing tab-mark space-before-tab
-                                indentation empty space-after-tab))
+  (setq whitespace-style '(face tabs trailing tab-mark))
 
   (with-eval-after-load 'popup
     ;; advice for whitespace-mode conflict with popup
@@ -34,6 +34,11 @@
       (if my-prev-whitespace-mode
           (whitespace-mode 1)))))
 
+(use-package whitespace-cleanup-mode
+  :ensure t
+  :diminish whitespace-cleanup-mode
+  :config
+  (global-whitespace-cleanup-mode))
 
 (provide 'init-whitespace)
 ;;; init-whitespace ends here

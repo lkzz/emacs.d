@@ -71,6 +71,7 @@
 (require 'init-yasnippet)
 (require 'init-markdown)
 (require 'init-org)
+(require 'init-elisp)
 
 (require 'init-projectile)
 (require 'init-git)

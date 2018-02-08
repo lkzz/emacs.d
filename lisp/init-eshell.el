@@ -6,6 +6,10 @@
 (use-package eshell
   :ensure nil
   :config
+  (setq eshell-directory-name
+        (concat kevin/cache-directory "eshell"))
+  (setq eshell-visual-subcommands
+        '(("git" "log" "diff" "show")))
   ;; Eshell prompt for git users
   (use-package eshell-git-prompt
     :init
@@ -79,7 +83,32 @@
             (forward-line line))
         (eshell-view-file (pop args)))))
 
-  (defalias 'eshell/more 'eshell/less))
+  (defalias 'eshell/more 'eshell/less)
+
+  (defun eshell/.. (&optional level)
+    "Go up LEVEL directories"
+    (interactive)
+    (let ((level (or level 1)))
+      (eshell/cd (make-string (1+ level) ?.))
+      (eshell/ls)))
+
+  (defun eshell/unpack (file)
+    (let ((command (some (lambda (x)
+                           (if (string-match-p (car x) file)
+                               (cadr x)))
+                         '((".*\.tar.bz2" "tar xjf")
+                           (".*\.tar.gz" "tar xzf")
+                           (".*\.bz2" "bunzip2")
+                           (".*\.rar" "unrar x")
+                           (".*\.gz" "gunzip")
+                           (".*\.tar" "tar xf")
+                           (".*\.tbz2" "tar xjf")
+                           (".*\.tgz" "tar xzf")
+                           (".*\.zip" "unzip")
+                           (".*\.Z" "uncompress")
+                           (".*" "echo 'Could not unpack the file:'")))))
+      (eshell-command-result (concat command " " file))))
+  )
 
 (provide 'init-eshell)
 ;;; init-eshell.el ends here
