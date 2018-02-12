@@ -24,10 +24,11 @@
 (evil-leader/set-key
   "bb" 'ivy-switch-buffer
   "bd" 'kill-this-buffer
+  "bm" #'kevin/kill-all-buffers
   "bl" 'ibuffer-list-buffers
   "bp" 'previous-buffer
   "bn" 'next-buffer
-  "bg" 'revert-buffer
+  "bg" #'kevin/revert-buffer-no-confirm
   )
 
 ;; jump
