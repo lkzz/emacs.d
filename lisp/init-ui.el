@@ -104,39 +104,39 @@
    #b00000000
    #b00000000])
 
-(use-package fringe-helper
-  :commands (fringe-helper-define fringe-helper-convert)
-  :init
-  (unless (fboundp 'define-fringe-bitmap)
-    ;; doesn't exist in terminal Emacs; define it to prevent errors
-    (defun define-fringe-bitmap (&rest _)))
-  :after git-gutter-fringe
-  :config
-  (progn
-    ;; places the git gutter outside the margins.
-    (setq-default fringes-outside-margins t)
-    ;; thin fringe bitmaps
-    (fringe-helper-define 'git-gutter-fr:added '(center repeated)
-                          "XXX.....")
-    (fringe-helper-define 'git-gutter-fr:modified '(center repeated)
-                          "XXX.....")
-    (fringe-helper-define 'git-gutter-fr:deleted 'bottom
-                          "X......."
-                          "XX......"
-                          "XXX....."
-                          "XXXX...."))
-  )
+;; (use-package fringe-helper
+;;   :commands (fringe-helper-define fringe-helper-convert)
+;;   :init
+;;   (unless (fboundp 'define-fringe-bitmap)
+;;     ;; doesn't exist in terminal Emacs; define it to prevent errors
+;;     (defun define-fringe-bitmap (&rest _)))
+;;   :after git-gutter-fringe
+;;   :config
+;;   (progn
+;;     ;; places the git gutter outside the margins.
+;;     (setq-default fringes-outside-margins t)
+;;     ;; thin fringe bitmaps
+;;     (fringe-helper-define 'git-gutter-fr:added '(center repeated)
+;;                           "XXX.....")
+;;     (fringe-helper-define 'git-gutter-fr:modified '(center repeated)
+;;                           "XXX.....")
+;;     (fringe-helper-define 'git-gutter-fr:deleted 'bottom
+;;                           "X......."
+;;                           "XX......"
+;;                           "XXX....."
+;;                           "XXXX...."))
+;;   )
 
-(use-package git-gutter-fringe
-  :diminish git-gutter-mode
-  :demand t
-  :config
-  (progn
-    ;; If you enable global minor mode
-    (set-face-foreground 'git-gutter-fr:modified "cyan3")
-    (set-face-foreground 'git-gutter-fr:added    "SeaGreen3")
-    (set-face-foreground 'git-gutter-fr:deleted  "orchid3")
-    (add-hook 'after-init-hook 'global-git-gutter-mode)))
+;; (use-package git-gutter-fringe
+;;   :diminish git-gutter-mode
+;;   :demand t
+;;   :config
+;;   (progn
+;;     ;; If you enable global minor mode
+;;     (set-face-foreground 'git-gutter-fr:modified "cyan3")
+;;     (set-face-foreground 'git-gutter-fr:added    "SeaGreen3")
+;;     (set-face-foreground 'git-gutter-fr:deleted  "orchid3")
+;;     (add-hook 'after-init-hook 'global-git-gutter-mode)))
 
 (use-package vi-tilde-fringe
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
