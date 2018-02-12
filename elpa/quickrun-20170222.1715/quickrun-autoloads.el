@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "quickrun" "quickrun.el" (23157 33493 75675
-;;;;;;  258000))
+;;;### (autoloads nil "quickrun" "quickrun.el" (23168 11303 764755
+;;;;;;  152000))
 ;;; Generated autoloads from quickrun.el
 
 (autoload 'quickrun-set-default "quickrun" "\

@@ -44,11 +44,25 @@
 ;; 启动时窗口最大化
 (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 
+;; ;; 配置主题
+;; (use-package monokai-theme
+;;   :init
+;;   (add-hook 'after-init-hook (lambda ()
+;;                                (load-theme 'monokai t))))
+
 ;; 配置主题
-(use-package monokai-theme
+(use-package doom-themes
   :init
   (add-hook 'after-init-hook (lambda ()
-                               (load-theme 'monokai t))))
+                               (load-theme 'doom-tomorrow-night t)))
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 ;; 字体设置
 (use-package cnfonts
@@ -59,9 +73,12 @@
   (setq cnfonts-use-cache t)
   (setq cnfonts-profiles
         '("program" "org-mode" "read-book"))
+  (setq cnfonts-directory
+        (concat kevin/cache-directory "cnfonts"))
   (setq cnfonts--profiles-steps '(("program" . 5)
                                   ("org-mode" . 5)
-                                  ("read-book" . 8))))
+                                  ("read-book" . 8)))
+  )
 
 ;; fringe 美化
 ;; 更改边缘的厚度（默认为8像素）
@@ -87,9 +104,42 @@
    #b00000000
    #b00000000])
 
-(use-package vi-tilde-fringe
+(use-package fringe-helper
+  :commands (fringe-helper-define fringe-helper-convert)
   :init
-  (add-hook 'after-init-hook #'vi-tilde-fringe-mode))
+  (unless (fboundp 'define-fringe-bitmap)
+    ;; doesn't exist in terminal Emacs; define it to prevent errors
+    (defun define-fringe-bitmap (&rest _)))
+  :after git-gutter-fringe
+  :config
+  (progn
+    ;; places the git gutter outside the margins.
+    (setq-default fringes-outside-margins t)
+    ;; thin fringe bitmaps
+    (fringe-helper-define 'git-gutter-fr:added '(center repeated)
+                          "XXX.....")
+    (fringe-helper-define 'git-gutter-fr:modified '(center repeated)
+                          "XXX.....")
+    (fringe-helper-define 'git-gutter-fr:deleted 'bottom
+                          "X......."
+                          "XX......"
+                          "XXX....."
+                          "XXXX...."))
+  )
+
+(use-package git-gutter-fringe
+  :diminish git-gutter-mode
+  :demand t
+  :config
+  (progn
+    ;; If you enable global minor mode
+    (set-face-foreground 'git-gutter-fr:modified "cyan3")
+    (set-face-foreground 'git-gutter-fr:added    "SeaGreen3")
+    (set-face-foreground 'git-gutter-fr:deleted  "orchid3")
+    (add-hook 'after-init-hook 'global-git-gutter-mode)))
+
+(use-package vi-tilde-fringe
+  :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
 ;; Show native line numbers if possible, otherwise use linum
 (if (fboundp 'display-line-numbers-mode)

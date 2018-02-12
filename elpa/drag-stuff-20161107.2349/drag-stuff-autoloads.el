@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "drag-stuff" "drag-stuff.el" (23157 33490 162292
-;;;;;;  741000))
+;;;### (autoloads nil "drag-stuff" "drag-stuff.el" (23168 11300 963004
+;;;;;;  980000))
 ;;; Generated autoloads from drag-stuff.el
 
 (autoload 'drag-stuff-up "drag-stuff" "\
@@ -66,8 +66,8 @@ See `drag-stuff-mode' for more information on Drag-Stuff mode.
 
 ;;;***
 
-;;;### (autoloads nil nil ("drag-stuff-pkg.el") (23157 33490 163950
-;;;;;;  799000))
+;;;### (autoloads nil nil ("drag-stuff-pkg.el") (23168 11300 964406
+;;;;;;  538000))
 
 ;;;***
 

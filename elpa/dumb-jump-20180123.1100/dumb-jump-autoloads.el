@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "dumb-jump" "dumb-jump.el" (23157 33492 652612
-;;;;;;  339000))
+;;;### (autoloads nil "dumb-jump" "dumb-jump.el" (23168 11303 213257
+;;;;;;  649000))
 ;;; Generated autoloads from dumb-jump.el
 
 (defvar dumb-jump-mode-map (let ((map (make-sparse-keymap))) (define-key map (kbd "C-M-g") 'dumb-jump-go) (define-key map (kbd "C-M-p") 'dumb-jump-back) (define-key map (kbd "C-M-q") 'dumb-jump-quick-look) map))

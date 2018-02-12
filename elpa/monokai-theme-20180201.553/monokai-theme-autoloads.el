@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "monokai-theme" "monokai-theme.el" (23157 33452
-;;;;;;  551217 480000))
+;;;### (autoloads nil "monokai-theme" "monokai-theme.el" (23168 11610
+;;;;;;  742634 913000))
 ;;; Generated autoloads from monokai-theme.el
 
 (when (and (boundp 'custom-theme-load-path) load-file-name) (add-to-list 'custom-theme-load-path (file-name-as-directory (file-name-directory load-file-name))))

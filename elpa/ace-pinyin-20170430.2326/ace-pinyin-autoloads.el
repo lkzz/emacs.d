@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "ace-pinyin" "ace-pinyin.el" (23157 33489 446129
-;;;;;;  500000))
+;;;### (autoloads nil "ace-pinyin" "ace-pinyin.el" (23168 11300 282860
+;;;;;;  351000))
 ;;; Generated autoloads from ace-pinyin.el
 
 (autoload 'ace-pinyin-jump-word "ace-pinyin" "\

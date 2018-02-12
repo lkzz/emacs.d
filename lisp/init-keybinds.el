@@ -56,6 +56,12 @@
   "1"  'select-window-1
   "2"  'select-window-2
   "3"  'select-window-3
+  "4"  'select-window-4
+  "5"  'select-window-5
+  "6"  'select-window-6
+  "7"  'select-window-7
+  "8"  'select-window-8
+  "9"  'select-window-9
   "wd" 'delete-window
   "w/" 'split-window-right
   "w-" 'split-window-below
@@ -109,16 +115,6 @@
   "cv" 'evilnc-toggle-invert-comment-line-by-line
   "."  'evilnc-copy-and-comment-operator
   "\\" 'evilnc-comment-operator)
-
-(defun prelude-evil-scroll-up-other-window ()
-  (interactive)
-  (scroll-other-window '-))
-
-(define-key evil-normal-state-map
-  (kbd "C-S-d") 'prelude-evil-scroll-down-other-window)
-
-(define-key evil-normal-state-map
-  (kbd "C-S-u") 'prelude-evil-scroll-up-other-window)
 
 ;; evil keybindings
 (define-key evil-normal-state-map (kbd ",a") 'mwim-beginning-of-code-or-line)

@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "pyim-basedict" "pyim-basedict.el" (23157 33482
-;;;;;;  377774 903000))
+;;;### (autoloads nil "pyim-basedict" "pyim-basedict.el" (23168 11293
+;;;;;;  523928 23000))
 ;;; Generated autoloads from pyim-basedict.el
 
 (autoload 'pyim-basedict-enable "pyim-basedict" "\
@@ -14,8 +14,8 @@ Add basedict to pyim.
 
 ;;;***
 
-;;;### (autoloads nil nil ("pyim-basedict-pkg.el") (23157 33482 369930
-;;;;;;  153000))
+;;;### (autoloads nil nil ("pyim-basedict-pkg.el") (23168 11293 516817
+;;;;;;  342000))
 
 ;;;***
 

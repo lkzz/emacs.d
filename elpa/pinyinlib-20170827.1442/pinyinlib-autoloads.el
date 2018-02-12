@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil nil ("pinyinlib.el") (23157 33489 81105 592000))
+;;;### (autoloads nil nil ("pinyinlib.el") (23168 11300 117598 980000))
 
 ;;;***
 

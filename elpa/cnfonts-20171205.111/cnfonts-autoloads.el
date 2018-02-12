@@ -3,8 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "cnfonts" "cnfonts.el" (23157 33453 137747
-;;;;;;  214000))
+;;;### (autoloads nil "cnfonts" "cnfonts.el" (23168 11246 26131 795000))
 ;;; Generated autoloads from cnfonts.el
 
 (autoload 'cnfonts-set-font-with-saved-step "cnfonts" "\
@@ -83,8 +82,8 @@ Select a valid font name, and insert at point.
 
 ;;;***
 
-;;;### (autoloads nil nil ("cnfonts-pkg.el" "cnfonts-ui.el") (23157
-;;;;;;  33453 136351 891000))
+;;;### (autoloads nil nil ("cnfonts-pkg.el" "cnfonts-ui.el") (23168
+;;;;;;  11246 24711 831000))
 
 ;;;***
 

@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "avy-zap" "avy-zap.el" (23157 33488 513404
-;;;;;;  345000))
+;;;### (autoloads nil "avy-zap" "avy-zap.el" (23168 11299 620860
+;;;;;;  687000))
 ;;; Generated autoloads from avy-zap.el
 
 (autoload 'avy-zap-to-char "avy-zap" "\

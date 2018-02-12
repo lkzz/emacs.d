@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "comment-dwim-2" "comment-dwim-2.el" (23157
-;;;;;;  33489 917357 535000))
+;;;### (autoloads nil "comment-dwim-2" "comment-dwim-2.el" (23168
+;;;;;;  11300 746897 778000))
 ;;; Generated autoloads from comment-dwim-2.el
 
 (autoload 'comment-dwim-2 "comment-dwim-2" "\

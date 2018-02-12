@@ -4,7 +4,7 @@
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
 ;;;### (autoloads nil "ibuffer-projectile" "ibuffer-projectile.el"
-;;;;;;  (23157 41601 238529 365000))
+;;;;;;  (23168 11323 358750 783000))
 ;;; Generated autoloads from ibuffer-projectile.el
  (autoload 'ibuffer-make-column-project-name "ibuffer-projectile")
  (autoload 'ibuffer-do-sort-by-project-name "ibuffer-projectile")

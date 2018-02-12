@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "pfuture" "pfuture.el" (23157 33458 614051
-;;;;;;  440000))
+;;;### (autoloads nil "pfuture" "pfuture.el" (23168 11257 221836
+;;;;;;  919000))
 ;;; Generated autoloads from pfuture.el
 
 (autoload 'pfuture-new "pfuture" "\
