@@ -1,4 +1,4 @@
-;;; init-packages.el --- chinese package config for emacs.
+;;; init-packages.el --- chinese package config for emacs.-*- lexical-binding: t -*-
 ;;; Commentary:
 ;;; Author: kevin <kevin.scnu@gmail.com>
 ;;; URL: https://github.com/lkzz/emacs.d

@@ -14,7 +14,7 @@
           treemacs-goto-tag-strategy          'refetch-index
           treemacs-indentation                2
           treemacs-indentation-string         " "
-          treemacs-is-never-other-window      nil
+          treemacs-is-never-other-window      t
           treemacs-never-persist              nil
           treemacs-no-png-images              nil
           treemacs-recenter-after-file-follow nil
