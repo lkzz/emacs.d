@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "swift-mode" "swift-mode.el" (23157 33495 204712
-;;;;;;  337000))
+;;;### (autoloads nil "swift-mode" "swift-mode.el" (23168 11305 531900
+;;;;;;  395000))
 ;;; Generated autoloads from swift-mode.el
 
 (let ((loads (get 'swift 'custom-loads))) (if (member '"swift-mode" loads) nil (put 'swift 'custom-loads (cons '"swift-mode" loads))))
@@ -20,7 +20,7 @@ Major mode for editing Swift code.
 ;;;***
 
 ;;;### (autoloads nil "swift-mode-beginning-of-defun" "swift-mode-beginning-of-defun.el"
-;;;;;;  (23157 33495 208128 3000))
+;;;;;;  (23168 11305 536176 733000))
 ;;; Generated autoloads from swift-mode-beginning-of-defun.el
 
 (defvar swift-mode:mark-defun-preference 'containing "\
@@ -47,7 +47,7 @@ marks the `outer' function.  Likewise, it marks `inner1' if the preference is
 ;;;***
 
 ;;;### (autoloads nil "swift-mode-indent" "swift-mode-indent.el"
-;;;;;;  (23157 33495 201336 549000))
+;;;;;;  (23168 11305 527897 937000))
 ;;; Generated autoloads from swift-mode-indent.el
 
 (defvar swift-mode:basic-offset 4 "\
@@ -99,8 +99,8 @@ Intended for debugging.")
 
 ;;;***
 
-;;;### (autoloads nil "swift-mode-repl" "swift-mode-repl.el" (23157
-;;;;;;  33495 203281 558000))
+;;;### (autoloads nil "swift-mode-repl" "swift-mode-repl.el" (23168
+;;;;;;  11305 530215 838000))
 ;;; Generated autoloads from swift-mode-repl.el
 
 (autoload 'swift-mode:run-repl "swift-mode-repl" "\
@@ -171,7 +171,7 @@ DEVICE-IDENTIFIER is the device identifier of the iOS simulator.
 ;;;***
 
 ;;;### (autoloads nil nil ("swift-mode-font-lock.el" "swift-mode-lexer.el"
-;;;;;;  "swift-mode-pkg.el") (23157 33495 211458 540000))
+;;;;;;  "swift-mode-pkg.el") (23168 11305 538276 510000))
 
 ;;;***
 

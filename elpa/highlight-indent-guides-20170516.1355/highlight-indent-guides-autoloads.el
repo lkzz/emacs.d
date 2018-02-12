@@ -4,7 +4,7 @@
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
 ;;;### (autoloads nil "highlight-indent-guides" "highlight-indent-guides.el"
-;;;;;;  (23157 33455 875913 373000))
+;;;;;;  (23168 11252 721567 624000))
 ;;; Generated autoloads from highlight-indent-guides.el
 
 (autoload 'highlight-indent-guides-auto-set-faces "highlight-indent-guides" "\

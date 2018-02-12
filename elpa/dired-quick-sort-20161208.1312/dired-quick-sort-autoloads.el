@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "dired-quick-sort" "dired-quick-sort.el" (23157
-;;;;;;  33517 379200 122000))
+;;;### (autoloads nil "dired-quick-sort" "dired-quick-sort.el" (23168
+;;;;;;  11326 627986 148000))
 ;;; Generated autoloads from dired-quick-sort.el
 
 (autoload 'dired-quick-sort "dired-quick-sort" "\

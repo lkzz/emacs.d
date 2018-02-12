@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "mwim" "mwim.el" (23157 33491 968045 159000))
+;;;### (autoloads nil "mwim" "mwim.el" (23168 11302 755332 554000))
 ;;; Generated autoloads from mwim.el
  (autoload 'mwim-beginning-of-line-or-code "mwim" nil t)
  (autoload 'mwim-beginning-of-code-or-line "mwim" nil t)

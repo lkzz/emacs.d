@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "org-dashboard" "org-dashboard.el" (23157 33501
-;;;;;;  901372 919000))
+;;;### (autoloads nil "org-dashboard" "org-dashboard.el" (23168 11313
+;;;;;;  449613 648000))
 ;;; Generated autoloads from org-dashboard.el
 
 (autoload 'org-dashboard-display "org-dashboard" "\

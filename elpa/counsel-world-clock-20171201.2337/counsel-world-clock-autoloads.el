@@ -4,7 +4,7 @@
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
 ;;;### (autoloads nil "counsel-world-clock" "counsel-world-clock.el"
-;;;;;;  (23157 33537 580564 813000))
+;;;;;;  (23168 11349 29939 864000))
 ;;; Generated autoloads from counsel-world-clock.el
 
 (autoload 'counsel-world-clock "counsel-world-clock" "\

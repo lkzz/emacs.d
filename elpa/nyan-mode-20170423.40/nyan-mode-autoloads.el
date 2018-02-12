@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "nyan-mode" "nyan-mode.el" (23157 33455 292616
-;;;;;;  388000))
+;;;### (autoloads nil "nyan-mode" "nyan-mode.el" (23168 11252 28893
+;;;;;;  973000))
 ;;; Generated autoloads from nyan-mode.el
 
 (defvar nyan-mode nil "\
@@ -28,8 +28,8 @@ option `scroll-bar-mode'.
 
 ;;;***
 
-;;;### (autoloads nil nil ("nyan-mode-pkg.el") (23157 33455 307485
-;;;;;;  521000))
+;;;### (autoloads nil nil ("nyan-mode-pkg.el") (23168 11252 46342
+;;;;;;  303000))
 
 ;;;***
 

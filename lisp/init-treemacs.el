@@ -6,7 +6,6 @@
   :config
   (progn
     (use-package treemacs-evil
-      :ensure t
       :demand t)
     (setq treemacs-change-root-without-asking nil
           treemacs-collapse-dirs              (if (executable-find "python") 3 0)

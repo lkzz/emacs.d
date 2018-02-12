@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "bind-key" "bind-key.el" (23157 33449 274284
-;;;;;;  857000))
+;;;### (autoloads nil "bind-key" "bind-key.el" (23168 11238 489609
+;;;;;;  470000))
 ;;; Generated autoloads from bind-key.el
 
 (autoload 'bind-key "bind-key" "\

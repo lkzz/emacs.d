@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "pangu-spacing" "pangu-spacing.el" (23157 33484
-;;;;;;  271536 552000))
+;;;### (autoloads nil "pangu-spacing" "pangu-spacing.el" (23168 11295
+;;;;;;  466694 785000))
 ;;; Generated autoloads from pangu-spacing.el
 
 (autoload 'pangu-spacing-space-current-buffer "pangu-spacing" "\

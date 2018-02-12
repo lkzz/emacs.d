@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "fish-mode" "fish-mode.el" (23157 33494 537938
-;;;;;;  531000))
+;;;### (autoloads nil "fish-mode" "fish-mode.el" (23168 11305 208872
+;;;;;;  196000))
 ;;; Generated autoloads from fish-mode.el
 
 (autoload 'fish_indent-before-save "fish-mode" "\

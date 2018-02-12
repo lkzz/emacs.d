@@ -3,7 +3,7 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "pager" "pager.el" (23157 33491 752744 295000))
+;;;### (autoloads nil "pager" "pager.el" (23168 11302 539750 474000))
 ;;; Generated autoloads from pager.el
 
 (autoload 'pager-page-down "pager" "\

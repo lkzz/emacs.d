@@ -4,7 +4,7 @@
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
 ;;;### (autoloads nil "company-statistics" "company-statistics.el"
-;;;;;;  (23161 43614 599509 395000))
+;;;;;;  (23168 11281 204964 324000))
 ;;; Generated autoloads from company-statistics.el
 
 (defvar company-statistics-mode nil "\

@@ -4,7 +4,7 @@
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
 ;;;### (autoloads nil "eshell-git-prompt" "eshell-git-prompt.el"
-;;;;;;  (23157 33518 380143 519000))
+;;;;;;  (23168 11327 867820 543000))
 ;;; Generated autoloads from eshell-git-prompt.el
 
 (autoload 'eshell-git-prompt-use-theme "eshell-git-prompt" "\

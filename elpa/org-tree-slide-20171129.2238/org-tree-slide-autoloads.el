@@ -3,8 +3,8 @@
 ;;; Code:
 (add-to-list 'load-path (directory-file-name (or (file-name-directory #$) (car load-path))))
 
-;;;### (autoloads nil "org-tree-slide" "org-tree-slide.el" (23157
-;;;;;;  33500 270915 551000))
+;;;### (autoloads nil "org-tree-slide" "org-tree-slide.el" (23168
+;;;;;;  11311 86138 514000))
 ;;; Generated autoloads from org-tree-slide.el
 
 (autoload 'org-tree-slide-mode "org-tree-slide" "\

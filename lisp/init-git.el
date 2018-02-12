@@ -5,13 +5,14 @@
 ;; TODO: smerge-mode
 
 (use-package magit
+  :defer t
   :bind (("C-x g" . magit-status)
          ("C-x M-g" . magit-dispatch-popup)
          ("C-c M-g" . magit-file-popup))
   :init
   (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
   :config
-  (setq auto-revert-check-vc-info t)
+  ;; (setq auto-revert-check-vc-info t)
   (use-package git-commit)
   (use-package evil-magit)
 
