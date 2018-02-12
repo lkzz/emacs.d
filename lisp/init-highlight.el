@@ -7,17 +7,17 @@
   :ensure nil
   :init (add-hook 'after-init-hook #'global-hl-line-mode))
 
-;; ;; Highlight symbols
-;; (use-package symbol-overlay
-;;   :diminish symbol-overlay-mode
-;;   :bind (("M-i" . symbol-overlay-put)
-;;          ("M-n" . symbol-overlay-jump-next)
-;;          ("M-p" . symbol-overlay-jump-prev)
-;;          ([C-f3] . symbol-overlay-put)
-;;          ([f3] . symbol-overlay-jump-next)
-;;          ([S-f3] . symbol-overlay-jump-prev)
-;;          ([M-f3] . symbol-overlay-remove-all))
-;;   :init (add-hook 'prog-mode-hook #'symbol-overlay-mode))
+;; Highlight symbols
+(use-package symbol-overlay
+  :diminish symbol-overlay-mode
+  :bind (("M-i" . symbol-overlay-put)
+         ("M-n" . symbol-overlay-jump-next)
+         ("M-p" . symbol-overlay-jump-prev)
+         ([C-f3] . symbol-overlay-put)
+         ([f3] . symbol-overlay-jump-next)
+         ([S-f3] . symbol-overlay-jump-prev)
+         ([M-f3] . symbol-overlay-remove-all))
+  :init (add-hook 'prog-mode-hook #'symbol-overlay-mode))
 
 ;; Highlight matching paren
 (use-package paren

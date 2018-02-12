@@ -2,7 +2,7 @@ cache/
 autosave/
 backups/
 eshell/
-elisp/
+elpa/
 auto-save-list/
 .DS_Store
 places
