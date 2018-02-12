@@ -7,17 +7,17 @@
   :ensure nil
   :init (add-hook 'after-init-hook #'global-hl-line-mode))
 
-;; Highlight symbols
-(use-package symbol-overlay
-  :diminish symbol-overlay-mode
-  :bind (("M-i" . symbol-overlay-put)
-         ("M-n" . symbol-overlay-jump-next)
-         ("M-p" . symbol-overlay-jump-prev)
-         ([C-f3] . symbol-overlay-put)
-         ([f3] . symbol-overlay-jump-next)
-         ([S-f3] . symbol-overlay-jump-prev)
-         ([M-f3] . symbol-overlay-remove-all))
-  :init (add-hook 'prog-mode-hook #'symbol-overlay-mode))
+;; ;; Highlight symbols
+;; (use-package symbol-overlay
+;;   :diminish symbol-overlay-mode
+;;   :bind (("M-i" . symbol-overlay-put)
+;;          ("M-n" . symbol-overlay-jump-next)
+;;          ("M-p" . symbol-overlay-jump-prev)
+;;          ([C-f3] . symbol-overlay-put)
+;;          ([f3] . symbol-overlay-jump-next)
+;;          ([S-f3] . symbol-overlay-jump-prev)
+;;          ([M-f3] . symbol-overlay-remove-all))
+;;   :init (add-hook 'prog-mode-hook #'symbol-overlay-mode))
 
 ;; Highlight matching paren
 (use-package paren
@@ -51,14 +51,35 @@
   :init (add-hook 'prog-mode-hook #'fic-mode)
   :config
   (setq fic-activated-faces '(font-lock-comment-face))
-  (set-face-background 'fic-face "yellow")
-  (set-face-background 'fic-author-face "yellow"))
+  (set-face-background 'fic-face "DarkGoldenrod2")
+  (set-face-background 'fic-author-face "DarkGoldenrod2"))
 
 ;; Highlight some operations
 (use-package volatile-highlights
   :diminish volatile-highlights-mode
   :init (add-hook 'after-init-hook #'volatile-highlights-mode))
 
+;; Highlight uncommitted changes
+(use-package diff-hl
+  :bind (:map diff-hl-command-map
+              ("SPC" . diff-hl-mark-hunk))
+  :init
+  (add-hook 'after-init-hook #'global-diff-hl-mode)
+  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+  :config
+  (diff-hl-flydiff-mode 1)
+
+  ;; Fall back to the display margin, if the fringe is unavailable
+  (unless (display-graphic-p)
+    (setq diff-hl-side 'right)
+    (diff-hl-margin-mode 1))
+
+  ;; Integration with magit and psvn
+  (with-eval-after-load 'magit
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
+  (with-eval-after-load 'psvn
+    (defadvice svn-status-update-modeline (after svn-update-diff-hl activate)
+      (diff-hl-update))))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here
