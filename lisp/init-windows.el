@@ -2,20 +2,18 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Interactively highlight the current-window (by dimming the others)
-(use-package dimmer
-  :init (add-hook 'after-init-hook #'dimmer-mode)
-  :config
-  (setq dimmer-fraction 0.2))
+;; ;; Interactively highlight the current-window (by dimming the others)
+;; (use-package dimmer
+;;   :init (add-hook 'after-init-hook #'dimmer-mode)
+;;   :config
+;;   (setq dimmer-fraction 0.2))
 
 ;; Directional window-selection routines
 (use-package windmove
-  :ensure nil
   :init (add-hook 'after-init-hook #'windmove-default-keybindings))
 
 ;; Restore old window configurations
 (use-package winner
-  :ensure nil
   :init
   (setq winner-boring-buffers '("*Completions*"
                                 "*Compile-Log*"
@@ -31,10 +29,12 @@
 
 ;; Quickly switch windows
 (use-package ace-window
+  :ensure t
   :bind ("C-x o" . ace-window))
 
 ;; Numbered window shortcuts
 (use-package window-numbering
+  :ensure t
   :init (add-hook 'after-init-hook #'window-numbering-mode))
 
 ;; Zoom window like tmux
@@ -44,6 +44,7 @@
 
 ;; Popup Window Manager
 (use-package popwin
+  :ensure t
   :commands popwin-mode
   :init (add-hook 'after-init-hook #'popwin-mode)
   :config
@@ -120,6 +121,7 @@
 
 ;; Easy window config switching
 (use-package eyebrowse
+  :ensure t
   :init (add-hook 'after-init-hook #'eyebrowse-mode))
 
 (provide 'init-windows)

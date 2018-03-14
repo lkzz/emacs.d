@@ -3,20 +3,19 @@
 ;;; Code:
 
 (use-package counsel
+  :ensure t
+  :defer t
   :diminish ivy-mode counsel-mode
   :bind (("C-s" . swiper)
          ("C-S-s" . swiper-all)
-
          ("C-c C-r" . ivy-resume)
          ("C-c v" . ivy-push-view)
          ("C-c V" . ivy-pop-view)
-
          :map counsel-mode-map
          ([remap swiper] . counsel-grep-or-swiper)
          ("C-x C-r" . counsel-recentf)
          ("C-x j" . counsel-mark-ring)
          ("C-c C-p" . counsel-package)
-
          ("C-c c L" . counsel-find-library)
          ("C-c c a" . counsel-apropos)
          ("C-c c e" . counsel-colors-emacs)
@@ -33,13 +32,10 @@
          ("C-c c s" . counsel-ag)
          ("C-c c u" . counsel-unicode-char)
          ("C-c c w" . counsel-colors-web)
-
          :map ivy-minibuffer-map
          ("C-w" . ivy-yank-word)
-
          :map counsel-find-file-map
          ("C-h" . counsel-up-directory)
-
          :map swiper-map
          ("M-%" . swiper-query-replace))
   :init (add-hook 'after-init-hook
@@ -48,22 +44,18 @@
                     (counsel-mode 1)))
   :config
   (setq enable-recursive-minibuffers t) ; Allow commands in minibuffers
-
   (setq ivy-use-selectable-prompt t)
   (setq ivy-use-virtual-buffers t)    ; Enable bookmarks and recentf
   (setq ivy-height 10)
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-on-del-error-function nil)
   (setq ivy-initial-inputs-alist nil)
-
   (setq ivy-re-builders-alist
         '((read-file-name-internal . ivy--regex-fuzzy)
           (t . ivy--regex-plus)))
-
   (setq swiper-action-recenter t)
   (setq counsel-find-file-at-point t)
   (setq counsel-yank-pop-separator "\n-------\n")
-
   ;; Find counsel commands quickly
   (bind-key "<f6>" (lambda ()
                      (interactive)
@@ -96,22 +88,18 @@
   ;;                   (insert (format "%s" (with-ivy-window (ivy-thing-at-point)))))
   ;;           ivy-minibuffer-map)
 
-  ;; Enhance M-x
-  (use-package smex)
-
-  ;; Additional key bindings for Ivy
-  (use-package ivy-hydra
-    :bind (:map ivy-minibuffer-map
-                ("M-o" . ivy-dispatching-done-hydra)))
 
   ;; Correcting words with flyspell via Ivy
   (use-package flyspell-correct-ivy
+    :ensure t
     :after flyspell
     :bind (:map flyspell-mode-map
                 ("C-;" . flyspell-correct-previous-word-generic)))
 
   ;; More friendly display transformer for Ivy
   (use-package ivy-rich
+    :ensure t
+    :defer t
     :init
     (setq ivy-virtual-abbreviate 'full
           ivy-rich-switch-buffer-align-virtual-buffer t)
@@ -128,6 +116,8 @@
 
   ;; Ivy integration for Projectile
   (use-package counsel-projectile
+    :ensure t
+    :defer t
     :init (counsel-projectile-mode 1))
 
   ;; Display world clock using Ivy
@@ -153,47 +143,6 @@
 
     (add-hook 'c-mode-hook 'counsel-gtags-mode)
     (add-hook 'c++-mode-hook 'counsel-gtags-mode))
-
-  ;; Support pinyin in Ivy
-  ;; Input prefix '!' to match pinyin
-  ;; Refer to  https://github.com/abo-abo/swiper/issues/919 and
-  ;; https://github.com/pengpengxp/swiper/wiki/ivy-support-chinese-pinyin
-  (use-package pinyinlib
-    :commands pinyinlib-build-regexp-string
-    :init
-    (defun re-builder-pinyin (str)
-      (or (pinyin-to-utf8 str)
-          (ivy--regex-plus str)
-          (ivy--regex-ignore-order str)))
-
-    (setq ivy-re-builders-alist
-          '((t . re-builder-pinyin)))
-
-    (defun my-pinyinlib-build-regexp-string (str)
-      (cond ((equal str ".*")
-             ".*")
-            (t
-             (pinyinlib-build-regexp-string str t))))
-
-    (defun my-pinyin-regexp-helper (str)
-      (cond ((equal str " ")
-             ".*")
-            ((equal str "")
-             nil)
-            (t
-             str)))
-
-    (defun pinyin-to-utf8 (str)
-      (cond ((equal 0 (length str))
-             nil)
-            ((equal (substring str 0 1) "!")
-             (mapconcat 'my-pinyinlib-build-regexp-string
-                        (remove nil (mapcar 'my-pinyin-regexp-helper
-                                            (split-string
-                                             (replace-regexp-in-string "!" "" str ) "")))
-                        ""))
-            (t
-             nil))))
   )
 
 (provide 'init-ivy)

@@ -3,6 +3,7 @@
 ;;; Code:
 
 (use-package which-key
+  :ensure t
   :diminish which-key-mode " ⓦ"
   :init (add-hook 'after-init-hook #'which-key-mode)
   :config

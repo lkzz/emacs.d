@@ -4,7 +4,6 @@
 
 
 (use-package elisp-mode
-  :ensure nil
   :config
   (defun remove-elc-on-save ()
     "If you're saving an elisp file, likely the .elc is no longer valid."
@@ -17,7 +16,6 @@
 
 ;; Show function arglist or variable docstring
 (use-package eldoc
-  :ensure nil
   :diminish eldoc-mode
   :init
   ;; Enable Eldoc in lisp modes in 24
@@ -31,6 +29,7 @@
 
 ;; This library adds all of the familiar highlighting to cl-lib macros
 (use-package cl-lib-highlight
+  :ensure t
   :config
   (cl-lib-highlight-initialize))
 

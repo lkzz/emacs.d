@@ -46,6 +46,7 @@
 
 ;; 配置主题
 (use-package color-theme-sanityinc-tomorrow
+  :ensure t
   :init
   (add-hook 'after-init-hook (lambda ()
                                (load-theme 'sanityinc-tomorrow-night t))))
@@ -66,6 +67,7 @@
 
 ;; 字体设置
 (use-package cnfonts
+  :ensure t
   :init
   (add-hook 'after-init-hook #'cnfonts-enable)
   :config
@@ -139,6 +141,7 @@
 ;;     (add-hook 'after-init-hook 'global-git-gutter-mode)))
 
 (use-package vi-tilde-fringe
+  :ensure t
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
 ;; Show native line numbers if possible, otherwise use linum
@@ -147,11 +150,13 @@
       :ensure nil
       :init (add-hook 'prog-mode-hook #'display-line-numbers-mode))
   (use-package linum-off
+    :ensure t
     :demand
     :init (add-hook 'after-init-hook #'global-linum-mode)
     :config (setq linum-format "%4d ")))
 
 (use-package nyan-mode
+  :ensure t
   :init (add-hook 'after-init-hook #'nyan-mode)
   :config
   (progn

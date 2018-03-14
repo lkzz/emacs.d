@@ -28,15 +28,18 @@
 
   ;; Autopep8
   (use-package py-autopep8
+    :ensure t
     :init (add-hook 'python-mode-hook #'py-autopep8-enable-on-save))
 
   ;; Anaconda mode
   (use-package anaconda-mode
+    :ensure t
     :diminish anaconda-mode
     :init (add-hook 'python-mode-hook #'anaconda-mode)
     :config
     (with-eval-after-load 'company
       (use-package company-anaconda
+        :ensure t
         :defines company-backends
         :init (cl-pushnew '(company-backend-with-yas 'company-anaconda) company-backends)))))
 

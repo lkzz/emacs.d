@@ -30,6 +30,7 @@
 
 ;; Jump to definition via `ag'/`rg'/`grep'
 (use-package dumb-jump
+  :ensure t
   :init (add-hook 'after-init-hook #'dumb-jump-mode)
   :config
   (setq dumb-jump-prefer-searcher 'rg)
@@ -42,20 +43,16 @@
 
 
 (use-package toml-mode
+  :ensure t
   :mode (("\\.toml$" . toml-mode)))
 
 (use-package quickrun
+  :ensure t
   :bind (("<f7>" . quickrun)
          ("C-c x" . quickrun)))
 
-(use-package dockerfile-mode :mode "Dockerfile\\'")
-(use-package vimrc-mode)
-
-;; ;; New `conf-toml-mode' in Emacs26
-;; (unless (fboundp 'conf-toml-mode)
-;;   (use-package toml-mode))
-
 (use-package editorconfig
+  :ensure t
   :diminish editorconfig-mode
   :init (add-hook 'after-init-hook #'editorconfig-mode))
 
@@ -65,6 +62,7 @@
     :mode (("\\.\\(cmd\\|bat\\)$" . batch-mode))))
 
 (use-package fish-mode
+  :ensure t
   :init
   (add-hook 'fish-mode-hook
             (lambda ()
@@ -72,12 +70,15 @@
                         #'fish_indent-before-save))))
 
 (use-package swift-mode
+  :ensure t
   :config
   (with-eval-after-load 'flycheck
     (use-package flycheck-swift
+      :ensure t
       :init (flycheck-swift-setup))))
 
 (use-package rust-mode
+  :ensure t
   :config (setq rust-format-on-save t))
 
 (use-package robot-mode

@@ -30,7 +30,7 @@
 
 
 (use-package org
-  :ensure nil
+  :defer t
   :bind (("C-c a" . org-agenda)
          ("C-c B" . org-switchb)
          :map org-mode-map
@@ -58,6 +58,8 @@
                                  (ruby . t)))
 
   (use-package org-bullets
+    :defer t
+    :ensure t
     :init
     (setq org-bullets-bullet-list
           '("✡" "✽" "✲" "✱" "✻" "✼" "✽" "✾" "✿" "❀" "❁" "❂" "❃" "❄" "❅" "❆" "❇"))
@@ -65,6 +67,8 @@
 
   ;; Presentation
   (use-package org-tree-slide
+    :ensure t
+    :defer t
     :config
     (add-hook 'org-tree-slide-play-hook
               (lambda ()
@@ -79,14 +83,19 @@
 
   ;; Pomodoro
   (use-package org-pomodoro
+    :ensure t
+    :defer t
     :init (with-eval-after-load 'org-agenda
             (bind-key "P" 'org-pomodoro org-agenda-mode-map)))
 
   ;; Visually summarize progress
-  (use-package org-dashboard)
+  (use-package org-dashboard
+    :ensure t
+    :defer t)
 
   (use-package hydra
-    :demand
+    :ensure t
+    :defer t
     :config
     (defhydra hydra-org-template (:color blue :hint nil)
       "

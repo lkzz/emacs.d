@@ -3,13 +3,17 @@
 ;;; Code:
 
 (use-package evil-leader
+  :ensure t
+  :defer t
   :config
   (global-evil-leader-mode t)
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
+  :ensure t
+  :defer t
+  :hook (after-init . evil-mode)
   :config
-  (evil-mode t)
   (setq evil-default-state 'normal)
   (setq evil-magic t
         evil-echo-state t
@@ -43,21 +47,20 @@
          evil-emacs-state-cursor '("#adfa2f" (bar . 2))))
 
 (use-package evil-surround
+  :ensure t
   :config
   (global-evil-surround-mode t))
 
 (use-package evil-visualstar
+  :ensure t
   :config
   (global-evil-visualstar-mode t))
 
-(use-package evil-numbers)
-
-;; Scrolling
-(defun prelude-evil-scroll-down-other-window ()
-  (interactive)
-  (scroll-other-window))
+(use-package evil-numbers
+  :ensure t)
 
 (use-package evil-nerd-commenter
+  :ensure t
   :after evil-leader-mode)
 
 (provide 'init-evil)

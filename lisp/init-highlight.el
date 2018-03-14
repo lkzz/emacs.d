@@ -4,7 +4,6 @@
 
 ;; Highlight the current line
 (use-package hl-line
-  :ensure nil
   :init (add-hook 'after-init-hook #'global-hl-line-mode))
 
 ;; ;; Highlight symbols
@@ -21,7 +20,6 @@
 
 ;; Highlight matching paren
 (use-package paren
-  :ensure nil
   :init (add-hook 'after-init-hook #'show-paren-mode)
   :config
   (setq show-paren-when-point-inside-paren t)
@@ -29,25 +27,34 @@
 
 ;; Highlight surrounding parentheses
 (use-package highlight-parentheses
+  :ensure t
   :diminish highlight-parentheses-mode
   :init (add-hook 'prog-mode-hook #'highlight-parentheses-mode)
   :config (set-face-attribute 'hl-paren-face nil :weight 'ultra-bold))
 
 ;; Highlight indentions
 (use-package highlight-indent-guides
+  :ensure t
   :init (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
   :config (setq highlight-indent-guides-method 'character))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
-  :init (add-hook 'after-init-hook #'rainbow-mode))
+  :ensure t
+  :defer t
+  :diminish rainbow-mode
+  :init
+  (add-hook 'text-mode-hook #'rainbow-mode)
+  (add-hook 'prog-mode-hook #'rainbow-mode))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
+  :ensure t
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Highlight TODO/FIXME/BUG...
 (use-package fic-mode
+  :ensure t
   :init (add-hook 'prog-mode-hook #'fic-mode)
   :config
   (setq fic-activated-faces '(font-lock-comment-face))
@@ -56,11 +63,13 @@
 
 ;; Highlight some operations
 (use-package volatile-highlights
+  :ensure t
   :diminish volatile-highlights-mode
   :init (add-hook 'after-init-hook #'volatile-highlights-mode))
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
+  :ensure t
   :bind (:map diff-hl-command-map
               ("SPC" . diff-hl-mark-hunk))
   :init
