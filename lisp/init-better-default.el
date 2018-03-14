@@ -45,7 +45,8 @@
               set-mark-command-repeat-pop t
               tooltip-delay 1.5
               truncate-lines nil
-              truncate-partial-width-windows nil)
+              truncate-partial-width-windows nil
+              majar-mode 'text-mode)
 
 ;; 禁止显示警告提示
 (setq visible-bell nil)
@@ -102,6 +103,7 @@
       scroll-margin 3
       scroll-conservatively 100000)
 (use-package smooth-scrolling
+  :ensure t
   :init (add-hook 'after-init-hook #'smooth-scrolling-mode)
   :config (setq smooth-scroll-margin 0))
 

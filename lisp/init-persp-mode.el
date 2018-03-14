@@ -3,6 +3,8 @@
 ;;; Code:
 
 (use-package persp-mode
+  :ensure t
+  :defer t
   :init
   (add-hook 'after-init-hook #'(lambda () (persp-mode 1)))
   :config
@@ -21,7 +23,7 @@
         persp-auto-resume-time 3
         ;; auto-save on kill
         persp-auto-save-opt (if noninteractive 0 1))
-    )
+  )
 
 (provide 'init-persp-mode)
 ;;; init-persp-mode.el ends here

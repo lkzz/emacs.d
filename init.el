@@ -27,7 +27,7 @@
 ;; Optimize loading performance
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
-(setq gc-cons-threshold 30000000)
+(setq gc-cons-threshold 100000000)
 (add-hook 'emacs-startup-hook
           (lambda ()
             "Restore defalut values after init"
@@ -72,6 +72,7 @@
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-elisp)
+(require 'init-lsp)
 
 (require 'init-projectile)
 (require 'init-git)
@@ -80,6 +81,7 @@
 (require 'init-buffer)
 (require 'init-flycheck)
 (require 'init-dired)
+(require 'init-ranger)
 (require 'init-eshell)
 ;; (require 'init-restore)
 
@@ -94,3 +96,4 @@
 
 
 ;;; init.el ends here
+(put 'dired-find-alternate-file 'disabled nil)

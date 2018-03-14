@@ -4,6 +4,8 @@
 
 
 (use-package company
+  :ensure t
+  :defer t
   :diminish company-mode " ⓐ"
   :bind (("M-/" . company-complete)
          ("C-c C-y" . company-yasnippet)
@@ -37,13 +39,6 @@
     (setq company-selection-wrap-around t)
     (setq company-dabbrev-ignore-case nil)
     (setq company-dabbrev-downcase nil)
-    ;; Popup documentation for completion candidates
-    (use-package company-quickhelp
-      :if (display-graphic-p)
-      :bind (:map company-active-map
-                  ("M-h" . company-quickhelp-manual-begin))
-      :init (company-quickhelp-mode 1)
-      :config (setq company-quickhelp-delay 1))
 
     ;; Support yas in commpany
     ;; Note: Must be the last to involve all backends
@@ -56,16 +51,33 @@
           backend
         (append (if (consp backend) backend (list backend))
                 '(:with company-yasnippet))))
-    (setq company-backends (mapcar #'company-backend-with-yas company-backends))
-    ;; Show you likelier candidates at the top of the list
-    (use-package company-statistics
-      :config
-      ;; save cache file to `user-cache-directory'
-      (setq company-statistics-file (concat kevin/cache-directory
-                                            "company-statistics-cache.el"))
-      ;; start company-statictics-mode after init
-      (add-hook 'after-init-hook 'company-statistics-mode))
-    ))
+    (setq company-backends (mapcar #'company-backend-with-yas company-backends))))
+
+(use-package company-quickhelp
+  :ensure t
+  :after company
+  :config
+  (setq company-quickhelp-use-propertized-text t)
+  (setq company-quickhelp-delay 0.6)
+  (setq company-quickhelp-max-lines 30)
+  (company-quickhelp-mode))
+
+;; Show you likelier candidates at the top of the list
+(use-package company-statistics
+  :ensure t
+  :after company
+  :config
+  ;; save cache file to `user-cache-directory'
+  (setq company-statistics-file (concat kevin/cache-directory
+                                        "company-statistics-cache.el"))
+  ;; start company-statictics-mode after init
+  (add-hook 'after-init-hook 'company-statistics-mode))
+
+(use-package company-shell
+  :ensure t
+  :after company
+  :config
+  (add-to-list 'company-backends 'company-shell))
 
 (provide 'init-company)
 ;;; init-company.el ends here

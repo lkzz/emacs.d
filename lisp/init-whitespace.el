@@ -3,7 +3,7 @@
 ;;; Code:
 
 (use-package whitespace
-  :ensure nil
+  :ensure t
   :diminish whitespace-mode
   :init
   (dolist (hook '(prog-mode-hook outline-mode-hook conf-mode-hook))

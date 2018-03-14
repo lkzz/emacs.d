@@ -20,6 +20,7 @@
 ;; https://github.com/dominikh/go-mode.el/issues/218
 
 (use-package go-mode
+  :ensure t
   :bind (:map go-mode-map
               ("M-." . godef-jump)
               ("C-c C-r" . go-remove-unused-imports)
@@ -29,28 +30,38 @@
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook #'gofmt-before-save)
 
-  (use-package go-dlv)
-  (use-package go-fill-struct)
-  (use-package go-impl)
-  (use-package go-playground)
-  (use-package golint)
-  (use-package govet)
+  (use-package go-dlv
+    :ensure t)
+  (use-package go-fill-struct
+    :ensure t)
+  (use-package go-impl
+    :ensure t)
+  (use-package go-playground
+    :ensure t)
+  (use-package golint
+    :ensure t)
+  (use-package govet
+    :ensure t)
 
   (use-package go-eldoc
+    :ensure t
     :diminish eldoc-mode
     :init (add-hook 'go-mode-hook #'go-eldoc-setup))
 
   (use-package go-guru
+    :ensure t
     :bind (:map go-mode-map
                 ("C-c d" . go-guru-definition)
                 ("C-c r" . go-guru-referrers)))
 
   (use-package go-tag
+    :ensure t
     :bind (:map go-mode-map
                 ("C-c t" . go-tag-add)
                 ("C-c T" . go-tag-remove)))
 
   (use-package gotest
+    :ensure t
     :bind (:map go-mode-map
                 ("C-c a" . go-test-current-project)
                 ("C-c m" . go-test-current-file)
@@ -58,16 +69,19 @@
                 ("C-c x" . go-run)))
 
   (use-package go-gen-test
+    :ensure t
     :bind (:map go-mode-map
                 ("C-c C-g" . go-gen-test-dwim)))
 
   (with-eval-after-load 'company
     (use-package company-go
+      :ensure t
       :init (cl-pushnew (company-backend-with-yas 'company-go) company-backends)))
 
   (with-eval-after-load 'projectile
     ;; M-x `go-projectile-install-tools'
     (use-package go-projectile
+      :ensure t
       :commands (go-projectile-mode go-projectile-switch-project)
       :init
       (add-hook 'projectile-after-switch-project-hook #'go-projectile-switch-project)

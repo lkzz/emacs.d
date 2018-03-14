@@ -5,29 +5,39 @@
 ;; TODO: smerge-mode
 
 (use-package magit
-  :defer t
-  :bind (("C-x g" . magit-status)
-         ("C-x M-g" . magit-dispatch-popup)
-         ("C-c M-g" . magit-file-popup))
-  :init
-  (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+  :ensure t
+  :bind
+  (("C-x g i" . magit-init)
+   ("C-x g f" . magit-file-log)
+   ("C-x g b" . magit-blame-mode)
+   ("C-x g m" . magit-branch-manager)
+   ("C-x g c" . magit-branch)
+   ("C-x g s" . magit-status)
+   ("C-x g r" . magit-reflog)
+   ("C-x g t" . magit-tag))
   :config
-  ;; (setq auto-revert-check-vc-info t)
-  (use-package git-commit)
-  (use-package evil-magit)
+  (progn
+    (set-default 'magit-stage-all-confirm nil)
+    (add-hook 'magit-mode-hook 'magit-load-config-extensions)
+    (defadvice magit-status (around magit-fullscreen activate)
+      (window-configuration-to-register :magit-fullscreen)
+      ad-do-it
+      (delete-other-windows)))
 
   ;; Gitflow externsion for Magit
   (use-package magit-gitflow
+    :ensure t
     :diminish magit-gitflow-mode
     :bind (:map magit-status-mode-map
                 ("G" . magit-gitflow-popup))
     :init (add-hook 'magit-mode-hook #'turn-on-magit-gitflow)
     :config
     (magit-define-popup-action 'magit-dispatch-popup
-                               ?G "GitFlow" #'magit-gitflow-popup ?!)))
+      ?G "GitFlow" #'magit-gitflow-popup ?!)))
 
 ;;; Pop up last commit information of current line
 (use-package git-messenger
+  :ensure t
   :commands git-messenger:copy-message
   :bind (("C-x v p" . git-messenger:popup-message)
          :map git-messenger-map
@@ -38,16 +48,18 @@
 
 ;; Highlighting regions by last updated time
 (use-package smeargle
+  :ensure t
   :bind (("C-x v S" . smeargle)
          ("C-x v C" . smeargle-commits)
          ("C-x v R" . smeargle-clear)))
 
 ;; Walk through git revisions of a file
-(use-package git-timemachine)
+(use-package git-timemachine
+  :ensure t)
 
 ;; Git modes
-(use-package gitattributes-mode)
 (use-package gitconfig-mode
+  :ensure t
   :mode (("/\\.?git/?config\\'" . gitconfig-mode)
          ("/\\.gitmodules\\'" . gitconfig-mode)
          ("/_gitconfig\\'" . gitconfig-mode))
@@ -55,10 +67,10 @@
   (add-hook 'gitconfig-mode-hook 'flyspell-mode))
 
 (use-package gitignore-mode
+  :ensure t
   :mode (("/\\.gitignore\\'" . gitignore-mode)
          ("/\\.git/info/exclude\\'" . gitignore-mode)
          ("/git/ignore\\'" . gitignore-mode)))
-(use-package gitignore-mode)
 
 
 (provide 'init-git)

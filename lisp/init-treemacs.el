@@ -3,9 +3,12 @@
 ;;; Code:
 
 (use-package treemacs
+  :ensure t
+  :defer t
   :config
   (progn
     (use-package treemacs-evil
+      :ensure t
       :demand t)
     (setq treemacs-change-root-without-asking nil
           treemacs-collapse-dirs              (if (executable-find "python") 3 0)
@@ -48,6 +51,7 @@
         ("C-c f C-t"  . treemacs-find-file)
         ("C-c f M-t"  . treemacs-find-tag)))
 (use-package treemacs-projectile
+  :ensure t
   :after projectfile treemacs
   :config
   (setq treemacs-header-function #'treemacs-projectile-create-header)
