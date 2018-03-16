@@ -31,6 +31,7 @@
   "bp" 'previous-buffer
   "bn" 'next-buffer
   "bg" #'kevin/revert-buffer-no-confirm
+  "bs" #'kevin/create-scratch-buffer
   )
 
 ;; jump
@@ -69,6 +70,10 @@
   "w/" 'split-window-right
   "w-" 'split-window-below
   "wM" 'delete-other-windows)
+
+;; frame
+(evil-leader/set-key
+  "Fn" #'kevin/make-frame)
 
 ;; treemacs
 (evil-leader/set-key

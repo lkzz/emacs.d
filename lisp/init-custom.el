@@ -82,5 +82,17 @@
   (mapcar (lambda (x) (kill-buffer x)) (buffer-list))
   (delete-other-windows))
 
+(defun kevin/create-scratch-buffer nil
+  "Create a scratch buffer."
+  (interactive)
+  (switch-to-buffer (get-buffer-create "*scratch*"))
+  (lisp-interaction-mode))
+
+(defun kevin/make-frame ()
+  "New a frame,and erase buffer."
+  (interactive)
+  (make-frame)
+  (kevin/create-scratch-buffer))
+
 (provide 'init-custom)
 ;;; init-custom.el ends here
