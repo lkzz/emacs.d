@@ -2,10 +2,8 @@
 ;;; Commentary:
 ;;; Code:
 
-
 (use-package company
   :ensure t
-  :defer t
   :diminish company-mode " ⓐ"
   :bind (("M-/" . company-complete)
          ("C-c C-y" . company-yasnippet)
@@ -25,8 +23,7 @@
               (when evil-mode
                 (when (evil-insert-state-p)
                   (define-key evil-insert-state-map (kbd "C-n") nil)
-                  (define-key evil-insert-state-map (kbd "C-p") nil)
-                  ))))
+                  (define-key evil-insert-state-map (kbd "C-p") nil)))))
   :config
   (progn
     ;; aligns annotation to the right hand side
@@ -78,6 +75,16 @@
   :after company
   :config
   (add-to-list 'company-backends 'company-shell))
+
+(autoload 'company-capf "company-capf")
+(autoload 'company-yasnippet "company-yasnippet")
+(autoload 'company-dabbrev "company-dabbrev")
+(autoload 'company-dabbrev-code "company-dabbrev-code")
+(autoload 'company-etags "company-etags")
+(autoload 'company-elisp "company-elisp")
+(autoload 'company-files "company-files")
+(autoload 'company-gtags "company-gtags")
+(autoload 'company-ispell "company-ispell")
 
 (provide 'init-company)
 ;;; init-company.el ends here

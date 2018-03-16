@@ -5,6 +5,7 @@
 
 ;; Directory operations
 (use-package dired
+  :ensure nil
   :config
   ;; Show directory first
   (setq dired-listing-switches "-alh --group-directories-first")
@@ -30,7 +31,8 @@
       (setq ls-lisp-use-insert-directory-program t))))
 
   ;; Extra Dired functionality
-  (use-package dired-aux)
+  (use-package dired-aux
+    :ensure nil)
   (use-package dired-x
     :ensure nil
     :init (setq dired-omit-mode t)
