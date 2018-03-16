@@ -6,6 +6,7 @@
 
 (use-package youdao-dictionary
   :ensure t
+  :defer t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
   (progn

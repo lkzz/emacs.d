@@ -12,6 +12,7 @@
   ;; On the fly markdown preview
   (use-package flymd
     :ensure t
+    :defer t
     :bind (:map markdown-mode-command-map
                 ("f" . flymd-flyit))))
 

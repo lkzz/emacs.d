@@ -4,7 +4,8 @@
 
 (use-package company
   :ensure t
-  :diminish company-mode " ⓐ"
+  :defer t
+  :diminish company-mode "ⓐ"
   :bind (("M-/" . company-complete)
          ("C-c C-y" . company-yasnippet)
          :map company-active-map
@@ -52,6 +53,7 @@
 
 (use-package company-quickhelp
   :ensure t
+  :defer t
   :after company
   :config
   (setq company-quickhelp-use-propertized-text t)
@@ -62,6 +64,7 @@
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
   :ensure t
+  :defer t
   :after company
   :config
   ;; save cache file to `user-cache-directory'
@@ -72,6 +75,7 @@
 
 (use-package company-shell
   :ensure t
+  :defer t
   :after company
   :config
   (add-to-list 'company-backends 'company-shell))

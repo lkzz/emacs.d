@@ -5,6 +5,7 @@
 ;; Emacs command shell
 (use-package eshell
   :ensure t
+  :defer t
   :config
   (setq eshell-directory-name
         (concat kevin/cache-directory "eshell"))
@@ -13,6 +14,7 @@
   ;; Eshell prompt for git users
   (use-package eshell-git-prompt
     :ensure t
+    :defer t
     :init
     (add-hook 'eshell-load-hook
               (lambda () (eshell-git-prompt-use-theme "robbyrussell"))))
@@ -20,6 +22,7 @@
   ;; cd to frequent directory in eshell
   (use-package eshell-z
     :ensure t
+    :defer t
     :init (add-hook 'eshell-mode-hook
                     (lambda () (require 'eshell-z))))
 

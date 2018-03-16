@@ -48,19 +48,23 @@
 
 (use-package evil-surround
   :ensure t
+  :defer t
   :config
   (global-evil-surround-mode t))
 
 (use-package evil-visualstar
   :ensure t
+  :defer t
   :config
   (global-evil-visualstar-mode t))
 
 (use-package evil-numbers
-  :ensure t)
+  :ensure t
+  :defer t)
 
 (use-package evil-nerd-commenter
   :ensure t
+  :defer t
   :after evil-leader-mode)
 
 (provide 'init-evil)

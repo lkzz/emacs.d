@@ -92,6 +92,7 @@
   ;; Correcting words with flyspell via Ivy
   (use-package flyspell-correct-ivy
     :ensure t
+    :defer t
     :after flyspell
     :bind (:map flyspell-mode-map
                 ("C-;" . flyspell-correct-previous-word-generic)))
@@ -122,16 +123,22 @@
 
   ;; Display world clock using Ivy
   (use-package counsel-world-clock
+    :ensure t
+    :defer t
     :bind (:map counsel-mode-map
                 ("C-c c c" . counsel-world-clock)))
 
   ;; Tramp ivy interface
   (use-package counsel-tramp
+    :ensure t
+    :defer t
     :bind (:map counsel-mode-map
                 ("C-c c t" . counsel-tramp)))
 
   ;; Ivy for GNU global
   (use-package counsel-gtags
+    :ensure t
+    :defer t
     :diminish counsel-gtags-mode
     :bind (:map counsel-gtags-mode-map
                 ("M-." . counsel-gtags-find-definition)
@@ -140,7 +147,6 @@
                 ("M-," . counsel-gtags-go-backward))
     :init
     (setq counsel-gtags-auto-update t)
-
     (add-hook 'c-mode-hook 'counsel-gtags-mode)
     (add-hook 'c++-mode-hook 'counsel-gtags-mode))
   )

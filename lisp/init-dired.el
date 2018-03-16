@@ -6,6 +6,7 @@
 ;; Directory operations
 (use-package dired
   :ensure nil
+  :defer t
   :config
   ;; Show directory first
   (setq dired-listing-switches "-alh --group-directories-first")
@@ -32,9 +33,11 @@
 
   ;; Extra Dired functionality
   (use-package dired-aux
+    :defer t
     :ensure nil)
   (use-package dired-x
     :ensure nil
+    :defer t
     :init (setq dired-omit-mode t)
     :config
     (when (display-graphic-p)
@@ -58,6 +61,7 @@
   ;; bind key: `S'
   (use-package dired-quick-sort
     :ensure t
+    :defer t
     :if (or (executable-find "gls") (executable-find "ls"))
     :init (dired-quick-sort-setup))
 
@@ -70,10 +74,10 @@
 
 (use-package diredfl
   :ensure t
+  :demand t
   :after dired
   :config
-  (diredfl-global-mode)
-  )
+  (diredfl-global-mode))
 
 (provide 'init-dired)
 ;;; init-dired ends here

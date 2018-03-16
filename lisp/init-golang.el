@@ -21,6 +21,7 @@
 
 (use-package go-mode
   :ensure t
+  :defer t
   :bind (:map go-mode-map
               ("M-." . godef-jump)
               ("C-c C-r" . go-remove-unused-imports)
@@ -31,36 +32,46 @@
   (add-hook 'before-save-hook #'gofmt-before-save)
 
   (use-package go-dlv
+    :defer t
     :ensure t)
   (use-package go-fill-struct
+    :defer t
     :ensure t)
   (use-package go-impl
+    :defer t
     :ensure t)
   (use-package go-playground
+    :defer t
     :ensure t)
   (use-package golint
+    :defer t
     :ensure t)
   (use-package govet
+    :defer t
     :ensure t)
 
   (use-package go-eldoc
+    :defer t
     :ensure t
     :diminish eldoc-mode
     :init (add-hook 'go-mode-hook #'go-eldoc-setup))
 
   (use-package go-guru
+    :defer t
     :ensure t
     :bind (:map go-mode-map
                 ("C-c d" . go-guru-definition)
                 ("C-c r" . go-guru-referrers)))
 
   (use-package go-tag
+    :defer t
     :ensure t
     :bind (:map go-mode-map
                 ("C-c t" . go-tag-add)
                 ("C-c T" . go-tag-remove)))
 
   (use-package gotest
+    :defer t
     :ensure t
     :bind (:map go-mode-map
                 ("C-c a" . go-test-current-project)
@@ -69,6 +80,7 @@
                 ("C-c x" . go-run)))
 
   (use-package go-gen-test
+    :defer t
     :ensure t
     :bind (:map go-mode-map
                 ("C-c C-g" . go-gen-test-dwim)))
@@ -76,12 +88,14 @@
   (with-eval-after-load 'company
     (use-package company-go
       :ensure t
+      :defer t
       :init (cl-pushnew (company-backend-with-yas 'company-go) company-backends)))
 
   (with-eval-after-load 'projectile
     ;; M-x `go-projectile-install-tools'
     (use-package go-projectile
       :ensure t
+      :defer t
       :commands (go-projectile-mode go-projectile-switch-project)
       :init
       (add-hook 'projectile-after-switch-project-hook #'go-projectile-switch-project)

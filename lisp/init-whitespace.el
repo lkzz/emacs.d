@@ -4,6 +4,7 @@
 
 (use-package whitespace
   :ensure t
+  :defer t
   :diminish whitespace-mode
   :init
   (dolist (hook '(prog-mode-hook outline-mode-hook conf-mode-hook))
@@ -36,6 +37,7 @@
 
 (use-package whitespace-cleanup-mode
   :ensure t
+  :defer t
   :diminish whitespace-cleanup-mode
   :config
   (global-whitespace-cleanup-mode))

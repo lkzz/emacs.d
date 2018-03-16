@@ -23,7 +23,7 @@
 (use-package hungry-delete
   :ensure t
   :defer t
-  :diminish hungry-delete-mode
+  :diminish hungry-delete-mode "ⓗ"
   :init (add-hook 'after-init-hook #'global-hungry-delete-mode)
   ;; :config (setq-default hungry-delete-chars-to-skip " \t\f\v")
   )
@@ -35,6 +35,7 @@
 
 (use-package restart-emacs
   :ensure t
+  :defer t
   :bind (("C-x C-c" . restart-emacs)))
 
 ;; History
@@ -65,6 +66,7 @@
 
 (use-package savehist
   :ensure nil
+  :defer t
   :init
   (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
         history-length 1000
@@ -86,6 +88,7 @@
 ;; Rectangle
 (use-package rect
   :ensure nil
+  :defer t
   :bind (("<C-return>" . rectangle-mark-mode)))
 
 ;; Click to browse URL or to send to e-mail address
@@ -98,6 +101,7 @@
 ;; Jump to things in Emacs tree-style
 (use-package avy
   :ensure t
+  :defer t
   :commands (avy-goto-char avy-goto-char-2)
   :init (add-hook 'after-init-hook #'avy-setup-default)
   :config (setq avy-background t))
@@ -105,18 +109,21 @@
 ;; Kill text between the point and the character CHAR
 (use-package avy-zap
   :ensure t
+  :defer t
   :bind (("M-z" . avy-zap-to-char-dwim)
          ("M-Z" . avy-zap-up-to-char-dwim)))
 
 ;; Quickly follow links
 (use-package ace-link
   :ensure t
+  :defer t
   :bind (("M-o" . ace-link-addr))
   :init (add-hook 'after-init-hook #'ace-link-setup-default))
 
 ;; Jump to Chinese characters
 (use-package ace-pinyin
   :ensure t
+  :defer t
   :diminish ace-pinyin-mode
   :init (add-hook 'after-init-hook #'ace-pinyin-global-mode))
 
@@ -154,6 +161,7 @@
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
   :ensure t
+  :defer t
   :bind ("M-;" . comment-dwim-2))
 
 ;; Drag stuff (lines, words, region, etc...) around
@@ -185,6 +193,7 @@
 ;; Edit multiple regions in the same way simultaneously
 (use-package iedit
   :ensure t
+  :defer t
   :bind (("C-;" . iedit-mode)
          ("C-x r RET" . iedit-rectangle-mode)
          :map isearch-mode-map ("C-;" . iedit-mode-from-isearch)
@@ -198,11 +207,13 @@
 ;; Framework for mode-specific buffer indexes
 (use-package imenu
   :ensure t
+  :defer t
   :bind (("C-." . imenu)))
 
 ;; Treat undo history as a tree
 (use-package undo-tree
   :ensure t
+  :defer t
   :diminish undo-tree-mode
   :init (add-hook 'after-init-hook #'global-undo-tree-mode))
 
@@ -218,6 +229,7 @@
 ;; Hideshow
 (use-package hideshow
   :ensure nil
+  :defer t
   :bind (:map hs-minor-mode-map
               ("C-`" . hs-toggle-hiding))
   :diminish hs-minor-mode)
@@ -225,6 +237,7 @@
 ;; Move to the beginning/end of line or code
 (use-package mwim
   :ensure t
+  :defer t
   :bind (("C-a" . mwim-beginning-of-code-or-line)
          ("C-e" . mwim-end-of-code-or-line)))
 
