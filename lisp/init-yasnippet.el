@@ -4,10 +4,12 @@
 
 (use-package yasnippet
   :ensure t
+  :defer t
   :diminish yas-minor-mode
   :init (add-hook 'after-init-hook #'yas-global-mode)
   :config
   (use-package yasnippet-snippets
+    :defer t
   	:ensure t))
 
 (provide 'init-yasnippet)

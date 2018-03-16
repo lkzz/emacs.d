@@ -6,6 +6,7 @@
 
 (use-package magit
   :ensure t
+  :defer t
   :bind
   (("C-x g i" . magit-init)
    ("C-x g f" . magit-file-log)
@@ -27,17 +28,19 @@
   ;; Gitflow externsion for Magit
   (use-package magit-gitflow
     :ensure t
+    :defer t
     :diminish magit-gitflow-mode
     :bind (:map magit-status-mode-map
                 ("G" . magit-gitflow-popup))
     :init (add-hook 'magit-mode-hook #'turn-on-magit-gitflow)
     :config
     (magit-define-popup-action 'magit-dispatch-popup
-      ?G "GitFlow" #'magit-gitflow-popup ?!)))
+                               ?G "GitFlow" #'magit-gitflow-popup ?!)))
 
 ;;; Pop up last commit information of current line
 (use-package git-messenger
   :ensure t
+  :defer t
   :commands git-messenger:copy-message
   :bind (("C-x v p" . git-messenger:popup-message)
          :map git-messenger-map
@@ -49,17 +52,20 @@
 ;; Highlighting regions by last updated time
 (use-package smeargle
   :ensure t
+  :defer t
   :bind (("C-x v S" . smeargle)
          ("C-x v C" . smeargle-commits)
          ("C-x v R" . smeargle-clear)))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
+  :defer t
   :ensure t)
 
 ;; Git modes
 (use-package gitconfig-mode
   :ensure t
+  :defer t
   :mode (("/\\.?git/?config\\'" . gitconfig-mode)
          ("/\\.gitmodules\\'" . gitconfig-mode)
          ("/_gitconfig\\'" . gitconfig-mode))
@@ -68,6 +74,7 @@
 
 (use-package gitignore-mode
   :ensure t
+  :defer t
   :mode (("/\\.gitignore\\'" . gitignore-mode)
          ("/\\.git/info/exclude\\'" . gitignore-mode)
          ("/git/ignore\\'" . gitignore-mode)))

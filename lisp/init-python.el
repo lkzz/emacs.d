@@ -5,6 +5,7 @@
 ;; Python Mode
 (use-package python
   :ensure nil
+  :defer t
   :defines gud-pdb-command-name pdb-path
   :config
   ;; Disable readline based native completion
@@ -29,17 +30,20 @@
   ;; Autopep8
   (use-package py-autopep8
     :ensure t
+    :defer t
     :init (add-hook 'python-mode-hook #'py-autopep8-enable-on-save))
 
   ;; Anaconda mode
   (use-package anaconda-mode
     :ensure t
+    :defer t
     :diminish anaconda-mode
     :init (add-hook 'python-mode-hook #'anaconda-mode)
     :config
     (with-eval-after-load 'company
       (use-package company-anaconda
         :ensure t
+        :defer t
         :defines company-backends
         :init (cl-pushnew '(company-backend-with-yas 'company-anaconda) company-backends)))))
 

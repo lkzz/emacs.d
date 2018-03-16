@@ -5,6 +5,7 @@
 (when (memq window-system '(mac ns x))
   (use-package exec-path-from-shell
   	:ensure t
+    :defer t
     :init
     (setq exec-path-from-shell-check-startup-files nil)
     (setq exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH" "GOPATH"))

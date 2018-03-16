@@ -4,6 +4,8 @@
 
 (use-package ranger
   :ensure t
+  :demand t
+  :commands ranger
   :init
   (setq ranger-override-dired t)
   :config
@@ -16,9 +18,7 @@
   ;; Files that are larger than the max file size (in MB) variable, won't be previewed.
   (setq ranger-max-preview-size 20)
   ;; Show cursor in ranger
-  (setq ranger-hide-cursor nil)
-  )
-
+  (setq ranger-hide-cursor nil))
 
 (provide 'init-ranger)
 ;;; init-ranger.el ends here

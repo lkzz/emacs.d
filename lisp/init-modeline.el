@@ -41,12 +41,12 @@
          (replace-table '(Emacs-Lisp "Elisp"
                                      Spacemacs\ buffer "𝓢"
                                      Python "Py"
-                                     ;; Shell ">"
+                                     Shell ">"
                                      Makrdown "MD"
                                      GFM "𝓜"
                                      Org "lrg"
                                      Text "𝓣ext"
-                                     ;; Fundamental "ℱ"
+                                     Fundamental "ℱ"
                                      ))
          (replace-name (plist-get replace-table (intern major-name))))
     (if replace-name replace-name major-name

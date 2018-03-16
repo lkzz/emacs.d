@@ -10,10 +10,14 @@
 
 ;; Directional window-selection routines
 (use-package windmove
+  :ensure t
+  :defer t
   :init (add-hook 'after-init-hook #'windmove-default-keybindings))
 
 ;; Restore old window configurations
 (use-package winner
+  :ensure t
+  :defer t
   :init
   (setq winner-boring-buffers '("*Completions*"
                                 "*Compile-Log*"
@@ -30,21 +34,26 @@
 ;; Quickly switch windows
 (use-package ace-window
   :ensure t
+  :defer t
   :bind ("C-x o" . ace-window))
 
 ;; Numbered window shortcuts
 (use-package window-numbering
   :ensure t
+  :defer t
   :init (add-hook 'after-init-hook #'window-numbering-mode))
 
 ;; Zoom window like tmux
 (use-package zoom-window
+  :ensure t
+  :defer t
   :bind ("C-x C-z" . zoom-window-zoom)
   :init (setq zoom-window-mode-line-color "DarkGreen"))
 
 ;; Popup Window Manager
 (use-package popwin
   :ensure t
+  :defer t
   :commands popwin-mode
   :init (add-hook 'after-init-hook #'popwin-mode)
   :config
@@ -122,6 +131,7 @@
 ;; Easy window config switching
 (use-package eyebrowse
   :ensure t
+  :defer t
   :init (add-hook 'after-init-hook #'eyebrowse-mode))
 
 (provide 'init-windows)

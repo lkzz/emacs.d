@@ -52,6 +52,7 @@
         ("C-c f M-t"  . treemacs-find-tag)))
 (use-package treemacs-projectile
   :ensure t
+  :defer t
   :after projectfile treemacs
   :config
   (setq treemacs-header-function #'treemacs-projectile-create-header)

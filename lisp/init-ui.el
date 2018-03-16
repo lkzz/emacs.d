@@ -44,30 +44,34 @@
 ;; 启动时窗口最大化
 (add-hook 'emacs-startup-hook 'toggle-frame-maximized)
 
-;; 配置主题
-(use-package color-theme-sanityinc-tomorrow
-  :ensure t
-  :init
-  (add-hook 'after-init-hook (lambda ()
-                               (load-theme 'sanityinc-tomorrow-night t))))
-
 ;; ;; 配置主题
-;; (use-package doom-themes
+;; (use-package color-theme-sanityinc-tomorrow
+;;   :ensure t
+;;   :defer t
 ;;   :init
 ;;   (add-hook 'after-init-hook (lambda ()
-;;                                (load-theme 'doom-tomorrow-night t)))
-;;   :config
-;;   ;; Global settings (defaults)
-;;   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-;;         doom-themes-enable-italic t) ; if nil, italics is universally disabled
-;;   ;; Enable flashing mode-line on errors
-;;   (doom-themes-visual-bell-config)
-;;   ;; Corrects (and improves) org-mode's native fontification.
-;;   (doom-themes-org-config))
+;;                                (load-theme 'sanityinc-tomorrow-night t))))
+
+;; 配置主题
+(use-package doom-themes
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'after-init-hook (lambda ()
+                               (load-theme 'doom-tomorrow-night t)))
+  :config
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config))
 
 ;; 字体设置
 (use-package cnfonts
   :ensure t
+  :defer t
   :init
   (add-hook 'after-init-hook #'cnfonts-enable)
   :config
@@ -142,6 +146,8 @@
 
 (use-package vi-tilde-fringe
   :ensure t
+  :diminish vi-tilde-fringe-mode
+  :defer t
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
 ;; Show native line numbers if possible, otherwise use linum
@@ -151,12 +157,13 @@
       :init (add-hook 'prog-mode-hook #'display-line-numbers-mode))
   (use-package linum-off
     :ensure t
-    :demand
+    :demand t
     :init (add-hook 'after-init-hook #'global-linum-mode)
     :config (setq linum-format "%4d ")))
 
 (use-package nyan-mode
   :ensure t
+  :defer t
   :init (add-hook 'after-init-hook #'nyan-mode)
   :config
   (progn

@@ -19,6 +19,7 @@
 
 (use-package prog-mode
   :ensure nil
+  :defer t
   :init
   ;; Prettify Symbols
   ;; e.g. display “lambda” as “λ”
@@ -31,6 +32,7 @@
 ;; Jump to definition via `ag'/`rg'/`grep'
 (use-package dumb-jump
   :ensure t
+  :defer t
   :init (add-hook 'after-init-hook #'dumb-jump-mode)
   :config
   (setq dumb-jump-prefer-searcher 'rg)
@@ -39,11 +41,13 @@
 
 (use-package nxml-mode
   :ensure nil
+  :defer t
   :mode (("\\.xaml$" . xml-mode)))
 
 
 (use-package toml-mode
   :ensure t
+  :defer t
   :mode (("\\.toml$" . toml-mode)))
 
 (use-package quickrun
@@ -53,6 +57,7 @@
 
 (use-package editorconfig
   :ensure t
+  :defer t
   :diminish editorconfig-mode
   :init (add-hook 'after-init-hook #'editorconfig-mode))
 

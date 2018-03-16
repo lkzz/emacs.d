@@ -18,6 +18,7 @@
 ;; Show function arglist or variable docstring
 (use-package eldoc
   :ensure t
+  :defer t
   :diminish eldoc-mode
   :init
   ;; Enable Eldoc in lisp modes in 24
@@ -32,6 +33,7 @@
 ;; This library adds all of the familiar highlighting to cl-lib macros
 (use-package cl-lib-highlight
   :ensure t
+  :defer t
   :config
   (cl-lib-highlight-initialize))
 
