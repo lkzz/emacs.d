@@ -4,22 +4,26 @@
 
 ;; Highlight the current line
 (use-package hl-line
+  :ensure nil
   :init (add-hook 'after-init-hook #'global-hl-line-mode))
 
-;; ;; Highlight symbols
-;; (use-package symbol-overlay
-;;   :diminish symbol-overlay-mode
-;;   :bind (("M-i" . symbol-overlay-put)
-;;          ("M-n" . symbol-overlay-jump-next)
-;;          ("M-p" . symbol-overlay-jump-prev)
-;;          ([C-f3] . symbol-overlay-put)
-;;          ([f3] . symbol-overlay-jump-next)
-;;          ([S-f3] . symbol-overlay-jump-prev)
-;;          ([M-f3] . symbol-overlay-remove-all))
-;;   :init (add-hook 'prog-mode-hook #'symbol-overlay-mode))
+;; Highlight symbols
+(use-package symbol-overlay
+  :ensure t
+  :defer t
+  :diminish symbol-overlay-mode
+  :bind (("M-i" . symbol-overlay-put)
+         ("M-n" . symbol-overlay-jump-next)
+         ("M-p" . symbol-overlay-jump-prev)
+         ([C-f3] . symbol-overlay-put)
+         ([f3] . symbol-overlay-jump-next)
+         ([S-f3] . symbol-overlay-jump-prev)
+         ([M-f3] . symbol-overlay-remove-all))
+  :init (add-hook 'prog-mode-hook #'symbol-overlay-mode))
 
 ;; Highlight matching paren
 (use-package paren
+  :defer t
   :init (add-hook 'after-init-hook #'show-paren-mode)
   :config
   (setq show-paren-when-point-inside-paren t)
@@ -28,6 +32,7 @@
 ;; Highlight surrounding parentheses
 (use-package highlight-parentheses
   :ensure t
+  :defer t
   :diminish highlight-parentheses-mode
   :init (add-hook 'prog-mode-hook #'highlight-parentheses-mode)
   :config (set-face-attribute 'hl-paren-face nil :weight 'ultra-bold))
@@ -35,6 +40,7 @@
 ;; Highlight indentions
 (use-package highlight-indent-guides
   :ensure t
+  :defer t
   :init (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
   :config (setq highlight-indent-guides-method 'character))
 
@@ -50,11 +56,13 @@
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
   :ensure t
+  :defer t
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Highlight TODO/FIXME/BUG...
 (use-package fic-mode
   :ensure t
+  :defer t
   :init (add-hook 'prog-mode-hook #'fic-mode)
   :config
   (setq fic-activated-faces '(font-lock-comment-face))
@@ -64,17 +72,23 @@
 ;; Highlight some operations
 (use-package volatile-highlights
   :ensure t
+  :defer t
   :diminish volatile-highlights-mode
   :init (add-hook 'after-init-hook #'volatile-highlights-mode))
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
   :ensure t
+  :defer t
   :bind (:map diff-hl-command-map
               ("SPC" . diff-hl-mark-hunk))
   :init
   (add-hook 'after-init-hook #'global-diff-hl-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+  (custom-set-faces
+   '(diff-hl-insert ((t (:background "#7ccd7c"))))
+   '(diff-hl-change ((t (:background "#3a81c3"))))
+   '(diff-hl-delete ((t (:background "#ee6363")))))
   :config
   (diff-hl-flydiff-mode 1)
 
