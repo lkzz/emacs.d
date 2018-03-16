@@ -72,7 +72,8 @@
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-elisp)
-(require 'init-lsp)
+(require 'init-ggtags)
+;; (require 'init-lsp)
 
 (require 'init-projectile)
 (require 'init-git)

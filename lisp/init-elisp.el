@@ -4,6 +4,7 @@
 
 
 (use-package elisp-mode
+  :ensure nil
   :config
   (defun remove-elc-on-save ()
     "If you're saving an elisp file, likely the .elc is no longer valid."
@@ -16,6 +17,7 @@
 
 ;; Show function arglist or variable docstring
 (use-package eldoc
+  :ensure t
   :diminish eldoc-mode
   :init
   ;; Enable Eldoc in lisp modes in 24
@@ -34,5 +36,4 @@
   (cl-lib-highlight-initialize))
 
 (provide 'init-elisp)
-
 ;;; init-elisp.el ends here
