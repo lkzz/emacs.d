@@ -5,17 +5,13 @@
 ;;; Code:
 
 (when sys/macp
-    (use-package dash-at-point
+  (use-package dash-at-point
     :bind (("\C-cD" . dash-at-point)
-       ("\C-ce" . dash-at-point-with-docset))))
+           ("\C-ce" . dash-at-point-with-docset))))
 
-(defun kevin/prog-mode-hook ()
-  "Custom config used in programming mode."
-  ;; turn off 'nlinum-mode when there are more than 5000 lines
-  (if (buffer-too-big-p) (nlinum-mode -1))
-  ;; show trailing spaces in a programming mode
-  )
-(add-hook 'prog-mode-hook 'kevin/prog-mode-hook)
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (if (kevin/buffer-too-big-p) (nlinum-mode -1))))
 
 (use-package prog-mode
   :ensure nil

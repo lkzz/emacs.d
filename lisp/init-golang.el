@@ -15,6 +15,7 @@
 ;; go get -u github.com/cweill/gotests/...
 ;; go get -u github.com/fatih/gomodifytags
 ;; go get -u github.com/davidrjenni/reftools/cmd/fillstruct
+;; go get -u github.com/dougm/goflymake
 
 ;; FIXME: `go-guru' doesn't work on Windows. Use `godef' instead.
 ;; https://github.com/dominikh/go-mode.el/issues/218
