@@ -38,6 +38,7 @@
   (use-package dired-x
     :ensure nil
     :defer t
+    :diminish dired-omit-mode
     :init (setq dired-omit-mode t)
     :config
     (when (display-graphic-p)
@@ -74,10 +75,19 @@
 
 (use-package diredfl
   :ensure t
-  :demand t
   :after dired
   :config
   (diredfl-global-mode))
+
+(use-package all-the-icons-dired
+  :ensure t
+  :diminish all-the-icons-dired-mode
+  :after dired
+  :hook ((ranger-mode dired-mode) . all-the-icons-dired-mode)
+  :init
+  (custom-set-faces
+   '(all-the-icons-dired-dir-face ((t (:background "#7ccd7c" :foreground "blue")))))
+  )
 
 (provide 'init-dired)
 ;;; init-dired ends here
