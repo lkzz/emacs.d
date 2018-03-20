@@ -9,6 +9,8 @@ places
 recentf
 history
 projectile-bookmarks.eld
+.emacs.desktop
+.persistent-scratch
 *.elc
 *.data
 *~
