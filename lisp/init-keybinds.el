@@ -36,7 +36,7 @@
 
 ;; jump
 (evil-leader/set-key
-  "jd" 'dired-jump
+  "jd" 'deer
   "jl" 'goto-line
   "jp" 'kevin/goto-match-parent
   "jc" 'avy-goto-char-2
@@ -85,7 +85,7 @@
 ;; application
 (evil-leader/set-key
   "<SPC>" 'counsel-M-x
-  "'"   'eshell
+  "'"   'shell-pop
   "/"   'counsel-ag
   "ss"  'swiper)
 
@@ -98,15 +98,18 @@
 (evil-leader/set-key "obl" 'bookmark-bmenu-list)
 ;; toggle
 (evil-leader/set-key "ot" nil)
-(evil-leader/set-key "otm" 'toggle-major-mode)
+(evil-leader/set-key "otM" 'toggle-major-mode)
 (evil-leader/set-key "otb" 'toggle-scroll-bar)
 (evil-leader/set-key "otw" 'toggle-word-wrap)
 (evil-leader/set-key "otm" 'toggle-frame-maximized)
 (evil-leader/set-key "otf" 'toggle-frame-fullscreen)
 (evil-leader/set-key "otg" 'golden-ratio-mode)
 
-;; open iterm2
-(evil-leader/set-key "oi" 'kevin/iterm-focus)
+;; open applications with from emacs
+(evil-leader/set-key "oa" nil)
+(evil-leader/set-key "oai" #'kevin/open-iterm) ;; open item2
+(evil-leader/set-key "oaw" #'kevin/open-wechat) ; open WeChat
+(evil-leader/set-key "oay" #'kevin/open-youdao) ; open youdao dictionary
 
 
 ;; flycheck error
