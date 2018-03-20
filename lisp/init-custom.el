@@ -21,6 +21,13 @@
 (defvar kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
+(defvar kevin/my-theme 'doom-tomorrow-night
+  "Theme will be used in Emacs.")
+
+;; -----------------------------------------------------------------------------
+;; custom functions
+;; -----------------------------------------------------------------------------
+
 (defun kevin/goto-match-parent ()
   "Go to the matching  if on (){}[], similar to vi style of %."
   (interactive)
@@ -32,23 +39,39 @@
         ((looking-back "[\[\(\{]" 1) (backward-char) (evil-jump-item))
         (t nil)))
 
-;; -----------------------------------------------------------------------------
-;; custom functions
-;; -----------------------------------------------------------------------------
-
-(defun buffer-too-big-p ()
+(defun kevin/buffer-too-big-p ()
+  "Check if buffer size is larger than 1M or has more than 5000 lines."
   (or (> (buffer-size) (* 1024 1024))
       (> (line-number-at-pos (point-max)) 5000)))
 
 
-(defun kevin/iterm-focus ()
-  "Open iTerm and move cursor to it."
+(defun kevin/open-iterm ()
+  "Open iTerm and focus on it."
   (interactive)
   (do-applescript
-   " do shell script \"open -a iTerm\"\n"))
+   "do shell script \"open -a iTerm\"\n"))
+
+(defun kevin/open-wechat ()
+  "Open WeChat and focus on it."
+  (interactive)
+  (do-applescript
+   "do shell script \"open -a WeChat\"\n"))
+
+(defun kevin/open-youdao ()
+  "Open youdao dictionary and focus on it."
+  (interactive)
+  (do-applescript
+   "do shell script \"open -a 有道词典\"\n"))
+
+(defun kevin/open-chrome ()
+  "Open chrome dictionary and focus on it."
+  (interactive)
+  (do-applescript
+   "do shell script \"open -a Google Chrome\"\n"))
+
 
 (defun kevin/revert-buffer-no-confirm ()
-  "Revert buffer without confirmation."
+  "Revert buffer without confirm."
   (interactive)
   (revert-buffer t t))
 
