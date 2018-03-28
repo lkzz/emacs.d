@@ -37,9 +37,9 @@
         evil-visual-state-tag   (propertize "[V]" 'face '((:background "gray" :foreground "black")))
         evil-operator-state-tag (propertize "[O]" 'face '((:background "purple"))))
   ;; evil cursor color
-  (setq  evil-default-cursor '("#98f5ff" box)
-         evil-normal-state-cursor '("#98f5ff" box)
-         evil-insert-state-cursor '("#98f5ff" (bar . 2))
+  (setq  evil-default-cursor '("SkyBlue2" box)
+         evil-normal-state-cursor '("SkyBlue2" box)
+         evil-insert-state-cursor '("red" (bar . 2))
          evil-visual-state-cursor '("#98f5ff" box)
          evil-replace-state-cursor '("#cd5c5c" box)
          evil-operator-state-cursor '("#98f5ff" box)
