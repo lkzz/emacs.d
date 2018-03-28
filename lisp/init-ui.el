@@ -66,6 +66,16 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
+;; Patch some colors in themes
+(defadvice load-theme (after fixup-face activate)
+  (set-face-background 'hl-line "#1a1a1a")
+  ;; (set-face-background 'whitespace-tab color-background-darker)
+  ;; (set-face-foreground 'idle-highlight color-orange)
+  ;; (set-face-background 'idle-highlight color-background)
+  ;; (set-face-foreground 'show-paren-match-face color-orange)
+  ;; (set-face-background 'show-paren-match-face color-background)
+  )
+
 (add-hook 'after-init-hook (lambda ()
                              (load-theme kevin/my-theme t)))
 

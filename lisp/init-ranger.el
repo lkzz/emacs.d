@@ -5,7 +5,7 @@
 (use-package ranger
   :ensure t
   :demand t
-  :commands ranger
+  :commands (ranger deer deer-jump-other-window ranger-override-dired-mode)
   :init
   (setq ranger-override-dired t)
   :config
