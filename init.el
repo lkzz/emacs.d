@@ -46,6 +46,7 @@
 (require 'init-custom)
 (require 'init-exec-path) ;; Set up $PATH
 (require 'init-better-default)
+(require 'init-evil)
 
 ;;----------------------------------------------------------------------------
 ;; personal package config
@@ -61,7 +62,6 @@
 (require 'init-company)
 (require 'init-ivy)
 (require 'init-chinese)
-(require 'init-evil)
 (require 'init-misc)
 
 ;; programming set up
@@ -78,7 +78,7 @@
 (require 'init-projectile)
 (require 'init-git)
 (require 'init-which-key)
-;; (require 'init-persp-mode)
+(require 'init-persp-mode)
 (require 'init-buffer)
 (require 'init-flycheck)
 (require 'init-dired)
@@ -88,6 +88,7 @@
 
 (require 'init-windows)
 (require 'init-keybinds)
+(require 'init-hydra)
 
 ;;----------------------------------------------------------------------------
 ;; custom file.

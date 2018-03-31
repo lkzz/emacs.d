@@ -60,7 +60,28 @@
 ;; Walk through git revisions of a file
 (use-package git-timemachine
   :defer t
-  :ensure t)
+  :ensure t
+  :commands (git-timemachine git-timemachine-toggle)
+  :init
+  ;; Force evil to rehash keybindings for the current state
+  (add-hook 'git-timemachine-mode-hook #'evil-force-normal-state)
+  (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
+                                               (call-interactively 'git-timemachine))
+                                             :post (git-timemachine-quit)
+                                             :color red
+                                             :hint nil
+                                             )
+    "
+[_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit\n
+"
+    ("c" git-timemachine-show-current-revision)
+    ("g" git-timemachine-show-nth-revision)
+    ("p" git-timemachine-show-previous-revision)
+    ("n" git-timemachine-show-next-revision)
+    ("Y" git-timemachine-kill-revision)
+    ("q" nil exit: t))
+:config
+(evil-leader/set-key "gt" #'hydra-git-timemachine/body))
 
 ;; Git modes
 (use-package gitconfig-mode
