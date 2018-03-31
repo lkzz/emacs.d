@@ -34,6 +34,5 @@
 (use-package bind-key
   :ensure t)
 
-
 (provide 'init-elpa)
 ;;; init-elpa ends here

@@ -117,5 +117,15 @@
   (make-frame)
   (kevin/create-scratch-buffer))
 
+(defun kevin/go-enable-gometalinter ()
+  "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
+  (setq flycheck-disabled-checkers '(go-gofmt
+                                     go-golint
+                                     go-vet
+                                     go-build
+                                     go-test
+                                     go-errcheck))
+  (flycheck-gometalinter-setup))
+
 (provide 'init-custom)
 ;;; init-custom.el ends here

@@ -5,21 +5,12 @@
 ;; global-keybindings
 (global-set-key (kbd "C-M-\\") 'kevin/indent-region-or-buffer)
 
-;; multiple cursors
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-+") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
 ;; file
 (evil-leader/set-key
   "ff"  'counsel-find-file
   "fr"  'counsel-recentf
   "fs"  'save-buffer
   "fed" 'eval-buffer
-  "pf"  'counsel-projectile-find-file
-  "p/"  'counsel-projectile-ag
-  "pp"  'counsel-projectile-switch-project
   )
 
 ;; buffer
@@ -89,6 +80,8 @@
   "/"   'counsel-ag
   "ss"  'swiper)
 
+(evil-leader/set-key "l" #'hydra-persp-mode/body)
+
 ;; bookmark
 (evil-leader/set-key "ob" nil)
 (evil-leader/set-key "obs" 'bookmark-set)
@@ -112,14 +105,9 @@
 (evil-leader/set-key "oay" #'kevin/open-youdao) ; open youdao dictionary
 
 
-;; flycheck error
-(evil-leader/set-key "en" 'flycheck-next-error)
-(evil-leader/set-key "ep" 'flycheck-previous-error)
-
 (evil-leader/set-key
   "ci" 'evilnc-comment-or-uncomment-lines
   "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-  "ll" 'evilnc-quick-comment-or-uncomment-to-the-line
   "cc" 'evilnc-copy-and-comment-lines
   "cp" 'evilnc-comment-or-uncomment-paragraphs
   "cr" 'comment-or-uncomment-region

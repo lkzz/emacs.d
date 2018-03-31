@@ -32,24 +32,24 @@
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook #'gofmt-before-save)
 
-  ;; (use-package go-dlv
-  ;;   :defer t
-  ;;   :ensure t)
-  ;; (use-package go-fill-struct
-  ;;   :defer t
-  ;;   :ensure t)
-  ;; (use-package go-impl
-  ;;   :defer t
-  ;;   :ensure t)
-  ;; (use-package go-playground
-  ;;   :defer t
-  ;;   :ensure t)
-  ;; (use-package golint
-  ;;   :defer t
-  ;;   :ensure t)
-  ;; (use-package govet
-  ;;   :defer t
-  ;;   :ensure t)
+  (use-package go-dlv
+    :defer t
+    :ensure t)
+  (use-package go-fill-struct
+    :defer t
+    :ensure t)
+  (use-package go-impl
+    :defer t
+    :ensure t)
+  (use-package go-playground
+    :defer t
+    :ensure t)
+  (use-package golint
+    :defer t
+    :ensure t)
+  (use-package govet
+    :defer t
+    :ensure t)
 
   (use-package go-eldoc
     :defer t
@@ -92,31 +92,6 @@
       :defer t
       :init (cl-pushnew (company-backend-with-yas 'company-go) company-backends)))
 
-  (use-package flycheck-gometalinter
-    :ensure t
-    ;; :defer t
-    :after flycheck go-mode go-projectile
-    :init
-    (add-hook 'flycheck-mode-hook #'flycheck-gometalinter-setup)
-    :config
-    (progn
-      ;; (flycheck-gometalinter-setup)
-      (setq flycheck-gometalinter-concurrency 1)
-      ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
-      (setq flycheck-gometalinter-vendor t)
-      ;; only show errors
-      (setq flycheck-gometalinter-errors-only t)
-      ;; only run fast linters
-      (setq flycheck-gometalinter-fast t)
-      ;; disable linters
-      (setq flycheck-gometalinter-disable-linters '("gotype" "gocyclo"))
-      ;; Only enable selected linters
-      (setq flycheck-gometalinter-disable-all t)
-      (setq flycheck-gometalinter-enable-linters '("golint" "gofmt"  "goimports" "errcheck" "unparam" "ineffassign" "misspell" "vet" "deadcode" "staticcheck" "unused"))
-      ;; Set different deadline (default: 5s)
-      (setq flycheck-gometalinter-deadline "8s")
-      ))
-
   (with-eval-after-load 'projectile
     ;; M-x `go-projectile-install-tools'
     (use-package go-projectile
@@ -127,6 +102,29 @@
       (add-hook 'projectile-after-switch-project-hook #'go-projectile-switch-project)
       (add-hook 'go-mode-hook #'go-projectile-mode))))
 
+(use-package flycheck-gometalinter
+  :ensure t
+  :after go-mode
+  :init
+  (setq flycheck-gometalinter-fast t)
+  ;; only show errors
+  ;; (setq flycheck-gometalinter-errors-only t)
+  ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
+  (setq flycheck-gometalinter-vendor t)
+  (setq flycheck-gometalinter-deadline "15s")
+  (setq flycheck-gometalinter-concurrency 3)
+  (setq flycheck-gometalinter-disable-all t)
+  (setq flycheck-gometalinter-enable-linters '("golint" "errcheck" "vet" "deadcode" "staticcheck"))
+  (defun kevin/configure-metalinter ()
+    "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
+    (setq flycheck-disabled-checkers '(go-gofmt
+                                       go-golint
+                                       go-vet
+                                       go-build
+                                       go-test
+                                       go-errcheck))
+    (flycheck-gometalinter-setup))
+  (add-hook 'go-mode-hook 'kevin/go-enable-gometalinter t))
 
 (provide 'init-golang)
 ;;; init-golang ends here

@@ -4,14 +4,12 @@
 
 (use-package evil-leader
   :ensure t
-  :defer t
   :config
   (global-evil-leader-mode t)
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
   :ensure t
-  :defer t
   :hook (after-init . evil-mode)
   :config
   (setq evil-default-state 'normal)
