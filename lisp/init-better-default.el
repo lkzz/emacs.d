@@ -30,7 +30,8 @@
 
 
 (setq-default indent-tabs-mode t ;; 用空格替代TAB
-              default-tab-width 4 ;; 定义TAB的宽度为4个空格.
+              ;; default-tab-width 4 ;; 定义TAB的宽度为4个空格.
+              tab-width 4 ;; 定义TAB的宽度为4个空格.
               fill-column 80 ;; 设置列宽度
               buffers-menu-max-size 30
               case-fold-search t

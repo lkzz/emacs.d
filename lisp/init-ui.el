@@ -46,17 +46,18 @@
 
 ;; 配置主题
 (use-package color-theme-sanityinc-tomorrow
-  :ensure t
-  :defer t)
+  :ensure t)
 
 (use-package color-theme-sanityinc-solarized
-  :ensure t
-  :defer t)
+  :ensure t)
+
+(use-package zenburn-theme
+  :ensure t)
 
 ;; 配置主题
 (use-package doom-themes
   :ensure t
-  :defer t
+  :init
   :config
   ;; Global settings (defaults)
   (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
@@ -66,19 +67,15 @@
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config))
 
-;; Patch some colors in themes
-(defadvice load-theme (after fixup-face activate)
-  (set-face-background 'hl-line "#1a1a1a")
-  ;; (set-face-background 'whitespace-tab color-background-darker)
-  ;; (set-face-foreground 'idle-highlight color-orange)
-  ;; (set-face-background 'idle-highlight color-background)
-  ;; (set-face-foreground 'show-paren-match-face color-orange)
-  ;; (set-face-background 'show-paren-match-face color-background)
-  )
-
 (add-hook 'after-init-hook (lambda ()
+                             ;; Patch some colors in themes
+                             (if (string-equal kevin/my-theme "doom-tomorrow-night")
+                                 (defadvice load-theme (after fixup-face activate)
+                                   (set-face-background 'hl-line "#1a1a1a")))
                              (load-theme kevin/my-theme t)))
 
+(kevin/config-time-themes-table '(("8" . zenburn) ("18" . doom-tomorrow-night)))
+(kevin/open-themes-auto-change)
 
 ;; 字体设置
 (use-package cnfonts
@@ -122,40 +119,6 @@
    #b00000000
    #b00000000])
 
-;; (use-package fringe-helper
-;;   :commands (fringe-helper-define fringe-helper-convert)
-;;   :init
-;;   (unless (fboundp 'define-fringe-bitmap)
-;;     ;; doesn't exist in terminal Emacs; define it to prevent errors
-;;     (defun define-fringe-bitmap (&rest _)))
-;;   :after git-gutter-fringe
-;;   :config
-;;   (progn
-;;     ;; places the git gutter outside the margins.
-;;     (setq-default fringes-outside-margins t)
-;;     ;; thin fringe bitmaps
-;;     (fringe-helper-define 'git-gutter-fr:added '(center repeated)
-;;                           "XXX.....")
-;;     (fringe-helper-define 'git-gutter-fr:modified '(center repeated)
-;;                           "XXX.....")
-;;     (fringe-helper-define 'git-gutter-fr:deleted 'bottom
-;;                           "X......."
-;;                           "XX......"
-;;                           "XXX....."
-;;                           "XXXX...."))
-;;   )
-
-;; (use-package git-gutter-fringe
-;;   :diminish git-gutter-mode
-;;   :demand t
-;;   :config
-;;   (progn
-;;     ;; If you enable global minor mode
-;;     (set-face-foreground 'git-gutter-fr:modified "cyan3")
-;;     (set-face-foreground 'git-gutter-fr:added    "SeaGreen3")
-;;     (set-face-foreground 'git-gutter-fr:deleted  "orchid3")
-;;     (add-hook 'after-init-hook 'global-git-gutter-mode)))
-
 (use-package vi-tilde-fringe
   :ensure t
   :diminish vi-tilde-fringe-mode
@@ -181,6 +144,10 @@
   (progn
     (setq nyan-wavy-trail t)
     (setq nyan-animate-nyancat t)))
+
+(use-package all-the-icons
+  :ensure t)
+
 
 (provide 'init-ui)
 ;;; init-ui ends here
