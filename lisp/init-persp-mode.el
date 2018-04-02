@@ -2,6 +2,9 @@
 ;;; Commentary:
 ;;; Code:
 
+(defvar kevin/default-layout-name "Default"
+  "Name of the default layout.")
+
 (use-package persp-mode
   :ensure t
   :defer t
@@ -97,9 +100,6 @@
         ;; auto-save on kill
         persp-auto-save-opt (if noninteractive 0 1))
   )
-
-(defvar kevin/default-layout-name "Default"
-  "Name of the default layout.")
 
 (defvar spacemacs--last-selected-layout kevin/default-layout-name
   "Previously selected layout.")

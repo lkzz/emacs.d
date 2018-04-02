@@ -78,7 +78,6 @@
     (let* ((num (window-numbering-get-number))
            (str (when num (int-to-string num))))
       (spaceline--unicode-number str))))
-
 (defun spaceline--unicode-number (str)
   "Return a nice unicode representation of a single-digit number STR."
   (cond

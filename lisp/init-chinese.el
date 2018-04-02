@@ -13,7 +13,7 @@
     ;; Enable Cache
     (setq url-automatic-caching t)
     ;; Set file path for saving search history
-    (setq youdao-dictionary-search-history-file (concat user-emacs-directory ".youdao"))
+    (setq youdao-dictionary-search-history-file (concat kevin/cache-directory ".youdao"))
     ;; Enable Chinese word segmentation support
     (setq youdao-dictionary-use-chinese-word-segmentation t)))
 
@@ -41,6 +41,7 @@
     (setq pyim-page-length 6)
     ;; 设置选词框的绘制方式
     (setq pyim-page-tooltip 'popup)
+    ;; (setq pyim-page-tooltip 'posframe)
     ;; emacs 启动时加载 pyim 词库
     (add-hook 'emacs-startup-hook
               #'(lambda ()

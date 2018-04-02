@@ -25,7 +25,9 @@
 (use-package persistent-scratch
   :ensure t
   :defer t
-  :init (add-hook 'after-init-hook #'persistent-scratch-setup-default))
+  :init (add-hook 'after-init-hook #'persistent-scratch-setup-default)
+  :config
+  (setq persistent-scratch-save-file (concat kevin/cache-directory ".persistent-scratch")))
 
 (provide 'init-restore)
 ;;; init-restore.el ends here
