@@ -84,7 +84,7 @@
   :diminish all-the-icons-dired-mode
   :after dired
   :hook ((ranger-mode dired-mode) . all-the-icons-dired-mode)
-  :init
+  :config
   (custom-set-faces
    '(all-the-icons-dired-dir-face ((t (:background "#7ccd7c" :foreground "blue")))))
   )

@@ -13,7 +13,7 @@
     (setq flycheck-indication-mode 'right-fringe)
     (setq flycheck-emacs-lisp-load-path 'inherit))
   :config
-  (defhydra hydra-flycheck (:color blue
+  (defhydra hydra-flycheck (:color red
                                    :hint nil)
     "
     ^
@@ -25,16 +25,16 @@
                     _l_ list
     ^^                  ^^                  ^^
     "
-    ("q" nil)
-    ("c" flycheck-buffer)
-    ("d" flycheck-disable-checker)
-    ("l" flycheck-list-errors :color red)
-    ("m" flycheck-manual)
-    ("n" flycheck-next-error :color red)
-    ("p" flycheck-previous-error :color red)
-    ("s" flycheck-select-checker)
-    ("v" flycheck-verify-setup)
-    ("?" flycheck-describe-checker))
+    ("q" nil exit: t)
+    ("c" flycheck-buffer exit: t)
+    ("d" flycheck-disable-checker exit: t)
+    ("l" flycheck-list-errors exit: t)
+    ("m" flycheck-manual exit: t)
+    ("n" flycheck-next-error exit: t)
+    ("p" flycheck-previous-error exit: t)
+    ("s" flycheck-select-checker exit: t)
+    ("v" flycheck-verify-setup exit: t)
+    ("?" flycheck-describe-checker exit: t))
   (evil-leader/set-key "e" 'hydra-flycheck/body)
 
   ;; Display Flycheck errors in GUI tooltips
@@ -55,6 +55,11 @@
     :ensure t
     :defer t
     :init (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
+
+;; (use-package flycheck-posframe
+;;   :ensure t
+;;   :after flycheck
+;;   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here

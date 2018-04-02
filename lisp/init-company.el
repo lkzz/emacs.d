@@ -28,6 +28,7 @@
   :config
   (progn
     ;; aligns annotation to the right hand side
+    ;; (setq company-frontends '(company-childframe-frontend company-echo-metadata-frontend))
     (setq company-tooltip-align-annotations t)
     (setq company-idle-delay 0.2)
     (setq company-minimum-prefix-length 2)
@@ -50,6 +51,13 @@
         (append (if (consp backend) backend (list backend))
                 '(:with company-yasnippet))))
     (setq company-backends (mapcar #'company-backend-with-yas company-backends))))
+
+;; (use-package company-childframe
+;;   :ensure t
+;;   :defer t
+;;   :after company
+;;   :config
+;;   (company-childframe-mode 1))
 
 (use-package company-quickhelp
   :ensure t

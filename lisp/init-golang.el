@@ -86,11 +86,11 @@
     :bind (:map go-mode-map
                 ("C-c C-g" . go-gen-test-dwim)))
 
-  (with-eval-after-load 'company
-    (use-package company-go
-      :ensure t
-      :defer t
-      :init (cl-pushnew (company-backend-with-yas 'company-go) company-backends)))
+  (use-package company-go
+    :ensure t
+    :defer t
+    :after company
+    :init (cl-pushnew (company-backend-with-yas 'company-go) company-backends))
 
   (with-eval-after-load 'projectile
     ;; M-x `go-projectile-install-tools'

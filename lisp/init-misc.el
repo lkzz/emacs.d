@@ -2,6 +2,10 @@
 ;;; Commentary:
 ;;; Code:
 
+;; (use-package posframe
+;;   :defer t
+;;   :ensure t)
+
 ;; Increase selected region by semantic units
 (use-package expand-region
   :bind ("C-=" . er/expand-region))
@@ -227,8 +231,7 @@
     ("M-p" mc/unmark-previous-like-this)
     ("r" mc/mark-all-in-region-regexp :exit t)
     ("q" nil))
-  (evil-leader/set-key
-    "fm" #'hydra-multiple-cursors/body))
+  (evil-leader/set-key "fm" #'hydra-multiple-cursors/body))
 
 ;; Framework for mode-specific buffer indexes
 (use-package imenu

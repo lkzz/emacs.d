@@ -29,9 +29,6 @@
           treemacs-tag-follow-cleanup         t
           treemacs-tag-follow-delay           1.5
           treemacs-width                      35)
-
-    (with-eval-after-load 'winum
-      (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
     (pcase (cons (not (null (executable-find "git")))
@@ -50,6 +47,7 @@
         ("C-c fB"     . treemacs-bookmark)
         ("C-c f C-t"  . treemacs-find-file)
         ("C-c f M-t"  . treemacs-find-tag)))
+
 (use-package treemacs-projectile
   :ensure t
   :defer t
