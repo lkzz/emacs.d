@@ -96,28 +96,33 @@
   )
 
 ;; fringe 美化
-;; 更改边缘的厚度（默认为8像素）
-(defvar fringe-size '4
-  "Default fringe width.")
-(if (fboundp 'fringe-mode) (fringe-mode fringe-size))
-(define-fringe-bitmap 'right-curly-arrow
-  [#b00000000
-   #b00000000
-   #b00000000
-   #b00000000
-   #b01110000
-   #b00010000
-   #b00010000
-   #b00000000])
-(define-fringe-bitmap 'left-curly-arrow
-  [#b00000000
-   #b00001000
-   #b00001000
-   #b00001110
-   #b00000000
-   #b00000000
-   #b00000000
-   #b00000000])
+;; left fringe with 4 pixel ,right fringe width:8 pixel
+(if (fboundp 'fringe-mode) (fringe-mode '(4 . 8)))
+
+;; 设置visual line fringe bitmap
+(when (fboundp 'define-fringe-bitmap)
+  (define-fringe-bitmap 'right-curly-arrow
+    [#b00000000
+     #b00000000
+     #b00000000
+     #b00000000
+     #b01110000
+     #b00010000
+     #b00010000
+     #b00000000])
+  (define-fringe-bitmap 'left-curly-arrow
+    [#b00000000
+     #b00001000
+     #b00001000
+     #b00001110
+     #b00000000
+     #b00000000
+     #b00000000
+     #b00000000])
+  (set-fringe-bitmap-face 'right-curly-arrow 'warning)
+  (set-fringe-bitmap-face 'left-curly-arrow 'warning)
+  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)))
+(add-hook 'after-init-hook 'turn-on-visual-line-mode)
 
 (use-package vi-tilde-fringe
   :ensure t
