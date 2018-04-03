@@ -5,24 +5,12 @@
 ;; Highlight the current line
 (use-package hl-line
   :ensure nil
-  :init (add-hook 'after-init-hook #'global-hl-line-mode))
-
-;; Highlight symbols
-(use-package symbol-overlay
-  :ensure t
   :defer t
-  :diminish symbol-overlay-mode
-  :bind (("M-i" . symbol-overlay-put)
-         ("M-n" . symbol-overlay-jump-next)
-         ("M-p" . symbol-overlay-jump-prev)
-         ([C-f3] . symbol-overlay-put)
-         ([f3] . symbol-overlay-jump-next)
-         ([S-f3] . symbol-overlay-jump-prev)
-         ([M-f3] . symbol-overlay-remove-all))
-  :init (add-hook 'prog-mode-hook #'symbol-overlay-mode))
+  :init (add-hook 'after-init-hook #'global-hl-line-mode))
 
 ;; Highlight matching paren
 (use-package paren
+  :ensure nil
   :defer t
   :init (add-hook 'after-init-hook #'show-paren-mode)
   :config
@@ -68,13 +56,6 @@
   (setq fic-activated-faces '(font-lock-comment-face))
   (set-face-background 'fic-face "DarkGoldenrod2")
   (set-face-background 'fic-author-face "DarkGoldenrod2"))
-
-;; Highlight some operations
-(use-package volatile-highlights
-  :ensure t
-  :defer t
-  :diminish volatile-highlights-mode
-  :init (add-hook 'after-init-hook #'volatile-highlights-mode))
 
 ;; Highlight uncommitted changes
 (use-package diff-hl

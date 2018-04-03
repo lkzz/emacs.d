@@ -78,24 +78,6 @@
   (with-eval-after-load 'magit
     (setq magit-completing-read-function 'ivy-completing-read))
 
-  ;; Search at point
-  ;; "M-j": word-at-point
-  ;; "M-n"/"C-w": symbol-at-point
-  ;; Refer to https://www.emacswiki.org/emacs/SearchAtPoint#toc8
-  ;; and https://github.com/abo-abo/swiper/wiki/FAQ
-  ;; (bind-key "C-w" (lambda ()
-  ;;                   (interactive)
-  ;;                   (insert (format "%s" (with-ivy-window (ivy-thing-at-point)))))
-  ;;           ivy-minibuffer-map)
-
-
-  ;; Correcting words with flyspell via Ivy
-  (use-package flyspell-correct-ivy
-    :ensure t
-    :defer t
-    :after flyspell
-    :bind (:map flyspell-mode-map
-                ("C-;" . flyspell-correct-previous-word-generic)))
 
   ;; More friendly display transformer for Ivy
   (use-package ivy-rich
@@ -120,20 +102,6 @@
     :ensure t
     :defer t
     :init (counsel-projectile-mode 1))
-
-  ;; Display world clock using Ivy
-  (use-package counsel-world-clock
-    :ensure t
-    :defer t
-    :bind (:map counsel-mode-map
-                ("C-c c c" . counsel-world-clock)))
-
-  ;; Tramp ivy interface
-  (use-package counsel-tramp
-    :ensure t
-    :defer t
-    :bind (:map counsel-mode-map
-                ("C-c c t" . counsel-tramp)))
 
   ;; Ivy for GNU global
   (use-package counsel-gtags

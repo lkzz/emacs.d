@@ -57,11 +57,6 @@
   :diminish editorconfig-mode
   :init (add-hook 'after-init-hook #'editorconfig-mode))
 
-;; New `bat-mode' in 25, only use `batch-mode' in 24.
-(unless (fboundp 'bat-mode)
-  (use-package batch-mode
-    :mode (("\\.\\(cmd\\|bat\\)$" . batch-mode))))
-
 (use-package fish-mode
   :ensure t
   :init
@@ -69,24 +64,6 @@
             (lambda ()
               (add-hook 'before-save-hook
                         #'fish_indent-before-save))))
-
-(use-package swift-mode
-  :ensure t
-  :config
-  (with-eval-after-load 'flycheck
-    (use-package flycheck-swift
-      :ensure t
-      :init (flycheck-swift-setup))))
-
-(use-package rust-mode
-  :ensure t
-  :config (setq rust-format-on-save t))
-
-(use-package robot-mode
-  :ensure nil
-  :load-path "site-lisp"
-  :commands robot-mode
-  :mode "\\.robot\\'")
 
 (provide 'init-prog)
 ;;; init-prog.el ends here
