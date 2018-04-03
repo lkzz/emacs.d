@@ -28,10 +28,9 @@
   :config
   (progn
     ;; aligns annotation to the right hand side
-    ;; (setq company-frontends '(company-childframe-frontend company-echo-metadata-frontend))
     (setq company-tooltip-align-annotations t)
-    (setq company-idle-delay 0.2)
-    (setq company-minimum-prefix-length 2)
+    (setq company-idle-delay 0.3)
+    (setq company-minimum-prefix-length 3)
     (setq company-tooltip-limit 10)
     (setq company-require-match nil)
     ;; make previous/next selection in the popup cycles
@@ -51,13 +50,6 @@
         (append (if (consp backend) backend (list backend))
                 '(:with company-yasnippet))))
     (setq company-backends (mapcar #'company-backend-with-yas company-backends))))
-
-;; (use-package company-childframe
-;;   :ensure t
-;;   :defer t
-;;   :after company
-;;   :config
-;;   (company-childframe-mode 1))
 
 (use-package company-quickhelp
   :ensure t
@@ -87,16 +79,6 @@
   :after company
   :config
   (add-to-list 'company-backends 'company-shell))
-
-(autoload 'company-capf "company-capf")
-(autoload 'company-yasnippet "company-yasnippet")
-(autoload 'company-dabbrev "company-dabbrev")
-(autoload 'company-dabbrev-code "company-dabbrev-code")
-(autoload 'company-etags "company-etags")
-(autoload 'company-elisp "company-elisp")
-(autoload 'company-files "company-files")
-(autoload 'company-gtags "company-gtags")
-(autoload 'company-ispell "company-ispell")
 
 (provide 'init-company)
 ;;; init-company.el ends here

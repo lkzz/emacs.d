@@ -103,10 +103,6 @@
 (setq scroll-step 3
       scroll-margin 3
       scroll-conservatively 100000)
-(use-package smooth-scrolling
-  :ensure t
-  :init (add-hook 'after-init-hook #'smooth-scrolling-mode)
-  :config (setq smooth-scroll-margin 0))
 
 ;; 文件末尾插入新行
 (setq require-final-newline t)
