@@ -73,11 +73,11 @@
     (setq dired-k-padding 1)
     (setq dired-k-human-readable t)))
 
-(use-package diredfl
-  :ensure t
-  :after dired
-  :config
-  (diredfl-global-mode))
+;; (use-package diredfl
+;;   :ensure t
+;;   :after dired
+;;   :config
+;;   (diredfl-global-mode))
 
 (use-package all-the-icons-dired
   :ensure t

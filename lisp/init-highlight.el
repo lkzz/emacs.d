@@ -66,24 +66,13 @@
   :init
   (add-hook 'after-init-hook #'global-diff-hl-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
   (custom-set-faces
    '(diff-hl-insert ((t (:background "#7ccd7c"))))
    '(diff-hl-change ((t (:background "#3a81c3"))))
    '(diff-hl-delete ((t (:background "#ee6363")))))
   :config
-  (diff-hl-flydiff-mode 1)
+  (diff-hl-flydiff-mode 1))
 
-  ;; Fall back to the display margin, if the fringe is unavailable
-  (unless (display-graphic-p)
-    (setq diff-hl-side 'right)
-    (diff-hl-margin-mode 1))
-
-  ;; Integration with magit and psvn
-  (with-eval-after-load 'magit
-    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
-  (with-eval-after-load 'psvn
-    (defadvice svn-status-update-modeline (after svn-update-diff-hl activate)
-      (diff-hl-update))))
-
-(provide 'init-highlight)
+  (provide 'init-highlight)
 ;;; init-highlight.el ends here
