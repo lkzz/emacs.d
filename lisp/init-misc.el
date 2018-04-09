@@ -2,12 +2,22 @@
 ;;; Commentary:
 ;;; Code:
 
+;; Elec pair
+(use-package elec-pair
+  :ensure nil
+  :defer t
+  :init (add-hook 'after-init-hook #'electric-pair-mode))
+
 ;; Hungry deletion
 (use-package hungry-delete
   :ensure t
   :defer t
   :diminish hungry-delete-mode "ⓗ"
   :init (add-hook 'after-init-hook #'global-hungry-delete-mode))
+
+(use-package restart-emacs
+  :ensure t
+  :defer t)
 
 (use-package server
   :ensure t

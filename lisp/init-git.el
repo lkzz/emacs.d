@@ -7,6 +7,7 @@
 (use-package magit
   :ensure t
   :defer t
+  :commands (magit-status magit-blame)
   :bind
   (("C-x g i" . magit-init)
    ("C-x g f" . magit-file-log)
@@ -16,26 +17,22 @@
    ("C-x g s" . magit-status)
    ("C-x g r" . magit-reflog)
    ("C-x g t" . magit-tag))
-  :config
+  :init
   (progn
-    (set-default 'magit-stage-all-confirm nil)
-    (add-hook 'magit-mode-hook 'magit-load-config-extensions)
-    (defadvice magit-status (around magit-fullscreen activate)
-      (window-configuration-to-register :magit-fullscreen)
-      ad-do-it
-      (delete-other-windows)))
+    (setq magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)))
 
-  ;; Gitflow externsion for Magit
-  (use-package magit-gitflow
-    :ensure t
-    :defer t
-    :diminish magit-gitflow-mode
-    :bind (:map magit-status-mode-map
-                ("G" . magit-gitflow-popup))
-    :init (add-hook 'magit-mode-hook #'turn-on-magit-gitflow)
-    :config
-    (magit-define-popup-action 'magit-dispatch-popup
-                               ?G "GitFlow" #'magit-gitflow-popup ?!)))
+;; Gitflow externsion for Magit
+(use-package magit-gitflow
+  :ensure t
+  :defer t
+  :after magit
+  :diminish magit-gitflow-mode
+  :bind (:map magit-status-mode-map
+              ("G" . magit-gitflow-popup))
+  :init (add-hook 'magit-mode-hook #'turn-on-magit-gitflow)
+  :config
+  (magit-define-popup-action 'magit-dispatch-popup
+    ?G "GitFlow" #'magit-gitflow-popup ?!))
 
 ;;; Pop up last commit information of current line
 (use-package git-messenger
@@ -79,9 +76,8 @@
     ("p" git-timemachine-show-previous-revision)
     ("n" git-timemachine-show-next-revision)
     ("Y" git-timemachine-kill-revision)
-    ("q" nil exit: t))
-:config
-(evil-leader/set-key "gt" #'hydra-git-timemachine/body))
+    ("q" nil exit: t)))
+(evil-leader/set-key "gt" #'hydra-git-timemachine/body)
 
 ;; Git modes
 (use-package gitconfig-mode
@@ -99,7 +95,6 @@
   :mode (("/\\.gitignore\\'" . gitignore-mode)
          ("/\\.git/info/exclude\\'" . gitignore-mode)
          ("/git/ignore\\'" . gitignore-mode)))
-
 
 (provide 'init-git)
 ;;; init-git ends here

@@ -21,78 +21,12 @@
 (defvar kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
-(defvar kevin/my-theme 'zenburn
+(defvar kevin/my-theme 'doom-tomorrow-night
   "Theme will be used in Emacs.")
-
-;;timer for automatically changing themes
-(defvar kevin--interval-timer nil)
-
-;;table is used to save (time themes) pair for automatically changing themes
-;;time should be a string. themes should be a variant , not symbos.
-(defvar kevin--time-themes-table nil)
-
 
 ;; -----------------------------------------------------------------------------
 ;; custom functions
 ;; -----------------------------------------------------------------------------
-
-;; ====================================Themes automatically change =====================================
-
-(defun kevin/config-time-themes-table (themes)
-  "Set time . THEMES table for time-themes-table."
-  (setq kevin--time-themes-table
-        ;; sort firstly, get-themes-according require a sorted table.
-        (sort themes (lambda (x y) (< (string-to-number (car x)) (string-to-number (car y)))))))
-
-(defun kevin/get-themes-according (hour-string)
-  "This function return the theme according to HOUR-STRING.
-Value of hour-string should be between 1 and 24(including)."
-  (catch 'break
-    (let (
-          (now-time (string-to-number hour-string))
-          ;; init current-themes to the themes of final item
-          (correct-themes (cdr (car (last kevin--time-themes-table))))
-          (loop-list kevin--time-themes-table)
-          )
-
-      ;; loop to set correct themes to correct-themes
-      (while loop-list
-        (let ((v (car loop-list)))
-          (let ((v-time (string-to-number (car v))) (v-themes (cdr v)))
-            (if (< now-time v-time)
-                (throw 'break correct-themes)  ; t
-              (setq correct-themes v-themes) ; nil
-              )))
-        (setq loop-list (cdr loop-list))
-        )
-      ;; This is returned for value of hour-string is bigger than or equal to car of final item
-      (throw 'break correct-themes))))
-
-(defun kevin/load-theme (theme)
-  "Load THEME."
-  (interactive)
-  (load-theme theme t)
-  (setq kevin/my-theme theme))
-
-(defun kevin/check-time-and-modify-theme ()
-  "This function will get the theme of now according to time-table-themes."
-  (let ((new-theme (kevin/get-themes-according (format-time-string "%H"))))
-    (unless (eq new-theme kevin/my-theme)
-      (kevin/load-theme new-theme))))
-
-(defun kevin/open-themes-auto-change ()
-  "Start to automatically change themes."
-  (interactive)
-  (kevin/check-time-and-modify-theme)
-  (setq
-   kevin--interval-timer (run-at-time 3600 3600 'kevin/check-time-and-modify-theme))
-  (message "themes auto change open."))
-
-(defun kevin/close-themes-auto-change ()
-  "Close automatically change themes."
-  (interactive)
-  (cancel-timer kevin--interval-timer)
-  (message "themes auto change close."))
 
 (defun kevin/goto-match-parent ()
   "Go to the matching  if on (){}[], similar to vi style of %."

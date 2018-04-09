@@ -26,18 +26,12 @@
   :bind (:map go-mode-map
               ("M-." . godef-jump)
               ("C-c C-r" . go-remove-unused-imports)
-              ("<f1>" . godoc-at-point))
+              ("C-c C-d" . godoc-at-point))
   :config
   ;; `goimports' or `gofmt'
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook #'gofmt-before-save)
 
-  (use-package go-dlv
-    :defer t
-    :ensure t)
-  (use-package go-fill-struct
-    :defer t
-    :ensure t)
   (use-package go-impl
     :defer t
     :ensure t)
@@ -80,12 +74,6 @@
                 ("C-c ." . go-test-current-test)
                 ("C-c x" . go-run)))
 
-  (use-package go-gen-test
-    :defer t
-    :ensure t
-    :bind (:map go-mode-map
-                ("C-c C-g" . go-gen-test-dwim)))
-
   (use-package company-go
     :ensure t
     :defer t
@@ -102,29 +90,29 @@
       (add-hook 'projectile-after-switch-project-hook #'go-projectile-switch-project)
       (add-hook 'go-mode-hook #'go-projectile-mode))))
 
-(use-package flycheck-gometalinter
-  :ensure t
-  :after go-mode
-  :init
-  (setq flycheck-gometalinter-fast t)
-  ;; only show errors
-  ;; (setq flycheck-gometalinter-errors-only t)
-  ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
-  (setq flycheck-gometalinter-vendor t)
-  (setq flycheck-gometalinter-deadline "15s")
-  (setq flycheck-gometalinter-concurrency 3)
-  (setq flycheck-gometalinter-disable-all t)
-  (setq flycheck-gometalinter-enable-linters '("golint" "errcheck" "vet" "deadcode" "staticcheck"))
-  (defun kevin/configure-metalinter ()
-    "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
-    (setq flycheck-disabled-checkers '(go-gofmt
-                                       go-golint
-                                       go-vet
-                                       go-build
-                                       go-test
-                                       go-errcheck))
-    (flycheck-gometalinter-setup))
-  (add-hook 'go-mode-hook 'kevin/go-enable-gometalinter t))
+;; (use-package flycheck-gometalinter
+;;   :ensure t
+;;   :after go-mode
+;;   :init
+;;   (setq flycheck-gometalinter-fast t)
+;;   ;; only show errors
+;;   ;; (setq flycheck-gometalinter-errors-only t)
+;;   ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
+;;   (setq flycheck-gometalinter-vendor t)
+;;   (setq flycheck-gometalinter-deadline "15s")
+;;   (setq flycheck-gometalinter-concurrency 3)
+;;   (setq flycheck-gometalinter-disable-all t)
+;;   (setq flycheck-gometalinter-enable-linters '("golint" "errcheck" "vet" "deadcode" "staticcheck"))
+;;   (defun kevin/configure-metalinter ()
+;;     "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
+;;     (setq flycheck-disabled-checkers '(go-gofmt
+;;                                        go-golint
+;;                                        go-vet
+;;                                        go-build
+;;                                        go-test
+;;                                        go-errcheck))
+;;     (flycheck-gometalinter-setup))
+;;   (add-hook 'go-mode-hook 'kevin/go-enable-gometalinter t))
 
 (provide 'init-golang)
 ;;; init-golang ends here

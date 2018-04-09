@@ -11,7 +11,7 @@
   "fr"  'counsel-recentf
   "fs"  'save-buffer
   "fed" 'eval-buffer
-  )
+  "fer" 'restart-emacs)
 
 ;; buffer
 (evil-leader/set-key

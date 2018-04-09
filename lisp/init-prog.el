@@ -9,10 +9,6 @@
     :bind (("\C-cD" . dash-at-point)
            ("\C-ce" . dash-at-point-with-docset))))
 
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (if (kevin/buffer-too-big-p) (nlinum-mode -1))))
-
 (use-package prog-mode
   :ensure nil
   :defer t

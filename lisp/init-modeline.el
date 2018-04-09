@@ -143,11 +143,11 @@
                  (propertize "%I" 'face 'font-lock-constant-face) ;; size
                  "] "
 
-                 "["
-                 ;; the current major mode for the buffer.
-                 '(:eval (propertize (kevin/simplify-major-mode-name) 'face 'font-lock-string-face
-                                     'help-echo buffer-file-coding-system))
-                 "]"
+                 ;; "["
+                 ;; ;; the current major mode for the buffer.
+                 ;; '(:eval (propertize (kevin/simplify-major-mode-name) 'face 'font-lock-string-face
+                 ;;                     'help-echo buffer-file-coding-system))
+                 ;; "]"
 
                  "%1"
                  kevin/flycheck-mode-line
@@ -170,23 +170,23 @@
                  '(:eval (when (> (window-width) 90)
                            minor-mode-alist))
 
-                 (mode-line-fill 'mode-line 25)
+                 (mode-line-fill 'mode-line 16)
 
                  ;; line and column
                  "(" ;; '%02' to set to 2 chars at least; prevents flickering
                  (propertize "%02l" 'face 'font-lock-type-face) ","
                  (propertize "%02c" 'face 'font-lock-type-face)
-                 ")"
+                 ") "
 
                  ;; global-mode-string goes in mode-line-misc-info
                  ;; (mode-line-misc-info)
                  ;; '(:eval (when (> (window-width) 120)
                  ;;           mode-line-misc-info))
 
-                 ;; encoding abbrev
-                 " ["
-                 '(:eval (kevin/buffer-encoding-abbrev))
-                 "] "
+                 ;; ;; encoding abbrev
+                 ;; " ["
+                 ;; '(:eval (kevin/buffer-encoding-abbrev))
+                 ;; "] "
 
                  mode-line-end-spaces
                  ;; add the time, with the date and the emacs uptime in the tooltip

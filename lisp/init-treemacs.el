@@ -48,15 +48,5 @@
         ("C-c f C-t"  . treemacs-find-file)
         ("C-c f M-t"  . treemacs-find-tag)))
 
-(use-package treemacs-projectile
-  :ensure t
-  :defer t
-  :after projectfile treemacs
-  :config
-  (setq treemacs-header-function #'treemacs-projectile-create-header)
-  :bind (:map global-map
-              ("C-c fP" . treemacs-projectile)
-              ("C-c fp" . treemacs-projectile-toggle)))
-
 (provide 'init-treemacs)
 ;;; init-treemacs ends here

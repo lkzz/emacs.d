@@ -35,7 +35,7 @@
     (setq company-require-match nil)
     ;; make previous/next selection in the popup cycles
     (setq company-selection-wrap-around t)
-    (setq company-dabbrev-ignore-case nil)
+    (setq company-dabbrev-ignore-case t)
     (setq company-dabbrev-downcase nil)
 
     ;; Support yas in commpany
