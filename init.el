@@ -17,7 +17,7 @@
   (message "Your Emacs is old, and some custom.elality in this config will be disabled. Please upgrade if possible."))
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name  "extensions" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name  "vendor" user-emacs-directory))
 
 (require 'init-benchmarking) ;; Measure startup time
 
@@ -98,3 +98,4 @@
 
 
 ;;; init.el ends here
+(put 'dired-find-alternate-file 'disabled nil)

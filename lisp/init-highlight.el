@@ -60,7 +60,6 @@
 ;; Highlight uncommitted changes
 (use-package diff-hl
   :ensure t
-  :defer t
   :bind (:map diff-hl-command-map
               ("SPC" . diff-hl-mark-hunk))
   :init
