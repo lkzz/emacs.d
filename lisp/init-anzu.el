@@ -4,7 +4,6 @@
 
 (use-package anzu
   :ensure t
-  :defer t
   :diminish anzu-mode
   :bind (([remap query-replace] . anzu-query-replace)
          ([remap query-replace-regexp] . anzu-query-replace-regexp)

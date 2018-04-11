@@ -21,9 +21,6 @@
 (defvar kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
-(defvar kevin/my-theme 'doom-tomorrow-night
-  "Theme will be used in Emacs.")
-
 ;; -----------------------------------------------------------------------------
 ;; custom functions
 ;; -----------------------------------------------------------------------------
