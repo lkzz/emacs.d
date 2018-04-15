@@ -32,6 +32,7 @@
   "t" nil
   "tM" 'toggle-major-mode
   "tb" 'toggle-scroll-bar
+  "ti" 'imenu-list-smart-toggle
   "tw" 'toggle-word-wrap
   "tm" 'toggle-frame-maximized
   "tf" 'toggle-frame-fullscreen
