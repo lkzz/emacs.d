@@ -78,11 +78,12 @@
 ;; buffer related keybindings
 (evil-leader/set-key
   "bb" 'ivy-switch-buffer
-  "bc" 'erase-message-buffer
+  "bc" 'cleanup-buffer
   "be" 'eval-buffer
   "bd" 'kill-this-buffer
   "bf" 'beginning-of-defun
   "bi"  #'kevin/indent-region-or-buffer
+  "bk" 'kill-buffer
   "bl" 'ibuffer-list-buffers
   "bm" #'kevin/kill-all-buffers
   "bp" 'previous-buffer
