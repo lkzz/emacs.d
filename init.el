@@ -74,6 +74,7 @@
 (require 'init-org)
 (require 'init-elisp)
 (require 'init-gtags)
+(require 'init-imenu)
 ;; (require 'init-lsp)
 
 (require 'init-projectile)
