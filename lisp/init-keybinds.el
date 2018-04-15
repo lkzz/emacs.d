@@ -2,6 +2,21 @@
 ;;; Commentary:
 ;;; Code:
 
+;; declare which-key prefix
+(which-key-add-key-based-replacements
+  "SPC a" "application"
+  "SPC b" "buffer"
+  "SPC c" "comment"
+  "SPC f" "file"
+  "SPC g" "magit"
+  "SPC h" "help"
+  "SPC j" "jump"
+  "SPC l" "layout"
+  "SPC o" "personal"
+  "SPC p" "projectile"
+  "SPC w" "window"
+  "SPC t" "toggle"
+  "SPC ob" "bookmark")
 
 ;; bookmark
 (evil-leader/set-key
@@ -14,13 +29,13 @@
 
 ;; toggle
 (evil-leader/set-key
-  "ot" nil
-  "otM" 'toggle-major-mode
-  "otb" 'toggle-scroll-bar
-  "otw" 'toggle-word-wrap
-  "otm" 'toggle-frame-maximized
-  "otf" 'toggle-frame-fullscreen
-  "otg" 'golden-ratio-mode)
+  "t" nil
+  "tM" 'toggle-major-mode
+  "tb" 'toggle-scroll-bar
+  "tw" 'toggle-word-wrap
+  "tm" 'toggle-frame-maximized
+  "tf" 'toggle-frame-fullscreen
+  "tg" 'golden-ratio-mode)
 
 ;; open applications with from emacs
 (evil-leader/set-key
@@ -42,9 +57,6 @@
   "md" 'mark-defun
   "mf" #'kevin/make-frame
   "re" 'restart-emacs
-  "tfw" 'toggle-full-window
-  "tfm" 'toggle-frame-maximized
-  "tff" 'toggle-frame-fullscreen
   )
 
 ;; window related keybindings
