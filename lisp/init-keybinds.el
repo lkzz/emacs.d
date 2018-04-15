@@ -2,152 +2,83 @@
 ;;; Commentary:
 ;;; Code:
 
-;; global-keybindings
-(global-set-key (kbd "C-M-\\") 'kevin/indent-region-or-buffer)
 
-;; file
+;; bookmark
 (evil-leader/set-key
-  "ff"  'counsel-find-file
-  "fr"  'counsel-recentf
-  "fs"  'save-buffer
-  "fed" 'eval-buffer
-  "fer" 'restart-emacs)
+  "ob" nil
+  "obs" 'bookmark-set
+  "obr" 'bookmark-rename
+  "obd" 'bookmark-delete
+  "obj" 'counsel-bookmark
+  "obl" 'bookmark-bmenu-list)
 
-;; buffer
+;; toggle
 (evil-leader/set-key
-  "bb" 'ivy-switch-buffer
-  "bd" 'kill-this-buffer
-  "bm" #'kevin/kill-all-buffers
-  "bl" 'ibuffer-list-buffers
-  "bp" 'previous-buffer
-  "bn" 'next-buffer
-  "bg" #'kevin/revert-buffer-no-confirm
-  "bs" #'kevin/create-scratch-buffer
+  "ot" nil
+  "otM" 'toggle-major-mode
+  "otb" 'toggle-scroll-bar
+  "otw" 'toggle-word-wrap
+  "otm" 'toggle-frame-maximized
+  "otf" 'toggle-frame-fullscreen
+  "otg" 'golden-ratio-mode)
+
+;; open applications with from emacs
+(evil-leader/set-key
+  "a" nil
+  "ai" #'kevin/open-iterm ;; open item2
+  "aw" #'kevin/open-wechat ; open WeChat
+  "ay" #'kevin/open-youdao ; open youdao dictionary
   )
 
-;; jump
+;; misc related keybindings
 (evil-leader/set-key
-  "jd" 'deer
-  "jl" 'goto-line
-  "jp" 'kevin/goto-match-parent
-  "jc" 'avy-goto-char-2
+  "=" 'text-scale-increase
+  "-" 'text-scale-decrease
+  "'" 'shell-pop
+  "hd" 'describe-function
+  "hf" 'find-function
+  "hk" 'describe-key
+  "hv" 'describe-variable
+  "md" 'mark-defun
+  "mf" #'kevin/make-frame
+  "re" 'restart-emacs
+  "tfw" 'toggle-full-window
+  "tfm" 'toggle-frame-maximized
+  "tff" 'toggle-frame-fullscreen
   )
 
-;; magit
-(evil-leader/set-key
-  "gc"  'magit-clone
-  "gff" 'magit-find-file
-  "gfh" 'magit-log-buffer-file
-  "gi"  'magit-init
-  "gL"  'magit-list-repositories
-  "gm"  'magit-dispatch-popup
-  "gs"  'magit-status
-  "gS"  'magit-stage-file
-  "gU"  'magit-unstage-file)
-
-;; window
+;; window related keybindings
 (evil-leader/set-key
   "0"  'select-window-0
   "1"  'select-window-1
   "2"  'select-window-2
   "3"  'select-window-3
   "4"  'select-window-4
-  "5"  'select-window-5
-  "6"  'select-window-6
   "7"  'select-window-7
   "8"  'select-window-8
   "9"  'select-window-9
   "wd" 'delete-window
   "w/" 'split-window-right
   "w-" 'split-window-below
-  "wM" 'delete-other-windows)
+  "wD" 'delete-other-windows
+  )
 
-;; frame
+;; buffer related keybindings
 (evil-leader/set-key
-  "Fn" #'kevin/make-frame)
-
-;; treemacs
-(evil-leader/set-key
-  "ft" #'treemacs-toggle
-  "fT" #'treemacs
-  "fB" #'treemacs-bookmark
-  "f C-t" #'treemacs-find-file)
-
-;; application
-(evil-leader/set-key
-  "<SPC>" 'counsel-M-x
-  "'"   'shell-pop
-  "/"   'counsel-ag
-  "ss"  'swiper)
-
-(evil-leader/set-key "l" #'hydra-persp-mode/body)
-
-;; bookmark
-(evil-leader/set-key "ob" nil)
-(evil-leader/set-key "obs" 'bookmark-set)
-(evil-leader/set-key "obr" 'bookmark-rename)
-(evil-leader/set-key "obd" 'bookmark-delete)
-(evil-leader/set-key "obj" 'counsel-bookmark)
-(evil-leader/set-key "obl" 'bookmark-bmenu-list)
-;; toggle
-(evil-leader/set-key "ot" nil)
-(evil-leader/set-key "otM" 'toggle-major-mode)
-(evil-leader/set-key "otb" 'toggle-scroll-bar)
-(evil-leader/set-key "otw" 'toggle-word-wrap)
-(evil-leader/set-key "otm" 'toggle-frame-maximized)
-(evil-leader/set-key "otf" 'toggle-frame-fullscreen)
-(evil-leader/set-key "otg" 'golden-ratio-mode)
-
-;; open applications with from emacs
-(evil-leader/set-key "oa" nil)
-(evil-leader/set-key "oai" #'kevin/open-iterm) ;; open item2
-(evil-leader/set-key "oaw" #'kevin/open-wechat) ; open WeChat
-(evil-leader/set-key "oay" #'kevin/open-youdao) ; open youdao dictionary
-
-
-(evil-leader/set-key
-  "ci" 'evilnc-comment-or-uncomment-lines
-  "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-  "cc" 'evilnc-copy-and-comment-lines
-  "cp" 'evilnc-comment-or-uncomment-paragraphs
-  "cr" 'comment-or-uncomment-region
-  "cv" 'evilnc-toggle-invert-comment-line-by-line
-  "."  'evilnc-copy-and-comment-operator
-  "\\" 'evilnc-comment-operator)
-
-;; evil keybindings
-(define-key evil-normal-state-map (kbd ",a") 'mwim-beginning-of-code-or-line)
-(define-key evil-normal-state-map (kbd ",e") 'mwim-end-of-code-or-line)
-(define-key evil-normal-state-map (kbd ",w") 'evil-write)
-(define-key evil-normal-state-map (kbd ",W") 'evil-write-all)
-(define-key evil-normal-state-map (kbd ",q") 'evil-quit)
-(define-key evil-normal-state-map (kbd "C-w") 'evil-delete-backward-word)
-(define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
-(define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
-(define-key evil-insert-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
-(define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-(define-key evil-motion-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-(define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-(define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
-(define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-(define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-(define-key evil-insert-state-map (kbd "C-p") 'evil-previous-visual-line)
-(define-key evil-insert-state-map (kbd "C-n") 'evil-next-visual-line)
-
-;; Magit from avsej
-;;
-(evil-add-hjkl-bindings magit-log-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-commit-mode-map 'emacs)
-(evil-add-hjkl-bindings magit-branch-manager-mode-map 'emacs
-  "K" 'magit-discard
-  "L" 'magit-log-popup)
-(evil-add-hjkl-bindings magit-status-mode-map 'emacs
-  "K" 'magit-discard
-  "l" 'magit-log-popup
-  "h" 'magit-diff-toggle-refine-hunk)
-
-;; evil ex command
-(evil-ex-define-cmd "W" 'evil-write-all)
+  "bb" 'ivy-switch-buffer
+  "bc" 'erase-message-buffer
+  "be" 'eval-buffer
+  "bd" 'kill-this-buffer
+  "bf" 'beginning-of-defun
+  "bi"  #'kevin/indent-region-or-buffer
+  "bl" 'ibuffer-list-buffers
+  "bm" #'kevin/kill-all-buffers
+  "bp" 'previous-buffer
+  "bn" 'next-buffer
+  "bg" #'kevin/revert-buffer-no-confirm
+  "bs" 'save-buffer
+  "bS" #'kevin/create-scratch-buffer
+  )
 
 (provide 'init-keybinds)
 ;;; init-keybinds ends here

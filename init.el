@@ -72,23 +72,23 @@
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-elisp)
-(require 'init-ggtags)
+(require 'init-gtags)
 ;; (require 'init-lsp)
 
 (require 'init-projectile)
 (require 'init-git)
 (require 'init-which-key)
-;; (require 'init-persp-mode)
+(require 'init-persp-mode)
 (require 'init-buffer)
 (require 'init-flycheck)
 (require 'init-dired)
 (require 'init-ranger)
 (require 'init-eshell)
+(require 'init-dump-jump)
 ;; (require 'init-restore)
 
 (require 'init-windows)
 (require 'init-keybinds)
-(require 'init-hydra)
 
 ;;----------------------------------------------------------------------------
 ;; custom file.
@@ -98,4 +98,3 @@
 
 
 ;;; init.el ends here
-(put 'dired-find-alternate-file 'disabled nil)

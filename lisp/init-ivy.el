@@ -6,6 +6,15 @@
   :ensure t
   :defer t
   :diminish ivy-mode counsel-mode
+  :init
+  (progn
+    (evil-leader/set-key
+      "SPC" 'counsel-M-x
+      "/" 'counsel-ag
+      "ef" 'end-of-defun
+      "ff" 'counsel-find-file
+      "fr" 'counsel-recentf
+      "ss" 'swiper))
   :bind (("C-s" . swiper)
          ("C-S-s" . swiper-all)
          ("C-c C-r" . ivy-resume)
@@ -38,10 +47,8 @@
          ("C-h" . counsel-up-directory)
          :map swiper-map
          ("M-%" . swiper-query-replace))
-  :init (add-hook 'after-init-hook
-                  (lambda ()
-                    (ivy-mode 1)
-                    (counsel-mode 1)))
+  :hook ((after-init . ivy-mode)
+         (after-init . counsel-mode))
   :config
   (setq enable-recursive-minibuffers t) ; Allow commands in minibuffers
   (setq ivy-use-selectable-prompt t)
@@ -56,11 +63,6 @@
   (setq swiper-action-recenter t)
   (setq counsel-find-file-at-point t)
   (setq counsel-yank-pop-separator "\n-------\n")
-  ;; Find counsel commands quickly
-  (bind-key "<f6>" (lambda ()
-                     (interactive)
-                     (counsel-M-x "^counsel ")))
-
   ;; Use faster search tools: ripgrep or the silver search
   (let ((command
          (cond
@@ -78,46 +80,24 @@
   (with-eval-after-load 'magit
     (setq magit-completing-read-function 'ivy-completing-read))
 
-
-  ;; More friendly display transformer for Ivy
-  (use-package ivy-rich
-    :ensure t
-    :defer t
-    :init
-    (setq ivy-virtual-abbreviate 'full
-          ivy-rich-switch-buffer-align-virtual-buffer t)
-    (setq ivy-rich-path-style 'abbrev)
-
-    (ivy-set-display-transformer 'ivy-switch-buffer
-                                 'ivy-rich-switch-buffer-transformer)
-
-    (with-eval-after-load 'counsel-projectile
-      (ivy-set-display-transformer 'counsel-projectile
-                                   'ivy-rich-switch-buffer-transformer)
-      (ivy-set-display-transformer 'counsel-projectile-switch-to-buffer
-                                   'ivy-rich-switch-buffer-transformer)))
-
   ;; Ivy integration for Projectile
   (use-package counsel-projectile
     :ensure t
     :defer t
     :init (counsel-projectile-mode 1))
-
-  ;; Ivy for GNU global
-  (use-package counsel-gtags
-    :ensure t
-    :defer t
-    :diminish counsel-gtags-mode
-    :bind (:map counsel-gtags-mode-map
-                ("M-." . counsel-gtags-find-definition)
-                ("M-r" . counsel-gtags-find-reference)
-                ("M-s" . counsel-gtags-find-symbol)
-                ("M-," . counsel-gtags-go-backward))
-    :init
-    (setq counsel-gtags-auto-update t)
-    (add-hook 'c-mode-hook 'counsel-gtags-mode)
-    (add-hook 'c++-mode-hook 'counsel-gtags-mode))
   )
+
+;; More friendly interface for ivy
+(use-package ivy-rich
+  :ensure t
+  :after (ivy counsel)
+  :init
+  (progn
+    (setq ivy-virtual-abbreviate 'full
+          ivy-rich-switch-buffer-align-virtual-buffer t)
+    (setq ivy-rich-path-style 'abbrev)
+    (ivy-set-display-transformer 'ivy-switch-buffer
+                                 'ivy-rich-switch-buffer-transformer)))
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

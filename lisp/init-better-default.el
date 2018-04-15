@@ -16,13 +16,15 @@
 ;; default directory
 (setq default-directory "~/Code/gopath/src/go-common")
 
-;; 设置编码
-(prefer-coding-system 'utf-8)
+;; Core settings
+;; UTF-8 please
+(set-charset-priority 'unicode)
+(setq locale-coding-system   'utf-8)   ; pretty
 (set-terminal-coding-system  'utf-8)   ; pretty
 (set-keyboard-coding-system  'utf-8)   ; pretty
-(set-selection-coding-system 'utf-8)   ; perdy
-(setq locale-coding-system   'utf-8)   ; please
-(setq-default buffer-file-coding-system 'utf-8) ; with sugar on top
+(set-selection-coding-system 'utf-8)   ; please
+(prefer-coding-system        'utf-8)   ; with sugar on top
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
 ;; 复制粘贴
 (setq select-enable-primary t)
@@ -30,7 +32,6 @@
 
 
 (setq-default indent-tabs-mode t ;; 用空格替代TAB
-              ;; default-tab-width 4 ;; 定义TAB的宽度为4个空格.
               tab-width 4 ;; 定义TAB的宽度为4个空格.
               fill-column 80 ;; 设置列宽度
               buffers-menu-max-size 30
@@ -96,6 +97,7 @@
 ;; (mouse-avoidance-mode 'animate)
 ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
 (setq mouse-autoselect-window t)
+
 ;; 鼠标滚动设置
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
 (setq mouse-wheel-progressive-speed nil)

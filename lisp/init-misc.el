@@ -62,8 +62,15 @@
 (use-package avy
   :ensure t
   :defer t
-  :commands (avy-goto-char avy-goto-char-2)
-  :init (add-hook 'after-init-hook #'avy-setup-default)
+  :commands (avy-goto-char avy-goto-word-or-subword-1)
+  :hook (after-init . avy-setup-default)
+  :init
+  (progn
+    (evil-leader/set-key
+      "jc" 'avy-goto-char
+      "jw" 'avy-goto-word-or-subword-1
+      "jl" 'avy-goto-line
+      "jp" #'kevin/goto-match-parent))
   :config (setq avy-background t))
 
 ;; Quickly follow links
@@ -139,9 +146,12 @@
 (use-package multiple-cursors
   :ensure t
   :defer t
-  :config
-  (defhydra hydra-multiple-cursors (:hint nil)
-    "
+  :commands (hydra-multiple-cursors/body)
+  :init
+  (progn
+    (evil-leader/set-key "mc" #'hydra-multiple-cursors/body)
+    (defhydra hydra-multiple-cursors (:hint nil)
+      "
      ^Up^            ^Down^        ^Other^
     ----------------------------------------------
     [_p_]   Previous    [_n_]   Next    [_l_] Edit lines
@@ -149,22 +159,20 @@
     [_M-p_] Unmark      [_M-n_] Unmark  [_r_] Mark by regexp
     ^ ^                 ^ ^             [_q_] Quit
     "
-    ("l" mc/edit-lines :exit t)
-    ("a" mc/mark-all-like-this :exit t)
-    ("n" mc/mark-next-like-this)
-    ("N" mc/skip-to-next-like-this)
-    ("M-n" mc/unmark-next-like-this)
-    ("p" mc/mark-previous-like-this)
-    ("P" mc/skip-to-previous-like-this)
-    ("M-p" mc/unmark-previous-like-this)
-    ("r" mc/mark-all-in-region-regexp :exit t)
-    ("q" nil))
-  (evil-leader/set-key "fm" #'hydra-multiple-cursors/body))
+      ("l" mc/edit-lines :exit t)
+      ("a" mc/mark-all-like-this :exit t)
+      ("n" mc/mark-next-like-this)
+      ("N" mc/skip-to-next-like-this)
+      ("M-n" mc/unmark-next-like-this)
+      ("p" mc/mark-previous-like-this)
+      ("P" mc/skip-to-previous-like-this)
+      ("M-p" mc/unmark-previous-like-this)
+      ("r" mc/mark-all-in-region-regexp :exit t)
+      ("q" nil))))
 
 ;; Treat undo history as a tree
 (use-package undo-tree
-  :ensure t
-  :defer t
+  :ensure nil
   :diminish undo-tree-mode
   :init (add-hook 'after-init-hook #'global-undo-tree-mode))
 
@@ -179,9 +187,10 @@
 ;; Move to the beginning/end of line or code
 (use-package mwim
   :ensure t
-  :defer t
-  :bind (("C-a" . mwim-beginning-of-code-or-line)
-         ("C-e" . mwim-end-of-code-or-line)))
+  :defer t)
+
+(use-package wgrep
+  :ensure t)
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

@@ -6,8 +6,13 @@
   :ensure t
   :demand t
   :commands (ranger deer deer-jump-other-window ranger-override-dired-mode)
+  :bind (:map ranger-mode-map
+              ("q" . ranger-close))
   :init
-  (setq ranger-override-dired t)
+  (progn
+    (setq ranger-override-dired t)
+    (evil-leader/set-key
+      "jd" 'deer))
   :config
   (setq ranger-cleanup-on-disable t)
   (setq ranger-modify-header nil)
