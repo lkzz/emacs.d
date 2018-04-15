@@ -29,10 +29,11 @@
   (progn
     ;; aligns annotation to the right hand side
     (setq company-tooltip-align-annotations t)
-    (setq company-idle-delay 0.3)
-    (setq company-minimum-prefix-length 3)
+    (setq company-idle-delay 0)
+    (setq company-minimum-prefix-length 2)
     (setq company-tooltip-limit 10)
     (setq company-require-match nil)
+    (setq company-show-numbers t)
     ;; make previous/next selection in the popup cycles
     (setq company-selection-wrap-around t)
     (setq company-dabbrev-ignore-case t)
@@ -55,23 +56,22 @@
   :ensure t
   :defer t
   :after company
+  :hook (company-mode . company-quickhelp-mode)
   :config
   (setq company-quickhelp-use-propertized-text t)
   (setq company-quickhelp-delay 0.6)
-  (setq company-quickhelp-max-lines 30)
-  (company-quickhelp-mode))
+  (setq company-quickhelp-max-lines 30))
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
   :ensure t
   :defer t
   :after company
+  :hook (company-mode . company-statistics-mode)
   :config
   ;; save cache file to `user-cache-directory'
   (setq company-statistics-file (concat kevin/cache-directory
-                                        "company-statistics-cache.el"))
-  ;; start company-statictics-mode after init
-  (add-hook 'after-init-hook 'company-statistics-mode))
+                                        "company-statistics-cache.el")))
 
 (use-package company-shell
   :ensure t

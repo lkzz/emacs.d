@@ -13,7 +13,6 @@
   :ensure nil
   :defer t
   :init
-  ;; Prettify Symbols
   ;; e.g. display “lambda” as “λ”
   (when (boundp 'global-prettify-symbols-mode)
     (add-hook 'after-init-hook #'global-prettify-symbols-mode)
@@ -21,21 +20,10 @@
               (lambda ()
                 (push '("<=" . ?≤) prettify-symbols-alist)))))
 
-;; Jump to definition via `ag'/`rg'/`grep'
-(use-package dumb-jump
-  :ensure t
-  :defer t
-  :init (add-hook 'after-init-hook #'dumb-jump-mode)
-  :config
-  (setq dumb-jump-prefer-searcher 'rg)
-  (with-eval-after-load 'ivy
-    (setq dumb-jump-selector 'ivy)))
-
 (use-package nxml-mode
   :ensure nil
   :defer t
   :mode (("\\.xaml$" . xml-mode)))
-
 
 (use-package toml-mode
   :ensure t
@@ -51,7 +39,7 @@
   :ensure t
   :defer t
   :diminish editorconfig-mode
-  :init (add-hook 'after-init-hook #'editorconfig-mode))
+  :hook (after-init . editorconfig-mode))
 
 (use-package fish-mode
   :ensure t

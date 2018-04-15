@@ -42,10 +42,6 @@
     ;; 设置选词框的绘制方式
     (setq pyim-page-tooltip 'popup)
     ;; (setq pyim-page-tooltip 'posframe)
-    ;; emacs 启动时加载 pyim 词库
-    (add-hook 'emacs-startup-hook
-              #'(lambda ()
-                  (pyim-restart-1 t)))
     ))
 
 (use-package pangu-spacing

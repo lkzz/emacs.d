@@ -8,7 +8,7 @@
   :init (desktop-save-mode 1)
   :config
   ;; Restore frames into their original displays (if possible)
-  (setq desktop-restore-in-current-display nil)
+  (setq desktop-restore-in-current-display t)
 
   ;; Don't save/restore frames in tty
   (unless (display-graphic-p)
@@ -18,7 +18,7 @@
 (use-package persistent-scratch
   :ensure t
   :defer t
-  :init (add-hook 'after-init-hook #'persistent-scratch-setup-default)
+  :hook (after-init . persistent-scratch-setup-default)
   :config
   (setq persistent-scratch-save-file (concat kevin/cache-directory ".persistent-scratch")))
 

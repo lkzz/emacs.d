@@ -4,7 +4,14 @@
 
 (use-package treemacs
   :ensure t
-  :defer t
+  :after evil
+  :init
+  (progn
+    (evil-leader/set-key
+      "ft" #'treemacs-toggle
+      "fT" #'treemacs
+      "fB" #'treemacs-bookmark
+      "f C-t" #'treemacs-find-file))
   :config
   (progn
     (use-package treemacs-evil
@@ -29,14 +36,19 @@
           treemacs-tag-follow-cleanup         t
           treemacs-tag-follow-delay           1.5
           treemacs-width                      35)
+
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
-    (pcase (cons (not (null (executable-find "git")))
-                 (not (null (executable-find "python3"))))
-      (`(t . t)
-       (treemacs-git-mode 'extended))
-      (`(t . _)
-       (treemacs-git-mode 'simple))))
+    (treemacs-git-mode 'extended)
+
+    ;; (pcase (cons (not (null (executable-find "git")))
+    ;;              (not (null (executable-find "python3"))))
+    ;;   (`(t . t)
+    ;;    (treemacs-git-mode 'extended))
+    ;;   (`(t . _)
+    ;;    (treemacs-git-mode 'simple)))
+
+    )
   :bind
   (:map global-map
         ([f8]         . treemacs-toggle)

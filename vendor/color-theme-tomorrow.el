@@ -14,7 +14,8 @@
 
 (defconst color-theme-tomorrow-colors
   '((night . ((background . "#1d1f21")
-              (current-line . "#282a2e")
+              ;; (current-line . "#282a2e")
+              (current-line . "#1a1a1a")
               (selection . "#373b41")
               (foreground . "#c5c8c6")
               (comment . "#969896")

@@ -92,6 +92,30 @@
    ((string= "9" str) "➒")
    ((string= "0" str) "➓")))
 
+(defun shorten-directory (dir max-length)
+  "Setup a directory(`DIR') `MAX-LENGTH' characters."
+  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+        (output ""))
+    (when (and path (equal "" (car path)))
+      (setq path (cdr path)))
+    (while (and path (< (length output) (- max-length 4)))
+      (setq output (concat (car path) "/" output))
+      (setq path (cdr path)))
+    (when path
+      (setq output (concat ".../" output)))
+    output))
+
+(defvar mode-line-directory
+  '(:propertize
+    (:eval (if (buffer-file-name) (concat " " (shorten-directory default-directory 20)) " "))
+    'face mode-line-directory)
+  "Formats the current directory.")
+(put 'mode-line-directory 'risky-local-variable t)
+
+;; 为了对称,我们在buffer-id后也加一个空格:
+(setq-default mode-line-buffer-identification
+              (propertized-buffer-identification "%b "))
+
 ;; 自定义mode-line样式
 ;; anzu 必须加载后才可以设置 anzu--mode-line-format
 (with-eval-after-load 'anzu
@@ -105,15 +129,12 @@
                  " "
                  '(:eval (kevin/update-persp-name))
 
-                 mode-line-mule-info
+                 ;; mode-line-mule-info
+
+                 mode-line-directory
+                 mode-line-buffer-identification
 
                  anzu--mode-line-format
-
-                 "%1"
-                 ;; the buffer name; the file name as a tool tip
-                 '(:eval (propertize "%b " 'face 'font-lock-keyword-face
-                                     'help-echo (buffer-file-name)))
-
 
                  "[" ;; insert vs overwrite mode, input-method in a tooltip
                  '(:eval (propertize (if overwrite-mode "Ovr" "Ins")
@@ -162,9 +183,9 @@
                            `(vc-mode vc-mode)))
                  " "
 
-                 ;; nyan progressbar
-                 '(:eval (when (> (window-width) 150)
-                           (list (nyan-create))))
+                 ;; ;; nyan progressbar
+                 ;; '(:eval (when (> (window-width) 150)
+                 ;;           (list (nyan-create))))
 
                  ;; minor modes
                  '(:eval (when (> (window-width) 90)
@@ -188,12 +209,12 @@
                  ;; '(:eval (kevin/buffer-encoding-abbrev))
                  ;; "] "
 
-                 mode-line-end-spaces
                  ;; add the time, with the date and the emacs uptime in the tooltip
                  '(:eval (propertize (format-time-string "%H:%M")
                                      'help-echo
                                      (concat (format-time-string "%c; ")
                                              (emacs-uptime "Uptime:%hh"))))
+
                  )))
 
 

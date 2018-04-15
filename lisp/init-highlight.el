@@ -57,11 +57,19 @@
   (set-face-background 'fic-face "DarkGoldenrod2")
   (set-face-background 'fic-author-face "DarkGoldenrod2"))
 
+;; (use-package fill-column-indicator
+;;   :ensure t
+;;   :diminish auto-fill-mode
+;;   :commands (fci-mode)
+;;   :init (add-hook 'prog-mode-hook #'fci-mode)
+;;   :config
+;;   (progn
+;;     (turn-on-auto-fill)))
+
 ;; Highlight uncommitted changes
 (use-package diff-hl
   :ensure t
-  :bind (:map diff-hl-command-map
-              ("SPC" . diff-hl-mark-hunk))
+  :commands (diff-hl-mode diff-hl-dired-mode)
   :init
   (add-hook 'after-init-hook #'global-diff-hl-mode)
   (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
@@ -73,5 +81,5 @@
   :config
   (diff-hl-flydiff-mode 1))
 
-  (provide 'init-highlight)
+(provide 'init-highlight)
 ;;; init-highlight.el ends here

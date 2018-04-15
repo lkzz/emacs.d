@@ -41,20 +41,6 @@
     :diminish dired-omit-mode
     :init (setq dired-omit-mode t)
     :config
-    (when (display-graphic-p)
-      (setq dired-guess-shell-alist-user
-            '(("\\.pdf\\'" "open")
-              ("\\.docx\\'" "open")
-              ("\\.\\(?:djvu\\|eps\\)\\'" "open")
-              ("\\.\\(?:jpg\\|jpeg\\|png\\|gif\\|xpm\\)\\'" "open")
-              ("\\.\\(?:xcf\\)\\'" "open")
-              ("\\.csv\\'" "open")
-              ("\\.tex\\'" "open")
-              ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'"
-               "open")
-              ("\\.\\(?:mp3\\|flac\\)\\'" "open")
-              ("\\.html?\\'" "open")
-              ("\\.md\\'" "open"))))
     (setq dired-omit-files
           (concat dired-omit-files "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*")))
 
@@ -66,12 +52,19 @@
     :if (or (executable-find "gls") (executable-find "ls"))
     :init (dired-quick-sort-setup))
 
-  ;; Highlights dired buffer like k
-  (use-package dired-k
-    :bind (:map dired-mode-map ("K" . dired-k))
-    :init
-    (setq dired-k-padding 1)
-    (setq dired-k-human-readable t)))
+  )
+
+;; ;; Highlights dired buffer like k
+;; (use-package dired-k
+;;   :bind (:map dired-mode-map ("K" . dired-k))
+;;   :init
+;;   (progn
+;;     (setq dired-k-style 'git)
+;;     (setq dired-k-padding 1)
+;;     (setq dired-k-human-readable t)
+;;     ;; always execute dired-k when dired buffer is opened
+;;     (add-hook 'dired-initial-position-hook 'dired-k)
+;;     ))
 
 ;; (use-package diredfl
 ;;   :ensure t
@@ -79,15 +72,15 @@
 ;;   :config
 ;;   (diredfl-global-mode))
 
-(use-package all-the-icons-dired
-  :ensure t
-  :diminish all-the-icons-dired-mode
-  :after dired
-  :hook ((ranger-mode dired-mode) . all-the-icons-dired-mode)
-  :config
-  (custom-set-faces
-   '(all-the-icons-dired-dir-face ((t (:background "#7ccd7c" :foreground "blue")))))
-  )
+;; (use-package all-the-icons
+;;   :ensure t)
+
+;; (use-package all-the-icons-dired
+;;   :ensure t
+;;   :diminish all-the-icons-dired-mode
+;;   :after (dired all-the-icons)
+;;   :hook ((ranger-mode dired-mode) . all-the-icons-dired-mode)
+;;   )
 
 (provide 'init-dired)
 ;;; init-dired ends here
