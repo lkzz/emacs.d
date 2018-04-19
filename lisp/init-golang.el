@@ -37,15 +37,16 @@
           (set (make-local-variable 'compile-command)
                "go build -v && go test -v && go vet")))
     (add-hook 'go-mode-hook 'setup-go-mode-compile)
-    (add-hook 'before-save-hook #'gofmt-before-save)))
+    (add-hook 'before-save-hook #'gofmt-before-save)
+    (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)))
 
-;; (use-package golint
-;;   :ensure t
-;;   :after go-mode)
+(use-package golint
+  :ensure t
+  :after go-mode)
 
-;; (use-package govet
-;;   :ensure t
-;;   :after go-mode)
+(use-package govet
+  :ensure t
+  :after go-mode)
 
 (use-package go-eldoc
   :ensure t
@@ -53,12 +54,9 @@
   :config
   (progn (add-hook 'go-mode-hook 'go-eldoc-setup)))
 
-;; (use-package go-errcheck
-;;   :ensure t
-;;   :after go-mode)
-
-;; (use-package go-stacktrace
-;;   :ensure t)
+(use-package go-errcheck
+  :ensure t
+  :after go-mode)
 
 (use-package go-guru
   :ensure t
@@ -83,39 +81,31 @@
   (progn (add-hook 'go-mode-hook (lambda ()
                                    (set (make-local-variable 'company-backends) '(company-go))
                                    (company-mode)))))
-;; M-x `go-projectile-install-tools'
-(use-package go-projectile
-  :ensure t
-  :after (go-mode projectile-mode)
-  :commands (go-projectile-mode go-projectile-switch-project)
-  :init
-  (add-hook 'projectile-after-switch-project-hook #'go-projectile-switch-project)
-  (add-hook 'go-mode-hook #'go-projectile-mode))
 
-(use-package flycheck-gometalinter
-  :ensure t
-  :after (go-mode flycheck-mode)
-  :config
-  (progn
-    (setq flycheck-gometalinter-fast t)
-    ;; only show errors
-    ;; (setq flycheck-gometalinter-errors-only t)
-    ;; skips 'vendor' directories
-    (setq flycheck-gometalinter-vendor t)
-    (setq flycheck-gometalinter-deadline "15s")
-    (setq flycheck-gometalinter-concurrency 1)
-    (setq flycheck-gometalinter-disable-all t)
-    (setq flycheck-gometalinter-enable-linters '("golint" "errcheck" "vet" "deadcode" "staticcheck"))
-    (defun kevin/configure-metalinter ()
-      "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
-      (setq flycheck-disabled-checkers '(go-gofmt
-                                         go-golint
-                                         go-vet
-                                         go-build
-                                         go-test
-                                         go-errcheck))
-      (flycheck-gometalinter-setup))
-    (add-hook 'go-mode-hook 'kevin/go-enable-gometalinter t)))
+;; (use-package flycheck-gometalinter
+;;   :ensure t
+;;   :after (go-mode flycheck-mode)
+;;   :config
+;;   (progn
+;;     (setq flycheck-gometalinter-fast t)
+;;     ;; only show errors
+;;     ;; (setq flycheck-gometalinter-errors-only t)
+;;     ;; skips 'vendor' directories
+;;     (setq flycheck-gometalinter-vendor t)
+;;     (setq flycheck-gometalinter-deadline "15s")
+;;     (setq flycheck-gometalinter-concurrency 1)
+;;     (setq flycheck-gometalinter-disable-all t)
+;;     (setq flycheck-gometalinter-enable-linters '("golint" "errcheck" "vet" "deadcode" "staticcheck"))
+;;     (defun kevin/configure-metalinter ()
+;;       "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
+;;       (setq flycheck-disabled-checkers '(go-gofmt
+;;                                          go-golint
+;;                                          go-vet
+;;                                          go-build
+;;                                          go-test
+;;                                          go-errcheck))
+;;       (flycheck-gometalinter-setup))
+;;     (add-hook 'go-mode-hook 'kevin/go-enable-gometalinter t)))
 
 
 (provide 'init-golang)
