@@ -35,12 +35,14 @@
   "ti" 'imenu-list-smart-toggle
   "tw" 'toggle-word-wrap
   "tm" 'toggle-frame-maximized
+  "tn" 'nlinum-mode
   "tf" 'toggle-frame-fullscreen
   "tg" 'golden-ratio-mode)
 
 ;; open applications with from emacs
 (evil-leader/set-key
   "a" nil
+  "aa" 'counsel-osx-app
   "ai" #'kevin/open-iterm ;; open item2
   "aw" #'kevin/open-wechat ; open WeChat
   "ay" #'kevin/open-youdao ; open youdao dictionary
