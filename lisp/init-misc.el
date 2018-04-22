@@ -145,9 +145,32 @@
 
 ;; Treat undo history as a tree
 (use-package undo-tree
+  :defer t
+  :diminish undo-tree-mode "ⓤ"
+  :init
+  (global-undo-tree-mode)
+  :config
+  (progn
+    (setq undo-tree-history-directory-alist `(("." . ,(concat kevin/cache-directory "undo-tree-history"))))
+    (setq undo-tree-auto-save-history t)
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diff t)))
+
+(use-package savehist
   :ensure nil
-  :diminish undo-tree-mode
-  :init (add-hook 'after-init-hook #'global-undo-tree-mode))
+  :init
+  (progn
+    ;; Minibuffer history
+    (setq savehist-file (concat kevin/cache-directory "savehist")
+          enable-recursive-minibuffers t ; Allow commands in minibuffers
+          history-length 1000
+          savehist-additional-variables '(mark-ring
+                                          global-mark-ring
+                                          search-ring
+                                          regexp-search-ring
+                                          extended-command-history)
+          savehist-autosave-interval 60)
+    (savehist-mode t)))
 
 ;; Hideshow
 (use-package hideshow
