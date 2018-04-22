@@ -10,6 +10,7 @@
   :hook (prog-mode . flycheck-mode)
   :init
   (progn
+    (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
     (setq flycheck-emacs-lisp-check-declare t)
     (setq flycheck-indication-mode 'right-fringe)
     (setq flycheck-emacs-lisp-load-path 'inherit)
