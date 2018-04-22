@@ -2,8 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;; TODO: smerge-mode
-
 (defun git-get-current-file-relative-path ()
   "Get current file relative path."
   (replace-regexp-in-string (concat "^" (file-name-as-directory default-directory))
@@ -52,7 +50,7 @@
 
 (use-package magit
   :ensure t
-  :commands (magit-status)
+  :commands (magit-status magit-init magit-file-log magit-blame-mode)
   :bind
   (("C-x g i" . magit-init)
    ("C-x g f" . magit-file-log)
@@ -132,13 +130,13 @@
   ;; Use magit-show-commit for showing status/diff commands
   (setq git-messenger:use-magit-popup t))
 
-;; Highlighting regions by last updated time
-(use-package smeargle
-  :ensure t
-  :defer t
-  :bind (("C-x v S" . smeargle)
-         ("C-x v C" . smeargle-commits)
-         ("C-x v R" . smeargle-clear)))
+;; ;; Highlighting regions by last updated time
+;; (use-package smeargle
+;;   :ensure t
+;;   :defer t
+;;   :bind (("C-x v S" . smeargle)
+;;          ("C-x v C" . smeargle-commits)
+;;          ("C-x v R" . smeargle-clear)))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
@@ -181,6 +179,38 @@
   :mode (("/\\.gitignore\\'" . gitignore-mode)
          ("/\\.git/info/exclude\\'" . gitignore-mode)
          ("/git/ignore\\'" . gitignore-mode)))
+
+(use-package git-link
+  :ensure t
+  :defer t
+  :init
+  (progn
+    (evil-leader/set-key "gl" 'git-link-commit))
+  :config
+  (setq git-link-open-in-browser t))
+
+(use-package smerge
+  :ensure nil
+  :defer t
+  :init
+  (progn
+    (defhydra hydra-smerge-mode (:foreign-keys run
+                                               :hint nil)
+      "
+[_n_] previous [_p_] next [_a_] keep all [_b_] keep base [_o_] keep other [_c_] keep current [_C_] combine next [_r_] refine [_q_] quit
+"
+      ("n" smerge-next)
+      ("p" smerge-prev)
+      ("a" smerge-keep-all)
+      ("b" smerge-keep-base)
+      ("m" smerge-keep-mine)
+      ("o" smerge-keep-other)
+      ("c" smerge-keep-current)
+      ("C" smerge-combine-with-next)
+      ("r" smerge-refine)
+      ("q" nil :exit t))
+    (evil-leader/set-key "gr" #'hydra-smerge-mode/body)
+    ))
 
 (provide 'init-git)
 ;;; init-git ends here
