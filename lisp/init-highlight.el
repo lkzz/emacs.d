@@ -48,14 +48,24 @@
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Highlight TODO/FIXME/BUG...
-(use-package fic-mode
+(use-package hl-todo
   :ensure t
   :defer t
-  :init (add-hook 'prog-mode-hook #'fic-mode)
+  :hook (prog-mode . hl-todo-mode)
   :config
-  (setq fic-activated-faces '(font-lock-comment-face))
-  (set-face-background 'fic-face "DarkGoldenrod2")
-  (set-face-background 'fic-author-face "DarkGoldenrod2"))
+  (setq hl-todo-keyword-faces
+        `(("TODO"  . ,(face-foreground 'warning))
+          ("FIXME" . ,(face-foreground 'error))
+          ("NOTE"  . ,(face-foreground 'success)))))
+
+;; (use-package fic-mode
+;;   :ensure t
+;;   :defer t
+;;   :init (add-hook 'prog-mode-hook #'fic-mode)
+;;   :config
+;;   (setq fic-activated-faces '(font-lock-comment-face))
+;;   (set-face-background 'fic-face "DarkGoldenrod2")
+;;   (set-face-background 'fic-author-face "DarkGoldenrod2"))
 
 ;; (use-package fill-column-indicator
 ;;   :ensure t
