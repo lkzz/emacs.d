@@ -76,20 +76,5 @@
 ;;   (progn
 ;;     (turn-on-auto-fill)))
 
-;; Highlight uncommitted changes
-(use-package diff-hl
-  :ensure t
-  :commands (diff-hl-mode diff-hl-dired-mode)
-  :init
-  (add-hook 'after-init-hook #'global-diff-hl-mode)
-  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
-  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
-  (custom-set-faces
-   '(diff-hl-insert ((t (:background "#7ccd7c"))))
-   '(diff-hl-change ((t (:background "#3a81c3"))))
-   '(diff-hl-delete ((t (:background "#ee6363")))))
-  :config
-  (diff-hl-flydiff-mode 1))
-
 (provide 'init-highlight)
 ;;; init-highlight.el ends here

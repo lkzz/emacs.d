@@ -61,6 +61,10 @@
 (use-package go-guru
   :ensure t
   :after go-mode
+  :commands (go-guru-describe go-guru-freevars go-guru-implements go-guru-peers
+                              go-guru-referrers go-guru-definition go-guru-pointsto
+                              go-guru-callstack go-guru-whicherrs go-guru-callers go-guru-callees
+                              go-guru-expand-region)
   :bind (:map go-mode-map
               ("C-c d" . go-guru-definition)
               ("C-c r" . go-guru-referrers)))

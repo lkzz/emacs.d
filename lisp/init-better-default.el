@@ -72,7 +72,7 @@
 (use-package autorevert
   :ensure nil
   :diminish auto-revert-mode
-  :init (add-hook 'after-init-hook #'global-auto-revert-mode))
+  :hook (after-init . global-auto-revert-mode))
 
 ;; 显示文件大小信息
 (when (fboundp size-indication-mode)

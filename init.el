@@ -55,7 +55,7 @@
 (require 'init-ui)
 (require 'init-modeline)
 (require 'init-highlight)
-(require 'init-treemacs)
+(require 'init-filetree)
 (require 'init-whitespace)
 
 (require 'init-anzu)

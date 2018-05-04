@@ -9,7 +9,7 @@
   :defer t
   :config
   ;; Show directory first
-  (setq dired-listing-switches "-alh --group-directories-first")
+  ;;  (setq dired-listing-switches "-alh --group-directories-first")
   (setq dired-dwim-target t)
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always)
@@ -44,13 +44,12 @@
     (setq dired-omit-files
           (concat dired-omit-files "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*")))
 
-  ;; Quick sort dired buffers via hydra
-  ;; bind key: `S'
-  (use-package dired-quick-sort
-    :ensure t
-    :defer t
-    :if (or (executable-find "gls") (executable-find "ls"))
-    :init (dired-quick-sort-setup))
+  ; ;; bind key: `S'
+  ; (use-package dired-quick-sort
+  ;   :ensure t
+  ;   :defer t
+  ;   ;;    :if (or (executable-find "gls") (executable-find "ls"))
+  ;   :init (dired-quick-sort-setup))
 
   )
 
