@@ -48,6 +48,20 @@
       (forward-line -1)
       (git-gutter:previous-hunk arg))))
 
+(defun kevin/magit-display-buffer-function (buffer)
+  (if magit-display-buffer-noselect
+      ;; the code that called `magit-display-buffer-function'
+      ;; expects the original window to stay alive, we can't go
+      ;; fullscreen
+      (magit-display-buffer-traditional buffer)
+    (delete-other-windows)
+    ;; make sure the window isn't dedicated, otherwise
+    ;; `set-window-buffer' throws an error
+    (set-window-dedicated-p nil nil)
+    (set-window-buffer nil buffer)
+    ;; return buffer's window
+    (get-buffer-window buffer)))
+
 (use-package magit
   :ensure t
   :commands (magit-status magit-init magit-file-log magit-blame-mode)
@@ -85,20 +99,7 @@
   :config
   (progn
     ;; display buffer fullframe
-    (setq magit-display-buffer-function
-          (lambda (buffer)
-            (if magit-display-buffer-noselect
-                ;; the code that called `magit-display-buffer-function'
-                ;; expects the original window to stay alive, we can't go
-                ;; fullscreen
-                (magit-display-buffer-traditional buffer)
-              (delete-other-windows)
-              ;; make sure the window isn't dedicated, otherwise
-              ;; `set-window-buffer' throws an error
-              (set-window-dedicated-p nil nil)
-              (set-window-buffer nil buffer)
-              ;; return buffer's window
-              (get-buffer-window buffer))))
+    (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
     ))
 
 (use-package evil-magit
@@ -129,14 +130,6 @@
   :init
   ;; Use magit-show-commit for showing status/diff commands
   (setq git-messenger:use-magit-popup t))
-
-;; ;; Highlighting regions by last updated time
-;; (use-package smeargle
-;;   :ensure t
-;;   :defer t
-;;   :bind (("C-x v S" . smeargle)
-;;          ("C-x v C" . smeargle-commits)
-;;          ("C-x v R" . smeargle-clear)))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
@@ -194,23 +187,60 @@
   :defer t
   :init
   (progn
-    (defhydra hydra-smerge-mode (:foreign-keys run
-                                               :hint nil)
+    (defhydra hydra-smerge-mode (:hint nil
+                                       :pre (smerge-mode 1)
+                                       ;; Disable `smerge-mode' when quitting hydra if
+                                       ;; no merge conflicts remain.
+                                       :post (smerge-auto-leave))
       "
-[_n_] previous [_p_] next [_a_] keep all [_b_] keep base [_o_] keep other [_c_] keep current [_C_] combine next [_r_] refine [_q_] quit
-"
-      ("n" smerge-next)
-      ("p" smerge-prev)
-      ("a" smerge-keep-all)
+                                                    ╭────────┐
+  Movement   Keep           Diff              Other │ smerge │
+  ╭─────────────────────────────────────────────────┴────────╯
+     ^_g_^       [_b_] base       [_<_] upper/base    [_C_] Combine
+     ^_C-k_^     [_u_] upper      [_=_] upper/lower   [_r_] resolve
+     ^_k_ ↑^     [_l_] lower      [_>_] base/lower    [_R_] remove
+     ^_j_ ↓^     [_a_] all        [_H_] hightlight
+     ^_C-j_^     [_RET_] current  [_E_] ediff             ╭──────────
+     ^_G_^                                            │ [_q_] quit"
+      ("g" (progn (goto-char (point-min)) (smerge-next)))
+      ("G" (progn (goto-char (point-max)) (smerge-prev)))
+      ("C-j" smerge-next)
+      ("C-k" smerge-prev)
+      ("j" next-line)
+      ("k" previous-line)
       ("b" smerge-keep-base)
-      ("m" smerge-keep-mine)
-      ("o" smerge-keep-other)
-      ("c" smerge-keep-current)
+      ("u" smerge-keep-upper)
+      ("l" smerge-keep-lower)
+      ("a" smerge-keep-all)
+      ("RET" smerge-keep-current)
+      ("\C-m" smerge-keep-current)
+      ("<" smerge-diff-base-upper)
+      ("=" smerge-diff-upper-lower)
+      (">" smerge-diff-base-lower)
+      ("H" smerge-refine)
+      ("E" smerge-ediff)
       ("C" smerge-combine-with-next)
-      ("r" smerge-refine)
-      ("q" nil :exit t))
+      ("r" smerge-resolve)
+      ("R" smerge-kill-current)
+      ("q" nil :color blue))
     (evil-leader/set-key "gr" #'hydra-smerge-mode/body)
     ))
+
+;; Highlight uncommitted changes
+(use-package diff-hl
+  :ensure t
+  :commands (diff-hl-mode diff-hl-dired-mode)
+  :init
+  (add-hook 'after-init-hook #'global-diff-hl-mode)
+  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+  (custom-set-faces
+   '(diff-hl-insert ((t (:background "#7ccd7c"))))
+   '(diff-hl-change ((t (:background "#3a81c3"))))
+   '(diff-hl-delete ((t (:background "#ee6363")))))
+  :config
+  (diff-hl-flydiff-mode 1))
+
 
 (provide 'init-git)
 ;;; init-git ends here

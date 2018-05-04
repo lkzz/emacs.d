@@ -23,7 +23,7 @@
           ;; empty lines at beginning and/or end of buffer
           ;; empty
           ;; line is longer `whitespace-line-column'
-          lines-tail
+          ;; lines-tail
           ;; tab or space at the beginning of the line according to
           ;; `indent-tabs-mode'
           indentation
