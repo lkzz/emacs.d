@@ -49,5 +49,13 @@
               (add-hook 'before-save-hook
                         #'fish_indent-before-save))))
 
+(use-package bazel-mode
+  :ensure t
+  :mode (("/BUILD\\(\\..*\\)?\\'" . bazel-mode)
+         ("/WORKSPACE\\'" . bazel-mode)
+         ("\\.bzl\\'" . bazel-mode))
+  :init
+  (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t))))
+
 (provide 'init-prog)
 ;;; init-prog.el ends here
