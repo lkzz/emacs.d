@@ -63,10 +63,10 @@
 ;; <https://github.com/tumashu/cnfonts>
 (set-face-attribute
  'default nil
- :font (font-spec :name "-*-Consolas-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"
+ :font (font-spec :name "-*-Monaco-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"
                   :weight 'normal
                   :slant 'normal
-                  :size 16.0))
+                  :size 15.0))
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
   (set-fontset-font
    (frame-parameter nil 'font)

@@ -193,5 +193,14 @@
   :ensure t
   :defer t)
 
+(use-package smex
+  :ensure t
+  :defer t
+  :config
+  (progn
+    (setq smex-save-file (concat kevin/cache-directory "smex-items"))
+    (setq smex-history-length 10)
+    ))
+
 (provide 'init-misc)
 ;;; init-misc.el ends here
