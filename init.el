@@ -74,7 +74,7 @@
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-elisp)
-(require 'init-gtags)
+(require 'init-etags)
 (require 'init-imenu)
 ;; (require 'init-lsp)
 
