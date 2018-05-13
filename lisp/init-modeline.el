@@ -118,104 +118,105 @@
 
 ;; 自定义mode-line样式
 ;; anzu 必须加载后才可以设置 anzu--mode-line-format
-(with-eval-after-load 'anzu
-  (setq-default mode-line-format
-                (list
-                 "%1"
-                 '(:eval (propertize
-                          (window-number-mode-line)
-                          'face
-                          'font-lock-type-face))
-                 " "
-                 '(:eval (kevin/update-persp-name))
+(setq-default mode-line-format
+              (list
+               "%1"
+               '(:eval (propertize
+                        (window-number-mode-line)
+                        'face
+                        'font-lock-type-face))
+               " "
+               '(:eval (kevin/update-persp-name))
 
-                 ;; mode-line-mule-info
+               ;; mode-line-mule-info
 
-                 mode-line-directory
-                 mode-line-buffer-identification
+               mode-line-directory
+               mode-line-buffer-identification
 
-                 anzu--mode-line-format
+               (with-eval-after-load 'anzu
+                 '(:eval (anzu--update-mode-line)))
 
-                 "[" ;; insert vs overwrite mode, input-method in a tooltip
-                 '(:eval (propertize (if overwrite-mode "Ovr" "Ins")
-                                     'face 'font-lock-preprocessor-face
-                                     'help-echo (concat "Buffer is in "
-                                                        (if overwrite-mode
-                                                            "overwrite"
-                                                          "insert") " mode")))
+               "[" ;; insert vs overwrite mode, input-method in a tooltip
+               '(:eval (propertize (if overwrite-mode "Ovr" "Ins")
+                                   'face 'font-lock-preprocessor-face
+                                   'help-echo (concat "Buffer is in "
+                                                      (if overwrite-mode
+                                                          "overwrite"
+                                                        "insert") " mode")))
 
-                 ;; was this buffer modified since the last save?
-                 '(:eval (when (buffer-modified-p)
-                           (concat "," (propertize "Mod"
-                                                   'face 'font-lock-warning-face
-                                                   'help-echo "Buffer has been modified"))))
-                 ;; is this buffer read-only?
-                 '(:eval (when buffer-read-only
-                           (concat "," (propertize "RO"
-                                                   'face 'font-lock-type-face
-                                                   'help-echo "Buffer is read-only"))))
-                 "]"
+               ;; was this buffer modified since the last save?
+               '(:eval (when (buffer-modified-p)
+                         (concat "," (propertize "Mod"
+                                                 'face 'font-lock-warning-face
+                                                 'help-echo "Buffer has been modified"))))
+               ;; is this buffer read-only?
+               '(:eval (when buffer-read-only
+                         (concat "," (propertize "RO"
+                                                 'face 'font-lock-type-face
+                                                 'help-echo "Buffer is read-only"))))
+               "]"
 
 
-                 ;; relative position, size of file
-                 " ["
-                 (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
-                 "/"
-                 (propertize "%I" 'face 'font-lock-constant-face) ;; size
-                 "] "
+               ;; relative position, size of file
+               " ["
+               (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
+               "/"
+               (propertize "%I" 'face 'font-lock-constant-face) ;; size
+               "] "
 
-                 ;; "["
-                 ;; ;; the current major mode for the buffer.
-                 ;; '(:eval (propertize (kevin/simplify-major-mode-name) 'face 'font-lock-string-face
-                 ;;                     'help-echo buffer-file-coding-system))
-                 ;; "]"
+               ;; "["
+               ;; ;; the current major mode for the buffer.
+               ;; '(:eval (propertize (kevin/simplify-major-mode-name) 'face 'font-lock-string-face
+               ;;                     'help-echo buffer-file-coding-system))
+               ;; "]"
 
-                 "%1"
-                 kevin/flycheck-mode-line
-                 "%1"
+               "%1"
+               kevin/flycheck-mode-line
+               "%1"
 
-                 " "
-                 ;; evil state
-                 '(:eval evil-mode-line-tag)
+               " "
+               ;; evil state
+               '(:eval evil-mode-line-tag)
 
-                 ;; git info
-                 '(:eval (when (> (window-width) 120)
-                           `(vc-mode vc-mode)))
-                 " "
+               ;; git info
+               '(:eval (when (> (window-width) 120)
+                         `(vc-mode vc-mode)))
+               " "
 
-                 ;; ;; nyan progressbar
-                 ;; '(:eval (when (> (window-width) 150)
-                 ;;           (list (nyan-create))))
+               ;; ;; nyan progressbar
+               ;; '(:eval (when (> (window-width) 150)
+               ;;           (list (nyan-create))))
 
-                 ;; minor modes
-                 '(:eval (when (> (window-width) 90)
-                           minor-mode-alist))
+               ;; minor modes
+               '(:eval (when (> (window-width) 90)
+                         minor-mode-alist))
 
-                 (mode-line-fill 'mode-line 16)
+               (mode-line-fill 'mode-line 16)
 
-                 ;; line and column
-                 "(" ;; '%02' to set to 2 chars at least; prevents flickering
-                 (propertize "%02l" 'face 'font-lock-type-face) ","
-                 (propertize "%02c" 'face 'font-lock-type-face)
-                 ") "
+               ;; line and column
+               "(" ;; '%02' to set to 2 chars at least; prevents flickering
+               (propertize "%02l" 'face 'font-lock-type-face) ","
+               (propertize "%02c" 'face 'font-lock-type-face)
+               ") "
 
-                 ;; global-mode-string goes in mode-line-misc-info
-                 ;; (mode-line-misc-info)
-                 ;; '(:eval (when (> (window-width) 120)
-                 ;;           mode-line-misc-info))
+               ;; global-mode-string goes in mode-line-misc-info
+               ;; (mode-line-misc-info)
+               ;; '(:eval (when (> (window-width) 120)
+               ;;           mode-line-misc-info))
 
-                 ;; ;; encoding abbrev
-                 ;; " ["
-                 ;; '(:eval (kevin/buffer-encoding-abbrev))
-                 ;; "] "
+               ;; ;; encoding abbrev
+               ;; " ["
+               ;; '(:eval (kevin/buffer-encoding-abbrev))
+               ;; "] "
 
-                 ;; add the time, with the date and the emacs uptime in the tooltip
-                 '(:eval (propertize (format-time-string "%H:%M")
-                                     'help-echo
-                                     (concat (format-time-string "%c; ")
-                                             (emacs-uptime "Uptime:%hh"))))
+               ;; add the time, with the date and the emacs uptime in the tooltip
+               '(:eval (propertize (format-time-string "%H:%M")
+                                   'help-echo
+                                   (concat (format-time-string "%c; ")
+                                           (emacs-uptime "Uptime:%hh"))))
 
-                 )))
+               ))
+;; )
 
 
 (provide 'init-modeline)
