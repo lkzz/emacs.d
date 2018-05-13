@@ -4,7 +4,7 @@
 
 (use-package company
   :defer t
-  ;; :diminish company-mode "ⓐ"
+  :diminish company-mode "ⓐ"
   :bind (("M-/" . company-complete)
          ("C-c C-y" . company-yasnippet)
          :map company-active-map
