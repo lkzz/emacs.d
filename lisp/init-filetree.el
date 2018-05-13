@@ -36,7 +36,7 @@
             "^\\(node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
             ;; org-mode folders
             "^\\.\\(sync\\|export\\|attach\\)$"
-            "~$"
+            "~$" "\\.emacs*"
             "^#.*#$"))
     )
   :config
@@ -47,8 +47,15 @@
          (evil-define-key 'normal neotree-mode-map (kbd "SPC") 'neotree-quick-look)
          (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
          (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-         )))
-  )
+         (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-select-up-node)
+         (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-change-root)
+         (evil-define-key 'normal neotree-mode-map (kbd "c") 'neotree-create-node)
+         (evil-define-key 'normal neotree-mode-map (kbd "C") 'neotree-copy-node)
+         (evil-define-key 'normal neotree-mode-map (kbd "d") 'neotree-delete-node)
+         (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
+         (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-rename-node)
+         (evil-define-key 'normal neotree-mode-map (kbd "s") 'neotree-hidden-file-toggle)
+         ))))
 
 ;; (use-package treemacs
 ;;   :after evil
