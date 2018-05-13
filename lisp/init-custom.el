@@ -24,10 +24,10 @@
 (defcustom my-theme 'default
   "Set color theme."
   :type '(choice
-          (const :tag "Default theme" default)
-          (const :tag "Dark theme" dark)
-          (const :tag "Light theme" light)
-          (const :tag "Daylight theme" daylight)))
+          (const :tag "Monokai theme" default)
+          (const :tag "Tomorrow night theme" dark)
+          (const :tag "Leuven light theme" light)
+          (const :tag "Doom theme" doom)))
 
 (setq my-theme 'doom)
 
