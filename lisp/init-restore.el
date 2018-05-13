@@ -4,7 +4,6 @@
 
 ;; Save and restore status
 (use-package desktop
-  :ensure t
   :init (desktop-save-mode 1)
   :config
   ;; Restore frames into their original displays (if possible)
@@ -16,7 +15,6 @@
 
 ;; Persistent the scratch buffter
 (use-package persistent-scratch
-  :ensure t
   :defer t
   :hook (after-init . persistent-scratch-setup-default)
   :config

@@ -42,16 +42,14 @@
     :init (setq dired-omit-mode t)
     :config
     (setq dired-omit-files
-          (concat dired-omit-files "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*")))
+          (concat dired-omit-files "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*"))))
 
-  ; ;; bind key: `S'
-  ; (use-package dired-quick-sort
-  ;   :ensure t
-  ;   :defer t
-  ;   ;;    :if (or (executable-find "gls") (executable-find "ls"))
-  ;   :init (dired-quick-sort-setup))
-
-  )
+;; ;; bind key: `S'
+;; (use-package dired-quick-sort
+;;   :ensure t
+;;   :defer t
+;;   ;;    :if (or (executable-find "gls") (executable-find "ls"))
+;;   :init (dired-quick-sort-setup))
 
 ;; ;; Highlights dired buffer like k
 ;; (use-package dired-k
@@ -65,21 +63,16 @@
 ;;     (add-hook 'dired-initial-position-hook 'dired-k)
 ;;     ))
 
-;; (use-package diredfl
-;;   :ensure t
-;;   :after dired
-;;   :config
-;;   (diredfl-global-mode))
+(use-package diredfl
+  :after dired
+  :config
+  (diredfl-global-mode))
 
-;; (use-package all-the-icons
-;;   :ensure t)
-
-;; (use-package all-the-icons-dired
-;;   :ensure t
-;;   :diminish all-the-icons-dired-mode
-;;   :after (dired all-the-icons)
-;;   :hook ((ranger-mode dired-mode) . all-the-icons-dired-mode)
-;;   )
+(use-package all-the-icons-dired
+  :diminish all-the-icons-dired-mode
+  :after (dired all-the-icons)
+  :hook ((ranger-mode dired-mode) . all-the-icons-dired-mode)
+  )
 
 (provide 'init-dired)
 ;;; init-dired ends here

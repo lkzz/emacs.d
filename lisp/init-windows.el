@@ -2,21 +2,20 @@
 ;;; Commentary:
 ;;; Code:
 
-;; ;; Interactively highlight the current-window (by dimming the others)
-;; (use-package dimmer
-;;   :init (add-hook 'after-init-hook #'dimmer-mode)
-;;   :config
-;;   (setq dimmer-fraction 0.2))
+;; Interactively highlight the current-window (by dimming the others)
+(use-package dimmer
+  :defer t
+  :init (add-hook 'after-init-hook #'dimmer-mode)
+  :config
+  (setq dimmer-fraction 0.2))
 
 ;; Directional window-selection routines
 (use-package windmove
-  :ensure t
   :defer t
   :init (add-hook 'after-init-hook #'windmove-default-keybindings))
 
 ;; Restore old window configurations
 (use-package winner
-  :ensure t
   :defer t
   :init
   (setq winner-boring-buffers '("*Completions*"
@@ -33,25 +32,22 @@
 
 ;; Quickly switch windows
 (use-package ace-window
-  :ensure t
   :defer t
   :bind ("C-x o" . ace-window))
 
 ;; Numbered window shortcuts
 (use-package window-numbering
-  :ensure t
   :defer t
   :init (add-hook 'after-init-hook #'window-numbering-mode))
 
 ;; Zoom window like tmux
 (use-package zoom-window
-  :ensure t
   :defer t
   :bind ("C-x C-z" . zoom-window-zoom)
   :init (setq zoom-window-mode-line-color "DarkGreen"))
 
 (use-package centered-window
-  :ensure t
+  :defer t
   :init (setq cwm-use-vertical-padding t
               cwm-frame-internal-border 15
               cwm-incremental-padding t
@@ -59,7 +55,6 @@
 
 ;; Popup Window Manager
 (use-package popwin
-  :ensure t
   :defer t
   :commands popwin-mode
   :init (add-hook 'after-init-hook #'popwin-mode)
@@ -124,7 +119,6 @@
 
 ;; Easy window config switching
 (use-package eyebrowse
-  :ensure t
   :defer t
   :init (add-hook 'after-init-hook #'eyebrowse-mode))
 

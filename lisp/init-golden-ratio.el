@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package golden-ratio
-  :ensure t
   :defer t
   :commands (golden-ratio-mode))
 

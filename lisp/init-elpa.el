@@ -45,21 +45,17 @@
 
 (eval-when-compile
   (require 'use-package))
-;; (setq use-package-always-ensure t)
+(setq use-package-always-ensure t)
 ;; (setq use-package-always-defer t)
 
 ;; Required by `use-package'
 (use-package diminish
   :ensure t)
 
-(use-package bind-key
-  :ensure t)
-
-(use-package hydra
-  :ensure t)
+(use-package bind-key)
+(use-package hydra)
 
 (use-package general
-  :ensure t
   :config
   (general-evil-setup))
 

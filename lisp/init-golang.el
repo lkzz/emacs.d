@@ -21,7 +21,6 @@
 ;; https://github.com/dominikh/go-mode.el/issues/218
 
 (use-package go-mode
-  :ensure t
   :defer t
   :bind (:map go-mode-map
               ("M-." . godef-jump)
@@ -41,25 +40,20 @@
     (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)))
 
 (use-package golint
-  :ensure t
   :after go-mode)
 
 (use-package govet
-  :ensure t
   :after go-mode)
 
 (use-package go-eldoc
-  :ensure t
   :after (go-mode eldoc)
   :config
   (progn (add-hook 'go-mode-hook 'go-eldoc-setup)))
 
 (use-package go-errcheck
-  :ensure t
   :after go-mode)
 
 (use-package go-guru
-  :ensure t
   :after go-mode
   :commands (go-guru-describe go-guru-freevars go-guru-implements go-guru-peers
                               go-guru-referrers go-guru-definition go-guru-pointsto
@@ -70,7 +64,6 @@
               ("C-c r" . go-guru-referrers)))
 
 (use-package gotest
-  :ensure t
   :after go-mode
   :bind (:map go-mode-map
               ("C-c a" . go-test-current-project)
@@ -79,7 +72,6 @@
               ("C-c x" . go-run)))
 
 (use-package company-go
-  :ensure t
   :after (go-mode company)
   :config
   (progn (add-hook 'go-mode-hook (lambda ()

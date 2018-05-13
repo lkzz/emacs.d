@@ -4,7 +4,6 @@
 ;;; Code:
 
 (use-package elfeed
-  :ensure t
   :bind (:map elfeed-search-mode-map
               ("A" . bjm/elfeed-show-all)
               ("E" . bjm/elfeed-show-emacs)
@@ -13,7 +12,6 @@
 
 ;; use an org file to organise feeds
 (use-package elfeed-org
-  :ensure t
   :config
   (elfeed-org)
   (setq rmh-elfeed-org-files (list "/path/to/elfeed.org")))

@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package counsel
-  :ensure t
   :defer t
   :diminish ivy-mode counsel-mode
   :init
@@ -82,14 +81,12 @@
 
   ;; Ivy integration for Projectile
   (use-package counsel-projectile
-    :ensure t
     :defer t
     :init (counsel-projectile-mode 1))
   )
 
 ;; More friendly interface for ivy
 (use-package ivy-rich
-  :ensure t
   :after (ivy counsel)
   :init
   (progn

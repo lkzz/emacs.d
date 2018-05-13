@@ -26,23 +26,21 @@
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package toml-mode
-  :ensure t
   :defer t
   :mode (("\\.toml$" . toml-mode)))
 
 (use-package quickrun
-  :ensure t
+  :defer t
   :bind (("<f7>" . quickrun)
          ("C-c x" . quickrun)))
 
 (use-package editorconfig
-  :ensure t
   :defer t
   :diminish editorconfig-mode
   :hook (after-init . editorconfig-mode))
 
 (use-package fish-mode
-  :ensure t
+  :defer t
   :init
   (add-hook 'fish-mode-hook
             (lambda ()
@@ -50,7 +48,7 @@
                         #'fish_indent-before-save))))
 
 (use-package bazel-mode
-  :ensure t
+  :defer t
   :mode (("/BUILD\\(\\..*\\)?\\'" . bazel-mode)
          ("/WORKSPACE\\'" . bazel-mode)
          ("\\.bzl\\'" . bazel-mode))

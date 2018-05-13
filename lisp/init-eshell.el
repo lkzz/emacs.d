@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package eshell-prompt-extras
-  :ensure t
   :defer t
   :commands epe-theme-lambda
   :init
@@ -11,7 +10,6 @@
         eshell-prompt-function 'epe-theme-lambda))
 
 (use-package shell-pop
-  :ensure t
   :commands shell-pop
   :defer t
   :init
@@ -29,7 +27,6 @@
 
 ;; Eshell prompt for git users
 (use-package eshell-git-prompt
-  :ensure t
   :defer t
   :init
   (add-hook 'eshell-load-hook
@@ -37,14 +34,12 @@
 
 ;; cd to frequent directory in eshell
 (use-package eshell-z
-  :ensure t
   :defer t
   :init (add-hook 'eshell-mode-hook
                   (lambda () (require 'eshell-z))))
 
 ;; Emacs command shell
 (use-package eshell
-  :ensure t
   :defer t
   :init
   (progn

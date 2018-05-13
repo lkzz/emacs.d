@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package ranger
-  :ensure t
   :demand t
   :commands (ranger deer deer-jump-other-window ranger-override-dired-mode)
   :init

@@ -4,7 +4,6 @@
 
 
 (use-package powerline
-  :ensure t
   :config
   (progn
     (setq powerline-height 20)
@@ -12,7 +11,6 @@
     (powerline-default-theme)))
 
 (use-package powerline-evil
-  :ensure t
   :after (power evil))
 
 (provide 'init-powerline)
