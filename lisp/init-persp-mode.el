@@ -6,7 +6,6 @@
   "Name of the default layout.")
 
 (use-package persp-mode
-  :ensure t
   :defer t
   :commands (hydra-persp-mode/body persp-mode)
   :diminish persp-mode

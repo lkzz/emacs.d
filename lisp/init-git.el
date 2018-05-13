@@ -63,7 +63,6 @@
     (get-buffer-window buffer)))
 
 (use-package magit
-  :ensure t
   :commands (magit-status magit-init magit-file-log magit-blame-mode)
   :bind
   (("C-x g i" . magit-init)
@@ -102,13 +101,8 @@
     (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
     ))
 
-(use-package evil-magit
-  :ensure t
-  :after (magit evil))
-
 ;; Gitflow externsion for Magit
 (use-package magit-gitflow
-  :ensure t
   :defer t
   :after magit
   :diminish magit-gitflow-mode
@@ -117,11 +111,10 @@
   :init (add-hook 'magit-mode-hook #'turn-on-magit-gitflow)
   :config
   (magit-define-popup-action 'magit-dispatch-popup
-                             ?G "GitFlow" #'magit-gitflow-popup ?!))
+    ?G "GitFlow" #'magit-gitflow-popup ?!))
 
 ;;; Pop up last commit information of current line
 (use-package git-messenger
-  :ensure t
   :defer t
   :commands git-messenger:copy-message
   :bind (("C-x v p" . git-messenger:popup-message)
@@ -133,7 +126,6 @@
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
-  :ensure t
   :defer t
   :commands (hydra-git-timemachine/body)
   :init
@@ -158,7 +150,6 @@
 
 ;; Git modes
 (use-package gitconfig-mode
-  :ensure t
   :defer t
   :mode (("/\\.?git/?config\\'" . gitconfig-mode)
          ("/\\.gitmodules\\'" . gitconfig-mode)
@@ -167,14 +158,12 @@
   (add-hook 'gitconfig-mode-hook 'flyspell-mode))
 
 (use-package gitignore-mode
-  :ensure t
   :defer t
   :mode (("/\\.gitignore\\'" . gitignore-mode)
          ("/\\.git/info/exclude\\'" . gitignore-mode)
          ("/git/ignore\\'" . gitignore-mode)))
 
 (use-package git-link
-  :ensure t
   :defer t
   :init
   (progn
@@ -228,7 +217,6 @@
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
-  :ensure t
   :commands (diff-hl-mode diff-hl-dired-mode)
   :init
   (add-hook 'after-init-hook #'global-diff-hl-mode)

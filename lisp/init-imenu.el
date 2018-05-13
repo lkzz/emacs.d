@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package imenu-list
-  :ensure t
   :config
   (progn
     (setq imenu-list-size     0.2)

@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package yasnippet
-  :ensure t
   :defer t
   :diminish yas-minor-mode
   :hook (after-init . yas-global-mode))

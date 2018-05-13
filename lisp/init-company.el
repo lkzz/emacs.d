@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package company
-  :ensure t
   :defer t
   :diminish company-mode "ⓐ"
   :bind (("M-/" . company-complete)
@@ -53,7 +52,6 @@
     (setq company-backends (mapcar #'company-backend-with-yas company-backends))))
 
 (use-package company-quickhelp
-  :ensure t
   :defer t
   :after company
   :hook (company-mode . company-quickhelp-mode)
@@ -64,7 +62,6 @@
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
-  :ensure t
   :defer t
   :after company
   :hook (company-mode . company-statistics-mode)
@@ -74,7 +71,6 @@
                                         "company-statistics-cache.el")))
 
 (use-package company-shell
-  :ensure t
   :defer t
   :after company
   :config

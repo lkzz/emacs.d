@@ -19,7 +19,6 @@
 
 ;; Highlight surrounding parentheses
 (use-package highlight-parentheses
-  :ensure t
   :defer t
   :diminish highlight-parentheses-mode
   :init (add-hook 'prog-mode-hook #'highlight-parentheses-mode)
@@ -27,14 +26,12 @@
 
 ;; Highlight indentions
 (use-package highlight-indent-guides
-  :ensure t
   :defer t
   :init (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
   :config (setq highlight-indent-guides-method 'character))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
-  :ensure t
   :defer t
   :diminish rainbow-mode
   :init
@@ -43,13 +40,11 @@
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
-  :ensure t
   :defer t
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Highlight TODO/FIXME/BUG...
 (use-package hl-todo
-  :ensure t
   :defer t
   :hook (prog-mode . hl-todo-mode)
   :config

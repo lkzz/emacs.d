@@ -5,7 +5,6 @@
 ;;; Code:
 
 (use-package youdao-dictionary
-  :ensure t
   :defer t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
@@ -19,8 +18,6 @@
 
 ;; ** 设置拼音输入法
 (use-package pyim
-  :ensure t
-  :demand t
   :bind (("M-j" . pyim-convert-code-at-point))
   :config
   (progn
@@ -45,7 +42,6 @@
     ))
 
 (use-package pangu-spacing
-  :ensure t
   :defer t
   :diminish pangu-spacing-mode
   :init (progn (global-pangu-spacing-mode 1)
@@ -56,7 +52,6 @@
 
 ;; Chinese calendar
 (use-package cal-china-x
-  :ensure t
   :defer t
   :commands cal-china-x-setup
   :init (add-hook 'calendar-load-hook #'cal-china-x-setup)

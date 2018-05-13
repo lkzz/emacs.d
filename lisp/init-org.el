@@ -67,7 +67,6 @@
 
   ;; Presentation
   (use-package org-tree-slide
-    :ensure t
     :defer t
     :config
     (add-hook 'org-tree-slide-play-hook
@@ -83,14 +82,12 @@
 
   ;; Pomodoro
   (use-package org-pomodoro
-    :ensure t
     :defer t
     :init (with-eval-after-load 'org-agenda
             (bind-key "P" 'org-pomodoro org-agenda-mode-map)))
 
   ;; Visually summarize progress
   (use-package org-dashboard
-    :ensure t
     :defer t)
   )
 

@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package whitespace
-  :ensure t
   :defer t
   :diminish whitespace-mode
   :init
@@ -49,7 +48,6 @@
           (whitespace-mode 1)))))
 
 (use-package whitespace-cleanup-mode
-  :ensure t
   :defer t
   :diminish whitespace-cleanup-mode
   :init

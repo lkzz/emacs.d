@@ -10,17 +10,14 @@
 
 ;; Hungry deletion
 (use-package hungry-delete
-  :ensure t
   :defer t
   :diminish hungry-delete-mode "ⓗ"
   :init (add-hook 'after-init-hook #'global-hungry-delete-mode))
 
 (use-package restart-emacs
-  :ensure t
   :defer t)
 
 (use-package server
-  :ensure t
   :defer t
   :init (add-hook 'after-init-hook 'server-start t))
 
@@ -49,7 +46,6 @@
 
 ;; Delete selection if you insert
 (use-package delsel
-  :defer t
   :init (add-hook 'after-init-hook #'delete-selection-mode))
 
 ;; Rectangle
@@ -60,7 +56,6 @@
 
 ;; Jump to things in Emacs tree-style
 (use-package avy
-  :ensure t
   :defer t
   :commands (avy-goto-char avy-goto-word-or-subword-1)
   :hook (after-init . avy-setup-default)
@@ -75,14 +70,12 @@
 
 ;; Quickly follow links
 (use-package ace-link
-  :ensure t
   :defer t
   :bind (("M-o" . ace-link-addr))
   :init (add-hook 'after-init-hook #'ace-link-setup-default))
 
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
-  :ensure t
   :defer t
   :diminish aggressive-indent-mode
   :init
@@ -113,13 +106,11 @@
 
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
-  :ensure t
   :defer t
   :bind ("M-;" . comment-dwim-2))
 
 ;; Drag stuff (lines, words, region, etc...) around
 (use-package drag-stuff
-  :ensure t
   :defer t
   :diminish drag-stuff-mode
   :init (add-hook 'after-init-hook #'drag-stuff-global-mode)
@@ -182,19 +173,15 @@
 
 ;; Move to the beginning/end of line or code
 (use-package mwim
-  :ensure t
   :defer t)
 
 (use-package wgrep
-  :ensure t
   :defer t)
 
 (use-package counsel-osx-app
-  :ensure t
   :defer t)
 
 (use-package smex
-  :ensure t
   :defer t
   :config
   (progn

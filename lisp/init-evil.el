@@ -3,14 +3,12 @@
 ;;; Code:
 
 (use-package evil-leader
-  :ensure t
   :after evil
   :config
   (global-evil-leader-mode t)
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
-  :ensure t
   :hook (after-init . evil-mode)
   :config
   (progn
@@ -81,13 +79,11 @@
     ))
 
 (use-package evil-surround
-  :ensure t
   :after evil
   :config
   (global-evil-surround-mode t))
 
 (use-package evil-visualstar
-  :ensure t
   :after evil
   :config
   (progn
@@ -95,11 +91,10 @@
     (global-evil-visualstar-mode)))
 
 (use-package evil-numbers
-  :ensure t
   :defer t)
 
 (use-package evil-nerd-commenter
-  :ensure t
+  :defer t
   :after evil
   :init
   (progn
@@ -111,7 +106,6 @@
       )))
 
 (use-package evil-escape
-  :ensure t
   :after evil
   :diminish evil-escape-mode
   :config
@@ -120,16 +114,20 @@
     (setq-default evil-escape-key-sequence "jk")
     (setq-default evil-escape-delay 0.3)))
 
+(use-package evil-magit
+  :after (magit evil)
+  :init
+  (progn
+    (setq evil-magit-want-horizontal-movement nil)))
+
 
 (use-package evil-mc
-  :ensure t
   :after evil
   :diminish evil-mc-mode
   :config
   (progn
     (global-evil-mc-mode 1)
-    (use-package ace-mc
-      :ensure t)
+    (use-package ace-mc)
     ;; {{ multiple-cursors
     ;; step 1, select thing in visual-mode (OPTIONAL)
     ;; step 2, `mc/mark-all-like-dwim' or `mc/mark-all-like-this-in-defun'
