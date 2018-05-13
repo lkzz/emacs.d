@@ -74,9 +74,13 @@
 (use-package company-go
   :after (go-mode company)
   :config
-  (progn (add-hook 'go-mode-hook (lambda ()
-                                   (set (make-local-variable 'company-backends) '(company-go))
-                                   (company-mode)))))
+  (progn
+    (add-to-list 'company-backends 'company-go)
+    ))
+
+;; (progn (add-hook 'go-mode-hook (lambda ()
+;;                                  (set (make-local-variable 'company-backends) '(company-go))
+;;                                  (company-mode)))))
 
 ;; (use-package flycheck-gometalinter
 ;;   :ensure t
