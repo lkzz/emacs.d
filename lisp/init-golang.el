@@ -6,15 +6,8 @@
 ;; go get -u github.com/nsf/gocode
 ;; go get -u github.com/rogpeppe/godef
 ;; go get -u github.com/golang/lint/golint
-;; go get -u golang.org/x/tools/cmd/goimports
-;; go get -u golang.org/x/tools/cmd/guru
-;; go get -u golang.org/x/tools/cmd/gorename
-;; go get -u golang.org/x/tools/cmd/godoc
-;; go get -u github.com/derekparker/delve/cmd/dlv
-;; go get -u github.com/josharian/impl
+;; go get -u golang.org/x/tools/cmd/...
 ;; go get -u github.com/cweill/gotests/...
-;; go get -u github.com/fatih/gomodifytags
-;; go get -u github.com/davidrjenni/reftools/cmd/fillstruct
 ;; go get -u github.com/dougm/goflymake
 
 ;; FIXME: `go-guru' doesn't work on Windows. Use `godef' instead.
@@ -34,7 +27,7 @@
       "Customize compile command to run go build"
       (if (not (string-match "go" compile-command))
           (set (make-local-variable 'compile-command)
-               "go build -v && go test -v && go vet")))
+               "go build -v")))
     (add-hook 'go-mode-hook 'setup-go-mode-compile)
     (add-hook 'before-save-hook #'gofmt-before-save)
     (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)))

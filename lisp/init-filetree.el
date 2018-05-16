@@ -34,7 +34,7 @@
             ;; compiled files
             "\\.\\(pyc\\|o\\|elc\\|lock\\|css.map\\)$"
             ;; generated files, caches or local pkgs
-            "^\\(node_modules\\|vendor\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
+            "^\\(node_modules\\|.\\(project\\|cask\\|yardoc\\|sass-cache\\)\\)$"
             ;; org-mode folders
             "^\\.\\(sync\\|export\\|attach\\)$"
             "~$" "\\.emacs*"

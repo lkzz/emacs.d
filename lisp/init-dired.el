@@ -63,10 +63,10 @@
 ;;     (add-hook 'dired-initial-position-hook 'dired-k)
 ;;     ))
 
-(use-package diredfl
-  :after dired
-  :config
-  (diredfl-global-mode))
+;; (use-package diredfl
+;;   :after dired
+;;   :config
+;;   (diredfl-global-mode))
 
 (use-package all-the-icons-dired
   :diminish all-the-icons-dired-mode
