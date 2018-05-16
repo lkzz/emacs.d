@@ -84,6 +84,7 @@
   "bc" 'cleanup-buffer
   "be" 'eval-buffer
   "bd" 'kill-this-buffer
+  "bD" #'kevin/kill-other-buffers
   "bf" 'beginning-of-defun
   "bi"  #'kevin/indent-region-or-buffer
   "bk" 'kill-buffer
