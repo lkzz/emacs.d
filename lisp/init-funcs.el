@@ -51,10 +51,16 @@
 
 ;; Kill all buffers except scratch buffer
 (defun kevin/kill-all-buffers ()
-  "Kill all buffers, leaving *scratch* only."
+  "Kill all buffers."
   (interactive)
   (mapcar (lambda (x) (kill-buffer x)) (buffer-list))
   (delete-other-windows))
+
+;; Kill all buffers except the current one.
+(defun kevin/kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 (defun kevin/create-scratch-buffer nil
   "Create a scratch buffer."
@@ -135,7 +141,13 @@ Including indent-buffer, which should not be called automatically on save."
   (shell-command "make build")
   (message "bazel build done!"))
 
-
+(defun blog-example ()
+  (interactive)
+  (with-output-to-temp-buffer "*blog-example*"
+    (shell-command "echo This is an example"
+                   "*blog-example*"
+                   "*Messages*")
+    (pop-to-buffer "*blog-example*")))
 
 
 (provide 'init-funcs)
