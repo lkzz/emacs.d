@@ -149,6 +149,14 @@ Including indent-buffer, which should not be called automatically on save."
                    "*Messages*")
     (pop-to-buffer "*blog-example*")))
 
+(defun kevin/complie ()
+  "Complie command."
+  (interactive)
+  (setf my-list '())
+  (loop for x in (split-string (buffer-file-name) "/") do
+        (message x)
+        (append my-list x)
+        ))
 
 (provide 'init-funcs)
 ;;; init-funcs.el ends here

@@ -50,9 +50,7 @@
 (cond
  ;; default theme
  ((eq my-theme 'default)
-  (require 'color-theme-tomorrow)
-  (load-theme 'tomorrow-night t)
-  )
+  (require 'tomorrow-night-theme))
  ;; dark theme
  ((eq my-theme 'dark)
   (use-package color-theme-sanityinc-tomorrow
