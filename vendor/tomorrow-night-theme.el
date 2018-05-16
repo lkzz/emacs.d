@@ -42,11 +42,14 @@
    `(fringe ((t (:background ,gray-2))))
    `(minibuffer-prompt ((t (:foreground ,blue))))
    `(hl-line ((t (:background ,gray-3))))
+   `(highlight ((t (:background ,gray-3))))
+   `(lazy-highlight ((t (:background ,gray-3))))
+   `(match ((t (:background ,background :foreground ,red))))
+   `(isearch ((t (:background ,background :foreground ,red))))
 
    ;; Font-lock stuff
    `(font-lock-builtin-face ((t (:foreground ,blue))))
    `(font-lock-comment-face ((t (:foreground ,comment))))
-   ; `(font-lock-comment-delimiter-face (:foreground ,comment :slant italic))
    `(font-lock-constant-face ((t (:foreground ,green))))
    `(font-lock-doc-face ((t (:foreground ,comment))))
    `(font-lock-doc-string-face ((t (:foreground ,comment))))
@@ -68,6 +71,9 @@
 
    ;; linum-mode
    `(linum ((t (:background ,background :foreground ,gray))))
+
+   ;; flycheck
+   `(flycheck-warning ((t (:underline (:color foreground-color :style wave)))))
 
    ;; show-paren-mode
    `(show-paren-match ((t (:background ,purple :foreground ,gray-2))))
@@ -100,6 +106,11 @@
    ;; highlight-indentation-mode
    `(highlight-indentation-face ((t (:background ,gray-4))))
    `(highlight-indentation-current-column-face ((t (:background ,gray-3))))
+
+   ;; diff-hl
+   `(diff-hl-change ((t (:background "#3a81c3"))))
+   `(diff-hl-delete ((t (:background "#ee6363"))))
+   `(diff-hl-insert ((t (:background "#7ccd7c"))))
 
    ;; ECB
    `(ecb-default-highlight-face ((t (:background ,background :foreground ,red-2))))

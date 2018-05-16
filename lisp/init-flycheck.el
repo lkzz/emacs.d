@@ -35,7 +35,10 @@
       ("p" flycheck-previous-error exit: t)
       ("s" flycheck-select-checker exit: t)
       ("v" flycheck-verify-setup exit: t)
-      ("?" flycheck-describe-checker exit: t)))
+      ("?" flycheck-describe-checker exit: t))
+    ;; (custom-set-faces
+    ;; '(flycheck-warning ((t (:underline (:color foreground-color :style wave))))))
+    )
 
   ;; Display Flycheck errors in GUI tooltips
   (use-package flycheck-pos-tip
