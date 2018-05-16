@@ -17,9 +17,10 @@
       "ft" 'neotree-toggle)
     (setq neo-create-file-auto-open t
           neo-auto-indent-point nil
-          neo-autorefresh nil
+          neo-autorefresh t
+          neo-smart-open nil
           neo-mode-line-type 'none
-          neo-window-width 25
+          neo-window-width 30
           neo-show-updir-line nil
           neo-theme (if (display-graphic-p) 'icons 'arrow)
           neo-banner-message nil
