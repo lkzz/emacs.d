@@ -50,8 +50,9 @@
 (cond
  ;; default theme
  ((eq my-theme 'default)
-  (use-package monokai-theme
-    :init (load-theme 'monokai t)))
+  (require 'color-theme-tomorrow)
+  (load-theme 'tomorrow-night t)
+  )
  ;; dark theme
  ((eq my-theme 'dark)
   (use-package color-theme-sanityinc-tomorrow
