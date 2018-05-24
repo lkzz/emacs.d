@@ -50,17 +50,22 @@
 (cond
  ;; default theme
  ((eq my-theme 'default)
-  (require 'tomorrow-night-theme))
+  (use-package base16-theme
+    :ensure t
+    :config
+    (load-theme 'base16-solarized-dark t)))
  ;; dark theme
  ((eq my-theme 'dark)
-  (use-package color-theme-sanityinc-tomorrow
-    :init (load-theme 'sanityinc-tomorrow-night t)))
+  (use-package base16-theme
+    :ensure t
+    :config
+    (load-theme 'base16-tomorrow-night t)))
  ;; light theme
  ((eq my-theme 'light)
-  (use-package leuven-theme
-    :init
-    (load-theme 'leuven t)
-    (set-face-background 'default "#F7F7F7")))
+  (use-package base16-theme
+    :ensure t
+    :config
+    (load-theme 'base16-solarized-light t)))
  ;; doom theme
  ((eq my-theme 'doom)
   (use-package doom-themes
