@@ -31,7 +31,9 @@
 
 
 ;;; Fire up package.el
-(setq package-enable-at-startup nil)
+(setq package-enable-at-startup nil ; don't auto-initialize!
+      ;; don't add that `custom-set-variables' block to my initl!
+      package--init-file-ensured t)
 (package-initialize)
 ;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
 (setq load-prefer-newer t)
