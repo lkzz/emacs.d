@@ -80,10 +80,10 @@
 ;; <https://github.com/tumashu/cnfonts>
 (set-face-attribute
  'default nil
- :font (font-spec :name "-*-Monaco-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"
+ :font (font-spec :name "-*-Consolas-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"
                   :weight 'normal
                   :slant 'normal
-                  :size 15.0))
+                  :size 17.0))
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
   (set-fontset-font
    (frame-parameter nil 'font)
@@ -139,13 +139,15 @@
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
   :ensure nil
+  :hook ((prog-mode text-mode) . display-line-numbers-mode)
   :init
   (progn
     (setq-default display-line-numbers-width 2)
-    (setq-default display-line-numbers-type 'relative)
+    ;; (setq-default display-line-numbers-type 'relative)
     (setq display-line-numbers-current-absolute t)
-    (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-    (add-hook 'text-mode-hook 'display-line-numbers-mode)))
+    ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
+    ;; (add-hook 'text-mode-hook 'display-line-numbers-mode)
+    ))
 
 ;; (use-package nyan-mode
 ;;   :ensure t
