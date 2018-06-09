@@ -29,7 +29,7 @@
           (const :tag "Leuven light theme" light)
           (const :tag "Doom theme" doom)))
 
-(setq my-theme 'dark)
+(setq my-theme 'default)
 
 (provide 'init-custom)
 ;;; init-custom.el ends here

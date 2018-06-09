@@ -40,11 +40,11 @@
     ;; '(flycheck-warning ((t (:underline (:color foreground-color :style wave))))))
     )
 
-  ;; Display Flycheck errors in GUI tooltips
-  (use-package flycheck-pos-tip
-    :defer t
-    :init (flycheck-pos-tip-mode 1)
-    :config (setq flycheck-pos-tip-timeout 5))
+  ;; ;; Display Flycheck errors in GUI tooltips
+  ;; (use-package flycheck-pos-tip
+  ;;   :defer t
+  ;;   :init (flycheck-pos-tip-mode 1)
+  ;;   :config (setq flycheck-pos-tip-timeout 5))
 
   ;; Jump to and fix syntax errors via `avy'
   (use-package avy-flycheck
@@ -56,10 +56,10 @@
     :defer t
     :init (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
 
-;; (use-package flycheck-posframe
-;;   :ensure t
-;;   :after flycheck
-;;   :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+(use-package flycheck-posframe
+  :ensure t
+  :after flycheck
+  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here

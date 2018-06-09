@@ -4,6 +4,7 @@
 
 ;; Go packages:
 ;; go get -u github.com/nsf/gocode
+;; go get github.com/sourcegraph/go-langserver
 ;; go get -u github.com/rogpeppe/godef
 ;; go get -u github.com/golang/lint/golint
 ;; go get -u golang.org/x/tools/cmd/...
