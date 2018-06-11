@@ -128,14 +128,6 @@
   :defer t
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
-;; (use-package nlinum
-;;   :init
-;;   (add-hook 'prog-mode-hook 'nlinum-mode)
-;;   (add-hook 'text-mode-hook 'nlinum-mode)
-;;   :config
-;;   (setq nlinum-format "%4d "))
-
-
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
   :ensure nil
@@ -144,10 +136,7 @@
   (progn
     (setq-default display-line-numbers-width 2)
     ;; (setq-default display-line-numbers-type 'relative)
-    (setq display-line-numbers-current-absolute t)
-    ;; (add-hook 'prog-mode-hook 'display-line-numbers-mode)
-    ;; (add-hook 'text-mode-hook 'display-line-numbers-mode)
-    ))
+    (setq display-line-numbers-current-absolute t)))
 
 ;; (use-package nyan-mode
 ;;   :ensure t
