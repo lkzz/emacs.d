@@ -50,10 +50,10 @@
 (cond
  ;; default theme
  ((eq my-theme 'default)
-  (use-package base16-theme
+  (use-package zenburn-theme
     :ensure t
     :config
-    (load-theme 'base16-solarized-dark t)))
+    (load-theme 'zenburn t)))
  ;; dark theme
  ((eq my-theme 'dark)
   (use-package base16-theme
