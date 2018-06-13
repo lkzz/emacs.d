@@ -86,19 +86,19 @@
   :config
   (add-to-list 'company-backends 'company-shell))
 
-(use-package company-box
-  :after company
-  :diminish company-box-mode
-  :hook (company-mode . company-box-mode)
-  :config
-  (setq company-box-backends-colors nil
-        company-box-icons-elisp
-        (list (all-the-icons-material "functions" :face 'all-the-icons-purple)
-              (all-the-icons-material "check_circle" :face 'all-the-icons-blue)
-              (all-the-icons-material "stars" :face 'all-the-icons-yellow)
-              (all-the-icons-material "format_paint" :face 'all-the-icons-pink))
-        company-box-icons-unknown (all-the-icons-material "find_in_page" :face 'all-the-icons-silver)
-        company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green)))
+;; (use-package company-box
+;;   :after company
+;;   :diminish company-box-mode
+;;   :hook (company-mode . company-box-mode)
+;;   :config
+;;   (setq company-box-backends-colors nil
+;;         company-box-icons-elisp
+;;         (list (all-the-icons-material "functions" :face 'all-the-icons-purple)
+;;               (all-the-icons-material "check_circle" :face 'all-the-icons-blue)
+;;               (all-the-icons-material "stars" :face 'all-the-icons-yellow)
+;;               (all-the-icons-material "format_paint" :face 'all-the-icons-pink))
+;;         company-box-icons-unknown (all-the-icons-material "find_in_page" :face 'all-the-icons-silver)
+;;         company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green)))
 
 (autoload 'company-capf "company-capf")
 (autoload 'company-dabbrev "company-dabbrev")
