@@ -14,6 +14,7 @@
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
+  (put 'dired-find-alternate-file 'disabled nil)
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
   (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
   ;; automatically refresh dired buffer on changes
