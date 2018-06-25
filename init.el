@@ -44,8 +44,8 @@
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
 (require 'init-elpa)      ;; Machinery for installing required packages
-(require 'init-funcs)
 (require 'init-custom)
+(require 'init-funcs)
 (require 'init-exec-path) ;; Set up $PATH
 (require 'init-better-default)
 (require 'init-evil)

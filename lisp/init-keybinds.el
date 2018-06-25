@@ -2,25 +2,28 @@
 ;;; Commentary:
 ;;; Code:
 
-;; declare which-key prefix
-(which-key-add-key-based-replacements
-  "SPC a" "application"
-  "SPC b" "buffer"
-  "SPC c" "comment"
-  "SPC f" "file"
-  "SPC g" "magit"
-  "SPC h" "help"
-  "SPC j" "jump"
-  "SPC l" "layout"
-  "SPC o" "personal"
-  "SPC p" "projectile"
-  "SPC w" "window"
-  "SPC t" "toggle"
-  "SPC ob" "bookmark")
+;; (kevin/declare-prefix
+;;  "SPC c" "comment"
+;;  "SPC f" "file"
+;;  "SPC g" "magit"
+;;  "SPC h" "help"
+;;  "SPC j" "jump"
+;;  "SPC l" "layout"
+;;  "SPC o" "personal"
+;;  "SPC p" "projectile")
+
+(kevin/declare-prefix "c" "comment")
+(kevin/declare-prefix "f" "file")
+(kevin/declare-prefix "g" "magit")
+(kevin/declare-prefix "h" "help")
+(kevin/declare-prefix "j" "jump")
+(kevin/declare-prefix "l" "layout")
+(kevin/declare-prefix "o" "personal")
+(kevin/declare-prefix "p" "projectile")
 
 ;; bookmark
+(kevin/declare-prefix "ob" "bookmark")
 (evil-leader/set-key
-  "ob" nil
   "obs" 'bookmark-set
   "obr" 'bookmark-rename
   "obd" 'bookmark-delete
@@ -28,8 +31,8 @@
   "obl" 'bookmark-bmenu-list)
 
 ;; toggle
+(kevin/declare-prefix "t" "toggle")
 (evil-leader/set-key
-  "t" nil
   "tM" 'toggle-major-mode
   "tb" 'toggle-scroll-bar
   "ti" 'imenu-list-smart-toggle
@@ -40,8 +43,8 @@
   "tg" 'golden-ratio-mode)
 
 ;; open applications with from emacs
+(kevin/declare-prefix "a" "application")
 (evil-leader/set-key
-  "a" nil
   "aa" 'counsel-osx-app
   "ai" #'kevin/open-iterm ;; open item2
   "aw" #'kevin/open-wechat ; open WeChat
@@ -63,6 +66,7 @@
   )
 
 ;; window related keybindings
+(kevin/declare-prefix "w" "window")
 (evil-leader/set-key
   "0"  'select-window-0
   "1"  'select-window-1
@@ -79,6 +83,7 @@
   )
 
 ;; buffer related keybindings
+(kevin/declare-prefix "b" "buffer")
 (evil-leader/set-key
   "bb" 'ivy-switch-buffer
   "bc" 'cleanup-buffer
@@ -90,12 +95,25 @@
   "bk" 'kill-buffer
   "bl" 'ibuffer-list-buffers
   "bm" #'kevin/kill-all-buffers
-  "bp" 'previous-buffer
-  "bn" 'next-buffer
+  "bp" #'kevin/switch-to-prev-buffer
+  "bn" #'kevin/switch-to-next-buffer
   "bg" #'kevin/revert-buffer-no-confirm
   "bs" 'save-buffer
   "bS" #'kevin/create-scratch-buffer
   )
+
+
+;; * Global Keybindings
+;; `general-define-key' acts like `global-set-key' when :keymaps is not
+;; specified (because ":keymaps 'global" is the default)
+;; kbd is not necessary and arbitrary amount of key def pairs are allowed
+(general-define-key
+ "M-x" 'smex                             ; or 'smex
+ "C-s" 'counsel-grep-or-swiper)
+
+(bind-map kevin/default-map
+  :keys (kevin/emacs-leader-key)
+  :evil-keys (kevin/leader-key))
 
 (provide 'init-keybinds)
 ;;; init-keybinds ends here
