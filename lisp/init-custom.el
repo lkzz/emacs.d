@@ -21,7 +21,7 @@
 (defvar kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
-(defvar kevin/default-directory "~/Code/gopath/src/go-common/business"
+(defvar kevin/default-directory "~/Code/gopath/src/go-common/app"
   "Default project directory.")
 
 (defvar kevin/user-name "kevin leung"
