@@ -27,6 +27,7 @@
 ;; Optimize loading performance
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
+
 (setq gc-cons-threshold 100000000)
 (add-hook 'emacs-startup-hook
           (lambda ()
@@ -55,6 +56,7 @@
 ;; ui setup
 (require 'init-ui)
 (require 'init-modeline)
+;; (require 'init-spaceline)
 (require 'init-highlight)
 (require 'init-filetree)
 (require 'init-whitespace)

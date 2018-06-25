@@ -4,8 +4,8 @@
 ;;; Code:
 
 ;; Personal information
-(setq user-full-name "kevin leung")
-(setq user-mail-address "kevin.scnu@gmail.com")
+(setq user-full-name kevin/user-name)
+(setq user-mail-address kevin/mail-address)
 
 
 ;; Don't ask me when kill process buffer
@@ -14,7 +14,7 @@
             kill-buffer-query-functions))
 
 ;; default directory
-(setq default-directory "~/Code/gopath/src/go-common")
+(setq default-directory kevin/default-directory)
 
 ;; Core settings
 ;; UTF-8 please
