@@ -54,6 +54,8 @@
 (use-package diminish
   :ensure t)
 
+(use-package bind-map)
+
 (use-package bind-key)
 (use-package hydra)
 
