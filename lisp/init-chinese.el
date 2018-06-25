@@ -5,7 +5,6 @@
 ;;; Code:
 
 (use-package youdao-dictionary
-  :ensure t
   :defer t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
@@ -19,8 +18,6 @@
 
 ;; ** 设置拼音输入法
 (use-package pyim
-  :ensure t
-  :demand t
   :bind (("M-j" . pyim-convert-code-at-point))
   :config
   (progn
@@ -42,14 +39,9 @@
     ;; 设置选词框的绘制方式
     (setq pyim-page-tooltip 'popup)
     ;; (setq pyim-page-tooltip 'posframe)
-    ;; emacs 启动时加载 pyim 词库
-    (add-hook 'emacs-startup-hook
-              #'(lambda ()
-                  (pyim-restart-1 t)))
     ))
 
 (use-package pangu-spacing
-  :ensure t
   :defer t
   :diminish pangu-spacing-mode
   :init (progn (global-pangu-spacing-mode 1)
@@ -60,7 +52,6 @@
 
 ;; Chinese calendar
 (use-package cal-china-x
-  :ensure t
   :defer t
   :commands cal-china-x-setup
   :init (add-hook 'calendar-load-hook #'cal-china-x-setup)

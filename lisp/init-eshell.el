@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package eshell-prompt-extras
-  :ensure t
   :defer t
   :commands epe-theme-lambda
   :init
@@ -11,7 +10,6 @@
         eshell-prompt-function 'epe-theme-lambda))
 
 (use-package shell-pop
-  :ensure t
   :commands shell-pop
   :defer t
   :init
@@ -21,14 +19,14 @@
     (setq-default shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
     ;; set the shell popup height
     (setq-default shell-pop-window-height 30)
-    ;; set the shell popup to span the entire frame width
-    (setq-default shell-pop-full-span t)
+    ;; set the shell popup to span the entire frame width(still has bug)
+    ;; issue: https://github.com/syl20bnr/spacemacs/issues/7446
+    (setq-default shell-pop-full-span nil)
     ;; pop the shell from the bottom of the frame
     (setq-default shell-pop-window-position "bottom")))
 
 ;; Eshell prompt for git users
 (use-package eshell-git-prompt
-  :ensure t
   :defer t
   :init
   (add-hook 'eshell-load-hook
@@ -36,14 +34,12 @@
 
 ;; cd to frequent directory in eshell
 (use-package eshell-z
-  :ensure t
   :defer t
   :init (add-hook 'eshell-mode-hook
                   (lambda () (require 'eshell-z))))
 
 ;; Emacs command shell
 (use-package eshell
-  :ensure t
   :defer t
   :init
   (progn
@@ -60,6 +56,8 @@
           eshell-highlight-prompt nil
           ;; treat 'echo' like shell echo
           eshell-plain-echo-behavior t
+          eshell-list-files-after-cd t
+          eshell-banner-message ""
           ;; cache directory
           eshell-directory-name (concat kevin/cache-directory "eshell")
           eshell-visual-subcommands '(("git" "log" "diff" "show"))))
@@ -153,11 +151,13 @@
                              (".*" "echo 'Could not unpack the file:'")))))
         (eshell-command-result (concat command " " file))))
 
-    ;; These don't work well in normal state
-    ;; due to evil/emacs cursor incompatibility
-    (evil-define-key 'insert eshell-mode-map
-      (kbd "C-p") 'eshell-previous-matching-input-from-input
-      (kbd "C-n") 'eshell-next-matching-input-from-input)
+    (defun kevin/eshell-keymap ()
+      (evil-define-key 'insert eshell-mode-map
+        (kbd "C-p") 'eshell-previous-matching-input-from-input
+        (kbd "C-n") 'eshell-next-matching-input-from-input
+        (kbd "C-u") 'eshell-kill-input
+        (kbd "C-a") 'eshell-bol))
+    (add-hook 'eshell-first-time-mode-hook #'kevin/eshell-keymap)
     ))
 
 (provide 'init-eshell)

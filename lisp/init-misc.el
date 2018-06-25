@@ -2,21 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (use-package posframe
-;;   :defer t
-;;   :ensure t)
-
-;; Increase selected region by semantic units
-(use-package expand-region
-  :bind ("C-=" . er/expand-region))
-
-;; On-the-fly spell checker
-(use-package flyspell
-  :ensure nil
-  :defer t
-  :diminish flyspell-mode
-  :init (setq flyspell-issue-message-flag nil))
-
 ;; Elec pair
 (use-package elec-pair
   :ensure nil
@@ -25,32 +10,23 @@
 
 ;; Hungry deletion
 (use-package hungry-delete
-  :ensure t
   :defer t
   :diminish hungry-delete-mode "ⓗ"
-  :init (add-hook 'after-init-hook #'global-hungry-delete-mode)
-  ;; :config (setq-default hungry-delete-chars-to-skip " \t\f\v")
-  )
-
-(use-package server
-  :ensure t
-  :defer t
-  :init (add-hook 'after-init-hook 'server-start t))
+  :init (add-hook 'after-init-hook #'global-hungry-delete-mode))
 
 (use-package restart-emacs
-  :ensure t
+  :defer t)
+
+(use-package server
   :defer t
-  :bind (("C-x C-c" . restart-emacs)))
+  :init (add-hook 'after-init-hook 'server-start t))
 
 ;; History
 (use-package saveplace
   :ensure nil
   :defer t
   :init
-  ;; Emacs 25 has a proper mode for `save-place'
-  (if (fboundp 'save-place-mode)
-      (add-hook 'after-init-hook #'save-place-mode)
-    (setq save-place t)))
+  (add-hook 'after-init-hook #'save-place-mode))
 
 (use-package recentf
   :ensure nil
@@ -68,25 +44,8 @@
   (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
   (add-to-list 'recentf-exclude kevin/cache-directory))
 
-(use-package savehist
-  :ensure nil
-  :defer t
-  :init
-  (setq enable-recursive-minibuffers t ; Allow commands in minibuffers
-        history-length 1000
-        savehist-additional-variables '(mark-ring
-                                        global-mark-ring
-                                        search-ring
-                                        regexp-search-ring
-                                        extended-command-history)
-        savehist-autosave-interval 60)
-  (add-hook 'after-init-hook #'savehist-mode))
-
-(add-hook 'abbrev-mode-hook (lambda () (diminish 'abbrev-mode)))
-
 ;; Delete selection if you insert
 (use-package delsel
-  :defer t
   :init (add-hook 'after-init-hook #'delete-selection-mode))
 
 ;; Rectangle
@@ -95,45 +54,28 @@
   :defer t
   :bind (("<C-return>" . rectangle-mark-mode)))
 
-;; Click to browse URL or to send to e-mail address
-(use-package goto-addr
-  :defer t
-  :init
-  (add-hook 'text-mode-hook #'goto-address-mode)
-  (add-hook 'prog-mode-hook #'goto-address-prog-mode))
-
 ;; Jump to things in Emacs tree-style
 (use-package avy
-  :ensure t
   :defer t
-  :commands (avy-goto-char avy-goto-char-2)
-  :init (add-hook 'after-init-hook #'avy-setup-default)
+  :commands (avy-goto-char avy-goto-word-or-subword-1)
+  :hook (after-init . avy-setup-default)
+  :init
+  (progn
+    (evil-leader/set-key
+      "jc" 'avy-goto-char
+      "jw" 'avy-goto-word-or-subword-1
+      "jl" 'avy-goto-line
+      "jp" #'kevin/goto-match-parent))
   :config (setq avy-background t))
-
-;; Kill text between the point and the character CHAR
-(use-package avy-zap
-  :ensure t
-  :defer t
-  :bind (("M-z" . avy-zap-to-char-dwim)
-         ("M-Z" . avy-zap-up-to-char-dwim)))
 
 ;; Quickly follow links
 (use-package ace-link
-  :ensure t
   :defer t
   :bind (("M-o" . ace-link-addr))
   :init (add-hook 'after-init-hook #'ace-link-setup-default))
 
-;; Jump to Chinese characters
-(use-package ace-pinyin
-  :ensure t
-  :defer t
-  :diminish ace-pinyin-mode
-  :init (add-hook 'after-init-hook #'ace-pinyin-global-mode))
-
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
-  :ensure t
   :defer t
   :diminish aggressive-indent-mode
   :init
@@ -164,13 +106,11 @@
 
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
-  :ensure t
   :defer t
   :bind ("M-;" . comment-dwim-2))
 
 ;; Drag stuff (lines, words, region, etc...) around
 (use-package drag-stuff
-  :ensure t
   :defer t
   :diminish drag-stuff-mode
   :init (add-hook 'after-init-hook #'drag-stuff-global-mode)
@@ -194,66 +134,34 @@
   (setq ediff-split-window-function 'split-window-horizontally)
   (setq ediff-merge-split-window-function 'split-window-horizontally))
 
-;; Edit multiple regions in the same way simultaneously
-(use-package iedit
-  :ensure t
-  :defer t
-  :bind (("C-;" . iedit-mode)
-         ("C-x r RET" . iedit-rectangle-mode)
-         :map isearch-mode-map ("C-;" . iedit-mode-from-isearch)
-         :map esc-map ("C-;" . iedit-execute-last-modification)
-         :map help-map ("C-;" . iedit-mode-toggle-on-function))
-  :init
-  ;; Avoid to restore Iedit mode when restoring desktop
-  (add-to-list 'desktop-minor-mode-handlers
-               '(iedit-mode . nil)))
-
-(use-package multiple-cursors
-  :ensure t
-  :defer t
-  :config
-  (defhydra hydra-multiple-cursors (:hint nil)
-    "
-     ^Up^            ^Down^        ^Other^
-    ----------------------------------------------
-    [_p_]   Previous    [_n_]   Next    [_l_] Edit lines
-    [_P_]   Skip        [_N_]   Skip    [_a_] Mark all
-    [_M-p_] Unmark      [_M-n_] Unmark  [_r_] Mark by regexp
-    ^ ^                 ^ ^             [_q_] Quit
-    "
-    ("l" mc/edit-lines :exit t)
-    ("a" mc/mark-all-like-this :exit t)
-    ("n" mc/mark-next-like-this)
-    ("N" mc/skip-to-next-like-this)
-    ("M-n" mc/unmark-next-like-this)
-    ("p" mc/mark-previous-like-this)
-    ("P" mc/skip-to-previous-like-this)
-    ("M-p" mc/unmark-previous-like-this)
-    ("r" mc/mark-all-in-region-regexp :exit t)
-    ("q" nil))
-  (evil-leader/set-key "fm" #'hydra-multiple-cursors/body))
-
-;; Framework for mode-specific buffer indexes
-(use-package imenu
-  :ensure t
-  :defer t
-  :bind (("C-." . imenu)))
-
 ;; Treat undo history as a tree
 (use-package undo-tree
-  :ensure t
   :defer t
-  :diminish undo-tree-mode
-  :init (add-hook 'after-init-hook #'global-undo-tree-mode))
-
-;; Handling capitalized subwords in a nomenclature
-(use-package subword
-  :ensure nil
-  :defer t
-  :diminish subword-mode
+  :diminish undo-tree-mode "ⓤ"
   :init
-  (add-hook 'prog-mode-hook #'subword-mode)
-  (add-hook 'minibuffer-setup-hook #'subword-mode))
+  (global-undo-tree-mode)
+  :config
+  (progn
+    (setq undo-tree-history-directory-alist `(("." . ,(concat kevin/cache-directory "undo-tree-history"))))
+    (setq undo-tree-auto-save-history nil)
+    (setq undo-tree-visualizer-timestamps t)
+    (setq undo-tree-visualizer-diff t)))
+
+(use-package savehist
+  :ensure nil
+  :init
+  (progn
+    ;; Minibuffer history
+    (setq savehist-file (concat kevin/cache-directory "savehist")
+          enable-recursive-minibuffers t ; Allow commands in minibuffers
+          history-length 1000
+          savehist-additional-variables '(mark-ring
+                                          global-mark-ring
+                                          search-ring
+                                          regexp-search-ring
+                                          extended-command-history)
+          savehist-autosave-interval 60)
+    (savehist-mode t)))
 
 ;; Hideshow
 (use-package hideshow
@@ -265,10 +173,21 @@
 
 ;; Move to the beginning/end of line or code
 (use-package mwim
-  :ensure t
+  :defer t)
+
+(use-package wgrep
+  :defer t)
+
+(use-package counsel-osx-app
+  :defer t)
+
+(use-package smex
   :defer t
-  :bind (("C-a" . mwim-beginning-of-code-or-line)
-         ("C-e" . mwim-end-of-code-or-line)))
+  :config
+  (progn
+    (setq smex-save-file (concat kevin/cache-directory "smex-items"))
+    (setq smex-history-length 10)
+    ))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

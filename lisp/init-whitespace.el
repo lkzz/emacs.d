@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package whitespace
-  :ensure t
   :defer t
   :diminish whitespace-mode
   :init
@@ -15,7 +14,20 @@
   ;; automatically clean up bad whitespace
   (setq whitespace-action '(auto-cleanup))
   ;; only show bad whitespace
-  (setq whitespace-style '(face tabs trailing tab-mark))
+  ;; (setq whitespace-style '(face tabs trailing tab-mark))
+  (setq whitespace-style
+        '(face
+          ;; trailing blanks
+          trailing
+          ;; empty lines at beginning and/or end of buffer
+          ;; empty
+          ;; line is longer `whitespace-line-column'
+          ;; lines-tail
+          ;; tab or space at the beginning of the line according to
+          ;; `indent-tabs-mode'
+          indentation
+          ;; show tab as » (see `whitespace-display-mappings')
+          tab-mark))
 
   (with-eval-after-load 'popup
     ;; advice for whitespace-mode conflict with popup
@@ -36,11 +48,10 @@
           (whitespace-mode 1)))))
 
 (use-package whitespace-cleanup-mode
-  :ensure t
   :defer t
   :diminish whitespace-cleanup-mode
-  :config
-  (global-whitespace-cleanup-mode))
+  :init
+  (add-hook 'after-init-hook 'global-whitespace-cleanup-mode))
 
-(provide 'init-whitespace)
+  (provide 'init-whitespace)
 ;;; init-whitespace ends here

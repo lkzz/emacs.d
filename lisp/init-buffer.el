@@ -6,8 +6,6 @@
 
 ;; Group ibuffer's list by project root
 (use-package ibuffer-projectile
-  :ensure t
-  :defer t
   :bind ("C-x C-b" . ibuffer)
   :init
   (setq ibuffer-filter-group-name-face 'font-lock-function-name-face)

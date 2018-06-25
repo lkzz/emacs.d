@@ -3,10 +3,9 @@
 ;;; Code:
 
 (use-package which-key
-  :ensure t
-  :defer t
+  :demand t
   :diminish which-key-mode "ⓦ"
-  :init (add-hook 'after-init-hook #'which-key-mode)
+  :hook (after-init . which-key-mode)
   :config
   (progn
     (setq which-key-idle-delay 0.4)

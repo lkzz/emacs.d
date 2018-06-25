@@ -2,21 +2,20 @@
 ;;; Commentary:
 ;;; Code:
 
-;; ;; Interactively highlight the current-window (by dimming the others)
-;; (use-package dimmer
-;;   :init (add-hook 'after-init-hook #'dimmer-mode)
-;;   :config
-;;   (setq dimmer-fraction 0.2))
+;; Interactively highlight the current-window (by dimming the others)
+(use-package dimmer
+  :defer t
+  :init (add-hook 'after-init-hook #'dimmer-mode)
+  :config
+  (setq dimmer-fraction 0.2))
 
 ;; Directional window-selection routines
 (use-package windmove
-  :ensure t
   :defer t
   :init (add-hook 'after-init-hook #'windmove-default-keybindings))
 
 ;; Restore old window configurations
 (use-package winner
-  :ensure t
   :defer t
   :init
   (setq winner-boring-buffers '("*Completions*"
@@ -33,32 +32,34 @@
 
 ;; Quickly switch windows
 (use-package ace-window
-  :ensure t
   :defer t
   :bind ("C-x o" . ace-window))
 
 ;; Numbered window shortcuts
 (use-package window-numbering
-  :ensure t
   :defer t
   :init (add-hook 'after-init-hook #'window-numbering-mode))
 
 ;; Zoom window like tmux
 (use-package zoom-window
-  :ensure t
   :defer t
   :bind ("C-x C-z" . zoom-window-zoom)
   :init (setq zoom-window-mode-line-color "DarkGreen"))
 
+(use-package centered-window
+  :defer t
+  :init (setq cwm-use-vertical-padding t
+              cwm-frame-internal-border 15
+              cwm-incremental-padding t
+              cwm-left-fringe-ratio 0 ))
+
 ;; Popup Window Manager
 (use-package popwin
-  :ensure t
   :defer t
   :commands popwin-mode
   :init (add-hook 'after-init-hook #'popwin-mode)
   :config
   (bind-key "C-z" popwin:keymap)
-
   ;; don't use default value but manage it ourselves
   (setq popwin:special-display-config
         '(;; Emacs
@@ -72,27 +73,20 @@
           ("^*Man.+*$" :regexp t :position bottom :stick nil :noselect nil :height 0.4)
           ("^*WoMan.+*$" :regexp t :position bottom)
           ("^*Backtrace.+*$" :regexp t :dedicated t :position bottom :stick t :noselect nil)
-
           ;; Kill Ring
           ("*Kill Ring*" :dedicated t :position bottom)
-
           ;; Flycheck
           ("\*flycheck errors\*.+*$" :regexp t :position bottom :stick t :noselect nil)
-
           ;; Youdao dict
           ("*Youdao Dictionary*" :dedicated t :position bottom)
-
           ;; Paradox
           ("*Paradox Report*" :dedicated t :position bottom :noselect nil)
-
           ;; List
           ("*Colors*" :dedicated t :position bottom)
           ("*Process List*" :dedicated t :position bottom)
           ("*Process-Environment*" :dedicated t :position bottom)
-
           ;; undo-tree
           (" *undo-tree*" :dedicated t :position right :stick t :noselect nil :width 60)
-
           ;; Search
           ("*grep*" :dedicated t :position bottom :stick t :noselect nil)
           ("*ag search*" :dedicated t :position bottom :stick t :noselect nil :height 0.4)
@@ -101,21 +95,17 @@
           ("*Occur*" :dedicated t :position bottom :stick t :noselect nil)
           ("\*ivy-occur.+*$" :regexp t :position bottom :stick t :noselect nil)
           ("*xref*" :dedicated t :position bottom :stick nil :noselect nil)
-
           ;; VC
           ("*vc-diff*" :dedicated t :position bottom :stick t :noselect nil)
           ("*vc-change-log*" :dedicated t :position bottom :stick t :noselect nil)
-
           ;; Magit
-          ;; (magit-status-mode :dedicated t :position bottom :stick t :height 0.5)
-          ;; (magit-diff-mode :dedicated t :position bottom :stick t :noselect t :height 0.5)
-
+          (magit-status-mode :dedicated t :position bottom :stick t :height 0.5)
+          (magit-diff-mode :dedicated t :position bottom :stick t :noselect t :height 0.5)
           ;; Script
           ("*shell*" :dedicated t :position bottom :stick t :noselect nil)
           ("*Python*" :dedicated t :position bottom :stick t :noselect t)
           ("*Ruby*" :dedicated t :position bottom :stick t :noselect t)
           ("*quickrun*" :dedicated t :position bottom :stick t :noselect t)
-
           ;; Go
           ("^*godoc.+*$" :regexp t :position bottom :stick nil :noselect nil)
           ("*golint*" :dedicated t :position bottom :stick t :noselect nil)
@@ -123,14 +113,12 @@
           ("*go-guru-output*" :dedicated t :position bottom :stick t :noselect nil)
           ("*Gofmt Errors*" :dedicated t :position bottom :stick t :noselect nil)
           ("*Go Test*" :dedicated t :position bottom :stick t :noselect nil)
-
           ;; Test
           ("*ert*" :dedicated t :position bottom :stick t :noselect nil)
           ("*nosetests*" :dedicated t :position bottom :stick t :noselect nil))))
 
 ;; Easy window config switching
 (use-package eyebrowse
-  :ensure t
   :defer t
   :init (add-hook 'after-init-hook #'eyebrowse-mode))
 
