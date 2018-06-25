@@ -1,7 +1,6 @@
 ;;; init-git.el --- version contral setup
 ;;; Commentary:
 ;;; Code:
-
 (defun git-get-current-file-relative-path ()
   "Get current file relative path."
   (replace-regexp-in-string (concat "^" (file-name-as-directory default-directory))
@@ -99,6 +98,13 @@
   (progn
     ;; display buffer fullframe
     (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
+    ;; `git-commit-mode'
+    ;; see https://chris.beams.io/posts/git-commit/
+    (setq fill-column 72
+          git-commit-summary-max-length 50
+          git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line))
+    (when evil-mode
+      (add-hook 'git-commit-mode-hook #'evil-insert-state))
     ))
 
 ;; Gitflow externsion for Magit
@@ -173,7 +179,8 @@
 
 (use-package smerge
   :ensure nil
-  :defer t
+  ;; :defer t
+  :commands (smerge-mode)
   :init
   (progn
     (defhydra hydra-smerge-mode (:hint nil
@@ -213,6 +220,17 @@
       ("R" smerge-kill-current)
       ("q" nil :color blue))
     (evil-leader/set-key "gr" #'hydra-smerge-mode/body)
+    (defun kevin/enable-smerge-mode-maybe ()
+      "Auto-enable `smerge-mode' when merge conflict is detected."
+      (save-excursion
+        (goto-char (point-min))
+        (when (re-search-forward "^<<<<<<< " nil :noerror)
+          (smerge-mode 1)
+          (when (featurep 'hydra)
+            (message "hello world")
+            (hydra-smerge-mode/body))
+          )))
+    (add-hook 'find-file-hook #'kevin/enable-smerge-mode-maybe)
     ))
 
 ;; Highlight uncommitted changes

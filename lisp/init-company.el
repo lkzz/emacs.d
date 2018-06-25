@@ -3,7 +3,6 @@
 ;;; Code:
 
 (use-package company
-  :defer t
   :diminish company-mode "ⓐ"
   :bind (("M-/" . company-complete)
          ("C-c C-y" . company-yasnippet)
@@ -55,17 +54,26 @@
     ))
 
 (use-package company-quickhelp
-  :defer t
+  :if (display-graphic-p)
   :after company
+  :bind (:map company-active-map
+              ("M-h" . company-quickhelp-manual-begin))
   :hook (company-mode . company-quickhelp-mode)
+  :init (company-quickhelp-mode 1)
   :config
-  (setq company-quickhelp-use-propertized-text t)
-  (setq company-quickhelp-delay 0.6)
-  (setq company-quickhelp-max-lines 30))
+  (progn
+    (setq company-quickhelp-use-propertized-text t)
+    (setq company-quickhelp-delay 0.6)
+    (setq company-quickhelp-max-lines 30))
+  )
+
+;; (use-package company-childframe
+;;   :ensure t
+;;   :config
+;;   (company-childframe-mode 1))
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
-  :defer t
   :after company
   :hook (company-mode . company-statistics-mode)
   :config
@@ -74,10 +82,23 @@
                                         "company-statistics-cache.el")))
 
 (use-package company-shell
-  :defer t
   :after company
   :config
   (add-to-list 'company-backends 'company-shell))
+
+;; (use-package company-box
+;;   :after company
+;;   :diminish company-box-mode
+;;   :hook (company-mode . company-box-mode)
+;;   :config
+;;   (setq company-box-backends-colors nil
+;;         company-box-icons-elisp
+;;         (list (all-the-icons-material "functions" :face 'all-the-icons-purple)
+;;               (all-the-icons-material "check_circle" :face 'all-the-icons-blue)
+;;               (all-the-icons-material "stars" :face 'all-the-icons-yellow)
+;;               (all-the-icons-material "format_paint" :face 'all-the-icons-pink))
+;;         company-box-icons-unknown (all-the-icons-material "find_in_page" :face 'all-the-icons-silver)
+;;         company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green)))
 
 (autoload 'company-capf "company-capf")
 (autoload 'company-dabbrev "company-dabbrev")

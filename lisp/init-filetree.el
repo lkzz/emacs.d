@@ -17,7 +17,7 @@
       "ft" 'neotree-toggle)
     (setq neo-create-file-auto-open t
           neo-auto-indent-point nil
-          neo-autorefresh t
+          neo-autorefresh nil
           neo-smart-open nil
           neo-mode-line-type 'none
           neo-window-width 30
