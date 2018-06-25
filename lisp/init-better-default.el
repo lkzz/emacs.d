@@ -4,8 +4,8 @@
 ;;; Code:
 
 ;; Personal information
-(setq user-full-name "kevin leung")
-(setq user-mail-address "kevin.scnu@gmail.com")
+(setq user-full-name kevin/user-name)
+(setq user-mail-address kevin/mail-address)
 
 
 ;; Don't ask me when kill process buffer
@@ -14,15 +14,17 @@
             kill-buffer-query-functions))
 
 ;; default directory
-(setq default-directory "~/Code/gopath/src/go-common")
+(setq default-directory kevin/default-directory)
 
-;; 设置编码
-(prefer-coding-system 'utf-8)
+;; Core settings
+;; UTF-8 please
+(set-charset-priority 'unicode)
+(setq locale-coding-system   'utf-8)   ; pretty
 (set-terminal-coding-system  'utf-8)   ; pretty
 (set-keyboard-coding-system  'utf-8)   ; pretty
-(set-selection-coding-system 'utf-8)   ; perdy
-(setq locale-coding-system   'utf-8)   ; please
-(setq-default buffer-file-coding-system 'utf-8) ; with sugar on top
+(set-selection-coding-system 'utf-8)   ; please
+(prefer-coding-system        'utf-8)   ; with sugar on top
+(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
 ;; 复制粘贴
 (setq select-enable-primary t)
@@ -30,7 +32,6 @@
 
 
 (setq-default indent-tabs-mode t ;; 用空格替代TAB
-              ;; default-tab-width 4 ;; 定义TAB的宽度为4个空格.
               tab-width 4 ;; 定义TAB的宽度为4个空格.
               fill-column 80 ;; 设置列宽度
               buffers-menu-max-size 30
@@ -71,7 +72,7 @@
 (use-package autorevert
   :ensure nil
   :diminish auto-revert-mode
-  :init (add-hook 'after-init-hook #'global-auto-revert-mode))
+  :hook (after-init . global-auto-revert-mode))
 
 ;; 显示文件大小信息
 (when (fboundp size-indication-mode)
@@ -93,20 +94,16 @@
 (setq track-eol t)
 (setq line-move-visual nil)
 
-;; 当
-(mouse-avoidance-mode 'animate)
+;; (mouse-avoidance-mode 'animate)
 ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
 (setq mouse-autoselect-window t)
+
 ;; 鼠标滚动设置
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
 (setq mouse-wheel-progressive-speed nil)
 (setq scroll-step 3
       scroll-margin 3
       scroll-conservatively 100000)
-(use-package smooth-scrolling
-  :ensure t
-  :init (add-hook 'after-init-hook #'smooth-scrolling-mode)
-  :config (setq smooth-scroll-margin 0))
 
 ;; 文件末尾插入新行
 (setq require-final-newline t)

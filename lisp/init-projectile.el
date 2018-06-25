@@ -3,18 +3,61 @@
 ;;; Code:
 
 (use-package projectile
-  :ensure t
   :defer t
   :diminish projectile-mode "ⓟ"
-  :bind (("C-c p f" . 'projectile-find-file))
-  :init (add-hook 'after-init-hook 'projectile-mode)
-  :config
-  (setq projectile-known-projects-file
-        (concat kevin/cache-directory "projectile-bookmarks.eld"))
-  (setq projectile-cache-file
-        (concat kevin/cache-directory "projectile.cache"))
-  (setq projectile-sort-order 'recentf)
-  (setq projectile-use-git-grep t))
+  :commands (projectile-ack
+             projectile-ag
+             projectile-compile-project
+             projectile-dired
+             projectile-find-dir
+             projectile-find-file
+             projectile-find-tag
+             projectile-test-project
+             projectile-grep
+             projectile-invalidate-cache
+             projectile-kill-buffers
+             projectile-multi-occur
+             projectile-project-p
+             projectile-project-root
+             projectile-recentf
+             projectile-regenerate-tags
+             projectile-replace
+             projectile-replace-regexp
+             projectile-run-async-shell-command-in-root
+             projectile-run-shell-command-in-root
+             projectile-switch-project
+             projectile-switch-to-buffer
+             projectile-vc)
+  :init (progn
+          (setq projectile-sort-order 'recentf
+                projectile-cache-file (concat kevin/cache-directory
+                                              "projectile.cache")
+                projectile-known-projects-file (concat kevin/cache-directory
+                                                       "projectile-bookmarks.eld"))
+          (evil-leader/set-key
+            "/"  'projectile-ag
+            "p!" 'projectile-run-shell-command-in-root
+            "p&" 'projectile-run-async-shell-command-in-root
+            "p%" 'projectile-replace-regexp
+            "pa" 'projectile-toggle-between-implementation-and-test
+            "pb" 'projectile-switch-to-buffer
+            "pc" 'projectile-compile-project
+            "pd" 'projectile-find-dir
+            "pD" 'projectile-dired
+            "pf" 'projectile-find-file
+            "pF" 'projectile-find-file-dwim
+            "pg" 'projectile-find-tag
+            "pG" 'projectile-regenerate-tags
+            "pI" 'projectile-invalidate-cache
+            "pk" 'projectile-kill-buffers
+            "pp" 'projectile-switch-project
+            "pr" 'projectile-recentf
+            "pR" 'projectile-replace
+            "pT" 'projectile-test-project
+            "pv" 'projectile-vc))
+  :config (progn
+            (setq projectile-completion-system 'ivy)
+            (projectile-global-mode)))
 
 (provide 'init-projectile)
 ;;; init-projectile ends here

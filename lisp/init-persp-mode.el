@@ -6,16 +6,17 @@
   "Name of the default layout.")
 
 (use-package persp-mode
-  :ensure t
   :defer t
+  :commands (hydra-persp-mode/body persp-mode)
   :diminish persp-mode
   :init
-  (add-hook 'after-init-hook #'(lambda () (persp-mode 1)))
-  (defhydra hydra-persp-mode (:body-pre (unless (bound-and-true-p persp-mode)
-                                          (call-interactively 'persp-mode))
-                                        :color blue
-                                        :hint nil)
-    "
+  (progn
+    (evil-leader/set-key "l" #'hydra-persp-mode/body)
+    (defhydra hydra-persp-mode (:body-pre (unless (bound-and-true-p persp-mode)
+                                            (call-interactively 'persp-mode))
+                                          :color blue
+                                          :hint nil)
+      "
 \n
  Go to^^^^^^                                  Actions^^
  ─────^^^^^^────────────────────────────────  ───────^^──────────────────────────────────────────────────
@@ -33,56 +34,55 @@
  ^^^^^^                                       [_<_/_>_] move layout left/right
  ^^^^^^                                       [_?_]^^   toggle help\n
 "
-    ("?" spacemacs//layouts-ts-toggle-hint)
-    ("1" spacemacs/persp-switch-to-1 :exit t)
-    ("2" spacemacs/persp-switch-to-2 :exit t)
-    ("3" spacemacs/persp-switch-to-3 :exit t)
-    ("4" spacemacs/persp-switch-to-4 :exit t)
-    ("5" spacemacs/persp-switch-to-5 :exit t)
-    ("6" spacemacs/persp-switch-to-6 :exit t)
-    ("7" spacemacs/persp-switch-to-7 :exit t)
-    ("8" spacemacs/persp-switch-to-8 :exit t)
-    ("9" spacemacs/persp-switch-to-9 :exit t)
-    ("0" spacemacs/persp-switch-to-0 :exit t)
-    ("C-1" spacemacs/persp-switch-to-1)
-    ("C-2" spacemacs/persp-switch-to-2)
-    ("C-3" spacemacs/persp-switch-to-3)
-    ("C-4" spacemacs/persp-switch-to-4)
-    ("C-5" spacemacs/persp-switch-to-5)
-    ("C-6" spacemacs/persp-switch-to-6)
-    ("C-7" spacemacs/persp-switch-to-7)
-    ("C-8" spacemacs/persp-switch-to-8)
-    ("C-9" spacemacs/persp-switch-to-9)
-    ("C-0" spacemacs/persp-switch-to-0)
-    ("<tab>" spacemacs/jump-to-last-layout)
-    ("<return>" nil :exit t)
-    ("TAB" spacemacs/jump-to-last-layout)
-    ("RET" nil :exit t)
-    ("C-h" persp-prev)
-    ("C-l" persp-next)
-    ("<" spacemacs/move-current-persp-left)
-    (">" spacemacs/move-current-persp-right)
-    ("a" persp-add-buffer :exit t)
-    ("A" persp-import-buffers :exit t)
-    ("b" spacemacs/persp-buffers :exit t)
-    ("d" spacemacs/layouts-ts-close)
-    ("D" spacemacs/layouts-ts-close-other :exit t)
-    ("h" spacemacs/layout-goto-default :exit t)
-    ("L" persp-load-state-from-file :exit t)
-    ("l" spacemacs/persp-perspectives :exit t)
-    ("n" persp-next)
-    ("N" persp-prev)
-    ("o" spacemacs/select-custom-layout :exit t)
-    ("p" persp-prev)
-    ("r" persp-remove-buffer :exit t)
-    ("R" spacemacs/layouts-ts-rename :exit t)
-    ("s" persp-save-state-to-file :exit t)
-    ("S" persp-save-to-file-by-names :exit t)
-    ("t" persp-temporarily-display-buffer :exit t)
-    ("w" spacemacs/workspaces-transient-state/body :exit t)
-    ("x" spacemacs/layouts-ts-kill)
-    ("X" spacemacs/layouts-ts-kill-other :exit t))
-
+      ("?" spacemacs//layouts-ts-toggle-hint)
+      ("1" spacemacs/persp-switch-to-1 :exit t)
+      ("2" spacemacs/persp-switch-to-2 :exit t)
+      ("3" spacemacs/persp-switch-to-3 :exit t)
+      ("4" spacemacs/persp-switch-to-4 :exit t)
+      ("5" spacemacs/persp-switch-to-5 :exit t)
+      ("6" spacemacs/persp-switch-to-6 :exit t)
+      ("7" spacemacs/persp-switch-to-7 :exit t)
+      ("8" spacemacs/persp-switch-to-8 :exit t)
+      ("9" spacemacs/persp-switch-to-9 :exit t)
+      ("0" spacemacs/persp-switch-to-0 :exit t)
+      ("C-1" spacemacs/persp-switch-to-1)
+      ("C-2" spacemacs/persp-switch-to-2)
+      ("C-3" spacemacs/persp-switch-to-3)
+      ("C-4" spacemacs/persp-switch-to-4)
+      ("C-5" spacemacs/persp-switch-to-5)
+      ("C-6" spacemacs/persp-switch-to-6)
+      ("C-7" spacemacs/persp-switch-to-7)
+      ("C-8" spacemacs/persp-switch-to-8)
+      ("C-9" spacemacs/persp-switch-to-9)
+      ("C-0" spacemacs/persp-switch-to-0)
+      ("<tab>" spacemacs/jump-to-last-layout)
+      ("<return>" nil :exit t)
+      ("TAB" spacemacs/jump-to-last-layout)
+      ("RET" nil :exit t)
+      ("C-h" persp-prev)
+      ("C-l" persp-next)
+      ("<" spacemacs/move-current-persp-left)
+      (">" spacemacs/move-current-persp-right)
+      ("a" persp-add-buffer :exit t)
+      ("A" persp-import-buffers :exit t)
+      ("b" spacemacs/persp-buffers :exit t)
+      ("d" spacemacs/layouts-ts-close)
+      ("D" spacemacs/layouts-ts-close-other :exit t)
+      ("h" spacemacs/layout-goto-default :exit t)
+      ("L" persp-load-state-from-file :exit t)
+      ("l" spacemacs/persp-perspectives :exit t)
+      ("n" persp-next)
+      ("N" persp-prev)
+      ("o" spacemacs/select-custom-layout :exit t)
+      ("p" persp-prev)
+      ("r" persp-remove-buffer :exit t)
+      ("R" spacemacs/layouts-ts-rename :exit t)
+      ("s" persp-save-state-to-file :exit t)
+      ("S" persp-save-to-file-by-names :exit t)
+      ("t" persp-temporarily-display-buffer :exit t)
+      ("w" spacemacs/workspaces-transient-state/body :exit t)
+      ("x" spacemacs/layouts-ts-kill)
+      ("X" spacemacs/layouts-ts-kill-other :exit t)))
   :config
   (setq persp-autokill-buffer-on-remove 'kill-weak
         persp-nil-name kevin/default-layout-name
@@ -98,8 +98,7 @@
         ;; Auto-load on startup
         persp-auto-resume-time 3
         ;; auto-save on kill
-        persp-auto-save-opt (if noninteractive 0 1))
-  )
+        persp-auto-save-opt (if noninteractive 0 1)))
 
 (defvar spacemacs--last-selected-layout kevin/default-layout-name
   "Previously selected layout.")

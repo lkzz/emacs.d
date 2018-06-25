@@ -3,11 +3,16 @@
 ;;; Code:
 
 (use-package ranger
-  :ensure t
   :demand t
   :commands (ranger deer deer-jump-other-window ranger-override-dired-mode)
   :init
-  (setq ranger-override-dired t)
+  (progn
+    (setq ranger-override-dired t)
+    (eval-after-load 'evil
+      '(progn
+         (evil-define-key 'normal ranger-mode-map (kbd "q") 'ranger-close)))
+    (evil-leader/set-key
+      "jd" 'deer))
   :config
   (setq ranger-cleanup-on-disable t)
   (setq ranger-modify-header nil)

@@ -9,11 +9,12 @@
   :defer t
   :config
   ;; Show directory first
-  (setq dired-listing-switches "-alh --group-directories-first")
+  ;;  (setq dired-listing-switches "-alh --group-directories-first")
   (setq dired-dwim-target t)
   ;; Always delete and copy recursively
   (setq dired-recursive-deletes 'always)
   (setq dired-recursive-copies 'always)
+  (put 'dired-find-alternate-file 'disabled nil)
   (define-key dired-mode-map (kbd "RET") 'dired-find-alternate-file) ; was dired-advertised-find-file
   (define-key dired-mode-map (kbd "^") (lambda () (interactive) (find-alternate-file "..")))  ; was dired-up-directory
   ;; automatically refresh dired buffer on changes
@@ -41,52 +42,37 @@
     :diminish dired-omit-mode
     :init (setq dired-omit-mode t)
     :config
-    (when (display-graphic-p)
-      (setq dired-guess-shell-alist-user
-            '(("\\.pdf\\'" "open")
-              ("\\.docx\\'" "open")
-              ("\\.\\(?:djvu\\|eps\\)\\'" "open")
-              ("\\.\\(?:jpg\\|jpeg\\|png\\|gif\\|xpm\\)\\'" "open")
-              ("\\.\\(?:xcf\\)\\'" "open")
-              ("\\.csv\\'" "open")
-              ("\\.tex\\'" "open")
-              ("\\.\\(?:mp4\\|mkv\\|avi\\|flv\\|rm\\|rmvb\\|ogv\\)\\(?:\\.part\\)?\\'"
-               "open")
-              ("\\.\\(?:mp3\\|flac\\)\\'" "open")
-              ("\\.html?\\'" "open")
-              ("\\.md\\'" "open"))))
     (setq dired-omit-files
-          (concat dired-omit-files "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*")))
+          (concat dired-omit-files "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^.emacs.*"))))
 
-  ;; Quick sort dired buffers via hydra
-  ;; bind key: `S'
-  (use-package dired-quick-sort
-    :ensure t
-    :defer t
-    :if (or (executable-find "gls") (executable-find "ls"))
-    :init (dired-quick-sort-setup))
+;; ;; bind key: `S'
+;; (use-package dired-quick-sort
+;;   :ensure t
+;;   :defer t
+;;   ;;    :if (or (executable-find "gls") (executable-find "ls"))
+;;   :init (dired-quick-sort-setup))
 
-  ;; Highlights dired buffer like k
-  (use-package dired-k
-    :bind (:map dired-mode-map ("K" . dired-k))
-    :init
-    (setq dired-k-padding 1)
-    (setq dired-k-human-readable t)))
+;; ;; Highlights dired buffer like k
+;; (use-package dired-k
+;;   :bind (:map dired-mode-map ("K" . dired-k))
+;;   :init
+;;   (progn
+;;     (setq dired-k-style 'git)
+;;     (setq dired-k-padding 1)
+;;     (setq dired-k-human-readable t)
+;;     ;; always execute dired-k when dired buffer is opened
+;;     (add-hook 'dired-initial-position-hook 'dired-k)
+;;     ))
 
-(use-package diredfl
-  :ensure t
-  :after dired
-  :config
-  (diredfl-global-mode))
+;; (use-package diredfl
+;;   :after dired
+;;   :config
+;;   (diredfl-global-mode))
 
 (use-package all-the-icons-dired
-  :ensure t
   :diminish all-the-icons-dired-mode
-  :after dired
+  :after (dired all-the-icons)
   :hook ((ranger-mode dired-mode) . all-the-icons-dired-mode)
-  :config
-  (custom-set-faces
-   '(all-the-icons-dired-dir-face ((t (:background "#7ccd7c" :foreground "blue")))))
   )
 
 (provide 'init-dired)
