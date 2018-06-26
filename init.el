@@ -82,7 +82,6 @@
 
 (require 'init-projectile)
 (require 'init-git)
-(require 'init-which-key)
 (require 'init-persp-mode)
 (require 'init-buffer)
 (require 'init-flycheck)
