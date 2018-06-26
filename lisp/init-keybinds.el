@@ -2,16 +2,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;; (kevin/declare-prefix
-;;  "SPC c" "comment"
-;;  "SPC f" "file"
-;;  "SPC g" "magit"
-;;  "SPC h" "help"
-;;  "SPC j" "jump"
-;;  "SPC l" "layout"
-;;  "SPC o" "personal"
-;;  "SPC p" "projectile")
-
 (kevin/declare-prefix "c" "comment")
 (kevin/declare-prefix "f" "file")
 (kevin/declare-prefix "g" "magit")
@@ -103,13 +93,13 @@
   )
 
 
-;; * Global Keybindings
-;; `general-define-key' acts like `global-set-key' when :keymaps is not
-;; specified (because ":keymaps 'global" is the default)
-;; kbd is not necessary and arbitrary amount of key def pairs are allowed
-(general-define-key
- "M-x" 'smex                             ; or 'smex
- "C-s" 'counsel-grep-or-swiper)
+;; ;; * Global Keybindings
+;; ;; `general-define-key' acts like `global-set-key' when :keymaps is not
+;; ;; specified (because ":keymaps 'global" is the default)
+;; ;; kbd is not necessary and arbitrary amount of key def pairs are allowed
+;; (general-define-key
+;;  "M-x" 'smex                             ; or 'smex
+;;  "C-s" 'counsel-grep-or-swiper)
 
 (bind-map kevin/default-map
   :keys (kevin/emacs-leader-key)
