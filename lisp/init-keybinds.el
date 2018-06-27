@@ -27,9 +27,7 @@
   "ti" 'imenu-list-smart-toggle
   "tw" 'toggle-word-wrap
   "tm" 'toggle-frame-maximized
-  "tn" 'nlinum-mode
-  "tf" 'toggle-frame-fullscreen
-  "tg" 'golden-ratio-mode)
+  "tf" 'toggle-frame-fullscreen)
 
 ;; open applications with from emacs
 (kevin/declare-prefix "a" "application")
@@ -52,19 +50,6 @@
   "md" 'mark-defun
   "mf" #'kevin/make-frame
   "re" 'restart-emacs
-  )
-
-;; window related keybindings
-(kevin/declare-prefix "w" "window")
-(kevin/set-leader-keys
-  "1"  'select-window-1
-  "2"  'select-window-2
-  "3"  'select-window-3
-  "4"  'select-window-4
-  "wd" 'delete-window
-  "w/" 'split-window-right
-  "w-" 'split-window-below
-  "wD" 'delete-other-windows
   )
 
 ;; buffer related keybindings
