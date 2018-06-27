@@ -66,7 +66,6 @@
 (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
-(require 'init-golden-ratio)
 
 ;; programming set up
 (require 'init-prog)
