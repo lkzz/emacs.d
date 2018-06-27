@@ -9,11 +9,10 @@
   :hook (prog-mode . flycheck-mode)
   :init
   (progn
-    (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
     (setq flycheck-emacs-lisp-check-declare t)
     (setq flycheck-indication-mode 'right-fringe)
     (setq flycheck-emacs-lisp-load-path 'inherit)
-    (evil-leader/set-key "fe" #'hydra-flycheck/body)
+    (kevin/set-leader-keys "fe" #'hydra-flycheck/body)
     (defhydra hydra-flycheck (:color red
                                      :hint nil)
       "

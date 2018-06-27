@@ -26,27 +26,6 @@
       (shell-command (concat "git add " filename))
       (message "DONE! git add %s" filename))))
 
-;; {{ goto next/previous hunk
-(defun my-goto-next-hunk (arg)
-  (interactive "p")
-  (if (memq major-mode '(diff-mode))
-      (diff-hunk-next)
-    (forward-line)
-    (if (re-search-forward "\\(^<<<<<<<\\|^=======\\|^>>>>>>>\\)" (point-max) t)
-        (goto-char (line-beginning-position))
-      (forward-line -1)
-      (git-gutter:next-hunk arg))))
-
-(defun my-goto-previous-hunk (arg)
-  (interactive "p")
-  (if (memq major-mode '(diff-mode))
-      (diff-hunk-prev)
-    (forward-line -1)
-    (if (re-search-backward "\\(^>>>>>>>\\|^=======\\|^<<<<<<<\\)" (point-min) t)
-        (goto-char (line-beginning-position))
-      (forward-line -1)
-      (git-gutter:previous-hunk arg))))
-
 (defun kevin/magit-display-buffer-function (buffer)
   (if magit-display-buffer-noselect
       ;; the code that called `magit-display-buffer-function'
@@ -74,8 +53,11 @@
    ("C-x g t" . magit-tag))
   :init
   (progn
-    (evil-leader/set-key
+    (kevin/declare-prefix "g" "git")
+    (kevin/declare-prefix "gf" "file")
+    (kevin/set-leader-keys
       "ga" #'git-add-current-file
+      "gA" #'vc-annotate
       "gc" #'git-checkout-current-file
       "gd" (lambda ()
              (interactive)
@@ -122,13 +104,12 @@
 ;;; Pop up last commit information of current line
 (use-package git-messenger
   :defer t
-  :commands git-messenger:copy-message
-  :bind (("C-x v p" . git-messenger:popup-message)
-         :map git-messenger-map
-         ("m" . git-messenger:copy-message))
+  :commands (git-messenger:copy-message git-messenger:popup-message)
   :init
   ;; Use magit-show-commit for showing status/diff commands
-  (setq git-messenger:use-magit-popup t))
+  (setq git-messenger:use-magit-popup t)
+  (setq git-messenger:show-detail t)
+  (kevin/set-leader-keys "gM"  'git-messenger:popup-message))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
@@ -136,7 +117,7 @@
   :commands (hydra-git-timemachine/body)
   :init
   (progn
-    (evil-leader/set-key "gt" #'hydra-git-timemachine/body)
+    (kevin/set-leader-keys "gt" #'hydra-git-timemachine/body)
     ;; (add-hook 'git-timemachine-mode-hook #'evil-force-normal-state)
     (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
                                                  (call-interactively 'git-timemachine))
@@ -146,13 +127,13 @@
       "
 [_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit\n
 "
-    ("c" git-timemachine-show-current-revision)
-    ("g" git-timemachine-show-nth-revision)
-    ("p" git-timemachine-show-previous-revision)
-    ("n" git-timemachine-show-next-revision)
-    ("Y" git-timemachine-kill-revision)
-    ("q" nil exit: t))
-))
+      ("c" git-timemachine-show-current-revision)
+      ("g" git-timemachine-show-nth-revision)
+      ("p" git-timemachine-show-previous-revision)
+      ("n" git-timemachine-show-next-revision)
+      ("Y" git-timemachine-kill-revision)
+      ("q" nil exit: t))
+    ))
 
 ;; Git modes
 (use-package gitconfig-mode
@@ -173,7 +154,7 @@
   :defer t
   :init
   (progn
-    (evil-leader/set-key "gl" 'git-link-commit))
+    (kevin/set-leader-keys "gl" 'git-link-commit))
   :config
   (setq git-link-open-in-browser t))
 
@@ -219,7 +200,7 @@
       ("r" smerge-resolve)
       ("R" smerge-kill-current)
       ("q" nil :color blue))
-    (evil-leader/set-key "gr" #'hydra-smerge-mode/body)
+    (kevin/set-leader-keys "gr" #'hydra-smerge-mode/body)
     (defun kevin/enable-smerge-mode-maybe ()
       "Auto-enable `smerge-mode' when merge conflict is detected."
       (save-excursion
@@ -227,7 +208,6 @@
         (when (re-search-forward "^<<<<<<< " nil :noerror)
           (smerge-mode 1)
           (when (featurep 'hydra)
-            (message "hello world")
             (hydra-smerge-mode/body))
           )))
     (add-hook 'find-file-hook #'kevin/enable-smerge-mode-maybe)
@@ -235,15 +215,28 @@
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
-  :commands (diff-hl-mode diff-hl-dired-mode)
+  :commands (diff-hl-mode diff-hl-dired-mode diff-hl-next-hunk diff-hl-previous-hunk
+                          hydra-diff-hl/body)
   :init
-  (add-hook 'after-init-hook #'global-diff-hl-mode)
-  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
-  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
-  (custom-set-faces
-   '(diff-hl-insert ((t (:background "#7ccd7c"))))
-   '(diff-hl-change ((t (:background "#3a81c3"))))
-   '(diff-hl-delete ((t (:background "#ee6363")))))
+  (progn
+    (add-hook 'after-init-hook #'global-diff-hl-mode)
+    (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+    (custom-set-faces
+     '(diff-hl-insert ((t (:background "#7ccd7c"))))
+     '(diff-hl-change ((t (:background "#3a81c3"))))
+     '(diff-hl-delete ((t (:background "#ee6363")))))
+    (defhydra hydra-diff-hl (:color red
+                                    :hint nil)
+      "
+[_p_] previous hunk [_n_] next hunk [_r_] revert hunk [_q_] quit\n
+"
+      ("p" diff-hl-previous-hunk)
+      ("n" diff-hl-next-hunk)
+      ("r" diff-hl-revert-hunk)
+      ("q" nil exit: t))
+    (kevin/set-leader-keys "gh" #'hydra-diff-hl/body)
+    )
   :config
   (diff-hl-flydiff-mode 1))
 

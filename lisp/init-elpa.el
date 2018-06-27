@@ -48,12 +48,13 @@
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-ensure t)
-(setq use-package-always-defer t)
+;; (setq use-package-always-defer t)
 
 (use-package diminish)
 (use-package bind-map)
 (use-package bind-key)
 (use-package hydra)
+(use-package general)
 
 (use-package which-key
   :diminish which-key-mode "ⓦ"

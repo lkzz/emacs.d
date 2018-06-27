@@ -4,7 +4,6 @@
 
 (kevin/declare-prefix "c" "comment")
 (kevin/declare-prefix "f" "file")
-(kevin/declare-prefix "g" "magit")
 (kevin/declare-prefix "h" "help")
 (kevin/declare-prefix "j" "jump")
 (kevin/declare-prefix "l" "layout")
@@ -13,7 +12,7 @@
 
 ;; bookmark
 (kevin/declare-prefix "ob" "bookmark")
-(evil-leader/set-key
+(kevin/set-leader-keys
   "obs" 'bookmark-set
   "obr" 'bookmark-rename
   "obd" 'bookmark-delete
@@ -22,7 +21,7 @@
 
 ;; toggle
 (kevin/declare-prefix "t" "toggle")
-(evil-leader/set-key
+(kevin/set-leader-keys
   "tM" 'toggle-major-mode
   "tb" 'toggle-scroll-bar
   "ti" 'imenu-list-smart-toggle
@@ -34,7 +33,7 @@
 
 ;; open applications with from emacs
 (kevin/declare-prefix "a" "application")
-(evil-leader/set-key
+(kevin/set-leader-keys
   "aa" 'counsel-osx-app
   "ai" #'kevin/open-iterm ;; open item2
   "aw" #'kevin/open-wechat ; open WeChat
@@ -42,7 +41,7 @@
   )
 
 ;; misc related keybindings
-(evil-leader/set-key
+(kevin/set-leader-keys
   "=" 'text-scale-increase
   "-" 'text-scale-decrease
   "'" 'shell-pop
@@ -57,15 +56,11 @@
 
 ;; window related keybindings
 (kevin/declare-prefix "w" "window")
-(evil-leader/set-key
-  "0"  'select-window-0
+(kevin/set-leader-keys
   "1"  'select-window-1
   "2"  'select-window-2
   "3"  'select-window-3
   "4"  'select-window-4
-  "7"  'select-window-7
-  "8"  'select-window-8
-  "9"  'select-window-9
   "wd" 'delete-window
   "w/" 'split-window-right
   "w-" 'split-window-below
@@ -74,7 +69,7 @@
 
 ;; buffer related keybindings
 (kevin/declare-prefix "b" "buffer")
-(evil-leader/set-key
+(kevin/set-leader-keys
   "bb" 'ivy-switch-buffer
   "bc" 'cleanup-buffer
   "be" 'eval-buffer

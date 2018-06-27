@@ -175,7 +175,7 @@ minor-mode, the third argument should be non nil."
 (defun kevin/kill-all-buffers ()
   "Kill all buffers."
   (interactive)
-  (mapcar (lambda (x) (kill-buffer x)) (buffer-list))
+  (mapc (lambda (x) (kill-buffer x)) (buffer-list))
   (delete-other-windows))
 
 ;; Kill all buffers except the current one.
@@ -238,14 +238,14 @@ Including indent-buffer, which should not be called automatically on save."
   (kevin/create-scratch-buffer))
 
 (defun kevin/go-enable-gometalinter ()
-"Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
-(setq flycheck-disabled-checkers '(go-gofmt
-                                   go-golint
-                                   go-vet
-                                   go-build
-                                   go-test
-                                   go-errcheck))
-(flycheck-gometalinter-setup))
+  "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
+  (setq flycheck-disabled-checkers '(go-gofmt
+                                     go-golint
+                                     go-vet
+                                     go-build
+                                     go-test
+                                     go-errcheck))
+  (flycheck-gometalinter-setup))
 
 (defun kevin/bazel-update ()
   "Bazel update in go-common."
