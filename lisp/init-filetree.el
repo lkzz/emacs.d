@@ -13,8 +13,7 @@
              neotree-enter)
   :init
   (progn
-    (evil-leader/set-key
-      "ft" 'neotree-toggle)
+    (kevin/set-leader-keys "ft" 'neotree-toggle)
     (setq neo-create-file-auto-open t
           neo-auto-indent-point nil
           neo-autorefresh nil
