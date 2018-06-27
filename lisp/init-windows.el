@@ -32,10 +32,42 @@
   (progn
     (kevin/set-leader-keys "wo" #'ace-window)))
 
+
+(defun split-window-below-and-focus ()
+  "Split the window vertically and focus the new window."
+  (interactive)
+  (split-window-below)
+  (windmove-down)
+  (when (and (boundp 'golden-ratio-mode)
+             (symbol-value golden-ratio-mode))
+    (golden-ratio)))
+
+(defun split-window-right-and-focus ()
+  "Split the window horizontally and focus the new window."
+  (interactive)
+  (split-window-right)
+  (windmove-right)
+  (when (and (boundp 'golden-ratio-mode)
+             (symbol-value golden-ratio-mode))
+    (golden-ratio)))
+
 ;; Numbered window shortcuts
 (use-package window-numbering
   :defer t
-  :init (add-hook 'after-init-hook #'window-numbering-mode))
+  :hook (after-init . window-numbering-mode)
+  :init
+  (progn
+    (kevin/declare-prefix "w" "window")
+    ;; window related keybindings
+    (kevin/set-leader-keys
+      "1"  'select-window-1
+      "2"  'select-window-2
+      "3"  'select-window-3
+      "4"  'select-window-4
+      "wd" 'delete-window
+      "w/" #'split-window-right-and-focus
+      "w-" #'split-window-below-and-focus
+      "wD" 'delete-other-windows)))
 
 ;; Zoom window like tmux
 (use-package zoom-window
@@ -220,40 +252,6 @@
                  " *which-key*"))
       (add-to-list 'golden-ratio-exclude-buffer-names n))
     ))
-
-
-(defun split-window-below-and-focus ()
-  "Split the window vertically and focus the new window."
-  (interactive)
-  (split-window-below)
-  (windmove-down)
-  (when (and (boundp 'golden-ratio-mode)
-             (symbol-value golden-ratio-mode))
-    (golden-ratio)))
-
-(defun split-window-right-and-focus ()
-  "Split the window horizontally and focus the new window."
-  (interactive)
-  (split-window-right)
-  (windmove-right)
-  (when (and (boundp 'golden-ratio-mode)
-             (symbol-value golden-ratio-mode))
-    (golden-ratio)))
-
-(kevin/declare-prefix "w" "window")
-;; window related keybindings
-(kevin/set-leader-keys
-  "1"  'select-window-1
-  "2"  'select-window-2
-  "3"  'select-window-3
-  "4"  'select-window-4
-  "wd" 'delete-window
-  "w/" #'split-window-right-and-focus
-  "w-" #'split-window-below-and-focus
-  "wD" 'delete-other-windows
-  )
-
-
 
 (provide 'init-windows)
 ;;; init-windows ends here
