@@ -9,10 +9,10 @@
   :config
   (setq dimmer-fraction 0.2))
 
-;; Directional window-selection routines
-(use-package windmove
-  :defer t
-  :init (add-hook 'after-init-hook #'windmove-default-keybindings))
+;; ;; Directional window-selection routines
+;; (use-package windmove
+;;   :defer t
+;;   :init (add-hook 'after-init-hook #'windmove-default-keybindings))
 
 ;; Restore old window configurations
 (use-package winner
@@ -33,7 +33,9 @@
 ;; Quickly switch windows
 (use-package ace-window
   :defer t
-  :bind ("C-x o" . ace-window))
+  :init
+  (progn
+    (kevin/set-leader-keys "wo" #'ace-window)))
 
 ;; Numbered window shortcuts
 (use-package window-numbering
@@ -48,10 +50,13 @@
 
 (use-package centered-window
   :defer t
-  :init (setq cwm-use-vertical-padding t
-              cwm-frame-internal-border 15
-              cwm-incremental-padding t
-              cwm-left-fringe-ratio 0 ))
+  :init
+  (progn
+    (setq cwm-use-vertical-padding t)
+    (setq cwm-frame-internal-border 15)
+    (setq cwm-incremental-padding t)
+    (setq cwm-left-fringe-ratio 0)
+    (kevin/set-leader-keys "wc" #'centered-window-mode)))
 
 ;; Popup Window Manager
 (use-package popwin
@@ -121,6 +126,12 @@
 (use-package eyebrowse
   :defer t
   :init (add-hook 'after-init-hook #'eyebrowse-mode))
+
+;; resize window
+(use-package resize-window
+  :init
+  (progn
+    (kevin/set-leader-keys "wr" #'resize-window)))
 
 (provide 'init-windows)
 ;;; init-windows ends here
