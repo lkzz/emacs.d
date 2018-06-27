@@ -9,11 +9,6 @@
   :config
   (setq dimmer-fraction 0.2))
 
-;; ;; Directional window-selection routines
-;; (use-package windmove
-;;   :defer t
-;;   :init (add-hook 'after-init-hook #'windmove-default-keybindings))
-
 ;; Restore old window configurations
 (use-package winner
   :defer t
@@ -132,6 +127,133 @@
   :init
   (progn
     (kevin/set-leader-keys "wr" #'resize-window)))
+
+
+(use-package golden-ratio
+  :diminish golden-ratio-mode "ⓖ"
+  :init
+  (progn
+    (defun kevin/golden-ratio-toggle ()
+      (interactive)
+      (if golden-ratio-mode
+          (progn
+            (golden-ratio-mode -1)
+            (message "golden ratio disabled")
+            (balance-windows))
+        (progn
+          (golden-ratio-mode 1)
+          (message "golden ratio enabled"))))
+    (kevin/set-leader-keys "tg" #'kevin/golden-ratio-toggle))
+  :config
+  (progn
+    ;; golden-ratio-exclude-modes
+    (dolist (m '("bs-mode"
+                 "calc-mode"
+                 "ediff-mode"
+                 "dired-mode"
+                 "gud-mode"
+                 "gdb-locals-mode"
+                 "gdb-registers-mode"
+                 "gdb-breakpoints-mode"
+                 "gdb-threads-mode"
+                 "gdb-frames-mode"
+                 "gdb-inferior-io-mode"
+                 "gdb-disassembly-mode"
+                 "gdb-memory-mode"
+                 "speedbar-mode"
+                 "ranger-mode"
+                 ))
+      (add-to-list 'golden-ratio-exclude-modes m))
+    (add-to-list 'golden-ratio-exclude-buffer-regexp "^\\*[hH]elm.*")
+    ;; golden-ratio-extra-commands
+    (dolist (f '(ace-window
+                 ace-delete-window
+                 ace-select-window
+                 ace-swap-window
+                 ace-maximize-window
+                 avy-pop-mark
+                 buf-move-left
+                 buf-move-right
+                 buf-move-up
+                 buf-move-down
+                 evil-avy-goto-word-or-subword-1
+                 evil-avy-goto-line
+                 evil-window-delete
+                 evil-window-split
+                 evil-window-vsplit
+                 evil-window-left
+                 evil-window-right
+                 evil-window-up
+                 evil-window-down
+                 evil-window-bottom-right
+                 evil-window-top-left
+                 evil-window-mru
+                 evil-window-next
+                 evil-window-prev
+                 evil-window-new
+                 evil-window-vnew
+                 evil-window-rotate-upwards
+                 evil-window-rotate-downwards
+                 evil-window-move-very-top
+                 evil-window-move-far-left
+                 evil-window-move-far-right
+                 evil-window-move-very-bottom
+                 quit-window
+                 winum-select-window-0-or-10
+                 winum-select-window-1
+                 winum-select-window-2
+                 winum-select-window-3
+                 winum-select-window-4
+                 winum-select-window-5
+                 winum-select-window-6
+                 winum-select-window-7
+                 winum-select-window-8
+                 winum-select-window-9
+                 windmove-left
+                 windmove-right
+                 windmove-up
+                 windmove-down))
+      (add-to-list 'golden-ratio-extra-commands f))
+    ;; golden-ratio-exclude-buffer-names
+    (dolist (n '(" *NeoTree*"
+                 "*LV*"
+                 " *which-key*"))
+      (add-to-list 'golden-ratio-exclude-buffer-names n))
+    ))
+
+
+(defun split-window-below-and-focus ()
+  "Split the window vertically and focus the new window."
+  (interactive)
+  (split-window-below)
+  (windmove-down)
+  (when (and (boundp 'golden-ratio-mode)
+             (symbol-value golden-ratio-mode))
+    (golden-ratio)))
+
+(defun split-window-right-and-focus ()
+  "Split the window horizontally and focus the new window."
+  (interactive)
+  (split-window-right)
+  (windmove-right)
+  (when (and (boundp 'golden-ratio-mode)
+             (symbol-value golden-ratio-mode))
+    (golden-ratio)))
+
+(kevin/declare-prefix "w" "window")
+;; window related keybindings
+(kevin/set-leader-keys
+  "1"  'select-window-1
+  "2"  'select-window-2
+  "3"  'select-window-3
+  "4"  'select-window-4
+  "wd" 'delete-window
+  "w/" #'split-window-right-and-focus
+  "w-" #'split-window-below-and-focus
+  "wD" 'delete-other-windows
+  )
+
+
 
 (provide 'init-windows)
 ;;; init-windows ends here
