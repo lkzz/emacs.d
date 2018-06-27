@@ -136,7 +136,8 @@
   (progn
     (setq-default display-line-numbers-width 2)
     ;; (setq-default display-line-numbers-type 'relative)
-    (setq display-line-numbers-current-absolute t)))
+    (setq display-line-numbers-current-absolute t)
+    (kevin/set-leader-keys "tn" 'display-line-numbers-mode)))
 
 ;; (use-package nyan-mode
 ;;   :ensure t
