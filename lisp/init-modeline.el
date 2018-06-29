@@ -2,6 +2,28 @@
 ;;; Commentary:
 ;;; Code:
 
+(use-package all-the-icons)
+
+(defun doom-modeline-maybe-icon-octicon (&rest args)
+  "Display octicon ARGS."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-octicon args)))
+
+(defun doom-modeline-maybe-icon-faicon (&rest args)
+  "Display fontawesome icon ARGS."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-faicon args)))
+
+(defun doom-modeline-maybe-icon-material (&rest args)
+  "Display material icon ARGS."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-material args)))
+
+(defface doom-modeline-info
+  `((t (:inherit success :bold t)))
+  "Face for info-level messages in the modeline. Used by `*vc'."
+  :group 'doom-modeline)
+
 ;; 显示layout
 (defun kevin/update-persp-name ()
   (when (bound-and-true-p persp-mode)

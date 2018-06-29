@@ -4,6 +4,7 @@
 
 (kevin/declare-prefix "c" "comment")
 (kevin/declare-prefix "f" "file")
+(kevin/set-leader-keys "fi" #'kevin/open-init-file)
 (kevin/declare-prefix "h" "help")
 (kevin/declare-prefix "j" "jump")
 (kevin/declare-prefix "l" "layout")

@@ -17,13 +17,13 @@
               ([remap xref-find-references] . lsp-ui-peek-find-references))
   :config
   (progn
-    (setq lsp-ui-sideline-enable  nil)
+    (setq lsp-ui-sideline-enable t)
     ))
 
 (use-package company-lsp
   :ensure t
   :after (company lsp-mode)
-  :init (cl-pushnew 'company-lsp company-backends))
+  :init (add-to-list 'company-backends 'company-lsp))
 
 ;; Go support for lsp-mode using Sourcegraph's Go Language Server
 ;; Install: go get github.com/sourcegraph/go-langserver

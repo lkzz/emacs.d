@@ -2,6 +2,19 @@
 ;;; Commentary:
 ;;; Code:
 
+(defconst kevin/company-global-backends '(
+                                          ;; 使用 completion-at-point-functions 的后端
+                                          company-capf
+                                          ;; 主要用来补全当前 buffer 中出现的 word
+                                          company-dabbrev
+                                          ;; 使用 yasnippet 补全的后端
+                                          company-yasnippet
+                                          ;; 当前文件所属编程语言的语法关键词
+                                          company-keywords
+                                          ;; 补全文件系统的路径后端
+                                          company-files
+                                          ))
+
 (use-package company
   :diminish company-mode "ⓐ"
   :bind (("M-/" . company-complete)
@@ -46,31 +59,29 @@
                                  gud-mode))
     (setq company-frontends '(company-pseudo-tooltip-frontend
                               company-echo-metadata-frontend))
-    (setq company-backends '(company-capf
-                             company-dabbrev
-                             company-ispell
-                             company-yasnippet
-                             company-keywords))
-    ))
+    (setq company-backends kevin/company-global-backends)))
 
-(use-package company-quickhelp
-  :if (display-graphic-p)
-  :after company
-  :bind (:map company-active-map
-              ("M-h" . company-quickhelp-manual-begin))
-  :hook (company-mode . company-quickhelp-mode)
-  :init (company-quickhelp-mode 1)
+
+;; ;; doesn’t play well with company-childframe
+;; (use-package company-quickhelp
+;;   :if (display-graphic-p)
+;;   :after company
+;;   :bind (:map company-active-map
+;;               ("M-h" . company-quickhelp-manual-begin))
+;;   :hook (company-mode . company-quickhelp-mode)
+;;   :init (company-quickhelp-mode 1)
+;;   :config
+;;   (progn
+;;     (setq company-quickhelp-use-propertized-text t)
+;;     (setq company-quickhelp-delay 0.6)
+;;     (setq company-quickhelp-max-lines 30)))
+
+(use-package company-childframe
+  :diminish company-childframe-mode
+  :after (company posframe)
   :config
   (progn
-    (setq company-quickhelp-use-propertized-text t)
-    (setq company-quickhelp-delay 0.6)
-    (setq company-quickhelp-max-lines 30))
-  )
-
-;; (use-package company-childframe
-;;   :ensure t
-;;   :config
-;;   (company-childframe-mode 1))
+    (company-childframe-mode 1)))
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
@@ -80,11 +91,6 @@
   ;; save cache file to `user-cache-directory'
   (setq company-statistics-file (concat kevin/cache-directory
                                         "company-statistics-cache.el")))
-
-(use-package company-shell
-  :after company
-  :config
-  (add-to-list 'company-backends 'company-shell))
 
 ;; (use-package company-box
 ;;   :after company
@@ -99,17 +105,6 @@
 ;;               (all-the-icons-material "format_paint" :face 'all-the-icons-pink))
 ;;         company-box-icons-unknown (all-the-icons-material "find_in_page" :face 'all-the-icons-silver)
 ;;         company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green)))
-
-(autoload 'company-capf "company-capf")
-(autoload 'company-dabbrev "company-dabbrev")
-(autoload 'company-dabbrev-code "company-dabbrev-code")
-(autoload 'company-elisp "company-elisp")
-(autoload 'company-etags "company-etags")
-(autoload 'company-files "company-files")
-(autoload 'company-gtags "company-gtags")
-(autoload 'company-ispell "company-ispell")
-(autoload 'company-yasnippet "company-yasnippet")
-
 
 (provide 'init-company)
 ;;; init-company.el ends here
