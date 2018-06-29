@@ -10,7 +10,6 @@
     (evil-leader/set-key
       "SPC" 'counsel-M-x
       "/" 'counsel-ag
-      "ef" 'end-of-defun
       "ff" 'counsel-find-file
       "fr" 'counsel-recentf
       "ss" 'swiper))
