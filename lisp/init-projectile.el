@@ -34,7 +34,8 @@
                                               "projectile.cache")
                 projectile-known-projects-file (concat kevin/cache-directory
                                                        "projectile-bookmarks.eld"))
-          (evil-leader/set-key
+          (kevin/declare-prefix "p" "projectile")
+          (kevin/set-leader-keys
             "/"  'projectile-ag
             "p!" 'projectile-run-shell-command-in-root
             "p&" 'projectile-run-async-shell-command-in-root

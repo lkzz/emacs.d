@@ -15,6 +15,7 @@
   (progn
     (setq dumb-jump-prefer-searcher 'ag)
     (setq dumb-jump-selector 'ivy)
+    (kevin/declare-prefix "d" "dumb-jump")
     (evil-leader/set-key "dj" #'hydra-dumb-jump/body)
     (defhydra hydra-dumb-jump (:color blue :columns 3)
       "Dumb Jump"
