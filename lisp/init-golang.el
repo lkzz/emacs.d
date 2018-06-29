@@ -39,6 +39,7 @@
     (kevin/declare-prefix-for-mode 'go-mode "mt" "test")
     (kevin/declare-prefix-for-mode 'go-mode "mx" "execute")
     (kevin/set-leader-keys-for-major-mode 'go-mode
+      "cj" 'godef-jump
       "hh" 'godoc-at-point
       "ig" 'go-goto-imports
       "ia" 'go-import-add
@@ -127,15 +128,16 @@
 ;; (defun go/post-init-helm-gtags ()
 ;;   (spacemacs/helm-gtags-define-keys-for-mode 'go-mode))
 
+
 (use-package company-go
   :after (go-mode company)
   :config
-  (progn
-    (add-to-list 'company-backends 'company-go)))
+  (progn (add-hook 'go-mode-hook (lambda ()
+                                   (defvar local-go-backends kevin/company-global-backends)
+                                   (add-to-list 'local-go-backends 'company-go)
+                                   (set (make-local-variable 'company-backends) local-go-backends)
+                                   (company-mode)))))
 
-;; (progn (add-hook 'go-mode-hook (lambda ()
-;;                                  (set (make-local-variable 'company-backends) '(company-go))
-;;                                  (company-mode)))))
 
 ;; (use-package flycheck-gometalinter
 ;;   :ensure t

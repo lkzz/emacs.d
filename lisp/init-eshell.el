@@ -2,6 +2,16 @@
 ;;; Commentary:
 ;;; Code:
 
+(use-package company-shell
+  :after company
+  :config
+  (progn (add-hook 'shell-mode-hook (lambda ()
+                                      (defvar local-shell-backends kevin/company-global-backends)
+                                      (add-to-list 'local-shell-backends 'company-shell)
+                                      (set (make-local-variable 'company-backends) local-shell-backends)
+                                      (company-mode)
+                                      ))))
+
 (use-package eshell-prompt-extras
   :defer t
   :commands epe-theme-lambda
@@ -23,7 +33,7 @@
     ;; issue: https://github.com/syl20bnr/spacemacs/issues/7446
     (setq-default shell-pop-full-span nil)
     ;; pop the shell from the bottom of the frame
-    (setq-default shell-pop-window-position "bottom")))
+    (setq-default shell-pop-window-position "full")))
 
 ;; Eshell prompt for git users
 (use-package eshell-git-prompt
