@@ -2,24 +2,21 @@
 ;;; Commentary:
 ;;; Code:
 
+(defun remove-elc-on-save ()
+  "If you're saving an elisp file, likely the .elc is no longer valid."
+  (make-local-variable 'after-save-hook)
+  (add-hook 'after-save-hook
+            (lambda ()
+              (if (file-exists-p (concat buffer-file-name "c"))
+                  (delete-file (concat buffer-file-name "c"))))))
 
 (use-package elisp-mode
   :ensure nil
-  :init
-  (progn
-    (defun remove-elc-on-save ()
-      "If you're saving an elisp file, likely the .elc is no longer valid."
-      (make-local-variable 'after-save-hook)
-      (add-hook 'after-save-hook
-                (lambda ()
-                  (if (file-exists-p (concat buffer-file-name "c"))
-                      (delete-file (concat buffer-file-name "c"))))))
-    (add-hook 'emacs-lisp-mode-hook #'kevin/remove-elc-on-save))
+  :hook (emacs-lisp-mode . remove-elc-on-save)
   :config
   (progn
     (with-eval-after-load 'flycheck
-      (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-    ))
+      (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))))
 
 ;; Show function arglist or variable docstring
 (use-package eldoc
