@@ -18,6 +18,7 @@
 
 ;; ** 设置拼音输入法
 (use-package pyim
+  :demand t
   :bind (("M-j" . pyim-convert-code-at-point))
   :config
   (progn
@@ -37,8 +38,7 @@
     ;; 显示6个候选词。
     (setq pyim-page-length 6)
     ;; 设置选词框的绘制方式
-    (setq pyim-page-tooltip 'popup)
-    ;; (setq pyim-page-tooltip 'posframe)
+    (setq pyim-page-tooltip 'posframe)
     ))
 
 (use-package pangu-spacing
