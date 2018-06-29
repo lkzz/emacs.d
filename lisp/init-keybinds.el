@@ -53,26 +53,6 @@
   "re" 'restart-emacs
   )
 
-;; buffer related keybindings
-(kevin/declare-prefix "b" "buffer")
-(kevin/set-leader-keys
-  "bb" 'ivy-switch-buffer
-  "bc" 'cleanup-buffer
-  "be" 'eval-buffer
-  "bd" 'kill-this-buffer
-  "bD" #'kevin/kill-other-buffers
-  "bf" 'beginning-of-defun
-  "bi"  #'kevin/indent-region-or-buffer
-  "bk" 'kill-buffer
-  "bl" 'ibuffer-list-buffers
-  "bm" #'kevin/kill-all-buffers
-  "bp" #'kevin/switch-to-prev-buffer
-  "bn" #'kevin/switch-to-next-buffer
-  "bg" #'kevin/revert-buffer-no-confirm
-  "bs" 'save-buffer
-  "bS" #'kevin/create-scratch-buffer
-  )
-
 
 ;; ;; * Global Keybindings
 ;; ;; `general-define-key' acts like `global-set-key' when :keymaps is not
