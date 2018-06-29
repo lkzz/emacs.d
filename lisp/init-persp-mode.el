@@ -11,7 +11,8 @@
   :diminish persp-mode
   :init
   (progn
-    (evil-leader/set-key "l" #'hydra-persp-mode/body)
+    (kevin/declare-prefix "l" "layout")
+    (kevin/set-leader-keys "l" #'hydra-persp-mode/body)
     (defhydra hydra-persp-mode (:body-pre (unless (bound-and-true-p persp-mode)
                                             (call-interactively 'persp-mode))
                                           :color blue

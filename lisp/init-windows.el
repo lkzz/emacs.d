@@ -54,7 +54,9 @@
 ;; Numbered window shortcuts
 (use-package window-numbering
   :defer t
-  :hook (after-init . window-numbering-mode)
+  :hook ((after-init . window-numbering-mode)
+         ;; don't add numbers to the modeline
+         (window-numbering-mode . window-numbering-clear-mode-line))
   :init
   (progn
     (kevin/declare-prefix "w" "window")

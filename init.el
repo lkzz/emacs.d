@@ -18,7 +18,6 @@
 
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name  "vendor" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name  "vendor/doom-modeline" user-emacs-directory))
 
 (require 'init-benchmarking) ;; Measure startup time
 
@@ -56,9 +55,7 @@
 ;;----------------------------------------------------------------------------
 ;; ui setup
 (require 'init-ui)
-;; (require 'doom-modeline)
-;; (doom-modeline-init)
-(require 'init-modeline)
+(require 'init-telephone-line)
 (require 'init-highlight)
 (require 'init-filetree)
 (require 'init-whitespace)
