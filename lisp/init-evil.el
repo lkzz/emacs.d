@@ -63,6 +63,7 @@
     (define-key evil-normal-state-map (kbd ",w") 'evil-write)
     (define-key evil-normal-state-map (kbd ",W") 'evil-write-all)
     (define-key evil-normal-state-map (kbd ",q") 'evil-quit)
+    (define-key evil-normal-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
     (define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
     (define-key evil-normal-state-map (kbd "C-w") 'evil-delete-backward-word)
     (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
