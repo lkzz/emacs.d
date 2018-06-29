@@ -7,7 +7,6 @@
 (kevin/set-leader-keys "fi" #'kevin/open-init-file)
 (kevin/declare-prefix "h" "help")
 (kevin/declare-prefix "j" "jump")
-(kevin/declare-prefix "l" "layout")
 (kevin/declare-prefix "o" "personal")
 (kevin/declare-prefix "p" "projectile")
 
