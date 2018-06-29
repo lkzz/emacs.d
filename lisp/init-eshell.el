@@ -2,15 +2,14 @@
 ;;; Commentary:
 ;;; Code:
 
+(defun kevin/setup-shell-backends ()
+  (let ((local-shell-backends kevin/company-global-backends))
+    (add-to-list 'local-shell-backends 'company-shell)
+    (set (make-local-variable 'company-backends) local-shell-backends)))
+
 (use-package company-shell
   :after company
-  :config
-  (progn (add-hook 'shell-mode-hook (lambda ()
-                                      (defvar local-shell-backends kevin/company-global-backends)
-                                      (add-to-list 'local-shell-backends 'company-shell)
-                                      (set (make-local-variable 'company-backends) local-shell-backends)
-                                      (company-mode)
-                                      ))))
+  :hook (shell-mode . kevin/setup-shell-backends))
 
 (use-package eshell-prompt-extras
   :defer t

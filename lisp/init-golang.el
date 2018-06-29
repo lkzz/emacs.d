@@ -119,24 +119,14 @@
     "rf" 'go-tag-add
     "rF" 'go-tag-remove))
 
-;; (defun go/post-init-ggtags ()
-;;   (add-hook 'go-mode-local-vars-hook #'spacemacs/ggtags-mode-enable))
-
-;; (defun go/post-init-counsel-gtags ()
-;;   (spacemacs/counsel-gtags-define-keys-for-mode 'go-mode))
-
-;; (defun go/post-init-helm-gtags ()
-;;   (spacemacs/helm-gtags-define-keys-for-mode 'go-mode))
-
+(defun kevin/setup-go-backends ()
+  (let ((local-go-backends kevin/company-global-backends))
+    (add-to-list 'local-go-backends 'company-go)
+    (set (make-local-variable 'company-backends) local-go-backends)))
 
 (use-package company-go
   :after (go-mode company)
-  :config
-  (progn (add-hook 'go-mode-hook (lambda ()
-                                   (defvar local-go-backends kevin/company-global-backends)
-                                   (add-to-list 'local-go-backends 'company-go)
-                                   (set (make-local-variable 'company-backends) local-go-backends)
-                                   (company-mode)))))
+  :hook (go-mode . kevin/setup-go-backends))
 
 
 ;; (use-package flycheck-gometalinter
