@@ -55,7 +55,7 @@
 ;;----------------------------------------------------------------------------
 ;; ui setup
 (require 'init-ui)
-(require 'init-telephone-line)
+(require 'init-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
 (require 'init-whitespace)

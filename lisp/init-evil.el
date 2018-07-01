@@ -30,13 +30,13 @@
     (setq evil-esc-delay 0)
     (setq evil-mode-line-format 'before)
 
-    ;; modeline UI
-    (setq evil-normal-state-tag   (propertize "[N]" 'face '((:background "green" :foreground "black")))
-          evil-emacs-state-tag    (propertize "[E]" 'face '((:background "orange" :foreground "black")))
-          evil-insert-state-tag   (propertize "[I]" 'face '((:background "red")))
-          evil-motion-state-tag   (propertize "[M]" 'face '((:background "blue")))
-          evil-visual-state-tag   (propertize "[V]" 'face '((:background "grey80" :foreground "black")))
-          evil-operator-state-tag (propertize "[O]" 'face '((:background "purple"))))
+    ;; ;; modeline UI
+    (setq evil-normal-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "NO" "SkyBlue2"))
+    (setq evil-emacs-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "EM" "yellow"))
+    (setq evil-insert-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "IN" "green"))
+    (setq evil-motion-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "MO" "blue"))
+    (setq evil-visual-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "VI" "red"))
+    (setq evil-operator-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "OP" "purple"))
 
     ;; evil cursor color
     (setq  evil-default-cursor '("SkyBlue2" box)

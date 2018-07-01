@@ -4,18 +4,20 @@
 
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
-(setq ns-use-srgb-colorspace t)
+;; 打开抗锯齿
 (setq mac-allow-anti-aliasing t)
+;; 关闭srgb，修复modeline上的颜色显示问题
+(setq ns-use-srgb-colorspace nil)
 
 ;; Show a marker in the left fringe for lines not in the buffer
 (setq indicate-empty-lines t)
 
 ;; 移除工具栏
 (if (fboundp 'tool-bar-mode)
-  (tool-bar-mode -1))
+    (tool-bar-mode -1))
 ;; 移除滚动条
 (if (fboundp 'set-scroll-bar-mode)
-  (set-scroll-bar-mode nil))
+    (set-scroll-bar-mode nil))
 ;; 移除菜单栏
 (if (fboundp 'menu-bar-mode)
     (menu-bar-mode -1))
@@ -37,8 +39,13 @@
         (:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
+;; Fancy titlebar for MacOS
+;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+;; (add-to-list 'default-frame-alist '(ns-appearance . dark))
+;; (setq ns-use-proxy-icon  nil)
+
 ;; 设置scratch message
-(setq initial-scratch-message "")
+;; (setq initial-scratch-message "")
 ;; 打开文件时不再创建新的frame
 (when (boundp 'ns-pop-up-frames)
   (setq ns-pop-up-frames nil))
@@ -92,6 +99,16 @@
               :weight 'normal
               :slant 'normal
               :size 16.0)))
+
+(use-package unicode-fonts
+  :config
+  (progn
+    (unicode-fonts-setup)
+    ;; (set-face-attribute 'default nil :font "DejaVu Sans Mono-12.0")
+    (set-fontset-font "fontset-default" 'unicode "Consolas-9.0" nil)
+    ;; (set-fontset-font "fontset-default" 'unicode "DejaVu Sans Mono" nil 'append)
+    ;; (set-fontset-font "fontset-default" 'unicode "Symbola" nil 'append)
+    ))
 
 
 ;; fringe 美化
