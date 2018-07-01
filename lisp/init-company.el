@@ -62,26 +62,26 @@
     (setq company-backends kevin/company-global-backends)))
 
 
-;; ;; doesn’t play well with company-childframe
-;; (use-package company-quickhelp
-;;   :if (display-graphic-p)
-;;   :after company
-;;   :bind (:map company-active-map
-;;               ("M-h" . company-quickhelp-manual-begin))
-;;   :hook (company-mode . company-quickhelp-mode)
-;;   :init (company-quickhelp-mode 1)
-;;   :config
-;;   (progn
-;;     (setq company-quickhelp-use-propertized-text t)
-;;     (setq company-quickhelp-delay 0.6)
-;;     (setq company-quickhelp-max-lines 30)))
-
-(use-package company-childframe
-  :diminish company-childframe-mode
-  :after (company posframe)
+;; doesn’t play well with company-childframe
+(use-package company-quickhelp
+  :if (display-graphic-p)
+  :after company
+  :bind (:map company-active-map
+              ("M-h" . company-quickhelp-manual-begin))
+  :hook (company-mode . company-quickhelp-mode)
+  :init (company-quickhelp-mode 1)
   :config
   (progn
-    (company-childframe-mode 1)))
+    (setq company-quickhelp-use-propertized-text t)
+    (setq company-quickhelp-delay 0.6)
+    (setq company-quickhelp-max-lines 30)))
+
+;; (use-package company-childframe
+;;   :diminish company-childframe-mode
+;;   :after (company posframe)
+;;   :config
+;;   (progn
+;;     (company-childframe-mode 1)))
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics

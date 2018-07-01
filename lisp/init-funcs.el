@@ -219,5 +219,32 @@ minor-mode, the third argument should be non nil."
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
+(defun kevin/insert-faicon-icon (icon &optional color help-echo)
+  "Retorna una cadena de texto formateada con `propertize' de un icono de all-the-icons"
+  (propertize (all-the-icons-faicon icon)
+              'face `(:foreground ,(or color "orange") :height 1.0 :family ,(all-the-icons-faicon-family))
+              'display '(raise -0.1)
+              'help-echo help-echo))
+
+(defun kevin/insert-face-text (text &optional face)
+  "Return a coloured TEXT with COLOR."
+  (propertize (format "%s" text)
+              'face `(:foreground ,(or color "white") :height 1.0)
+              'display '(raise 0.05)))
+
+(defun kevin/insert-faicon-icon-with-text (icon text &optional color help-echo)
+  "Retorna una cadena de texto formateada con `propertize' de un icono de all-the-icons"
+  (concat
+   (propertize (all-the-icons-faicon icon)
+               'face `(:foreground ,(or color "gray") :height 1.0 :family ,(all-the-icons-faicon-family))
+               'display '(raise -0.1)
+               'help-echo help-echo)
+   " "
+   (propertize (format "%s" text)
+               'face `(:foreground ,(or color "gray") :height 1.0)
+               ;; 'face 'mode-line
+               'display '(raise -0.0)
+               )))
+
 (provide 'init-funcs)
 ;;; init-funcs.el ends here
