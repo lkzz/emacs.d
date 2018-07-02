@@ -100,17 +100,6 @@
               :slant 'normal
               :size 16.0)))
 
-(use-package unicode-fonts
-  :config
-  (progn
-    (unicode-fonts-setup)
-    ;; (set-face-attribute 'default nil :font "DejaVu Sans Mono-12.0")
-    (set-fontset-font "fontset-default" 'unicode "Consolas-9.0" nil)
-    ;; (set-fontset-font "fontset-default" 'unicode "DejaVu Sans Mono" nil 'append)
-    ;; (set-fontset-font "fontset-default" 'unicode "Symbola" nil 'append)
-    ))
-
-
 ;; fringe 美化
 ;; left fringe with 4 pixel ,right fringe width:8 pixel
 (if (fboundp 'fringe-mode) (fringe-mode '(4 . 8)))
