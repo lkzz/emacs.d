@@ -239,7 +239,6 @@ minor-mode, the third argument should be non nil."
                'face `(:foreground ,(or color "gray") :height 1.0 :family ,(all-the-icons-faicon-family))
                'display '(raise -0.1)
                'help-echo help-echo)
-   " "
    (propertize (format "%s" text)
                'face `(:foreground ,(or color "gray") :height 1.0)
                ;; 'face 'mode-line
