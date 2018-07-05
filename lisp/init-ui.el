@@ -8,6 +8,8 @@
 (setq mac-allow-anti-aliasing t)
 ;; 关闭srgb，修复modeline上的颜色显示问题
 (setq ns-use-srgb-colorspace nil)
+;; 去除全屏时的黑边
+(setq frame-resize-pixelwise t)
 
 ;; Show a marker in the left fringe for lines not in the buffer
 (setq indicate-empty-lines t)
