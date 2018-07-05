@@ -70,7 +70,7 @@
       (concat
        (propertize (format "%s" (all-the-icons-faicon "file-text" :v-adjust -0.1))
                    'face `(:foreground "orange" :height 1.0))
-       (propertize (format " %s" (concat (shorten-directory buffer-file-name 20))))
+       (propertize (format " %s" (concat (shorten-directory default-directory 15) (file-relative-name buffer-file-name) )))
        ))
     )
   :config
