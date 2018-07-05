@@ -55,7 +55,7 @@
 ;;----------------------------------------------------------------------------
 ;; ui setup
 (require 'init-ui)
-(require 'init-modeline)
+(require 'init-telephone-line)
 (require 'init-highlight)
 (require 'init-filetree)
 (require 'init-whitespace)
@@ -90,6 +90,7 @@
 ;; (require 'init-restore)
 
 (require 'init-windows)
+;; (require 'init-modeline)
 (require 'init-keybinds)
 
 ;;----------------------------------------------------------------------------

@@ -31,12 +31,12 @@
     (setq evil-mode-line-format 'before)
 
     ;; ;; modeline UI
-    (setq evil-normal-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "NO" "SkyBlue2"))
-    (setq evil-emacs-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "EM" "yellow"))
-    (setq evil-insert-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "IN" "green"))
-    (setq evil-motion-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "MO" "blue"))
-    (setq evil-visual-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "VI" "red"))
-    (setq evil-operator-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "OP" "purple"))
+    (setq evil-normal-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "NO " "SkyBlue2"))
+    (setq evil-emacs-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "EM " "yellow"))
+    (setq evil-insert-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "IN " "green"))
+    (setq evil-motion-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "MO " "blue"))
+    (setq evil-visual-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "VI " "red"))
+    (setq evil-operator-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "OP " "purple"))
 
     ;; evil cursor color
     (setq  evil-default-cursor '("SkyBlue2" box)

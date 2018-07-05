@@ -16,8 +16,7 @@
   :config
   (progn
     (with-eval-after-load 'flycheck
-      (setq-default flycheck-disabled-checkers '(;;emacs-lisp
-                                                 emacs-lisp-checkdoc)))))
+      (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))))
 
 ;; Show function arglist or variable docstring
 (use-package eldoc

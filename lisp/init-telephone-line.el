@@ -66,24 +66,18 @@
           (setq output (concat "../" output)))
         output))
 
-    (telephone-line-defsegment* kevin/file-icon ()
+    (telephone-line-defsegment* kevin/buffer-name-segment ()
       (concat
        (propertize (format "%s" (all-the-icons-faicon "file-text" :v-adjust -0.1))
                    'face `(:foreground "orange" :height 1.0))
        (propertize (format " %s" (concat (shorten-directory buffer-file-name 20))))
        ))
-
-    (telephone-line-defsegment* kevin/buffer-segment ()
-      `(""
-        mode-line-frame-identification
-        ,(telephone-line-raw mode-line-buffer-identification t)))
     )
   :config
   (progn
     (setq telephone-line-lhs
           '((evil   . (telephone-line-evil-tag-segment))
-            (nil    . (kevin/file-icon
-                       ;; kevin/buffer-segment
+            (nil    . (kevin/buffer-name-segment
                        telephone-line-minor-mode-segment
                        ))))
     (setq telephone-line-rhs

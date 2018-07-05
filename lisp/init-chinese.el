@@ -38,7 +38,7 @@
     ;; 显示6个候选词。
     (setq pyim-page-length 6)
     ;; 设置选词框的绘制方式
-    (setq pyim-page-tooltip 'posframe)
+    (setq pyim-page-tooltip 'popup)
     ))
 
 (use-package pangu-spacing

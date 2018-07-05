@@ -97,6 +97,8 @@
 ;; (mouse-avoidance-mode 'animate)
 ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
 (setq mouse-autoselect-window t)
+;; 关闭像素滚动
+(setq mac-mouse-wheel-smooth-scroll nil)
 
 ;; 鼠标滚动设置
 (setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
