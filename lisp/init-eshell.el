@@ -32,7 +32,7 @@
     ;; issue: https://github.com/syl20bnr/spacemacs/issues/7446
     (setq-default shell-pop-full-span nil)
     ;; pop the shell from the bottom of the frame
-    (setq-default shell-pop-window-position "full")))
+    (setq-default shell-pop-window-position "bottom")))
 
 ;; Eshell prompt for git users
 (use-package eshell-git-prompt
@@ -54,15 +54,15 @@
   (progn
     (setq eshell-cmpl-cycle-completions nil
           ;; auto truncate after 20k lines
-          eshell-buffer-maximum-lines 20000
+          eshell-buffer-maximum-lines 1000
           ;; history size
-          eshell-history-size 350
+          eshell-history-size 50
           ;; no duplicates in history
           eshell-hist-ignoredups t
           ;; buffer shorthand -> echo foo > #'buffer
           eshell-buffer-shorthand t
           ;; my prompt is easy enough to see
-          eshell-highlight-prompt nil
+          eshell-highlight-prompt t
           ;; treat 'echo' like shell echo
           eshell-plain-echo-behavior t
           eshell-list-files-after-cd t
@@ -167,6 +167,13 @@
         (kbd "C-u") 'eshell-kill-input
         (kbd "C-a") 'eshell-bol))
     (add-hook 'eshell-first-time-mode-hook #'kevin/eshell-keymap)
+
+    (defun eshell-other-frame ()
+      "Open eshell in another frame."
+      (interactive)
+      (with-selected-frame (make-frame)
+        (eshell)))
+
     ))
 
 (provide 'init-eshell)
