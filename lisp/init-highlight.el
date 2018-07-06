@@ -53,23 +53,20 @@
           ("FIXME" . ,(face-foreground 'error))
           ("NOTE"  . ,(face-foreground 'success)))))
 
-;; (use-package fic-mode
-;;   :ensure t
-;;   :defer t
-;;   :init (add-hook 'prog-mode-hook #'fic-mode)
-;;   :config
-;;   (setq fic-activated-faces '(font-lock-comment-face))
-;;   (set-face-background 'fic-face "DarkGoldenrod2")
-;;   (set-face-background 'fic-author-face "DarkGoldenrod2"))
-
-;; (use-package fill-column-indicator
-;;   :ensure t
-;;   :diminish auto-fill-mode
-;;   :commands (fci-mode)
-;;   :init (add-hook 'prog-mode-hook #'fci-mode)
-;;   :config
-;;   (progn
-;;     (turn-on-auto-fill)))
+(use-package fill-column-indicator
+  :ensure t
+  :defer t
+  :diminish auto-fill-mode
+  :commands (fci-mode)
+  :hook (prog-mode . fci-mode)
+  :init
+  (progn
+    (kevin/set-leader-keys "tF" 'fci-mode))
+  :config
+  (progn
+    (setq fci-rule-column 80)
+    (setq fci-rule-width 1)
+    (turn-on-auto-fill)))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here
