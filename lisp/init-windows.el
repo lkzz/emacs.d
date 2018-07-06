@@ -255,5 +255,21 @@
       (add-to-list 'golden-ratio-exclude-buffer-names n))
     ))
 
+(use-package centered-cursor-mode
+  :commands (centered-cursor-mode
+             global-centered-cursor-mode)
+  :diminish centered-cursor-mode "⊝"
+  :init
+  (progn
+    (kevin/set-leader-keys "t-" 'centered-cursor-mode))
+  (progn
+    (setq ccm-recenter-at-end-of-file t
+          ccm-ignored-commands '(mouse-drag-region
+                                 mouse-set-point
+                                 widget-button-click
+                                 scroll-bar-toolkit-scroll
+                                 evil-mouse-drag-region))
+    (global-centered-cursor-mode +1)))
+
 (provide 'init-windows)
 ;;; init-windows ends here
