@@ -22,12 +22,13 @@
 ;; toggle
 (kevin/declare-prefix "t" "toggle")
 (kevin/set-leader-keys
-  "tM" 'toggle-major-mode
+  "tm" 'toggle-major-mode
   "tb" 'toggle-scroll-bar
   "ti" 'imenu-list-smart-toggle
   "tw" 'toggle-word-wrap
-  "tm" 'toggle-frame-maximized
-  "tf" 'toggle-frame-fullscreen)
+  "tM" 'toggle-frame-maximized
+  "tf" 'toggle-frame-fullscreen
+  "tt" 'toggle-truncate-lines)
 
 ;; open applications with from emacs
 (kevin/declare-prefix "a" "application")
@@ -49,7 +50,7 @@
   "hv" 'describe-variable
   "md" 'mark-defun
   "mf" #'kevin/make-frame
-  "re" 'restart-emacs
+  "qr" 'restart-emacs
   )
 
 
