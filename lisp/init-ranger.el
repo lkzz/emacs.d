@@ -8,11 +8,13 @@
   :init
   (progn
     (setq ranger-override-dired t)
+    (kevin/set-leader-keys
+      "jd" 'deer
+      "jr" 'ranger)
     (eval-after-load 'evil
       '(progn
          (evil-define-key 'normal ranger-mode-map (kbd "q") 'ranger-close)))
-    (evil-leader/set-key
-      "jd" 'deer))
+    )
   :config
   (setq ranger-cleanup-on-disable t)
   (setq ranger-modify-header nil)

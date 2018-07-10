@@ -89,10 +89,10 @@
 ;; <https://github.com/tumashu/cnfonts>
 (set-face-attribute
  'default nil
- :font (font-spec :name "-*-Inconsolata-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"
+ :font (font-spec :name "-*-Monaco-normal-normal-normal-*-*-*-*-*-m-0-iso10646-1"
                   :weight 'normal
                   :slant 'normal
-                  :size 19.0))
+                  :size 14.0))
 (dolist (charset '(kana han symbol cjk-misc bopomofo))
   (set-fontset-font
    (frame-parameter nil 'font)
@@ -164,6 +164,12 @@
   :config
   (setq beacon-color "red")
   (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
+
+(use-package doom-modeline
+  :ensure t
+  :defer t
+  :hook (after-init . doom-modeline-init))
+
 
 (provide 'init-ui)
 ;;; init-ui ends here
