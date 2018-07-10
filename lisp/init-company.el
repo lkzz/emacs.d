@@ -51,7 +51,6 @@
     (setq company-dabbrev-downcase nil)
     (setq company-transformers '(company-sort-by-occurrence))
     (setq company-global-modes '(not
-                                 eshell-mode
                                  comint-mode
                                  erc-mode
                                  message-mode
