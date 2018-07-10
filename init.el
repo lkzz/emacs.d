@@ -55,7 +55,8 @@
 ;;----------------------------------------------------------------------------
 ;; ui setup
 (require 'init-ui)
-(require 'init-telephone-line)
+;; (require 'init-telephone-line)
+(require 'init-doom-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
 (require 'init-whitespace)
@@ -74,19 +75,21 @@
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-elisp)
-(require 'init-etags)
 (require 'init-imenu)
+(require 'init-persp-mode)
+(require 'init-projectile)
 ;; (require 'init-lsp)
 
-(require 'init-projectile)
+;; tools
+(require 'init-etags)
 (require 'init-git)
-(require 'init-persp-mode)
 (require 'init-buffer)
 (require 'init-flycheck)
 (require 'init-dired)
 (require 'init-ranger)
 (require 'init-eshell)
 (require 'init-dump-jump)
+(require 'init-restclient)
 ;; (require 'init-restore)
 
 (require 'init-windows)
