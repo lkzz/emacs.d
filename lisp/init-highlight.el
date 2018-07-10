@@ -58,7 +58,7 @@
   :defer t
   :diminish auto-fill-mode
   :commands (fci-mode)
-  :hook (prog-mode . fci-mode)
+  ;; :hook (prog-mode . fci-mode) ;; 导致company候选词偏移
   :init
   (progn
     (kevin/set-leader-keys "tF" 'fci-mode))

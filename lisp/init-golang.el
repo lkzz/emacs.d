@@ -102,7 +102,7 @@
     (kevin/set-leader-keys-for-major-mode 'go-mode "rN" 'go-rename)))
 
 (use-package godoctor
-  :defer t
+  :after go-mode
   :init
   (progn
     (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
