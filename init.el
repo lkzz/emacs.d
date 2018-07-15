@@ -1,14 +1,8 @@
-;;; init.el --- This file bootstraps the configuration, which is divided into
-;;; a number of other files.
-
+;; init.el -*- lexical-binding: t; -*-
+;;
 ;;; Commentary:
+;;            Emacs init file.
 ;;; Code:
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-;; (package-initialize)
 
 (let ((minver "24.3"))
   (when (version< emacs-version minver)
@@ -92,7 +86,7 @@
 ;; (require 'init-restore)
 
 (require 'init-windows)
-;; (require 'init-modeline)
+(require 'init-modeline)
 (require 'init-keybinds)
 
 ;;----------------------------------------------------------------------------
