@@ -240,9 +240,10 @@ active.")
               '("%e"
                 (:eval
                  (let* ((lhs (list (buffer-info)
-                                   (position-info 'doom-modeline-warning)
                                    (vc-info)
                                    (minor-modes 'mode-line)
+                                   " "
+                                   (position-info 'doom-modeline-warning)
                                    ))
                         (rhs (list
                               (flycheck-info)
