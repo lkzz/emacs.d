@@ -1,9 +1,15 @@
-;;; init-funcs.el -- functions used in emacs configurations.
-;;; Commentary
+;;; init-funcs.el. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
+;;; Commentary:
+;;            functions used in emacs configurations
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; functions copy from spacemacs ;;;;;;;;;;;;;;;;;;;;;;;
 
+;;;###autoload
 (defun kevin/declare-prefix (prefix name &optional long-name)
   "Declare a prefix PREFIX. PREFIX is a string describing a key
 sequence. NAME is a string used as the prefix command."
@@ -20,6 +26,7 @@ sequence. NAME is a string used as the prefix command."
       full-prefix (cons name long-name))))
 (put 'kevin/declare-prefix 'lisp-indent-function 'defun)
 
+;;;###autoload
 (defun kevin/set-leader-keys (key def &rest bindings)
   "Add KEY and DEF as key bindings under
 `kevin/leader-key' and `kevin/emacs-leader-key'.
@@ -44,6 +51,7 @@ pairs. For example,
 (defalias 'evil-leader/set-key 'kevin/set-leader-keys)
 
 
+;;;###autoload
 (defun kevin/declare-prefix-for-mode (mode prefix name &optional long-name)
   "Declare a prefix PREFIX. MODE is the mode in which this prefix command should
 be added. PREFIX is a string describing a key sequence. NAME is a symbol name
@@ -69,6 +77,7 @@ used as the prefix command."
           mode major-mode-prefix-emacs prefix-name)))))
 (put 'kevin/declare-prefix-for-mode 'lisp-indent-function 'defun)
 
+;;;###autoload
 (defun kevin/set-leader-keys-for-major-mode (mode key def &rest bindings)
   "Add KEY and DEF as key bindings under
 `kevin/major-mode-leader-key' and
@@ -85,10 +94,12 @@ they are in `kevin/set-leader-keys'."
 
 (defalias 'evil-leader/set-key-for-mode 'kevin/set-leader-keys-for-major-mode)
 
+;;;###autoload
 (defun kevin//acceptable-leader-p (key)
   "Return t if key is a string and non-empty."
   (and (stringp key) (not (string= key ""))))
 
+;;;###autoload
 (defun kevin//init-leader-mode-map (mode map &optional minor)
   "Check for MAP-prefix. If it doesn't exist yet, use `bind-map'
 to create it and bind it to `kevin/major-mode-leader-key'
@@ -125,30 +136,34 @@ minor-mode, the third argument should be non nil."
 
 
 ;; applescript
+;;;###autoload
 (defun kevin/open-iterm ()
   "Open iTerm and focus on it."
   (interactive)
   (do-applescript
    "do shell script \"open -a iTerm\"\n"))
 
+;;;###autoload
 (defun kevin/open-wechat ()
   "Open WeChat and focus on it."
   (interactive)
   (do-applescript
    "do shell script \"open -a WeChat\"\n"))
 
+;;;###autoload
 (defun kevin/open-youdao ()
   "Open youdao dictionary and focus on it."
   (interactive)
   (do-applescript
    "do shell script \"open -a 有道词典\"\n"))
 
+;;;###autoload
 (defun kevin/open-chrome ()
   "Open chrome dictionary and focus on it."
   (interactive)
-  (do-applescript
-   "do shell script \"open -a Google Chrome\"\n"))
+  (shell-command "open /Applications/Google\sChrome.app --args --enable-net-benchmarking"))
 
+;;;###autoload
 (defun kevin/goto-match-parent ()
   "Go to the matching  if on (){}[], similar to vi style of %."
   (interactive)
@@ -160,17 +175,20 @@ minor-mode, the third argument should be non nil."
         ((looking-back "[\[\(\{]" 1) (backward-char) (evil-jump-item))
         (t nil)))
 
+;;;###autoload
 (defun kevin/buffer-too-big-p ()
   "Check if buffer size is larger than 1M or has more than 5000 lines."
   (or (> (buffer-size) (* 1024 1024))
       (> (line-number-at-pos (point-max)) 5000)))
 
+;;;###autoload
 (defun kevin/make-frame ()
   "New a frame,and erase buffer."
   (interactive)
   (make-frame)
   (kevin/create-scratch-buffer))
 
+;;;###autoload
 (defun kevin/go-enable-gometalinter ()
   "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
   (setq flycheck-disabled-checkers '(go-gofmt
@@ -181,6 +199,7 @@ minor-mode, the third argument should be non nil."
                                      go-errcheck))
   (flycheck-gometalinter-setup))
 
+;;;###autoload
 (defun kevin/bazel-update ()
   "Bazel update in go-common."
   (interactive)
@@ -189,6 +208,7 @@ minor-mode, the third argument should be non nil."
   (shell-command "make update")
   (message "bazel update done!"))
 
+;;;###autoload
 (defun kevin/bazel-build ()
   "Bazel build in go-common."
   (interactive)
@@ -197,6 +217,7 @@ minor-mode, the third argument should be non nil."
   (shell-command "make build")
   (message "bazel build done!"))
 
+;;;###autoload
 (defun blog-example ()
   (interactive)
   (with-output-to-temp-buffer "*blog-example*"
@@ -205,6 +226,7 @@ minor-mode, the third argument should be non nil."
                    "*Messages*")
     (pop-to-buffer "*blog-example*")))
 
+;;;###autoload
 (defun kevin/complie ()
   "Complie command."
   (interactive)
@@ -214,24 +236,13 @@ minor-mode, the third argument should be non nil."
         (append my-list x)
         ))
 
+;;;###autoload
 (defun kevin/open-init-file ()
   "Open emacs init file."
   (interactive)
   (find-file "~/.emacs.d/init.el"))
 
-(defun kevin/insert-faicon-icon (icon &optional color help-echo)
-  "Retorna una cadena de texto formateada con `propertize' de un icono de all-the-icons"
-  (propertize (all-the-icons-faicon icon)
-              'face `(:foreground ,(or color "orange") :height 1.0 :family ,(all-the-icons-faicon-family))
-              'display '(raise -0.1)
-              'help-echo help-echo))
-
-(defun kevin/insert-face-text (text &optional face)
-  "Return a coloured TEXT with COLOR."
-  (propertize (format "%s" text)
-              'face `(:foreground ,(or color "white") :height 1.0)
-              'display '(raise 0.05)))
-
+;;;###autoload
 (defun kevin/insert-faicon-icon-with-text (icon text &optional color help-echo)
   "Retorna una cadena de texto formateada con `propertize' de un icono de all-the-icons"
   (concat

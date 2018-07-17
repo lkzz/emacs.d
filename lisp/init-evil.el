@@ -23,20 +23,11 @@
           ;; more vim-like behavior
           evil-symbol-word-search t
           ;; don't activate mark on shift-click
-          shift-select-mode nil)
-    (setq evil-mode-line-format nil)
-    (setq evil-cross-lines t)
-    (setq evil-move-cursor-back t) ;; Move back the cursor one position when exiting insert mode
-    (setq evil-esc-delay 0)
-    (setq evil-mode-line-format 'before)
-
-    ;; ;; modeline UI
-    (setq evil-normal-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "NO " "SkyBlue2"))
-    (setq evil-emacs-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "EM " "yellow"))
-    (setq evil-insert-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "IN " "green"))
-    (setq evil-motion-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "MO " "blue"))
-    (setq evil-visual-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "VI " "red"))
-    (setq evil-operator-state-tag (kevin/insert-faicon-icon-with-text "chevron-right" "OP " "purple"))
+          shift-select-mode nil
+          evil-cross-lines t
+          evil-move-cursor-back t ;; Move back the cursor one position when exiting insert mode
+          evil-esc-delay 0
+          evil-mode-line-format 'after)
 
     ;; evil cursor color
     (setq  evil-default-cursor '("SkyBlue2" box)
