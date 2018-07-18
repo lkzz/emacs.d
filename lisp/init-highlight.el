@@ -17,18 +17,16 @@
   (setq show-paren-when-point-inside-paren t)
   (setq show-paren-when-point-in-periphery t))
 
-;; Highlight surrounding parentheses
-(use-package highlight-parentheses
+(use-package indent-guide
   :defer t
-  :diminish highlight-parentheses-mode
-  :init (add-hook 'prog-mode-hook #'highlight-parentheses-mode)
-  :config (set-face-attribute 'hl-paren-face nil :weight 'ultra-bold))
-
-;; Highlight indentions
-(use-package highlight-indent-guides
-  :defer t
-  :init (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
-  :config (setq highlight-indent-guides-method 'character))
+  :ensure t
+  :diminish indent-guide-global-mode "Ⓘ"
+  :hook (prog-mode . indent-guide-global-mode)
+  :config
+  (progn
+    ;; (setq indent-guide-recursive t)
+    (setq indent-guide-char "|")
+    (setq indent-guide-delay 0.3)))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
