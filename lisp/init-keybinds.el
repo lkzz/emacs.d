@@ -7,8 +7,10 @@
 (kevin/set-leader-keys "fi" #'kevin/open-init-file)
 (kevin/declare-prefix "h" "help")
 (kevin/declare-prefix "j" "jump")
-(kevin/declare-prefix "o" "personal")
-(kevin/declare-prefix "p" "projectile")
+(kevin/declare-prefix "o" "custom")
+(kevin/declare-prefix "p" "project")
+(kevin/declare-prefix "q" "quit")
+(kevin/declare-prefix "s" "search")
 
 ;; bookmark
 (kevin/declare-prefix "ob" "bookmark")
@@ -51,6 +53,7 @@
   "md" 'mark-defun
   "mf" #'kevin/make-frame
   "qr" 'restart-emacs
+  "qq" 'save-buffers-kill-terminal
   )
 
 

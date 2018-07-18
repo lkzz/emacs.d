@@ -53,7 +53,7 @@
    ("C-x g t" . magit-tag))
   :init
   (progn
-    (kevin/declare-prefix "g" "git")
+    (kevin/declare-prefix "g" "magit")
     (kevin/declare-prefix "gf" "file")
     (kevin/set-leader-keys
       "ga" #'git-add-current-file
