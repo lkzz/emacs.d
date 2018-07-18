@@ -81,21 +81,18 @@
 (defun kevin/material-icon-with-text (icon &optional text face voffset)
   "Displays an material ICON with FACE, followed by TEXT."
   (concat
-   (when icon
-     (concat
-      (kevin/maybe-material-icon icon :face face :height 1.1 :v-adjust (or voffset -0.2))
-      " "
-      (if text (propertize text 'face face))))))
+   (when (display-graphic-p)
+     (kevin/maybe-material-icon icon :face face :height 1.1 :v-adjust (or voffset -0.2)))
+   " "
+   (if text (propertize text 'face face))))
 
 ;;;###autoload
 (defun kevin/faicon-icon-with-text (icon &optional text face voffset)
   "Displays an faicon ICON with FACE, followed by TEXT."
   (concat
-   (when icon
-     (concat
-      (kevin/maybe-faicon-icon icon :face face :height 1.1 :v-adjust (or voffset -0.2))
-      " "
-      (if text (propertize text 'face face))))))
+   (when (display-graphic-p)
+     (kevin/maybe-faicon-icon icon :face face :height 1.1 :v-adjust (or voffset -0.2)))
+   (if text (propertize text 'face face))))
 
 ;;;###autoload
 (defun shorten-directory (dir max-length)
@@ -162,7 +159,7 @@
                            (cond ((string-match "Git[:-]" vc-mode)
                                   (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
                                     (kevin/faicon-icon-with-text "code-fork"
-                                                                 branch
+                                                                 (concat " " branch)
                                                                  'success
                                                                  0.05) ))
                                  (t vc-mode))))
@@ -200,7 +197,7 @@
                            (if replace-name replace-name major-name)))
 
 (modeline-define-segment minor-mode-segment
-                         (when (> (window-width) 120)
+                         (when (and (display-graphic-p) (> (window-width) 120))
                            (format-mode-line minor-mode-alist)))
 
 (modeline-define-segment window-number-segment
@@ -220,14 +217,15 @@
                               ((string= "0" str) "➓"))
                              )))
 
-
+(with-eval-after-load 'evil
+  (setq evil-normal-state-tag (kevin/faicon-icon-with-text "chevron-right" "NO" 'mode-line))
+  (setq evil-insert-state-tag (kevin/faicon-icon-with-text "chevron-right" "IN" 'success))
+  (setq evil-motion-state-tag (kevin/faicon-icon-with-text "chevron-right" "MO" 'warning))
+  (setq evil-visual-state-tag (kevin/faicon-icon-with-text "chevron-right" "VI" 'error))
+  (setq evil-operator-state-tag (kevin/faicon-icon-with-text "chevron-right" "OP" 'font-lock-doc-face))
+  )
 (modeline-define-segment evil-tag-segment
                          (when (bound-and-true-p evil-mode)
-                           (setq evil-normal-state-tag (kevin/faicon-icon-with-text "chevron-right" "NO" 'mode-line))
-                           (setq evil-insert-state-tag (kevin/faicon-icon-with-text "chevron-right" "IN" 'success))
-                           (setq evil-motion-state-tag (kevin/faicon-icon-with-text "chevron-right" "MO" 'warning))
-                           (setq evil-visual-state-tag (kevin/faicon-icon-with-text "chevron-right" "VI" 'error))
-                           (setq evil-operator-state-tag (kevin/faicon-icon-with-text "chevron-right" "OP" 'font-lock-doc-face))
                            evil-mode-line-tag
                            ))
 
