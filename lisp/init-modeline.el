@@ -60,6 +60,11 @@
               'face (if face face 'mode-line)))
 
 ;;;###autoload
+(defun kevin/maybe-alltheicon (&rest args)
+  "Display octicon via `ARGS'."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-alltheicon args)))
+
 (defun kevin/maybe-octicon-icon (&rest args)
   "Display octicon via `ARGS'."
   (when (display-graphic-p)
@@ -117,7 +122,7 @@
                          (concat (cond (buffer-read-only
                                         (kevin/maybe-material-icon "lock"
                                                                    :face 'warning
-                                                                   :v-adjust -0.05))
+                                                                   :v-adjust -0.15))
                                        ((buffer-modified-p)
                                         (kevin/maybe-faicon-icon "floppy-o"
                                                                  :face 'error
@@ -158,10 +163,12 @@
                          (when (bound-and-true-p vc-mode)
                            (cond ((string-match "Git[:-]" vc-mode)
                                   (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
-                                    (kevin/faicon-icon-with-text "code-fork"
-                                                                 (concat " " branch)
-                                                                 'success
-                                                                 0.05) ))
+                                    (concat
+                                     (kevin/maybe-alltheicon "git"
+                                                             :face 'warning
+                                                             :v-adjust -0.05)
+                                     " "
+                                     branch)))
                                  (t vc-mode))))
 
 (modeline-define-segment flycheck-segment
@@ -170,14 +177,14 @@
                              (`finished (if flycheck-current-errors
                                             (let-alist (flycheck-count-errors flycheck-current-errors)
                                               (let ((sum (+ (or .error 0) (or .warning 0))))
-                                                (kevin/material-icon-with-text "do_not_disturb_alt"
+                                                (kevin/material-icon-with-text "error_outline"
                                                                                (number-to-string sum)
                                                                                (if .error 'error 'warning)
-                                                                               -0.15)))
+                                                                               -0.20)))
                                           (kevin/material-icon-with-text "check" nil 'mode-line)))
                              (`running     (kevin/material-icon-with-text "access_time" nil 'font-lock-doc-face -0.25))
                              (`no-checker  (kevin/material-icon-with-text "sim_card_alert" "-" 'font-lock-doc-face))
-                             (`errored     (kevin/material-icon-with-text "sim_card_alert" "Error" 'error))
+                             (`errored     (kevin/material-icon-with-text "do_not_disturb" "Error" 'error -0.15))
                              (`interrupted (kevin/material-icon-with-text "pause" "Interrupted" 'font-lock-doc-face)))
                            ))
 
