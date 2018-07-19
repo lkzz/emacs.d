@@ -71,6 +71,7 @@
 (require 'init-imenu)
 (require 'init-persp-mode)
 (require 'init-projectile)
+(require 'init-lua)
 ;; (require 'init-lsp)
 
 ;; tools
