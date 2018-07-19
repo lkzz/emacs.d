@@ -29,16 +29,6 @@
   :defer t
   :mode (("\\.toml$" . toml-mode)))
 
-(use-package quickrun
-  :defer t
-  :bind (("<f7>" . quickrun)
-         ("C-c x" . quickrun)))
-
-(use-package editorconfig
-  :defer t
-  :diminish editorconfig-mode
-  :hook (after-init . editorconfig-mode))
-
 (use-package fish-mode
   :defer t
   :init
@@ -54,6 +44,22 @@
          ("\\.bzl\\'" . bazel-mode))
   :init
   (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t))))
+
+(use-package quickrun
+  :defer t
+  :bind (("<f7>" . quickrun)
+         ("C-c x" . quickrun)))
+
+(use-package json-reformat
+  :ensure t
+  :commands (json-reformat-region)
+  :defer t)
+
+(use-package editorconfig
+  :defer t
+  :diminish editorconfig-mode
+  :hook (after-init . editorconfig-mode))
+
 
 (provide 'init-prog)
 ;;; init-prog.el ends here
