@@ -19,7 +19,11 @@
 
 (use-package server
   :defer t
-  :init (add-hook 'after-init-hook 'server-start t))
+  :init
+  (add-hook 'after-init-hook (lambda ()
+                               (unless server-mode
+                                 (server-start t)
+                                 ))))
 
 ;; History
 (use-package saveplace
@@ -32,7 +36,7 @@
   :ensure nil
   :defer t
   :init
-  (setq recentf-max-saved-items 100)
+  (setq recentf-max-saved-items 50)
   ;; lazy load recentf
   ;; (add-hook 'after-init-hook #'recentf-mode)
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
@@ -61,7 +65,7 @@
   :hook (after-init . avy-setup-default)
   :init
   (progn
-    (evil-leader/set-key
+    (kevin/set-leader-keys
       "jc" 'avy-goto-char
       "jw" 'avy-goto-word-or-subword-1
       "jl" 'avy-goto-line
