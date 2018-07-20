@@ -144,7 +144,7 @@
 
 
 (modeline-define-segment timestamp-info-segment
-                         (format-time-string "%H:%M"))
+                         (format-time-string "%H:%M "))
 
 (modeline-define-segment position-info-segment
                          (format-mode-line "%l:%c"))
