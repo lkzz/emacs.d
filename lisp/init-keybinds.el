@@ -24,11 +24,11 @@
 ;; toggle
 (kevin/declare-prefix "t" "toggle")
 (kevin/set-leader-keys
-  "tm" 'toggle-major-mode
+  "tM" 'toggle-major-mode
   "tb" 'toggle-scroll-bar
   "ti" 'imenu-list-smart-toggle
   "tw" 'toggle-word-wrap
-  "tM" 'toggle-frame-maximized
+  "tm" 'toggle-frame-maximized
   "tf" 'toggle-frame-fullscreen
   "tt" 'toggle-truncate-lines)
 
