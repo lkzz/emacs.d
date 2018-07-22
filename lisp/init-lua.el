@@ -1,4 +1,11 @@
-;; init-lua.el
+;;; init-lua.el --- lua mode config. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
+;;; Commentary:
+;;; Code:
+                                        ;
 
 (use-package lua-mode
   :defer t
@@ -15,10 +22,8 @@
   :config
   (progn
     (add-hook 'lua-mode-hook (lambda ()
-                               (let ((local-lua-backends kevin/company-global-backends))
-                                 (add-to-list 'local-lua-backends 'company-lua)
-                                 (set (make-local-variable 'company-backends) local-lua-backends))
-                               ))
+                               (make-local-variable 'company-backends)
+                               (add-to-list 'company-backends '(company-lua company-yasnippet))))
     ))
 
 (provide 'init-lua)

@@ -1,15 +1,20 @@
-;;; init-eshell.el --- config eshell
+;;; init-eshell.el --- config eshell. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
-(defun kevin/setup-shell-backends ()
-  (let ((local-shell-backends kevin/company-global-backends))
-    (add-to-list 'local-shell-backends 'company-shell)
-    (set (make-local-variable 'company-backends) local-shell-backends)))
-
 (use-package company-shell
+  :defer t
   :after company
-  :hook (shell-mode . kevin/setup-shell-backends))
+  :config
+  (progn
+    (add-hook eshell-mode-hook (lambda ()
+                                 (make-local-variable 'company-backends)
+                                 (add-to-list 'company-backends '(company-backends
+                                                                  company-keywords))))))
 
 (use-package eshell-prompt-extras
   :defer t
@@ -19,6 +24,7 @@
         eshell-prompt-function 'epe-theme-lambda))
 
 (use-package shell-pop
+  :defer t
   :commands shell-pop
   :defer t
   :init
