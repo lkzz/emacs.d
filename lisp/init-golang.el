@@ -1,4 +1,8 @@
-;; init-golang.el --- Initialize Golang configurations.
+;; init-golang.el --- Initialize Golang configurations. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
@@ -119,14 +123,17 @@
     "rf" 'go-tag-add
     "rF" 'go-tag-remove))
 
-(defun kevin/setup-go-backends ()
-  (let ((local-go-backends kevin/company-global-backends))
-    (add-to-list 'local-go-backends 'company-go)
-    (set (make-local-variable 'company-backends) local-go-backends)))
-
 (use-package company-go
+  :defer t
+  :ensure t
   :after (go-mode company)
-  :hook (go-mode . kevin/setup-go-backends))
+  :config
+  (progn
+    (add-hook 'go-mode-hook (lambda ()
+                              (make-local-variable 'company-backends)
+                              (add-to-list 'company-backends kevin/company-global-backends)
+                              (add-to-list 'company-backends 'company-go)
+                              ))))
 
 
 ;; (use-package flycheck-gometalinter
