@@ -116,8 +116,7 @@
       "View FILE.  A version of `view-file' which properly rets the eshell prompt."
       (interactive "fView file: ")
       (unless (file-exists-p file) (error "%s does not exist" file))
-      (let ((had-a-buf (get-file-buffer file))
-            (buffer (find-file-noselect file)))
+      (let ((buffer (find-file-noselect file)))
         (if (eq (with-current-buffer buffer (get major-mode 'mode-class))
                 'special)
             (progn

@@ -1,8 +1,10 @@
-;;; init-filetree --- a tree layout file explorer for Emacs,such as treemacs or neotree
+;;; init-filetree --- a tree layout file explorer for Emacs,such as treemacs or neotree. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
-
-(use-package all-the-icons)
 
 (use-package neotree
   :defer t
@@ -37,8 +39,7 @@
             ;; org-mode folders
             "^\\.\\(sync\\|export\\|attach\\)$"
             "~$" "\\.emacs*"
-            "^#.*#$"))
-    )
+            "^#.*#$")))
   :config
   (progn
     (eval-after-load 'evil

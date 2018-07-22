@@ -1,12 +1,19 @@
-;;; init-git.el --- version contral setup
+;;; init-git.el --- version contral setup.  -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
+
+;;;###autload
 (defun git-get-current-file-relative-path ()
   "Get current file relative path."
   (replace-regexp-in-string (concat "^" (file-name-as-directory default-directory))
                             ""
                             buffer-file-name))
 
+;;;###autload
 (defun git-checkout-current-file ()
   "Git checkout current file."
   (interactive)
@@ -15,8 +22,10 @@
                                   (file-name-nondirectory (buffer-file-name)))))
     (let* ((filename (git-get-current-file-relative-path)))
       (shell-command (concat "git checkout " filename))
+      (kevin/revert-buffer-no-confirm)
       (message "DONE! git checkout %s" filename))))
 
+;;;###autload
 (defun git-add-current-file ()
   "Git add file of current buffer."
   (interactive)
@@ -26,6 +35,7 @@
       (shell-command (concat "git add " filename))
       (message "DONE! git add %s" filename))))
 
+;;;###autload
 (defun kevin/magit-display-buffer-function (buffer)
   (if magit-display-buffer-noselect
       ;; the code that called `magit-display-buffer-function'
@@ -41,6 +51,7 @@
     (get-buffer-window buffer)))
 
 (use-package magit
+  :defer t
   :commands (magit-status magit-init magit-file-log magit-blame-mode)
   :bind
   (("C-x g i" . magit-init)
@@ -85,8 +96,12 @@
     (setq fill-column 72
           git-commit-summary-max-length 50
           git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line))
-    (when evil-mode
-      (add-hook 'git-commit-mode-hook #'evil-insert-state))
+    (when (bound-and-true-p evil-mode)
+      (use-package evil-magit
+        :init
+        (progn
+          (setq evil-magit-want-horizontal-movement nil)
+          (add-hook 'git-commit-mode-hook #'evil-insert-state))))
     ))
 
 ;; Gitflow externsion for Magit

@@ -58,7 +58,7 @@
   (setq ns-pop-up-frames nil))
 
 ;; 启动时窗口最大化
-(add-hook 'emacs-startup-hook 'toggle-frame-maximized)
+(add-hook 'after-init-hook 'toggle-frame-maximized)
 
 ;; 配置主题
 (cond
@@ -91,6 +91,7 @@
 
 ;; 字体设置
 (use-package cnfonts
+  :defer t
   :preface
   ;; Fallback to `all-the-icons'.
   (defun cnfonts--set-all-the-icons-fonts (&optional _)
@@ -110,7 +111,6 @@
   (add-hook 'window-setup-hook
             (lambda ()
               (setq cnfonts-keep-frame-size t)))
-
   ;; Set profiles
   (setq cnfonts-directory (concat kevin/cache-directory "cnfonts"))
   (setq cnfonts-use-cache t)
@@ -152,6 +152,7 @@
 (add-hook 'after-init-hook 'turn-on-visual-line-mode)
 
 (use-package vi-tilde-fringe
+  :defer t
   :diminish vi-tilde-fringe-mode
   :defer t
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
@@ -167,14 +168,14 @@
     (setq display-line-numbers-current-absolute t)
     (kevin/set-leader-keys "tn" 'display-line-numbers-mode)))
 
-;; (use-package nyan-mode
-;;   :ensure t
-;;   :defer t
-;;   :init (add-hook 'after-init-hook #'nyan-mode)
-;;   :config
-;;   (progn
-;;     (setq nyan-wavy-trail t)
-;;     (setq nyan-animate-nyancat t)))
+(use-package nyan-mode
+  :defer t
+  :ensure t
+  :init (add-hook 'after-init-hook #'nyan-mode)
+  :config
+  (progn
+    (setq nyan-wavy-trail t)
+    (setq nyan-animate-nyancat t)))
 
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon

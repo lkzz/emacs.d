@@ -1,7 +1,13 @@
-;;; init-elisp.el --- Initialize emacs lisp.
+;;; init-elisp.el --- Initialize emacs lisp. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
+
 ;;; Commentary:
 ;;; Code:
 
+;;;###autoload
 (defun remove-elc-on-save ()
   "If you're saving an elisp file, likely the .elc is no longer valid."
   (make-local-variable 'after-save-hook)
@@ -12,6 +18,7 @@
 
 (use-package elisp-mode
   :ensure nil
+  :defer t
   :hook (emacs-lisp-mode . remove-elc-on-save)
   :config
   (progn

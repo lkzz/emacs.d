@@ -71,6 +71,7 @@
 ;; 自动刷新文件
 (use-package autorevert
   :ensure nil
+  :defer t
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 

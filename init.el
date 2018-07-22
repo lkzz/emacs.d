@@ -13,7 +13,6 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name  "vendor" user-emacs-directory))
 
-(require 'init-benchmarking) ;; Measure startup time
 
 ;;----------------------------------------------------------------------------
 ;; Adjust garbage collection thresholds during startup, and thereafter
@@ -49,7 +48,7 @@
 ;;----------------------------------------------------------------------------
 ;; ui setup
 (require 'init-ui)
-;; (require 'init-telephone-line)
+(require 'init-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
 (require 'init-whitespace)
@@ -75,7 +74,7 @@
 ;; (require 'init-lsp)
 
 ;; tools
-(require 'init-etags)
+;; (require 'init-etags)
 (require 'init-git)
 (require 'init-buffer)
 (require 'init-flycheck)
@@ -87,7 +86,6 @@
 ;; (require 'init-restore)
 
 (require 'init-windows)
-(require 'init-modeline)
 (require 'init-keybinds)
 
 ;;----------------------------------------------------------------------------

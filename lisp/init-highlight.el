@@ -1,9 +1,14 @@
-;; init-highlight.el --- Initialize highlight configurations.
+;; init-highlight.el --- Initialize highlight configurations. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 ;; Highlight the current line
 (use-package hl-line
+  :defer t
   :ensure nil
   :defer t
   :init (add-hook 'after-init-hook #'global-hl-line-mode))
@@ -52,8 +57,8 @@
           ("NOTE"  . ,(face-foreground 'success)))))
 
 (use-package fill-column-indicator
-  :ensure t
   :defer t
+  :ensure t
   :diminish auto-fill-mode
   :commands (fci-mode)
   ;; :hook (prog-mode . fci-mode) ;; 导致company候选词偏移

@@ -1,14 +1,20 @@
-;;; init-evil.el --- setup emacs use evil keybinds
+;;; init-evil.el --- setup emacs use evil keybinds. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 (use-package evil-leader
+  :defer t
   :after evil
   :config
   (global-evil-leader-mode t)
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
+  :defer t
   :hook (after-init . evil-mode)
   :config
   (progn
@@ -67,15 +73,16 @@
 
     ;; evil visual state keybinds
     (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
-
     ))
 
 (use-package evil-surround
+  :defer t
   :after evil
   :config
   (global-evil-surround-mode t))
 
 (use-package evil-visualstar
+  :defer t
   :after evil
   :config
   (progn
@@ -98,6 +105,7 @@
       )))
 
 (use-package evil-escape
+  :defer t
   :after evil
   :diminish evil-escape-mode
   :config
@@ -106,14 +114,8 @@
     (setq-default evil-escape-key-sequence "jk")
     (setq-default evil-escape-delay 0.3)))
 
-(use-package evil-magit
-  :after (magit evil)
-  :init
-  (progn
-    (setq evil-magit-want-horizontal-movement nil)))
-
-
 (use-package evil-mc
+  :defer t
   :after evil
   :diminish evil-mc-mode
   :config

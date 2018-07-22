@@ -37,10 +37,9 @@
   (add-hook 'after-init-hook #'global-company-mode)
   (add-hook 'company-completion-started-hook
             (lambda (&rest ignore)
-              (when evil-mode
-                (when (evil-insert-state-p)
-                  (define-key evil-insert-state-map (kbd "C-n") nil)
-                  (define-key evil-insert-state-map (kbd "C-p") nil)))))
+              (when (and (bound-and-true-p evil-mode) (evil-insert-state-p))
+                (define-key evil-insert-state-map (kbd "C-n") nil)
+                (define-key evil-insert-state-map (kbd "C-p") nil))))
   :config
   (progn
     ;; aligns annotation to the right hand side
@@ -68,6 +67,7 @@
 
 ;; doesn’t play well with company-childframe
 (use-package company-quickhelp
+  :defer t
   :if (display-graphic-p)
   :after company
   :bind (:map company-active-map
@@ -87,14 +87,14 @@
 ;;   (progn
 ;;     (company-childframe-mode 1)))
 
-;; Show you likelier candidates at the top of the list
-(use-package company-statistics
-  :after company
-  :hook (company-mode . company-statistics-mode)
-  :config
-  ;; save cache file to `user-cache-directory'
-  (setq company-statistics-file (concat kevin/cache-directory
-                                        "company-statistics-cache.el")))
+;; ;; Show you likelier candidates at the top of the list
+;; (use-package company-statistics
+;;   :after company
+;;   :hook (company-mode . company-statistics-mode)
+;;   :config
+;;   ;; save cache file to `user-cache-directory'
+;;   (setq company-statistics-file (concat kevin/cache-directory
+;;                                         "company-statistics-cache.el")))
 
 ;; (use-package company-box
 ;;   :after company
