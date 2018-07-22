@@ -241,25 +241,25 @@
                 '("%e"
                   (:eval
                    (let* ((active (modeline-active))
-                          (face0 (if active 'mode-line 'mode-line-inactive))
+                          (mode-line (if active 'mode-line 'mode-line-inactive))
                           (lhs (list
                                 (evil-tag-segment)
-                                (window-number-segment 'face0)
-                                (buffer-info-segment 'face0)
-                                (minor-mode-segment 'face0)
-                                (position-info-segment 'face0)
+                                (window-number-segment 'mode-line)
+                                (buffer-info-segment 'mode-line)
+                                (minor-mode-segment 'mode-line)
+                                (position-info-segment 'mode-line)
                                 ))
                           (rhs (list
                                 (vsc-info-segment 'warning)
                                 (major-mode-segment)
                                 (flycheck-segment)
-                                (buffer-encoding-segment 'face0)
-                                (timestamp-info-segment 'face0)
+                                (buffer-encoding-segment 'mode-line)
+                                (timestamp-info-segment 'mode-line)
                                 ))
                           )
                      (concat
                       (modeline-render-segment-list lhs)
-                      (modeline-fill (modeline-width rhs) 'face0)
+                      (modeline-fill (modeline-width rhs) 'mode-line)
                       (modeline-render-segment-list rhs)
                       )))))
 
