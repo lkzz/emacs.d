@@ -1,21 +1,26 @@
-;;; init-company.el --- auto complate use company
+;;; init-company.el --- auto complate use company. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 (defconst kevin/company-global-backends '(
+                                          ;; 当前文件所属编程语言的语法关键词
+                                          company-keywords
                                           ;; 使用 completion-at-point-functions 的后端
                                           company-capf
                                           ;; 主要用来补全当前 buffer 中出现的 word
                                           company-dabbrev
                                           ;; 使用 yasnippet 补全的后端
                                           company-yasnippet
-                                          ;; 当前文件所属编程语言的语法关键词
-                                          company-keywords
                                           ;; 补全文件系统的路径后端
                                           company-files
                                           ))
 
 (use-package company
+  :defer 3
   :diminish company-mode "ⓐ"
   :bind (("M-/" . company-complete)
          ("C-c C-y" . company-yasnippet)
