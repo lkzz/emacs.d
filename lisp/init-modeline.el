@@ -7,6 +7,10 @@
 ;;             modeline config.
 ;;; Code:
 
+
+(use-package all-the-icons
+  :demand t)
+
 ;;;###autoload
 (defmacro modeline-define-segment (name body)
   "Create function NAME by wrapping BODY."

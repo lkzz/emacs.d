@@ -1,4 +1,8 @@
-;;; init-elps.el --- elpa config
+;;; init-elps.el --- elpa config. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
@@ -56,7 +60,15 @@
 (use-package hydra)
 (use-package general)
 
+(use-package benchmark-init
+  :ensure t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
 (use-package which-key
+  :defer t
+  :ensure t
   :diminish which-key-mode "ⓦ"
   :commands (which-key-add-major-mode-key-based-replacements
               which-key-add-key-based-replacements)

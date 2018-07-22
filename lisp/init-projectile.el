@@ -1,9 +1,14 @@
-;;; init-projectile.el --- Initialize projectile
+;;; init-projectile.el --- Initialize projectile. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 (use-package projectile
   :defer t
+  :ensure t
   :diminish projectile-mode "ⓟ"
   :commands (projectile-ack
              projectile-ag

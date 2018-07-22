@@ -1,3 +1,12 @@
+;;; init-restclient.el ---  setup http restclient. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
+;;; Commentary:
+;;
+;;; Code:
+
 (use-package restclient
   :defer t
   :init
@@ -22,3 +31,4 @@
   :hook (restclient-mode . kevin/setup-restclient-backends))
 
 (provide 'init-restclient)
+;;; init-restclient ends here.

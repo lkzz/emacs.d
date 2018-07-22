@@ -1,4 +1,7 @@
-;; init-prog.el --- Initialize prog configurations.
+;; init-prog.el --- Initialize prog configurations. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
 ;;
 ;;; Commentary:
 ;;             Configurations for prog mode.
@@ -6,12 +9,13 @@
 
 (when sys/macp
   (use-package dash-at-point
+    :defer t
     :bind (("\C-cD" . dash-at-point)
            ("\C-ce" . dash-at-point-with-docset))))
 
 (use-package prog-mode
-  :ensure nil
   :defer t
+  :ensure nil
   :init
   ;; e.g. display “lambda” as “λ”
   (when (boundp 'global-prettify-symbols-mode)
@@ -21,16 +25,18 @@
                 (push '("<=" . ?≤) prettify-symbols-alist)))))
 
 (use-package nxml-mode
-  :ensure nil
   :defer t
+  :ensure nil
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package toml-mode
   :defer t
+  :ensure t
   :mode (("\\.toml$" . toml-mode)))
 
 (use-package fish-mode
   :defer t
+  :ensure t
   :init
   (add-hook 'fish-mode-hook
             (lambda ()
@@ -39,6 +45,7 @@
 
 (use-package bazel-mode
   :defer t
+  :ensure t
   :mode (("/BUILD\\(\\..*\\)?\\'" . bazel-mode)
          ("/WORKSPACE\\'" . bazel-mode)
          ("\\.bzl\\'" . bazel-mode))
@@ -47,16 +54,18 @@
 
 (use-package quickrun
   :defer t
+  :ensure t
   :bind (("<f7>" . quickrun)
          ("C-c x" . quickrun)))
 
 (use-package json-reformat
+  :defer t
   :ensure t
-  :commands (json-reformat-region)
-  :defer t)
+  :commands (json-reformat-region))
 
 (use-package editorconfig
   :defer t
+  :ensure t
   :diminish editorconfig-mode
   :hook (after-init . editorconfig-mode))
 

@@ -1,4 +1,8 @@
-;;; init-persp-mode.el --- Initialize persp mode
+;;; init-persp-mode.el --- Initialize persp mode. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
@@ -141,14 +145,17 @@ in case none of the regular names can be used for a new layout.")
 (defvar spacemacs-buffer--last-width nil
   "Previous width of spacemacs-buffer.")
 
+;;;###autoload
 (defun spacemacs//current-layout-name ()
   "Get name of the current perspective."
   (safe-persp-name (get-frame-persp)))
 
+;;;###autoload
 (defun spacemacs//layout-not-contains-buffer-p (buffer)
   "Return non-nil if current layout doesn't contain BUFFER."
   (not (persp-contain-buffer-p buffer)))
 
+;;;###autoload
 (defun spacemacs/jump-to-last-layout ()
   "Open the previously selected layout, if it exists."
   (interactive)
@@ -157,28 +164,33 @@ in case none of the regular names can be used for a new layout.")
                        *persp-hash* 'non-existent))
     (persp-switch spacemacs--last-selected-layout)))
 
+;;;###autoload
 (defun spacemacs-buffer/refresh ()
   "Force recreation of the spacemacs buffer."
   (interactive)
   (setq spacemacs-buffer--last-width nil)
   (spacemacs-buffer/goto-buffer t))
 
+;;;###autoload
 (defalias 'spacemacs/home 'kevin/revert-buffer-no-confirm
   "Go to home Spacemacs buffer")
 
 ;; (defalias 'spacemacs/home 'spacemacs-buffer/refresh
 ;;   "Go to home Spacemacs buffer")
 
+;;;###autoload
 (defun spacemacs/persp-buffers ()
   "Call the function defined in `spacemacs--persp-display-buffers-func'."
   (interactive)
   (call-interactively spacemacs--persp-display-buffers-func))
 
+;;;###autoload
 (defun spacemacs/persp-perspectives ()
   "Call the function defined in `spacemacs--persp-display-perspectives-func'."
   (interactive)
   (call-interactively spacemacs--persp-display-perspectives-func))
 
+;;;###autoload
 (defun spacemacs//layout-format-name (name pos)
   "Format the layout name given by NAME and POS for display in mode-line."
   (let* ((layout-name (if (file-directory-p name)
@@ -192,6 +204,7 @@ in case none of the regular names can be used for a new layout.")
         (propertize (concat "[" caption "]") 'face 'warning)
       caption)))
 
+;;;###autoload
 (defun spacemacs//generate-layout-name (pos)
   "Generate name for layout of position POS.
 POS should be a number between 1 and 9, where 1 represents the
@@ -210,6 +223,7 @@ layout, which is also knows as the 0th layout.
       (unless (persp-p (persp-get-by-name name))
         (throw 'found name)))))
 
+;;;###autoload
 (defun spacemacs/layout-switch-by-pos (pos)
   "Switch to perspective of position POS.
 If POS has no layout, and `dotspacemacs-auto-generate-layout-names'
@@ -238,34 +252,40 @@ ask the user if a new layout should be created."
            (interactive)
            (spacemacs/layout-switch-by-pos ,(if (eq 0 i) 9 (1- i))))))
 
+;;;###autoload
 (defun spacemacs/layout-goto-default ()
   "Go to `kevin/default-layout-name` layout."
   (interactive)
   (when kevin/default-layout-name
     (persp-switch kevin/default-layout-name)))
 
+;;;###autoload
 (defun spacemacs/layouts-ts-rename ()
   "Rename a layout and get back to the perspectives transient-state."
   (interactive)
   (call-interactively 'persp-rename)
   (hydra-persp-mode/body))
 
+;;;###autoload
 (defun spacemacs/layouts-ts-close ()
   "Kill current perspective."
   (interactive)
   (persp-kill-without-buffers (spacemacs//current-layout-name)))
 
+;;;###autoload
 (defun spacemacs/layouts-ts-close-other ()
   "Close other perspective."
   (interactive)
   (call-interactively 'spacemacs/helm-persp-close)
   (hydra-persp-mode/body))
 
+;;;###autoload
 (defun spacemacs/layouts-ts-kill ()
   "Kill current perspective."
   (interactive)
   (persp-kill (spacemacs//current-layout-name)))
 
+;;;###autoload
 (defun spacemacs/layouts-ts-kill-other ()
   "Kill other perspective."
   (interactive)
@@ -273,6 +293,7 @@ ask the user if a new layout should be created."
   (hydra-persp-mode/body))
 
 ;; ability to use helm find files but also adds to current perspective
+;;;###autoload
 (defun spacemacs/helm-persp-close ()
   "Kill perspectives without killing the buffers."
   (interactive)
@@ -289,6 +310,7 @@ ask the user if a new layout should be created."
                                    'persp-kill-without-buffers
                                    (helm-marked-candidates))))))))
 
+;;;###autoload
 (defun spacemacs/helm-persp-kill ()
   "Kill perspectives with all their buffers."
   (interactive)
@@ -305,6 +327,7 @@ ask the user if a new layout should be created."
                   (mapcar 'persp-kill
                           (helm-marked-candidates))))))))
 
+;;;###autoload
 (defun spacemacs/move-element-left (element list)
   "Move ELEMENT one step to the left in LIST."
   (let (value)
@@ -314,10 +337,12 @@ ask the user if a new layout should be created."
         (setq value (cons name value))))
     (nreverse value)))
 
+;;;###autoload
 (defun spacemacs/move-element-right (element list)
   "Move ELEMENT one step to the right in LIST."
   (nreverse (spacemacs/move-element-left element (reverse list))))
 
+;;;###autoload
 (defun spacemacs/move-current-persp-right ()
   "Move the current perspective one step to the right."
   (interactive)
@@ -325,6 +350,7 @@ ask the user if a new layout should be created."
                            (spacemacs//current-layout-name)
                            persp-names-cache)))
 
+;;;###autoload
 (defun spacemacs/move-current-persp-left ()
   "Move the current perspective one step to the left."
   (interactive)
@@ -334,6 +360,7 @@ ask the user if a new layout should be created."
 
 ;; Custom Persp transient-state
 
+;;;###autoload
 (defun spacemacs//custom-layout-func-name (name)
   "Return the name of the custom-perspective function for NAME."
   (intern (concat "spacemacs/custom-perspective-" name)))
@@ -388,12 +415,14 @@ Available PROPS:
              (push '(,binding . ,name) spacemacs--custom-layout-alist))
          (push '(,binding . ,name) spacemacs--custom-layout-alist)))))
 
+;;;###autoload
 (defun spacemacs/select-custom-layout ()
   "Update the custom-perspectives transient-state and then activate it."
   (interactive)
   (spacemacs//update-custom-layouts)
   (spacemacs/custom-layouts-transient-state/body))
 
+;;;###autoload
 (defun spacemacs//custom-layouts-ms-documentation ()
   "Return the docstring for the custom perspectives transient-state."
   (if spacemacs--custom-layout-alist
@@ -403,6 +432,7 @@ Available PROPS:
                  spacemacs--custom-layout-alist " ")
     (spacemacs-buffer/warning (format "`spacemacs--custom-layout-alist' variable is empty" ))))
 
+;;;###autoload
 (defun spacemacs//update-custom-layouts ()
   "Ensure the custom-perspectives transient-state is updated.
 Takes each element in the list `spacemacs--custom-layout-alist'
@@ -420,10 +450,12 @@ format so they are supported by the
                                              ,@bindings))))
 
 ;; Ivy integration
+;;;###autoload
 (defun spacemacs/ivy-persp-switch-project-advice (project)
   (let ((persp-reset-windows-on-nil-window-conf t))
     (persp-switch project)))
 
+;;;###autoload
 (defun spacemacs/ivy-persp-switch-project (arg)
   (interactive "P")
   (require 'counsel-projectile)
@@ -439,6 +471,7 @@ format so they are supported by the
   (advice-remove 'counsel-projectile-switch-project-action
                  'spacemacs/ivy-persp-switch-project-advice))
 
+;;;###autoload
 (defun spacemacs-buffer/refresh-delete-other-windows ()
   "Open home Spacemacs buffer and delete other windows.
 Useful for making the home buffer the only visible buffer in the frame."

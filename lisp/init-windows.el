@@ -1,4 +1,8 @@
-;;; init-windows.el --- window config for emacs.
+;;; init-windows.el --- window config for emacs. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
@@ -28,11 +32,12 @@
 ;; Quickly switch windows
 (use-package ace-window
   :defer t
+  :ensure t
   :init
   (progn
     (kevin/set-leader-keys "wo" #'ace-window)))
 
-
+;;;###autoload
 (defun split-window-below-and-focus ()
   "Split the window vertically and focus the new window."
   (interactive)
@@ -42,6 +47,8 @@
              (symbol-value golden-ratio-mode))
     (golden-ratio)))
 
+
+;;;###autoload
 (defun split-window-right-and-focus ()
   "Split the window horizontally and focus the new window."
   (interactive)
@@ -54,6 +61,7 @@
 ;; Numbered window shortcuts
 (use-package window-numbering
   :defer t
+  :ensure t
   :hook ((after-init . window-numbering-mode)
          ;; don't add numbers to the modeline
          (window-numbering-mode . window-numbering-clear-mode-line))
@@ -74,11 +82,13 @@
 ;; Zoom window like tmux
 (use-package zoom-window
   :defer t
+  :ensure t
   :bind ("C-x C-z" . zoom-window-zoom)
   :init (setq zoom-window-mode-line-color "DarkGreen"))
 
 (use-package centered-window
   :defer t
+  :ensure t
   :init
   (progn
     (setq cwm-use-vertical-padding t)
@@ -90,6 +100,7 @@
 ;; Popup Window Manager
 (use-package popwin
   :defer t
+  :ensure t
   :commands popwin-mode
   :init (add-hook 'after-init-hook #'popwin-mode)
   :config
@@ -151,19 +162,24 @@
           ("*ert*" :dedicated t :position bottom :stick t :noselect nil)
           ("*nosetests*" :dedicated t :position bottom :stick t :noselect nil))))
 
-;; Easy window config switching
-(use-package eyebrowse
-  :defer t
-  :init (add-hook 'after-init-hook #'eyebrowse-mode))
+;; ;; Easy window config switching
+;; (use-package eyebrowse
+;;   :defer t
+;;   :ensure t
+;;   :init (add-hook 'after-init-hook #'eyebrowse-mode))
 
 ;; resize window
 (use-package resize-window
+  :defer t
+  :ensure t
   :init
   (progn
     (kevin/set-leader-keys "wr" #'resize-window)))
 
 
 (use-package golden-ratio
+  :defer t
+  :ensure t
   :diminish golden-ratio-mode "ⓖ"
   :init
   (progn
@@ -256,6 +272,8 @@
     ))
 
 (use-package centered-cursor-mode
+  :defer t
+  :ensure t
   :commands (centered-cursor-mode
              global-centered-cursor-mode)
   :diminish centered-cursor-mode "⊝"

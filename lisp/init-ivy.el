@@ -1,4 +1,8 @@
-;;; init-ivy.el --- ivy config
+;;; init-ivy.el --- ivy config. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
@@ -7,7 +11,7 @@
   :diminish ivy-mode counsel-mode
   :init
   (progn
-    (evil-leader/set-key
+    (kevin/set-leader-keys
       "SPC" 'counsel-M-x
       "/" 'counsel-ag
       "ff" 'counsel-find-file
@@ -86,6 +90,7 @@
 
 ;; More friendly interface for ivy
 (use-package ivy-rich
+  :defer t
   :after (ivy counsel)
   :init
   (progn

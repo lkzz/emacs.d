@@ -21,6 +21,7 @@
 
 (use-package go-mode
   :defer t
+  ;; :mode "\\go$"
   :config
   (progn
     (setq gofmt-command "goimports") ; use goimports instead of go-fmt
@@ -60,20 +61,25 @@
       "tp" 'go-test-current-project)))
 
 (use-package golint
+  :defer t
   :after go-mode)
 
 (use-package govet
+  :defer t
   :after go-mode)
 
 (use-package go-eldoc
+  :defer t
   :after (go-mode eldoc)
   :commands (godoc-at-point)
   :hook (go-mode . go-eldoc-setup))
 
 (use-package go-errcheck
+  :defer t
   :after go-mode)
 
 (use-package go-guru
+  :defer t
   :after go-mode
   :commands (go-guru-describe go-guru-freevars go-guru-implements go-guru-peers
                               go-guru-referrers go-guru-definition go-guru-pointsto
@@ -97,16 +103,20 @@
       "fo" 'go-guru-set-scope)))
 
 (use-package gotest
+  :defer t
   :after go-mode
   :commands (go-test-current-project go-test-current-file go-test-current-test))
 
 (use-package go-rename
+  :defer t
+  :after go-mode
   :init
   (progn
     (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
     (kevin/set-leader-keys-for-major-mode 'go-mode "rN" 'go-rename)))
 
 (use-package godoctor
+  :defer t
   :after go-mode
   :init
   (progn
@@ -118,6 +128,8 @@
       "rd" 'godoctor-godoc)))
 
 (use-package go-tag
+  :defer t
+  :after go-mode
   :init
   (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
   (kevin/set-leader-keys-for-major-mode 'go-mode

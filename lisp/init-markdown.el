@@ -28,6 +28,7 @@
       (add-to-list 'auto-mode-alist `(,regex . markdown-mode)))))
 
 (use-package markdown-preview-mode
+  :defer t
   :ensure t
   :after markdown-mode
   :config
