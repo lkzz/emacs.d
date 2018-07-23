@@ -1,4 +1,8 @@
-;; init-golang.el --- Initialize Golang configurations.
+;; init-golang.el --- Initialize Golang configurations. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
@@ -10,16 +14,13 @@
 ;; go get -u golang.org/x/tools/cmd/...
 ;; go get -u github.com/cweill/gotests/...
 ;; go get -u github.com/dougm/goflymake
+;; go get github.com/godoctor/godoctor
 
 ;; FIXME: `go-guru' doesn't work on Windows. Use `godef' instead.
 ;; https://github.com/dominikh/go-mode.el/issues/218
 
 (use-package go-mode
   :defer t
-  :bind (:map go-mode-map
-              ("M-." . godef-jump)
-              ("C-c C-r" . go-remove-unused-imports)
-              ("C-c C-d" . godoc-at-point))
   :config
   (progn
     (setq gofmt-command "goimports") ; use goimports instead of go-fmt
@@ -29,9 +30,34 @@
       (if (not (string-match "go" compile-command))
           (set (make-local-variable 'compile-command)
                "go build -v")))
+
     (add-hook 'go-mode-hook 'setup-go-mode-compile)
     (add-hook 'before-save-hook #'gofmt-before-save)
-    (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)))
+    (make-local-variable 'after-save-hook)
+    (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
+    (add-hook 'before-save-hook 'gofmt-before-save)
+
+    (kevin/declare-prefix-for-mode 'go-mode "me" "playground")
+    (kevin/declare-prefix-for-mode 'go-mode "mg" "goto")
+    (kevin/declare-prefix-for-mode 'go-mode "mh" "help")
+    (kevin/declare-prefix-for-mode 'go-mode "mi" "imports")
+    (kevin/declare-prefix-for-mode 'go-mode "mt" "test")
+    (kevin/declare-prefix-for-mode 'go-mode "mx" "execute")
+    (kevin/set-leader-keys-for-major-mode 'go-mode
+      "cj" 'godef-jump
+      "hh" 'godoc-at-point
+      "ig" 'go-goto-imports
+      "ia" 'go-import-add
+      "ir" 'go-remove-unused-imports
+      "eb" 'go-play-buffer
+      "er" 'go-play-region
+      "ed" 'go-download-play
+      "xx" 'go-run
+      "ga" 'ff-find-other-file
+      "gc" 'go-coverage
+      "tt" 'go-test-current-test
+      "tm" 'go-test-current-file
+      "tp" 'go-test-current-project)))
 
 (use-package golint
   :after go-mode)
@@ -41,8 +67,8 @@
 
 (use-package go-eldoc
   :after (go-mode eldoc)
-  :config
-  (progn (add-hook 'go-mode-hook 'go-eldoc-setup)))
+  :commands (godoc-at-point)
+  :hook (go-mode . go-eldoc-setup))
 
 (use-package go-errcheck
   :after go-mode)
@@ -52,29 +78,64 @@
   :commands (go-guru-describe go-guru-freevars go-guru-implements go-guru-peers
                               go-guru-referrers go-guru-definition go-guru-pointsto
                               go-guru-callstack go-guru-whicherrs go-guru-callers go-guru-callees
-                              go-guru-expand-region)
-  :bind (:map go-mode-map
-              ("C-c d" . go-guru-definition)
-              ("C-c r" . go-guru-referrers)))
+                              go-guru-set-scope)
+  :init
+  (progn
+    (kevin/declare-prefix-for-mode 'go-mode "mf" "guru")
+    (kevin/set-leader-keys-for-major-mode 'go-mode
+      "fd" 'go-guru-describe
+      "ff" 'go-guru-freevars
+      "fi" 'go-guru-implements
+      "fc" 'go-guru-peers
+      "fr" 'go-guru-referrers
+      "fj" 'go-guru-definition
+      "fp" 'go-guru-pointsto
+      "fs" 'go-guru-callstack
+      "fe" 'go-guru-whicherrs
+      "f<" 'go-guru-callers
+      "f>" 'go-guru-callees
+      "fo" 'go-guru-set-scope)))
 
 (use-package gotest
   :after go-mode
-  :bind (:map go-mode-map
-              ("C-c a" . go-test-current-project)
-              ("C-c m" . go-test-current-file)
-              ("C-c ." . go-test-current-test)
-              ("C-c x" . go-run)))
+  :commands (go-test-current-project go-test-current-file go-test-current-test))
+
+(use-package go-rename
+  :after go-mode
+  :init
+  (progn
+    (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
+    (kevin/set-leader-keys-for-major-mode 'go-mode "rN" 'go-rename)))
+
+(use-package godoctor
+  :after go-mode
+  :init
+  (progn
+    (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
+    (kevin/set-leader-keys-for-major-mode 'go-mode
+      "rn" 'godoctor-rename
+      "re" 'godoctor-extract
+      "rt" 'godoctor-toggle
+      "rd" 'godoctor-godoc)))
+
+(use-package go-tag
+  :after go-mode
+  :init
+  (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
+  (kevin/set-leader-keys-for-major-mode 'go-mode
+    "rf" 'go-tag-add
+    "rF" 'go-tag-remove))
 
 (use-package company-go
-  :after (go-mode company)
+  :ensure t
+  :after (company go-mode)
   :config
   (progn
-    (add-to-list 'company-backends 'company-go)
-    ))
+    (add-hook 'go-mode-hook (lambda ()
+                              (make-local-variable 'company-backends)
+                              (setq company-backends kevin/company-global-backends)
+                              (add-to-list 'company-backends 'company-go)))))
 
-;; (progn (add-hook 'go-mode-hook (lambda ()
-;;                                  (set (make-local-variable 'company-backends) '(company-go))
-;;                                  (company-mode)))))
 
 ;; (use-package flycheck-gometalinter
 ;;   :ensure t

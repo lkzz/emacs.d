@@ -1,4 +1,8 @@
-;;; init-elps.el --- elpa config
+;;; init-elps.el --- elpa config. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
@@ -50,16 +54,36 @@
 (setq use-package-always-ensure t)
 ;; (setq use-package-always-defer t)
 
-;; Required by `use-package'
-(use-package diminish
-  :ensure t)
-
+(use-package diminish)
+(use-package bind-map)
 (use-package bind-key)
 (use-package hydra)
+(use-package general)
 
-(use-package general
+(use-package benchmark-init
+  :ensure t
   :config
-  (general-evil-setup))
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+(use-package which-key
+  :defer t
+  :ensure t
+  :diminish which-key-mode "ⓦ"
+  :commands (which-key-add-major-mode-key-based-replacements
+              which-key-add-key-based-replacements)
+  :hook (after-init . which-key-mode)
+  :config
+  (progn
+    (setq which-key-idle-delay 0.4)
+    (setq which-key-side-window-max-width 0.33)
+    (setq which-key-side-window-max-height 0.25)
+    (setq which-key-allow-imprecise-window-fit t) ; performance
+    (add-to-list 'which-key-replacement-alist '(("TAB" . nil) . ("↹" . nil)))
+    (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil)))
+    (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))
+    (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil)))
+    ))
 
 (provide 'init-elpa)
 ;;; init-elpa ends here

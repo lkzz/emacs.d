@@ -1,14 +1,8 @@
-;;; init.el --- This file bootstraps the configuration, which is divided into
-;;; a number of other files.
-
+;; init.el -*- lexical-binding: t; -*-
+;;
 ;;; Commentary:
+;;            Emacs init file.
 ;;; Code:
-
-;; Added by Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-;; (package-initialize)
 
 (let ((minver "24.3"))
   (when (version< emacs-version minver)
@@ -19,7 +13,6 @@
 (add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
 (add-to-list 'load-path (expand-file-name  "vendor" user-emacs-directory))
 
-(require 'init-benchmarking) ;; Measure startup time
 
 ;;----------------------------------------------------------------------------
 ;; Adjust garbage collection thresholds during startup, and thereafter
@@ -44,8 +37,8 @@
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
 (require 'init-elpa)      ;; Machinery for installing required packages
-(require 'init-funcs)
 (require 'init-custom)
+(require 'init-funcs)
 (require 'init-exec-path) ;; Set up $PATH
 (require 'init-better-default)
 (require 'init-evil)
@@ -56,7 +49,6 @@
 ;; ui setup
 (require 'init-ui)
 (require 'init-modeline)
-;; (require 'init-spaceline)
 (require 'init-highlight)
 (require 'init-filetree)
 (require 'init-whitespace)
@@ -66,7 +58,6 @@
 (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
-(require 'init-golden-ratio)
 
 ;; programming set up
 (require 'init-prog)
@@ -76,20 +67,22 @@
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-elisp)
-(require 'init-etags)
 (require 'init-imenu)
+(require 'init-persp-mode)
+(require 'init-projectile)
+(require 'init-lua)
 ;; (require 'init-lsp)
 
-(require 'init-projectile)
+;; tools
+;; (require 'init-etags)
 (require 'init-git)
-(require 'init-which-key)
-(require 'init-persp-mode)
 (require 'init-buffer)
 (require 'init-flycheck)
 (require 'init-dired)
 (require 'init-ranger)
 (require 'init-eshell)
 (require 'init-dump-jump)
+(require 'init-restclient)
 ;; (require 'init-restore)
 
 (require 'init-windows)

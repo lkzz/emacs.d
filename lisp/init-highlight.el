@@ -1,9 +1,14 @@
-;; init-highlight.el --- Initialize highlight configurations.
+;; init-highlight.el --- Initialize highlight configurations. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 ;; Highlight the current line
 (use-package hl-line
+  :defer t
   :ensure nil
   :defer t
   :init (add-hook 'after-init-hook #'global-hl-line-mode))
@@ -17,18 +22,16 @@
   (setq show-paren-when-point-inside-paren t)
   (setq show-paren-when-point-in-periphery t))
 
-;; Highlight surrounding parentheses
-(use-package highlight-parentheses
+(use-package indent-guide
   :defer t
-  :diminish highlight-parentheses-mode
-  :init (add-hook 'prog-mode-hook #'highlight-parentheses-mode)
-  :config (set-face-attribute 'hl-paren-face nil :weight 'ultra-bold))
-
-;; Highlight indentions
-(use-package highlight-indent-guides
-  :defer t
-  :init (add-hook 'prog-mode-hook #'highlight-indent-guides-mode)
-  :config (setq highlight-indent-guides-method 'character))
+  :ensure t
+  :diminish indent-guide-global-mode "Ⓘ"
+  :hook (prog-mode . indent-guide-global-mode)
+  :config
+  (progn
+    ;; (setq indent-guide-recursive t)
+    (setq indent-guide-char "|")
+    (setq indent-guide-delay 0.3)))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
@@ -53,23 +56,20 @@
           ("FIXME" . ,(face-foreground 'error))
           ("NOTE"  . ,(face-foreground 'success)))))
 
-;; (use-package fic-mode
-;;   :ensure t
-;;   :defer t
-;;   :init (add-hook 'prog-mode-hook #'fic-mode)
-;;   :config
-;;   (setq fic-activated-faces '(font-lock-comment-face))
-;;   (set-face-background 'fic-face "DarkGoldenrod2")
-;;   (set-face-background 'fic-author-face "DarkGoldenrod2"))
-
-;; (use-package fill-column-indicator
-;;   :ensure t
-;;   :diminish auto-fill-mode
-;;   :commands (fci-mode)
-;;   :init (add-hook 'prog-mode-hook #'fci-mode)
-;;   :config
-;;   (progn
-;;     (turn-on-auto-fill)))
+(use-package fill-column-indicator
+  :defer t
+  :ensure t
+  :diminish auto-fill-mode
+  :commands (fci-mode)
+  ;; :hook (prog-mode . fci-mode) ;; 导致company候选词偏移
+  :init
+  (progn
+    (kevin/set-leader-keys "tF" 'fci-mode))
+  :config
+  (progn
+    (setq fci-rule-column 80)
+    (setq fci-rule-width 1)
+    (turn-on-auto-fill)))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here

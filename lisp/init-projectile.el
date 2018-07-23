@@ -1,9 +1,14 @@
-;;; init-projectile.el --- Initialize projectile
+;;; init-projectile.el --- Initialize projectile. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 (use-package projectile
   :defer t
+  :ensure t
   :diminish projectile-mode "ⓟ"
   :commands (projectile-ack
              projectile-ag
@@ -34,7 +39,8 @@
                                               "projectile.cache")
                 projectile-known-projects-file (concat kevin/cache-directory
                                                        "projectile-bookmarks.eld"))
-          (evil-leader/set-key
+          (kevin/declare-prefix "p" "projectile")
+          (kevin/set-leader-keys
             "/"  'projectile-ag
             "p!" 'projectile-run-shell-command-in-root
             "p&" 'projectile-run-async-shell-command-in-root

@@ -9,11 +9,10 @@
   :hook (prog-mode . flycheck-mode)
   :init
   (progn
-    (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
     (setq flycheck-emacs-lisp-check-declare t)
     (setq flycheck-indication-mode 'right-fringe)
     (setq flycheck-emacs-lisp-load-path 'inherit)
-    (evil-leader/set-key "fe" #'hydra-flycheck/body)
+    (kevin/set-leader-keys "fe" #'hydra-flycheck/body)
     (defhydra hydra-flycheck (:color red
                                      :hint nil)
       "
@@ -40,12 +39,6 @@
     ;; '(flycheck-warning ((t (:underline (:color foreground-color :style wave))))))
     )
 
-  ;; ;; Display Flycheck errors in GUI tooltips
-  ;; (use-package flycheck-pos-tip
-  ;;   :defer t
-  ;;   :init (flycheck-pos-tip-mode 1)
-  ;;   :config (setq flycheck-pos-tip-timeout 5))
-
   ;; Jump to and fix syntax errors via `avy'
   (use-package avy-flycheck
     :defer t
@@ -56,10 +49,13 @@
     :defer t
     :init (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
 
-(use-package flycheck-posframe
+;; Display Flycheck errors in GUI tooltips
+(use-package flycheck-pos-tip
+  :defer t
   :ensure t
   :after flycheck
-  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  :hook (flycheck-mode . flycheck-pos-tip-mode))
+
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here

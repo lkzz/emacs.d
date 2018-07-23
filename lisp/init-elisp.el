@@ -1,19 +1,30 @@
-;;; init-elisp.el --- Initialize emacs lisp.
+;;; init-elisp.el --- Initialize emacs lisp. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
+
 ;;; Commentary:
 ;;; Code:
 
+;;;###autoload
+(defun remove-elc-on-save ()
+  "If you're saving an elisp file, likely the .elc is no longer valid."
+  (make-local-variable 'after-save-hook)
+  (add-hook 'after-save-hook
+            (lambda ()
+              (if (file-exists-p (concat buffer-file-name "c"))
+                  (delete-file (concat buffer-file-name "c"))))))
 
 (use-package elisp-mode
   :ensure nil
+  :defer t
+  :hook (emacs-lisp-mode . remove-elc-on-save)
   :config
-  (defun remove-elc-on-save ()
-    "If you're saving an elisp file, likely the .elc is no longer valid."
-    (make-local-variable 'after-save-hook)
-    (add-hook 'after-save-hook
-              (lambda ()
-                (if (file-exists-p (concat buffer-file-name "c"))
-                    (delete-file (concat buffer-file-name "c"))))))
-  (add-hook 'emacs-lisp-mode-hook #'kevin/remove-elc-on-save))
+  (progn
+    (with-eval-after-load 'flycheck
+      (setq-default flycheck-disabled-checkers '(;; emacs-lisp
+                                                 emacs-lisp-checkdoc)))))
 
 ;; Show function arglist or variable docstring
 (use-package eldoc
