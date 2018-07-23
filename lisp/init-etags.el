@@ -1,8 +1,13 @@
-;;; init-etags.el --- Initialize ctags configurations.
+;;; init-etags.el --- Initialize ctags configurations. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 (use-package counsel-etags
+  :defer t
   :config
   (progn
     ;; counsel-etags-ignore-directories does NOT support wildcast

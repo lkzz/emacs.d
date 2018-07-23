@@ -1,6 +1,20 @@
-;;; init-eshell.el --- config eshell
+;;; init-eshell.el --- config eshell. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
+
+(use-package company-shell
+  :defer t
+  :after company
+  :config
+  (progn
+    (add-hook eshell-mode-hook (lambda ()
+                                 (make-local-variable 'company-backends)
+                                 (add-to-list 'company-backends '(company-backends
+                                                                  company-keywords))))))
 
 (use-package eshell-prompt-extras
   :defer t
@@ -10,6 +24,7 @@
         eshell-prompt-function 'epe-theme-lambda))
 
 (use-package shell-pop
+  :defer t
   :commands shell-pop
   :defer t
   :init
@@ -45,15 +60,15 @@
   (progn
     (setq eshell-cmpl-cycle-completions nil
           ;; auto truncate after 20k lines
-          eshell-buffer-maximum-lines 20000
+          eshell-buffer-maximum-lines 1000
           ;; history size
-          eshell-history-size 350
+          eshell-history-size 50
           ;; no duplicates in history
           eshell-hist-ignoredups t
           ;; buffer shorthand -> echo foo > #'buffer
           eshell-buffer-shorthand t
           ;; my prompt is easy enough to see
-          eshell-highlight-prompt nil
+          eshell-highlight-prompt t
           ;; treat 'echo' like shell echo
           eshell-plain-echo-behavior t
           eshell-list-files-after-cd t
@@ -101,8 +116,7 @@
       "View FILE.  A version of `view-file' which properly rets the eshell prompt."
       (interactive "fView file: ")
       (unless (file-exists-p file) (error "%s does not exist" file))
-      (let ((had-a-buf (get-file-buffer file))
-            (buffer (find-file-noselect file)))
+      (let ((buffer (find-file-noselect file)))
         (if (eq (with-current-buffer buffer (get major-mode 'mode-class))
                 'special)
             (progn
@@ -158,6 +172,13 @@
         (kbd "C-u") 'eshell-kill-input
         (kbd "C-a") 'eshell-bol))
     (add-hook 'eshell-first-time-mode-hook #'kevin/eshell-keymap)
+
+    (defun eshell-other-frame ()
+      "Open eshell in another frame."
+      (interactive)
+      (with-selected-frame (make-frame)
+        (eshell)))
+
     ))
 
 (provide 'init-eshell)

@@ -1,97 +1,109 @@
-;;; init-modeline.el --- modeline config for emacs.
+;;; init-modeline.el. -*- lexical-binding: t; -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
+;;             modeline config.
 ;;; Code:
 
-;; 显示layout
-(defun kevin/update-persp-name ()
-  (when (bound-and-true-p persp-mode)
-    ;; There are multiple implementations of
-    ;; persp-mode with different APIs
-    (progn
-      (or (not (string= persp-nil-name (safe-persp-name (get-frame-persp))))
-          "Default")
-      (let ((name (safe-persp-name (get-frame-persp))))
-        (propertize (concat "[" name "] ")
-                    'face 'font-lock-preprocessor-face
-                    'help-echo "Current Layout name.")))))
 
-(defconst kevin/flycheck-mode-line
-  '(:eval
-    (pcase flycheck-last-status-change
-      ((\` not-checked) nil)
-      ((\` no-checker) (propertize " -" 'face 'warning))
-      ((\` running) (propertize " ✷" 'face 'success))
-      ((\` errored) (propertize " !" 'face 'error))
-      ((\` finished)
-       (let* ((error-counts (flycheck-count-errors flycheck-current-errors))
-              (no-errors (cdr (assq 'error error-counts)))
-              (no-warnings (cdr (assq 'warning error-counts)))
-              (face (cond (no-errors 'error)
-                          (no-warnings 'warning)
-                          (t 'success))))
-         (propertize (format "[%s/%s]" (or no-errors 0) (or no-warnings 0))
-                     'face face)))
-      ((\` interrupted) " -")
-      ((\` suspicious) '(propertize " ?" 'face 'warning)))))
+(use-package all-the-icons
+  :demand t)
 
-;; 简化 major-mode 的名字，替换表中没有的显示原名
-(defun kevin/simplify-major-mode-name ()
-  "Return simplifyed major mode name."
-  (let* ((major-name (format-mode-line "%m"))
-         (replace-table '(Emacs-Lisp "Elisp"
-                                     Spacemacs\ buffer "𝓢"
-                                     Python "Py"
-                                     Shell ">"
-                                     Makrdown "MD"
-                                     GFM "𝓜"
-                                     Org "lrg"
-                                     Text "𝓣ext"
-                                     Fundamental "ℱ"
-                                     ))
-         (replace-name (plist-get replace-table (intern major-name))))
-    (if replace-name replace-name major-name
-        )))
+;;;###autoload
+(defmacro modeline-define-segment (name body)
+  "Create function NAME by wrapping BODY."
+  `(defun ,name
+       (&optional face)
+     (modeline-render-str ,body face)))
 
-(defun kevin/buffer-encoding-abbrev ()
-  "The line ending convention used in the buffer."
-  (let ((buf-coding (format "%s" buffer-file-coding-system)))
-    (if (string-match "\\(dos\\|unix\\|mac\\)" buf-coding)
-        (match-string 1 buf-coding)
-      buf-coding)))
+;;;###autoload
+(defun modeline-render-segment (item)
+  "Render a modeline segment ITEM."
+  (cond
+   ((and (listp item) (eq 'image (car item)))
+    (propertize " " 'display item
+                'face (plist-get (cdr item) :face)))
+   (t item)))
 
+;;;###autoload
+(defun modeline-render-segment-list (items)
+  "Render a list of powerline VALUES."
+  (mapconcat 'modeline-render-segment items ""))
 
-(defun mode-line-fill (face reserve)
+;;;###autoload
+(defun modeline-render-str (str &optional face)
+  "Render STR as mode-line data using FACE and left space on the right side."
+  (when str
+    (let ((fstr (format-mode-line str)))
+      (if face
+          (concat (propertize fstr 'face face) " ")
+        (concat fstr " ")))))
+
+;;;###autoload
+(defun modeline-width (items)
+  "Get the length of ITEMS."
+  (if items
+      (let ((val (car items)))
+        (+ (cond
+            ((stringp val) (string-width (format-mode-line val)))
+            ((and (listp val) (eq 'image (car val)))
+             (car (image-size val)))
+            (t 0))
+           (modeline-width (cdr items))))
+    0))
+
+;;;###autoload
+(defun modeline-fill (reserve &optional face)
   "Return empty space using FACE and leaving RESERVE space on the right."
   (unless reserve
     (setq reserve 20))
-  (when (and window-system (eq 'right (get-scroll-bar-mode)))
-    (setq reserve (- reserve 3)))
   (propertize " "
-              'display `((space :align-to
-                                (- (+ right right-fringe right-margin) ,reserve)))
-              'face face))
+              'display `((space :align-to (- (+ right right-fringe right-margin) ,reserve)))
+              'face (if face face 'mode-line)))
 
+;;;###autoload
+(defun kevin/maybe-alltheicon (&rest args)
+  "Display octicon via `ARGS'."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-alltheicon args)))
 
-(defun window-number-mode-line ()
-  "The current window number,requires `window-numbering-mode' to be enabled."
-  (when (bound-and-true-p window-numbering-mode)
-    (let* ((num (window-numbering-get-number))
-           (str (when num (int-to-string num))))
-      (spaceline--unicode-number str))))
-(defun spaceline--unicode-number (str)
-  "Return a nice unicode representation of a single-digit number STR."
-  (cond
-   ((string= "1" str) "➊")
-   ((string= "2" str) "➋")
-   ((string= "3" str) "➌")
-   ((string= "4" str) "➍")
-   ((string= "5" str) "➎")
-   ((string= "6" str) "➏")
-   ((string= "7" str) "➐")
-   ((string= "8" str) "➑")
-   ((string= "9" str) "➒")
-   ((string= "0" str) "➓")))
+(defun kevin/maybe-octicon-icon (&rest args)
+  "Display octicon via `ARGS'."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-octicon args)))
 
+;;;###autoload
+(defun kevin/maybe-faicon-icon (&rest args)
+  "Display font awesome icon via `ARGS'."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-faicon args)))
+
+;;;###autoload
+(defun kevin/maybe-material-icon (&rest args)
+  "Display material icon via `ARGS'."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-material args)))
+
+;;;###autoload
+(defun kevin/material-icon-with-text (icon &optional text face voffset)
+  "Displays an material ICON with FACE, followed by TEXT."
+  (concat
+   (when (display-graphic-p)
+     (kevin/maybe-material-icon icon :face face :height 1.1 :v-adjust (or voffset -0.2)))
+   " "
+   (if text (propertize text 'face face))))
+
+;;;###autoload
+(defun kevin/faicon-icon-with-text (icon &optional text face voffset)
+  "Displays an faicon ICON with FACE, followed by TEXT."
+  (concat
+   (when (display-graphic-p)
+     (kevin/maybe-faicon-icon icon :face face :height 1.1 :v-adjust (or voffset -0.2)))
+   (if text (propertize text 'face face))))
+
+;;;###autoload
 (defun shorten-directory (dir max-length)
   "Setup a directory(`DIR') `MAX-LENGTH' characters."
   (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
@@ -105,119 +117,159 @@
       (setq output (concat ".../" output)))
     output))
 
-(defvar mode-line-directory
-  '(:propertize
-    (:eval (if (buffer-file-name) (concat " " (shorten-directory default-directory 20)) " "))
-    'face mode-line-directory)
-  "Formats the current directory.")
-(put 'mode-line-directory 'risky-local-variable t)
+;;;###autoload
+(defun modeline-active ()
+  "Return whether the current window is active."
+  (eq (frame-selected-window) (selected-window)))
 
-;; 为了对称,我们在buffer-id后也加一个空格:
-(setq-default mode-line-buffer-identification
-              (propertized-buffer-identification "%b "))
-
-;; 自定义mode-line样式
-;; anzu 必须加载后才可以设置 anzu--mode-line-format
-(setq-default mode-line-format
-              (list
-               "%1"
-               '(:eval (propertize
-                        (window-number-mode-line)
-                        'face
-                        'font-lock-type-face))
-               " "
-               '(:eval (kevin/update-persp-name))
-
-               ;; mode-line-mule-info
-
-               mode-line-directory
-               mode-line-buffer-identification
-
-               (with-eval-after-load 'anzu
-                 '(:eval (anzu--update-mode-line)))
-
-               "[" ;; insert vs overwrite mode, input-method in a tooltip
-               '(:eval (propertize (if overwrite-mode "Ovr" "Ins")
-                                   'face 'font-lock-preprocessor-face
-                                   'help-echo (concat "Buffer is in "
-                                                      (if overwrite-mode
-                                                          "overwrite"
-                                                        "insert") " mode")))
-
-               ;; was this buffer modified since the last save?
-               '(:eval (when (buffer-modified-p)
-                         (concat "," (propertize "Mod"
-                                                 'face 'font-lock-warning-face
-                                                 'help-echo "Buffer has been modified"))))
-               ;; is this buffer read-only?
-               '(:eval (when buffer-read-only
-                         (concat "," (propertize "RO"
-                                                 'face 'font-lock-type-face
-                                                 'help-echo "Buffer is read-only"))))
-               "]"
+(modeline-define-segment buffer-info-segment
+                         (concat (cond (buffer-read-only
+                                        (kevin/maybe-material-icon "lock"
+                                                                   :face 'warning
+                                                                   :v-adjust -0.15))
+                                       ((buffer-modified-p)
+                                        (kevin/maybe-faicon-icon "floppy-o"
+                                                                 :face 'error
+                                                                 :v-adjust -0.0575))
+                                       ((and buffer-file-name
+                                             (not (file-exists-p buffer-file-name)))
+                                        (kevin/maybe-octicon-icon "circle-slash"
+                                                                  :face 'error
+                                                                  :v-adjust -0.05))
+                                       ((buffer-narrowed-p)
+                                        (kevin/maybe-octicon-icon "fold"
+                                                                  :face 'warning
+                                                                  :v-adjust -0.05))
+                                       )
+                                 (if (buffer-file-name)
+                                     (concat (shorten-directory default-directory 15) (file-relative-name buffer-file-name))
+                                   "%b")))
 
 
-               ;; relative position, size of file
-               " ["
-               (propertize "%p" 'face 'font-lock-constant-face) ;; % above top
-               "/"
-               (propertize "%I" 'face 'font-lock-constant-face) ;; size
-               "] "
 
-               ;; "["
-               ;; ;; the current major mode for the buffer.
-               ;; '(:eval (propertize (kevin/simplify-major-mode-name) 'face 'font-lock-string-face
-               ;;                     'help-echo buffer-file-coding-system))
-               ;; "]"
+(modeline-define-segment timestamp-info-segment
+                         (format-time-string "%H:%M "))
 
-               "%1"
-               kevin/flycheck-mode-line
-               "%1"
+(modeline-define-segment position-info-segment
+                         (format-mode-line "%l:%c"))
 
-               " "
-               ;; evil state
-               '(:eval evil-mode-line-tag)
+(modeline-define-segment buffer-encoding-segment
+                         (concat (pcase (coding-system-eol-type buffer-file-coding-system)
+                                   (0 "LF ")
+                                   (1 "CRLF ")
+                                   (2 "CR "))
+                                 (let ((sys (coding-system-plist buffer-file-coding-system)))
+                                   (cond ((memq (plist-get sys :category) '(coding-category-undecided coding-category-utf-8))
+                                          "UTF-8")
+                                         (t (upcase (symbol-name (plist-get sys :name))))))))
 
-               ;; git info
-               '(:eval (when (> (window-width) 120)
-                         `(vc-mode vc-mode)))
-               " "
+(modeline-define-segment vsc-info-segment
+                         (when (bound-and-true-p vc-mode)
+                           (cond ((string-match "Git[:-]" vc-mode)
+                                  (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
+                                    (concat
+                                     (kevin/maybe-alltheicon "git"
+                                                             :face 'warning
+                                                             :v-adjust -0.05)
+                                     " "
+                                     branch)))
+                                 (t vc-mode))))
 
-               ;; ;; nyan progressbar
-               ;; '(:eval (when (> (window-width) 150)
-               ;;           (list (nyan-create))))
+(modeline-define-segment flycheck-segment
+                         (when (bound-and-true-p flycheck-mode)
+                           (pcase flycheck-last-status-change
+                             (`finished (if flycheck-current-errors
+                                            (let-alist (flycheck-count-errors flycheck-current-errors)
+                                              (let ((sum (+ (or .error 0) (or .warning 0))))
+                                                (kevin/material-icon-with-text "error_outline"
+                                                                               (number-to-string sum)
+                                                                               (if .error 'error 'warning)
+                                                                               -0.20)))
+                                          (kevin/material-icon-with-text "check" nil 'mode-line)))
+                             (`running     (kevin/material-icon-with-text "access_time" nil 'font-lock-doc-face -0.25))
+                             (`no-checker  (kevin/material-icon-with-text "sim_card_alert" "-" 'font-lock-doc-face))
+                             (`errored     (kevin/material-icon-with-text "do_not_disturb" "Error" 'error -0.15))
+                             (`interrupted (kevin/material-icon-with-text "pause" "Interrupted" 'font-lock-doc-face)))
+                           ))
 
-               ;; minor modes
-               '(:eval (when (> (window-width) 90)
-                         minor-mode-alist))
+;; Return simplifyed major mode name.
+(modeline-define-segment major-mode-segment
+                         (let* ((major-name (format-mode-line "%m"))
+                                (replace-table '(Emacs-Lisp "Elisp"
+                                                            Python "Py"
+                                                            Shell ">"
+                                                            Makrdown "MD"
+                                                            GFM "𝓜"
+                                                            Org "lrg"
+                                                            Text "𝓣ext"
+                                                            Fundamental "ℱ"
+                                                            ))
+                                (replace-name (plist-get replace-table (intern major-name))))
+                           (if replace-name replace-name major-name)))
 
-               (mode-line-fill 'mode-line 16)
+(modeline-define-segment minor-mode-segment
+                         (when (and (display-graphic-p) (> (window-width) 120))
+                           (format-mode-line minor-mode-alist)))
 
-               ;; line and column
-               "(" ;; '%02' to set to 2 chars at least; prevents flickering
-               (propertize "%02l" 'face 'font-lock-type-face) ","
-               (propertize "%02c" 'face 'font-lock-type-face)
-               ") "
+(modeline-define-segment window-number-segment
+                         (when (bound-and-true-p window-numbering-mode)
+                           (let* ((num (window-numbering-get-number))
+                                  (str (when num (int-to-string num))))
+                             (cond
+                              ((string= "1" str) "➊")
+                              ((string= "2" str) "➋")
+                              ((string= "3" str) "➌")
+                              ((string= "4" str) "➍")
+                              ((string= "5" str) "➎")
+                              ((string= "6" str) "➏")
+                              ((string= "7" str) "➐")
+                              ((string= "8" str) "➑")
+                              ((string= "9" str) "➒")
+                              ((string= "0" str) "➓"))
+                             )))
 
-               ;; global-mode-string goes in mode-line-misc-info
-               ;; (mode-line-misc-info)
-               ;; '(:eval (when (> (window-width) 120)
-               ;;           mode-line-misc-info))
+(with-eval-after-load 'evil
+  (setq evil-normal-state-tag (kevin/faicon-icon-with-text "chevron-right" "NO" 'mode-line))
+  (setq evil-insert-state-tag (kevin/faicon-icon-with-text "chevron-right" "IN" 'success))
+  (setq evil-motion-state-tag (kevin/faicon-icon-with-text "chevron-right" "MO" 'warning))
+  (setq evil-visual-state-tag (kevin/faicon-icon-with-text "chevron-right" "VI" 'error))
+  (setq evil-operator-state-tag (kevin/faicon-icon-with-text "chevron-right" "OP" 'font-lock-doc-face))
+  )
+(modeline-define-segment evil-tag-segment
+                         (when (bound-and-true-p evil-mode)
+                           evil-mode-line-tag
+                           ))
 
-               ;; ;; encoding abbrev
-               ;; " ["
-               ;; '(:eval (kevin/buffer-encoding-abbrev))
-               ;; "] "
+(defun modeline-init ()
+  (setq-default mode-line-format
+                '("%e"
+                  (:eval
+                   (let* ((active (modeline-active))
+                          (mode-line (if active 'mode-line 'mode-line-inactive))
+                          (lhs (list
+                                (evil-tag-segment)
+                                (window-number-segment 'mode-line)
+                                (buffer-info-segment 'mode-line)
+                                (minor-mode-segment 'mode-line)
+                                (position-info-segment 'mode-line)
+                                ))
+                          (rhs (list
+                                (vsc-info-segment 'warning)
+                                (major-mode-segment)
+                                (flycheck-segment)
+                                (buffer-encoding-segment 'mode-line)
+                                (timestamp-info-segment 'mode-line)
+                                ))
+                          )
+                     (concat
+                      (modeline-render-segment-list lhs)
+                      (modeline-fill (modeline-width rhs) 'mode-line)
+                      (modeline-render-segment-list rhs)
+                      )))))
 
-               ;; add the time, with the date and the emacs uptime in the tooltip
-               '(:eval (propertize (format-time-string "%H:%M")
-                                   'help-echo
-                                   (concat (format-time-string "%c; ")
-                                           (emacs-uptime "Uptime:%hh"))))
+  )
 
-               ))
-;; )
-
+(add-hook 'after-init-hook #'modeline-init)
 
 (provide 'init-modeline)
 ;;; init-modeline ends here

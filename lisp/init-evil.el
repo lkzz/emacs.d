@@ -1,14 +1,20 @@
-;;; init-evil.el --- setup emacs use evil keybinds
+;;; init-evil.el --- setup emacs use evil keybinds. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 (use-package evil-leader
+  :defer t
   :after evil
   :config
   (global-evil-leader-mode t)
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
+  :defer t
   :hook (after-init . evil-mode)
   :config
   (progn
@@ -23,20 +29,11 @@
           ;; more vim-like behavior
           evil-symbol-word-search t
           ;; don't activate mark on shift-click
-          shift-select-mode nil)
-    (setq evil-mode-line-format nil)
-    (setq evil-cross-lines t)
-    (setq evil-move-cursor-back t) ;; Move back the cursor one position when exiting insert mode
-    (setq evil-esc-delay 0)
-    (setq evil-mode-line-format 'before)
-
-    ;; modeline UI
-    (setq evil-normal-state-tag   (propertize "[N]" 'face '((:background "green" :foreground "black")))
-          evil-emacs-state-tag    (propertize "[E]" 'face '((:background "orange" :foreground "black")))
-          evil-insert-state-tag   (propertize "[I]" 'face '((:background "red")))
-          evil-motion-state-tag   (propertize "[M]" 'face '((:background "blue")))
-          evil-visual-state-tag   (propertize "[V]" 'face '((:background "grey80" :foreground "black")))
-          evil-operator-state-tag (propertize "[O]" 'face '((:background "purple"))))
+          shift-select-mode nil
+          evil-cross-lines t
+          evil-move-cursor-back t ;; Move back the cursor one position when exiting insert mode
+          evil-esc-delay 0
+          evil-mode-line-format 'after)
 
     ;; evil cursor color
     (setq  evil-default-cursor '("SkyBlue2" box)
@@ -63,6 +60,7 @@
     (define-key evil-normal-state-map (kbd ",w") 'evil-write)
     (define-key evil-normal-state-map (kbd ",W") 'evil-write-all)
     (define-key evil-normal-state-map (kbd ",q") 'evil-quit)
+    (define-key evil-normal-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
     (define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
     (define-key evil-normal-state-map (kbd "C-w") 'evil-delete-backward-word)
     (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
@@ -75,15 +73,16 @@
 
     ;; evil visual state keybinds
     (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
-
     ))
 
 (use-package evil-surround
+  :defer t
   :after evil
   :config
   (global-evil-surround-mode t))
 
 (use-package evil-visualstar
+  :defer t
   :after evil
   :config
   (progn
@@ -106,6 +105,7 @@
       )))
 
 (use-package evil-escape
+  :defer t
   :after evil
   :diminish evil-escape-mode
   :config
@@ -114,14 +114,8 @@
     (setq-default evil-escape-key-sequence "jk")
     (setq-default evil-escape-delay 0.3)))
 
-(use-package evil-magit
-  :after (magit evil)
-  :init
-  (progn
-    (setq evil-magit-want-horizontal-movement nil)))
-
-
 (use-package evil-mc
+  :defer t
   :after evil
   :diminish evil-mc-mode
   :config

@@ -1,11 +1,15 @@
-;;; init-python.el --- Initialize python configurations.
+;;; init-python.el --- Initialize python configurations. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 ;; Python Mode
 (use-package python
-  :ensure nil
   :defer t
+  :ensure nil
   :defines gud-pdb-command-name pdb-path
   :config
   ;; Disable readline based native completion

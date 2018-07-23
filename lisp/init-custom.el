@@ -18,6 +18,22 @@
   (eq system-type 'darwin)
   "Are we running on a Mac system?")
 
+(defvar kevin/leader-key "SPC"
+  "The leader key.")
+
+(defvar kevin/emacs-leader-key "M-m"
+  "The leader key accessible in `emacs state' and `insert state'")
+
+(defvar kevin/major-mode-leader-key ","
+  "Major mode leader key is a shortcut key which is the equivalent of
+pressing `<leader> m`. Set it to `nil` to disable it.")
+
+(defvar kevin/major-mode-emacs-leader-key "C-M-m"
+  "Major mode leader key accessible in `emacs state' and `insert state'")
+
+(defvar kevin/default-map (make-sparse-keymap)
+  "Base keymap for all leader key commands.")
+
 (defvar kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 

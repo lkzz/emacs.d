@@ -1,4 +1,8 @@
-;;; init-whitespace.el --- whitespace mode config
+;;; init-whitespace.el --- whitespace mode config. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 

@@ -1,11 +1,15 @@
-;;; init-misc.el --- misc config files
+;;; init-misc.el --- misc config files. -*- lexical-binding: t -*-
+;;
+;; Author: kevin <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
 ;;; Commentary:
 ;;; Code:
 
 ;; Elec pair
 (use-package elec-pair
-  :ensure nil
   :defer t
+  :ensure nil
   :init (add-hook 'after-init-hook #'electric-pair-mode))
 
 ;; Hungry deletion
@@ -19,20 +23,24 @@
 
 (use-package server
   :defer t
-  :init (add-hook 'after-init-hook 'server-start t))
+  :init
+  (add-hook 'after-init-hook (lambda ()
+                               (unless server-mode
+                                 (server-start t)
+                                 ))))
 
 ;; History
 (use-package saveplace
-  :ensure nil
   :defer t
+  :ensure nil
   :init
   (add-hook 'after-init-hook #'save-place-mode))
 
 (use-package recentf
-  :ensure nil
   :defer t
+  :ensure nil
   :init
-  (setq recentf-max-saved-items 100)
+  (setq recentf-max-saved-items 50)
   ;; lazy load recentf
   ;; (add-hook 'after-init-hook #'recentf-mode)
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
@@ -46,22 +54,25 @@
 
 ;; Delete selection if you insert
 (use-package delsel
+  :defer t
+  :ensure t
   :init (add-hook 'after-init-hook #'delete-selection-mode))
 
 ;; Rectangle
 (use-package rect
-  :ensure nil
   :defer t
+  :ensure nil
   :bind (("<C-return>" . rectangle-mark-mode)))
 
 ;; Jump to things in Emacs tree-style
 (use-package avy
   :defer t
+  :ensure t
   :commands (avy-goto-char avy-goto-word-or-subword-1)
   :hook (after-init . avy-setup-default)
   :init
   (progn
-    (evil-leader/set-key
+    (kevin/set-leader-keys
       "jc" 'avy-goto-char
       "jw" 'avy-goto-word-or-subword-1
       "jl" 'avy-goto-line
@@ -71,12 +82,14 @@
 ;; Quickly follow links
 (use-package ace-link
   :defer t
+  :ensure t
   :bind (("M-o" . ace-link-addr))
   :init (add-hook 'after-init-hook #'ace-link-setup-default))
 
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
   :defer t
+  :ensure t
   :diminish aggressive-indent-mode
   :init
   (add-hook 'after-init-hook #'global-aggressive-indent-mode)
@@ -107,11 +120,13 @@
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
   :defer t
+  :ensure t
   :bind ("M-;" . comment-dwim-2))
 
 ;; Drag stuff (lines, words, region, etc...) around
 (use-package drag-stuff
   :defer t
+  :ensure t
   :diminish drag-stuff-mode
   :init (add-hook 'after-init-hook #'drag-stuff-global-mode)
   :config
@@ -120,8 +135,8 @@
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
-  :ensure nil
   :defer t
+  :ensure nil
   :init
   ;; show org ediffs unfolded
   (with-eval-after-load 'outline
@@ -137,6 +152,7 @@
 ;; Treat undo history as a tree
 (use-package undo-tree
   :defer t
+  :ensure t
   :diminish undo-tree-mode "ⓤ"
   :init
   (global-undo-tree-mode)
@@ -148,6 +164,7 @@
     (setq undo-tree-visualizer-diff t)))
 
 (use-package savehist
+  :defer t
   :ensure nil
   :init
   (progn
@@ -165,8 +182,8 @@
 
 ;; Hideshow
 (use-package hideshow
-  :ensure nil
   :defer t
+  :ensure nil
   :bind (:map hs-minor-mode-map
               ("C-`" . hs-toggle-hiding))
   :diminish hs-minor-mode)
@@ -186,8 +203,7 @@
   :config
   (progn
     (setq smex-save-file (concat kevin/cache-directory "smex-items"))
-    (setq smex-history-length 10)
-    ))
+    (setq smex-history-length 10)))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here
