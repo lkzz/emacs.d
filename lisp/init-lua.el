@@ -23,8 +23,8 @@
   (progn
     (add-hook 'lua-mode-hook (lambda ()
                                (make-local-variable 'company-backends)
-                               (add-to-list 'company-backends '(company-lua company-yasnippet))))
-    ))
+                               (setq company-backends kevin/company-global-backends)
+                               (add-to-list 'company-backends 'company-lua)))))
 
 (provide 'init-lua)
 ;; init-lua.el ends here.
