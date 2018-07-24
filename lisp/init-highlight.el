@@ -22,16 +22,17 @@
   (setq show-paren-when-point-inside-paren t)
   (setq show-paren-when-point-in-periphery t))
 
-(use-package indent-guide
-  :defer t
-  :ensure t
-  :diminish indent-guide-global-mode "Ⓘ"
-  :hook (prog-mode . indent-guide-global-mode)
-  :config
-  (progn
-    ;; (setq indent-guide-recursive t)
-    (setq indent-guide-char "|")
-    (setq indent-guide-delay 0.3)))
+
+;; (use-package indent-guide
+;;   :defer t
+;;   :ensure t
+;;   :diminish indent-guide-global-mode "Ⓘ"
+;;   :hook (prog-mode . indent-guide-global-mode)
+;;   :config
+;;   (progn
+;;     ;; (setq indent-guide-recursive t)
+;;     (setq indent-guide-char "|")
+;;     (setq indent-guide-delay 0.3)))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
