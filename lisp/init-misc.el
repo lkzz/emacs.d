@@ -24,10 +24,10 @@
 (use-package server
   :defer t
   :init
-  (add-hook 'after-init-hook (lambda ()
-                               (unless server-mode
-                                 (server-start t)
-                                 ))))
+  (server-mode 1)
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 ;; History
 (use-package saveplace
