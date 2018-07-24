@@ -50,9 +50,8 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
   "Set color theme."
   :type '(choice
           (const :tag "zenburn theme" default)
-          (const :tag "Tomorrow night theme" dark)
-          (const :tag "Leuven light theme" light)
-          (const :tag "Doom theme" doom)))
+          (const :tag "doom theme" dark)
+          (const :tag "Leuven light theme" light)))
 
 (setq my-theme 'default)
 
