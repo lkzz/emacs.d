@@ -46,13 +46,12 @@
         (:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name)) "%b"))))
 
-;; Fancy titlebar for MacOS
-;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-;; (add-to-list 'default-frame-alist '(ns-appearance . dark))
-;; (setq ns-use-proxy-icon  nil)
+;; natural title bar
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 
 ;; 设置scratch message
-;; (setq initial-scratch-message "")
+(setq initial-scratch-message "")
 ;; 打开文件时不再创建新的frame
 (when (boundp 'ns-pop-up-frames)
   (setq ns-pop-up-frames nil))
@@ -64,30 +63,21 @@
 (cond
  ;; default theme
  ((eq my-theme 'default)
-  (use-package zenburn-theme
+  (use-package hc-zenburn-theme
     :ensure t
     :config
-    (load-theme 'zenburn t)))
+    (load-theme 'hc-zenburn t)))
  ;; dark theme
  ((eq my-theme 'dark)
-  (use-package base16-theme
-    :ensure t
+  (use-package doom-themes
     :config
-    (load-theme 'base16-tomorrow-night t)))
- ;; light theme
+    (doom-themes-visual-bell-config)
+    (doom-themes-org-config)
+    (load-theme 'doom-one t)))
  ((eq my-theme 'light)
   (use-package base16-theme
     :ensure t
-    :config
-    (load-theme 'base16-solarized-light t)))
- ;; doom theme
- ((eq my-theme 'doom)
-  (use-package doom-themes
-    :preface (defvar region-fg nil)
-    :init (load-theme 'doom-one t)
-    :config
-    (doom-themes-visual-bell-config)
-    (doom-themes-org-config))))
+    :config (load-theme 'base16-solarized-light t))))
 
 ;; 字体设置
 (use-package cnfonts
@@ -98,10 +88,12 @@
     "Show icons in all-the-icons."
     (when (featurep 'all-the-icons)
       (dolist (charset '(kana han cjk-misc bopomofo gb18030))
+        (set-fontset-font "fontset-default" charset "all-the-icons" nil 'append)
         (set-fontset-font "fontset-default" charset "github-octicons" nil 'append)
         (set-fontset-font "fontset-default" charset "FontAwesome" nil 'append)
         (set-fontset-font "fontset-default" charset "Material Icons" nil 'append)
-        )))
+        (set-fontset-font "fontset-default" charset "file-icons" nil 'append)
+        (set-fontset-font "fontset-default" charset "Weather Icons" nil 'append))))
   :hook ((after-init . cnfonts-enable)
          (cnfonts-set-font-finish . cnfonts--set-all-the-icons-fonts))
   :config

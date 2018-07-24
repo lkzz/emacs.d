@@ -14,22 +14,11 @@
         ;; ("melpa-stable" . "https://stable.melpa.org/packages/")
         ;; ;; }}
 
-        ;; ;; {{ 163 repository:
-        ;; ("melpa" . "https://mirrors.163.com/elpa/melpa/")
-        ;; ("melpa-stable" . "https://mirrors.163.com/elpa/melpa-stable/")
-        ;; ;; }}
-
-        ;; {{ tsinghua repository (more stable than 163, recommended)
-        ;;See https://mirror.tuna.tsinghua.edu.cn/help/elpa/ on usage:
-        ("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-        ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-        ("melpa-stable" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa-stable/")
-        ;; ("org" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")
-        ;; ;; }}
-
-        ;; ;; {{ emacs-china repository:
-        ;; ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-        ;; ;; }}
+        ;; {{ emacs-china repository:
+        ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+        ("gnu-cn" . "http://elpa.emacs-china.org/gnu/")
+        ("org-cn" . "http://elpa.emacs-china.org/org/")
+        ;; }}
 
         ))
 
