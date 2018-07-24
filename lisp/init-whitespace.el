@@ -57,5 +57,5 @@
   :init
   (add-hook 'after-init-hook 'global-whitespace-cleanup-mode))
 
-  (provide 'init-whitespace)
+(provide 'init-whitespace)
 ;;; init-whitespace ends here
