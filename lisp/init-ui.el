@@ -168,14 +168,14 @@
     (setq display-line-numbers-current-absolute t)
     (kevin/set-leader-keys "tn" 'display-line-numbers-mode)))
 
-(use-package nyan-mode
-  :defer t
-  :ensure t
-  :init (add-hook 'after-init-hook #'nyan-mode)
-  :config
-  (progn
-    (setq nyan-wavy-trail t)
-    (setq nyan-animate-nyancat t)))
+;; (use-package nyan-mode
+;;   :defer t
+;;   :ensure t
+;;   :init (add-hook 'after-init-hook #'nyan-mode)
+;;   :config
+;;   (progn
+;;     (setq nyan-wavy-trail t)
+;;     (setq nyan-animate-nyancat t)))
 
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon
