@@ -108,7 +108,7 @@
   ;; don't use default value but manage it ourselves
   (setq popwin:special-display-config
         '(;; Emacs
-          ("*Help*" :dedicated t :position bottom :stick nil :noselect nil)
+          ("*Help*" :dedicated t :position bottom :stick t :noselect nil)
           ("*compilation*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
           ("*Compile-Log*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
           ("*Warnings*" :dedicated t :position bottom :stick t :noselect t)
