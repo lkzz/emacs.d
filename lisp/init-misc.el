@@ -40,7 +40,7 @@
   :defer t
   :ensure nil
   :init
-  (setq recentf-max-saved-items 50)
+  (setq recentf-max-saved-items 200)
   ;; lazy load recentf
   ;; (add-hook 'after-init-hook #'recentf-mode)
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
