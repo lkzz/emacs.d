@@ -81,7 +81,15 @@
     (doom-themes-visual-bell-config)
     (doom-themes-neotree-config)
     (doom-themes-org-config)
-    (load-theme 'doom-solarized-light t))))
+    (load-theme 'doom-solarized-light t)))
+ ((eq my-theme 'solarized)
+  (use-package color-theme-solarized
+    :ensure t
+    :config
+    (set-frame-parameter nil 'background-mode 'dark)
+    (set-terminal-parameter nil 'background-mode 'dark)
+    (setq solarized-broken-srgb t)
+    (load-theme 'solarized t))))
 
 ;; 字体设置
 (use-package cnfonts
