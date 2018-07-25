@@ -63,21 +63,25 @@
 (cond
  ;; default theme
  ((eq my-theme 'default)
-  (use-package hc-zenburn-theme
+  (use-package zenburn-theme
     :ensure t
     :config
-    (load-theme 'hc-zenburn t)))
+    (load-theme 'zenburn t)))
  ;; dark theme
  ((eq my-theme 'dark)
   (use-package doom-themes
     :config
     (doom-themes-visual-bell-config)
+    (doom-themes-neotree-config)
     (doom-themes-org-config)
-    (load-theme 'doom-one t)))
+    (load-theme 'doom-molokai t)))
  ((eq my-theme 'light)
-  (use-package base16-theme
-    :ensure t
-    :config (load-theme 'base16-solarized-light t))))
+  (use-package doom-themes
+    :config
+    (doom-themes-visual-bell-config)
+    (doom-themes-neotree-config)
+    (doom-themes-org-config)
+    (load-theme 'doom-solarized-light t))))
 
 ;; 字体设置
 (use-package cnfonts
@@ -177,6 +181,37 @@
   :config
   (setq beacon-color "red")
   (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
+
+
+(use-package vimish-fold
+  :defer t
+  :bind (:map vimish-fold-folded-keymap ("<tab>" . vimish-fold-unfold)
+              :map vimish-fold-unfolded-keymap ("<tab>" . vimish-fold-refold))
+  :init
+  (progn
+    (setq-default vimish-fold-dir (concat kevin/cache-directory "/vimish-fold"))
+    (defhydra hydra-vimish-fold (:color pink)
+      "
+    ^
+    ^Fold^              ^Do^                ^Jump^              ^Toggle^
+    ^────^──────────────^──^────────────────^────^──────────────^──────^────────────
+    _q_ quit            _f_ fold            _<_ previous        _<tab>_ current
+    ^^                  _k_ kill            _>_ next            _S-<tab>_ all
+    ^^                  _K_ kill all        ^^                  ^^
+    ^^                  ^^                  ^^                  ^^
+    "
+      ("q" nil)
+      ("<tab>" vimish-fold-toggle)
+      ("S-<tab>" vimish-fold-toggle-all)
+      ("<" vimish-fold-previous-fold)
+      (">" vimish-fold-next-fold)
+      ("f" vimish-fold)
+      ("k" vimish-fold-delete)
+      ("K" vimish-fold-delete-all)))
+  :config
+  (progn
+    (vimish-fold-global-mode 1)
+    (setq-default vimish-fold-header-width 79)))
 
 (provide 'init-ui)
 ;;; init-ui ends here

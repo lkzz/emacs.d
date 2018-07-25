@@ -53,7 +53,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
           (const :tag "doom theme" dark)
           (const :tag "Leuven light theme" light)))
 
-(setq my-theme 'default)
+(setq my-theme 'dark)
 
 (provide 'init-custom)
 ;;; init-custom.el ends here
