@@ -21,7 +21,7 @@
 
 (use-package company
   :defer 3
-  :diminish company-mode "ⓐ"
+  :diminish company-mode "ⓒ"
   :bind (("M-/" . company-complete)
          ("C-c C-y" . company-yasnippet)
          :map company-active-map
