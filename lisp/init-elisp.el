@@ -19,12 +19,7 @@
 (use-package elisp-mode
   :ensure nil
   :defer t
-  :hook (emacs-lisp-mode . remove-elc-on-save)
-  :config
-  (progn
-    (with-eval-after-load 'flycheck
-      (setq-default flycheck-disabled-checkers '(emacs-lisp
-                                                 emacs-lisp-checkdoc)))))
+  :hook (emacs-lisp-mode . remove-elc-on-save))
 
 ;; Show function arglist or variable docstring
 (use-package eldoc
