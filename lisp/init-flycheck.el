@@ -7,12 +7,16 @@
   :diminish flycheck-mode "ⓕ"
   :commands (hydra-flycheck/body)
   :hook (prog-mode . flycheck-mode)
-  :init
+  :config
   (progn
     (setq flycheck-emacs-lisp-check-declare t)
     (setq flycheck-indication-mode 'right-fringe)
     (setq flycheck-emacs-lisp-load-path 'inherit)
+    (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
+    (setq-default flycheck-check-syntax-automatically '(save mode-enabled))
+    (setq-default flycheck-display-errors-delay 1.5)
     (kevin/set-leader-keys "fe" #'hydra-flycheck/body)
+    ;; customize zenburn theme
     (defhydra hydra-flycheck (:color red
                                      :hint nil)
       "
