@@ -187,7 +187,7 @@
                                                                                -0.20)))
                                           (kevin/material-icon-with-text "check" nil 'mode-line)))
                              (`running     (kevin/material-icon-with-text "access_time" nil 'font-lock-doc-face -0.25))
-                             (`no-checker  (kevin/material-icon-with-text "sim_card_alert" "-" 'font-lock-doc-face))
+                             (`no-checker  (kevin/material-icon-with-text "block" "" 'font-lock-doc-face))
                              (`errored     (kevin/material-icon-with-text "do_not_disturb" "Error" 'error -0.15))
                              (`interrupted (kevin/material-icon-with-text "pause" "Interrupted" 'font-lock-doc-face)))
                            ))
