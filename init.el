@@ -34,6 +34,12 @@
 (advice-add #'display-startup-echo-area-message :override #'ignore)
 
 ;;----------------------------------------------------------------------------
+;; custom file.
+;;----------------------------------------------------------------------------
+(setq custom-file (expand-file-name "cache/custom.el" user-emacs-directory))
+(load custom-file 'no-error 'no-message)
+
+;;----------------------------------------------------------------------------
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
 (require 'init-elpa)      ;; Machinery for installing required packages
@@ -87,12 +93,5 @@
 
 (require 'init-windows)
 (require 'init-keybinds)
-
-;;----------------------------------------------------------------------------
-;; custom file.
-;;----------------------------------------------------------------------------
-(setq custom-file (expand-file-name "custom.el" kevin/cache-directory))
-(load custom-file 'no-error 'no-message)
-
 
 ;;; init.el ends here
