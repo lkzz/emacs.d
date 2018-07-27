@@ -49,6 +49,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
   :type '(choice
           (const :tag "zenburn theme" default)
           (const :tag "doom theme" dark)
+          (const :tag "gruvbox theme" gruvbox)
           (const :tag "Leuven light theme" light))
   :group 'kevin)
 

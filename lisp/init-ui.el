@@ -89,7 +89,12 @@
     (set-frame-parameter nil 'background-mode 'dark)
     (set-terminal-parameter nil 'background-mode 'dark)
     (setq solarized-broken-srgb t)
-    (load-theme 'solarized t))))
+    (load-theme 'solarized t)))
+ ((eq color-theme 'gruvbox)
+  (use-package gruvbox-theme
+    :ensure t
+    :config
+    (load-theme 'gruvbox-dark-hard t))))
 
 ;; 字体设置
 (use-package cnfonts
