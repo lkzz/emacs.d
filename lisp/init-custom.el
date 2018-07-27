@@ -34,26 +34,31 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
 (defvar kevin/default-map (make-sparse-keymap)
   "Base keymap for all leader key commands.")
 
-(defvar kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
-  "Emacs cache directory.")
-
-(defvar kevin/default-directory "~/Code/gopath/src/go-common/app"
-  "Default project directory.")
-
 (defvar kevin/user-name "kevin leung"
   "Default username.")
 
 (defvar kevin/mail-address "kevin.scnu@gmail.com"
   "Default email address.")
 
-(defcustom my-theme 'default
+(defgroup kevin nil
+  "Declare group used in my emacs."
+  :group 'kevin)
+
+(defcustom color-theme 'default
   "Set color theme."
   :type '(choice
           (const :tag "zenburn theme" default)
           (const :tag "doom theme" dark)
-          (const :tag "Leuven light theme" light)))
+          (const :tag "Leuven light theme" light))
+  :group 'kevin)
 
-(setq my-theme 'solarized)
+(defcustom kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
+  "Emacs cache directory."
+  :group 'kevin)
+
+(defcustom kevin/default-directory "~/Code/gopath/src/go-common/app"
+  "Default project directory."
+  :group 'kevin)
 
 (provide 'init-custom)
 ;;; init-custom.el ends here
