@@ -8,18 +8,17 @@
   :commands (hydra-flycheck/body)
   :hook (prog-mode . flycheck-mode)
   :config
-  (progn
-    (setq flycheck-emacs-lisp-check-declare t)
-    (setq flycheck-indication-mode 'right-fringe)
-    (setq flycheck-emacs-lisp-load-path 'inherit)
-    (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
-    (setq-default flycheck-check-syntax-automatically '(save mode-enabled))
-    (setq-default flycheck-display-errors-delay 1.5)
-    (kevin/set-leader-keys "fe" #'hydra-flycheck/body)
-    ;; customize zenburn theme
-    (defhydra hydra-flycheck (:color red
-                                     :hint nil)
-      "
+  (setq flycheck-emacs-lisp-check-declare t)
+  (setq flycheck-indication-mode 'right-fringe)
+  (setq flycheck-emacs-lisp-load-path 'inherit)
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
+  (setq-default flycheck-check-syntax-automatically '(save mode-enabled))
+  (setq-default flycheck-display-errors-delay 1.5)
+  (kevin/set-leader-keys "fe" #'hydra-flycheck/body)
+  ;; customize zenburn theme
+  (defhydra hydra-flycheck (:color red
+                                   :hint nil)
+    "
     ^
     ^Flycheck^        ^Errors^          ^Checker^
     ^────────^────────^──────^──────────^───────^───────────
@@ -29,37 +28,34 @@
                     _l_ list
     ^^                  ^^                  ^^
     "
-      ("q" nil exit: t)
-      ("c" flycheck-buffer exit: t)
-      ("d" flycheck-disable-checker exit: t)
-      ("l" flycheck-list-errors exit: t)
-      ("m" flycheck-manual exit: t)
-      ("n" flycheck-next-error exit: t)
-      ("p" flycheck-previous-error exit: t)
-      ("s" flycheck-select-checker exit: t)
-      ("v" flycheck-verify-setup exit: t)
-      ("?" flycheck-describe-checker exit: t))
-    ;; (custom-set-faces
-    ;; '(flycheck-warning ((t (:underline (:color foreground-color :style wave))))))
-    )
+    ("q" nil exit: t)
+    ("c" flycheck-buffer exit: t)
+    ("d" flycheck-disable-checker exit: t)
+    ("l" flycheck-list-errors exit: t)
+    ("m" flycheck-manual exit: t)
+    ("n" flycheck-next-error exit: t)
+    ("p" flycheck-previous-error exit: t)
+    ("s" flycheck-select-checker exit: t)
+    ("v" flycheck-verify-setup exit: t)
+    ("?" flycheck-describe-checker exit: t)))
 
-  ;; Jump to and fix syntax errors via `avy'
-  (use-package avy-flycheck
-    :defer t
-    :init (avy-flycheck-setup))
-
-  ;; Which colors the mode line according to the Flycheck state of the current buffer
-  (use-package flycheck-color-mode-line
-    :defer t
-    :init (add-hook 'flycheck-mode-hook 'flycheck-color-mode-line-mode)))
-
-;; Display Flycheck errors in GUI tooltips
-(use-package flycheck-pos-tip
-  :defer t
+;; Jump to and fix syntax errors via `avy'
+(use-package avy-flycheck
   :ensure t
   :after flycheck
-  :hook (flycheck-mode . flycheck-pos-tip-mode))
+  :init (avy-flycheck-setup))
 
+;; Which colors the mode line according to the Flycheck state of the current buffer
+(use-package flycheck-color-mode-line
+  :ensure t
+  :after flycheck
+  :hook (flycheck-mode . flycheck-color-mode-line-mode))
+
+;; Display Flycheck errors in GUI tooltips
+(use-package flycheck-posframe
+  :ensure t
+  :after (posframe flycheck)
+  :hook (flycheck-mode . flycheck-posframe-mode))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here
