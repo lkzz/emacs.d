@@ -62,27 +62,27 @@
 ;; 配置主题
 (cond
  ;; default theme
- ((eq my-theme 'default)
+ ((eq color-theme 'default)
   (use-package zenburn-theme
     :ensure t
     :config
     (load-theme 'zenburn t)))
  ;; dark theme
- ((eq my-theme 'dark)
+ ((eq color-theme 'dark)
   (use-package doom-themes
     :config
     (doom-themes-visual-bell-config)
     (doom-themes-neotree-config)
     (doom-themes-org-config)
     (load-theme 'doom-molokai t)))
- ((eq my-theme 'light)
+ ((eq color-theme 'light)
   (use-package doom-themes
     :config
     (doom-themes-visual-bell-config)
     (doom-themes-neotree-config)
     (doom-themes-org-config)
     (load-theme 'doom-solarized-light t)))
- ((eq my-theme 'solarized)
+ ((eq color-theme 'solarized)
   (use-package color-theme-solarized
     :ensure t
     :config
@@ -220,6 +220,10 @@
   (progn
     (vimish-fold-global-mode 1)
     (setq-default vimish-fold-header-width 79)))
+
+(use-package posframe
+  :defer t
+  :ensure t)
 
 (provide 'init-ui)
 ;;; init-ui ends here
