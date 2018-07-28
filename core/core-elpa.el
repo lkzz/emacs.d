@@ -40,7 +40,7 @@
 (use-package hydra)
 
 (use-package which-key
-  :defer 3
+  :demand t
   :ensure t
   :diminish which-key-mode "ⓦ"
   :commands (which-key-add-major-mode-key-based-replacements
