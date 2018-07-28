@@ -15,3 +15,4 @@ projectile-bookmarks.eld
 *.elc
 *.data
 *~
+custom.el
