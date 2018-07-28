@@ -74,7 +74,7 @@
     (doom-themes-visual-bell-config)
     (doom-themes-neotree-config)
     (doom-themes-org-config)
-    (load-theme 'doom-molokai t)))
+    (load-theme 'doom-one t)))
  ((eq color-theme 'light)
   (use-package doom-themes
     :config
