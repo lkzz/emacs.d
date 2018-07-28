@@ -8,48 +8,42 @@
 
 ;; Highlight the current line
 (use-package hl-line
-  :defer t
   :ensure nil
-  :defer t
-  :init (add-hook 'after-init-hook #'global-hl-line-mode))
+  :hook (after-init . global-hl-line-mode))
 
 ;; Highlight matching paren
-(use-package paren
-  :ensure nil
+(use-package highlight-parentheses
+  :ensure t
+  :diminish highlight-parentheses-mode
+  :hook (prog-mode . global-highlight-parentheses-mode))
+
+;; Highlight indent guide.
+(use-package highlight-indent-guides
   :defer t
-  :init (add-hook 'after-init-hook #'show-paren-mode)
+  :ensure t
+  :if (display-graphic-p)
+  :hook (prog-mode . highlight-indent-guides-mode)
   :config
-  (setq show-paren-when-point-inside-paren t)
-  (setq show-paren-when-point-in-periphery t))
-
-
-;; (use-package indent-guide
-;;   :defer t
-;;   :ensure t
-;;   :diminish indent-guide-global-mode "Ⓘ"
-;;   :hook (prog-mode . indent-guide-global-mode)
-;;   :config
-;;   (progn
-;;     ;; (setq indent-guide-recursive t)
-;;     (setq indent-guide-char "|")
-;;     (setq indent-guide-delay 0.3)))
+  (progn
+    (setq highlight-indent-guides-delay 0.5)
+    (setq highlight-indent-guides-method 'character)))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
   :defer t
   :diminish rainbow-mode
-  :init
-  (add-hook 'text-mode-hook #'rainbow-mode)
-  (add-hook 'prog-mode-hook #'rainbow-mode))
+  :hook ((text-mode . rainbow-mode)
+         (prog-mode . rainbow-mode)))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
-  :defer t
-  :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+  :ensure t
+  :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Highlight TODO/FIXME/BUG...
 (use-package hl-todo
   :defer t
+  :ensure t
   :hook (prog-mode . hl-todo-mode)
   :config
   (setq hl-todo-keyword-faces
@@ -57,18 +51,22 @@
           ("FIXME" . ,(face-foreground 'error))
           ("NOTE"  . ,(face-foreground 'success)))))
 
+;; Show column indicator.
 (use-package fill-column-indicator
-  :defer t
   :ensure t
   :diminish auto-fill-mode
-  :commands (fci-mode)
-  ;; :hook (prog-mode . fci-mode) ;; 导致company候选词偏移
-  :init
-  (progn
-    (kevin/set-leader-keys "tF" 'fci-mode))
   :config
   (progn
-    (setq fci-rule-column 80)
+    (kevin/set-leader-keys "tF" 'fci-mode)
+    ;; NOTE fix display compatibility issue with company-mode
+    (defun on-off-fci-before-company(command)
+      (when (string= "show" command)
+        (turn-off-fci-mode))
+      (when (string= "hide" command)
+        (turn-on-fci-mode)))
+    (with-eval-after-load 'company-mode
+      (advice-add 'company-call-frontends :before #'on-off-fci-before-company))
+    (setq fci-rule-column 110)
     (setq fci-rule-width 1)
     (turn-on-auto-fill)))
 
