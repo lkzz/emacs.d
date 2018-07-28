@@ -63,5 +63,6 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
           (const :tag "Leuven light theme" light))
   :group 'kevin)
 
-;; (provide 'init-custom)
-;;; init-custom.el ends here
+(byte-recompile-file "~/.emacs.d/core/core-variables.el" nil 0)
+(provide 'core-variables)
+;;; core-variables.el ends here

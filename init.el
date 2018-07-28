@@ -1,23 +1,16 @@
-;; init.el -*- lexical-binding: t; -*-
+;; init.el -- emacs bootstrap file. -*- lexical-binding: t; -*-
 ;;
 ;;; Commentary:
-;;            Emacs init file.
+;;
 ;;; Code:
 
-(let ((minver "24.3"))
+(let ((minver "26.1"))
   (when (version< emacs-version minver)
-    (error "Your Emacs is too old -- this config requires v%s or higher" minver)))
-(when (version< emacs-version "24.5")
-  (message "Your Emacs is old, and some custom.elality in this config will be disabled. Please upgrade if possible."))
-
-(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
-(add-to-list 'load-path (expand-file-name  "vendor" user-emacs-directory))
-
+    (error "Your Emacs is too old -- this config requires %s or higher" minver)))
 
 ;;----------------------------------------------------------------------------
-;; Adjust garbage collection thresholds during startup, and thereafter
+;; Adjust garbage collection thresholds during startup, Optimize loading performance
 ;;----------------------------------------------------------------------------
-;; Optimize loading performance
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
@@ -34,39 +27,47 @@
 (advice-add #'display-startup-echo-area-message :override #'ignore)
 
 ;;----------------------------------------------------------------------------
-;; custom file.
+;; Core files required.
 ;;----------------------------------------------------------------------------
-(setq custom-file (expand-file-name "cache/custom.el" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "core" user-emacs-directory))
+(require 'core)
+
+;;----------------------------------------------------------------------------
+;; Load custom file first.
+;;----------------------------------------------------------------------------
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 (load custom-file 'no-error 'no-message)
+
+;;----------------------------------------------------------------------------
+;; Add customized directories to load-path.
+;;----------------------------------------------------------------------------
+(add-to-list 'load-path (expand-file-name "lisp" user-emacs-directory))
+(add-to-list 'load-path (expand-file-name "vendor" user-emacs-directory))
 
 ;;----------------------------------------------------------------------------
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
-(require 'init-elpa)      ;; Machinery for installing required packages
-(require 'init-custom)
-(require 'init-funcs)
-(require 'init-exec-path) ;; Set up $PATH
-(require 'init-better-default)
-(require 'init-evil)
+(require 'init-exec-path) ; set up $PATH
+(require 'init-evil)      ; evil mode
 
 ;;----------------------------------------------------------------------------
 ;; personal package config
 ;;----------------------------------------------------------------------------
-;; ui setup
 (require 'init-ui)
 (require 'init-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
 (require 'init-whitespace)
 
+;; misc packages
 (require 'init-anzu)
-(require 'init-company)
 (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
 
-;; programming set up
+;; programming releated packages
 (require 'init-prog)
+(require 'init-company)
 (require 'init-golang)
 (require 'init-python)
 (require 'init-yasnippet)
@@ -80,7 +81,6 @@
 ;; (require 'init-lsp)
 
 ;; tools
-;; (require 'init-etags)
 (require 'init-git)
 (require 'init-buffer)
 (require 'init-flycheck)
@@ -93,5 +93,6 @@
 
 (require 'init-windows)
 (require 'init-keybinds)
+(require 'init-better-default)
 
 ;;; init.el ends here
