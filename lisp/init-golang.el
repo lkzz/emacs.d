@@ -140,6 +140,17 @@
 ;; (use-package flycheck-gometalinter
 ;;   :ensure t
 ;;   :after (go-mode flycheck-mode)
+;;   :init
+;;   (progn
+;;     (defun kevin/go-enable-gometalinter ()
+;;       "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
+;;       (setq flycheck-disabled-checkers '(go-gofmt
+;;                                          go-golint
+;;                                          go-vet
+;;                                          go-build
+;;                                          go-test
+;;                                          go-errcheck))
+;;       (flycheck-gometalinter-setup)))
 ;;   :config
 ;;   (progn
 ;;     (setq flycheck-gometalinter-fast t)
