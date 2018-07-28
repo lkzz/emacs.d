@@ -87,7 +87,6 @@
 (require 'init-dired)
 (require 'init-ranger)
 (require 'init-eshell)
-(require 'init-dump-jump)
 (require 'init-restclient)
 ;; (require 'init-restore)
 
