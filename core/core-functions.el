@@ -46,9 +46,6 @@ pairs. For example,
     (define-key kevin/default-map (kbd key) def)
     (setq key (pop bindings) def (pop bindings))))
 
-(defalias 'evil-leader/set-key 'kevin/set-leader-keys)
-
-
 ;;;###autoload
 (defun kevin/declare-prefix-for-mode (mode prefix name &optional long-name)
   "Declare a prefix PREFIX. MODE is the mode in which this prefix command should
@@ -87,8 +84,6 @@ they are in `kevin/set-leader-keys'."
       (while key
         (define-key (symbol-value map) (kbd key) def)
         (setq key (pop bindings) def (pop bindings))))))
-
-(defalias 'evil-leader/set-key-for-mode 'kevin/set-leader-keys-for-major-mode)
 
 ;;;###autoload
 (defun kevin//acceptable-leader-p (key)
@@ -183,17 +178,6 @@ minor-mode, the third argument should be non nil."
   (kevin/create-scratch-buffer))
 
 ;;;###autoload
-(defun kevin/go-enable-gometalinter ()
-  "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
-  (setq flycheck-disabled-checkers '(go-gofmt
-                                     go-golint
-                                     go-vet
-                                     go-build
-                                     go-test
-                                     go-errcheck))
-  (flycheck-gometalinter-setup))
-
-;;;###autoload
 (defun kevin/bazel-update ()
   "Bazel update in go-common."
   (interactive)
@@ -267,3 +251,7 @@ Argument VALUE 0 is transparent, 100 is opaque."
            (if (not (null (cdr file-list)))
                (byte-compile-directory-r (cdr file-list))))))
   (byte-compile-directories (replace-regexp-in-string "/$" "" default-directory)))
+
+(byte-recompile-file "~/.emacs.d/core/core-functions.el" nil 0)
+(provide 'core-functions)
+;;; core-functions.el ends here

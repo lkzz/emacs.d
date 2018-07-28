@@ -8,19 +8,10 @@
 
 (setq package-archives
       '(
-
-        ;; ;; {{melpa repository:
-        ;; ("melpa" . "https://melpa.org/packages/")
-        ;; ("melpa-stable" . "https://stable.melpa.org/packages/")
-        ;; ;; }}
-
         ;; emacs-china repository:
         ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
         ("gnu-cn" . "http://elpa.emacs-china.org/gnu/")
-        ("org-cn" . "http://elpa.emacs-china.org/org/")
-
-        ))
-
+        ("org-cn" . "http://elpa.emacs-china.org/org/")))
 
 ;;; Fire up package.el
 (setq package-enable-at-startup nil ; don't auto-initialize!
@@ -47,10 +38,9 @@
 (use-package bind-map)
 (use-package bind-key)
 (use-package hydra)
-(use-package general)
 
 (use-package which-key
-  :defer t
+  :defer 3
   :ensure t
   :diminish which-key-mode "ⓦ"
   :commands (which-key-add-major-mode-key-based-replacements
@@ -66,3 +56,8 @@
     (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil)))
     (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))
     (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil)))))
+
+
+(byte-recompile-file "~/.emacs.d/core/core-elpa.el" nil 0)
+(provide 'core-elpa)
+;;; core-elpa.el ends here
