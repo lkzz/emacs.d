@@ -100,7 +100,7 @@
 (setq track-eol t)
 (setq line-move-visual nil)
 
-;; (mouse-avoidance-mode 'animate)
+(mouse-avoidance-mode 'animate)
 ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
 (setq mouse-autoselect-window t)
 ;; 关闭像素滚动
