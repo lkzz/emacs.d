@@ -30,6 +30,9 @@
     (menu-bar-mode -1))
 ;; 禁止启动画面
 (setq inhibit-startup-screen t)
+;; 设置initial scratch message.
+(setq initial-scratch-message kevin/scratch-message)
+
 ;; 高亮当前行
 (global-hl-line-mode t)
 ;; 设置光标形状
@@ -42,16 +45,13 @@
 (setq ring-bell-function 'ignore)
 ;; 标题栏格式设置
 (setq frame-title-format
-      '("" " Kevin "
-        (:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name)) "%b"))))
+      '(:eval (if (buffer-file-name)
+                  (abbreviate-file-name (buffer-file-name)) "%b")))
 
 ;; natural title bar
 (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 
-;; 设置scratch message
-(setq initial-scratch-message "")
 ;; 打开文件时不再创建新的frame
 (when (boundp 'ns-pop-up-frames)
   (setq ns-pop-up-frames nil))
@@ -177,15 +177,6 @@
     (setq display-line-numbers-current-absolute t)
     (kevin/set-leader-keys "tn" 'display-line-numbers-mode)))
 
-;; (use-package nyan-mode
-;;   :defer t
-;;   :ensure t
-;;   :init (add-hook 'after-init-hook #'nyan-mode)
-;;   :config
-;;   (progn
-;;     (setq nyan-wavy-trail t)
-;;     (setq nyan-animate-nyancat t)))
-
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon
   :defer t
@@ -194,37 +185,6 @@
   :config
   (setq beacon-color "red")
   (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
-
-
-(use-package vimish-fold
-  :defer t
-  :bind (:map vimish-fold-folded-keymap ("<tab>" . vimish-fold-unfold)
-              :map vimish-fold-unfolded-keymap ("<tab>" . vimish-fold-refold))
-  :init
-  (progn
-    (setq-default vimish-fold-dir (concat kevin/cache-directory "/vimish-fold"))
-    (defhydra hydra-vimish-fold (:color pink)
-      "
-    ^
-    ^Fold^              ^Do^                ^Jump^              ^Toggle^
-    ^────^──────────────^──^────────────────^────^──────────────^──────^────────────
-    _q_ quit            _f_ fold            _<_ previous        _<tab>_ current
-    ^^                  _k_ kill            _>_ next            _S-<tab>_ all
-    ^^                  _K_ kill all        ^^                  ^^
-    ^^                  ^^                  ^^                  ^^
-    "
-      ("q" nil)
-      ("<tab>" vimish-fold-toggle)
-      ("S-<tab>" vimish-fold-toggle-all)
-      ("<" vimish-fold-previous-fold)
-      (">" vimish-fold-next-fold)
-      ("f" vimish-fold)
-      ("k" vimish-fold-delete)
-      ("K" vimish-fold-delete-all)))
-  :config
-  (progn
-    (vimish-fold-global-mode 1)
-    (setq-default vimish-fold-header-width 79)))
 
 (use-package posframe
   :defer t

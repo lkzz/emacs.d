@@ -44,7 +44,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
 (defvar kevin/default-map (make-sparse-keymap)
   "Base keymap for all leader key commands.")
 
-(defvar kevin/user-name "kevin leung"
+(defvar kevin/user-name "kevin"
   "Default username.")
 
 (defvar kevin/mail-address "kevin.scnu@gmail.com"
@@ -54,7 +54,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
   "Declare group used in my emacs."
   :group 'kevin)
 
-(defcustom color-theme 'default
+(defcustom color-theme 'dark
   "Set color theme."
   :type '(choice
           (const :tag "zenburn theme" default)
@@ -62,6 +62,9 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
           (const :tag "gruvbox theme" gruvbox)
           (const :tag "Leuven light theme" light))
   :group 'kevin)
+
+
+(defvar kevin/scratch-message (format ";; Happy Hacking, %s - Emacs ♥ You!\n" kevin/user-name))
 
 (byte-recompile-file "~/.emacs.d/core/core-variables.el" nil 0)
 (provide 'core-variables)
