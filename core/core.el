@@ -10,5 +10,5 @@
 (require 'core-variables)
 (require 'core-functions)
 
-(byte-recompile-file "~/.emacs.d/core/core.el" nil 0)
+;; (byte-recompile-file "~/.emacs.d/core/core.el" nil 0)
 (provide 'core)

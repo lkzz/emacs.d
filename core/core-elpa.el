@@ -34,10 +34,10 @@
 (setq use-package-always-ensure t)
 ;; (setq use-package-always-defer t)
 
-(use-package diminish)
-(use-package bind-map)
-(use-package bind-key)
-(use-package hydra)
+(use-package diminish :ensure t)
+(use-package bind-map :ensure t)
+(use-package bind-key :ensure t)
+(use-package hydra :ensure t)
 
 (use-package which-key
   :demand t
@@ -58,6 +58,6 @@
     (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil)))))
 
 
-(byte-recompile-file "~/.emacs.d/core/core-elpa.el" nil 0)
+;; (byte-recompile-file "~/.emacs.d/core/core-elpa.el" nil 0)
 (provide 'core-elpa)
 ;;; core-elpa.el ends here
