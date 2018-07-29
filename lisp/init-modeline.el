@@ -248,6 +248,18 @@
                          (when (bound-and-true-p evil-mode)
                            evil-mode-line-tag))
 
+(use-package nyan-mode
+  :defer 5
+  :ensure t
+  :hook (after-init . nyan-mode)
+  :config
+  (progn
+    ;; (setq nyan-wavy-trail t)
+    (setq nyan-animate-nyancat nil)))
+(modeline-define-segment nyan-cat-segment
+                         (list (nyan-create))
+                         )
+
 (setq-default mode-line-format
               '("%e"
                 (:eval
@@ -262,9 +274,10 @@
                               (window-number-segment error0)
                               (buffer-info-segment success0)
                               (minor-mode-segment warning0)
-                              (position-info-segment error0)
+                              (nyan-cat-segment)
                               ))
                         (rhs (list
+                              (position-info-segment error0)
                               (vsc-info-segment error0)
                               (flycheck-segment)
                               (major-mode-segment success0)
