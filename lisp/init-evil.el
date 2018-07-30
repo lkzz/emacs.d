@@ -68,7 +68,16 @@
   (define-key evil-motion-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
 
   ;; evil visual state keybinds
-  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line))
+  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
+
+  ;; set evil state for major mode
+  (require 'cl)
+  (loop for (mode . state) in
+        '(
+          (view-mode . motion)
+          )
+        do (evil-set-initial-state mode state))
+  )
 
 (use-package evil-surround
   :after evil
