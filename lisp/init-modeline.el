@@ -210,6 +210,7 @@
                                                             Python "py"
                                                             Shell ">"
                                                             Markdown "markdown"
+                                                            Protocol-Buffers//l "protobuf"
                                                             Org "org"
                                                             Text "text"
                                                             Fundamental "ℱ"
