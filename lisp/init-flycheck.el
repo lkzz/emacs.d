@@ -15,7 +15,6 @@
   (setq-default flycheck-check-syntax-automatically '(save mode-enabled))
   (setq-default flycheck-display-errors-delay 1.5)
   (kevin/set-leader-keys "fe" #'hydra-flycheck/body)
-  ;; customize zenburn theme
   (defhydra hydra-flycheck (:color red
                                    :hint nil)
     "
@@ -42,14 +41,8 @@
 ;; Jump to and fix syntax errors via `avy'
 (use-package avy-flycheck
   :ensure t
-  :after flycheck
+  :after (avy flycheck)
   :init (avy-flycheck-setup))
-
-;; Which colors the mode line according to the Flycheck state of the current buffer
-(use-package flycheck-color-mode-line
-  :ensure t
-  :after flycheck
-  :hook (flycheck-mode . flycheck-color-mode-line-mode))
 
 ;; Display Flycheck errors in GUI tooltips
 (use-package flycheck-posframe
