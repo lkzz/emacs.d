@@ -31,8 +31,8 @@
 (setq select-enable-clipboard t)
 
 
-(setq-default indent-tabs-mode t ;; 用空格替代TAB
-              tab-width 4 ;; 定义TAB的宽度为4个空格.
+(setq-default indent-tabs-mode nil ;; 禁止插入TAB
+              tab-width 4 ;; 将TAB显示为4个空格.
               fill-column 80 ;; 设置列宽度
               buffers-menu-max-size 30
               case-fold-search t
@@ -41,7 +41,6 @@
               ediff-window-setup-function 'ediff-setup-windows-plain
               grep-highlight-matches t
               grep-scroll-output t
-              indent-tabs-mode nil
               line-spacing 0
               mouse-yank-at-point t
               set-mark-command-repeat-pop t
