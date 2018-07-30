@@ -52,6 +52,19 @@
   :init
   (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t))))
 
+(use-package protobuf-mode
+  :defer t
+  :ensure nil
+  :diminish abbrev-mode ;; required in protobuf-mode
+  :mode (("\\.proto$" . protobuf-mode))
+  :init
+  (progn
+    (defconst kevin/protobuf-style
+      '((c-basic-offset . 4)
+        (indent-tabs-mode . nil)))
+    (add-hook 'protobuf-mode-hook
+              (lambda () (c-add-style "my-style" kevin/protobuf-style t)))))
+
 (use-package quickrun
   :defer t
   :ensure t
