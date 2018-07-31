@@ -252,6 +252,29 @@ Argument VALUE 0 is transparent, 100 is opaque."
                (byte-compile-directory-r (cdr file-list))))))
   (byte-compile-directories (replace-regexp-in-string "/$" "" default-directory)))
 
+(defun kevin/delete-word ()
+  "Delete word under cursor."
+  (interactive)
+  (let ((end (get-point 'forward-word 1))
+        (beg (get-point 'backward-word 1)))
+    (delete-region beg end)))
+
+(defun kevin/copy-word ()
+  "print current word."
+  (interactive)
+  (kill-new (thing-at-point 'word)))
+
+(defun kevin/cover-word ()
+  "cover word before point"
+  (interactive)
+  (kevin/delete-word)
+  (evil-paste-before 1))
+
+(defun get-point (symbol &optional arg)
+  "get the point"
+  (funcall symbol arg)
+  (point))
+
 (byte-recompile-file "~/.emacs.d/core/core-functions.el" nil 0)
 (provide 'core-functions)
 ;;; core-functions.el ends here
