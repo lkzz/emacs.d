@@ -54,14 +54,15 @@
   ;; evil normal state keybinds
   (define-key evil-normal-state-map "Y" (kbd "y$"))
   (define-key evil-normal-state-map (kbd ",w") 'evil-write)
-  (define-key evil-normal-state-map (kbd ",W") 'evil-write-all)
   (define-key evil-normal-state-map (kbd ",q") 'evil-quit)
-  (define-key evil-normal-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
+  (define-key evil-normal-state-map (kbd ",y") 'kevin/copy-word)
+  (define-key evil-normal-state-map (kbd ",p") 'kevin/cover-word)
+  (define-key evil-normal-state-map (kbd ",d") 'kevin/delete-word)
   (define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
+  (define-key evil-normal-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
   (define-key evil-normal-state-map (kbd "C-w") 'evil-delete-backward-word)
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-
   ;; evil motion state keybinds
   (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
   (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
