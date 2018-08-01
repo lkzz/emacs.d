@@ -192,7 +192,8 @@
             (balance-windows))
         (progn
           (golden-ratio-mode 1)
-          (message "golden ratio enabled"))))
+          (message "golden ratio enabled")
+          (golden-ratio))))
     (kevin/set-leader-keys "tg" #'kevin/golden-ratio-toggle))
   :config
   (progn
