@@ -17,6 +17,25 @@
   :diminish highlight-parentheses-mode
   :hook (prog-mode . global-highlight-parentheses-mode))
 
+;; Highlight show trailing whitespace
+(use-package whitespace
+		:ensure nil
+  :defer t
+  :diminish whitespace-mode
+  :hook (after-init . whitespace-mode)
+  :init
+  (progn
+				(setq-default show-trailing-whitespace t)
+				(setq whitespace-style '(face trailing))))
+
+;; An unobtrusive way to trim spaces from end of line
+(use-package ws-butler
+  :ensure t
+  :defer t
+  :diminish ws-butler-mode
+  :hook (prog-mode . ws-butler-mode)
+  :init (setq ws-butler-keep-whitespace-before-point nil))
+
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
   :defer t
