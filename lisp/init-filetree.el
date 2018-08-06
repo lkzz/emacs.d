@@ -19,8 +19,8 @@
     (kevin/set-leader-keys "ft" 'neotree-toggle)
     (setq neo-create-file-auto-open t
           neo-auto-indent-point nil
-          neo-autorefresh t
-          neo-smart-open t
+          neo-autorefresh nil
+          neo-smart-open nil
           neo-mode-line-type 'none
           neo-window-width 30
           neo-show-updir-line nil
