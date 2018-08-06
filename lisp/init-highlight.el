@@ -19,14 +19,31 @@
 
 ;; Highlight show trailing whitespace
 (use-package whitespace
-		:ensure nil
+  :ensure nil
   :defer t
   :diminish whitespace-mode
   :hook (after-init . whitespace-mode)
   :init
   (progn
-				(setq-default show-trailing-whitespace t)
-				(setq whitespace-style '(face trailing))))
+	(setq-default show-trailing-whitespace t)
+	(setq whitespace-style '(face trailing)))
+  :config
+  (progn
+	(with-eval-after-load 'popup
+      ;; advice for whitespace-mode conflict with popup
+      (defvar my-prev-whitespace-mode nil)
+      (make-local-variable 'my-prev-whitespace-mode)
+      (defadvice popup-draw (before my-turn-off-whitespace activate compile)
+		"Turn off whitespace mode before showing autocomplete box."
+		(if whitespace-mode
+			(progn
+              (setq my-prev-whitespace-mode t)
+              (whitespace-mode -1))
+          (setq my-prev-whitespace-mode nil)))
+      (defadvice popup-delete (after my-restore-whitespace activate compile)
+		"Restore previous whitespace mode when deleting autocomplete box."
+		(if my-prev-whitespace-mode
+			(whitespace-mode 1))))))
 
 ;; An unobtrusive way to trim spaces from end of line
 (use-package ws-butler
