@@ -31,7 +31,7 @@
 (setq select-enable-clipboard t)
 
 
-(setq-default indent-tabs-mode nil ;; 禁止插入TAB
+(setq-default indent-tabs-mode t ;; insert tab indentation
               tab-width 4 ;; 将TAB显示为4个空格.
               fill-column 80 ;; 设置列宽度
               buffers-menu-max-size 30
