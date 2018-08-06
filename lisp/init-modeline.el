@@ -253,31 +253,33 @@
   :defer 5
   :ensure t
   :hook (after-init . nyan-mode)
-  :config
-  (progn
-    ;; (setq nyan-wavy-trail t)
-    (setq nyan-animate-nyancat nil)))
+  :config (setq nyan-animate-nyancat nil))
 (modeline-define-segment nyan-cat-segment
-                         (list (nyan-create))
-                         )
+                         (list (nyan-create)))
+
+(modeline-define-segment mule-info-segment
+						 (if current-input-method
+							 (kevin/faicon-icon-with-text "terminal" current-input-method 'success)
+						   ""))
 
 (setq-default mode-line-format
               '("%e"
                 (:eval
                  (let* ((active (modeline-active))
-                        (success0 (if active 'success 'mode-line-inactive))
-                        (warning0 (if active 'warning 'mode-line-inactive))
-                        (error0 (if active 'error 'mode-line-inactive))
-                        (emphasis0 (if active 'mode-line-emphasis 'mode-line-inactive))
-                        (buffer-info0 (if active 'mode-line-buffer-id 'mode-line-inactive))
-                        (lhs (list
+						(success0 (if active 'success 'mode-line-inactive))
+						(warning0 (if active 'warning 'mode-line-inactive))
+						(error0 (if active 'error 'mode-line-inactive))
+						(emphasis0 (if active 'mode-line-emphasis 'mode-line-inactive))
+						(buffer-info0 (if active 'mode-line-buffer-id 'mode-line-inactive))
+						(lhs (list
                               (evil-tag-segment)
                               (window-number-segment error0)
                               (buffer-info-segment success0)
                               (minor-mode-segment warning0)
                               (nyan-cat-segment)
                               ))
-                        (rhs (list
+						(rhs (list
+							  (mule-info-segment)
                               (position-info-segment error0)
                               (vsc-info-segment error0)
                               (flycheck-segment)
@@ -285,12 +287,12 @@
                               ;; (buffer-encoding-segment success0)
                               (timestamp-info-segment emphasis0)
                               ))
-                        )
+						)
                    (concat
-                    (modeline-render-segment-list lhs)
-                    (modeline-fill (modeline-width rhs) 'mode-line)
-                    (modeline-render-segment-list rhs)
-                    )))))
+					(modeline-render-segment-list lhs)
+					(modeline-fill (modeline-width rhs) 'mode-line)
+					(modeline-render-segment-list rhs)
+					)))))
 
 (provide 'init-modeline)
 ;;; init-modeline ends here

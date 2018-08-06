@@ -193,6 +193,7 @@
 
 (use-package dashboard
   :ensure t
+  :diminish page-break-lines-mode
   :config
   (progn
     (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin/user-name))
