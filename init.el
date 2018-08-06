@@ -49,6 +49,7 @@
 ;;----------------------------------------------------------------------------
 (require 'init-exec-path) ; set up $PATH
 (require 'init-evil)      ; evil mode
+(require 'init-better-default)
 
 ;;----------------------------------------------------------------------------
 ;; personal package config
@@ -57,7 +58,6 @@
 (require 'init-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
-(require 'init-whitespace)
 
 ;; misc packages
 (require 'init-anzu)
@@ -92,6 +92,5 @@
 
 (require 'init-windows)
 (require 'init-keybinds)
-(require 'init-better-default)
 
 ;;; init.el ends here
