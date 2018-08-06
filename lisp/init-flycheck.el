@@ -44,11 +44,11 @@
   :after (avy flycheck)
   :init (avy-flycheck-setup))
 
-;; Display Flycheck errors in GUI tooltips
-(use-package flycheck-posframe
+;; ;; Display Flycheck errors in GUI tooltips
+(use-package flycheck-popup-tip
   :ensure t
-  :after (posframe flycheck)
-  :hook (flycheck-mode . flycheck-posframe-mode))
+  :after flycheck
+  :hook (flycheck-mode . flycheck-popup-tip-mode))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here
