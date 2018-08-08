@@ -12,7 +12,7 @@
   (setq flycheck-indication-mode 'right-fringe)
   (setq flycheck-emacs-lisp-load-path 'inherit)
   (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
-  (setq-default flycheck-check-syntax-automatically '(save mode-enabled))
+  (setq-default flycheck-check-syntax-automatically '(save))
   (setq-default flycheck-display-errors-delay 1.5)
   (kevin/set-leader-keys "fe" #'hydra-flycheck/body)
   (defhydra hydra-flycheck (:color red
