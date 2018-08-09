@@ -14,7 +14,7 @@
                             buffer-file-name))
 
 ;;;###autload
-(defun git-checkout-current-file ()
+(defun kevin/git-checkout-current-file ()
   "Git checkout current file."
   (interactive)
   (when (and (buffer-file-name)
@@ -26,7 +26,7 @@
       (message "DONE! git checkout %s" filename))))
 
 ;;;###autload
-(defun git-add-current-file ()
+(defun kevin/git-add-current-file ()
   "Git add file of current buffer."
   (interactive)
   (let ((filename))
@@ -65,28 +65,18 @@
   :init
   (progn
     (kevin/declare-prefix "g" "magit")
-    (kevin/declare-prefix "gf" "file")
     (kevin/set-leader-keys
-      "ga" #'git-add-current-file
-      "gA" #'vc-annotate
-      "gc" #'git-checkout-current-file
-      "gd" (lambda ()
-             (interactive)
-             (let* ((ffip-diff-backends
-                     '(("Show git commit" . (let* ((git-cmd "git --no-pager log --date=short --pretty=format:'%h|%ad|%s|%an'")
-                                                   (collection (split-string (shell-command-to-string git-cmd) "\n" t))
-                                                   (item (ffip-completing-read "git log:" collection)))
-                                              (when item
-                                                (shell-command-to-string (format "git show %s" (car (split-string item "|" t))))))))))
-               (ffip-show-diff 0)))
-      "gfd" 'magit-diff-buffer-file
-      "gfl" 'magit-log-buffer-file
-      "gi"  'magit-init
-      "gL"  'magit-list-repositories
-      "gm"  'magit-dispatch-popup
-      "gs"  'magit-status
-      "gS"  'magit-stage-file
-      "gU"  'magit-unstage-file))
+      "ga" 'kevin/git-add-current-file
+      "gc" 'kevin/git-checkout-current-file
+      "gd" 'magit-diff-buffer-file
+      "gl" 'magit-log-buffer-file
+      "gi" 'magit-init
+      "gL" 'magit-list-repositories
+      "gm" 'magit-dispatch-popup
+      "gs" 'magit-status
+      "gS" 'magit-stage-file
+      "gU" 'magit-unstage-file
+      "gv" 'vc-annotate))
   :config
   (progn
     ;; display buffer fullframe
@@ -137,7 +127,7 @@
     (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
                                                  (call-interactively 'git-timemachine))
                                                :post (git-timemachine-quit)
-                                               :color red
+                                               :color pink ;; toggle :foreign-keys run
                                                :hint nil)
       "
 [_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit\n
@@ -147,8 +137,7 @@
       ("p" git-timemachine-show-previous-revision)
       ("n" git-timemachine-show-next-revision)
       ("Y" git-timemachine-kill-revision)
-      ("q" nil exit: t))
-    ))
+      ("q" nil exit: t))))
 
 ;; Git modes
 (use-package gitconfig-mode
@@ -241,7 +230,7 @@
      '(diff-hl-insert ((t (:background "#7ccd7c"))))
      '(diff-hl-change ((t (:background "#3a81c3"))))
      '(diff-hl-delete ((t (:background "#ee6363")))))
-    (defhydra hydra-diff-hl (:color red
+    (defhydra hydra-diff-hl (:color pink
                                     :hint nil)
       "
 [_p_] previous hunk [_n_] next hunk [_r_] revert hunk [_q_] quit\n

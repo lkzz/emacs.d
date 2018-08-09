@@ -24,10 +24,10 @@
 (use-package server
   :defer t
   :init
-  (add-hook 'after-init-hook (lambda ()
-                               (unless server-mode
-                                 (server-start t)
-                                 ))))
+  (server-mode 1)
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 ;; History
 (use-package saveplace
@@ -40,7 +40,7 @@
   :defer t
   :ensure nil
   :init
-  (setq recentf-max-saved-items 50)
+  (setq recentf-max-saved-items 200)
   ;; lazy load recentf
   ;; (add-hook 'after-init-hook #'recentf-mode)
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
@@ -91,31 +91,29 @@
   :defer t
   :ensure t
   :diminish aggressive-indent-mode
-  :init
-  (add-hook 'after-init-hook #'global-aggressive-indent-mode)
-
-  ;; FIXME: Disable in big files due to the performance issues
-  ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
-  (add-hook 'find-file-hook
-            (lambda ()
-              (if (> (buffer-size) (* 3000 80))
-                  (aggressive-indent-mode -1))))
+  :hook (prog-mode . global-aggressive-indent-mode)
   :config
-  ;; Disable in some modes
-  (dolist (mode '(asm-mode web-mode html-mode css-mode robot-mode))
-    (push mode aggressive-indent-excluded-modes))
-
-  ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
-  (add-to-list
-   'aggressive-indent-dont-indent-if
-   '(and (or (derived-mode-p 'c-mode)
-             (derived-mode-p 'c++-mode)
-             (derived-mode-p 'csharp-mode)
-             (derived-mode-p 'java-mode)
-             (derived-mode-p 'go-mode)
-             (derived-mode-p 'swift-mode))
-         (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                             (thing-at-point 'line))))))
+  (progn
+    (setq-default aggressive-indent-comments-too t)
+    ;; NOTE: Disable in big files due to the performance issues
+    ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
+    (add-hook 'find-file-hook
+              (lambda ()
+                (if (> (buffer-size) (* 3000 80))
+                    (aggressive-indent-mode -1))))
+    ;; Disable in some modes
+    (dolist (mode '(asm-mode web-mode html-mode css-mode robot-mode))
+      (push mode aggressive-indent-excluded-modes))
+    ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
+    (add-to-list 'aggressive-indent-dont-indent-if
+                 '(and (or (derived-mode-p 'c-mode)
+                           (derived-mode-p 'c++-mode)
+                           (derived-mode-p 'csharp-mode)
+                           (derived-mode-p 'java-mode)
+                           (derived-mode-p 'go-mode)
+                           (derived-mode-p 'swift-mode))
+                       (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
+                                           (thing-at-point 'line)))))))
 
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2

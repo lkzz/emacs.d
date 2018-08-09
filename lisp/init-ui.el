@@ -9,8 +9,13 @@
 
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
-;; 打开抗锯齿
-(setq mac-allow-anti-aliasing t)
+
+(when sys/macp
+  ;; 打开抗锯齿
+  (setq mac-allow-anti-aliasing t)
+  ;; (setq ns-use-native-fullscreen nil)
+  )
+
 ;; 关闭srgb，修复modeline上的颜色显示问题
 (setq ns-use-srgb-colorspace nil)
 ;; 去除全屏时的黑边
@@ -30,6 +35,9 @@
     (menu-bar-mode -1))
 ;; 禁止启动画面
 (setq inhibit-startup-screen t)
+;; 设置initial scratch message.
+(setq initial-scratch-message kevin/scratch-message)
+
 ;; 高亮当前行
 (global-hl-line-mode t)
 ;; 设置光标形状
@@ -42,17 +50,13 @@
 (setq ring-bell-function 'ignore)
 ;; 标题栏格式设置
 (setq frame-title-format
-      '("" " Kevin "
-        (:eval (if (buffer-file-name)
-                   (abbreviate-file-name (buffer-file-name)) "%b"))))
+      '(:eval (if (buffer-file-name)
+                  (abbreviate-file-name (buffer-file-name)) "%b")))
 
-;; Fancy titlebar for MacOS
-;; (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-;; (add-to-list 'default-frame-alist '(ns-appearance . dark))
-;; (setq ns-use-proxy-icon  nil)
+;; natural title bar
+(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+(add-to-list 'default-frame-alist '(ns-appearance . dark))
 
-;; 设置scratch message
-;; (setq initial-scratch-message "")
 ;; 打开文件时不再创建新的frame
 (when (boundp 'ns-pop-up-frames)
   (setq ns-pop-up-frames nil))
@@ -63,31 +67,39 @@
 ;; 配置主题
 (cond
  ;; default theme
- ((eq my-theme 'default)
+ ((eq color-theme 'default)
   (use-package zenburn-theme
-    :ensure t
-    :config
-    (load-theme 'zenburn t)))
+	:ensure t
+	:config
+	(load-theme 'zenburn t)))
  ;; dark theme
- ((eq my-theme 'dark)
-  (use-package base16-theme
-    :ensure t
-    :config
-    (load-theme 'base16-tomorrow-night t)))
- ;; light theme
- ((eq my-theme 'light)
-  (use-package base16-theme
-    :ensure t
-    :config
-    (load-theme 'base16-solarized-light t)))
- ;; doom theme
- ((eq my-theme 'doom)
+ ((eq color-theme 'dark)
   (use-package doom-themes
-    :preface (defvar region-fg nil)
-    :init (load-theme 'doom-one t)
-    :config
-    (doom-themes-visual-bell-config)
-    (doom-themes-org-config))))
+	:config
+	(doom-themes-visual-bell-config)
+	(doom-themes-neotree-config)
+	(doom-themes-org-config)
+	(load-theme 'doom-one t)))
+ ((eq color-theme 'light)
+  (use-package doom-themes
+	:config
+	(doom-themes-visual-bell-config)
+	(doom-themes-neotree-config)
+	(doom-themes-org-config)
+	(load-theme 'doom-solarized-light t)))
+ ((eq color-theme 'solarized)
+  (use-package color-theme-solarized
+	:ensure t
+	:config
+	(set-frame-parameter nil 'background-mode 'dark)
+	(set-terminal-parameter nil 'background-mode 'dark)
+	(setq solarized-broken-srgb t)
+	(load-theme 'solarized t)))
+ ((eq color-theme 'gruvbox)
+  (use-package gruvbox-theme
+	:ensure t
+	:config
+	(load-theme 'gruvbox-dark-hard t))))
 
 ;; 字体设置
 (use-package cnfonts
@@ -98,10 +110,12 @@
     "Show icons in all-the-icons."
     (when (featurep 'all-the-icons)
       (dolist (charset '(kana han cjk-misc bopomofo gb18030))
+        (set-fontset-font "fontset-default" charset "all-the-icons" nil 'append)
         (set-fontset-font "fontset-default" charset "github-octicons" nil 'append)
         (set-fontset-font "fontset-default" charset "FontAwesome" nil 'append)
         (set-fontset-font "fontset-default" charset "Material Icons" nil 'append)
-        )))
+        (set-fontset-font "fontset-default" charset "file-icons" nil 'append)
+        (set-fontset-font "fontset-default" charset "Weather Icons" nil 'append))))
   :hook ((after-init . cnfonts-enable)
          (cnfonts-set-font-finish . cnfonts--set-all-the-icons-fonts))
   :config
@@ -117,7 +131,7 @@
   (setq cnfonts-profiles
         '("program1" "program2" "program3" "org-mode" "read-book"))
   (setq cnfonts--profiles-steps '(("program1" . 4)
-                                  ("program2" . 5)
+								  ("program2" . 5)
                                   ("program3" . 3)
                                   ("org-mode" . 6)
                                   ("read-book" . 8))))
@@ -168,15 +182,6 @@
     (setq display-line-numbers-current-absolute t)
     (kevin/set-leader-keys "tn" 'display-line-numbers-mode)))
 
-(use-package nyan-mode
-  :defer t
-  :ensure t
-  :init (add-hook 'after-init-hook #'nyan-mode)
-  :config
-  (progn
-    (setq nyan-wavy-trail t)
-    (setq nyan-animate-nyancat t)))
-
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon
   :defer t
@@ -185,6 +190,19 @@
   :config
   (setq beacon-color "red")
   (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
+
+(use-package dashboard
+  :ensure t
+  :diminish page-break-lines-mode
+  :config
+  (progn
+    (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin/user-name))
+    (setq dashboard-startup-banner 'official)
+    (setq dashboard-items '((recents  . 10)
+                            (projects . 3)
+                            (agenda . 5)))
+    (setq show-week-agenda-p t)
+    (dashboard-setup-startup-hook)))
 
 (provide 'init-ui)
 ;;; init-ui ends here

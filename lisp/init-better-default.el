@@ -31,8 +31,8 @@
 (setq select-enable-clipboard t)
 
 
-(setq-default indent-tabs-mode t ;; 用空格替代TAB
-              tab-width 4 ;; 定义TAB的宽度为4个空格.
+(setq-default indent-tabs-mode t ;; insert tab indentation
+              tab-width 4 ;; 将TAB显示为4个空格.
               fill-column 80 ;; 设置列宽度
               buffers-menu-max-size 30
               case-fold-search t
@@ -41,13 +41,14 @@
               ediff-window-setup-function 'ediff-setup-windows-plain
               grep-highlight-matches t
               grep-scroll-output t
-              indent-tabs-mode nil
               line-spacing 0
               mouse-yank-at-point t
               set-mark-command-repeat-pop t
               tooltip-delay 1.5
               truncate-lines nil
               truncate-partial-width-windows nil
+              split-height-threshold nil                       ; Disable vertical window splitting
+              split-width-threshold nil                        ; Disable horizontal window splitting
               majar-mode 'text-mode)
 
 ;; 禁止显示警告提示
@@ -68,12 +69,15 @@
 (setq auto-save-default nil)
 ;; 关闭lockfile,NOTE:有风险，建议开启
 (setq create-lockfiles nil)
+;; 当使用emacs时触发垃圾回收
+(add-hook 'focus-out-hook #'garbage-collect)
 ;; 自动刷新文件
 (use-package autorevert
   :ensure nil
   :defer t
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
+
 
 ;; 显示文件大小信息
 (when (fboundp size-indication-mode)
@@ -95,7 +99,7 @@
 (setq track-eol t)
 (setq line-move-visual nil)
 
-;; (mouse-avoidance-mode 'animate)
+(mouse-avoidance-mode 'animate)
 ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
 (setq mouse-autoselect-window t)
 ;; 关闭像素滚动

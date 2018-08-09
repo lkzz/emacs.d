@@ -73,7 +73,8 @@
   :defer t
   :diminish all-the-icons-dired-mode
   :after (dired all-the-icons)
-  :hook ((ranger-mode dired-mode) . all-the-icons-dired-mode))
+  :hook ((dired-mode . all-the-icons-dired-mode)
+	 (ranger-mode . all-the-icons-dired-mode)))
 
 (provide 'init-dired)
 ;;; init-dired ends here

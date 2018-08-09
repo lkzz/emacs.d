@@ -32,14 +32,33 @@
   "Render a list of powerline VALUES."
   (mapconcat 'modeline-render-segment items ""))
 
-;;;###autoload
 (defun modeline-render-str (str &optional face)
   "Render STR as mode-line data using FACE and left space on the right side."
   (when str
     (let ((fstr (format-mode-line str)))
       (if face
-          (concat (propertize fstr 'face face) " ")
+          (propertize (concat fstr " ") 'face face)
         (concat fstr " ")))))
+
+(defvar modeline-selected-window (frame-selected-window))
+(defun modeline-set-selected-window ()
+  "sets the variable `modeline-selected-window` appropriately"
+  (when (not (minibuffer-window-active-p (frame-selected-window)))
+    (setq modeline-selected-window (frame-selected-window))
+    (force-mode-line-update)))
+
+(defun modeline-unset-selected-window ()
+  "Unsets the variable `modeline-selected-window` and updates the modeline"
+  (setq modeline-selected-window nil)
+  (force-mode-line-update))
+
+(add-hook 'focus-in-hook 'modeline-set-selected-window)
+(add-hook 'focus-out-hook 'modeline-unset-selected-window)
+(add-hook 'buffer-list-update-hook 'modeline-set-selected-window)
+
+(defun modeline-active ()
+  "Return whether the current window is active."
+  (eq modeline-selected-window (selected-window)))
 
 ;;;###autoload
 (defun modeline-width (items)
@@ -92,8 +111,7 @@
   (concat
    (when (display-graphic-p)
      (kevin/maybe-material-icon icon :face face :height 1.1 :v-adjust (or voffset -0.2)))
-   " "
-   (if text (propertize text 'face face))))
+   (if text (propertize (concat " " text) 'face face))))
 
 ;;;###autoload
 (defun kevin/faicon-icon-with-text (icon &optional text face voffset)
@@ -117,11 +135,6 @@
       (setq output (concat ".../" output)))
     output))
 
-;;;###autoload
-(defun modeline-active ()
-  "Return whether the current window is active."
-  (eq (frame-selected-window) (selected-window)))
-
 (modeline-define-segment buffer-info-segment
                          (concat (cond (buffer-read-only
                                         (kevin/maybe-material-icon "lock"
@@ -144,8 +157,6 @@
                                  (if (buffer-file-name)
                                      (concat (shorten-directory default-directory 15) (file-relative-name buffer-file-name))
                                    "%b")))
-
-
 
 (modeline-define-segment timestamp-info-segment
                          (format-time-string "%H:%M "))
@@ -187,7 +198,7 @@
                                                                                -0.20)))
                                           (kevin/material-icon-with-text "check" nil 'mode-line)))
                              (`running     (kevin/material-icon-with-text "access_time" nil 'font-lock-doc-face -0.25))
-                             (`no-checker  (kevin/material-icon-with-text "sim_card_alert" "-" 'font-lock-doc-face))
+                             ;; (`no-checker  (kevin/material-icon-with-text "block" nil 'font-lock-doc-face))
                              (`errored     (kevin/material-icon-with-text "do_not_disturb" "Error" 'error -0.15))
                              (`interrupted (kevin/material-icon-with-text "pause" "Interrupted" 'font-lock-doc-face)))
                            ))
@@ -195,13 +206,13 @@
 ;; Return simplifyed major mode name.
 (modeline-define-segment major-mode-segment
                          (let* ((major-name (format-mode-line "%m"))
-                                (replace-table '(Emacs-Lisp "Elisp"
-                                                            Python "Py"
+                                (replace-table '(Emacs-Lisp "elisp"
+                                                            Python "py"
                                                             Shell ">"
-                                                            Makrdown "MD"
-                                                            GFM "𝓜"
-                                                            Org "lrg"
-                                                            Text "𝓣ext"
+                                                            Markdown "markdown"
+                                                            Protocol-Buffers//l "protobuf"
+                                                            Org "org"
+                                                            Text "text"
                                                             Fundamental "ℱ"
                                                             ))
                                 (replace-name (plist-get replace-table (intern major-name))))
@@ -229,47 +240,59 @@
                              )))
 
 (with-eval-after-load 'evil
-  (setq evil-normal-state-tag (kevin/faicon-icon-with-text "chevron-right" "NO" 'mode-line))
-  (setq evil-insert-state-tag (kevin/faicon-icon-with-text "chevron-right" "IN" 'success))
-  (setq evil-motion-state-tag (kevin/faicon-icon-with-text "chevron-right" "MO" 'warning))
+  (setq evil-normal-state-tag (kevin/faicon-icon-with-text "chevron-right" "NO" 'success))
+  (setq evil-insert-state-tag (kevin/faicon-icon-with-text "chevron-right" "IN" 'warning))
+  (setq evil-motion-state-tag (kevin/faicon-icon-with-text "chevron-right" "MO" 'mode-line-emphasis))
   (setq evil-visual-state-tag (kevin/faicon-icon-with-text "chevron-right" "VI" 'error))
-  (setq evil-operator-state-tag (kevin/faicon-icon-with-text "chevron-right" "OP" 'font-lock-doc-face))
-  )
+  (setq evil-operator-state-tag (kevin/faicon-icon-with-text "chevron-right" "OP" 'font-lock-doc-face)))
 (modeline-define-segment evil-tag-segment
                          (when (bound-and-true-p evil-mode)
-                           evil-mode-line-tag
-                           ))
+                           evil-mode-line-tag))
 
-(defun modeline-init ()
-  (setq-default mode-line-format
-                '("%e"
-                  (:eval
-                   (let* ((active (modeline-active))
-                          (mode-line (if active 'mode-line 'mode-line-inactive))
-                          (lhs (list
-                                (evil-tag-segment)
-                                (window-number-segment 'mode-line)
-                                (buffer-info-segment 'mode-line)
-                                (minor-mode-segment 'mode-line)
-                                (position-info-segment 'mode-line)
-                                ))
-                          (rhs (list
-                                (vsc-info-segment 'warning)
-                                (major-mode-segment)
-                                (flycheck-segment)
-                                (buffer-encoding-segment 'mode-line)
-                                (timestamp-info-segment 'mode-line)
-                                ))
-                          )
-                     (concat
-                      (modeline-render-segment-list lhs)
-                      (modeline-fill (modeline-width rhs) 'mode-line)
-                      (modeline-render-segment-list rhs)
-                      )))))
+(use-package nyan-mode
+  :defer 5
+  :ensure t
+  :hook (after-init . nyan-mode)
+  :config (setq nyan-animate-nyancat nil))
+(modeline-define-segment nyan-cat-segment
+                         (list (nyan-create)))
 
-  )
+(modeline-define-segment mule-info-segment
+						 (if current-input-method
+							 (kevin/faicon-icon-with-text "terminal" current-input-method 'success)
+						   ""))
 
-(add-hook 'after-init-hook #'modeline-init)
+(setq-default mode-line-format
+              '("%e"
+                (:eval
+                 (let* ((active (modeline-active))
+						(success0 (if active 'success 'mode-line-inactive))
+						(warning0 (if active 'warning 'mode-line-inactive))
+						(error0 (if active 'error 'mode-line-inactive))
+						(emphasis0 (if active 'mode-line-emphasis 'mode-line-inactive))
+						(buffer-info0 (if active 'mode-line-buffer-id 'mode-line-inactive))
+						(lhs (list
+                              (evil-tag-segment)
+                              (window-number-segment error0)
+                              (buffer-info-segment success0)
+                              (minor-mode-segment warning0)
+                              (nyan-cat-segment)
+                              ))
+						(rhs (list
+							  (mule-info-segment)
+                              (position-info-segment error0)
+                              (vsc-info-segment error0)
+                              (flycheck-segment)
+                              (major-mode-segment success0)
+                              ;; (buffer-encoding-segment success0)
+                              (timestamp-info-segment emphasis0)
+                              ))
+						)
+                   (concat
+					(modeline-render-segment-list lhs)
+					(modeline-fill (modeline-width rhs) 'mode-line)
+					(modeline-render-segment-list rhs)
+					)))))
 
 (provide 'init-modeline)
 ;;; init-modeline ends here
