@@ -1,14 +1,14 @@
-;;; init-funcs.el. -*- lexical-binding: t -*-
+;;; core-functions.el -- functions used in emacs configurations. -*- lexical-binding: t -*-
 ;;
 ;; Author: kevin <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
 ;;
 ;;; Commentary:
-;;            functions used in emacs configurations
 ;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;; functions copy from spacemacs ;;;;;;;;;;;;;;;;;;;;;;;
 
+;;; Generated autoloads from init-funcs.el
 ;;;###autoload
 (defun kevin/declare-prefix (prefix name &optional long-name)
   "Declare a prefix PREFIX. PREFIX is a string describing a key
@@ -24,9 +24,8 @@ sequence. NAME is a string used as the prefix command."
     (which-key-add-key-based-replacements
       full-prefix-emacs (cons name long-name)
       full-prefix (cons name long-name))))
-(put 'kevin/declare-prefix 'lisp-indent-function 'defun)
 
-;;;###autoload
+;;;***##autoload
 (defun kevin/set-leader-keys (key def &rest bindings)
   "Add KEY and DEF as key bindings under
 `kevin/leader-key' and `kevin/emacs-leader-key'.
@@ -46,10 +45,6 @@ pairs. For example,
   (while key
     (define-key kevin/default-map (kbd key) def)
     (setq key (pop bindings) def (pop bindings))))
-(put 'kevin/set-leader-keys 'lisp-indent-function 'defun)
-
-(defalias 'evil-leader/set-key 'kevin/set-leader-keys)
-
 
 ;;;###autoload
 (defun kevin/declare-prefix-for-mode (mode prefix name &optional long-name)
@@ -75,7 +70,6 @@ used as the prefix command."
       (when (and is-major-mode-prefix kevin/major-mode-emacs-leader-key)
         (which-key-add-major-mode-key-based-replacements
           mode major-mode-prefix-emacs prefix-name)))))
-(put 'kevin/declare-prefix-for-mode 'lisp-indent-function 'defun)
 
 ;;;###autoload
 (defun kevin/set-leader-keys-for-major-mode (mode key def &rest bindings)
@@ -90,9 +84,6 @@ they are in `kevin/set-leader-keys'."
       (while key
         (define-key (symbol-value map) (kbd key) def)
         (setq key (pop bindings) def (pop bindings))))))
-(put 'kevin/set-leader-keys-for-major-mode 'lisp-indent-function 'defun)
-
-(defalias 'evil-leader/set-key-for-mode 'kevin/set-leader-keys-for-major-mode)
 
 ;;;###autoload
 (defun kevin//acceptable-leader-p (key)
@@ -132,8 +123,6 @@ minor-mode, the third argument should be non nil."
           (boundp prefix)))))
 
 ;;;;;;;;;;;;;;;;;;;; functions copy from spacemacs ends here ;;;;;;;;;;;;;;;;;;;;
-
-
 
 ;; applescript
 ;;;###autoload
@@ -189,17 +178,6 @@ minor-mode, the third argument should be non nil."
   (kevin/create-scratch-buffer))
 
 ;;;###autoload
-(defun kevin/go-enable-gometalinter ()
-  "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
-  (setq flycheck-disabled-checkers '(go-gofmt
-                                     go-golint
-                                     go-vet
-                                     go-build
-                                     go-test
-                                     go-errcheck))
-  (flycheck-gometalinter-setup))
-
-;;;###autoload
 (defun kevin/bazel-update ()
   "Bazel update in go-common."
   (interactive)
@@ -233,8 +211,7 @@ minor-mode, the third argument should be non nil."
   (setf my-list '())
   (loop for x in (split-string (buffer-file-name) "/") do
         (message x)
-        (append my-list x)
-        ))
+        (append my-list x)))
 
 ;;;###autoload
 (defun kevin/open-init-file ()
@@ -243,18 +220,61 @@ minor-mode, the third argument should be non nil."
   (find-file "~/.emacs.d/init.el"))
 
 ;;;###autoload
-(defun kevin/insert-faicon-icon-with-text (icon text &optional color help-echo)
-  "Retorna una cadena de texto formateada con `propertize' de un icono de all-the-icons"
-  (concat
-   (propertize (all-the-icons-faicon icon)
-               'face `(:foreground ,(or color "gray") :height 1.0 :family ,(all-the-icons-faicon-family))
-               'display '(raise -0.1)
-               'help-echo help-echo)
-   (propertize (format "%s" text)
-               'face `(:foreground ,(or color "gray") :height 1.0)
-               ;; 'face 'mode-line
-               'display '(raise -0.0)
-               )))
+(defun kevin/set-frame-transparency (value)
+  "Set the transparency of the frame window.
+Argument VALUE 0 is transparent, 100 is opaque."
+  (interactive "nTransparency Value (0 - 100): ")
+  (set-frame-parameter (selected-frame) 'alpha value))
 
-(provide 'init-funcs)
-;;; init-funcs.el ends here
+;;;###autoload
+(defun kevin/byte-compile-directory ()
+  (interactive)
+  (defun byte-compile-directories (dir)
+    (if (file-directory-p dir)
+        (byte-compile-directory-r (mapcar (function (lambda (f) (concat dir "/" f)))
+                                          (directory-files dir)))))
+  (defun byte-compile-directory-r (file-list)
+    (cond ((null (car file-list))
+           nil)
+          ((and (file-directory-p (car file-list))
+                (not (string-match "/\.\.?$" (car file-list))))
+           (byte-compile-directories (car file-list))
+           (if (not (null (cdr file-list)))
+               (progn
+                 (byte-compile-directories (cadr file-list))
+                 (byte-compile-directory-r (cdr file-list)))))
+          ((string-match "\.el$" (car file-list))
+           (progn
+             (byte-compile-file (car file-list))
+             (byte-compile-directory-r (cdr file-list))))
+          (t
+           (if (not (null (cdr file-list)))
+               (byte-compile-directory-r (cdr file-list))))))
+  (byte-compile-directories (replace-regexp-in-string "/$" "" default-directory)))
+
+(defun kevin/delete-word ()
+  "Delete word under cursor."
+  (interactive)
+  (let ((end (get-point 'forward-word 1))
+        (beg (get-point 'backward-word 1)))
+    (delete-region beg end)))
+
+(defun kevin/copy-word ()
+  "print current word."
+  (interactive)
+  (kill-new (thing-at-point 'word)))
+
+(defun kevin/cover-word ()
+  "cover word before point"
+  (interactive)
+  (kevin/delete-word)
+  (evil-paste-before 1))
+
+(defun get-point (symbol &optional arg)
+  "get the point"
+  (funcall symbol arg)
+  (point))
+
+(byte-recompile-file "~/.emacs.d/core/core-functions.el" nil 0)
+(provide 'core-functions)
+;;; core-functions.el ends here

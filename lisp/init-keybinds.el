@@ -13,57 +13,45 @@
 (kevin/declare-prefix "s" "search")
 
 ;; bookmark
-(kevin/declare-prefix "ob" "bookmark")
-(kevin/set-leader-keys
-  "obs" 'bookmark-set
-  "obr" 'bookmark-rename
-  "obd" 'bookmark-delete
-  "obj" 'counsel-bookmark
-  "obl" 'bookmark-bmenu-list)
+(kevin/declare-prefix "m" "bookmark")
+(kevin/set-leader-keys "ms" 'bookmark-set
+                       "mr" 'bookmark-rename
+                       "md" 'bookmark-delete
+                       "mj" 'counsel-bookmark
+                       "ml" 'bookmark-bmenu-list)
 
 ;; toggle
 (kevin/declare-prefix "t" "toggle")
-(kevin/set-leader-keys
-  "tM" 'toggle-major-mode
-  "tb" 'toggle-scroll-bar
-  "ti" 'imenu-list-smart-toggle
-  "tw" 'toggle-word-wrap
-  "tm" 'toggle-frame-maximized
-  "tf" 'toggle-frame-fullscreen
-  "tt" 'toggle-truncate-lines)
+(kevin/set-leader-keys "tM" 'toggle-major-mode
+                       "tb" 'toggle-scroll-bar
+                       "ti" 'imenu-list-smart-toggle
+                       "tw" 'toggle-word-wrap
+                       "tm" 'toggle-frame-maximized
+                       "tf" 'toggle-frame-fullscreen
+                       "tt" 'toggle-truncate-lines)
 
 ;; open applications with from emacs
 (kevin/declare-prefix "a" "application")
-(kevin/set-leader-keys
-  "aa" 'counsel-osx-app
-  "ai" #'kevin/open-iterm ;; open item2
-  "aw" #'kevin/open-wechat ; open WeChat
-  "ay" #'kevin/open-youdao ; open youdao dictionary
-  )
+(kevin/set-leader-keys "aa" 'counsel-osx-app
+                       "ai" #'kevin/open-iterm
+                       "aw" #'kevin/open-wechat
+                       "ay" #'kevin/open-youdao)
 
 ;; misc related keybindings
-(kevin/set-leader-keys
-  "=" 'text-scale-increase
-  "-" 'text-scale-decrease
-  "'" 'shell-pop
-  "hd" 'describe-function
-  "hf" 'find-function
-  "hk" 'describe-key
-  "hv" 'describe-variable
-  "md" 'mark-defun
-  "mf" #'kevin/make-frame
-  "qr" 'restart-emacs
-  "qq" 'save-buffers-kill-terminal
-  )
+(kevin/set-leader-keys "=" 'text-scale-increase
+                       "-" 'text-scale-decrease
+                       "'" 'shell-pop
+                       "hd" 'describe-function
+                       "hf" 'find-function
+                       "hk" 'describe-key
+                       "hv" 'describe-variable
+                       "qr" 'restart-emacs
+                       "qq" 'save-buffers-kill-terminal)
 
-
-;; ;; * Global Keybindings
-;; ;; `general-define-key' acts like `global-set-key' when :keymaps is not
-;; ;; specified (because ":keymaps 'global" is the default)
-;; ;; kbd is not necessary and arbitrary amount of key def pairs are allowed
-;; (general-define-key
-;;  "M-x" 'smex                             ; or 'smex
-;;  "C-s" 'counsel-grep-or-swiper)
+;; frame releated keybindings
+(kevin/declare-prefix "F" "frame")
+(kevin/set-leader-keys "Fm" #'kevin/make-frame
+                       "Fd" 'delete-frame)
 
 (bind-map kevin/default-map
   :keys (kevin/emacs-leader-key)

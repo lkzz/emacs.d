@@ -41,26 +41,26 @@
                                                        "projectile-bookmarks.eld"))
           (kevin/declare-prefix "p" "projectile")
           (kevin/set-leader-keys
-            "/"  'projectile-ag
-            "p!" 'projectile-run-shell-command-in-root
-            "p&" 'projectile-run-async-shell-command-in-root
-            "p%" 'projectile-replace-regexp
-            "pa" 'projectile-toggle-between-implementation-and-test
-            "pb" 'projectile-switch-to-buffer
-            "pc" 'projectile-compile-project
-            "pd" 'projectile-find-dir
-            "pD" 'projectile-dired
-            "pf" 'projectile-find-file
-            "pF" 'projectile-find-file-dwim
-            "pg" 'projectile-find-tag
-            "pG" 'projectile-regenerate-tags
-            "pI" 'projectile-invalidate-cache
-            "pk" 'projectile-kill-buffers
-            "pp" 'projectile-switch-project
-            "pr" 'projectile-recentf
-            "pR" 'projectile-replace
-            "pT" 'projectile-test-project
-            "pv" 'projectile-vc))
+           "p/"  'projectile-ag
+           "p!" 'projectile-run-shell-command-in-root
+           "p&" 'projectile-run-async-shell-command-in-root
+           "p%" 'projectile-replace-regexp
+           "pa" 'projectile-toggle-between-implementation-and-test
+           "pb" 'projectile-switch-to-buffer
+           "pc" 'projectile-compile-project
+           "pd" 'projectile-find-dir
+           "pD" 'projectile-dired
+           "pf" 'projectile-find-file
+           "pF" 'projectile-find-file-dwim
+           "pg" 'projectile-find-tag
+           "pG" 'projectile-regenerate-tags
+           "pI" 'projectile-invalidate-cache
+           "pk" 'projectile-kill-buffers
+           "pp" 'projectile-switch-project
+           "pr" 'projectile-recentf
+           "pR" 'projectile-replace
+           "pT" 'projectile-test-project
+           "pv" 'projectile-vc))
   :config (progn
             (setq projectile-completion-system 'ivy)
             (projectile-global-mode)))

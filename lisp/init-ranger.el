@@ -9,14 +9,15 @@
   (progn
     (setq ranger-override-dired t)
     (kevin/set-leader-keys
-      "jd" 'deer
-      "jr" 'ranger)
+     "jd" 'deer
+     "jr" 'ranger)
     (eval-after-load 'evil
       '(progn
          (evil-define-key 'normal ranger-mode-map (kbd "q") 'ranger-close)))
     )
   :config
   (setq ranger-cleanup-on-disable t)
+  (setq ranger-cleanup-eagerly t)
   (setq ranger-modify-header nil)
   ;; To exclude certain files (e.g. videos) from being previewed
   (setq ranger-excluded-extensions '("mkv" "iso" "mp4" "pdf"))

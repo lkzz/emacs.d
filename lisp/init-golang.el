@@ -16,9 +16,6 @@
 ;; go get -u github.com/dougm/goflymake
 ;; go get github.com/godoctor/godoctor
 
-;; FIXME: `go-guru' doesn't work on Windows. Use `godef' instead.
-;; https://github.com/dominikh/go-mode.el/issues/218
-
 (use-package go-mode
   :defer t
   :config
@@ -41,23 +38,17 @@
     (kevin/declare-prefix-for-mode 'go-mode "mg" "goto")
     (kevin/declare-prefix-for-mode 'go-mode "mh" "help")
     (kevin/declare-prefix-for-mode 'go-mode "mi" "imports")
-    (kevin/declare-prefix-for-mode 'go-mode "mt" "test")
-    (kevin/declare-prefix-for-mode 'go-mode "mx" "execute")
     (kevin/set-leader-keys-for-major-mode 'go-mode
-      "cj" 'godef-jump
-      "hh" 'godoc-at-point
-      "ig" 'go-goto-imports
-      "ia" 'go-import-add
-      "ir" 'go-remove-unused-imports
-      "eb" 'go-play-buffer
-      "er" 'go-play-region
-      "ed" 'go-download-play
-      "xx" 'go-run
-      "ga" 'ff-find-other-file
-      "gc" 'go-coverage
-      "tt" 'go-test-current-test
-      "tm" 'go-test-current-file
-      "tp" 'go-test-current-project)))
+                                          "cj" 'godef-jump
+                                          "hh" 'godoc-at-point
+                                          "ig" 'go-goto-imports
+                                          "ia" 'go-import-add
+                                          "ir" 'go-remove-unused-imports
+                                          "eb" 'go-play-buffer
+                                          "er" 'go-play-region
+                                          "ed" 'go-download-play
+                                          "ga" 'ff-find-other-file
+                                          "gc" 'go-coverage)))
 
 (use-package golint
   :after go-mode)
@@ -83,29 +74,38 @@
   (progn
     (kevin/declare-prefix-for-mode 'go-mode "mf" "guru")
     (kevin/set-leader-keys-for-major-mode 'go-mode
-      "fd" 'go-guru-describe
-      "ff" 'go-guru-freevars
-      "fi" 'go-guru-implements
-      "fc" 'go-guru-peers
-      "fr" 'go-guru-referrers
-      "fj" 'go-guru-definition
-      "fp" 'go-guru-pointsto
-      "fs" 'go-guru-callstack
-      "fe" 'go-guru-whicherrs
-      "f<" 'go-guru-callers
-      "f>" 'go-guru-callees
-      "fo" 'go-guru-set-scope)))
+                                          "fd" 'go-guru-describe
+                                          "ff" 'go-guru-freevars
+                                          "fi" 'go-guru-implements
+                                          "fc" 'go-guru-peers
+                                          "fr" 'go-guru-referrers
+                                          "fj" 'go-guru-definition
+                                          "fp" 'go-guru-pointsto
+                                          "fs" 'go-guru-callstack
+                                          "fe" 'go-guru-whicherrs
+                                          "f<" 'go-guru-callers
+                                          "f>" 'go-guru-callees
+                                          "fo" 'go-guru-set-scope)))
 
 (use-package gotest
-  :after go-mode
-  :commands (go-test-current-project go-test-current-file go-test-current-test))
-
-(use-package go-rename
+  :ensure t
   :after go-mode
   :init
   (progn
-    (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
-    (kevin/set-leader-keys-for-major-mode 'go-mode "rN" 'go-rename)))
+    (defun kevin/go-test-current-test-verbose()
+      "Add -v flag to go test command."
+      (interactive)
+      (setq go-test-verbose t)
+      (funcall 'go-test-current-test)
+      (setq go-test-verbose nil))
+    (kevin/declare-prefix-for-mode 'go-mode "mt" "test")
+    (kevin/set-leader-keys-for-major-mode 'go-mode
+                                          "tx" 'go-run
+                                          "tb" 'go-test-current-benchmark
+                                          "tt" 'go-test-current-test
+                                          "tv" 'kevin/go-test-current-test-verbose
+                                          "tm" 'go-test-current-file
+                                          "tp" 'go-test-current-project)))
 
 (use-package godoctor
   :after go-mode
@@ -113,18 +113,17 @@
   (progn
     (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
     (kevin/set-leader-keys-for-major-mode 'go-mode
-      "rn" 'godoctor-rename
-      "re" 'godoctor-extract
-      "rt" 'godoctor-toggle
-      "rd" 'godoctor-godoc)))
+                                          "rn" 'godoctor-rename
+                                          "re" 'godoctor-extract
+                                          "rt" 'godoctor-toggle
+                                          "rd" 'godoctor-godoc)))
 
 (use-package go-tag
   :after go-mode
   :init
-  (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
   (kevin/set-leader-keys-for-major-mode 'go-mode
-    "rf" 'go-tag-add
-    "rF" 'go-tag-remove))
+                                        "rf" 'go-tag-add
+                                        "rF" 'go-tag-remove))
 
 (use-package company-go
   :ensure t
@@ -133,13 +132,23 @@
   (progn
     (add-hook 'go-mode-hook (lambda ()
                               (make-local-variable 'company-backends)
-                              (setq company-backends kevin/company-global-backends)
-                              (add-to-list 'company-backends 'company-go)))))
+                              (setq company-backends (list 'company-go 'company-dabbrev 'company-yasnippet))))))
 
 
 ;; (use-package flycheck-gometalinter
 ;;   :ensure t
 ;;   :after (go-mode flycheck-mode)
+;;   :init
+;;   (progn
+;;     (defun kevin/go-enable-gometalinter ()
+;;       "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
+;;       (setq flycheck-disabled-checkers '(go-gofmt
+;;                                          go-golint
+;;                                          go-vet
+;;                                          go-build
+;;                                          go-test
+;;                                          go-errcheck))
+;;       (flycheck-gometalinter-setup)))
 ;;   :config
 ;;   (progn
 ;;     (setq flycheck-gometalinter-fast t)

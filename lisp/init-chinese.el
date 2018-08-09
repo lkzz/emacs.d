@@ -19,15 +19,13 @@
 ;; ** 设置拼音输入法
 (use-package pyim
   :demand t
-  :bind (("M-j" . pyim-convert-code-at-point))
+  :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
   (progn
     ;; 激活 basedict 拼音词库
     (use-package pyim-basedict
       :ensure t
       :config (pyim-basedict-enable))
-    ;; (require 'pyim-greatdict)
-    ;; (pyim-greatdict-enable)
     (setq pyim-directory (expand-file-name "pyim/" kevin/cache-directory))
     (setq pyim-dcache-directory (expand-file-name "dcache/" pyim-directory))
     (setq default-input-method "pyim")
@@ -38,7 +36,10 @@
     ;; 显示6个候选词。
     (setq pyim-page-length 6)
     ;; 设置选词框的绘制方式
-    (setq pyim-page-tooltip 'popup)
+    (setq pyim-page-tooltip 'posframe)
+	;; 只能在字符串和 comment 中输入中文
+	(setq-default pyim-english-input-switch-functions
+                  '(pyim-probe-program-mode))
     ))
 
 (use-package pangu-spacing
