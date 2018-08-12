@@ -13,7 +13,6 @@
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
-  :defer t
   :hook (after-init . evil-mode)
   :config
   (setq evil-default-state 'normal)
@@ -96,15 +95,17 @@
   :after evil)
 
 (use-package evil-nerd-commenter
+  :ensure t
   :after evil
   :init
   (kevin/set-leader-keys
-    "ci" 'evilnc-comment-or-uncomment-lines
-    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-    "cp" 'evilnc-comment-or-uncomment-paragraphs
-    "cy" 'evilnc-copy-and-comment-operator))
+   "ci" 'evilnc-comment-or-uncomment-lines
+   "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+   "cp" 'evilnc-comment-or-uncomment-paragraphs
+   "cy" 'evilnc-copy-and-comment-operator))
 
 (use-package evil-escape
+  :ensure t
   :after evil
   :diminish evil-escape-mode
   :config
@@ -113,24 +114,29 @@
   (setq-default evil-escape-delay 0.3))
 
 (use-package evil-mc
-  :defer t
+  :ensure t
   :after evil
   :diminish evil-mc-mode
+  :init
+  (defun kevin/reset-evil-mc-key-map ()
+    (let ((keys '(("ma" . evil-mc-make-all-cursors)
+                  ("mu" . evil-mc-undo-all-cursors)
+                  ("ms" . evil-mc-pause-cursors)
+                  ("mr" . evil-mc-resume-cursors)
+                  ("mf" . evil-mc-make-and-goto-first-cursor)
+                  ("mb" . evil-mc-make-and-goto-last-cursor)
+                  ("mh" . evil-mc-make-cursor-here)
+                  ("mn" . evil-mc-skip-and-goto-next-match)
+                  ("mp" . evil-mc-skip-and-goto-prev-match)
+                  ("C-n" . evil-mc-make-and-goto-next-match)
+                  ("C-p" . evil-mc-make-and-goto-prev-match)
+                  )))
+      (dolist (key-data keys)
+        (evil-define-key 'normal 'evil-mc-key-map (kbd (car key-data)) (cdr key-data))
+        (evil-define-key 'visual 'evil-mc-key-map (kbd (car key-data)) (cdr key-data)))))
+  (global-evil-mc-mode)
   :config
-  (global-evil-mc-mode 1)
-  (use-package ace-mc)
-  ;; multiple-cursors
-  ;; step 1, select thing in visual-mode (OPTIONAL)
-  ;; step 2, `mc/mark-all-like-dwim' or `mc/mark-all-like-this-in-defun'
-  ;; step 3, `ace-mc-add-multiple-cursors' to remove cursor, press RET to confirm
-  ;; step 4, press s or S to start replace
-  ;; step 5, press C-g to quit multiple-cursors
-  (define-key evil-visual-state-map (kbd "mn") 'mc/mark-next-like-this)
-  (define-key evil-visual-state-map (kbd "ma") 'mc/mark-all-like-this-dwim)
-  (define-key evil-visual-state-map (kbd "md") 'mc/mark-all-like-this-in-defun)
-  (define-key evil-visual-state-map (kbd "mm") 'ace-mc-add-multiple-cursors)
-  (define-key evil-visual-state-map (kbd "ms") 'ace-mc-add-single-cursor))
-
+  (kevin/reset-evil-mc-key-map))
 
 (provide 'init-evil)
 ;;; init-evil ends here
