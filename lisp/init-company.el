@@ -78,6 +78,7 @@
   :hook (company-mode . company-box-mode)
   :config
   (setq company-box-enable-icon nil)
+  (setq company-box-doc-delay 1.0)
 
   ;; (setq company-box-icons-elisp (list (all-the-icons-material "functions" :face 'all-the-icons-purple)
   ;;                                     (all-the-icons-material "check_circle" :face 'all-the-icons-blue)
