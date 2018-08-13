@@ -160,6 +160,7 @@
           ("*Go Test*" :dedicated t :position bottom :stick t :noselect nil)
           ;; Test
           ("*ert*" :dedicated t :position bottom :stick t :noselect nil)
+          ("*Ibuffer*" :dedicated t :position bottom :stick t :noselect nil)
           ("*nosetests*" :dedicated t :position bottom :stick t :noselect nil))))
 
 ;; ;; Easy window config switching
