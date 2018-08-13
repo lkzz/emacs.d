@@ -193,6 +193,7 @@
 
 (use-package dashboard
   :ensure t
+  :disabled
   :diminish page-break-lines-mode
   :config
   (progn

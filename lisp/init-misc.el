@@ -39,18 +39,17 @@
 (use-package recentf
   :defer t
   :ensure nil
-  :init
-  (setq recentf-max-saved-items 200)
-  ;; lazy load recentf
-  ;; (add-hook 'after-init-hook #'recentf-mode)
+  :config
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
                                      (recentf-mode)
                                      (recentf-track-opened-file))))
-  :config
-  (add-to-list 'recentf-exclude (expand-file-name package-user-dir))
-  (add-to-list 'recentf-exclude "bookmarks")
-  (add-to-list 'recentf-exclude "COMMIT_EDITMSG\\'")
-  (add-to-list 'recentf-exclude kevin/cache-directory))
+  (setq recentf-max-saved-items 200)
+  (setq recentf-exclude '((expand-file-name package-user-dir)
+                          kevin/cache-directory
+                          "bookmarks"
+                          "COMMIT_EDITMSG\\'"
+                          "custom.el")))
+
 
 ;; Delete selection if you insert
 (use-package delsel

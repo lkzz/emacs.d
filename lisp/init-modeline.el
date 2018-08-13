@@ -255,7 +255,8 @@
   :hook (after-init . nyan-mode)
   :config (setq nyan-animate-nyancat nil))
 (modeline-define-segment nyan-cat-segment
-                         (list (nyan-create)))
+                         (when (bound-and-true-p nyan-mode)
+                           (list (nyan-create))))
 
 (modeline-define-segment mule-info-segment
 						 (if current-input-method

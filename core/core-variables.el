@@ -25,7 +25,7 @@
 (defconst kevin/cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
-(defconst kevin/default-directory "~/Workspace/golang/src/go-common/app"
+(defconst kevin/default-directory "~/Workspace/golang/path/src/go-common/app"
   "Default project directory.")
 
 (defvar kevin/leader-key "SPC"
