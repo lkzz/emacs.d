@@ -80,13 +80,12 @@
 
   ;; Integration with `magit'
   (with-eval-after-load 'magit
-    (setq magit-completing-read-function 'ivy-completing-read))
+    (setq magit-completing-read-function 'ivy-completing-read)))
 
-  ;; Ivy integration for Projectile
-  (use-package counsel-projectile
-    :defer t
-    :init (counsel-projectile-mode 1))
-  )
+;; Ivy integration for Projectile
+(use-package counsel-projectile
+  :after (counsel projectile)
+  :init (counsel-projectile-mode 1))
 
 ;; More friendly interface for ivy
 (use-package ivy-rich
