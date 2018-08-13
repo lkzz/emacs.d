@@ -25,11 +25,12 @@
   :hook (after-init . whitespace-mode)
   :init
   (progn
-	(setq-default show-trailing-whitespace t)
-	(setq whitespace-style '(face trailing)))
+    (add-hook 'minibuffer-setup-hook (lambda () (setq show-trailing-whitespace nil)))
+    (setq-default show-trailing-whitespace t)
+    (setq whitespace-style '(face trailing)))
   :config
   (progn
-	(with-eval-after-load 'popup
+    (with-eval-after-load 'popup
       ;; advice for whitespace-mode conflict with popup
       (defvar my-prev-whitespace-mode nil)
       (make-local-variable 'my-prev-whitespace-mode)
