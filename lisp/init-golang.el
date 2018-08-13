@@ -32,7 +32,6 @@
     (add-hook 'before-save-hook #'gofmt-before-save)
     (make-local-variable 'after-save-hook)
     (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
-    (add-hook 'before-save-hook 'gofmt-before-save)
 
     (kevin/declare-prefix-for-mode 'go-mode "me" "playground")
     (kevin/declare-prefix-for-mode 'go-mode "mg" "goto")
