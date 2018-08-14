@@ -270,31 +270,31 @@
 
 (modeline-define-segment mule-info-segment
 						 (if current-input-method
-							 (kevin/faicon-icon-with-text "terminal" current-input-method 'success)
-						   ""))
+							 (kevin/faicon-icon-with-text "terminal" current-input-method 'success)))
 
 (setq-default mode-line-format
               '("%e"
                 (:eval
                  (let* ((active (modeline-active))
+                        (modeline0 (if active 'mode-line 'mode-line-inactive))
 						(success0 (if active 'success 'mode-line-inactive))
 						(warning0 (if active 'warning 'mode-line-inactive))
 						(error0 (if active 'error 'mode-line-inactive))
 						(emphasis0 (if active 'mode-line-emphasis 'mode-line-inactive))
 						(buffer-info0 (if active 'mode-line-buffer-id 'mode-line-inactive))
 						(lhs (list
-                              (evil-tag-segment)
+                              (evil-tag-segment modeline0)
                               (persp-layout-segment error0)
                               (window-number-segment error0)
                               (buffer-info-segment success0)
                               (minor-mode-segment warning0)
-                              (nyan-cat-segment)
+                              (nyan-cat-segment modeline0)
                               ))
 						(rhs (list
-							  (mule-info-segment)
+							  (mule-info-segment modeline0)
                               (position-info-segment error0)
                               (vsc-info-segment error0)
-                              (flycheck-segment)
+                              (flycheck-segment modeline0)
                               (major-mode-segment success0)
                               ;; (buffer-encoding-segment success0)
                               (timestamp-info-segment emphasis0)
@@ -302,7 +302,7 @@
 						)
                    (concat
 					(modeline-render-segment-list lhs)
-					(modeline-fill (modeline-width rhs) 'mode-line)
+					(modeline-fill (modeline-width rhs) modeline0)
 					(modeline-render-segment-list rhs)
 					)))))
 
