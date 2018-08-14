@@ -4,13 +4,14 @@
 ;; URL: https://github.com/lkzz/emacs.d
 ;;
 ;;; Commentary:
+;;        refer: https://github.com/syl20bnr/spacemacs/tree/master/layers/+spacemacs/spacemacs-layouts
 ;;; Code:
 
-(defvar kevin/default-layout-name "Default"
+(defvar kevin/default-layout-name "default"
   "Name of the default layout.")
 
 (use-package persp-mode
-  :defer t
+  :hook (after-init . persp-mode)
   :commands (hydra-persp-mode/body persp-mode)
   :diminish persp-mode
   :init
@@ -19,7 +20,7 @@
     (kevin/set-leader-keys "l" #'hydra-persp-mode/body)
     (defhydra hydra-persp-mode (:body-pre (unless (bound-and-true-p persp-mode)
                                             (call-interactively 'persp-mode))
-                                          :color blue
+                                          :color red
                                           :hint nil)
       "
 \n
@@ -31,8 +32,8 @@
  [_b_]^^^^        buffer in layout            [_D_]^^   close other layout
  [_h_]^^^^        default layout              [_L_]^^   load layouts from file
  [_l_]^^^^        layout w/helm/ivy           [_r_]^^   remove current buffer
- [_n_/_C-l_]^^    next layout                 [_R_]^^   rename current layout
- [_N_/_p_/_C-h_]  prev layout                 [_s_/_S_] save all layouts/save by names
+ [_n_]^^^^        next layout                 [_R_]^^   rename current layout
+ [_p_]^^^^        prev layout                 [_s_/_S_] save all layouts/save by names
  [_o_]^^^^        custom layout               [_t_]^^   show a buffer without adding it to current layout
  [_w_]^^^^        workspaces transient state  [_x_]^^   kill current w/buffers
  ^^^^^^                                       [_X_]^^   kill other w/buffers
@@ -64,8 +65,6 @@
       ("<return>" nil :exit t)
       ("TAB" spacemacs/jump-to-last-layout)
       ("RET" nil :exit t)
-      ("C-h" persp-prev)
-      ("C-l" persp-next)
       ("<" spacemacs/move-current-persp-left)
       (">" spacemacs/move-current-persp-right)
       ("a" persp-add-buffer :exit t)
@@ -76,10 +75,9 @@
       ("h" spacemacs/layout-goto-default :exit t)
       ("L" persp-load-state-from-file :exit t)
       ("l" spacemacs/persp-perspectives :exit t)
-      ("n" persp-next)
-      ("N" persp-prev)
+      ("n" persp-next :exit t)
       ("o" spacemacs/select-custom-layout :exit t)
-      ("p" persp-prev)
+      ("p" persp-prev :exit t)
       ("r" persp-remove-buffer :exit t)
       ("R" spacemacs/layouts-ts-rename :exit t)
       ("s" persp-save-state-to-file :exit t)
@@ -93,17 +91,21 @@
         persp-nil-name kevin/default-layout-name
         persp-nil-hidden t
         persp-auto-save-fname "autosave"
-        persp-save-dir (concat kevin/cache-directory "workspaces/")
+        persp-save-dir (concat kevin/cache-directory "persp-autosave/")
         persp-set-last-persp-for-new-frames nil
-        persp-switch-to-added-buffer nil
+        ;; add a buffer to the current perspective and switch to that buffer
+        persp-switch-to-added-buffer t
         persp-remove-buffers-from-nil-persp-behaviour nil
         ;; Don't restore winconf on new frames
         persp-init-frame-behaviour t
         persp-init-new-frame-behaviour-override 'auto-temp
         ;; Auto-load on startup
-        persp-auto-resume-time 3
+        persp-auto-resume-time 1.5
         ;; auto-save on kill
-        persp-auto-save-opt (if noninteractive 0 1)))
+        persp-auto-save-opt (if noninteractive 0 1)
+        ;; How many autosave file backups to keep
+        persp-auto-save-num-of-backups 1
+        ))
 
 (defvar spacemacs--last-selected-layout kevin/default-layout-name
   "Previously selected layout.")
