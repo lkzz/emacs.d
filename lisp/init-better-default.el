@@ -120,5 +120,9 @@
 ;;删除时移到回收站
 (setq delete-by-moving-to-trash t)
 
+;; Control use of local variables in files you visit.
+;; :safe means set the safe variables, and ignore the rest.
+(setq enable-local-variables :safe)
+
 (provide 'init-better-default)
 ;;; init-better-default.el ends here
