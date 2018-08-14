@@ -243,18 +243,18 @@
                          (when (bound-and-true-p persp-mode)
                            (concat (kevin/maybe-material-icon "home"
                                                               :face 'warning
-                                                              :v-adjust -0.15)
+                                                              :v-adjust -0.10)
                                    " "
                                    (safe-persp-name (get-frame-persp))))
 
                          )
 
 (with-eval-after-load 'evil
-  (setq evil-normal-state-tag (kevin/faicon-icon-with-text "chevron-right" "NO" 'success))
-  (setq evil-insert-state-tag (kevin/faicon-icon-with-text "chevron-right" "IN" 'warning))
-  (setq evil-motion-state-tag (kevin/faicon-icon-with-text "chevron-right" "MO" 'mode-line-emphasis))
-  (setq evil-visual-state-tag (kevin/faicon-icon-with-text "chevron-right" "VI" 'error))
-  (setq evil-operator-state-tag (kevin/faicon-icon-with-text "chevron-right" "OP" 'font-lock-doc-face)))
+  (setq evil-normal-state-tag (kevin/faicon-icon-with-text "chevron-right" "NO" 'success -0.08))
+  (setq evil-insert-state-tag (kevin/faicon-icon-with-text "chevron-right" "IN" 'warning -0.08))
+  (setq evil-motion-state-tag (kevin/faicon-icon-with-text "chevron-right" "MO" 'mode-line-emphasis -0.08))
+  (setq evil-visual-state-tag (kevin/faicon-icon-with-text "chevron-right" "VI" 'error -0.08))
+  (setq evil-operator-state-tag (kevin/faicon-icon-with-text "chevron-right" "OP" 'font-lock-doc-face -0.08)))
 (modeline-define-segment evil-tag-segment
                          (when (bound-and-true-p evil-mode)
                            evil-mode-line-tag))
