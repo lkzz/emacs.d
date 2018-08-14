@@ -23,13 +23,13 @@
   :defer 3
   :diminish company-mode "ⓒ"
   :bind (("M-/" . company-complete)
-         ("C-c C-y" . company-yasnippet)
          :map company-active-map
          ("C-s" . company-filter-candidates)
          ("C-p" . company-select-previous)
          ("C-n" . company-select-next)
          ("C-g" . company-abort)
-         ("<tab>" . company-complete-selection)
+         ("C-/" . yas-expand-from-trigger-key)
+         ("<tab>" . company-complete-common)
          :map company-search-map
          ("C-p" . company-select-previous)
          ("C-n" . company-select-next))
@@ -76,17 +76,16 @@
   :after company
   :diminish company-box-mode
   :hook (company-mode . company-box-mode)
-  :config
-  (setq company-box-enable-icon nil)
+  :init
+  (setq company-box-enable-icon t)
   (setq company-box-doc-delay 1.0)
-
-  ;; (setq company-box-icons-elisp (list (all-the-icons-material "functions" :face 'all-the-icons-purple)
-  ;;                                     (all-the-icons-material "check_circle" :face 'all-the-icons-blue)
-  ;;                                     (all-the-icons-material "stars" :face 'all-the-icons-yellow)
-  ;;                                     (all-the-icons-material "format_paint" :face 'all-the-icons-pink)))
-  ;; (setq company-box-icons-unknown (all-the-icons-material "find_in_page" :face 'all-the-icons-silver))
-  ;; (setq company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green))
-
+  (setq company-box-backends-colors nil)
+  (setq company-box-icons-elisp (list (all-the-icons-material "functions" :face 'all-the-icons-purple)
+                                      (all-the-icons-material "check_circle" :face 'all-the-icons-blue)
+                                      (all-the-icons-material "stars" :face 'all-the-icons-yellow)
+                                      (all-the-icons-material "format_paint" :face 'all-the-icons-pink)))
+  (setq company-box-icons-unknown (all-the-icons-material "local_offer" :face 'all-the-icons-silver))
+  (setq company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green))
   )
 
 (provide 'init-company)
