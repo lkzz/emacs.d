@@ -239,6 +239,16 @@
                               ((string= "0" str) "➓"))
                              )))
 
+(modeline-define-segment persp-layout-segment
+                         (when (bound-and-true-p persp-mode)
+                           (concat (kevin/maybe-material-icon "home"
+                                                              :face 'warning
+                                                              :v-adjust -0.15)
+                                   " "
+                                   (safe-persp-name (get-frame-persp))))
+
+                         )
+
 (with-eval-after-load 'evil
   (setq evil-normal-state-tag (kevin/faicon-icon-with-text "chevron-right" "NO" 'success))
   (setq evil-insert-state-tag (kevin/faicon-icon-with-text "chevron-right" "IN" 'warning))
@@ -274,6 +284,7 @@
 						(buffer-info0 (if active 'mode-line-buffer-id 'mode-line-inactive))
 						(lhs (list
                               (evil-tag-segment)
+                              (persp-layout-segment error0)
                               (window-number-segment error0)
                               (buffer-info-segment success0)
                               (minor-mode-segment warning0)
