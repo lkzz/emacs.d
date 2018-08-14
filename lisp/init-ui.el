@@ -69,37 +69,37 @@
  ;; default theme
  ((eq color-theme 'default)
   (use-package zenburn-theme
-	:ensure t
-	:config
-	(load-theme 'zenburn t)))
+    :ensure t
+    :config
+    (load-theme 'zenburn t)))
  ;; dark theme
  ((eq color-theme 'dark)
   (use-package doom-themes
-	:config
-	(doom-themes-visual-bell-config)
-	(doom-themes-neotree-config)
-	(doom-themes-org-config)
-	(load-theme 'doom-one t)))
+    :config
+    (doom-themes-visual-bell-config)
+    (doom-themes-neotree-config)
+    (doom-themes-org-config)
+    (load-theme 'doom-one t)))
  ((eq color-theme 'light)
   (use-package doom-themes
-	:config
-	(doom-themes-visual-bell-config)
-	(doom-themes-neotree-config)
-	(doom-themes-org-config)
-	(load-theme 'doom-solarized-light t)))
+    :config
+    (doom-themes-visual-bell-config)
+    (doom-themes-neotree-config)
+    (doom-themes-org-config)
+    (load-theme 'doom-solarized-light t)))
  ((eq color-theme 'solarized)
   (use-package color-theme-solarized
-	:ensure t
-	:config
-	(set-frame-parameter nil 'background-mode 'dark)
-	(set-terminal-parameter nil 'background-mode 'dark)
-	(setq solarized-broken-srgb t)
-	(load-theme 'solarized t)))
+    :ensure t
+    :config
+    (set-frame-parameter nil 'background-mode 'dark)
+    (set-terminal-parameter nil 'background-mode 'dark)
+    (setq solarized-broken-srgb t)
+    (load-theme 'solarized t)))
  ((eq color-theme 'gruvbox)
   (use-package gruvbox-theme
-	:ensure t
-	:config
-	(load-theme 'gruvbox-dark-hard t))))
+    :ensure t
+    :config
+    (load-theme 'gruvbox-dark-hard t))))
 
 ;; 字体设置
 (use-package cnfonts
@@ -131,7 +131,7 @@
   (setq cnfonts-profiles
         '("program1" "program2" "program3" "org-mode" "read-book"))
   (setq cnfonts--profiles-steps '(("program1" . 4)
-								  ("program2" . 5)
+                                  ("program2" . 5)
                                   ("program3" . 3)
                                   ("org-mode" . 6)
                                   ("read-book" . 8))))
