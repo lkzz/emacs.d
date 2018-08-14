@@ -33,7 +33,7 @@
     ;; (setq-default shell-pop-shell-type '("eshell" "*eshell-pop*" (lambda nil (eshell))))
     (setq-default shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
     ;; set the shell popup height
-    (setq-default shell-pop-window-height 30)
+    (setq-default shell-pop-window-height 50)
     ;; set the shell popup to span the entire frame width(still has bug)
     ;; issue: https://github.com/syl20bnr/spacemacs/issues/7446
     (setq-default shell-pop-full-span nil)
@@ -165,21 +165,65 @@
                              (".*" "echo 'Could not unpack the file:'")))))
         (eshell-command-result (concat command " " file))))
 
+    (defun +eshell/quit-or-delete-char (arg)
+      (interactive "p")
+      (if (and (eolp) (looking-back eshell-prompt-regexp nil))
+          (eshell-life-is-too-much)
+        (delete-char arg)))
+
+    (defun my/ivy-eshell-history ()
+      (interactive)
+      (require 'em-hist)
+      (let* ((start-pos (save-excursion (eshell-bol) (point)))
+             (end-pos (point))
+             (input (buffer-substring-no-properties start-pos end-pos))
+             (command (ivy-read "Command: "
+                                (delete-dups
+                                 (when (> (ring-size eshell-history-ring) 0)
+                                   (ring-elements eshell-history-ring)))
+                                :initial-input input)))
+        (setf (buffer-substring start-pos end-pos) command)
+        (end-of-line)))
+
     (defun kevin/eshell-keymap ()
       (evil-define-key 'insert eshell-mode-map
         (kbd "C-p") 'eshell-previous-matching-input-from-input
         (kbd "C-n") 'eshell-next-matching-input-from-input
         (kbd "C-u") 'eshell-kill-input
-        (kbd "C-a") 'eshell-bol))
+        (kbd "C-a") 'eshell-bol
+        (kbd "C-d") #'+eshell/quit-or-delete-char
+        (kbd "C-r") #'my/ivy-eshell-history
+        (kbd "<tab>") (lambda () (interactive) (pcomplete-std-complete))))
     (add-hook 'eshell-first-time-mode-hook #'kevin/eshell-keymap)
 
-    (defun eshell-other-frame ()
-      "Open eshell in another frame."
-      (interactive)
-      (with-selected-frame (make-frame)
-        (eshell)))
+    (defun moon-validate-command ()
+      "Validate eshell command."
+      (save-excursion
+        (beginning-of-line)
+        (re-search-forward (format "%s\\([^ ]*\\)" eshell-prompt-regexp)
+                           (line-end-position)
+                           t)
+        (let ((beg (match-beginning 1))
+              (end (match-end 1))
+              (command (match-string 1)))
+          (put-text-property beg end
+                             'face `(:foreground ,(if (executable-find command)
+                                                      "#98C379"
+                                                    "red"))))))
+
+    (add-hook 'eshell-mode-hook (lambda ()
+                                  "Add `moon-validate-command' to `post-command-hook'."
+                                  (add-hook 'post-command-hook #'moon-validate-command t t)))
 
     ))
+
+(use-package esh-autosuggest
+  :after eshell
+  :hook (eshell-mode . esh-autosuggest-mode)
+  ;; If you have use-package-hook-name-suffix set to nil, uncomment and use the
+  ;; line below instead:
+  ;; :hook (eshell-mode-hook . esh-autosuggest-mode)
+  :ensure t)
 
 (provide 'init-eshell)
 ;;; init-eshell.el ends here
