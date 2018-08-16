@@ -63,6 +63,7 @@
            "pv" 'projectile-vc))
   :config (progn
             (setq projectile-completion-system 'ivy)
+            (setq projectile-enable-caching t)
             (projectile-global-mode)))
 
 (provide 'init-projectile)
