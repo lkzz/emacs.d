@@ -11,6 +11,12 @@
   :defer t
   :ensure nil
   :defines gud-pdb-command-name pdb-path
+  :init
+  (add-hook 'python-mode-hook (lambda ()
+                                (setq tab-width 4)
+                                (set-variable 'python-indent-offset 4)
+                                (set-variable 'python-indent-guess-indent-offset nil)
+                                ))
   :config
   ;; Disable readline based native completion
   (setq python-shell-completion-native-enable nil)
@@ -30,23 +36,31 @@
      (list (gud-query-cmdline
             pdb-path
             (file-name-nondirectory buffer-file-name)))))
+  )
 
-  ;; Autopep8
-  (use-package py-autopep8
-    :defer t
-    :init (add-hook 'python-mode-hook #'py-autopep8-enable-on-save))
 
-  ;; Anaconda mode
-  (use-package anaconda-mode
-    :defer t
-    :diminish anaconda-mode
-    :init (add-hook 'python-mode-hook #'anaconda-mode)
-    :config
-    (with-eval-after-load 'company
-      (use-package company-anaconda
-        :defer t
-        :defines company-backends
-        :init (cl-pushnew '(company-backend-with-yas 'company-anaconda) company-backends)))))
+;; Anaconda mode
+(use-package anaconda-mode
+  :ensure t
+  :after python
+  :diminish anaconda-mode
+  :hook (python-mode . anaconda-mode))
+
+(use-package company-anaconda
+  :ensure t
+  :after (company anaconda-mode)
+  :init
+  (add-hook 'python-mode-hook (lambda ()
+                                (make-local-variable 'company-backends)
+                                (setq company-backends (list 'company-anaconda 'company-dabbrev 'company-yasnippet))))
+  )
+
+;; Autopep8
+(use-package py-autopep8
+  :ensure t
+  :after python
+  :init (add-hook 'python-mode-hook #'py-autopep8-enable-on-save))
+
 
 (provide 'init-python)
 ;;; init-python.el ends here
