@@ -62,7 +62,7 @@
            "pT" 'projectile-test-project
            "pv" 'projectile-vc))
   :config (progn
-            (setq projectile-completion-system 'ivy)
+            (setq projectile-completion-system 'helm)
             (setq projectile-enable-caching t)
             (projectile-global-mode)))
 
