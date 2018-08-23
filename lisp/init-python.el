@@ -11,6 +11,8 @@
   :defer t
   :ensure nil
   :defines gud-pdb-command-name pdb-path
+  :init
+  (setq-default python-indent-offset 4)
   :config
   ;; Disable readline based native completion
   (setq python-shell-completion-native-enable nil)
@@ -45,8 +47,10 @@
     (with-eval-after-load 'company
       (use-package company-anaconda
         :defer t
-        :defines company-backends
-        :init (cl-pushnew '(company-backend-with-yas 'company-anaconda) company-backends)))))
+        ;; :defines company-backends
+        ;; :init (cl-pushnew '(company-backend-with-yas 'company-anaconda) company-backends)
+
+        ))))
 
 (provide 'init-python)
 ;;; init-python.el ends here
