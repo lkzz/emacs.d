@@ -88,24 +88,25 @@
           ("FIXME" . ,(face-foreground 'error))
           ("NOTE"  . ,(face-foreground 'success)))))
 
-;; ;; Show column indicator.
-;; (use-package fill-column-indicator
-;;   :ensure t
-;;   :diminish auto-fill-mode
-;;   :config
-;;   (progn
-;;     (kevin/set-leader-keys "tF" 'fci-mode)
-;;     ;; NOTE fix display compatibility issue with company-mode
-;;     (defun on-off-fci-before-company(command)
-;;       (when (string= "show" command)
-;;         (turn-off-fci-mode))
-;;       (when (string= "hide" command)
-;;         (turn-on-fci-mode)))
-;;     (with-eval-after-load 'company-mode
-;;       (advice-add 'company-call-frontends :before #'on-off-fci-before-company))
-;;     (setq fci-rule-column 110)
-;;     (setq fci-rule-width 1)
-;;     (turn-on-auto-fill)))
+;; Show column indicator.
+(use-package fill-column-indicator
+  :disabled
+  :ensure t
+  :diminish auto-fill-mode
+  :config
+  (progn
+    (kevin/set-leader-keys "tF" 'fci-mode)
+    ;; NOTE fix display compatibility issue with company-mode
+    (defun on-off-fci-before-company(command)
+      (when (string= "show" command)
+        (turn-off-fci-mode))
+      (when (string= "hide" command)
+        (turn-on-fci-mode)))
+    (with-eval-after-load 'company-mode
+      (advice-add 'company-call-frontends :before #'on-off-fci-before-company))
+    (setq fci-rule-column 110)
+    (setq fci-rule-width 1)
+    (turn-on-auto-fill)))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here
