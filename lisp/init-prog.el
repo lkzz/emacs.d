@@ -65,6 +65,11 @@
     (add-hook 'protobuf-mode-hook
               (lambda () (c-add-style "my-style" kevin/protobuf-style t)))))
 
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :mode (("\\.yml\\'" . yaml-mode)))
+
 (use-package quickrun
   :defer t
   :ensure t
