@@ -64,6 +64,7 @@
 (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
+(require 'init-email)
 
 ;; programming releated packages
 (require 'init-prog)

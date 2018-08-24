@@ -62,14 +62,16 @@
                                  gud-mode))
     (setq company-backends kevin/company-global-backends)))
 
-;; ;; Show you likelier candidates at the top of the list
-;; (use-package company-statistics
-;;   :after company
-;;   :hook (company-mode . company-statistics-mode)
-;;   :config
-;;   ;; save cache file to `user-cache-directory'
-;;   (setq company-statistics-file (concat kevin/cache-directory
-;;                                         "company-statistics-cache.el")))
+;; Show you likelier candidates at the top of the list
+(use-package company-statistics
+  :disabled
+  :ensure t
+  :after company
+  :hook (company-mode . company-statistics-mode)
+  :config
+  ;; save cache file to `user-cache-directory'
+  (setq company-statistics-file (concat kevin/cache-directory
+                                        "company-statistics-cache.el")))
 
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box
