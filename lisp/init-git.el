@@ -66,17 +66,16 @@
   (progn
     (kevin/declare-prefix "g" "magit")
     (kevin/set-leader-keys
-      "ga" 'kevin/git-add-current-file
-      "gc" 'kevin/git-checkout-current-file
-      "gd" 'magit-diff-buffer-file
-      "gl" 'magit-log-buffer-file
-      "gi" 'magit-init
-      "gL" 'magit-list-repositories
-      "gm" 'magit-dispatch-popup
-      "gs" 'magit-status
-      "gS" 'magit-stage-file
-      "gU" 'magit-unstage-file
-      "gv" 'vc-annotate))
+     "ga" 'kevin/git-add-current-file
+     "gc" 'kevin/git-checkout-current-file
+     "gd" 'magit-diff-buffer-file
+     "gl" 'magit-log-buffer-file
+     "gi" 'magit-init
+     "gL" 'magit-list-repositories
+     "gs" 'magit-status
+     "gS" 'magit-stage-file
+     "gU" 'magit-unstage-file
+     "gv" 'vc-annotate))
   :config
   (progn
     ;; display buffer fullframe
@@ -114,7 +113,7 @@
   ;; Use magit-show-commit for showing status/diff commands
   (setq git-messenger:use-magit-popup t)
   (setq git-messenger:show-detail t)
-  (kevin/set-leader-keys "gM"  'git-messenger:popup-message))
+  (kevin/set-leader-keys "gm"  'git-messenger:popup-message))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
@@ -219,6 +218,7 @@
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
+  :ensure t
   :commands (diff-hl-mode diff-hl-dired-mode diff-hl-next-hunk diff-hl-previous-hunk
                           hydra-diff-hl/body)
   :init
