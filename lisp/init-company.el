@@ -41,26 +41,25 @@
                 (define-key evil-insert-state-map (kbd "C-n") nil)
                 (define-key evil-insert-state-map (kbd "C-p") nil))))
   :config
-  (progn
-    ;; aligns annotation to the right hand side
-    (setq company-tooltip-align-annotations t)
-    (setq company-idle-delay 0.1)
-    (setq company-minimum-prefix-length 2)
-    (setq company-tooltip-limit 10)
-    (setq company-require-match nil)
-    (setq company-show-numbers t)
-    ;; make previous/next selection in the popup cycles
-    (setq company-selection-wrap-around t)
-    (setq company-dabbrev-ignore-case t)
-    (setq company-dabbrev-downcase nil)
-    (setq company-transformers '(company-sort-by-occurrence))
-    (setq company-global-modes '(not
-                                 comint-mode
-                                 erc-mode
-                                 message-mode
-                                 help-mode
-                                 gud-mode))
-    (setq company-backends kevin/company-global-backends)))
+  ;; aligns annotation to the right hand side
+  (setq company-tooltip-align-annotations t)
+  (setq company-idle-delay 0.1)
+  (setq company-minimum-prefix-length 2)
+  (setq company-tooltip-limit 10)
+  (setq company-require-match nil)
+  (setq company-show-numbers t)
+  ;; make previous/next selection in the popup cycles
+  (setq company-selection-wrap-around t)
+  (setq company-dabbrev-ignore-case t)
+  (setq company-dabbrev-downcase nil)
+  (setq company-transformers '(company-sort-by-occurrence))
+  (setq company-global-modes '(not
+                               comint-mode
+                               erc-mode
+                               message-mode
+                               help-mode
+                               gud-mode))
+  (setq company-backends kevin/company-global-backends))
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
@@ -69,7 +68,6 @@
   :after company
   :hook (company-mode . company-statistics-mode)
   :config
-  ;; save cache file to `user-cache-directory'
   (setq company-statistics-file (concat kevin/cache-directory
                                         "company-statistics-cache.el")))
 
@@ -92,8 +90,7 @@
 
 (use-package company-lsp
   :ensure t
-  :after company
-  :defines company-backends
+  :after (company lsp-mode)
   :init (cl-pushnew 'company-lsp company-backends))
 
 (provide 'init-company)
