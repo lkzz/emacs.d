@@ -13,8 +13,14 @@
 (when sys/macp
   ;; 打开抗锯齿
   (setq mac-allow-anti-aliasing t)
-  ;; (setq ns-use-native-fullscreen nil)
-  )
+  (setq ns-use-native-fullscreen nil)
+  ;; natural title bar
+  (add-to-list 'default-frame-alist '(ns-appearance . dark))
+  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
+  (add-hook 'after-load-theme-hook
+            (lambda ()
+              (setcdr (assq 'ns-appearance default-frame-alist)
+                      (frame-parameter nil 'background-mode)))))
 
 ;; 关闭srgb，修复modeline上的颜色显示问题
 (setq ns-use-srgb-colorspace nil)
@@ -52,10 +58,6 @@
 (setq frame-title-format
       '(:eval (if (buffer-file-name)
                   (abbreviate-file-name (buffer-file-name)) "%b")))
-
-;; natural title bar
-(add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-(add-to-list 'default-frame-alist '(ns-appearance . dark))
 
 ;; 打开文件时不再创建新的frame
 (when (boundp 'ns-pop-up-frames)
