@@ -16,160 +16,146 @@
 ;; go get -u github.com/dougm/goflymake
 ;; go get github.com/godoctor/godoctor
 
+(defun setup-go-mode-compile ()
+  "Customize compile command to run go build"
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v")))
+
 (use-package go-mode
   :defer t
+  :bind (:map go-mode-map
+              ([remap xref-find-definitions] . godef-jump)
+              ("C-c R" . go-remove-unused-imports)
+              ("<f1>" . godoc-at-point))
   :config
-  (progn
-    (setq gofmt-command "goimports") ; use goimports instead of go-fmt
-    (setq godoc-command "godoc")     ; use godoc instead of go doc
-    (defun setup-go-mode-compile ()
-      "Customize compile command to run go build"
-      (if (not (string-match "go" compile-command))
-          (set (make-local-variable 'compile-command)
-               "go build -v")))
+  (setq gofmt-command "goimports") ; use goimports instead of go-fmt
+  (add-hook 'go-mode-hook 'setup-go-mode-compile)
+  (add-hook 'before-save-hook #'gofmt-before-save)
+  (make-local-variable 'after-save-hook)
+  (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
+  (kevin/declare-prefix-for-mode 'go-mode "mi" "imports")
+  (kevin/set-leader-keys-for-major-mode 'go-mode
+                                        "cj" 'godef-jump
+                                        "hh" 'godoc-at-point
+                                        "ig" 'go-goto-imports
+                                        "ia" 'go-import-add
+                                        "ir" 'go-remove-unused-imports
+                                        "eb" 'go-play-buffer
+                                        "er" 'go-play-region
+                                        "ed" 'go-download-play
+                                        "ga" 'ff-find-other-file
+                                        "gc" 'go-coverage))
 
-    (add-hook 'go-mode-hook 'setup-go-mode-compile)
-    (add-hook 'before-save-hook #'gofmt-before-save)
-    (make-local-variable 'after-save-hook)
-    (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
-
-    (kevin/declare-prefix-for-mode 'go-mode "me" "playground")
-    (kevin/declare-prefix-for-mode 'go-mode "mg" "goto")
-    (kevin/declare-prefix-for-mode 'go-mode "mh" "help")
-    (kevin/declare-prefix-for-mode 'go-mode "mi" "imports")
-    (kevin/set-leader-keys-for-major-mode 'go-mode
-                                          "cj" 'godef-jump
-                                          "hh" 'godoc-at-point
-                                          "ig" 'go-goto-imports
-                                          "ia" 'go-import-add
-                                          "ir" 'go-remove-unused-imports
-                                          "eb" 'go-play-buffer
-                                          "er" 'go-play-region
-                                          "ed" 'go-download-play
-                                          "ga" 'ff-find-other-file
-                                          "gc" 'go-coverage)))
+;; Go add-ons for Projectile
+;; Run: M-x `go-projectile-install-tools'
+(use-package go-projectile
+  :ensure t
+  :after (go-mode projectile)
+  :commands (go-projectile-mode go-projectile-switch-project)
+  :hook ((go-mode . go-projectile-mode)
+         (projectile-after-switch-project . go-projectile-switch-project)))
 
 (use-package golint
+  :ensure t
   :after go-mode)
 
 (use-package govet
+  :ensure t
   :after go-mode)
 
 (use-package go-eldoc
+  :ensure t
   :after (go-mode eldoc)
   :commands (godoc-at-point)
   :hook (go-mode . go-eldoc-setup))
 
 (use-package go-errcheck
+  :ensure t
   :after go-mode)
 
 (use-package go-guru
+  :ensure t
   :after go-mode
   :commands (go-guru-describe go-guru-freevars go-guru-implements go-guru-peers
                               go-guru-referrers go-guru-definition go-guru-pointsto
                               go-guru-callstack go-guru-whicherrs go-guru-callers go-guru-callees
                               go-guru-set-scope)
   :init
-  (progn
-    (kevin/declare-prefix-for-mode 'go-mode "mf" "guru")
-    (kevin/set-leader-keys-for-major-mode 'go-mode
-                                          "fd" 'go-guru-describe
-                                          "ff" 'go-guru-freevars
-                                          "fi" 'go-guru-implements
-                                          "fc" 'go-guru-peers
-                                          "fr" 'go-guru-referrers
-                                          "fj" 'go-guru-definition
-                                          "fp" 'go-guru-pointsto
-                                          "fs" 'go-guru-callstack
-                                          "fe" 'go-guru-whicherrs
-                                          "f<" 'go-guru-callers
-                                          "f>" 'go-guru-callees
-                                          "fo" 'go-guru-set-scope)))
+  (kevin/declare-prefix-for-mode 'go-mode "mf" "guru")
+  (kevin/set-leader-keys-for-major-mode 'go-mode
+                                        "fd" 'go-guru-describe
+                                        "ff" 'go-guru-freevars
+                                        "fi" 'go-guru-implements
+                                        "fc" 'go-guru-peers
+                                        "fr" 'go-guru-referrers
+                                        "fj" 'go-guru-definition
+                                        "fp" 'go-guru-pointsto
+                                        "fs" 'go-guru-callstack
+                                        "fe" 'go-guru-whicherrs
+                                        "f<" 'go-guru-callers
+                                        "f>" 'go-guru-callees
+                                        "fo" 'go-guru-set-scope))
+
+(defun kevin/go-test-current-test-verbose()
+  "Add -v flag to go test command."
+  (interactive)
+  (setq go-test-verbose t)
+  (funcall 'go-test-current-test)
+  (setq go-test-verbose nil))
 
 (use-package gotest
   :ensure t
   :after go-mode
-  :init
-  (progn
-    (defun kevin/go-test-current-test-verbose()
-      "Add -v flag to go test command."
-      (interactive)
-      (setq go-test-verbose t)
-      (funcall 'go-test-current-test)
-      (setq go-test-verbose nil))
-    (kevin/declare-prefix-for-mode 'go-mode "mt" "test")
-    (kevin/set-leader-keys-for-major-mode 'go-mode
-                                          "tx" 'go-run
-                                          "tb" 'go-test-current-benchmark
-                                          "tt" 'go-test-current-test
-                                          "tv" 'kevin/go-test-current-test-verbose
-                                          "tm" 'go-test-current-file
-                                          "tp" 'go-test-current-project)))
+  :config
+  (kevin/declare-prefix-for-mode 'go-mode "mt" "test")
+  (kevin/set-leader-keys-for-major-mode 'go-mode
+                                        "tx" 'go-run
+                                        "tb" 'go-test-current-benchmark
+                                        "tt" 'go-test-current-test
+                                        "tv" 'kevin/go-test-current-test-verbose
+                                        "tm" 'go-test-current-file
+                                        "tp" 'go-test-current-project))
 
 (use-package godoctor
+  :ensure t
   :after go-mode
-  :init
-  (progn
-    (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
-    (kevin/set-leader-keys-for-major-mode 'go-mode
-                                          "rn" 'godoctor-rename
-                                          "re" 'godoctor-extract
-                                          "rt" 'godoctor-toggle
-                                          "rd" 'godoctor-godoc)))
+  :config
+  (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
+  (kevin/set-leader-keys-for-major-mode 'go-mode
+                                        "rn" 'godoctor-rename
+                                        "re" 'godoctor-extract
+                                        "rt" 'godoctor-toggle
+                                        "rd" 'godoctor-godoc))
 
 (use-package go-tag
+  :ensure t
   :after go-mode
-  :init
+  :config
   (kevin/set-leader-keys-for-major-mode 'go-mode
                                         "rf" 'go-tag-add
                                         "rF" 'go-tag-remove))
+
+(defun kevin/setup-go-company-backends ()
+  (make-local-variable 'company-backends)
+  (setq company-backends (list 'company-go 'company-dabbrev 'company-yasnippet))
+  (with-eval-after-load 'company-lsp
+    (add-to-list 'company-backends 'company-lsp)))
 
 (use-package company-go
   :ensure t
   :after (company go-mode)
   :config
-  (progn
-    (add-hook 'go-mode-hook (lambda ()
-                              (make-local-variable 'company-backends)
-                              (setq company-backends (list 'company-go 'company-dabbrev 'company-yasnippet))))))
+  (add-hook 'go-mode-hook #'kevin/setup-go-company-backends))
 
-
-;; (use-package flycheck-gometalinter
-;;   :ensure t
-;;   :after (go-mode flycheck-mode)
-;;   :init
-;;   (progn
-;;     (defun kevin/go-enable-gometalinter ()
-;;       "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
-;;       (setq flycheck-disabled-checkers '(go-gofmt
-;;                                          go-golint
-;;                                          go-vet
-;;                                          go-build
-;;                                          go-test
-;;                                          go-errcheck))
-;;       (flycheck-gometalinter-setup)))
-;;   :config
-;;   (progn
-;;     (setq flycheck-gometalinter-fast t)
-;;     ;; only show errors
-;;     ;; (setq flycheck-gometalinter-errors-only t)
-;;     ;; skips 'vendor' directories
-;;     (setq flycheck-gometalinter-vendor t)
-;;     (setq flycheck-gometalinter-deadline "15s")
-;;     (setq flycheck-gometalinter-concurrency 1)
-;;     (setq flycheck-gometalinter-disable-all t)
-;;     (setq flycheck-gometalinter-enable-linters '("golint" "errcheck" "vet" "deadcode" "staticcheck"))
-;;     (defun kevin/configure-metalinter ()
-;;       "Enable `flycheck-gometalinter' and disable overlapping `flycheck' linters."
-;;       (setq flycheck-disabled-checkers '(go-gofmt
-;;                                          go-golint
-;;                                          go-vet
-;;                                          go-build
-;;                                          go-test
-;;                                          go-errcheck))
-;;       (flycheck-gometalinter-setup))
-;;     (add-hook 'go-mode-hook 'kevin/go-enable-gometalinter t)))
-
+;; Go support for lsp-mode using Sourcegraph's Go Language Server
+;; Install: go get -u github.com/sourcegraph/go-langserver
+(use-package lsp-go
+  :ensure t
+  :after (go-mode lsp-mode)
+  :commands lsp-go-enable
+  :hook (go-mode . lsp-go-enable)
+  :config (setq lsp-go-gocode-completion-enabled t))
 
 (provide 'init-golang)
 ;;; init-golang ends here

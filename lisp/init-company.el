@@ -76,10 +76,11 @@
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box
   :after company
+  :disabled
   :diminish company-box-mode
   :hook (company-mode . company-box-mode)
   :init
-  (setq company-box-enable-icon t)
+  (setq company-box-enable-icon nil)
   (setq company-box-doc-delay 1.0)
   (setq company-box-backends-colors nil)
   (setq company-box-icons-elisp (list (all-the-icons-material "functions" :face 'all-the-icons-purple)
@@ -87,8 +88,13 @@
                                       (all-the-icons-material "stars" :face 'all-the-icons-yellow)
                                       (all-the-icons-material "format_paint" :face 'all-the-icons-pink)))
   (setq company-box-icons-unknown (all-the-icons-material "local_offer" :face 'all-the-icons-silver))
-  (setq company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green))
-  )
+  (setq company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green)))
+
+(use-package company-lsp
+  :ensure t
+  :after company
+  :defines company-backends
+  :init (cl-pushnew 'company-lsp company-backends))
 
 (provide 'init-company)
 ;;; init-company.el ends here
