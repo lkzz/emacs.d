@@ -8,7 +8,6 @@
 
 (use-package helm
   :ensure t
-  :diminish helm-mode
   :bind (("M-x" . helm-M-x)
          ("C-x C-b" . helm-buffers-list)
          ("C-x b" . helm-mini)
@@ -20,6 +19,7 @@
          ("M-y" . helm-show-kill-ring))
   :hook (after-init . helm-mode)
   :config
+  (with-eval-after-load 'helm-mode (diminish 'helm-mode))
   (setq helm-candidate-number-limit 100
         helm-idle-delay 0.01
         helm-input-idle-delay 0.01
@@ -42,19 +42,19 @@
   :after helm
   :commands helm-swoop
   :bind ("C-s" . helm-swoop)
-  :config
+  :init
   (kevin/declare-prefix "s" "search")
   (kevin/set-leader-keys "ss" 'helm-swoop))
 
 (use-package helm-rg
   :ensure t
   :after helm
-  :config (kevin/set-leader-keys "/" 'helm-rg))
+  :init (kevin/set-leader-keys "/" 'helm-rg))
 
 (use-package helm-projectile
   :ensure t
   :after (helm projectile)
-  :config
+  :init
   (kevin/set-leader-keys "pp" 'helm-projectile-switch-project
                          "pf" 'helm-projectile-find-file
                          "pF" 'helm-projectile-find-file-dwim
