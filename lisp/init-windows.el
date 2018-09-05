@@ -9,6 +9,7 @@
 ;; Interactively highlight the current-window (by dimming the others)
 (use-package dimmer
   :defer t
+  :ensure t
   :init (add-hook 'after-init-hook #'dimmer-mode)
   :config
   (setq dimmer-fraction 0.2))
@@ -34,8 +35,7 @@
   :defer t
   :ensure t
   :init
-  (progn
-    (kevin/set-leader-keys "wo" #'ace-window)))
+  (kevin/set-leader-keys "wo" #'ace-window))
 
 ;;;###autoload
 (defun split-window-below-and-focus ()
@@ -66,18 +66,17 @@
          ;; don't add numbers to the modeline
          (window-numbering-mode . window-numbering-clear-mode-line))
   :init
-  (progn
-    (kevin/declare-prefix "w" "window")
-    ;; window related keybindings
-    (kevin/set-leader-keys
-      "1"  'select-window-1
-      "2"  'select-window-2
-      "3"  'select-window-3
-      "4"  'select-window-4
-      "wd" 'delete-window
-      "w/" #'split-window-right-and-focus
-      "w-" #'split-window-below-and-focus
-      "wD" 'delete-other-windows)))
+  (kevin/declare-prefix "w" "window")
+  ;; window related keybindings
+  (kevin/set-leader-keys
+   "1"  'select-window-1
+   "2"  'select-window-2
+   "3"  'select-window-3
+   "4"  'select-window-4
+   "wd" 'delete-window
+   "w/" #'split-window-right-and-focus
+   "w-" #'split-window-below-and-focus
+   "wD" 'delete-other-windows))
 
 ;; Zoom window like tmux
 (use-package zoom-window
@@ -90,78 +89,11 @@
   :defer t
   :ensure t
   :init
-  (progn
-    (setq cwm-use-vertical-padding t)
-    (setq cwm-frame-internal-border 15)
-    (setq cwm-incremental-padding t)
-    (setq cwm-left-fringe-ratio 0)
-    (kevin/set-leader-keys "wc" #'centered-window-mode)))
-
-;; Popup Window Manager
-(use-package popwin
-  :defer t
-  :ensure t
-  :commands popwin-mode
-  :init (add-hook 'after-init-hook #'popwin-mode)
-  :config
-  (bind-key "C-z" popwin:keymap)
-  ;; don't use default value but manage it ourselves
-  (setq popwin:special-display-config
-        '(;; Emacs
-          ("*Help*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*compilation*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
-          ("*Compile-Log*" :dedicated t :position bottom :stick t :noselect t :height 0.4)
-          ("*Warnings*" :dedicated t :position bottom :stick t :noselect t)
-          ("*Completions*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*Shell Command Output*" :dedicated t :position bottom :stick t :noselect nil)
-          ("\*Async Shell Command\*.+" :regexp t :position bottom :stick t :noselect nil)
-          ("^*Man.+*$" :regexp t :position bottom :stick nil :noselect nil :height 0.4)
-          ("^*WoMan.+*$" :regexp t :position bottom)
-          ("^*Backtrace.+*$" :regexp t :dedicated t :position bottom :stick t :noselect nil)
-          ;; Kill Ring
-          ("*Kill Ring*" :dedicated t :position bottom)
-          ;; Flycheck
-          ("\*flycheck errors\*.+*$" :regexp t :position bottom :stick t :noselect nil)
-          ;; Youdao dict
-          ("*Youdao Dictionary*" :dedicated t :position bottom)
-          ;; Paradox
-          ("*Paradox Report*" :dedicated t :position bottom :noselect nil)
-          ;; List
-          ("*Colors*" :dedicated t :position bottom)
-          ("*Process List*" :dedicated t :position bottom)
-          ("*Process-Environment*" :dedicated t :position bottom)
-          ;; undo-tree
-          (" *undo-tree*" :dedicated t :position right :stick t :noselect nil :width 60)
-          ;; Search
-          ("*grep*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*ag search*" :dedicated t :position bottom :stick t :noselect nil :height 0.4)
-          ("*rg*" :dedicated t :position bottom :stick t :noselect nil :height 0.4)
-          ("*pt-search*" :dedicated t :position bottom :stick t :noselect nil :height 0.4)
-          ("*Occur*" :dedicated t :position bottom :stick t :noselect nil)
-          ("\*ivy-occur.+*$" :regexp t :position bottom :stick t :noselect nil)
-          ("*xref*" :dedicated t :position bottom :stick nil :noselect nil)
-          ;; VC
-          ("*vc-diff*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*vc-change-log*" :dedicated t :position bottom :stick t :noselect nil)
-          ;; Magit
-          (magit-status-mode :dedicated t :position bottom :stick t :height 0.5)
-          (magit-diff-mode :dedicated t :position bottom :stick t :noselect t :height 0.5)
-          ;; Script
-          ("*shell*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*Python*" :dedicated t :position bottom :stick t :noselect t)
-          ("*Ruby*" :dedicated t :position bottom :stick t :noselect t)
-          ("*quickrun*" :dedicated t :position bottom :stick t :noselect t)
-          ;; Go
-          ("^*godoc.+*$" :regexp t :position bottom :stick nil :noselect nil)
-          ("*golint*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*govet*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*go-guru-output*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*Gofmt Errors*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*Go Test*" :dedicated t :position bottom :stick t :noselect nil)
-          ;; Test
-          ("*ert*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*Ibuffer*" :dedicated t :position bottom :stick t :noselect nil)
-          ("*nosetests*" :dedicated t :position bottom :stick t :noselect nil))))
+  (setq cwm-use-vertical-padding t)
+  (setq cwm-frame-internal-border 15)
+  (setq cwm-incremental-padding t)
+  (setq cwm-left-fringe-ratio 0)
+  (kevin/set-leader-keys "wc" #'centered-window-mode))
 
 ;; ;; Easy window config switching
 ;; (use-package eyebrowse
@@ -174,8 +106,7 @@
   :defer t
   :ensure t
   :init
-  (progn
-    (kevin/set-leader-keys "wr" #'resize-window)))
+  (kevin/set-leader-keys "wr" #'resize-window))
 
 
 (use-package golden-ratio
@@ -276,20 +207,17 @@
 (use-package centered-cursor-mode
   :defer t
   :ensure t
-  :commands (centered-cursor-mode
-             global-centered-cursor-mode)
+  :commands (centered-cursor-mode global-centered-cursor-mode)
   :diminish centered-cursor-mode "⊝"
   :init
-  (progn
-    (kevin/set-leader-keys "t-" 'centered-cursor-mode))
-  (progn
-    (setq ccm-recenter-at-end-of-file t
-          ccm-ignored-commands '(mouse-drag-region
-                                 mouse-set-point
-                                 widget-button-click
-                                 scroll-bar-toolkit-scroll
-                                 evil-mouse-drag-region))
-    (global-centered-cursor-mode +1)))
+  (kevin/set-leader-keys "t-" 'centered-cursor-mode)
+  (setq ccm-recenter-at-end-of-file t
+        ccm-ignored-commands '(mouse-drag-region
+                               mouse-set-point
+                               widget-button-click
+                               scroll-bar-toolkit-scroll
+                               evil-mouse-drag-region))
+  (global-centered-cursor-mode +1))
 
 (provide 'init-windows)
 ;;; init-windows ends here
