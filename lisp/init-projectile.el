@@ -37,10 +37,6 @@
              projectile-switch-project
              projectile-switch-to-buffer
              projectile-vc)
-  :config
-  (setq projectile-completion-system 'helm)
-  (setq projectile-enable-caching t)
-  (projectile-global-mode)
   :init
   (setq projectile-sort-order 'recentf)
   (setq projectile-cache-file (concat kevin/cache-directory "projectile.cache"))
