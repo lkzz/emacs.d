@@ -1,4 +1,4 @@
-;;; init-projectile.el --- Initialize projectile. -*- lexical-binding: t -*-
+;;; init-projectile.el --- projectile config. -*- lexical-binding: t -*-
 ;;
 ;; Author: kevin <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d

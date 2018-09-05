@@ -45,10 +45,10 @@
               mouse-yank-at-point t
               set-mark-command-repeat-pop t
               tooltip-delay 1.5
-              truncate-lines nil
               truncate-partial-width-windows nil
-              split-height-threshold nil                       ; Disable vertical window splitting
-              split-width-threshold nil                        ; Disable horizontal window splitting
+              truncate-lines t             ; Do not display continuation lines
+              split-height-threshold nil   ; Disable vertical window splitting
+              split-width-threshold nil    ; Disable horizontal window splitting
               majar-mode 'text-mode)
 
 ;; 禁止显示警告提示
