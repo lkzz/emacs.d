@@ -89,12 +89,13 @@
   (setq ivy-rich--display-transformers-list
         '(ivy-switch-buffer
           (:columns
-           ((ivy-rich-candidate (:width 30 :face success))  ; return the candidate itself
-            (ivy-rich-switch-buffer-size (:width 10))  ; return the buffer size
-            ;; (ivy-rich-switch-buffer-indicators (:width 20 :face error :align right)); return the buffer indicators
-            (ivy-rich-switch-buffer-major-mode (:width 20 :face warning))          ; return the major mode info
+           ((ivy-rich-candidate (:width 30))  ; return the candidate itself
+            (ivy-rich-switch-buffer-size (:width 10 :face warning))  ; return the buffer size
+            (ivy-rich-switch-buffer-major-mode (:width 20 :face error))          ; return the major mode info
             (ivy-rich-switch-buffer-project (:width 15 :face success))             ; return project name using `projectile'
-            (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))  ; return file path relative to project root or `default-directory' if project is nil
+            (ivy-rich-switch-buffer-path (:width (lambda (x)
+                                                   (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3)))
+                                                 :face font-lock-comment-face)))
            :predicate (lambda (cand) (get-buffer cand)))
           counsel-M-x
           (:columns
