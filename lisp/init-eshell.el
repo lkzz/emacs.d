@@ -195,26 +195,6 @@
         (kbd "C-r") #'my/ivy-eshell-history
         (kbd "<tab>") (lambda () (interactive) (pcomplete-std-complete))))
     (add-hook 'eshell-first-time-mode-hook #'kevin/eshell-keymap)
-
-    (defun moon-validate-command ()
-      "Validate eshell command."
-      (save-excursion
-        (beginning-of-line)
-        (re-search-forward (format "%s\\([^ ]*\\)" eshell-prompt-regexp)
-                           (line-end-position)
-                           t)
-        (let ((beg (match-beginning 1))
-              (end (match-end 1))
-              (command (match-string 1)))
-          (put-text-property beg end
-                             'face `(:foreground ,(if (executable-find command)
-                                                      "#98C379"
-                                                    "red"))))))
-
-    (add-hook 'eshell-mode-hook (lambda ()
-                                  "Add `moon-validate-command' to `post-command-hook'."
-                                  (add-hook 'post-command-hook #'moon-validate-command t t)))
-
     ))
 
 (use-package esh-autosuggest
