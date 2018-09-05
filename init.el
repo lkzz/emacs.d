@@ -61,8 +61,8 @@
 
 ;; misc packages
 (require 'init-anzu)
-;; (require 'init-ivy)
-(require 'init-helm)
+(require 'init-ivy)
+;; (require 'init-helm)
 (require 'init-chinese)
 (require 'init-misc)
 ;; (require 'init-email)
