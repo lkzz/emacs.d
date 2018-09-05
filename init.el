@@ -64,7 +64,7 @@
 (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
-(require 'init-email)
+;; (require 'init-email)
 
 ;; programming releated packages
 (require 'init-prog)
@@ -92,6 +92,8 @@
 ;; (require 'init-restore)
 
 (require 'init-windows)
+(require 'init-windows-popup)
+
 (require 'init-keybinds)
 
 ;;; init.el ends here
