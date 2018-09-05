@@ -24,6 +24,7 @@
 
 (use-package go-mode
   :defer t
+  :ensure t
   :bind (:map go-mode-map
               ([remap xref-find-definitions] . godef-jump)
               ("C-c R" . go-remove-unused-imports)

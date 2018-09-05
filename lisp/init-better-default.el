@@ -71,6 +71,7 @@
 (setq create-lockfiles nil)
 ;; 当使用emacs时触发垃圾回收
 (add-hook 'focus-out-hook #'garbage-collect)
+
 ;; 自动刷新文件
 (use-package autorevert
   :ensure nil
@@ -78,22 +79,16 @@
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 
-
-;; 显示文件大小信息
-(when (fboundp size-indication-mode)
-  (size-indication-mode t))
-
 ;; bookmark 设置
-(eval-after-load 'bookmark
-  '(progn
-     (setq bookmark-default-file
-           (concat kevin/cache-directory "bookmarks"))))
+(use-package bookmark
+  :ensure nil
+  :init
+  (setq bookmark-default-file (concat kevin/cache-directory "bookmarks")))
 
-(eval-after-load 'url
-  '(progn
-     (setq url-configuration-directory
-           (file-name-as-directory
-            (concat kevin/cache-directory "url")))))
+(use-package url
+  :ensure nil
+  :init
+  (setq url-configuration-directory (concat kevin/cache-directory "url")))
 
 ;; Keep cursor at end of lines. Require line-move-visual is nil.
 (setq track-eol t)
