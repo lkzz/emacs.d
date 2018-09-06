@@ -13,6 +13,7 @@
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
+  :ensure t
   :hook (after-init . evil-mode)
   :config
   (setq evil-default-state 'normal)
@@ -137,6 +138,16 @@
   (global-evil-mc-mode)
   :config
   (kevin/reset-evil-mc-key-map))
+
+
+(use-package evil-snipe
+  :ensure t
+  :after evil
+  :config
+  (evil-snipe-mode +1)
+  (evil-snipe-override-mode +1)
+  ;; fix problems with magit buffer
+  (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode))
 
 (provide 'init-evil)
 ;;; init-evil ends here
