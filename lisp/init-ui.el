@@ -13,7 +13,7 @@
 (when sys/macp
   ;; 打开抗锯齿
   (setq mac-allow-anti-aliasing t)
-  (setq ns-use-native-fullscreen nil)
+  ;; (setq ns-use-native-fullscreen nil)
   ;; natural title bar
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
