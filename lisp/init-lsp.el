@@ -9,6 +9,7 @@
 ;; Emacs client for the Language Server Protocol
 ;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode
+  :if enable-lsp
   :diminish lsp-mode
   :config
   (setq lsp-inhibit-message t)
@@ -30,6 +31,8 @@
   (lsp-ui-doc-mode -1))
 
 (use-package lsp-ui
+  :ensure t
+  :after lsp-mode
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references))
