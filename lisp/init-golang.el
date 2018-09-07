@@ -139,9 +139,8 @@
 
 (defun kevin/setup-go-company-backends ()
   (make-local-variable 'company-backends)
-  (setq company-backends (list 'company-go 'company-dabbrev 'company-yasnippet))
-  (with-eval-after-load 'company-lsp
-    (add-to-list 'company-backends 'company-lsp)))
+  (setq company-backends (list 'company-go 'company-dabbrev 'company-keywords 'company-yasnippet))
+  (with-eval-after-load 'company-lsp (add-to-list 'company-backends 'company-lsp)))
 
 (use-package company-go
   :ensure t

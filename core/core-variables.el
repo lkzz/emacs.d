@@ -63,6 +63,10 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
           (const :tag "Leuven light theme" light))
   :group 'kevin)
 
+(defcustom enable-lsp nil
+  "Enable lsp mode or not."
+  :type 'boolean)
+
 
 (defvar kevin/scratch-message (format ";; Happy Hacking, %s - Emacs ♥ You!\n" kevin/user-name))
 

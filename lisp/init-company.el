@@ -74,7 +74,6 @@
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box
   :after company
-  :disabled
   :diminish company-box-mode
   :hook (company-mode . company-box-mode)
   :init
