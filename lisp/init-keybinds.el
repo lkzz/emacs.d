@@ -28,6 +28,7 @@
                        "tw" 'toggle-word-wrap
                        "tm" 'toggle-frame-maximized
                        "tf" 'toggle-frame-fullscreen
+                       "tp" 'persp-mode
                        "tt" 'toggle-truncate-lines)
 
 ;; open applications with from emacs

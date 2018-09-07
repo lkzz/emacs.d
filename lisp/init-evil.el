@@ -133,7 +133,7 @@
                   ("C-p" . evil-mc-make-and-goto-prev-match)
                   )))
       (dolist (key-data keys)
-        (evil-define-key 'normal 'evil-mc-key-map (kbd (car key-data)) (cdr key-data))
+        ;; (evil-define-key 'normal 'evil-mc-key-map (kbd (car key-data)) (cdr key-data))
         (evil-define-key 'visual 'evil-mc-key-map (kbd (car key-data)) (cdr key-data)))))
   (global-evil-mc-mode)
   :config
@@ -143,6 +143,7 @@
 (use-package evil-snipe
   :ensure t
   :after evil
+  :diminish evil-snipe-local-mode
   :config
   (evil-snipe-mode +1)
   (evil-snipe-override-mode +1)
