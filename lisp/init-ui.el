@@ -66,22 +66,29 @@
 ;; 启动时窗口最大化
 (add-hook 'after-init-hook 'toggle-frame-maximized)
 
-
-;; 安装常用的主题
-(use-package zenburn-theme
-  :if (eq kevin-theme-selected 'zenburn)
+;; ;; 安装常用的主题
+(use-package monokai-theme
   :ensure t
+  :if (eq kevin-theme-selected 'monokai)
+  :config (load-theme 'monokai t))
+
+(use-package zenburn-theme
+  :ensure t
+  :if (eq kevin-theme-selected 'zenburn)
   :config (load-theme 'zenburn t))
 
-(use-package base16-theme
-  :if (eq kevin-theme-selected 'tomorrow)
+(use-package doom-themes
   :ensure t
+  :if (eq kevin-theme-selected 'tomorrow)
   :config
-  (load-theme 'base16-tomorrow-night t))
+  (doom-themes-visual-bell-config)
+  (doom-themes-neotree-config)
+  (doom-themes-org-config)
+  (load-theme 'doom-tomorrow-night t))
 
 (use-package doom-themes
-  :if (eq kevin-theme-selected 'doom)
   :ensure t
+  :if (eq kevin-theme-selected 'doom)
   :config
   (doom-themes-visual-bell-config)
   (doom-themes-neotree-config)
@@ -91,7 +98,7 @@
 ;; 字体设置
 (use-package cnfonts
   :defer t
-  :preface
+  :init
   ;; Fallback to `all-the-icons'.
   (defun cnfonts--set-all-the-icons-fonts (&optional _)
     "Show icons in all-the-icons."
@@ -108,15 +115,13 @@
   :config
   ;; NOTE: on macOS, the frame size is changed during the startup without below.
   ;; Keep frame size
+  (setq cnfonts-use-cache t)
   (setq cnfonts-keep-frame-size nil)
-  (add-hook 'window-setup-hook
-            (lambda ()
-              (setq cnfonts-keep-frame-size t)))
+  (add-hook 'window-setup-hook (lambda ()
+                                 (setq cnfonts-keep-frame-size t)))
   ;; Set profiles
   (setq cnfonts-directory (concat kevin-cache-directory "cnfonts"))
-  (setq cnfonts-use-cache t)
-  (setq cnfonts-profiles
-        '("program1" "program2" "program3" "org-mode" "read-book"))
+  (setq cnfonts-profiles '("program1" "program2" "program3" "org-mode" "read-book"))
   (setq cnfonts--profiles-steps '(("program1" . 4)
                                   ("program2" . 5)
                                   ("program3" . 3)
@@ -154,8 +159,8 @@
 
 (use-package vi-tilde-fringe
   :defer t
+  :ensure t
   :diminish vi-tilde-fringe-mode
-  :defer t
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
@@ -163,18 +168,18 @@
   :ensure nil
   :hook ((prog-mode text-mode) . display-line-numbers-mode)
   :init
-  (progn
-    (setq-default display-line-numbers-width 2)
-    ;; (setq-default display-line-numbers-type 'relative)
-    (setq display-line-numbers-current-absolute t)
-    (kevin/set-leader-keys "tn" 'display-line-numbers-mode)))
+  (setq-default display-line-numbers-width 2)
+  ;; (setq-default display-line-numbers-type 'relative)
+  (setq display-line-numbers-current-absolute t)
+  (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
 
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon
   :defer t
+  :ensure t
   :diminish beacon-mode
-  :init (beacon-mode 1)
   :config
+  (beacon-mode 1)
   (setq beacon-color "red")
   (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
 
@@ -183,14 +188,13 @@
   :disabled
   :diminish page-break-lines-mode
   :config
-  (progn
-    (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
-    (setq dashboard-startup-banner 'official)
-    (setq dashboard-items '((recents  . 10)
-                            (projects . 3)
-                            (agenda . 5)))
-    (setq show-week-agenda-p t)
-    (dashboard-setup-startup-hook)))
+  (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
+  (setq dashboard-startup-banner 'official)
+  (setq dashboard-items '((recents  . 10)
+                          (projects . 3)
+                          (agenda . 5)))
+  (setq show-week-agenda-p t)
+  (dashboard-setup-startup-hook))
 
 (provide 'init-ui)
 ;;; init-ui ends here

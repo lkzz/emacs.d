@@ -85,7 +85,7 @@
         git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
 
 (use-package evil-magit
-  :enable t
+  :ensure t
   :after (evil magit)
   :init
   (setq evil-magit-want-horizontal-movement nil)
