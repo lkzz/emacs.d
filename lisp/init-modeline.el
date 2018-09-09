@@ -166,12 +166,12 @@
 
 (modeline-define-segment buffer-encoding-segment
                          (concat (pcase (coding-system-eol-type buffer-file-coding-system)
-                                   (0 "LF ")
-                                   (1 "CRLF ")
-                                   (2 "CR "))
+                                   (0 "unix:")
+                                   (1 "dos:")
+                                   (2 "mac:"))
                                  (let ((sys (coding-system-plist buffer-file-coding-system)))
                                    (cond ((memq (plist-get sys :category) '(coding-category-undecided coding-category-utf-8))
-                                          "UTF-8")
+                                          "utf-8")
                                          (t (upcase (symbol-name (plist-get sys :name))))))))
 
 (modeline-define-segment vsc-info-segment
@@ -296,7 +296,7 @@
                               (vsc-info-segment error0)
                               (flycheck-segment modeline0)
                               (major-mode-segment success0)
-                              ;; (buffer-encoding-segment success0)
+                              (buffer-encoding-segment success0)
                               (timestamp-info-segment emphasis0)
                               ))
 						)

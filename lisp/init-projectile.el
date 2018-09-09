@@ -1,4 +1,4 @@
-;;; init-projectile.el --- Initialize projectile. -*- lexical-binding: t -*-
+;;; init-projectile.el --- projectile config. -*- lexical-binding: t -*-
 ;;
 ;; Author: kevin <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -39,8 +39,8 @@
              projectile-vc)
   :init
   (setq projectile-sort-order 'recentf)
-  (setq projectile-cache-file (concat kevin/cache-directory "projectile.cache"))
-  (setq projectile-known-projects-file (concat kevin/cache-directory "projectile-bookmarks.eld"))
+  (setq projectile-cache-file (concat kevin-cache-directory "projectile.cache"))
+  (setq projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld"))
   (kevin/declare-prefix "p" "projectile")
   (kevin/set-leader-keys
    "p!" 'projectile-run-shell-command-in-root

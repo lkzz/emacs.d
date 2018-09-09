@@ -66,6 +66,9 @@
          ;; don't add numbers to the modeline
          (window-numbering-mode . window-numbering-clear-mode-line))
   :init
+  (defadvice select-window-by-number
+      (after golden-ratio-resize-window activate)
+    (golden-ratio) nil)
   (kevin/declare-prefix "w" "window")
   ;; window related keybindings
   (kevin/set-leader-keys

@@ -79,7 +79,7 @@
 (require 'init-persp-mode)
 (require 'init-projectile)
 (require 'init-lua)
-;; (require 'init-lsp)
+(require 'init-lsp)
 
 ;; tools
 (require 'init-git)
