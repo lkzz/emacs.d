@@ -7,11 +7,11 @@
 ;;             Configurations for prog mode.
 ;;; Code:
 
-(when kevin-mac-p
-  (use-package dash-at-point
-    :defer t
-    :bind (("\C-cD" . dash-at-point)
-           ("\C-ce" . dash-at-point-with-docset))))
+(use-package dash-at-point
+  :if kevin-mac-p
+  :defer t
+  :bind (("\C-cD" . dash-at-point)
+         ("\C-ce" . dash-at-point-with-docset)))
 
 (use-package prog-mode
   :defer t

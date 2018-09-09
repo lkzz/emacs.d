@@ -7,7 +7,7 @@
 ;;        refer: https://github.com/syl20bnr/spacemacs/tree/master/layers/+spacemacs/spacemacs-layouts
 ;;; Code:
 
-(defvar kevin/default-layout-name "default"
+(defvar kevin-default-layout-name "default"
   "Name of the default layout.")
 
 (use-package persp-mode
@@ -88,7 +88,7 @@
       ("X" spacemacs/layouts-ts-kill-other :exit t)))
   :config
   (setq persp-autokill-buffer-on-remove 'kill-weak
-        persp-nil-name kevin/default-layout-name
+        persp-nil-name kevin-default-layout-name
         persp-nil-hidden t
         persp-auto-save-fname "autosave"
         persp-save-dir (concat kevin-cache-directory "persp-autosave/")
@@ -107,7 +107,7 @@
         persp-auto-save-num-of-backups 1
         ))
 
-(defvar spacemacs--last-selected-layout kevin/default-layout-name
+(defvar spacemacs--last-selected-layout kevin-default-layout-name
   "Previously selected layout.")
 
 (defvar spacemacs--persp-display-buffers-func 'ignore
@@ -256,10 +256,10 @@ ask the user if a new layout should be created."
 
 ;;;###autoload
 (defun spacemacs/layout-goto-default ()
-  "Go to `kevin/default-layout-name` layout."
+  "Go to `kevin-default-layout-name` layout."
   (interactive)
-  (when kevin/default-layout-name
-    (persp-switch kevin/default-layout-name)))
+  (when kevin-default-layout-name
+    (persp-switch kevin-default-layout-name)))
 
 ;;;###autoload
 (defun spacemacs/layouts-ts-rename ()
