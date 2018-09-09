@@ -10,7 +10,7 @@
 (setq use-file-dialog nil)
 (setq use-dialog-box nil)
 
-(when sys/macp
+(when kevin-mac-p
   ;; 打开抗锯齿
   (setq mac-allow-anti-aliasing t)
   ;; (setq ns-use-native-fullscreen nil)
@@ -42,7 +42,7 @@
 ;; 禁止启动画面
 (setq inhibit-startup-screen t)
 ;; 设置initial scratch message.
-(setq initial-scratch-message kevin/scratch-message)
+(setq initial-scratch-message kevin-scratch-message)
 
 ;; 高亮当前行
 (global-hl-line-mode t)
@@ -66,42 +66,27 @@
 ;; 启动时窗口最大化
 (add-hook 'after-init-hook 'toggle-frame-maximized)
 
-;; 配置主题
-(cond
- ;; default theme
- ((eq color-theme 'default)
-  (use-package zenburn-theme
-    :ensure t
-    :config
-    (load-theme 'zenburn t)))
- ;; dark theme
- ((eq color-theme 'dark)
-  (use-package doom-themes
-    :config
-    (doom-themes-visual-bell-config)
-    (doom-themes-neotree-config)
-    (doom-themes-org-config)
-    (load-theme 'doom-one t)))
- ((eq color-theme 'light)
-  (use-package doom-themes
-    :config
-    (doom-themes-visual-bell-config)
-    (doom-themes-neotree-config)
-    (doom-themes-org-config)
-    (load-theme 'doom-solarized-light t)))
- ((eq color-theme 'solarized)
-  (use-package color-theme-solarized
-    :ensure t
-    :config
-    (set-frame-parameter nil 'background-mode 'dark)
-    (set-terminal-parameter nil 'background-mode 'dark)
-    (setq solarized-broken-srgb t)
-    (load-theme 'solarized t)))
- ((eq color-theme 'gruvbox)
-  (use-package gruvbox-theme
-    :ensure t
-    :config
-    (load-theme 'gruvbox-dark-hard t))))
+
+;; 安装常用的主题
+(use-package zenburn-theme
+  :if (eq kevin-theme-selected 'zenburn)
+  :ensure t
+  :config (load-theme 'zenburn t))
+
+(use-package base16-theme
+  :if (eq kevin-theme-selected 'tomorrow)
+  :ensure t
+  :config
+  (load-theme 'base16-tomorrow-night t))
+
+(use-package doom-themes
+  :if (eq kevin-theme-selected 'doom)
+  :ensure t
+  :config
+  (doom-themes-visual-bell-config)
+  (doom-themes-neotree-config)
+  (doom-themes-org-config)
+  (load-theme 'doom-one t))
 
 ;; 字体设置
 (use-package cnfonts
@@ -128,7 +113,7 @@
             (lambda ()
               (setq cnfonts-keep-frame-size t)))
   ;; Set profiles
-  (setq cnfonts-directory (concat kevin/cache-directory "cnfonts"))
+  (setq cnfonts-directory (concat kevin-cache-directory "cnfonts"))
   (setq cnfonts-use-cache t)
   (setq cnfonts-profiles
         '("program1" "program2" "program3" "org-mode" "read-book"))
@@ -199,7 +184,7 @@
   :diminish page-break-lines-mode
   :config
   (progn
-    (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin/user-name))
+    (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
     (setq dashboard-startup-banner 'official)
     (setq dashboard-items '((recents  . 10)
                             (projects . 3)
