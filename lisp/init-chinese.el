@@ -6,56 +6,54 @@
 
 (use-package youdao-dictionary
   :defer t
+  :ensure t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
-  (progn
-    ;; Enable Cache
-    (setq url-automatic-caching t)
-    ;; Set file path for saving search history
-    (setq youdao-dictionary-search-history-file (concat kevin-cache-directory ".youdao"))
-    ;; Enable Chinese word segmentation support
-    (setq youdao-dictionary-use-chinese-word-segmentation t)))
+  ;; Enable Cache
+  (setq url-automatic-caching t)
+  ;; Set file path for saving search history
+  (setq youdao-dictionary-search-history-file (concat kevin-cache-directory ".youdao"))
+  ;; Enable Chinese word segmentation support
+  (setq youdao-dictionary-use-chinese-word-segmentation t))
 
 ;; ** 设置拼音输入法
 (use-package pyim
   :demand t
   :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
-  (progn
-    ;; 激活 basedict 拼音词库
-    (use-package pyim-basedict
-      :ensure t
-      :config (pyim-basedict-enable))
-    (setq pyim-directory (expand-file-name "pyim/" kevin-cache-directory))
-    (setq pyim-dcache-directory (expand-file-name "dcache/" pyim-directory))
-    (setq default-input-method "pyim")
-    ;; 使用 emacs thread 来生成 dcache。
-    (setq pyim-dcache-prefer-emacs-thread t)
-    ;; 使用全拼
-    (setq pyim-default-scheme 'quanpin)
-    ;; 显示6个候选词。
-    (setq pyim-page-length 6)
-    ;; 设置选词框的绘制方式
-    (setq pyim-page-tooltip 'posframe)
-	;; 只能在字符串和 comment 中输入中文
-	(setq-default pyim-english-input-switch-functions
-                  '(pyim-probe-program-mode))
-    ))
+  ;; 激活 basedict 拼音词库
+  (use-package pyim-basedict
+    :ensure t
+    :config (pyim-basedict-enable))
+  (setq pyim-directory (expand-file-name "pyim/" kevin-cache-directory))
+  (setq pyim-dcache-directory (expand-file-name "dcache/" pyim-directory))
+  (setq default-input-method "pyim")
+  ;; 使用 emacs thread 来生成 dcache。
+  (setq pyim-dcache-prefer-emacs-thread t)
+  ;; 使用全拼
+  (setq pyim-default-scheme 'quanpin)
+  ;; 显示6个候选词。
+  (setq pyim-page-length 6)
+  ;; 设置选词框的绘制方式
+  (setq pyim-page-tooltip 'posframe)
+  ;; 只能在字符串和 comment 中输入中文
+  (setq-default pyim-english-input-switch-functions
+                '(pyim-probe-program-mode)))
 
 (use-package pangu-spacing
   :defer t
   :diminish pangu-spacing-mode
-  :init (progn (global-pangu-spacing-mode 1)
-               ;; Always insert `real' space in org-mode.
-               (add-hook 'org-mode-hook
-                         '(lambda ()
-                            (set (make-local-variable 'pangu-spacing-real-insert-separtor) t)))))
+  :config
+  (global-pangu-spacing-mode 1)
+  ;; Always insert `real' space in org-mode.
+  (add-hook 'org-mode-hook '(lambda ()
+                              (set (make-local-variable 'pangu-spacing-real-insert-separtor) t))))
 
 ;; Chinese calendar
 (use-package cal-china-x
   :defer t
   :commands cal-china-x-setup
-  :init (add-hook 'calendar-load-hook #'cal-china-x-setup)
+  :hook (calendar-load . cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
   (setq calendar-latitude 30.67)

@@ -24,27 +24,25 @@
   :diminish whitespace-mode
   :hook (after-init . whitespace-mode)
   :init
-  (progn
-    (add-hook 'minibuffer-setup-hook (lambda () (setq show-trailing-whitespace nil)))
-    (setq-default show-trailing-whitespace t)
-    (setq whitespace-style '(face trailing)))
+  (add-hook 'minibuffer-setup-hook (lambda () (setq show-trailing-whitespace nil)))
+  (setq-default show-trailing-whitespace t)
+  (setq whitespace-style '(face trailing))
   :config
-  (progn
-    (with-eval-after-load 'popup
-      ;; advice for whitespace-mode conflict with popup
-      (defvar my-prev-whitespace-mode nil)
-      (make-local-variable 'my-prev-whitespace-mode)
-      (defadvice popup-draw (before my-turn-off-whitespace activate compile)
-		"Turn off whitespace mode before showing autocomplete box."
-		(if whitespace-mode
-			(progn
-              (setq my-prev-whitespace-mode t)
-              (whitespace-mode -1))
-          (setq my-prev-whitespace-mode nil)))
-      (defadvice popup-delete (after my-restore-whitespace activate compile)
-		"Restore previous whitespace mode when deleting autocomplete box."
-		(if my-prev-whitespace-mode
-			(whitespace-mode 1))))))
+  (with-eval-after-load 'popup
+    ;; advice for whitespace-mode conflict with popup
+    (defvar my-prev-whitespace-mode nil)
+    (make-local-variable 'my-prev-whitespace-mode)
+    (defadvice popup-draw (before my-turn-off-whitespace activate compile)
+	  "Turn off whitespace mode before showing autocomplete box."
+	  (if whitespace-mode
+		  (progn
+            (setq my-prev-whitespace-mode t)
+            (whitespace-mode -1))
+        (setq my-prev-whitespace-mode nil)))
+    (defadvice popup-delete (after my-restore-whitespace activate compile)
+	  "Restore previous whitespace mode when deleting autocomplete box."
+	  (if my-prev-whitespace-mode
+		  (whitespace-mode 1)))))
 
 ;; An unobtrusive way to trim spaces from end of line
 (use-package ws-butler
@@ -61,9 +59,8 @@
   :if (display-graphic-p)
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
-  (progn
-    (setq highlight-indent-guides-delay 0.5)
-    (setq highlight-indent-guides-method 'character)))
+  (setq highlight-indent-guides-delay 0.5)
+  (setq highlight-indent-guides-method 'character))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
@@ -94,19 +91,18 @@
   :ensure t
   :diminish auto-fill-mode
   :config
-  (progn
-    (kevin/set-leader-keys "tF" 'fci-mode)
-    ;; NOTE fix display compatibility issue with company-mode
-    (defun on-off-fci-before-company(command)
-      (when (string= "show" command)
-        (turn-off-fci-mode))
-      (when (string= "hide" command)
-        (turn-on-fci-mode)))
-    (with-eval-after-load 'company-mode
-      (advice-add 'company-call-frontends :before #'on-off-fci-before-company))
-    (setq fci-rule-column 110)
-    (setq fci-rule-width 1)
-    (turn-on-auto-fill)))
+  (kevin/set-leader-keys "tF" 'fci-mode)
+  ;; NOTE fix display compatibility issue with company-mode
+  (defun on-off-fci-before-company(command)
+    (when (string= "show" command)
+      (turn-off-fci-mode))
+    (when (string= "hide" command)
+      (turn-on-fci-mode)))
+  (with-eval-after-load 'company-mode
+    (advice-add 'company-call-frontends :before #'on-off-fci-before-company))
+  (setq fci-rule-column 110)
+  (setq fci-rule-width 1)
+  (turn-on-auto-fill))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here
