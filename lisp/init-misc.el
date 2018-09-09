@@ -6,6 +6,18 @@
 ;;; Commentary:
 ;;; Code:
 
+;; bookmark 设置
+(use-package bookmark
+  :ensure nil
+  :init
+  (setq bookmark-default-file (concat kevin/cache-directory "bookmarks"))
+  (kevin/declare-prefix "m" "bookmark")
+  (kevin/set-leader-keys "ms" 'bookmark-set
+                         "mr" 'bookmark-rename
+                         "md" 'bookmark-delete
+                         "mj" 'counsel-bookmark
+                         "ml" 'bookmark-bmenu-list))
+
 ;; Elec pair
 (use-package elec-pair
   :defer t
@@ -67,15 +79,13 @@
 (use-package avy
   :defer t
   :ensure t
-  :commands (avy-goto-char avy-goto-word-or-subword-1)
   :hook (after-init . avy-setup-default)
   :init
-  (progn
-    (kevin/set-leader-keys
-      "jc" 'avy-goto-char
-      "jw" 'avy-goto-word-or-subword-1
-      "jl" 'avy-goto-line
-      "jp" #'kevin/goto-match-parent))
+  (kevin/set-leader-keys
+   "jc" 'avy-goto-char
+   "jw" 'avy-goto-word-or-subword-1
+   "jl" 'avy-goto-line
+   "jp" #'kevin/goto-match-parent)
   :config (setq avy-background t))
 
 ;; Quickly follow links
@@ -151,31 +161,28 @@
   :defer t
   :ensure t
   :diminish undo-tree-mode "ⓤ"
-  :init
-  (global-undo-tree-mode)
   :config
-  (progn
-    (setq undo-tree-history-directory-alist `(("." . ,(concat kevin/cache-directory "undo-tree-history"))))
-    (setq undo-tree-auto-save-history nil)
-    (setq undo-tree-visualizer-timestamps t)
-    (setq undo-tree-visualizer-diff t)))
+  (setq undo-tree-history-directory-alist `(("." . ,(concat kevin/cache-directory "undo-tree-history"))))
+  (setq undo-tree-auto-save-history nil)
+  (setq undo-tree-visualizer-timestamps t)
+  (setq undo-tree-visualizer-diff t)
+  (global-undo-tree-mode))
 
 (use-package savehist
   :defer t
   :ensure nil
   :init
-  (progn
-    ;; Minibuffer history
-    (setq savehist-file (concat kevin/cache-directory "savehist")
-          enable-recursive-minibuffers t ; Allow commands in minibuffers
-          history-length 1000
-          savehist-additional-variables '(mark-ring
-                                          global-mark-ring
-                                          search-ring
-                                          regexp-search-ring
-                                          extended-command-history)
-          savehist-autosave-interval 60)
-    (savehist-mode t)))
+  ;; Minibuffer history
+  (setq savehist-file (concat kevin/cache-directory "savehist")
+        enable-recursive-minibuffers t ; Allow commands in minibuffers
+        history-length 1000
+        savehist-additional-variables '(mark-ring
+                                        global-mark-ring
+                                        search-ring
+                                        regexp-search-ring
+                                        extended-command-history)
+        savehist-autosave-interval 60)
+  (savehist-mode t))
 
 ;; Hideshow
 (use-package hideshow
@@ -197,10 +204,10 @@
 
 (use-package smex
   :defer t
+  :ensure t
   :config
-  (progn
-    (setq smex-save-file (concat kevin/cache-directory "smex-items"))
-    (setq smex-history-length 10)))
+  (setq smex-save-file (concat kevin/cache-directory "smex-items"))
+  (setq smex-history-length 10))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

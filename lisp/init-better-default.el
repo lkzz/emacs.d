@@ -79,12 +79,6 @@
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 
-;; bookmark 设置
-(use-package bookmark
-  :ensure nil
-  :init
-  (setq bookmark-default-file (concat kevin/cache-directory "bookmarks")))
-
 (use-package url
   :ensure nil
   :init
