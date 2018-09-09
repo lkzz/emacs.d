@@ -10,13 +10,12 @@
   :defer t
   :diminish ivy-mode counsel-mode
   :init
-  (progn
-    (kevin/set-leader-keys
-     "SPC" 'counsel-M-x
-     "/" 'counsel-rg
-     "ff" 'counsel-find-file
-     "fr" 'counsel-recentf
-     "ss" 'swiper))
+  (kevin/set-leader-keys
+   "SPC" 'counsel-M-x
+   "/" 'counsel-rg
+   "ff" 'counsel-find-file
+   "fr" 'counsel-recentf
+   "ss" 'swiper)
   :bind (("C-s" . swiper)
          ("C-S-s" . swiper-all)
          ("C-c C-r" . ivy-resume)
