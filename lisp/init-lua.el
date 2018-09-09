@@ -12,19 +12,17 @@
   :ensure t
   :mode ("\\.lua$" . lua-mode)
   :init
-  (progn
-    (setq lua-indent-level 2)
-    (setq lua-indent-string-contents t)))
+  (setq lua-indent-level 2)
+  (setq lua-indent-string-contents t))
 
 (use-package company-lua
   :ensure t
   :after (lua-mode company)
   :config
-  (progn
-    (add-hook 'lua-mode-hook (lambda ()
-                               (make-local-variable 'company-backends)
-                               (setq company-backends kevin/company-global-backends)
-                               (add-to-list 'company-backends 'company-lua)))))
+  (add-hook 'lua-mode-hook (lambda ()
+                             (make-local-variable 'company-backends)
+                             (setq company-backends kevin/company-global-backends)
+                             (add-to-list 'company-backends 'company-lua))))
 
 (provide 'init-lua)
 ;; init-lua.el ends here.
