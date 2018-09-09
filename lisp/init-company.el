@@ -68,7 +68,7 @@
   :after company
   :hook (company-mode . company-statistics-mode)
   :config
-  (setq company-statistics-file (concat kevin/cache-directory
+  (setq company-statistics-file (concat kevin-cache-directory
                                         "company-statistics-cache.el")))
 
 ;; This package requires emacs 26, not compatible with emacs in a tty.
@@ -89,6 +89,7 @@
 
 (use-package company-lsp
   :ensure t
+  :if kevin-lsp-mode-enable-p
   :after (company lsp-mode)
   :init (cl-pushnew 'company-lsp company-backends))
 

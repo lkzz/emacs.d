@@ -9,7 +9,7 @@
 ;; Emacs client for the Language Server Protocol
 ;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode
-  :if enable-lsp
+  :if kevin-lsp-mode-enable-p
   :diminish lsp-mode
   :config
   (setq lsp-inhibit-message t)

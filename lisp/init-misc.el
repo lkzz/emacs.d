@@ -10,7 +10,7 @@
 (use-package bookmark
   :ensure nil
   :init
-  (setq bookmark-default-file (concat kevin/cache-directory "bookmarks"))
+  (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
   (kevin/declare-prefix "m" "bookmark")
   (kevin/set-leader-keys "ms" 'bookmark-set
                          "mr" 'bookmark-rename
@@ -57,7 +57,7 @@
                                      (recentf-track-opened-file))))
   (setq recentf-max-saved-items 200)
   (setq recentf-exclude '((expand-file-name package-user-dir)
-                          kevin/cache-directory
+                          kevin-cache-directory
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
                           "custom.el")))
@@ -162,7 +162,7 @@
   :ensure t
   :diminish undo-tree-mode "ⓤ"
   :config
-  (setq undo-tree-history-directory-alist `(("." . ,(concat kevin/cache-directory "undo-tree-history"))))
+  (setq undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history"))))
   (setq undo-tree-auto-save-history nil)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
@@ -173,7 +173,7 @@
   :ensure nil
   :init
   ;; Minibuffer history
-  (setq savehist-file (concat kevin/cache-directory "savehist")
+  (setq savehist-file (concat kevin-cache-directory "savehist")
         enable-recursive-minibuffers t ; Allow commands in minibuffers
         history-length 1000
         savehist-additional-variables '(mark-ring
@@ -206,7 +206,7 @@
   :defer t
   :ensure t
   :config
-  (setq smex-save-file (concat kevin/cache-directory "smex-items"))
+  (setq smex-save-file (concat kevin-cache-directory "smex-items"))
   (setq smex-history-length 10))
 
 (provide 'init-misc)
