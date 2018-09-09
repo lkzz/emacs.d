@@ -55,7 +55,7 @@
   (setq enable-recursive-minibuffers t) ; Allow commands in minibuffers
   (setq ivy-use-selectable-prompt t)
   (setq ivy-use-virtual-buffers t)    ; Enable bookmarks and recentf
-  (setq ivy-height 10)
+  (setq ivy-height 20)
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-on-del-error-function nil)
   (setq ivy-initial-inputs-alist nil)
@@ -89,12 +89,13 @@
   (setq ivy-rich--display-transformers-list
         '(ivy-switch-buffer
           (:columns
-           ((ivy-rich-candidate (:width 30 :face success))  ; return the candidate itself
-            (ivy-rich-switch-buffer-size (:width 10))  ; return the buffer size
-            ;; (ivy-rich-switch-buffer-indicators (:width 20 :face error :align right)); return the buffer indicators
-            (ivy-rich-switch-buffer-major-mode (:width 20 :face warning))          ; return the major mode info
+           ((ivy-rich-candidate (:width 30))  ; return the candidate itself
+            (ivy-rich-switch-buffer-size (:width 10 :face warning))  ; return the buffer size
+            (ivy-rich-switch-buffer-major-mode (:width 20 :face error))          ; return the major mode info
             (ivy-rich-switch-buffer-project (:width 15 :face success))             ; return project name using `projectile'
-            (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))  ; return file path relative to project root or `default-directory' if project is nil
+            (ivy-rich-switch-buffer-path (:width (lambda (x)
+                                                   (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3)))
+                                                 :face font-lock-comment-face)))
            :predicate (lambda (cand) (get-buffer cand)))
           counsel-M-x
           (:columns

@@ -12,14 +12,6 @@
 (kevin/declare-prefix "q" "quit")
 (kevin/declare-prefix "s" "search")
 
-;; bookmark
-(kevin/declare-prefix "m" "bookmark")
-(kevin/set-leader-keys "ms" 'bookmark-set
-                       "mr" 'bookmark-rename
-                       "md" 'bookmark-delete
-                       "mj" 'counsel-bookmark
-                       "ml" 'bookmark-bmenu-list)
-
 ;; toggle
 (kevin/declare-prefix "t" "toggle")
 (kevin/set-leader-keys "tM" 'toggle-major-mode
@@ -28,6 +20,7 @@
                        "tw" 'toggle-word-wrap
                        "tm" 'toggle-frame-maximized
                        "tf" 'toggle-frame-fullscreen
+                       "tp" 'persp-mode
                        "tt" 'toggle-truncate-lines)
 
 ;; open applications with from emacs
@@ -53,9 +46,9 @@
 (kevin/set-leader-keys "Fm" #'kevin/make-frame
                        "Fd" 'delete-frame)
 
-(bind-map kevin/default-map
-  :keys (kevin/emacs-leader-key)
-  :evil-keys (kevin/leader-key))
+(bind-map kevin-default-map
+  :keys (kevin-emacs-leader-key)
+  :evil-keys (kevin-leader-key))
 
 (provide 'init-keybinds)
 ;;; init-keybinds ends here

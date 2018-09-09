@@ -13,6 +13,7 @@
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
+  :ensure t
   :hook (after-init . evil-mode)
   :config
   (setq evil-default-state 'normal)
@@ -132,11 +133,22 @@
                   ("C-p" . evil-mc-make-and-goto-prev-match)
                   )))
       (dolist (key-data keys)
-        (evil-define-key 'normal 'evil-mc-key-map (kbd (car key-data)) (cdr key-data))
+        ;; (evil-define-key 'normal 'evil-mc-key-map (kbd (car key-data)) (cdr key-data))
         (evil-define-key 'visual 'evil-mc-key-map (kbd (car key-data)) (cdr key-data)))))
   (global-evil-mc-mode)
   :config
   (kevin/reset-evil-mc-key-map))
+
+
+(use-package evil-snipe
+  :ensure t
+  :after evil
+  :diminish evil-snipe-local-mode
+  :config
+  (evil-snipe-mode +1)
+  (evil-snipe-override-mode +1)
+  ;; fix problems with magit buffer
+  (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode))
 
 (provide 'init-evil)
 ;;; init-evil ends here

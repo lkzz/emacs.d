@@ -14,8 +14,8 @@
   "Declare a prefix PREFIX. PREFIX is a string describing a key
 sequence. NAME is a string used as the prefix command."
   (let* ((command name)
-         (full-prefix (concat kevin/leader-key " " prefix))
-         (full-prefix-emacs (concat kevin/emacs-leader-key " " prefix))
+         (full-prefix (concat kevin-leader-key " " prefix))
+         (full-prefix-emacs (concat kevin-emacs-leader-key " " prefix))
          (full-prefix-lst (listify-key-sequence (kbd full-prefix)))
          (full-prefix-emacs-lst (listify-key-sequence
                                  (kbd full-prefix-emacs))))
@@ -28,7 +28,7 @@ sequence. NAME is a string used as the prefix command."
 ;;;***##autoload
 (defun kevin/set-leader-keys (key def &rest bindings)
   "Add KEY and DEF as key bindings under
-`kevin/leader-key' and `kevin/emacs-leader-key'.
+`kevin-leader-key' and `kevin-emacs-leader-key'.
 KEY should be a string suitable for passing to `kbd', and it
 should not include the leaders. DEF is most likely a quoted
 command. See `define-key' for more information about the possible
@@ -43,7 +43,7 @@ pairs. For example,
    \"C-c\" 'command2
    \"bb\" 'command3\)"
   (while key
-    (define-key kevin/default-map (kbd key) def)
+    (define-key kevin-default-map (kbd key) def)
     (setq key (pop bindings) def (pop bindings))))
 
 ;;;###autoload
@@ -52,30 +52,30 @@ pairs. For example,
 be added. PREFIX is a string describing a key sequence. NAME is a symbol name
 used as the prefix command."
   (let  ((command (intern (concat (symbol-name mode) name)))
-         (full-prefix (concat kevin/leader-key " " prefix))
-         (full-prefix-emacs (concat kevin/emacs-leader-key " " prefix))
+         (full-prefix (concat kevin-leader-key " " prefix))
+         (full-prefix-emacs (concat kevin-emacs-leader-key " " prefix))
          (is-major-mode-prefix (string-prefix-p "m" prefix))
-         (major-mode-prefix (concat kevin/major-mode-leader-key
+         (major-mode-prefix (concat kevin-major-mode-leader-key
                                     " " (substring prefix 1)))
          (major-mode-prefix-emacs
-          (concat kevin/major-mode-emacs-leader-key
+          (concat kevin-major-mode-emacs-leader-key
                   " " (substring prefix 1))))
     (unless long-name (setq long-name name))
     (let ((prefix-name (cons name long-name)))
       (which-key-add-major-mode-key-based-replacements mode
         full-prefix-emacs prefix-name
         full-prefix prefix-name)
-      (when (and is-major-mode-prefix kevin/major-mode-leader-key)
+      (when (and is-major-mode-prefix kevin-major-mode-leader-key)
         (which-key-add-major-mode-key-based-replacements mode major-mode-prefix prefix-name))
-      (when (and is-major-mode-prefix kevin/major-mode-emacs-leader-key)
+      (when (and is-major-mode-prefix kevin-major-mode-emacs-leader-key)
         (which-key-add-major-mode-key-based-replacements
           mode major-mode-prefix-emacs prefix-name)))))
 
 ;;;###autoload
 (defun kevin/set-leader-keys-for-major-mode (mode key def &rest bindings)
   "Add KEY and DEF as key bindings under
-`kevin/major-mode-leader-key' and
-`kevin/major-mode-emacs-leader-key' for the major-mode
+`kevin-major-mode-leader-key' and
+`kevin-major-mode-emacs-leader-key' for the major-mode
 MODE. MODE should be a quoted symbol corresponding to a valid
 major mode. The rest of the arguments are treated exactly like
 they are in `kevin/set-leader-keys'."
@@ -93,22 +93,22 @@ they are in `kevin/set-leader-keys'."
 ;;;###autoload
 (defun kevin//init-leader-mode-map (mode map &optional minor)
   "Check for MAP-prefix. If it doesn't exist yet, use `bind-map'
-to create it and bind it to `kevin/major-mode-leader-key'
-and `kevin/major-mode-emacs-leader-key'. If MODE is a
+to create it and bind it to `kevin-major-mode-leader-key'
+and `kevin-major-mode-emacs-leader-key'. If MODE is a
 minor-mode, the third argument should be non nil."
   (let* ((prefix (intern (format "%s-prefix" map)))
          (leader1 (when (kevin//acceptable-leader-p
-                         kevin/major-mode-leader-key)
-                    kevin/major-mode-leader-key))
+                         kevin-major-mode-leader-key)
+                    kevin-major-mode-leader-key))
          (leader2 (when (kevin//acceptable-leader-p
-                         kevin/leader-key)
-                    (concat kevin/leader-key " m")))
+                         kevin-leader-key)
+                    (concat kevin-leader-key " m")))
          (emacs-leader1 (when (kevin//acceptable-leader-p
-                               kevin/major-mode-emacs-leader-key)
-                          kevin/major-mode-emacs-leader-key))
+                               kevin-major-mode-emacs-leader-key)
+                          kevin-major-mode-emacs-leader-key))
          (emacs-leader2 (when (kevin//acceptable-leader-p
-                               kevin/emacs-leader-key)
-                          (concat kevin/emacs-leader-key " m")))
+                               kevin-emacs-leader-key)
+                          (concat kevin-emacs-leader-key " m")))
          (leaders (delq nil (list leader1 leader2)))
          (emacs-leaders (delq nil (list emacs-leader1 emacs-leader2))))
     (or (boundp prefix)
@@ -196,24 +196,6 @@ minor-mode, the third argument should be non nil."
   (message "bazel build done!"))
 
 ;;;###autoload
-(defun blog-example ()
-  (interactive)
-  (with-output-to-temp-buffer "*blog-example*"
-    (shell-command "echo This is an example"
-                   "*blog-example*"
-                   "*Messages*")
-    (pop-to-buffer "*blog-example*")))
-
-;;;###autoload
-(defun kevin/complie ()
-  "Complie command."
-  (interactive)
-  (setf my-list '())
-  (loop for x in (split-string (buffer-file-name) "/") do
-        (message x)
-        (append my-list x)))
-
-;;;###autoload
 (defun kevin/open-init-file ()
   "Open emacs init file."
   (interactive)
@@ -227,31 +209,6 @@ Argument VALUE 0 is transparent, 100 is opaque."
   (set-frame-parameter (selected-frame) 'alpha value))
 
 ;;;###autoload
-(defun kevin/byte-compile-directory ()
-  (interactive)
-  (defun byte-compile-directories (dir)
-    (if (file-directory-p dir)
-        (byte-compile-directory-r (mapcar (function (lambda (f) (concat dir "/" f)))
-                                          (directory-files dir)))))
-  (defun byte-compile-directory-r (file-list)
-    (cond ((null (car file-list))
-           nil)
-          ((and (file-directory-p (car file-list))
-                (not (string-match "/\.\.?$" (car file-list))))
-           (byte-compile-directories (car file-list))
-           (if (not (null (cdr file-list)))
-               (progn
-                 (byte-compile-directories (cadr file-list))
-                 (byte-compile-directory-r (cdr file-list)))))
-          ((string-match "\.el$" (car file-list))
-           (progn
-             (byte-compile-file (car file-list))
-             (byte-compile-directory-r (cdr file-list))))
-          (t
-           (if (not (null (cdr file-list)))
-               (byte-compile-directory-r (cdr file-list))))))
-  (byte-compile-directories (replace-regexp-in-string "/$" "" default-directory)))
-
 (defun kevin/delete-word ()
   "Delete word under cursor."
   (interactive)
@@ -259,17 +216,20 @@ Argument VALUE 0 is transparent, 100 is opaque."
         (beg (get-point 'backward-word 1)))
     (delete-region beg end)))
 
+;;;###autoload
 (defun kevin/copy-word ()
   "print current word."
   (interactive)
   (kill-new (thing-at-point 'word)))
 
+;;;###autoload
 (defun kevin/cover-word ()
   "cover word before point"
   (interactive)
   (kevin/delete-word)
   (evil-paste-before 1))
 
+;;;###autoload
 (defun get-point (symbol &optional arg)
   "get the point"
   (funcall symbol arg)
