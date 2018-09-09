@@ -4,8 +4,8 @@
 ;;; Code:
 
 ;; Personal information
-(setq user-full-name kevin/user-name)
-(setq user-mail-address kevin/mail-address)
+(setq user-full-name kevin-user-name)
+(setq user-mail-address kevin-mail-address)
 
 
 ;; Don't ask me when kill process buffer
@@ -14,7 +14,7 @@
             kill-buffer-query-functions))
 
 ;; default directory
-(setq default-directory kevin/default-directory)
+(setq default-directory kevin-default-directory)
 
 ;; Core settings
 ;; UTF-8 please
@@ -63,7 +63,7 @@
 (setq make-backup-files nil)
 ;; 关闭自动保存模式
 (setq auto-save-list-file-prefix
-      (concat kevin/cache-directory "auto-save-list/.saves-"))
+      (concat kevin-cache-directory "auto-save-list/.saves-"))
 (setq-default auto-save-mode nil)
 ;; 不生成 #filename# 临时文件
 (setq auto-save-default nil)
@@ -82,7 +82,7 @@
 (use-package url
   :ensure nil
   :init
-  (setq url-configuration-directory (concat kevin/cache-directory "url")))
+  (setq url-configuration-directory (concat kevin-cache-directory "url")))
 
 ;; Keep cursor at end of lines. Require line-move-visual is nil.
 (setq track-eol t)

@@ -39,8 +39,8 @@
              projectile-vc)
   :init
   (setq projectile-sort-order 'recentf)
-  (setq projectile-cache-file (concat kevin/cache-directory "projectile.cache"))
-  (setq projectile-known-projects-file (concat kevin/cache-directory "projectile-bookmarks.eld"))
+  (setq projectile-cache-file (concat kevin-cache-directory "projectile.cache"))
+  (setq projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld"))
   (kevin/declare-prefix "p" "projectile")
   (kevin/set-leader-keys
    "p!" 'projectile-run-shell-command-in-root

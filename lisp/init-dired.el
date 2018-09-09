@@ -20,14 +20,14 @@
   ;; automatically refresh dired buffer on changes
   (add-hook 'dired-mode-hook 'auto-revert-mode)
   (cond
-   (sys/macp
+   (kevin-mac-p
     ;; Suppress the warning: `ls does not support --dired'.
     (setq dired-use-ls-dired nil)
 
     ;; Use GNU ls as `gls' from `coreutils' if available.
     (when (executable-find "gls")
       (setq insert-directory-program "gls")))
-   (sys/win32p
+   (kevin-windows-p
     (when (executable-find "ls")
       ;; `dired-quick-sort' needs it
       (setq ls-lisp-use-insert-directory-program t))))

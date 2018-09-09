@@ -91,7 +91,7 @@
         persp-nil-name kevin/default-layout-name
         persp-nil-hidden t
         persp-auto-save-fname "autosave"
-        persp-save-dir (concat kevin/cache-directory "persp-autosave/")
+        persp-save-dir (concat kevin-cache-directory "persp-autosave/")
         persp-set-last-persp-for-new-frames nil
         ;; add a buffer to the current perspective and switch to that buffer
         persp-switch-to-added-buffer t

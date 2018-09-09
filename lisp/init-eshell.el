@@ -74,7 +74,7 @@
           eshell-list-files-after-cd t
           eshell-banner-message ""
           ;; cache directory
-          eshell-directory-name (concat kevin/cache-directory "eshell")
+          eshell-directory-name (concat kevin-cache-directory "eshell")
           eshell-visual-subcommands '(("git" "log" "diff" "show"))))
   :config
   (progn

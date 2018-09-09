@@ -46,9 +46,9 @@
 (kevin/set-leader-keys "Fm" #'kevin/make-frame
                        "Fd" 'delete-frame)
 
-(bind-map kevin/default-map
-  :keys (kevin/emacs-leader-key)
-  :evil-keys (kevin/leader-key))
+(bind-map kevin-default-map
+  :keys (kevin-emacs-leader-key)
+  :evil-keys (kevin-leader-key))
 
 (provide 'init-keybinds)
 ;;; init-keybinds ends here

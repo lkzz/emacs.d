@@ -7,7 +7,7 @@
 ;;             Configurations for prog mode.
 ;;; Code:
 
-(when sys/macp
+(when kevin-mac-p
   (use-package dash-at-point
     :defer t
     :bind (("\C-cD" . dash-at-point)
