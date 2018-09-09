@@ -12,14 +12,6 @@
 (kevin/declare-prefix "q" "quit")
 (kevin/declare-prefix "s" "search")
 
-;; bookmark
-(kevin/declare-prefix "m" "bookmark")
-(kevin/set-leader-keys "ms" 'bookmark-set
-                       "mr" 'bookmark-rename
-                       "md" 'bookmark-delete
-                       "mj" 'counsel-bookmark
-                       "ml" 'bookmark-bmenu-list)
-
 ;; toggle
 (kevin/declare-prefix "t" "toggle")
 (kevin/set-leader-keys "tM" 'toggle-major-mode
