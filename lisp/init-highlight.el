@@ -56,6 +56,7 @@
 (use-package highlight-indent-guides
   :defer t
   :ensure t
+  :diminish highlight-indent-guides-mode
   :if (display-graphic-p)
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
