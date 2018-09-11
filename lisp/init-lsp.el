@@ -32,6 +32,7 @@
 
 (use-package lsp-ui
   :ensure t
+  :if kevin-lsp-mode-enable-p
   :after lsp-mode
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
