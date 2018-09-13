@@ -22,6 +22,47 @@
       (set (make-local-variable 'compile-command)
            "go build -v")))
 
+;; refer link: https://emacs-china.org/t/golang/6973
+(defun kevin/go-auto-comment()
+  (interactive)
+  (unless (featurep 'imenu)
+    (require 'imenu nil t))
+  (let* ((imenu-auto-rescan t)
+         (imenu-auto-rescan-maxout (if current-prefix-arg
+                                       (buffer-size)
+                                     imenu-auto-rescan-maxout))
+         (items (imenu--make-index-alist t))
+         (items (delete (assoc "*Rescan*" items) items)))
+    (cl-mapcan
+     (lambda(item)
+       (cl-mapcan
+        (if (string= (car item) "func")
+            'kevin/go-func-comment
+          'kevin/go-type-comment)
+        (cdr item)))
+     items)))
+
+(defun kevin/go-add-comment(func point)
+  (save-excursion
+    (goto-char point)
+    (forward-line -1)
+    (when (not (looking-at (concat "// " func)))
+      (end-of-line) (newline-and-indent)
+      (insert (concat "// " func " ..")))))
+
+(defun kevin/go-func-comment(f)
+  (let ((func (car f)))
+    (if (and (string-prefix-p "(" func)
+             (string-match "[)] \\(.*\\)[(]\\(.*\\)[)]\\(.*\\)$" func))
+        (kevin/go-add-comment (match-string 1 func) (cdr f))
+      (if (string-match "\\(.*\\)[(]\\(.*\\)[)]\\(.*\\)$" func)
+          (kevin/go-add-comment (match-string 1 func) (cdr f))
+        (kevin/go-add-comment (car f) (cdr f))))))
+
+(defun kevin/go-type-comment(f)
+  (kevin/go-add-comment (car f) (cdr f)))
+
+
 (use-package go-mode
   :defer t
   :ensure t
@@ -30,7 +71,7 @@
               ("C-c R" . go-remove-unused-imports)
               ("<f1>" . godoc-at-point))
   :config
-  (setq gofmt-command "goimports") ; use goimports instead of go-fmt
+  (setq gofmt-command "goimports") ; use goimports instead of gofmt
   (add-hook 'go-mode-hook 'setup-go-mode-compile)
   (add-hook 'before-save-hook #'gofmt-before-save)
   (make-local-variable 'after-save-hook)
@@ -38,6 +79,7 @@
   (kevin/declare-prefix-for-mode 'go-mode "mi" "imports")
   (kevin/set-leader-keys-for-major-mode 'go-mode
                                         "cj" 'godef-jump
+                                        "ac" #'kevin/go-auto-comment
                                         "hh" 'godoc-at-point
                                         "ig" 'go-goto-imports
                                         "ia" 'go-import-add
