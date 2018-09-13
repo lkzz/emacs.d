@@ -44,5 +44,21 @@
   (global-set-key (kbd "C-j") #'toggle-lsp-ui-doc)
   (add-hook 'lsp-mode-hook #'my-lsp-mode-hook))
 
+(use-package company-lsp
+  :ensure t
+  :if kevin-lsp-mode-enable-p
+  :after (company lsp-mode)
+  :init (cl-pushnew 'company-lsp company-backends))
+
+;; Go support for lsp-mode using Sourcegraph's Go Language Server
+;; Install: go get -u github.com/sourcegraph/go-langserver
+(use-package lsp-go
+  :ensure t
+  :if kevin-lsp-mode-enable-p
+  :after (go-mode lsp-mode)
+  :commands lsp-go-enable
+  :hook (go-mode . lsp-go-enable)
+  :config (setq lsp-go-gocode-completion-enabled t))
+
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

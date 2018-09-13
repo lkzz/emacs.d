@@ -190,15 +190,5 @@
   :config
   (add-hook 'go-mode-hook #'kevin/setup-go-company-backends))
 
-;; Go support for lsp-mode using Sourcegraph's Go Language Server
-;; Install: go get -u github.com/sourcegraph/go-langserver
-(use-package lsp-go
-  :ensure t
-  :if kevin-lsp-mode-enable-p
-  :after (go-mode lsp-mode)
-  :commands lsp-go-enable
-  :hook (go-mode . lsp-go-enable)
-  :config (setq lsp-go-gocode-completion-enabled t))
-
 (provide 'init-golang)
 ;;; init-golang ends here

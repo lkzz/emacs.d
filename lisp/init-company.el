@@ -87,11 +87,5 @@
   (setq company-box-icons-unknown (all-the-icons-material "local_offer" :face 'all-the-icons-silver))
   (setq company-box-icons-yasnippet (all-the-icons-material "short_text" :face 'all-the-icons-green)))
 
-(use-package company-lsp
-  :ensure t
-  :if kevin-lsp-mode-enable-p
-  :after (company lsp-mode)
-  :init (cl-pushnew 'company-lsp company-backends))
-
 (provide 'init-company)
 ;;; init-company.el ends here
