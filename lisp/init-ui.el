@@ -84,6 +84,7 @@
   (doom-themes-visual-bell-config)
   (doom-themes-neotree-config)
   (doom-themes-org-config)
+  (custom-set-faces '(hl-line ((t (:background "#181818")))))
   (load-theme 'doom-tomorrow-night t))
 
 (use-package doom-themes
