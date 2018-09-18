@@ -34,6 +34,7 @@
 (setq use-package-always-ensure t)
 (setq use-package-verbose t)
 ;; (setq use-package-always-defer t)
+(use-package use-package-ensure-system-package)
 
 (use-package diminish :ensure t)
 (use-package bind-map :ensure t)
