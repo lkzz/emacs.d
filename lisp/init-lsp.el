@@ -54,6 +54,8 @@
 ;; Install: go get -u github.com/sourcegraph/go-langserver
 (use-package lsp-go
   :ensure t
+  :ensure-system-package
+  (go-langserver . "go get -u github.com/sourcegraph/go-langserver")
   :if kevin-lsp-mode-enable-p
   :after (go-mode lsp-mode)
   :commands lsp-go-enable

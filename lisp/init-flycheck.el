@@ -47,6 +47,7 @@
 ;; ;; Display Flycheck errors in GUI tooltips
 (use-package flycheck-popup-tip
   :ensure t
+  :if (display-graphic-p)
   :after flycheck
   :hook (flycheck-mode . flycheck-popup-tip-mode))
 
