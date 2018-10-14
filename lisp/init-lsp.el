@@ -61,7 +61,7 @@
 (use-package lsp-go
   :ensure t
   :if kevin-lsp-mode-enable-p
-  :after (go-mode lsp-mode)
+  :after (go-mode lsp-mode lsp-ui-mode)
   :commands lsp-go-enable
   :hook (go-mode . lsp-go-enable)
   :config (setq lsp-go-gocode-completion-enabled t))
