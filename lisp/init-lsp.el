@@ -12,9 +12,9 @@
   :if kevin-lsp-mode-enable-p
   :diminish lsp-mode
   :config
+  (require 'lsp-imenu)
   (setq lsp-inhibit-message t)
   (setq lsp-message-project-root-warning t)
-  (require 'lsp-imenu)
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
 
 (defun toggle-lsp-ui-doc ()
@@ -33,29 +33,33 @@
 (use-package lsp-ui
   :ensure t
   :if kevin-lsp-mode-enable-p
-  :after lsp-mode
+  :after (:all markdown-mode lsp-mode)
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references))
   :hook (lsp-mode . lsp-ui-mode)
   :init
   (setq scroll-margin 0)
-  ;; overwrite s-j key for toggle-lsp-ui-doc
   (global-set-key (kbd "C-j") #'toggle-lsp-ui-doc)
-  (add-hook 'lsp-mode-hook #'my-lsp-mode-hook))
+  ;; (add-hook 'lsp-mode-hook #'my-lsp-mode-hook)
+  :config
+  (setq lsp-ui-sideline-enable t
+  		lsp-ui-sideline-show-symbol t
+  		lsp-ui-sideline-show-hover t
+  		lsp-ui-sideline-show-code-actions t
+  		lsp-ui-sideline-update-mode 'point))
 
 (use-package company-lsp
   :ensure t
   :if kevin-lsp-mode-enable-p
   :after (company lsp-mode)
-  :init (cl-pushnew 'company-lsp company-backends))
+  :init (cl-pushnew 'company-lsp company-backends)
+  :config
+  (setq company-lsp-enable-snippet t)
+  (setq company-lsp-cache-candidates t))
 
-;; Go support for lsp-mode using Sourcegraph's Go Language Server
-;; Install: go get -u github.com/sourcegraph/go-langserver
 (use-package lsp-go
   :ensure t
-  :ensure-system-package
-  (go-langserver . "go get -u github.com/sourcegraph/go-langserver")
   :if kevin-lsp-mode-enable-p
   :after (go-mode lsp-mode)
   :commands lsp-go-enable

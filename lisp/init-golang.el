@@ -6,16 +6,6 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Go packages:
-;; go get -u github.com/nsf/gocode
-;; go get github.com/sourcegraph/go-langserver
-;; go get -u github.com/rogpeppe/godef
-;; go get -u github.com/golang/lint/golint
-;; go get -u golang.org/x/tools/cmd/...
-;; go get -u github.com/cweill/gotests/...
-;; go get -u github.com/dougm/goflymake
-;; go get github.com/godoctor/godoctor
-
 (defun setup-go-mode-compile ()
   "Customize compile command to run go build"
   (if (not (string-match "go" compile-command))
@@ -23,7 +13,7 @@
            "go build -v")))
 
 ;; refer link: https://emacs-china.org/t/golang/6973
-(defun kevin/go-auto-comment()
+(defun kevin/go-auto-comment ()
   (interactive)
   (unless (featurep 'imenu)
     (require 'imenu nil t))
@@ -42,7 +32,7 @@
         (cdr item)))
      items)))
 
-(defun kevin/go-add-comment(func point)
+(defun kevin/go-add-comment (func point)
   (save-excursion
     (goto-char point)
     (forward-line -1)
@@ -50,7 +40,7 @@
       (end-of-line) (newline-and-indent)
       (insert (concat "// " func " ..")))))
 
-(defun kevin/go-func-comment(f)
+(defun kevin/go-func-comment (f)
   (let ((func (car f)))
     (if (and (string-prefix-p "(" func)
              (string-match "[)] \\(.*\\)[(]\\(.*\\)[)]\\(.*\\)$" func))
@@ -59,7 +49,7 @@
           (kevin/go-add-comment (match-string 1 func) (cdr f))
         (kevin/go-add-comment (car f) (cdr f))))))
 
-(defun kevin/go-type-comment(f)
+(defun kevin/go-type-comment (f)
   (kevin/go-add-comment (car f) (cdr f)))
 
 
@@ -88,9 +78,20 @@
                                         "er" 'go-play-region
                                         "ed" 'go-download-play
                                         "ga" 'ff-find-other-file
-                                        "gc" 'go-coverage))
+                                        "gc" 'go-coverage)
+  ;; ;; Go add-ons for Projectile
+  ;; :ensure-system-package
+  ;; ((dep . "go get -u github.com/golang/dep/cmd/dep")
+  ;;  (gocode . "go get -u github.com/nsf/gocode")
+  ;;  (godef . "go get -u github.com/rogpeppe/gode")
+  ;;  (golint . "go get -u golang.org/x/lint/golint")
+  ;;  (cmd . "go get -u golang.org/x/tools/cmd/...")
+  ;;  (gotest . "go get -u github.com/cweill/gotests/...")
+  ;;  (goflymake . "go get -u github.com/dougm/goflymake")
+  ;;  (godoctor . "go get github.com/godoctor/godoctor")
+  ;;  (go-langserver . "go get -u github.com/sourcegraph/go-langserver"))
+  )
 
-;; Go add-ons for Projectile
 ;; Run: M-x `go-projectile-install-tools'
 (use-package go-projectile
   :ensure t
