@@ -166,12 +166,12 @@
 
 (modeline-define-segment buffer-encoding-segment
                          (concat (pcase (coding-system-eol-type buffer-file-coding-system)
-                                   (0 "unix:")
+                                   (0 (kevin/maybe-faicon-icon "linux" :face 'error :v-adjust -0.0575))
                                    (1 "dos:")
-                                   (2 "mac:"))
+                                   (2 (kevin/maybe-faicon-icon "apple" :face 'error :v-adjust -0.0575)))
                                  (let ((sys (coding-system-plist buffer-file-coding-system)))
                                    (cond ((memq (plist-get sys :category) '(coding-category-undecided coding-category-utf-8))
-                                          "utf-8")
+                                          " utf-8")
                                          (t (upcase (symbol-name (plist-get sys :name))))))))
 
 (modeline-define-segment vsc-info-segment
