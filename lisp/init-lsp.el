@@ -15,7 +15,8 @@
   (require 'lsp-imenu)
   (setq lsp-inhibit-message t)
   (setq lsp-message-project-root-warning t)
-  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu))
+  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
+  (add-hook 'prog-major-mode #'lsp-prog-major-mode-enable))
 
 (defun toggle-lsp-ui-doc ()
   (interactive)
@@ -34,34 +35,32 @@
   :ensure t
   :if kevin-lsp-mode-enable-p
   :after (:all markdown-mode lsp-mode)
+  :hook (lsp-mode . lsp-ui-mode)
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references))
-  :hook (lsp-mode . lsp-ui-mode)
-  :init
+  :config
   (setq scroll-margin 0)
   (global-set-key (kbd "C-j") #'toggle-lsp-ui-doc)
   ;; (add-hook 'lsp-mode-hook #'my-lsp-mode-hook)
-  :config
-  (setq lsp-ui-sideline-enable t
-  		lsp-ui-sideline-show-symbol t
-  		lsp-ui-sideline-show-hover t
-  		lsp-ui-sideline-show-code-actions t
-  		lsp-ui-sideline-update-mode 'point))
+  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-show-symbol t)
+  (setq lsp-ui-sideline-show-hover t)
+  (setq lsp-ui-sideline-show-code-actions t)
+  (setq lsp-ui-sideline-update-mode 'point))
 
 (use-package company-lsp
   :ensure t
   :if kevin-lsp-mode-enable-p
   :after (company lsp-mode)
-  :init (cl-pushnew 'company-lsp company-backends)
   :config
+  (cl-pushnew 'company-lsp company-backends)
   (setq company-lsp-enable-snippet t)
   (setq company-lsp-cache-candidates t))
 
 (use-package lsp-go
   :ensure t
   :if kevin-lsp-mode-enable-p
-  :after (go-mode lsp-mode lsp-ui-mode)
   :commands lsp-go-enable
   :hook (go-mode . lsp-go-enable)
   :config (setq lsp-go-gocode-completion-enabled t))
