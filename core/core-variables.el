@@ -67,7 +67,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
           (const :tag "doom tomorrow theme" tomorrow))
   :group 'kevin-customize-group)
 
-(defcustom kevin-lsp-mode-enable-p nil
+(defcustom kevin-lsp-mode-enable-p t
   "Enable lsp mode or not."
   :type 'boolean
   :group 'kevin-customize-group)
