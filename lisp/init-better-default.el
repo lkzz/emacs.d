@@ -120,6 +120,7 @@
   :config
   ;; (setq super-save-idle-duration 5)
   ;; (setq super-save-auto-save-when-idle t)
+  (add-hook 'evil-insert-state-exit-hook #'super-save-command)
   (super-save-mode +1))
 
 (provide 'init-better-default)
