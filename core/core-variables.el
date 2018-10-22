@@ -58,7 +58,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'tomorrow
+(defcustom kevin-theme-selected 'zenburn
   "Set color theme."
   :type '(choice
           (const :tag "zenburn theme" zenburn)
