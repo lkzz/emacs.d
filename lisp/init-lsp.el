@@ -42,7 +42,7 @@
   :config
   (setq scroll-margin 0)
   (global-set-key (kbd "C-j") #'toggle-lsp-ui-doc)
-  ;; (add-hook 'lsp-mode-hook #'my-lsp-mode-hook)
+  (add-hook 'lsp-mode-hook #'my-lsp-mode-hook)
   (setq lsp-ui-sideline-enable t)
   (setq lsp-ui-sideline-show-symbol t)
   (setq lsp-ui-sideline-show-hover t)

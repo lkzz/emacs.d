@@ -113,15 +113,5 @@
 ;; :safe means set the safe variables, and ignore the rest.
 (setq enable-local-variables :safe)
 
-;; super-save auto-saves your buffers, when certain events happen
-(use-package super-save
-  :ensure t
-  :diminish super-save-mode "ⓢ"
-  :config
-  ;; (setq super-save-idle-duration 5)
-  ;; (setq super-save-auto-save-when-idle t)
-  (add-hook 'evil-insert-state-exit-hook #'super-save-command)
-  (super-save-mode +1))
-
 (provide 'init-better-default)
 ;;; init-better-default.el ends here
