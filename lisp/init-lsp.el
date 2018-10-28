@@ -9,9 +9,11 @@
 ;; Emacs client for the Language Server Protocol
 ;; https://github.com/emacs-lsp/lsp-mode
 (use-package lsp-mode
+  :ensure t
   :if kevin-lsp-mode-enable-p
   :diminish lsp-mode
   :config
+  (require 'lsp-imenu)
   (setq lsp-inhibit-message t)
   (setq lsp-message-project-root-warning t)
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
@@ -32,7 +34,7 @@
 
 (use-package lsp-ui
   :ensure t
-  :after (markdown-mode lsp-mode)
+  :after (:all markdown-mode lsp-mode)
   :hook (lsp-mode . lsp-ui-mode)
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
