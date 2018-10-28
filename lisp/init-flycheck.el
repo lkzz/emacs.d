@@ -6,7 +6,7 @@
   :defer t
   :diminish flycheck-mode "ⓕ"
   :commands (hydra-flycheck/body)
-  ;; :hook (after-init . global-flycheck-mode)
+  :hook (prog-mode . flycheck-mode)
   :config
   (setq flycheck-emacs-lisp-check-declare t)
   (setq flycheck-indication-mode 'right-fringe)
