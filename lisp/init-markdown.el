@@ -8,10 +8,10 @@
 
 (use-package markdown-mode
   :ensure t
-  ;; :mode (("\\.mmark\\'" . markdown-mode)
-  ;;        ("README\\.md$'" . gfm-mode)
-  ;;        ("\\.md$'" . markdon-mode)
-  ;;        ("\\.markdown$'" . markdown-mode))
+  :mode (("\\.mmark\\'" . markdown-mode)
+         ("README\\.md$'" . gfm-mode)
+         ("\\.md$'" . markdon-mode)
+         ("\\.markdown$'" . markdown-mode))
   :init
   (setq markdown-command "multimarkdown")
   ;; Redefine the `auto-mode-alist' entries provided by
