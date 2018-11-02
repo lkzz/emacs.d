@@ -79,6 +79,10 @@
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 
+(use-package expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)))
+
 (use-package url
   :ensure nil
   :init
