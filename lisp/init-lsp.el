@@ -16,6 +16,7 @@
   (require 'lsp-imenu)
   (setq lsp-inhibit-message t)
   (setq lsp-message-project-root-warning t)
+  (setq lsp-hover-text-function 'lsp--text-document-signature-help)
   (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
   (add-hook 'prog-major-mode #'lsp-prog-major-mode-enable))
 
@@ -50,7 +51,7 @@
   (setq scroll-margin 0)
   ;; (global-set-key (kbd "C-j") #'toggle-lsp-ui-doc)
   ;; (add-hook 'lsp-mode-hook #'my-lsp-mode-hook)
-  (setq lsp-ui-doc-enable nil)
+  (setq lsp-ui-doc-enable t)
   (setq lsp-ui-flycheck-enable t)
   (setq lsp-ui-imenu-enable t)
   (setq lsp-ui-sideline-ignore-duplicate t)

@@ -54,8 +54,8 @@
 
 
 (use-package go-mode
-  :defer t
   :ensure t
+  :mode "\\.go\\'"
   :bind (:map go-mode-map
               ([remap xref-find-definitions] . godef-jump)
               ("C-c R" . go-remove-unused-imports)
@@ -100,6 +100,12 @@
   :hook ((go-mode . go-projectile-mode)
          (projectile-after-switch-project . go-projectile-switch-project)))
 
+(use-package go-eldoc
+  :ensure t
+  :after (go-mode eldoc)
+  :commands (godoc-at-point)
+  :hook (go-mode . go-eldoc-setup))
+
 (use-package golint
   :ensure t
   :after go-mode)
@@ -107,12 +113,6 @@
 (use-package govet
   :ensure t
   :after go-mode)
-
-(use-package go-eldoc
-  :ensure t
-  :after (go-mode eldoc)
-  :commands (godoc-at-point)
-  :hook (go-mode . go-eldoc-setup))
 
 (use-package go-errcheck
   :ensure t
@@ -189,7 +189,8 @@
   :ensure t
   :after (company go-mode)
   :config
-  (add-hook 'go-mode-hook #'kevin/setup-go-company-backends))
+  (add-hook 'go-mode-hook #'kevin/setup-go-company-backends)
+  (setq company-go-show-annotation t))
 
 (provide 'init-golang)
 ;;; init-golang ends here
