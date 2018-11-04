@@ -95,6 +95,12 @@
   (doom-themes-org-config)
   (load-theme 'doom-one t))
 
+(use-package gruvbox-theme
+  :ensure t
+  :if (eq kevin-theme-selected 'gruvbox)
+  :config
+  (load-theme 'gruvbox-dark-medium t))
+
 ;; 字体设置
 (use-package cnfonts
   :defer t
