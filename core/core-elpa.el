@@ -6,12 +6,17 @@
 ;;; Commentary:
 ;;; Code:
 
-(setq package-archives
-      '(
-        ;; emacs-china repository:
-        ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
-        ("gnu-cn" . "http://elpa.emacs-china.org/gnu/")
-        ("org-cn" . "http://elpa.emacs-china.org/org/")))
+; (setq package-archives
+;       '(
+;         ;; emacs-china repository:
+;         ("melpa-cn" . "http://elpa.emacs-china.org/melpa/")
+;         ("gnu-cn" . "http://elpa.emacs-china.org/gnu/")
+;         ("org-cn" . "http://elpa.emacs-china.org/org/")))
+
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+
 
 ;;; Fire up package.el
 (setq package-enable-at-startup nil ; don't auto-initialize!
