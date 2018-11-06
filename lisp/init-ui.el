@@ -66,6 +66,9 @@
 ;; 启动时窗口最大化
 (add-hook 'after-init-hook 'toggle-frame-maximized)
 
+(use-package all-the-icons
+  :demand t)
+
 ;; ;; 安装常用的主题
 (use-package monokai-theme
   :ensure t
