@@ -34,10 +34,9 @@
   :defer t)
 
 (use-package server
-  :defer t
-  :init
-  (server-mode 1)
+  :ensure t
   :config
+  (server-mode 1)
   (unless (server-running-p)
     (server-start)))
 
@@ -53,8 +52,8 @@
   :ensure nil
   :config
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
-                                     (recentf-mode)
-                                     (recentf-track-opened-file))))
+                                    (recentf-mode)
+                                    (recentf-track-opened-file))))
   (setq recentf-max-saved-items 200)
   (setq recentf-exclude '((expand-file-name package-user-dir)
                           kevin-cache-directory
