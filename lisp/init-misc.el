@@ -194,9 +194,6 @@
 (use-package mwim
   :defer t)
 
-(use-package wgrep
-  :defer t)
-
 (use-package counsel-osx-app
   :defer t)
 
@@ -206,6 +203,44 @@
   :config
   (setq smex-save-file (concat kevin-cache-directory "smex-items"))
   (setq smex-history-length 10))
+
+(use-package wgrep
+  :ensure t
+  :init
+  (setq wgrep-auto-save-buffer t)
+  (setq wgrep-change-readonly-file t))
+
+(use-package ag
+  :ensure t
+  :defines projectile-command-map
+  :init
+  (with-eval-after-load 'projectile
+    (bind-key "s S" #'ag-project projectile-command-map))
+  :config
+  (setq ag-highlight-search t)
+  (setq ag-reuse-buffers t)
+  (setq ag-reuse-window t)
+  (use-package wgrep-ag
+    :ensure t))
+
+(use-package rg
+  :ensure t
+  :hook (after-init . rg-enable-default-bindings)
+  :config
+  (setq rg-group-result t)
+  (setq rg-show-columns t)
+  (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases)
+  (with-eval-after-load 'projectile
+    (defalias 'projectile-ripgrep 'rg-project)
+    (bind-key "s R" #'rg-project projectile-command-map))
+  (when (fboundp 'ag)
+    (bind-key "a" #'ag rg-global-map))
+  (with-eval-after-load 'counsel
+    (bind-keys :map rg-global-map
+               ("c r" . counsel-rg)
+               ("c s" . counsel-ag)
+               ("c p" . counsel-pt)
+               ("c f" . counsel-fzf))))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here
