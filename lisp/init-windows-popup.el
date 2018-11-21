@@ -28,7 +28,7 @@
           ;; Kill Ring
           ("*Kill Ring*" :dedicated t :position bottom)
           ;; Flycheck
-          ("\*flycheck errors\*.+*$" :regexp t :position bottom :stick t :noselect nil)
+          ("\*Flycheck errors\*.+*$" :regexp t :position bottom :stick t :noselect nil)
           ;; Youdao dict
           ("*Youdao Dictionary*" :dedicated t :position bottom)
           ;; Paradox
