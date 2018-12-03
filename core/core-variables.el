@@ -68,7 +68,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
           (const :tag "gruvbox theme" gruvbox))
   :group 'kevin-customize-group)
 
-(defcustom kevin-lsp-mode-enable-p t
+(defcustom kevin-lsp-mode-enable-p nil
   "Enable lsp mode or not."
   :type 'boolean
   :group 'kevin-customize-group)
