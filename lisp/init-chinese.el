@@ -108,5 +108,19 @@
                 cal-china-x-general-holidays
                 holiday-other-holidays)))
 
+;; https://github.com/manateelazycat/company-english-helper
+(use-package company-english-helper
+  :load-path "vendor/lisp/english/"
+  :bind ("C-c t e" . 'toggle-company-english-helper))
+
+;; https://github.com/manateelazycat/insert-translated-name
+(use-package insert-translated-name
+  :load-path "vendor/lisp/english/"
+  :bind ("C-c t t" . 'insert-translated-name-insert)
+  :config
+  (setq insert-translated-name-translate-engine 'youdao)
+  (defvar insert-translated-name-camel-style-mode-list
+    '(go-mode)))
+
 (provide 'init-chinese)
 ;;; init-chinese ends here
