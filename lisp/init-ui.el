@@ -194,13 +194,12 @@
 
 (use-package dashboard
   :ensure t
-  :disabled
   :diminish page-break-lines-mode
   :config
   (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
   (setq dashboard-startup-banner 'official)
-  (setq dashboard-items '((recents  . 10)
-                          (projects . 3)
+  (setq dashboard-items '((bookmarks . 5)
+                          (recents  . 5)
                           (agenda . 5)))
   (setq show-week-agenda-p t)
   (dashboard-setup-startup-hook))
