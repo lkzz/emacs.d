@@ -35,8 +35,8 @@
 
 (use-package server
   :ensure t
+  :init (server-mode 1)
   :config
-  (server-mode 1)
   (unless (server-running-p)
     (server-start)))
 
@@ -54,11 +54,12 @@
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
                                     (recentf-mode)
                                     (recentf-track-opened-file))))
-  (setq recentf-max-saved-items 200)
+  (setq recentf-max-saved-items 100)
   (setq recentf-exclude '((expand-file-name package-user-dir)
                           kevin-cache-directory
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
+                          "org"
                           "custom.el")))
 
 
