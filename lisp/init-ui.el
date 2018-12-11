@@ -104,6 +104,14 @@
   :config
   (load-theme 'gruvbox-dark-medium t))
 
+(defun set-background-for-terminal (&optional frame)
+  (or frame (setq frame (selected-frame)))
+  "unsets the background color in terminal mode"
+  (unless (display-graphic-p frame)
+    (set-face-background 'default "unspecified-bg" frame)))
+(add-hook 'after-make-frame-functions 'set-background-for-terminal)
+(add-hook 'window-setup-hook 'set-background-for-terminal)
+
 ;; 字体设置
 (use-package cnfonts
   :defer t
@@ -197,11 +205,12 @@
   :diminish page-break-lines-mode
   :config
   (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
-  (setq dashboard-startup-banner 'official)
-  (setq dashboard-items '((bookmarks . 5)
-                          (recents  . 5)
-                          (agenda . 5)))
-  (setq show-week-agenda-p t)
+  ;; (setq dashboard-startup-banner 'official)
+  (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory))
+  (setq dashboard-items '((recents . 5)
+                          (bookmarks . 5)
+                          (projects . 3)))
+  ;; (setq show-week-agenda-p t)
   (dashboard-setup-startup-hook))
 
 (provide 'init-ui)
