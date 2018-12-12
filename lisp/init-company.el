@@ -115,5 +115,10 @@
           (24 . ,(all-the-icons-material "control_point"            :height 0.8 :face 'all-the-icons-red))   ; operator
           (25 . ,(all-the-icons-material "class"                    :height 0.8 :face 'all-the-icons-red)))))
 
+(use-package company-flx
+  :ensure t
+  :after company
+  :config (company-flx-mode +1))
+
 (provide 'init-company)
 ;;; init-company.el ends here
