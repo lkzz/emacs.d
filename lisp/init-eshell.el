@@ -8,6 +8,7 @@
 
 (use-package company-shell
   :defer t
+  :ensure t
   :after company
   :config
   (add-hook eshell-mode-hook (lambda ()
@@ -17,6 +18,7 @@
 
 (use-package eshell-prompt-extras
   :defer t
+  :ensure t
   :commands epe-theme-lambda
   :init
   (setq eshell-highlight-prompt nil
@@ -25,7 +27,7 @@
 (use-package shell-pop
   :defer t
   :ensure t
-  :config
+  :init ;; must be init,not :config
   (setq-default shell-pop-shell-type '("eshell" "*eshell*" (lambda nil (eshell))))
   ;; set the shell popup height
   (setq-default shell-pop-window-height 50)
@@ -33,7 +35,7 @@
   ;; issue: https://github.com/syl20bnr/spacemacs/issues/7446
   (setq-default shell-pop-full-span nil)
   ;; pop the shell from the bottom of the frame
-  (setq-default shell-pop-window-position "bottom"))
+  (setq-default shell-pop-window-position "full"))
 
 ;; Eshell prompt for git users
 (use-package eshell-git-prompt
