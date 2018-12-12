@@ -110,11 +110,13 @@
 
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
+  :ensure nil
   :load-path "vendor/lisp/english/"
   :bind ("C-c t e" . 'toggle-company-english-helper))
 
 ;; https://github.com/manateelazycat/insert-translated-name
 (use-package insert-translated-name
+  :ensure nil
   :load-path "vendor/lisp/english/"
   :bind ("C-c t t" . 'insert-translated-name-insert)
   :config
