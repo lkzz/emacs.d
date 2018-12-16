@@ -132,7 +132,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 (defun kevin/auto-save-buffer ()
   (interactive)
-  (if (and (buffer-file-name) (buffer-modified-p))
+  (if (and (buffer-file-name) (buffer-modified-p) (evil-normal-state-p))
       (progn
         (basic-save-buffer)
         (message "saved %s" buffer-file-name)))
