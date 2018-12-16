@@ -18,7 +18,7 @@
 
 ;; ** 设置拼音输入法
 (use-package pyim
-  :demand t
+  :defer 3
   :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
   ;; 激活 basedict 拼音词库
@@ -111,6 +111,7 @@
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
   :ensure nil
+  :after company
   :load-path "vendor/lisp/english/"
   :bind ("C-c t e" . 'toggle-company-english-helper))
 
