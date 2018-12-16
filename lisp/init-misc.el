@@ -82,7 +82,7 @@
   :hook (after-init . avy-setup-default)
   :init
   (kevin/set-leader-keys
-   "jc" 'avy-goto-char
+   "jc" 'avy-goto-char-2
    "jw" 'avy-goto-word-or-subword-1
    "jl" 'avy-goto-line
    "jp" #'kevin/goto-match-parent)
