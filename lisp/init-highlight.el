@@ -25,6 +25,7 @@
   :hook (after-init . whitespace-mode)
   :init
   (add-hook 'minibuffer-setup-hook (lambda () (setq show-trailing-whitespace nil)))
+  (add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
   (setq-default show-trailing-whitespace t)
   (setq whitespace-style '(face trailing))
   :config
