@@ -129,5 +129,21 @@ Including indent-buffer, which should not be called automatically on save."
                 (unless (eq ibuffer-sorting-mode 'alphabetic)
                   (ibuffer-do-sort-by-alphabetic))))))
 
+
+(defun kevin/auto-save-buffer ()
+  (interactive)
+  (if (and (buffer-file-name) (buffer-modified-p))
+      (progn
+        (basic-save-buffer)
+        (message "saved %s" buffer-file-name)))
+  )
+
+(defun kevin/auto-save-enable ()
+  (interactive)
+  (run-with-idle-timer 1 t #'kevin/auto-save-buffer)
+  (add-hook 'before-save-hook 'font-lock-flush))
+
+(add-hook 'after-init-hook #'kevin/auto-save-enable)
+
 (provide 'init-buffer)
 ;;; init-buffer.el ends here
