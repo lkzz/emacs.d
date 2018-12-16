@@ -161,6 +161,11 @@
                                         "tm" 'go-test-current-file
                                         "tp" 'go-test-current-project))
 
+(use-package go-imenu
+  :ensure t
+  :after go-mode
+  :config (add-hook 'go-mode-hook 'go-imenu-setup))
+
 (use-package godoctor
   :ensure t
   :after go-mode
