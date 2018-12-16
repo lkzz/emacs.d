@@ -11,7 +11,7 @@
   "Name of the default layout.")
 
 (use-package persp-mode
-  ;; :hook (after-init . persp-mode)
+  :hook (after-init . persp-mode)
   :commands (hydra-persp-mode/body persp-mode)
   :diminish persp-mode
   :init
