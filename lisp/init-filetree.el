@@ -18,10 +18,10 @@
   (kevin/set-leader-keys "ft" 'neotree-toggle)
   (setq neo-create-file-auto-open t
         neo-auto-indent-point nil
-        neo-autorefresh nil
+        neo-autorefresh t
         neo-smart-open t
         neo-mode-line-type 'none
-        neo-window-width 30
+        neo-window-width 28
         neo-show-updir-line nil
         neo-theme (if (display-graphic-p) 'icons 'arrow)
         neo-banner-message nil
