@@ -109,8 +109,6 @@
   "unsets the background color in terminal mode"
   (unless (display-graphic-p frame)
     (set-face-background 'default "unspecified-bg" frame)))
-(add-hook 'after-make-frame-functions 'set-background-for-terminal)
-(add-hook 'window-setup-hook 'set-background-for-terminal)
 
 ;; 字体设置
 (use-package cnfonts
