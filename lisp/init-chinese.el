@@ -18,7 +18,8 @@
 
 ;; ** 设置拼音输入法
 (use-package pyim
-  :defer 3
+  :ensure t
+  :demand t
   :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
   ;; 激活 basedict 拼音词库
@@ -29,7 +30,7 @@
   (setq pyim-dcache-directory (expand-file-name "dcache/" pyim-directory))
   (setq default-input-method "pyim")
   ;; 使用 emacs thread 来生成 dcache。
-  (setq pyim-dcache-prefer-emacs-thread t)
+  ;; (setq pyim-dcache-prefer-emacs-thread t)
   ;; 使用全拼
   (setq pyim-default-scheme 'quanpin)
   ;; 显示6个候选词。
