@@ -97,22 +97,21 @@ Including indent-buffer, which should not be called automatically on save."
 ;; buffer related keybindings
 (kevin/declare-prefix "b" "buffer")
 (kevin/set-leader-keys
-  "bb" 'ivy-switch-buffer
-  "bc" 'kevin/cleanup-buffer
-  "be" 'eval-buffer
-  "bd" 'kill-this-buffer
-  "bD" #'kevin/kill-other-buffers
-  "bf" 'beginning-of-defun
-  "bi"  #'kevin/indent-region-or-buffer
-  "bk" 'kill-buffer
-  "bl" 'ibuffer-list-buffers
-  "bm" #'kevin/kill-all-buffers
-  "bp" #'kevin/switch-to-prev-buffer
-  "bn" #'kevin/switch-to-next-buffer
-  "bg" #'kevin/revert-buffer-no-confirm
-  "bs" 'save-buffer
-  "bS" #'kevin/create-scratch-buffer
-  )
+ "bb" 'ivy-switch-buffer
+ "bc" 'kevin/cleanup-buffer
+ "be" 'eval-buffer
+ "bd" 'kill-this-buffer
+ "bD" #'kevin/kill-other-buffers
+ "bf" 'beginning-of-defun
+ "bi"  #'kevin/indent-region-or-buffer
+ "bk" 'kill-buffer
+ "bl" 'ibuffer-list-buffers
+ "bm" #'kevin/kill-all-buffers
+ "bp" #'kevin/switch-to-prev-buffer
+ "bn" #'kevin/switch-to-next-buffer
+ "bg" #'kevin/revert-buffer-no-confirm
+ "bs" 'save-buffer
+ "bS" #'kevin/create-scratch-buffer)
 
 ;; Group ibuffer's list by project root
 (use-package ibuffer-projectile
@@ -130,17 +129,26 @@ Including indent-buffer, which should not be called automatically on save."
                   (ibuffer-do-sort-by-alphabetic))))))
 
 
-(defun kevin/auto-save-buffer ()
+(defun kevin/auto-save-buffer()
   (interactive)
-  (if (and (buffer-file-name) (buffer-modified-p) (evil-normal-state-p))
-      (progn
-        (basic-save-buffer)
-        (message "saved %s" buffer-file-name)))
-  )
+  (when (and
+         ;; filename is not empty
+         (buffer-file-name)
+         ;; buffer is modified
+         (buffer-modified-p)
+         ;; yassnippet is not active
+         (or (not (boundp 'yas--active-snippets))
+             (not yas--active-snippets))
+         ;; company is not active
+         (or (not (boundp 'company-candidates))
+             (not company-candidates))
+         )
+    (basic-save-buffer)
+    (message "# saved %s" buffer-file-name)))
 
 (defun kevin/auto-save-enable ()
   (interactive)
-  (run-with-idle-timer 1 t #'kevin/auto-save-buffer)
+  (run-with-idle-timer 3 t #'kevin/auto-save-buffer)
   (add-hook 'before-save-hook 'font-lock-flush))
 
 (add-hook 'after-init-hook #'kevin/auto-save-enable)
