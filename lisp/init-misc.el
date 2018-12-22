@@ -59,7 +59,6 @@
                           kevin-cache-directory
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
-                          "org"
                           "custom.el")))
 
 
