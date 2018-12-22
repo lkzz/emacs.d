@@ -21,6 +21,11 @@
   :defer t
   :hook (emacs-lisp-mode . remove-elc-on-save))
 
+(use-package elisp-def
+  :ensure t
+  :diminish elisp-def-mode ""
+  :hook (emacs-lisp-mode . elisp-def-mode))
+
 ;; Show function arglist or variable docstring
 (use-package eldoc
   :ensure t
