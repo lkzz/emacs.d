@@ -46,14 +46,20 @@
               which-key-add-key-based-replacements)
   :hook (after-init . which-key-mode)
   :config
-  (setq which-key-idle-delay 0.4)
+  (setq which-key-idle-delay 0.3)
+  (setq which-key-min-display-lines 1)
+  (setq which-key-add-column-padding 1)
+  (setq which-key-max-display-columns nil)
+  (setq which-key-sort-uppercase-first nil)
   (setq which-key-side-window-max-width 0.33)
   (setq which-key-side-window-max-height 0.25)
   (setq which-key-allow-imprecise-window-fit t) ; performance
+  (setq which-key-sort-order #'which-key-prefix-then-key-order)
   (add-to-list 'which-key-replacement-alist '(("TAB" . nil) . ("↹" . nil)))
   (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil)))
   (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))
-  (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil))))
+  (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil)))
+  (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
 
 ;; (byte-recompile-file "~/.emacs.d/core/core-elpa.el" nil 0)
