@@ -68,6 +68,7 @@
 ;; (require 'init-email)
 
 ;; programming releated packages
+(require 'init-tag)
 (require 'init-prog)
 (require 'init-company)
 (require 'init-golang)
