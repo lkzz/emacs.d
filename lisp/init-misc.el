@@ -59,6 +59,7 @@
                           kevin-cache-directory
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
+                          "pyim"
                           "custom.el")))
 
 
