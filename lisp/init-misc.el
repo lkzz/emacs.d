@@ -60,6 +60,7 @@
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
                           "pyim"
+                          "elpa"
                           "custom.el")))
 
 
