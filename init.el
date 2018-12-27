@@ -68,7 +68,7 @@
 ;; (require 'init-email)
 
 ;; programming releated packages
-(require 'init-tag)
+;; (require 'init-tag)
 (require 'init-prog)
 (require 'init-company)
 (require 'init-golang)
@@ -81,6 +81,7 @@
 (require 'init-persp-mode)
 (require 'init-projectile)
 (require 'init-lua)
+(require 'init-rust)
 ;; (require 'init-lsp)
 
 ;; tools

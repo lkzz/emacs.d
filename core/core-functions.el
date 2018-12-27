@@ -246,7 +246,8 @@ Argument VALUE 0 is transparent, 100 is opaque."
     (python-mode (call-interactively 'jedi:goto-definition))
     (otherwise
      (counsel-etags-find-tag-at-point)))
-  (setq this-command 'goto-definition))
+  (setq this-command 'kevin/goto-definition)
+  )
 
 (byte-recompile-file "~/.emacs.d/core/core-functions.el" nil 0)
 (provide 'core-functions)
