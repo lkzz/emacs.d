@@ -20,7 +20,7 @@
                                           ))
 
 (use-package company
-  :defer 3
+  :ensure t
   :diminish company-mode "ⓒ"
   :bind (("M-/" . company-complete)
          :map company-active-map
@@ -73,6 +73,7 @@
 
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box
+  :ensure t
   :after company
   :diminish company-box-mode
   :hook (company-mode . company-box-mode)

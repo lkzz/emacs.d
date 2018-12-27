@@ -142,6 +142,8 @@ Including indent-buffer, which should not be called automatically on save."
          ;; company is not active
          (or (not (boundp 'company-candidates))
              (not company-candidates))
+         ;; evil normal state
+         (evil-normal-state-p)
          )
     (basic-save-buffer)
     (message "# saved %s" buffer-file-name)))
