@@ -1,4 +1,4 @@
-;;; init-modeline.el. -*- lexical-binding: t; -*-
+;;; init-modeline.el --- -*- lexical-binding: t; -*-
 ;;
 ;; Author: kevin <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
