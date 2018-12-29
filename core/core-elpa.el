@@ -6,15 +6,15 @@
 ;;; Commentary:
 ;;; Code:
 
-(require 'package)
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
 ;;; Fire up package.el
-(setq package-enable-at-startup nil) ; don't auto-initialize!
-
-(unless package--initialized (package-initialize t))
+(setq package-enable-at-startup nil ; don't auto-initialize!
+      ;; don't add that `custom-set-variables' block to my initl!
+      package--init-file-ensured t)
+(package-initialize)
 ;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
 (setq load-prefer-newer t)
 
