@@ -12,7 +12,7 @@
   ;; Enable Cache
   (setq url-automatic-caching t)
   ;; Set file path for saving search history
-  (setq youdao-dictionary-search-history-file (concat kevin-cache-directory ".youdao"))
+  (setq youdao-dictionary-search-history-file (expand-file-name "youdao" kevin-cache-directory))
   ;; Enable Chinese word segmentation support
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 
@@ -26,8 +26,7 @@
   (use-package pyim-basedict
     :ensure t
     :config (pyim-basedict-enable))
-  (setq pyim-directory (expand-file-name "pyim/" kevin-cache-directory))
-  (setq pyim-dcache-directory (expand-file-name "dcache/" pyim-directory))
+  (setq pyim-dcache-directory (expand-file-name "pyim" kevin-cache-directory))
   (setq default-input-method "pyim")
   ;; 使用 emacs thread 来生成 dcache。
   ;; (setq pyim-dcache-prefer-emacs-thread t)
@@ -43,6 +42,7 @@
 
 (use-package pangu-spacing
   :defer t
+  :ensure t
   :diminish pangu-spacing-mode
   :config
   (global-pangu-spacing-mode 1)
@@ -53,8 +53,9 @@
 ;; Chinese calendar
 (use-package cal-china-x
   :defer t
+  :ensure t
   :commands cal-china-x-setup
-  :hook (calendar-load . cal-china-x-setup)
+  :hook (after-init . cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
   (setq calendar-latitude 30.67)
