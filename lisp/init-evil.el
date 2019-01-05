@@ -91,19 +91,14 @@
   (setq evil-visualstar/persistent t)
   (global-evil-visualstar-mode))
 
-(use-package evil-numbers
-  :ensure t
-  :after evil)
-
 (use-package evil-nerd-commenter
   :ensure t
   :after evil
   :init
-  (kevin/set-leader-keys
-   "ci" 'evilnc-comment-or-uncomment-lines
-   "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-   "cp" 'evilnc-comment-or-uncomment-paragraphs
-   "cy" 'evilnc-copy-and-comment-operator))
+  (kevin/set-leader-keys "ci" 'evilnc-comment-or-uncomment-lines
+                         "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+                         "cp" 'evilnc-comment-or-uncomment-paragraphs
+                         "cy" 'evilnc-copy-and-comment-operator))
 
 (use-package evil-escape
   :ensure t
@@ -119,6 +114,17 @@
   :after evil
   :diminish evil-mc-mode
   :init
+  (defun kevin/toggle-evil-mc ()
+    (interactive)
+    (if evil-mc-mode
+        (progn
+          (evil-mc-undo-all-cursors)
+          (evil-mc-mode -1)
+          (message "evil mc mode disabled"))
+      (progn
+        (evil-mc-mode 1)
+        (message "evil mc mode enabled"))))
+  (kevin/set-leader-keys "tm" #'kevin/toggle-evil-mc)
   (defun kevin/reset-evil-mc-key-map ()
     (let ((keys '(("ma" . evil-mc-make-all-cursors)
                   ("mu" . evil-mc-undo-all-cursors)
@@ -135,7 +141,6 @@
       (dolist (key-data keys)
         ;; (evil-define-key 'normal 'evil-mc-key-map (kbd (car key-data)) (cdr key-data))
         (evil-define-key 'visual 'evil-mc-key-map (kbd (car key-data)) (cdr key-data)))))
-  (global-evil-mc-mode)
   :config
   (kevin/reset-evil-mc-key-map))
 
