@@ -1,9 +1,16 @@
-;;; core-elpa.el --- elpa config. -*- lexical-binding: t -*-
+;;; core-elpa.el --- elpa config. -*- lexical-binding: t; -*-
 ;;
-;; Author: kevin <kevin.scnu@gmail.com>
+;; Copyright (C) 2017-2019  Kevin Leung
+;;
+;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
 ;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+;;
 ;;; Commentary:
+;;
 ;;; Code:
 
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
