@@ -63,6 +63,9 @@
   (define-key evil-normal-state-map (kbd "C-w") 'evil-delete-backward-word)
   (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
   (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
+  (define-key evil-normal-state-map (kbd "C-n") nil)
+  (define-key evil-normal-state-map (kbd "C-p") nil)
+
   ;; evil motion state keybinds
   (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
   (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
