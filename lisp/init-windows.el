@@ -118,7 +118,7 @@
   :diminish golden-ratio-mode "ⓖ"
   :init
   (progn
-    (defun kevin/golden-ratio-toggle ()
+    (defun kevin/toggle-golden-ratio ()
       (interactive)
       (if golden-ratio-mode
           (progn
@@ -129,7 +129,7 @@
           (golden-ratio-mode 1)
           (message "golden ratio enabled")
           (golden-ratio))))
-    (kevin/set-leader-keys "tg" #'kevin/golden-ratio-toggle))
+    (kevin/set-leader-keys "tg" #'kevin/toggle-golden-ratio))
   :config
   (progn
     ;; golden-ratio-exclude-modes
