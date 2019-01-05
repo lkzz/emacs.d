@@ -13,7 +13,7 @@
   (kevin/set-leader-keys "el" #'flycheck-list-errors)
   (kevin/set-leader-keys "ep" #'flycheck-previous-error)
   (kevin/set-leader-keys "en" #'flycheck-next-error)
-  (setq flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
   (setq flycheck-emacs-lisp-check-declare t)
   (setq flycheck-indication-mode 'right-fringe)
   (setq flycheck-emacs-lisp-load-path 'inherit)
