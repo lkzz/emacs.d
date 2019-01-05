@@ -1,6 +1,33 @@
-;;; init-flycheck.el --- initialize flycheck
+;;; init-flycheck.el --- initialize flycheck configurations.  -*- lexical-binding: t; -*-
+
+;; Copyright (C) 2017-2019  Kevin Leung
+
+;;; This file is NOT part of GNU Emacs
+
+;;; License
+
+;; This program is free software: you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation, either version 3 of the License, or
+;; (at your option) any later version.
+
+;; This program is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 ;;; Commentary:
+
+;; setup flycheck package
+
 ;;; Code:
+
+;; Add the following code to emacs startup file.
+
+;; (require 'init-yasnippet)
 
 (use-package flycheck
   :defer t
@@ -13,13 +40,6 @@
   (kevin/set-leader-keys "el" #'flycheck-list-errors)
   (kevin/set-leader-keys "ep" #'flycheck-previous-error)
   (kevin/set-leader-keys "en" #'flycheck-next-error)
-  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
-  (setq flycheck-emacs-lisp-check-declare t)
-  (setq flycheck-indication-mode 'right-fringe)
-  (setq flycheck-emacs-lisp-load-path 'inherit)
-  (setq flycheck-highlighting-mode 'symbols)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  ;; (setq-default flycheck-display-errors-delay 1.5)
   (defhydra hydra-flycheck (:color red
                                    :hint nil)
     "
@@ -41,7 +61,14 @@
     ("p" flycheck-previous-error exit: t)
     ("s" flycheck-select-checker exit: t)
     ("v" flycheck-verify-setup exit: t)
-    ("?" flycheck-describe-checker exit: t)))
+    ("?" flycheck-describe-checker exit: t))
+  :config
+  (setq flycheck-emacs-lisp-check-declare t)
+  (setq flycheck-indication-mode 'right-fringe)
+  (setq flycheck-emacs-lisp-load-path 'inherit)
+  (setq flycheck-highlighting-mode 'symbols)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
 
 ;; Jump to and fix syntax errors via `avy'
 (use-package avy-flycheck
