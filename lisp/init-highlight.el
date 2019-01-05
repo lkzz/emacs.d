@@ -133,7 +133,7 @@
 (use-package symbol-overlay
   :ensure t
   :defer t
-  :diminish symbol-overlay-mode
+  :diminish symbol-overlay-mode "ⓢ"
   :bind (:map symbol-overlay-mode-map
               ("C-p" . symbol-overlay-jump-prev)
               ("C-n" . symbol-overlay-jump-next))
