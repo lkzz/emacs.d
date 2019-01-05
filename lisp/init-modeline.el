@@ -1,10 +1,16 @@
-;;; init-modeline.el --- -*- lexical-binding: t; -*-
+;;; init-modeline.el --- init spaceline. -*- lexical-binding: t; -*-
 ;;
-;; Author: kevin <kevin.scnu@gmail.com>
+;; Copyright (C) 2017-2019  Kevin Leung
+;;
+;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
 ;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+;;
 ;;; Commentary:
-;;             modeline config.
+;;
 ;;; Code:
 
 (defun kevin/maybe-alltheicon (&rest args)
