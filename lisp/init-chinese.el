@@ -12,12 +12,13 @@
   ;; Enable Cache
   (setq url-automatic-caching t)
   ;; Set file path for saving search history
-  (setq youdao-dictionary-search-history-file (concat kevin-cache-directory ".youdao"))
+  (setq youdao-dictionary-search-history-file (expand-file-name "youdao" kevin-cache-directory))
   ;; Enable Chinese word segmentation support
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 
 ;; ** 设置拼音输入法
 (use-package pyim
+  :ensure t
   :demand t
   :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
@@ -25,11 +26,10 @@
   (use-package pyim-basedict
     :ensure t
     :config (pyim-basedict-enable))
-  (setq pyim-directory (expand-file-name "pyim/" kevin-cache-directory))
-  (setq pyim-dcache-directory (expand-file-name "dcache/" pyim-directory))
+  (setq pyim-dcache-directory (expand-file-name "pyim" kevin-cache-directory))
   (setq default-input-method "pyim")
   ;; 使用 emacs thread 来生成 dcache。
-  (setq pyim-dcache-prefer-emacs-thread t)
+  ;; (setq pyim-dcache-prefer-emacs-thread t)
   ;; 使用全拼
   (setq pyim-default-scheme 'quanpin)
   ;; 显示6个候选词。
@@ -42,6 +42,7 @@
 
 (use-package pangu-spacing
   :defer t
+  :ensure t
   :diminish pangu-spacing-mode
   :config
   (global-pangu-spacing-mode 1)
@@ -52,8 +53,9 @@
 ;; Chinese calendar
 (use-package cal-china-x
   :defer t
+  :ensure t
   :commands cal-china-x-setup
-  :hook (calendar-load . cal-china-x-setup)
+  :hook (after-init . cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
   (setq calendar-latitude 30.67)
@@ -75,11 +77,55 @@
           (holiday-fixed 12 25 "圣诞节")
           (holiday-float 5 0 2 "母亲节")
           (holiday-float 6 0 3 "父亲节")
-          (holiday-float 11 4 4 "感恩节")))
+          (holiday-float 11 4 4 "感恩节")
+          ;; 农历节日
+          (holiday-solar-term "清明" "清明节")
+          (holiday-solar-term "小寒" "小寒")
+          (holiday-solar-term "大寒" "大寒")
+          (holiday-solar-term "立春" "立春")
+          (holiday-solar-term "雨水" "雨水")
+          (holiday-solar-term "惊蛰" "惊蛰")
+          (holiday-solar-term "春分" "春分")
+          (holiday-solar-term "谷雨" "谷雨")
+          (holiday-solar-term "立夏" "立夏")
+          (holiday-solar-term "小满" "小满")
+          (holiday-solar-term "芒种" "芒种")
+          (holiday-solar-term "夏至" "夏至")
+          (holiday-solar-term "小暑" "小暑")
+          (holiday-solar-term "大暑" "大暑")
+          (holiday-solar-term "立秋" "立秋")
+          (holiday-solar-term "处暑" "处暑")
+          (holiday-solar-term "白露" "白露")
+          (holiday-solar-term "秋分" "秋分")
+          (holiday-solar-term "寒露" "寒露")
+          (holiday-solar-term "霜降" "霜降")
+          (holiday-solar-term "立冬" "立冬")
+          (holiday-solar-term "小雪" "小雪")
+          (holiday-solar-term "大雪" "大雪")
+          (holiday-solar-term "冬至" "冬至")
+
+          ))
   (setq calendar-holidays
         (append cal-china-x-important-holidays
                 cal-china-x-general-holidays
                 holiday-other-holidays)))
+
+;; https://github.com/manateelazycat/company-english-helper
+(use-package company-english-helper
+  :ensure nil
+  :after company
+  :load-path "vendor/lisp/english/"
+  :bind ("C-c t e" . 'toggle-company-english-helper))
+
+;; https://github.com/manateelazycat/insert-translated-name
+(use-package insert-translated-name
+  :ensure nil
+  :load-path "vendor/lisp/english/"
+  :bind ("C-c t t" . 'insert-translated-name-insert)
+  :config
+  (setq insert-translated-name-translate-engine 'youdao)
+  (defvar insert-translated-name-camel-style-mode-list
+    '(go-mode)))
 
 (provide 'init-chinese)
 ;;; init-chinese ends here

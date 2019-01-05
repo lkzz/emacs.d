@@ -58,13 +58,14 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'tomorrow
+(defcustom kevin-theme-selected 'gruvbox
   "Set color theme."
   :type '(choice
           (const :tag "zenburn theme" zenburn)
           (const :tag "monokai theme" monokai)
           (const :tag "doom one theme" doom)
-          (const :tag "doom tomorrow theme" tomorrow))
+          (const :tag "doom tomorrow theme" tomorrow)
+          (const :tag "gruvbox theme" gruvbox))
   :group 'kevin-customize-group)
 
 (defcustom kevin-lsp-mode-enable-p nil

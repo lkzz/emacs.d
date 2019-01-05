@@ -11,6 +11,12 @@
   :ensure nil
   :hook (after-init . global-hl-line-mode))
 
+;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
+(use-package paren
+  :ensure nil
+  :defer t
+  :init (show-paren-mode t))
+
 ;; Highlight matching paren
 (use-package highlight-parentheses
   :ensure t
@@ -25,6 +31,7 @@
   :hook (after-init . whitespace-mode)
   :init
   (add-hook 'minibuffer-setup-hook (lambda () (setq show-trailing-whitespace nil)))
+  (add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
   (setq-default show-trailing-whitespace t)
   (setq whitespace-style '(face trailing))
   :config
@@ -66,6 +73,7 @@
 ;; Colorize color names in buffers
 (use-package rainbow-mode
   :defer t
+  :ensure t
   :diminish rainbow-mode
   :hook ((text-mode . rainbow-mode)
          (prog-mode . rainbow-mode)))
@@ -73,6 +81,7 @@
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
   :ensure t
+  :disabled
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Highlight TODO/FIXME/BUG...
@@ -81,10 +90,9 @@
   :ensure t
   :hook (prog-mode . hl-todo-mode)
   :config
-  (setq hl-todo-keyword-faces
-        `(("TODO"  . ,(face-foreground 'warning))
-          ("FIXME" . ,(face-foreground 'error))
-          ("NOTE"  . ,(face-foreground 'success)))))
+  (setq hl-todo-keyword-faces `(("TODO"  . ,(face-foreground 'warning))
+                                ("FIXME" . ,(face-foreground 'error))
+                                ("NOTE"  . ,(face-foreground 'success)))))
 
 ;; Show column indicator.
 (use-package fill-column-indicator
@@ -104,6 +112,26 @@
   (setq fci-rule-column 110)
   (setq fci-rule-width 1)
   (turn-on-auto-fill))
+
+;; Beacon flashes the cursor whenever you adjust position.
+(use-package beacon
+  :ensure t
+  :diminish beacon-mode
+  :config
+  (beacon-mode t)
+  (setq beacon-color "red")
+  (setq beacon-size 80)
+  (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
+
+(use-package symbol-overlay
+  :ensure t
+  :defer t
+  :diminish symbol-overlay-mode
+  :bind (:map symbol-overlay-mode-map
+              ("C-p" . symbol-overlay-jump-prev)
+              ("C-n" . symbol-overlay-jump-next))
+  :init
+  (kevin/set-leader-keys "ts" 'symbol-overlay-mode))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here

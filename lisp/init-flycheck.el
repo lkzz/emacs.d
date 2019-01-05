@@ -6,15 +6,20 @@
   :defer t
   :diminish flycheck-mode "ⓕ"
   :commands (hydra-flycheck/body)
-  :hook (prog-mode . flycheck-mode)
-  :config
+  :hook (after-init . global-flycheck-mode)
+  :init
+  (kevin/declare-prefix "e" "flycheck")
+  (kevin/set-leader-keys "ec" #'flycheck-buffer)
+  (kevin/set-leader-keys "el" #'flycheck-list-errors)
+  (kevin/set-leader-keys "ep" #'flycheck-previous-error)
+  (kevin/set-leader-keys "en" #'flycheck-next-error)
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
   (setq flycheck-emacs-lisp-check-declare t)
   (setq flycheck-indication-mode 'right-fringe)
   (setq flycheck-emacs-lisp-load-path 'inherit)
-  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
-  (setq-default flycheck-check-syntax-automatically '(save mode-enabled))
-  (setq-default flycheck-display-errors-delay 1.5)
-  (kevin/set-leader-keys "fe" #'hydra-flycheck/body)
+  (setq flycheck-highlighting-mode 'symbols)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  ;; (setq-default flycheck-display-errors-delay 1.5)
   (defhydra hydra-flycheck (:color red
                                    :hint nil)
     "
@@ -42,13 +47,15 @@
 (use-package avy-flycheck
   :ensure t
   :after (avy flycheck)
-  :init (avy-flycheck-setup))
+  :init
+  (avy-flycheck-setup)
+  (kevin/set-leader-keys "eg" #'avy-flycheck-goto-error))
 
-;; ;; Display Flycheck errors in GUI tooltips
-(use-package flycheck-popup-tip
+(use-package flycheck-posframe
   :ensure t
+  :if (display-graphic-p)
   :after flycheck
-  :hook (flycheck-mode . flycheck-popup-tip-mode))
+  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here
