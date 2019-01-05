@@ -1,9 +1,16 @@
-;;; init-evil.el --- setup emacs use evil keybinds. -*- lexical-binding: t -*-
+;;; init-evil.el --- setup emacs use evil keybinds. -*- lexical-binding: t; -*-
 ;;
-;; Author: kevin <kevin.scnu@gmail.com>
+;; Copyright (C) 2017-2019  Kevin Leung
+;;
+;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
 ;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+;;
 ;;; Commentary:
+;;
 ;;; Code:
 
 (use-package evil-leader
@@ -115,7 +122,7 @@
 (use-package evil-mc
   :ensure t
   :after evil
-  :diminish evil-mc-mode
+  :diminish evil-mc-mode "ⓜ"
   :init
   (defun kevin/toggle-evil-mc ()
     (interactive)

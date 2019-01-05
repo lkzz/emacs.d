@@ -1,6 +1,16 @@
-;;; init-better-default.el --- 一些常用的琐碎的配置，应该在init.el的最后加载
+;;; init-better-default.el --- 些常用的琐碎的配置，应该在init.el的最后加载. -*- lexical-binding: t; -*-
+;;
+;; Copyright (C) 2017-2019  Kevin Leung
+;;
+;; Author: Kevin Leung <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+;;
 ;;; Commentary:
-
+;;
 ;;; Code:
 
 ;; Personal information

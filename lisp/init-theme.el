@@ -1,15 +1,16 @@
-;;; init-theme.el ---  setup theme. -*- lexical-binding: t -*-
+;;; init-theme.el ---  setup theme. -*- lexical-binding: t; -*-
 ;;
-;; Author: kevin <kevin.scnu@gmail.com>
+;; Copyright (C) 2017-2019  Kevin Leung
+;;
+;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
+;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
 ;;
 ;;; Commentary:
 ;;
-;; Usage
-;; item of time-themes-table: (hours-in-string . theme-name)
-;; you could add more items.
-;; refer link: https://emacs-china.org/t/topic/1348
-
 ;;; Code:
 
 ;;timer for automatically changing themes

@@ -1,5 +1,16 @@
-;;; init-keybinds.el --- personal keybinds,should be required finally.
+;;; init-keybinds.el --- personal keybinds,should be required finally. -*- lexical-binding: t; -*-
+;;
+;; Copyright (C) 2017-2019  Kevin Leung
+;;
+;; Author: Kevin Leung <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+;;
 ;;; Commentary:
+;;
 ;;; Code:
 
 (kevin/declare-prefix "c" "comment")
