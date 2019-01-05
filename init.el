@@ -56,6 +56,7 @@
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
 (require 'init-modeline)
+;; (require 'init-kevin-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
 
@@ -67,6 +68,7 @@
 ;; (require 'init-email)
 
 ;; programming releated packages
+;; (require 'init-tag)
 (require 'init-prog)
 (require 'init-company)
 (require 'init-golang)
@@ -79,7 +81,8 @@
 (require 'init-persp-mode)
 (require 'init-projectile)
 (require 'init-lua)
-(require 'init-lsp)
+(require 'init-rust)
+;; (require 'init-lsp)
 
 ;; tools
 (require 'init-git)

@@ -7,7 +7,6 @@
 ;;; Code:
 
 (use-package markdown-mode
-  :defer t
   :ensure t
   :mode (("\\.mmark\\'" . markdown-mode)
          ("README\\.md$'" . gfm-mode)

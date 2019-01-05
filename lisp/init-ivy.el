@@ -44,6 +44,7 @@
          ("C-c c w" . counsel-colors-web)
          :map ivy-minibuffer-map
          ("C-w" . ivy-yank-word)
+         ([escape] . minibuffer-keyboard-quit)
          :map counsel-find-file-map
          ("C-h" . counsel-up-directory)
          :map swiper-map
@@ -54,7 +55,9 @@
   (setq enable-recursive-minibuffers t) ; Allow commands in minibuffers
   (setq ivy-use-selectable-prompt t)
   (setq ivy-use-virtual-buffers t)    ; Enable bookmarks and recentf
-  (setq ivy-height 20)
+  (setq ivy-height 12)
+  (setq ivy-fixed-height-minibuffer t)
+  (setq ivy-format-function #'ivy-format-function-arrow)
   (setq ivy-count-format "(%d/%d) ")
   (setq ivy-on-del-error-function nil)
   (setq ivy-initial-inputs-alist nil)
@@ -120,6 +123,18 @@
         )
 
   (ivy-rich-mode 1))
+
+;; For better fuzzy searching
+(use-package flx
+  :ensure t
+  :init
+  (setq ivy-re-builders-alist
+        '((counsel-grep . ivy--regex-plus)
+          (counsel-rg   . ivy--regex-plus)
+          (counsel-pt   . ivy--regex-plus)
+          (swiper       . ivy--regex-plus)
+          (t            . ivy--regex-fuzzy))))
+
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

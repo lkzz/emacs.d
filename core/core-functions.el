@@ -235,6 +235,20 @@ Argument VALUE 0 is transparent, 100 is opaque."
   (funcall symbol arg)
   (point))
 
+;;;###autoload
+(defun kevin/goto-definition (&optional arg)
+  "Goto definition and add bookmark at line."
+  (interactive "P")
+  (cl-case major-mode
+    (go-mode (call-interactively 'godef-jump))
+    (emacs-lisp-mode (elisp-def-mode 1) (call-interactively 'elisp-def))
+    (lisp-interaction-mode (elisp-def-mode 1) (call-interactively 'elisp-def))
+    (python-mode (call-interactively 'jedi:goto-definition))
+    (otherwise
+     (counsel-etags-find-tag-at-point)))
+  (setq this-command 'kevin/goto-definition)
+  )
+
 (byte-recompile-file "~/.emacs.d/core/core-functions.el" nil 0)
 (provide 'core-functions)
 ;;; core-functions.el ends here

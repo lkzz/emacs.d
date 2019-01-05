@@ -46,7 +46,7 @@
               set-mark-command-repeat-pop t
               tooltip-delay 1.5
               truncate-partial-width-windows nil
-              truncate-lines t             ; Do not display continuation lines
+              truncate-lines nil           ; Do not display continuation lines
               split-height-threshold nil   ; Disable vertical window splitting
               split-width-threshold nil    ; Disable horizontal window splitting
               majar-mode 'text-mode)
@@ -78,6 +78,10 @@
   :defer t
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
+
+(use-package expand-region
+  :ensure t
+  :bind (("C-=" . er/expand-region)))
 
 (use-package url
   :ensure nil

@@ -6,31 +6,62 @@
 ;;; Commentary:
 ;;; Code:
 
-;; Go packages:
-;; go get -u github.com/nsf/gocode
-;; go get github.com/sourcegraph/go-langserver
-;; go get -u github.com/rogpeppe/godef
-;; go get -u github.com/golang/lint/golint
-;; go get -u golang.org/x/tools/cmd/...
-;; go get -u github.com/cweill/gotests/...
-;; go get -u github.com/dougm/goflymake
-;; go get github.com/godoctor/godoctor
-
 (defun setup-go-mode-compile ()
   "Customize compile command to run go build"
   (if (not (string-match "go" compile-command))
       (set (make-local-variable 'compile-command)
            "go build -v")))
 
+;; refer link: https://emacs-china.org/t/golang/6973
+(defun kevin/go-auto-comment ()
+  (interactive)
+  (unless (featurep 'imenu)
+    (require 'imenu nil t))
+  (let* ((imenu-auto-rescan t)
+         (imenu-auto-rescan-maxout (if current-prefix-arg
+                                       (buffer-size)
+                                     imenu-auto-rescan-maxout))
+         (items (imenu--make-index-alist t))
+         (items (delete (assoc "*Rescan*" items) items)))
+    (cl-mapcan
+     (lambda(item)
+       (cl-mapcan
+        (if (string= (car item) "func")
+            'kevin/go-func-comment
+          'kevin/go-type-comment)
+        (cdr item)))
+     items)))
+
+(defun kevin/go-add-comment (func point)
+  (save-excursion
+    (goto-char point)
+    (forward-line -1)
+    (when (not (looking-at (concat "// " func)))
+      (end-of-line) (newline-and-indent)
+      (insert (concat "// " func " ..")))))
+
+(defun kevin/go-func-comment (f)
+  (let ((func (car f)))
+    (if (and (string-prefix-p "(" func)
+             (string-match "[)] \\(.*\\)[(]\\(.*\\)[)]\\(.*\\)$" func))
+        (kevin/go-add-comment (match-string 1 func) (cdr f))
+      (if (string-match "\\(.*\\)[(]\\(.*\\)[)]\\(.*\\)$" func)
+          (kevin/go-add-comment (match-string 1 func) (cdr f))
+        (kevin/go-add-comment (car f) (cdr f))))))
+
+(defun kevin/go-type-comment (f)
+  (kevin/go-add-comment (car f) (cdr f)))
+
+
 (use-package go-mode
-  :defer t
   :ensure t
+  :mode "\\.go\\'"
   :bind (:map go-mode-map
               ([remap xref-find-definitions] . godef-jump)
               ("C-c R" . go-remove-unused-imports)
               ("<f1>" . godoc-at-point))
   :config
-  (setq gofmt-command "goimports") ; use goimports instead of go-fmt
+  (setq gofmt-command "goimports") ; use goimports instead of gofmt
   (add-hook 'go-mode-hook 'setup-go-mode-compile)
   (add-hook 'before-save-hook #'gofmt-before-save)
   (make-local-variable 'after-save-hook)
@@ -38,6 +69,7 @@
   (kevin/declare-prefix-for-mode 'go-mode "mi" "imports")
   (kevin/set-leader-keys-for-major-mode 'go-mode
                                         "cj" 'godef-jump
+                                        "ac" #'kevin/go-auto-comment
                                         "hh" 'godoc-at-point
                                         "ig" 'go-goto-imports
                                         "ia" 'go-import-add
@@ -46,9 +78,20 @@
                                         "er" 'go-play-region
                                         "ed" 'go-download-play
                                         "ga" 'ff-find-other-file
-                                        "gc" 'go-coverage))
+                                        "gc" 'go-coverage)
+  ;; ;; Go add-ons for Projectile
+  ;; :ensure-system-package
+  ;; ((dep . "go get -u github.com/golang/dep/cmd/dep")
+  ;;  (gocode . "go get -u github.com/nsf/gocode")
+  ;;  (godef . "go get -u github.com/rogpeppe/gode")
+  ;;  (golint . "go get -u golang.org/x/lint/golint")
+  ;;  (cmd . "go get -u golang.org/x/tools/cmd/...")
+  ;;  (gotest . "go get -u github.com/cweill/gotests/...")
+  ;;  (goflymake . "go get -u github.com/dougm/goflymake")
+  ;;  (godoctor . "go get github.com/godoctor/godoctor")
+  ;;  (go-langserver . "go get -u github.com/sourcegraph/go-langserver"))
+  )
 
-;; Go add-ons for Projectile
 ;; Run: M-x `go-projectile-install-tools'
 (use-package go-projectile
   :ensure t
@@ -57,6 +100,12 @@
   :hook ((go-mode . go-projectile-mode)
          (projectile-after-switch-project . go-projectile-switch-project)))
 
+(use-package go-eldoc
+  :ensure t
+  :after (go-mode eldoc)
+  :commands (godoc-at-point)
+  :hook (go-mode . go-eldoc-setup))
+
 (use-package golint
   :ensure t
   :after go-mode)
@@ -64,12 +113,6 @@
 (use-package govet
   :ensure t
   :after go-mode)
-
-(use-package go-eldoc
-  :ensure t
-  :after (go-mode eldoc)
-  :commands (godoc-at-point)
-  :hook (go-mode . go-eldoc-setup))
 
 (use-package go-errcheck
   :ensure t
@@ -118,6 +161,11 @@
                                         "tm" 'go-test-current-file
                                         "tp" 'go-test-current-project))
 
+(use-package go-imenu
+  :ensure t
+  :after go-mode
+  :config (add-hook 'go-mode-hook 'go-imenu-setup))
+
 (use-package godoctor
   :ensure t
   :after go-mode
@@ -146,17 +194,8 @@
   :ensure t
   :after (company go-mode)
   :config
-  (add-hook 'go-mode-hook #'kevin/setup-go-company-backends))
-
-;; Go support for lsp-mode using Sourcegraph's Go Language Server
-;; Install: go get -u github.com/sourcegraph/go-langserver
-(use-package lsp-go
-  :ensure t
-  :if kevin-lsp-mode-enable-p
-  :after (go-mode lsp-mode)
-  :commands lsp-go-enable
-  :hook (go-mode . lsp-go-enable)
-  :config (setq lsp-go-gocode-completion-enabled t))
+  (add-hook 'go-mode-hook #'kevin/setup-go-company-backends)
+  (setq company-go-show-annotation t))
 
 (provide 'init-golang)
 ;;; init-golang ends here

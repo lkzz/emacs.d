@@ -64,7 +64,36 @@
   (setq ns-pop-up-frames nil))
 
 ;; 启动时窗口最大化
-(add-hook 'after-init-hook 'toggle-frame-maximized)
+;; (add-hook 'after-init-hook 'toggle-frame-maximized)
+;; 启动时全屏
+(if (featurep 'cocoa)
+    (progn
+      ;; 在Mac平台, Emacs不能进入Mac原生的全屏模式,否则会导致 `make-frame' 创建时也集成原生全屏属性后造成白屏和左右滑动现象.
+      ;; 所以先设置 `ns-use-native-fullscreen' 和 `ns-use-fullscreen-animation' 禁止Emacs使用Mac原生的全屏模式.
+      ;; 而是采用传统的全屏模式, 传统的全屏模式, 只会在当前工作区全屏,而不是切换到Mac那种单独的全屏工作区,
+      ;; 这样执行 `make-frame' 先关代码或插件时,就不会因为Mac单独工作区左右滑动产生的bug.
+      ;;
+      ;; Mac平台下,不能直接使用 `set-frame-parameter' 和 `fullboth' 来设置全屏,
+      ;; 那样也会导致Mac窗口管理器直接把Emacs窗口扔到单独的工作区, 从而对 `make-frame' 产生同样的Bug.
+      ;; 所以, 启动的时候通过 `set-frame-parameter' 和 `maximized' 先设置Emacs为最大化窗口状态, 启动5秒以后再设置成全屏状态,
+      ;; Mac就不会移动Emacs窗口到单独的工作区, 最终解决Mac平台下原生全屏窗口导致 `make-frame' 左右滑动闪烁的问题.
+      (setq ns-use-native-fullscreen nil)
+      (setq ns-use-fullscreen-animation nil)
+      (run-at-time "5sec" nil
+                   (lambda ()
+                     (let ((fullscreen (frame-parameter (selected-frame) 'fullscreen)))
+                       ;; If emacs has in fullscreen status, maximized window first, drag emacs window from Mac's single space.
+                       (when (memq fullscreen '(fullscreen fullboth))
+                         (set-frame-parameter (selected-frame) 'fullscreen 'maximized))
+                       ;; Call `toggle-frame-fullscreen' to fullscreen emacs.
+                       (toggle-frame-fullscreen)))))
+
+  ;; 非Mac平台直接全屏
+  (require 'fullscreen)
+  (fullscreen))
+
+(use-package all-the-icons
+  :demand t)
 
 ;; ;; 安装常用的主题
 (use-package monokai-theme
@@ -94,6 +123,18 @@
   (doom-themes-neotree-config)
   (doom-themes-org-config)
   (load-theme 'doom-one t))
+
+(use-package gruvbox-theme
+  :ensure t
+  :if (eq kevin-theme-selected 'gruvbox)
+  :config
+  (load-theme 'gruvbox-dark-medium t))
+
+(defun set-background-for-terminal (&optional frame)
+  (or frame (setq frame (selected-frame)))
+  "unsets the background color in terminal mode"
+  (unless (display-graphic-p frame)
+    (set-face-background 'default "unspecified-bg" frame)))
 
 ;; 字体设置
 (use-package cnfonts
@@ -173,27 +214,17 @@
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
 
-;; Beacon flashes the cursor whenever you adjust position.
-(use-package beacon
-  :defer t
-  :ensure t
-  :diminish beacon-mode
-  :config
-  (beacon-mode 1)
-  (setq beacon-color "red")
-  (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
-
 (use-package dashboard
   :ensure t
-  :disabled
   :diminish page-break-lines-mode
   :config
   (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
-  (setq dashboard-startup-banner 'official)
-  (setq dashboard-items '((recents  . 10)
-                          (projects . 3)
-                          (agenda . 5)))
-  (setq show-week-agenda-p t)
+  ;; (setq dashboard-startup-banner 'official)
+  (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory))
+  (setq dashboard-items '((recents . 5)
+                          (bookmarks . 5)
+                          (projects . 3)))
+  ;; (setq show-week-agenda-p t)
   (dashboard-setup-startup-hook))
 
 (provide 'init-ui)

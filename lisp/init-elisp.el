@@ -21,19 +21,16 @@
   :defer t
   :hook (emacs-lisp-mode . remove-elc-on-save))
 
+(use-package elisp-def
+  :ensure t
+  :diminish elisp-def-mode ""
+  :hook (emacs-lisp-mode . elisp-def-mode))
+
 ;; Show function arglist or variable docstring
 (use-package eldoc
-  :defer t
+  :ensure t
   :diminish eldoc-mode
-  :init
-  ;; Enable Eldoc in lisp modes in 24
-  ;; `global-eldoc-mode' is enabled by default in 25.
-  (unless (fboundp 'global-eldoc-mode)
-    (dolist (hook '(emacs-lisp-mode-hook
-                    lisp-interaction-mode-hook
-                    ielm-mode-hook
-                    eval-expression-minibuffer-setup-hook))
-      (add-hook hook #'eldoc-mode))))
+  :hook (after-init . global-eldoc-mode))
 
 ;; This library adds all of the familiar highlighting to cl-lib macros
 (use-package cl-lib-highlight
