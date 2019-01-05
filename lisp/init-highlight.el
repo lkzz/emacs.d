@@ -11,6 +11,12 @@
   :ensure nil
   :hook (after-init . global-hl-line-mode))
 
+;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
+(use-package paren
+  :ensure nil
+  :defer t
+  :init (show-paren-mode t))
+
 ;; Highlight matching paren
 (use-package highlight-parentheses
   :ensure t
