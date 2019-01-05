@@ -18,7 +18,7 @@
                        "tb" 'toggle-scroll-bar
                        "ti" 'imenu-list-smart-toggle
                        "tw" 'toggle-word-wrap
-                       "tm" 'toggle-frame-maximized
+                       ;; "tm" 'toggle-frame-maximized
                        "tf" 'toggle-frame-fullscreen
                        "tp" 'persp-mode
                        "tt" 'toggle-truncate-lines)
