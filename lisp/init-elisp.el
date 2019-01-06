@@ -13,6 +13,8 @@
 ;;
 ;;; Code:
 
+(kevin/define-jump-handlers emacs-lisp-mode)
+
 ;;;###autoload
 (defun remove-elc-on-save ()
   "If you're saving an elisp file, likely the .elc is no longer valid."

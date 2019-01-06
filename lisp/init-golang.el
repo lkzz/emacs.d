@@ -68,6 +68,7 @@
               ("C-c R" . go-remove-unused-imports)
               ("<f1>" . godoc-at-point))
   :config
+  (kevin/define-jump-handlers go-mode godef-jump)
   (setq gofmt-command "goimports") ; use goimports instead of gofmt
   (add-hook 'go-mode-hook 'setup-go-mode-compile)
   (add-hook 'before-save-hook #'gofmt-before-save)

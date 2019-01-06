@@ -81,6 +81,9 @@
   ;; evil visual state keybinds
   (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
 
+  ;; Use evil as a default jump handler
+  (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition)
+
   ;; set evil state for major mode
   (require 'cl)
   (loop for (mode . state) in
