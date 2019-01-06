@@ -34,6 +34,10 @@
   (spaceline-toggle-buffer-size-off)
   (spaceline-toggle-remote-host-off)
   (spaceline-toggle-major-mode-off)
+  (spaceline-toggle-flycheck-info-off)
+  (spaceline-toggle-selection-info-on)
+  (spaceline-toggle-input-method-on)
+  (spaceline-toggle-buffer-encoding-abbrev-on)
   ;; configure the separator between the minor modes
   (setq spaceline-minor-modes-separator "")
   ;; define version control segment
@@ -55,7 +59,7 @@
   ;; hide the current position in the buffer as a percentage
   (spaceline-toggle-buffer-position-off)
   ;; shows the currently visible part of the buffer.
-  (spaceline-toggle-hud-off)
+  (spaceline-toggle-hud-on)
   (setq powerline-height 23)
   (spaceline-emacs-theme))
 
