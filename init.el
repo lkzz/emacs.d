@@ -64,8 +64,8 @@
 ;; personal package config
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
-;; (require 'init-modeline)
-(require 'init-kevin-modeline)
+(require 'init-modeline)
+;; (require 'init-kevin-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
 
