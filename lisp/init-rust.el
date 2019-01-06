@@ -17,7 +17,8 @@
   :ensure t
   :mode "\\.rs\\'"
   :config
-  (setq rust-format-on-save t))
+  (setq rust-format-on-save t)
+  (kevin/define-jump-handlers rust-mode))
 
 (use-package flycheck-rust
   :ensure t

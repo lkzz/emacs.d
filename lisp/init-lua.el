@@ -13,13 +13,15 @@
 ;;
 ;;; Code:
 
+
 (use-package lua-mode
   :defer t
   :ensure t
   :mode ("\\.lua$" . lua-mode)
   :init
   (setq lua-indent-level 2)
-  (setq lua-indent-string-contents t))
+  (setq lua-indent-string-contents t)
+  (kevin/define-jump-handlers lua-mode))
 
 (use-package company-lua
   :ensure t
