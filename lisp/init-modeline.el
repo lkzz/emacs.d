@@ -42,14 +42,14 @@
   (setq spaceline-minor-modes-separator "")
   ;; define version control segment
   (spaceline-define-segment version-control
-    "Version control information."
-    (when vc-mode
-      (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
-        (powerline-raw
-         (concat
-          (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
-          " "
-          branch)))))
+                            "Version control information."
+                            (when vc-mode
+                              (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
+                                (powerline-raw
+                                 (concat
+                                  (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
+                                  " "
+                                  branch)))))
   (use-package nyan-mode
     :ensure t
     :config
