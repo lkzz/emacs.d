@@ -68,7 +68,7 @@
 ;; 一键删除选择区域
 (delete-selection-mode t)
 ;; 简化yes-or-no 输入
-(fset 'yes-or-no-p 'y-or-n-p)
+(defalias 'yes-or-no-p 'y-or-n-p)
 ;; 关闭备份功能
 (setq make-backup-files nil)
 ;; 关闭自动保存模式
