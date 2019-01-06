@@ -203,9 +203,6 @@
 (use-package mwim
   :defer t)
 
-(use-package counsel-osx-app
-  :defer t)
-
 (use-package smex
   :defer t
   :ensure t

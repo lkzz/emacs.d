@@ -36,8 +36,7 @@
 
 ;; open applications with from emacs
 (kevin/declare-prefix "a" "application")
-(kevin/set-leader-keys "aa" 'counsel-osx-app
-                       "ai" #'kevin/open-iterm
+(kevin/set-leader-keys "ai" #'kevin/open-iterm
                        "aw" #'kevin/open-wechat
                        "ay" #'kevin/open-youdao)
 
