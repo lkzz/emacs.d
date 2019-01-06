@@ -56,16 +56,16 @@
 ;;----------------------------------------------------------------------------
 ;; Bootstrap config
 ;;----------------------------------------------------------------------------
-(require 'init-exec-path) ; set up $PATH
-(require 'init-evil)      ; evil mode
-(require 'init-better-default)
+(require 'init-osx)                    ; set up osx
+(require 'init-evil)                   ; evil mode
+(require 'init-better-default)         ; better defaluts
 
 ;;----------------------------------------------------------------------------
 ;; personal package config
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
-(require 'init-modeline)
-;; (require 'init-kevin-modeline)
+;; (require 'init-modeline)
+(require 'init-kevin-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
 
