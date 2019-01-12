@@ -22,7 +22,11 @@
 (use-package paren
   :ensure nil
   :defer t
-  :init (show-paren-mode t))
+  :init
+  (setq show-paren-delay 0)
+  (set-face-foreground 'show-paren-match "red")
+  (set-face-background 'show-paren-match "SkyBlue2")
+  (show-paren-mode t))
 
 ;; Highlight matching paren
 (use-package highlight-parentheses
