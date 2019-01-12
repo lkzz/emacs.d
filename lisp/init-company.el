@@ -84,6 +84,7 @@
   :after company
   :diminish company-box-mode
   :hook (company-mode . company-box-mode)
+  :load-path "vendor/lisp/company-box-20180607.1545"
   :init
   (setq company-box-enable-icon t)
   (setq company-box-doc-delay 0.5)
