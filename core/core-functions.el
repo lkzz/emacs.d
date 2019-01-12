@@ -324,6 +324,30 @@ Argument VALUE 0 is transparent, 100 is opaque."
   (setq this-command 'kevin/goto-definition)
   )
 
+(defun kevin/insert-elisp-file-header ()
+  "Add minimal header and footer to an elisp buffer in order to placate flycheck."
+  (interactive)
+  (let ((fname (if (buffer-file-name)
+                   (file-name-nondirectory (buffer-file-name))
+                 (error "This buffer is not visiting a file"))))
+    (save-excursion
+      (goto-char (point-min))
+      (insert ";;; " fname " --- insert description here -*- lexical-binding: t -*-\n"
+              ";;\n"
+              ";; Copyright (C) 2017-2019  Kevin Leung\n"
+              ";;\n"
+              ";; Author: Kevin Leung <kevin.scnu@gmail.com>\n"
+              ";; URL: https://github.com/lkzz/emacs.d\n"
+              ";;\n"
+              ";; This file is not part of GNU Emacs.\n"
+              ";;\n"
+              ";;; License: GPLv3\n"
+              ";;\n"
+              ";;; Commentary:\n"
+              ";;; Code:\n\n")
+      (goto-char (point-max))
+      (insert ";;; " fname " ends here\n"))))
+
 (byte-recompile-file "~/.emacs.d/core/core-functions.el" nil 0)
 (provide 'core-functions)
 ;;; core-functions.el ends here
