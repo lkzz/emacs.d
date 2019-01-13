@@ -35,7 +35,7 @@
 (eval-when-compile
   (require 'use-package))
 (setq use-package-always-ensure t)
-(setq use-package-verbose t)
+;; (setq use-package-verbose t)
 ;; (setq use-package-always-defer t)
 (use-package use-package-ensure-system-package)
 
@@ -48,7 +48,7 @@
 (use-package which-key
   :demand t
   :ensure t
-  :diminish which-key-mode "ⓦ"
+  :diminish which-key-mode "Ⓚ"
   :commands (which-key-add-major-mode-key-based-replacements
               which-key-add-key-based-replacements)
   :hook (after-init . which-key-mode)

@@ -64,6 +64,7 @@
 ;; personal package config
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
+(require 'init-dashboard)
 (require 'init-modeline)
 ;; (require 'init-kevin-modeline)
 (require 'init-highlight)

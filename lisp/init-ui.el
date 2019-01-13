@@ -220,18 +220,5 @@
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
 
-(use-package dashboard
-  :ensure t
-  :diminish page-break-lines-mode
-  :config
-  (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
-  ;; (setq dashboard-startup-banner 'official)
-  (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory))
-  (setq dashboard-items '((recents . 5)
-                          (bookmarks . 5)
-                          (projects . 3)))
-  ;; (setq show-week-agenda-p t)
-  (dashboard-setup-startup-hook))
-
 (provide 'init-ui)
 ;;; init-ui ends here
