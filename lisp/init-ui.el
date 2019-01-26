@@ -71,6 +71,7 @@
 
 ;; 启动时窗口最大化
 ;; (add-hook 'after-init-hook 'toggle-frame-maximized)
+
 ;; 启动时全屏
 (if (featurep 'cocoa)
     (progn
@@ -93,7 +94,6 @@
                          (set-frame-parameter (selected-frame) 'fullscreen 'maximized))
                        ;; Call `toggle-frame-fullscreen' to fullscreen emacs.
                        (toggle-frame-fullscreen)))))
-
   ;; 非Mac平台直接全屏
   (require 'fullscreen)
   (fullscreen))
