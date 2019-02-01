@@ -18,6 +18,20 @@
   (when (display-graphic-p)
     (apply 'all-the-icons-alltheicon args)))
 
+;;;###autoload
+(defun shorten-directory (dir max-length)
+  "Setup a directory(`DIR') `MAX-LENGTH' characters."
+  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
+        (output ""))
+    (when (and path (equal "" (car path)))
+      (setq path (cdr path)))
+    (while (and path (< (length output) (- max-length 4)))
+      (setq output (concat (car path) "/" output))
+      (setq path (cdr path)))
+    (when path
+      (setq output (concat ".../" output)))
+    output))
+
 (use-package spaceline
   :ensure t
   :config
@@ -42,14 +56,21 @@
   (setq spaceline-minor-modes-separator "")
   ;; define version control segment
   (spaceline-define-segment version-control
-                            "Version control information."
-                            (when vc-mode
-                              (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
-                                (powerline-raw
-                                 (concat
-                                  (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
-                                  " "
-                                  branch)))))
+    "Version control information."
+    (when vc-mode
+      (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
+        (powerline-raw
+         (concat
+          (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
+          " "
+          branch)))))
+
+  ;; define buffer id segment
+  (spaceline-define-segment buffer-id
+    "Shorten buufer fileanme."
+    (when (buffer-file-name)
+      (concat (shorten-directory default-directory 15) (file-relative-name buffer-file-name))))
+
   (use-package nyan-mode
     :ensure t
     :config
