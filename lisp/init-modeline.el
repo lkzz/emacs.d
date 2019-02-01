@@ -13,12 +13,19 @@
 ;;
 ;;; Code:
 
+;;;###autload
 (defun kevin/maybe-alltheicon (&rest args)
   "Display octicon via `ARGS'."
   (when (display-graphic-p)
     (apply 'all-the-icons-alltheicon args)))
 
-;;;###autoload
+;;;###autload
+(defun kevin/maybe-faicon-icon (&rest args)
+  "Display font awesome icon via `ARGS'."
+  (when (display-graphic-p)
+    (apply 'all-the-icons-faicon args)))
+
+;;;###
 (defun shorten-directory (dir max-length)
   "Setup a directory(`DIR') `MAX-LENGTH' characters."
   (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
@@ -69,7 +76,11 @@
   (spaceline-define-segment buffer-id
     "Shorten buufer fileanme."
     (when (buffer-file-name)
-      (concat (shorten-directory default-directory 15) (file-relative-name buffer-file-name))))
+      (concat
+       (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
+       " "
+       (shorten-directory default-directory 15)
+       (file-relative-name buffer-file-name))))
 
   (use-package nyan-mode
     :ensure t
