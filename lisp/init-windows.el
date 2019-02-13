@@ -45,7 +45,7 @@
   (kevin/set-leader-keys "wo" #'ace-window))
 
 ;;;###autoload
-(defun split-window-below-and-focus ()
+(defun kevin/split-window-below-and-focus ()
   "Split the window vertically and focus the new window."
   (interactive)
   (split-window-below)
@@ -54,9 +54,8 @@
              (symbol-value golden-ratio-mode))
     (golden-ratio)))
 
-
 ;;;###autoload
-(defun split-window-right-and-focus ()
+(defun kevin/split-window-right-and-focus ()
   "Split the window horizontally and focus the new window."
   (interactive)
   (split-window-right)
@@ -66,27 +65,32 @@
     (golden-ratio)))
 
 ;; Numbered window shortcuts
-(use-package window-numbering
+(use-package winum
   :defer t
   :ensure t
-  :hook ((after-init . window-numbering-mode)
-         ;; don't add numbers to the modeline
-         (window-numbering-mode . window-numbering-clear-mode-line))
   :init
-  (defadvice select-window-by-number
-      (after golden-ratio-resize-window activate)
-    (golden-ratio) nil)
+  (setq window-numbering-scope 'global)
+  (setq winum-auto-setup-mode-line nil)
+  (setq winum-ignored-buffers '(" *which-key*"))
+  (setq winum-auto-assign-0-to-minibuffer t)
   (kevin/declare-prefix "w" "window")
   ;; window related keybindings
   (kevin/set-leader-keys
-   "1"  'select-window-1
-   "2"  'select-window-2
-   "3"  'select-window-3
-   "4"  'select-window-4
+   "0"  'winum-select-window-0-or-10
+   "1"  'winum-select-window-1
+   "2"  'winum-select-window-2
+   "3"  'winum-select-window-3
+   "4"  'winum-select-window-4
+   "5"  'winum-select-window-5
+   "6"  'winum-select-window-6
+   "7"  'winum-select-window-7
+   "8"  'winum-select-window-8
+   "9"  'winum-select-window-9
    "wd" 'delete-window
-   "w/" #'split-window-right-and-focus
-   "w-" #'split-window-below-and-focus
-   "wD" 'delete-other-windows))
+   "w/" #'kevin/split-window-right-and-focus
+   "w-" #'kevin/split-window-below-and-focus
+   "wD" 'delete-other-windows)
+  (winum-mode))
 
 ;; Zoom window like tmux
 (use-package zoom-window
@@ -105,12 +109,6 @@
   (setq cwm-left-fringe-ratio 0)
   (kevin/set-leader-keys "wc" #'centered-window-mode))
 
-;; ;; Easy window config switching
-;; (use-package eyebrowse
-;;   :defer t
-;;   :ensure t
-;;   :init (add-hook 'after-init-hook #'eyebrowse-mode))
-
 ;; resize window
 (use-package resize-window
   :defer t
@@ -119,100 +117,100 @@
   (kevin/set-leader-keys "wr" #'resize-window))
 
 
+;;;###autoload
+(defun kevin/toggle-golden-ratio ()
+  "Golden ratio mode toggle function."
+  (interactive)
+  (if golden-ratio-mode
+      (progn
+        (golden-ratio-mode -1)
+        (message "golden ratio disabled")
+        (balance-windows))
+    (progn
+      (golden-ratio-mode 1)
+      (message "golden ratio enabled")
+      (golden-ratio))))
+
 (use-package golden-ratio
   :defer t
   :ensure t
   :diminish golden-ratio-mode "ⓖ"
   :init
-  (progn
-    (defun kevin/toggle-golden-ratio ()
-      (interactive)
-      (if golden-ratio-mode
-          (progn
-            (golden-ratio-mode -1)
-            (message "golden ratio disabled")
-            (balance-windows))
-        (progn
-          (golden-ratio-mode 1)
-          (message "golden ratio enabled")
-          (golden-ratio))))
-    (kevin/set-leader-keys "tg" #'kevin/toggle-golden-ratio))
+  (kevin/set-leader-keys "tg" #'kevin/toggle-golden-ratio)
   :config
-  (progn
-    ;; golden-ratio-exclude-modes
-    (dolist (m '("bs-mode"
-                 "calc-mode"
-                 "ediff-mode"
-                 "dired-mode"
-                 "gud-mode"
-                 "gdb-locals-mode"
-                 "gdb-registers-mode"
-                 "gdb-breakpoints-mode"
-                 "gdb-threads-mode"
-                 "gdb-frames-mode"
-                 "gdb-inferior-io-mode"
-                 "gdb-disassembly-mode"
-                 "gdb-memory-mode"
-                 "speedbar-mode"
-                 "ranger-mode"
-                 ))
-      (add-to-list 'golden-ratio-exclude-modes m))
-    (add-to-list 'golden-ratio-exclude-buffer-regexp "^\\*[hH]elm.*")
-    ;; golden-ratio-extra-commands
-    (dolist (f '(ace-window
-                 ace-delete-window
-                 ace-select-window
-                 ace-swap-window
-                 ace-maximize-window
-                 avy-pop-mark
-                 buf-move-left
-                 buf-move-right
-                 buf-move-up
-                 buf-move-down
-                 evil-avy-goto-word-or-subword-1
-                 evil-avy-goto-line
-                 evil-window-delete
-                 evil-window-split
-                 evil-window-vsplit
-                 evil-window-left
-                 evil-window-right
-                 evil-window-up
-                 evil-window-down
-                 evil-window-bottom-right
-                 evil-window-top-left
-                 evil-window-mru
-                 evil-window-next
-                 evil-window-prev
-                 evil-window-new
-                 evil-window-vnew
-                 evil-window-rotate-upwards
-                 evil-window-rotate-downwards
-                 evil-window-move-very-top
-                 evil-window-move-far-left
-                 evil-window-move-far-right
-                 evil-window-move-very-bottom
-                 quit-window
-                 winum-select-window-0-or-10
-                 winum-select-window-1
-                 winum-select-window-2
-                 winum-select-window-3
-                 winum-select-window-4
-                 winum-select-window-5
-                 winum-select-window-6
-                 winum-select-window-7
-                 winum-select-window-8
-                 winum-select-window-9
-                 windmove-left
-                 windmove-right
-                 windmove-up
-                 windmove-down))
-      (add-to-list 'golden-ratio-extra-commands f))
-    ;; golden-ratio-exclude-buffer-names
-    (dolist (n '(" *NeoTree*"
-                 "*LV*"
-                 " *which-key*"))
-      (add-to-list 'golden-ratio-exclude-buffer-names n))
-    ))
+  ;; golden-ratio-exclude-modes
+  (dolist (m '("bs-mode"
+               "calc-mode"
+               "ediff-mode"
+               "dired-mode"
+               "gud-mode"
+               "gdb-locals-mode"
+               "gdb-registers-mode"
+               "gdb-breakpoints-mode"
+               "gdb-threads-mode"
+               "gdb-frames-mode"
+               "gdb-inferior-io-mode"
+               "gdb-disassembly-mode"
+               "gdb-memory-mode"
+               "speedbar-mode"
+               "ranger-mode"
+               ))
+    (add-to-list 'golden-ratio-exclude-modes m))
+  (add-to-list 'golden-ratio-exclude-buffer-regexp "^\\*[hH]elm.*")
+  ;; golden-ratio-extra-commands
+  (dolist (f '(ace-window
+               ace-delete-window
+               ace-select-window
+               ace-swap-window
+               ace-maximize-window
+               avy-pop-mark
+               buf-move-left
+               buf-move-right
+               buf-move-up
+               buf-move-down
+               evil-avy-goto-word-or-subword-1
+               evil-avy-goto-line
+               evil-window-delete
+               evil-window-split
+               evil-window-vsplit
+               evil-window-left
+               evil-window-right
+               evil-window-up
+               evil-window-down
+               evil-window-bottom-right
+               evil-window-top-left
+               evil-window-mru
+               evil-window-next
+               evil-window-prev
+               evil-window-new
+               evil-window-vnew
+               evil-window-rotate-upwards
+               evil-window-rotate-downwards
+               evil-window-move-very-top
+               evil-window-move-far-left
+               evil-window-move-far-right
+               evil-window-move-very-bottom
+               quit-window
+               winum-select-window-0-or-10
+               winum-select-window-1
+               winum-select-window-2
+               winum-select-window-3
+               winum-select-window-4
+               winum-select-window-5
+               winum-select-window-6
+               winum-select-window-7
+               winum-select-window-8
+               winum-select-window-9
+               windmove-left
+               windmove-right
+               windmove-up
+               windmove-down))
+    (add-to-list 'golden-ratio-extra-commands f))
+  ;; golden-ratio-exclude-buffer-names
+  (dolist (n '(" *NeoTree*"
+               "*LV*"
+               " *which-key*"))
+    (add-to-list 'golden-ratio-exclude-buffer-names n)))
 
 (use-package centered-cursor-mode
   :defer t
