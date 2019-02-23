@@ -69,6 +69,7 @@
 ;; (require 'init-kevin-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
+(require 'init-awesome-tab)
 
 ;; misc packages
 (require 'init-anzu)
