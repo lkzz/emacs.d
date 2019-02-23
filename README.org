@@ -58,13 +58,13 @@ git clonet https://github.com/lkzz/emacs.d ~/.emacs.d
  * tab
     | Key Binding     | Description                             |
     |-----------------+-----------------------------------------|
-    | ~,tt~           | ~awesome-tab-switch-group~              |
-    | ~,ta~           | ~awesome-tab-select-beg-tab~            |
-    | ~,te~           | ~awesome-tab-select-end-tab~            |
-    | ~,th~           | ~awesome-tab-move-current-tab-to-left~  |
-    | ~,tl~           | ~awesome-tab-move-current-tab-to-right~ |
-    | ~,tn~           | ~awesome-tab-forward~                   |
-    | ~,tp~           | ~awesome-tab-backward~                  |
+    | ~leader-key tt~ | ~awesome-tab-switch-group~              |
+    | ~leader-key ta~ | ~awesome-tab-select-beg-tab~            |
+    | ~leader-key te~ | ~awesome-tab-select-end-tab~            |
+    | ~leader-key th~ | ~awesome-tab-move-current-tab-to-left~  |
+    | ~leader-key tl~ | ~awesome-tab-move-current-tab-to-right~ |
+    | ~leader-key tn~ | ~awesome-tab-forward~                   |
+    | ~leader-key tp~ | ~awesome-tab-backward~                  |
 
   * window
     | Key Binding | Description                    |
@@ -139,7 +139,7 @@ git clonet https://github.com/lkzz/emacs.d ~/.emacs.d
     | ~C-c y~     | ~youdao directory search~ |
     | ~C-\~       | ~pyim~                    |
     | ~SPC /~     | ~rg search~               |
-    | ~SPC \'~    | ~eshell popup~            |
+    | ~SPC '~     | ~eshell popup~            |
 
 
 
