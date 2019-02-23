@@ -5,6 +5,7 @@ backups/
 eshell/
 elpa/
 auto-save-list/
+transient/
 .DS_Store
 places
 recentf
