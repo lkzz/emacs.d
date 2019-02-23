@@ -5,7 +5,11 @@
 [[file:screenshot.png]]
 * 安装
 #+BEGIN_SRC shell
-git clonet https://github.com/lkzz/emacs.d ~/.emacs.d
+1. git clonet https://github.com/lkzz/emacs.d ~/.emacs.d
+#+END_SRC
+
+#+BEGIN_SRC shell
+2. git submodule update --init --recursive
 #+END_SRC
 
 * 特性
@@ -55,7 +59,7 @@ git clonet https://github.com/lkzz/emacs.d ~/.emacs.d
     | ~leader-key p~ | ~paste word~                     |
     | ~C-w~          | ~evil-delete-backward-word~      |
 
- * tab
+  * tab
     | Key Binding     | Description                             |
     |-----------------+-----------------------------------------|
     | ~leader-key tt~ | ~awesome-tab-switch-group~              |
