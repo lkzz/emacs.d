@@ -44,6 +44,7 @@
 (use-package bind-key :ensure t)
 (use-package hydra :ensure t)
 (use-package posframe :ensure t)
+(use-package all-the-icons :demand t)
 
 (use-package which-key
   :demand t

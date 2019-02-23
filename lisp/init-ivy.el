@@ -28,6 +28,7 @@
          ("C-c C-r" . ivy-resume)
          ("C-c v" . ivy-push-view)
          ("C-c V" . ivy-pop-view)
+         ("C-c t c" . ivy-toggle-calling)
          :map counsel-mode-map
          ([remap swiper] . counsel-grep-or-swiper)
          ("C-x C-r" . counsel-recentf)
