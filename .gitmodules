@@ -1,3 +1,9 @@
 [submodule "awesome-tab"]
-	path = vendor/lisp/awesome-tab
+	path = vendor/awesome-tab
 	url = https://github.com/manateelazycat/awesome-tab.git
+[submodule "company-english-helper"]
+	path = vendor/company-english-helper
+	url = https://github.com/manateelazycat/company-english-helper.git
+[submodule "insert-translated-name"]
+	path = vendor/insert-translated-name
+	url = https://github.com/manateelazycat/insert-translated-name.git

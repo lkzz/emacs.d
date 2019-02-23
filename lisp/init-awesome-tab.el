@@ -15,7 +15,7 @@
 
 (use-package awesome-tab
   :ensure nil
-  :load-path "vendor/lisp/awesome-tab"
+  :load-path "vendor/awesome-tab"
   :config
   (with-eval-after-load 'evil
     (define-key evil-normal-state-map (kbd ",tt") 'awesome-tab-switch-group)
