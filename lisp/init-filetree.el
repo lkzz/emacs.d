@@ -46,6 +46,8 @@
           ;; org-mode folders
           "^\\.\\(sync\\|export\\|attach\\)$"
           "~$" "\\.emacs*"
+          ;; ignore bazel file
+          "^bazel-*"
           "^#.*#$"))
   :config
   (when (bound-and-true-p evil-mode)
