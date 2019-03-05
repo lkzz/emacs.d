@@ -49,7 +49,7 @@
   ;; where to store persistant files
   (setq bm-repository-file (concat kevin-cache-directory "bm-repository"))
   ;; Loading the repository from file when on start up.
-  (add-hook' after-init-hook 'bm-repository-load)
+  (add-hook 'after-init-hook 'bm-repository-load)
 
   ;; 按下ctrl-g时，如果当前光标处有书签，则删除此书签
   (advice-add 'keyboard-quit :before 'bm-bookmark-remove)
