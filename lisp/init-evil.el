@@ -13,6 +13,8 @@
 ;;
 ;;; Code:
 
+(require 'cl)
+
 (use-package evil-leader
   :after evil
   :config
@@ -22,10 +24,15 @@
 (use-package evil
   :ensure t
   :hook (after-init . evil-mode)
-  :config
-  (setq evil-default-state 'normal)
+  :init
+  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+  (setq evil-want-keybinding nil)
   (setq evil-magic t
         evil-echo-state t
+        evil-default-state 'normal
+        evil-want-C-u-scroll t
+        evil-want-Y-yank-to-eol t
+        evil-want-visual-char-semi-exclusive t
         evil-indent-convert-tabs t
         evil-ex-search-vim-style-regexp t
         evil-ex-substitute-global t
@@ -39,15 +46,14 @@
         evil-move-cursor-back t ;; Move back the cursor one position when exiting insert mode
         evil-esc-delay 0
         evil-mode-line-format 'after)
-  ;; evil cursor color
+  ;; ;; evil cursor color
   (setq  evil-default-cursor '("SkyBlue2" box)
          evil-normal-state-cursor '("SkyBlue2" box)
-         evil-insert-state-cursor '("red" (bar . 2))
-         evil-visual-state-cursor '("#98f5ff" box)
+         evil-insert-state-cursor '("#SkyBlue2" (bar . 2))
+         evil-visual-state-cursor '("red" box)
          evil-replace-state-cursor '("#cd5c5c" box)
-         evil-operator-state-cursor '("#98f5ff" box)
-         evil-motion-state-cursor '("#98f5ff" box)
          evil-emacs-state-cursor '("#adfa2f" (bar . 2)))
+  :config
   ;; evil ex command
   (evil-ex-define-cmd "W" 'evil-write-all)
 
@@ -82,16 +88,7 @@
   (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
 
   ;; Use evil as a default jump handler
-  (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition)
-
-  ;; set evil state for major mode
-  (require 'cl)
-  (loop for (mode . state) in
-        '(
-          (view-mode . motion)
-          )
-        do (evil-set-initial-state mode state))
-  )
+  (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition))
 
 (use-package evil-surround
   :after evil
@@ -157,7 +154,6 @@
   :config
   (kevin/reset-evil-mc-key-map))
 
-
 (use-package evil-snipe
   :ensure t
   :after evil
@@ -167,6 +163,31 @@
   (evil-snipe-override-mode +1)
   ;; fix problems with magit buffer
   (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode))
+
+(use-package vimish-fold
+  :ensure t
+  :config
+  (add-hook 'prog-mode-hook 'hs-minor-mode)
+  (vimish-fold-global-mode t))
+
+(use-package evil-vimish-fold
+  :ensure t
+  :after evil
+  :commands evil-vimish-fold-mode
+  :diminish evil-vimish-fold-mode
+  :init
+  (setq vimish-fold-dir (concat kevin-cache-directory "vimish-fold/")
+        vimish-fold-indication-mode 'right-fringe)
+  (add-hook 'after-init-hook #'evil-vimish-fold-mode t))
+
+(use-package evil-collection
+  :ensure t
+  :after evil
+  :config
+  ;; The list of supported modes is configured by evil-collection-mode-list
+  (evil-collection-init 'view)
+  (evil-collection-init 'custom)
+  (evil-collection-init 'calendar))
 
 (provide 'init-evil)
 ;;; init-evil ends here
