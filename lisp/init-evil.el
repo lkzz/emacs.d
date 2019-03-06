@@ -24,9 +24,10 @@
 (use-package evil
   :ensure t
   :hook (after-init . evil-mode)
-  :init
+  :preface
   (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
   (setq evil-want-keybinding nil)
+  :init
   (setq evil-magic t
         evil-echo-state t
         evil-default-state 'normal
@@ -49,7 +50,7 @@
   ;; ;; evil cursor color
   (setq  evil-default-cursor '("SkyBlue2" box)
          evil-normal-state-cursor '("SkyBlue2" box)
-         evil-insert-state-cursor '("#SkyBlue2" (bar . 2))
+         evil-insert-state-cursor '("SkyBlue2" (bar . 2))
          evil-visual-state-cursor '("red" box)
          evil-replace-state-cursor '("#cd5c5c" box)
          evil-emacs-state-cursor '("#adfa2f" (bar . 2)))
