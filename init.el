@@ -93,7 +93,7 @@
 (require 'init-projectile)
 (require 'init-lua)
 (require 'init-rust)
-;; (require 'init-lsp)
+(require 'init-lsp)
 
 ;; tools
 (require 'init-git)

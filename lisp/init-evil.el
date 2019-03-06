@@ -184,6 +184,7 @@
 (use-package evil-collection
   :ensure t
   :after evil
+  :custom (evil-collection-setup-minibuffer t)
   :config
   ;; The list of supported modes is configured by evil-collection-mode-list
   (evil-collection-init 'view)
