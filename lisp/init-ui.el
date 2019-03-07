@@ -127,50 +127,20 @@
   (doom-themes-org-config)
   (load-theme 'doom-one t))
 
-(use-package gruvbox-theme
+(use-package doom-themes
+  :ensure t
+  :if (eq kevin-theme-selected 'molokai)
+  :config
+  (doom-themes-visual-bell-config)
+  (doom-themes-neotree-config)
+  (doom-themes-org-config)
+  (load-theme 'doom-molokai t))
+
+(use-package doom-themes
   :ensure t
   :if (eq kevin-theme-selected 'gruvbox)
   :config
   (load-theme 'gruvbox-dark-hard t))
-
-(defun set-background-for-terminal (&optional frame)
-  (or frame (setq frame (selected-frame)))
-  "unsets the background color in terminal mode"
-  (unless (display-graphic-p frame)
-    (set-face-background 'default "unspecified-bg" frame)))
-
-;; 字体设置
-(use-package cnfonts
-  :defer t
-  :init
-  ;; Fallback to `all-the-icons'.
-  (defun cnfonts--set-all-the-icons-fonts (&optional _)
-    "Show icons in all-the-icons."
-    (when (featurep 'all-the-icons)
-      (dolist (charset '(kana han cjk-misc bopomofo gb18030))
-        (set-fontset-font "fontset-default" charset "all-the-icons" nil 'append)
-        (set-fontset-font "fontset-default" charset "github-octicons" nil 'append)
-        (set-fontset-font "fontset-default" charset "FontAwesome" nil 'append)
-        (set-fontset-font "fontset-default" charset "Material Icons" nil 'append)
-        (set-fontset-font "fontset-default" charset "file-icons" nil 'append)
-        (set-fontset-font "fontset-default" charset "Weather Icons" nil 'append))))
-  :hook ((after-init . cnfonts-enable)
-         (cnfonts-set-font-finish . cnfonts--set-all-the-icons-fonts))
-  :config
-  ;; NOTE: on macOS, the frame size is changed during the startup without below.
-  ;; Keep frame size
-  (setq cnfonts-use-cache t)
-  (setq cnfonts-keep-frame-size nil)
-  (add-hook 'window-setup-hook (lambda ()
-                                 (setq cnfonts-keep-frame-size t)))
-  ;; Set profiles
-  (setq cnfonts-directory (concat kevin-cache-directory "cnfonts"))
-  (setq cnfonts-profiles '("program1" "program2" "program3" "org-mode" "read-book"))
-  (setq cnfonts--profiles-steps '(("program1" . 4)
-                                  ("program2" . 5)
-                                  ("program3" . 3)
-                                  ("org-mode" . 6)
-                                  ("read-book" . 8))))
 
 ;; fringe 美化
 ;; left fringe with 4 pixel ,right fringe width:8 pixel
