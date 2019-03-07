@@ -64,12 +64,13 @@
 ;; personal package config
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
+(require 'init-font)
 (require 'init-dashboard)
 (require 'init-modeline)
 ;; (require 'init-kevin-modeline)
 (require 'init-highlight)
 (require 'init-filetree)
-(require 'init-awesome-tab)
+;; (require 'init-awesome-tab)
 
 ;; misc packages
 (require 'init-anzu)
