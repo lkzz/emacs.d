@@ -64,17 +64,18 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'gruvbox
+(defcustom kevin-theme-selected 'molokai
   "Set color theme."
   :type '(choice
           (const :tag "zenburn theme" zenburn)
           (const :tag "monokai theme" monokai)
           (const :tag "doom one theme" doom)
           (const :tag "doom tomorrow theme" tomorrow)
-          (const :tag "gruvbox theme" gruvbox))
+          (const :tag "gruvbox theme" gruvbox)
+          (const :tag "doom molokai thme") molokai)
   :group 'kevin-customize-group)
 
-(defcustom kevin-lsp-mode-enable-p nil
+(defcustom kevin-lsp-mode-enable-p t
   "Enable lsp mode or not."
   :type 'boolean
   :group 'kevin-customize-group)
