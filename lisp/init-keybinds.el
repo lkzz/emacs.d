@@ -18,12 +18,11 @@
 (kevin/set-leader-keys "fi" #'kevin/open-init-file)
 (kevin/declare-prefix "h" "help")
 (kevin/declare-prefix "j" "jump")
-(kevin/declare-prefix "o" "custom")
 (kevin/declare-prefix "p" "project")
 (kevin/declare-prefix "q" "quit")
 (kevin/declare-prefix "s" "search")
 
-;; toggle
+;; Toggle
 (kevin/declare-prefix "t" "toggle")
 (kevin/set-leader-keys "tM" 'toggle-major-mode
                        "tb" 'toggle-scroll-bar
@@ -34,15 +33,15 @@
                        "tp" 'persp-mode
                        "tt" 'toggle-truncate-lines)
 
-;; open applications with from emacs
+;; Open applications with from emacs
 (kevin/declare-prefix "a" "application")
 (kevin/set-leader-keys "ai" #'kevin/open-iterm
                        "aw" #'kevin/open-wechat
                        "ay" #'kevin/open-youdao)
 
-;; misc related keybindings
-(kevin/set-leader-keys "=" 'text-scale-increase
-                       "-" 'text-scale-decrease
+;; Misc related keybindings
+(kevin/set-leader-keys "=" 'kevin/increase-fontsize
+                       "-" 'kevin/decrease-fontsize
                        "'" 'shell-pop
                        "hd" 'describe-function
                        "hf" 'find-function
@@ -51,10 +50,15 @@
                        "qr" 'restart-emacs
                        "qq" 'save-buffers-kill-terminal)
 
-;; frame releated keybindings
+;; Frame releated keybindings
 (kevin/declare-prefix "F" "frame")
 (kevin/set-leader-keys "Fm" #'kevin/make-frame
                        "Fd" 'delete-frame)
+
+;; Delimiter releated keybindings
+(kevin/declare-prefix "d" "delimiter")
+(kevin/set-leader-keys "dj" #'kevin/goto-match-delimiter
+                       "dd" #'kevin/delete-delimiter-enclosed-text)
 
 (bind-map kevin-default-map
   :keys (kevin-emacs-leader-key)

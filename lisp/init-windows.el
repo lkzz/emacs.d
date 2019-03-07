@@ -81,11 +81,6 @@
    "2"  'winum-select-window-2
    "3"  'winum-select-window-3
    "4"  'winum-select-window-4
-   "5"  'winum-select-window-5
-   "6"  'winum-select-window-6
-   "7"  'winum-select-window-7
-   "8"  'winum-select-window-8
-   "9"  'winum-select-window-9
    "wd" 'delete-window
    "w/" #'kevin/split-window-right-and-focus
    "w-" #'kevin/split-window-below-and-focus
