@@ -14,9 +14,8 @@
 ;;; Code:
 
 (use-package lsp-mode
-  :ensure nil
+  :ensure t
   :if kevin-lsp-mode-enable-p
-  :load-path "vendor/lsp-mode-20190304.930"
   :diminish lsp-mode "ⓛ"
   :commands lsp
   :init
@@ -29,12 +28,16 @@
   (setq lsp-prefer-flymake nil)
   (setq lsp-enable-indentation t)
   (setq lsp-eldoc-render-all nil)
-  (setq lsp-session-file (concat kevin-cache-directory "lsp-session-v1")))
+  (setq lsp-session-file (concat kevin-cache-directory "lsp-session-v1"))
+  ;; lsp go client
+  (setq lsp-clients-go-format-tool "goimports")
+  (setq lsp-clients-go-use-binary-pkg-cache t)
+  (setq lsp-clients-go-func-snippet-enabled t)
+  (setq lsp-clients-go-gocode-completion-enabled t))
 
 (use-package lsp-ui
-  :ensure nil
+  :ensure t
   :if kevin-lsp-mode-enable-p
-  :load-path "vendor/lsp-ui-20190303.1049"
   :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
@@ -51,13 +54,12 @@
   (setq lsp-ui-doc-enable nil)
   (setq lsp-ui-imenu-enable t)
   (setq lsp-ui-flycheck-enable t)
-  (setq lsp-ui-sideline-enable t)
+  (setq lsp-ui-sideline-enable nil)
   (setq lsp-ui-sideline-ignore-duplicate t))
 
 (use-package company-lsp
-  :ensure nil
+  :ensure t
   :if kevin-lsp-mode-enable-p
-  :load-path "vendor/company-lsp-20190305.1914"
   :after (company lsp-mode)
   :commands company-lsp
   :config
