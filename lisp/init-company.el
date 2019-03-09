@@ -36,6 +36,7 @@
          ("C-n" . company-select-next)
          ("C-g" . company-abort)
          ("C-/" . yas-expand-from-trigger-key)
+         ("TAB" . company-complete-common)
          ("<tab>" . company-complete-common)
          :map company-search-map
          ("C-p" . company-select-previous)
