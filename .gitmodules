@@ -7,3 +7,6 @@
 [submodule "insert-translated-name"]
 	path = vendor/insert-translated-name
 	url = https://github.com/manateelazycat/insert-translated-name.git
+[submodule "vendor/aweshell"]
+	path = vendor/aweshell
+	url = https://github.com/manateelazycat/aweshell.git
