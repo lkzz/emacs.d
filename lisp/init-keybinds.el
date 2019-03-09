@@ -42,7 +42,7 @@
 ;; Misc related keybindings
 (kevin/set-leader-keys "=" 'kevin/increase-fontsize
                        "-" 'kevin/decrease-fontsize
-                       "'" 'shell-pop
+                       ;; "'" 'shell-pop
                        "hd" 'describe-function
                        "hf" 'find-function
                        "hk" 'describe-key
