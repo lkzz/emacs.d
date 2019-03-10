@@ -78,8 +78,8 @@
   :if (display-graphic-p)
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
-  (setq highlight-indent-guides-delay 0.5)
-  (setq highlight-indent-guides-method 'character))
+  (setq highlight-indent-guides-delay 0.5
+        highlight-indent-guides-method 'character))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
@@ -130,8 +130,8 @@
   :diminish beacon-mode
   :config
   (beacon-mode t)
-  (setq beacon-color "red")
-  (setq beacon-size 80)
+  (setq beacon-size 40
+        beacon-color "red")
   (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
 
 (use-package symbol-overlay
@@ -139,8 +139,9 @@
   :defer t
   :diminish symbol-overlay-mode "ⓢ"
   :bind (:map symbol-overlay-mode-map
-              ("C-p" . symbol-overlay-jump-prev)
-              ("C-n" . symbol-overlay-jump-next))
+              ("M-p" . symbol-overlay-jump-prev)
+              ("M-n" . symbol-overlay-jump-next)
+              ("M-r" . symbol-overlay-rename))
   :init
   (kevin/set-leader-keys "ts" 'symbol-overlay-mode))
 
