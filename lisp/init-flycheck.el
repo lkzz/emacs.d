@@ -55,7 +55,7 @@
         flycheck-emacs-lisp-load-path 'inherit
         flycheck-highlighting-mode 'symbols
         flycheck-check-syntax-automatically '(save mode-enabled))
-  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
 
 (use-package flycheck-posframe
   :ensure t
