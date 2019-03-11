@@ -14,16 +14,15 @@
 ;;; Code:
 
 (use-package flycheck
-  :defer t
   :diminish flycheck-mode "ⓕ"
   :commands (hydra-flycheck/body)
   :hook (after-init . global-flycheck-mode)
   :init
   (kevin/declare-prefix "e" "flycheck")
-  (kevin/set-leader-keys "ec" #'flycheck-buffer)
-  (kevin/set-leader-keys "el" #'flycheck-list-errors)
-  (kevin/set-leader-keys "ep" #'flycheck-previous-error)
-  (kevin/set-leader-keys "en" #'flycheck-next-error)
+  (kevin/set-leader-keys "ec" #'flycheck-buffer
+                         "el" #'flycheck-list-errors
+                         "ep" #'flycheck-previous-error
+                         "en" #'flycheck-next-error)
   (defhydra hydra-flycheck (:color red
                                    :hint nil)
     "
@@ -51,26 +50,24 @@
   (let ((govet (flycheck-checker-get 'go-vet 'command)))
     (when (equal (cadr govet) "tool")
       (setf (cdr govet) (cddr govet))))
-  (setq flycheck-emacs-lisp-check-declare t)
-  (setq flycheck-indication-mode 'right-fringe)
-  (setq flycheck-emacs-lisp-load-path 'inherit)
-  (setq flycheck-highlighting-mode 'symbols)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
-
-;; Jump to and fix syntax errors via `avy'
-(use-package avy-flycheck
-  :ensure t
-  :after (avy flycheck)
-  :init
-  (avy-flycheck-setup)
-  (kevin/set-leader-keys "eg" #'avy-flycheck-goto-error))
+  (setq flycheck-emacs-lisp-check-declare t
+        flycheck-indication-mode 'right-fringe
+        flycheck-emacs-lisp-load-path 'inherit
+        flycheck-highlighting-mode 'symbols
+        flycheck-check-syntax-automatically '(save mode-enabled))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
 
 (use-package flycheck-posframe
   :ensure t
   :if (display-graphic-p)
   :after flycheck
-  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  :hook (flycheck-mode . flycheck-posframe-mode))
+
+(use-package flycheck-popup-tip
+  :ensure t
+  :if (unless (display-graphic-p))
+  :after flycheck
+  :hook (flycheck-mode . flycheck-popup-tip-mode))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here
