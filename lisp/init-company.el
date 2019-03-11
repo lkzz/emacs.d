@@ -41,33 +41,27 @@
          :map company-search-map
          ("C-p" . company-select-previous)
          ("C-n" . company-select-next))
-  :init
-  (add-hook 'after-init-hook #'global-company-mode)
-  (add-hook 'company-completion-started-hook
-            (lambda (&rest ignore)
-              (when (and (bound-and-true-p evil-mode) (evil-insert-state-p))
-                (define-key evil-insert-state-map (kbd "C-n") nil)
-                (define-key evil-insert-state-map (kbd "C-p") nil))))
+  :hook (after-init . global-company-mode)
   :config
   ;; aligns annotation to the right hand side
-  (setq company-tooltip-align-annotations t)
-  (setq company-idle-delay 0.1)
-  (setq company-minimum-prefix-length 2)
-  (setq company-tooltip-limit 10)
-  (setq company-require-match nil)
-  (setq company-show-numbers t)
-  ;; make previous/next selection in the popup cycles
-  (setq company-selection-wrap-around t)
-  (setq company-dabbrev-ignore-case t)
-  (setq company-dabbrev-downcase nil)
-  (setq company-transformers '(company-sort-by-occurrence))
-  (setq company-global-modes '(not
+  (setq company-tooltip-align-annotations t
+        company-echo-delay 0                ; remove annoying blinking
+        company-idle-delay 0.1
+        company-minimum-prefix-length 2
+        company-tooltip-limit 10
+        company-require-match nil
+        company-show-numbers t
+        company-selection-wrap-around t     ; make previous/next selection in the popup cycle
+        company-dabbrev-ignore-case t
+        company-dabbrev-downcase nil
+        company-transformers '(company-sort-by-occurrence)
+        company-global-modes '(not
                                comint-mode
                                erc-mode
                                message-mode
                                help-mode
-                               gud-mode))
-  (setq company-backends kevin/company-global-backends))
+                               gud-mode)
+        company-backends kevin/company-global-backends))
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
@@ -87,48 +81,67 @@
   :hook (company-mode . company-box-mode)
   :load-path "vendor/company-box-20180607.1545"
   :init
-  (setq company-box-enable-icon t)
-  (setq company-box-doc-delay 0.5)
-  (setq company-box-backends-colors nil
-        company-box-max-candidates 50
-        company-box-icons-yasnippet (all-the-icons-material "short_text" :height 0.8 :face 'all-the-icons-green)
-        company-box-icons-unknown (all-the-icons-material "find_in_page" :height 0.8 :face 'all-the-icons-purple)
-        company-box-icons-elisp
-        (list (all-the-icons-material "functions"                  :height 0.8 :face 'all-the-icons-red)
-              (all-the-icons-material "check_circle"               :height 0.8 :face 'all-the-icons-blue)
-              (all-the-icons-material "stars"                      :height 0.8 :face 'all-the-icons-orange)
-              (all-the-icons-material "format_paint"               :height 0.8 :face 'all-the-icons-pink))
-        company-box-icons-lsp
-        `((1  . ,(all-the-icons-material "text_fields"              :height 0.8 :face 'all-the-icons-green)) ; text
-          (2  . ,(all-the-icons-material "functions"                :height 0.8 :face 'all-the-icons-red))   ; method
-          (3  . ,(all-the-icons-material "functions"                :height 0.8 :face 'all-the-icons-red))   ; function
-          (4  . ,(all-the-icons-material "functions"                :height 0.8 :face 'all-the-icons-red))   ; constructor
-          (5  . ,(all-the-icons-material "functions"                :height 0.8 :face 'all-the-icons-red))   ; field
-          (6  . ,(all-the-icons-material "adjust"                   :height 0.8 :face 'all-the-icons-blue))  ; variable
-          (7  . ,(all-the-icons-material "class"                    :height 0.8 :face 'all-the-icons-red))   ; class
-          (8  . ,(all-the-icons-material "settings_input_component" :height 0.8 :face 'all-the-icons-red))   ; interface
-          (9  . ,(all-the-icons-material "view_module"              :height 0.8 :face 'all-the-icons-red))   ; module
-          (10 . ,(all-the-icons-material "settings"                 :height 0.8 :face 'all-the-icons-red))   ; property
-          (11 . ,(all-the-icons-material "straighten"               :height 0.8 :face 'all-the-icons-red))   ; unit
-          (12 . ,(all-the-icons-material "filter_1"                 :height 0.8 :face 'all-the-icons-red))   ; value
-          (13 . ,(all-the-icons-material "plus_one"                 :height 0.8 :face 'all-the-icons-red))   ; enum
-          (14 . ,(all-the-icons-material "filter_center_focus"      :height 0.8 :face 'all-the-icons-red))   ; keyword
-          (15 . ,(all-the-icons-material "short_text"               :height 0.8 :face 'all-the-icons-red))   ; snippet
-          (16 . ,(all-the-icons-material "color_lens"               :height 0.8 :face 'all-the-icons-red))   ; color
-          (17 . ,(all-the-icons-material "insert_drive_file"        :height 0.8 :face 'all-the-icons-red))   ; file
-          (18 . ,(all-the-icons-material "collections_bookmark"     :height 0.8 :face 'all-the-icons-red))   ; reference
-          (19 . ,(all-the-icons-material "folder"                   :height 0.8 :face 'all-the-icons-red))   ; folder
-          (20 . ,(all-the-icons-material "people"                   :height 0.8 :face 'all-the-icons-red))   ; enumMember
-          (21 . ,(all-the-icons-material "pause_circle_filled"      :height 0.8 :face 'all-the-icons-red))   ; constant
-          (22 . ,(all-the-icons-material "streetview"               :height 0.8 :face 'all-the-icons-red))   ; struct
-          (23 . ,(all-the-icons-material "event"                    :height 0.8 :face 'all-the-icons-red))   ; event
-          (24 . ,(all-the-icons-material "control_point"            :height 0.8 :face 'all-the-icons-red))   ; operator
-          (25 . ,(all-the-icons-material "class"                    :height 0.8 :face 'all-the-icons-red)))))
+  (setq company-box-enable-icon (display-graphic-p))
+  ;; refer: https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-company.el
+  (defun kevin/company-box-icon (family icon icon_face &rest args)
+    "Defines icons using `all-the-icons' for `company-box'."
+    (when icon
+      (let ((icon (pcase family
+                    ('octicon (all-the-icons-octicon icon :v-adjust -0.05 :face icon_face args))
+                    ('faicon (all-the-icons-faicon icon :v-adjust -0.0575 :face icon_face))
+                    ('material (all-the-icons-material icon :v-adjust -0.225 :face icon_face args))
+                    ('alltheicon (all-the-icons-alltheicon icon :face icon_face args)))))
+        (unless (symbolp icon)
+          (concat icon
+                  (propertize " " 'face 'variable-pitch))))))
+  :config
+  (setq company-box-enable-icon t
+        company-box-doc-delay 0.5
+        company-box-backends-colors nil
+        company-box-max-candidates 50)
 
-(use-package company-flx
-  :ensure t
-  :after company
-  :config (company-flx-mode +1))
+  (setq company-box-icons-yasnippet
+        (kevin/company-box-icon 'octicon "file-code" 'all-the-icons-green))
+
+  (setq company-box-icons-unknown
+        (kevin/company-box-icon 'octicon "file-text" 'all-the-icons-purple))
+
+  (setq company-box-icons-elisp
+        (list
+         (kevin/company-box-icon 'material "functions" 'all-the-icons-red)        ; Function
+         (kevin/company-box-icon 'faicon "tag" 'all-the-icons-blue)               ; Variable
+         (kevin/company-box-icon 'faicon "cog"  'all-the-icons-orange)            ; Feature
+         (kevin/company-box-icon 'material "palette" 'all-the-icons-pink)         ; Face
+         ))
+
+  (setq company-box-icons-lsp
+        `(( 1  . ,(kevin/company-box-icon 'material "text_fields" 'all-the-icons-purple))         ; Text
+          ( 2  . ,(kevin/company-box-icon 'material "functions" 'all-the-icons-red))              ; Method
+          ( 3  . ,(kevin/company-box-icon 'material "functions" 'all-the-icons-red))              ; Function
+          ( 4  . ,(kevin/company-box-icon 'material "functions" 'all-the-icons-red))              ; Constructor
+          ( 5  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Field
+          ( 6  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Variable
+          ( 7  . ,(kevin/company-box-icon 'material "class"  'all-the-icons-orange))              ; Class
+          ( 8  . ,(kevin/company-box-icon 'faicon "cogs" 'all-the-icons-orange))                  ; Interface
+          ( 9  . ,(kevin/company-box-icon 'alltheicon "less" 'all-the-icons-yellow))              ; Module
+          (10  . ,(kevin/company-box-icon 'faicon "wrench" 'all-the-icons-yellow))                ; Property
+          (11  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Unit
+          (12  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Value
+          (13  . ,(kevin/company-box-icon 'faicon "file-text-o" 'all-the-icons-purple))           ; Enum
+          (14  . ,(kevin/company-box-icon 'material "format_align_center" 'all-the-icons-yellow)) ; Keyword
+          (15  . ,(kevin/company-box-icon 'material "content_paste" 'all-the-icons-yellow))       ; Snippet
+          (16  . ,(kevin/company-box-icon 'material "palette" 'all-the-icons-yellow))             ; Color
+          (17  . ,(kevin/company-box-icon 'faicon "file" 'all-the-icons-yellow))                  ; File
+          (18  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Reference
+          (19  . ,(kevin/company-box-icon 'faicon "folder" 'all-the-icons-yellow))                ; Folder
+          (20  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; EnumMember
+          (21  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Constant
+          (22  . ,(kevin/company-box-icon 'faicon "cog" 'all-the-icons-orange))                   ; Struct
+          (23  . ,(kevin/company-box-icon 'faicon "bolt" 'all-the-icons-yellow))                  ; Event
+          (24  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Operator
+          (25  . ,(kevin/company-box-icon 'faicon "cog" 'all-the-icons-orange))                   ; TypeParameter
+          ))
+  )
 
 (provide 'init-company)
 ;;; init-company.el ends here
