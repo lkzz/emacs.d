@@ -21,19 +21,19 @@
   :init
   (add-hook 'go-mode-hook #'lsp)
   :config
-  (setq lsp-enable-xref t)
-  (setq lsp-enable-snippet t)
-  (setq lsp-auto-guess-root t)
-  (setq lsp-inhibit-message t)
-  (setq lsp-prefer-flymake nil)
-  (setq lsp-enable-indentation t)
-  (setq lsp-eldoc-render-all nil)
-  (setq lsp-session-file (concat kevin-cache-directory "lsp-session-v1"))
-  ;; lsp go client
-  (setq lsp-clients-go-format-tool "goimports")
-  (setq lsp-clients-go-use-binary-pkg-cache t)
-  (setq lsp-clients-go-func-snippet-enabled t)
-  (setq lsp-clients-go-gocode-completion-enabled t))
+  (setq lsp-enable-xref t
+        lsp-enable-snippet t
+        lsp-auto-guess-root t
+        lsp-inhibit-message t
+        lsp-prefer-flymake nil
+        lsp-enable-indentation t
+        lsp-eldoc-render-all nil
+        lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
+        ;; lsp go client
+        lsp-clients-go-format-tool "goimports"
+        lsp-clients-go-use-binary-pkg-cache t
+        lsp-clients-go-func-snippet-enabled nil
+        lsp-clients-go-gocode-completion-enabled t))
 
 (use-package lsp-ui
   :ensure t
@@ -50,12 +50,12 @@
   :init
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   :config
-  (setq lsp-ui-peek-enable t)
-  (setq lsp-ui-doc-enable nil)
-  (setq lsp-ui-imenu-enable t)
-  (setq lsp-ui-flycheck-enable t)
-  (setq lsp-ui-sideline-enable nil)
-  (setq lsp-ui-sideline-ignore-duplicate t))
+  (setq lsp-ui-peek-enable t
+        lsp-ui-doc-enable nil
+        lsp-ui-imenu-enable t
+        lsp-ui-flycheck-enable t
+        lsp-ui-sideline-enable nil
+        lsp-ui-sideline-ignore-duplicate t))
 
 (use-package company-lsp
   :ensure t
@@ -63,9 +63,10 @@
   :after (company lsp-mode)
   :commands company-lsp
   :config
-  (setq company-lsp-async t)
-  (setq company-lsp-enable-snippet t)
-  (setq company-lsp-cache-candidates t))
+  (setq company-lsp-async t
+        company-lsp-enable-snippet nil
+        company-lsp-cache-candidates t
+        company-lsp-enable-recompletion nil))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
