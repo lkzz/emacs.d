@@ -56,12 +56,13 @@
   :config
   ;; evil ex command
   (evil-ex-define-cmd "W" 'evil-write-all)
+  ;; evil insert,normal,visual,motion state keybinds
+  (evil-define-key '(insert normal visual motion) 'global (kbd "C-a") 'mwim-beginning-of-code-or-line)
+  (evil-define-key '(insert normal visual motion) 'global (kbd "C-e") 'mwim-end-of-code-or-line)
+  (evil-define-key '(insert normal visual motion) 'global (kbd "C-k") 'kill-whole-line)
+  (evil-define-key '(insert normal visual motion) 'global (kbd "C-p") 'evil-previous-visual-line)
+  (evil-define-key '(insert normal visual motion) 'global (kbd "C-n") 'evil-next-visual-line)
   ;; evil normal,visual,motion state keybinds
-  (evil-define-key '(normal visual motion) 'global (kbd "C-a") 'mwim-beginning-of-code-or-line)
-  (evil-define-key '(normal visual motion) 'global (kbd "C-e") 'mwim-end-of-code-or-line)
-  (evil-define-key '(normal visual motion) 'global (kbd "C-k") 'kill-whole-line)
-  (evil-define-key '(normal visual motion) 'global (kbd "C-p") 'evil-previous-visual-line)
-  (evil-define-key '(normal visual motion) 'global (kbd "C-n") 'evil-next-visual-line)
   (evil-define-key '(normal visual motion) 'global (kbd "j") 'evil-next-visual-line)
   (evil-define-key '(normal visual motion) 'global (kbd "k") 'evil-previous-visual-line)
   (evil-define-key '(normal visual motion) 'global (kbd "C-i") 'evil-jump-forward)
