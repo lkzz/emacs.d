@@ -222,17 +222,17 @@
   :ensure t
   :commands (diff-hl-mode diff-hl-dired-mode diff-hl-next-hunk diff-hl-previous-hunk
                           hydra-diff-hl/body)
-  :init
-  (add-hook 'after-init-hook #'global-diff-hl-mode)
-  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
-  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
-  (custom-set-faces
-   '(diff-hl-insert ((t (:background "#7ccd7c"))))
-   '(diff-hl-change ((t (:background "#3a81c3"))))
-   '(diff-hl-delete ((t (:background "#ee6363")))))
-  (defhydra hydra-diff-hl (:color pink
-                                  :hint nil)
-    "
+  :custom-face
+  (diff-hl-insert ((t (:background "#7ccd7c"))))
+  (diff-hl-change ((t (:background "#3a81c3"))))
+  (diff-hl-delete ((t (:background "#ee6363"))))
+:init
+(add-hook 'after-init-hook #'global-diff-hl-mode)
+(add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+(add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+(defhydra hydra-diff-hl (:color pink
+                                :hint nil)
+  "
 [_p_] previous hunk [_n_] next hunk [_r_] revert hunk [_q_] quit\n
 "
     ("p" diff-hl-previous-hunk)
