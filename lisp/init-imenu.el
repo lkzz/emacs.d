@@ -14,8 +14,6 @@
 ;;; Code:
 
 (use-package imenu-list
-  :defer t
-  :ensure t
   :config
   (setq imenu-list-size     0.2)
   (setq imenu-list-position 'right)

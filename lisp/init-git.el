@@ -58,7 +58,6 @@
     (get-buffer-window buffer)))
 
 (use-package magit
-  :defer t
   :commands (magit-status magit-init magit-file-log magit-blame-mode)
   :bind
   (("C-x g i" . magit-init)
@@ -92,7 +91,6 @@
         git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
 
 (use-package evil-magit
-  :ensure t
   :after (evil magit)
   :init
   (setq evil-magit-want-horizontal-movement nil)
@@ -100,7 +98,6 @@
 
 ;; Gitflow externsion for Magit
 (use-package magit-gitflow
-  :defer t
   :after magit
   :diminish magit-gitflow-mode
   :bind (:map magit-status-mode-map
@@ -108,11 +105,10 @@
   :init (add-hook 'magit-mode-hook #'turn-on-magit-gitflow)
   :config
   (magit-define-popup-action 'magit-dispatch-popup
-    ?G "GitFlow" #'magit-gitflow-popup ?!))
+                             ?G "GitFlow" #'magit-gitflow-popup ?!))
 
 ;;; Pop up last commit information of current line
 (use-package git-messenger
-  :defer t
   :commands (git-messenger:copy-message git-messenger:popup-message)
   :init
   ;; Use magit-show-commit for showing status/diff commands
@@ -122,7 +118,6 @@
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
-  :defer t
   :commands (hydra-git-timemachine/body)
   :init
   (kevin/set-leader-keys "gt" #'hydra-git-timemachine/body)
@@ -144,7 +139,6 @@
 
 ;; Git modes
 (use-package gitconfig-mode
-  :defer t
   :mode (("/\\.?git/?config\\'" . gitconfig-mode)
          ("/\\.gitmodules\\'" . gitconfig-mode)
          ("/_gitconfig\\'" . gitconfig-mode))
@@ -152,20 +146,17 @@
   (add-hook 'gitconfig-mode-hook 'flyspell-mode))
 
 (use-package gitignore-mode
-  :defer t
   :mode (("/\\.gitignore\\'" . gitignore-mode)
          ("/\\.git/info/exclude\\'" . gitignore-mode)
          ("/git/ignore\\'" . gitignore-mode)))
 
 (use-package git-link
-  :defer t
   :config
   (kevin/set-leader-keys "gl" 'git-link-commit)
   (setq git-link-open-in-browser t))
 
 (use-package smerge
   :ensure nil
-  ;; :defer t
   :commands (smerge-mode)
   :init
   (defhydra hydra-smerge-mode (:hint nil
@@ -219,20 +210,19 @@
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
-  :ensure t
   :commands (diff-hl-mode diff-hl-dired-mode diff-hl-next-hunk diff-hl-previous-hunk
                           hydra-diff-hl/body)
   :custom-face
   (diff-hl-insert ((t (:background "#7ccd7c"))))
   (diff-hl-change ((t (:background "#3a81c3"))))
   (diff-hl-delete ((t (:background "#ee6363"))))
-:init
-(add-hook 'after-init-hook #'global-diff-hl-mode)
-(add-hook 'dired-mode-hook #'diff-hl-dired-mode)
-(add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
-(defhydra hydra-diff-hl (:color pink
-                                :hint nil)
-  "
+  :init
+  (add-hook 'after-init-hook #'global-diff-hl-mode)
+  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
+  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
+  (defhydra hydra-diff-hl (:color pink
+                                  :hint nil)
+    "
 [_p_] previous hunk [_n_] next hunk [_r_] revert hunk [_q_] quit\n
 "
     ("p" diff-hl-previous-hunk)

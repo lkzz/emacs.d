@@ -262,8 +262,6 @@
                            evil-mode-line-tag))
 
 (use-package nyan-mode
-  :defer 5
-  :ensure t
   :hook (after-init . nyan-mode)
   :config (setq nyan-animate-nyancat nil))
 (modeline-define-segment nyan-cat-segment

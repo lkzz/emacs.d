@@ -16,7 +16,6 @@
 
 (use-package mu4e
   :ensure nil
-  :defer t
   :config
   ;; Use mu4e as default mail agent
   (setq mail-user-agent 'mu4e-user-agent)
@@ -65,7 +64,6 @@
 
 
 ;; (use-package mu4e-alert
-;;   :ensure t
 ;;   :after mu4e
 ;;   :init (with-eval-after-load 'mu4e
 ;;           (when mu4e-enable-notifications
@@ -74,7 +72,6 @@
 ;;             (mu4e-alert-enable-mode-line-display))))
 
 ;; (use-package mu4e-maildirs-extension
-;;   :ensure t
 ;;   :after mu4e
 ;;   ;;;if mu4e-use-maildirs-extension
 ;;                                         ; :init (with-eval-after-load 'mu4e (mu4e-maildirs-extension-load))

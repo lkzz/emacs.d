@@ -44,7 +44,6 @@
     (kbd "TAB") 'pcomplete-std-complete))
 
 (use-package aweshell
-  :ensure nil
   :load-path "vendor/aweshell"
   :commands (aweshell-toggle)
   :hook (eshell-first-time-mode . kevin/eshell-keymap)

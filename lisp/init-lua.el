@@ -15,8 +15,6 @@
 
 
 (use-package lua-mode
-  :defer t
-  :ensure t
   :mode ("\\.lua$" . lua-mode)
   :init
   (setq lua-indent-level 2)
@@ -24,7 +22,6 @@
   (kevin/define-jump-handlers lua-mode))
 
 (use-package company-lua
-  :ensure t
   :after (lua-mode company)
   :config
   (add-hook 'lua-mode-hook (lambda ()

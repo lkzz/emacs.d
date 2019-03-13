@@ -21,7 +21,6 @@
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
   :ensure nil
-  :defer t
   :init
   (setq show-paren-delay 0)
   (set-face-foreground 'show-paren-match "red")
@@ -30,14 +29,12 @@
 
 ;; Highlight matching paren
 (use-package highlight-parentheses
-  :ensure t
   :diminish highlight-parentheses-mode
   :hook (prog-mode . global-highlight-parentheses-mode))
 
 ;; Highlight show trailing whitespace
 (use-package whitespace
   :ensure nil
-  :defer t
   :diminish whitespace-mode
   :hook (after-init . whitespace-mode)
   :init
@@ -64,16 +61,12 @@
 
 ;; An unobtrusive way to trim spaces from end of line
 (use-package ws-butler
-  :ensure t
-  :defer t
   :diminish ws-butler-mode
   :hook (prog-mode . ws-butler-mode)
   :init (setq ws-butler-keep-whitespace-before-point nil))
 
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
-  :defer t
-  :ensure t
   :diminish highlight-indent-guides-mode
   :if (display-graphic-p)
   :hook (prog-mode . highlight-indent-guides-mode)
@@ -83,22 +76,16 @@
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
-  :defer t
-  :ensure t
   :diminish rainbow-mode
   :hook ((text-mode . rainbow-mode)
          (prog-mode . rainbow-mode)))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
-  :ensure t
-  :disabled
   :hook (prog-mode . rainbow-delimiters-mode))
 
 ;; Highlight TODO/FIXME/BUG...
 (use-package hl-todo
-  :defer t
-  :ensure t
   :hook (prog-mode . hl-todo-mode)
   :config
   (setq hl-todo-keyword-faces `(("TODO"  . ,(face-foreground 'warning))
@@ -108,7 +95,6 @@
 ;; Show column indicator.
 (use-package fill-column-indicator
   :disabled
-  :ensure t
   :diminish auto-fill-mode
   :config
   (kevin/set-leader-keys "tF" 'fci-mode)
@@ -126,7 +112,6 @@
 
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon
-  :ensure t
   :diminish beacon-mode
   :config
   (beacon-mode t)
@@ -135,8 +120,6 @@
   (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
 
 (use-package symbol-overlay
-  :ensure t
-  :defer t
   :diminish symbol-overlay-mode "ⓢ"
   :bind (:map symbol-overlay-mode-map
               ("M-p" . symbol-overlay-jump-prev)

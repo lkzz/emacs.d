@@ -39,30 +39,30 @@
 ;; (setq use-package-always-defer t)
 (use-package use-package-ensure-system-package)
 
-(use-package diminish :ensure t)
-(use-package bind-map :ensure t)
-(use-package bind-key :ensure t)
-(use-package hydra :ensure t)
-(use-package posframe :ensure t)
-(use-package all-the-icons :demand t)
+(use-package diminish)
+(use-package bind-map)
+(use-package bind-key)
+(use-package hydra)
+(use-package posframe)
+(use-package dash)
+(use-package dash-functional)
 
 (use-package which-key
   :demand t
-  :ensure t
   :diminish which-key-mode "Ⓚ"
   :commands (which-key-add-major-mode-key-based-replacements
               which-key-add-key-based-replacements)
   :hook (after-init . which-key-mode)
   :config
-  (setq which-key-idle-delay 0.3)
-  (setq which-key-min-display-lines 1)
-  (setq which-key-add-column-padding 1)
-  (setq which-key-max-display-columns nil)
-  (setq which-key-sort-uppercase-first nil)
-  (setq which-key-side-window-max-width 0.33)
-  (setq which-key-side-window-max-height 0.25)
-  (setq which-key-allow-imprecise-window-fit t) ; performance
-  (setq which-key-sort-order #'which-key-prefix-then-key-order)
+  (setq which-key-idle-delay 0.3
+        which-key-min-display-lines 1
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-sort-uppercase-first nil
+        which-key-side-window-max-width 0.33
+        which-key-side-window-max-height 0.25
+        which-key-allow-imprecise-window-fit t ; performance
+        which-key-sort-order #'which-key-prefix-then-key-order)
   (add-to-list 'which-key-replacement-alist '(("TAB" . nil) . ("↹" . nil)))
   (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil)))
   (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))

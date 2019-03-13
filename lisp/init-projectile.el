@@ -13,16 +13,12 @@
 ;;
 ;;; Code:
 
-(use-package ripgrep
-  :ensure t)
+(use-package ripgrep)
 
 (use-package projectile-ripgrep
-  :ensure t
-  :config (kevin/set-leader-keys "p/" 'projectile-ripgrep))
+  :init (kevin/set-leader-keys "p/" 'projectile-ripgrep))
 
 (use-package projectile
-  :defer t
-  :ensure t
   :diminish projectile-mode "ⓟ"
   :commands (projectile-compile-project
              projectile-dired
@@ -66,11 +62,11 @@
                          "pT" 'projectile-test-project
                          "pv" 'projectile-vc)
   :config
-  (setq projectile-enable-caching t)
-  (setq projectile-sort-order 'recentf)
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-cache-file (concat kevin-cache-directory "projectile.cache"))
-  (setq projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld"))
+  (setq projectile-enable-caching t
+        projectile-sort-order 'recentf
+        projectile-completion-system 'ivy
+        projectile-cache-file (concat kevin-cache-directory "projectile.cache")
+        projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld"))
   (projectile-global-mode))
 
 (provide 'init-projectile)

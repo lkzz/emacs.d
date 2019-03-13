@@ -22,7 +22,6 @@
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
-  :ensure t
   :hook (after-init . evil-mode)
   :init
   (setq evil-magic t
@@ -79,13 +78,11 @@
   (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition))
 
 (use-package evil-surround
-  :ensure t
   :after evil
   :config
   (global-evil-surround-mode t))
 
 (use-package evil-visualstar
-  :ensure t
   :after evil
   :config
   ;; search selection in visual state(*:forward #:forward).
@@ -93,7 +90,6 @@
   (global-evil-visualstar-mode))
 
 (use-package evil-nerd-commenter
-  :ensure t
   :after evil
   :init
   (kevin/set-leader-keys "ci" 'evilnc-comment-or-uncomment-lines
@@ -102,7 +98,6 @@
                          "cy" 'evilnc-copy-and-comment-operator))
 
 (use-package evil-escape
-  :ensure t
   :after evil
   :diminish evil-escape-mode
   :config
@@ -115,7 +110,6 @@
   (evil-escape-mode))
 
 (use-package evil-mc
-  :ensure t
   :after evil
   :diminish evil-mc-mode "ⓜ"
   :init
@@ -153,7 +147,6 @@
   )
 
 (use-package evil-snipe
-  :ensure t
   :after evil
   :diminish evil-snipe-local-mode
   :config
@@ -163,15 +156,11 @@
   (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode))
 
 (use-package vimish-fold
-  :ensure t
   :config
-  (add-hook 'prog-mode-hook 'hs-minor-mode)
   (vimish-fold-global-mode t))
 
 (use-package evil-vimish-fold
-  :ensure t
-  :after evil
-  :commands evil-vimish-fold-mode
+  :after (evil vimish-fold)
   :diminish evil-vimish-fold-mode
   :hook (prog-mode . evil-vimish-fold-mode)
   :init
@@ -179,7 +168,6 @@
         vimish-fold-indication-mode 'right-fringe))
 
 (use-package evil-collection
-  :ensure t
   :after evil
   :custom (evil-collection-setup-minibuffer t)
   :config

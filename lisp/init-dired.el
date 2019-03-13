@@ -16,7 +16,6 @@
 ;; Directory operations
 (use-package dired
   :ensure nil
-  :defer t
   :config
   ;; Show directory first
   ;;  (setq dired-listing-switches "-alh --group-directories-first")
@@ -43,12 +42,9 @@
       (setq ls-lisp-use-insert-directory-program t))))
 
   ;; Extra Dired functionality
-  (use-package dired-aux
-    :defer t
-    :ensure nil)
+  (use-package dired-aux  :ensure nil)
   (use-package dired-x
     :ensure nil
-    :defer t
     :diminish dired-omit-mode
     :init (setq dired-omit-mode t)
     :config
@@ -57,9 +53,7 @@
 
 ;; ;; bind key: `S'
 ;; (use-package dired-quick-sort
-;;   :ensure t
-;;   :defer t
-;;   ;;    :if (or (executable-find "gls") (executable-find "ls"))
+;;   :if (or (executable-find "gls") (executable-find "ls"))
 ;;   :init (dired-quick-sort-setup))
 
 ;; ;; Highlights dired buffer like k
@@ -80,11 +74,10 @@
 ;;   (diredfl-global-mode))
 
 (use-package all-the-icons-dired
-  :defer t
   :diminish all-the-icons-dired-mode
   :after (dired all-the-icons)
   :hook ((dired-mode . all-the-icons-dired-mode)
-	 (ranger-mode . all-the-icons-dired-mode)))
+	     (ranger-mode . all-the-icons-dired-mode)))
 
 (provide 'init-dired)
 ;;; init-dired ends here

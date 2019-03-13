@@ -40,7 +40,6 @@
     output))
 
 (use-package spaceline
-  :ensure t
   :config
   (require 'spaceline-config)
   ;; let spaceline handle auzu info in modeline
@@ -83,7 +82,6 @@
        (file-relative-name buffer-file-name))))
 
   (use-package nyan-mode
-    :ensure t
     :config
     (setq nyan-animate-nyancat nil)
     (nyan-mode t)

@@ -14,8 +14,6 @@
 ;;; Code:
 
 (use-package counsel
-  :defer t
-  :ensure t
   :diminish ivy-mode counsel-mode
   :init
   (kevin/set-leader-keys "SPC" 'counsel-M-x
@@ -83,13 +81,11 @@
 
 ;; Ivy integration for Projectile
 (use-package counsel-projectile
-  :ensure t
   :after (counsel projectile)
   :init (counsel-projectile-mode 1))
 
 ;; More friendly interface for ivy
 (use-package ivy-rich
-  :ensure t
   :after (ivy counsel projectile)
   :config
   ;; replace “/home/username” with “~”
@@ -122,15 +118,11 @@
   (ivy-rich-mode 1))
 
 (use-package all-the-icons-ivy
-  :ensure t
-  :defer t
   :config
   (all-the-icons-ivy-setup))
 
 ;; For better fuzzy searching
 (use-package flx
-  :ensure t
-  :defer t
   :init
   (setq ivy-re-builders-alist
         '((counsel-grep . ivy--regex-plus)

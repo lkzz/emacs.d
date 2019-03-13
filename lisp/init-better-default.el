@@ -85,18 +85,16 @@
 ;; 自动刷新文件
 (use-package autorevert
   :ensure nil
-  :defer t
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 
 (use-package expand-region
-  :ensure t
   :bind (("C-=" . er/expand-region)))
 
 (use-package url
   :ensure nil
-  :init
-  (setq url-configuration-directory (concat kevin-cache-directory "url")))
+  :custom
+  (url-configuration-directory (concat kevin-cache-directory "url")))
 
 ;; Keep cursor at end of lines. Require line-move-visual is nil.
 (setq track-eol t)

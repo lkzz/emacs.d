@@ -58,13 +58,11 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
 
 (use-package flycheck-posframe
-  :ensure t
   :if (display-graphic-p)
   :after flycheck
   :hook (flycheck-mode . flycheck-posframe-mode))
 
 (use-package flycheck-popup-tip
-  :ensure t
   :if (unless (display-graphic-p))
   :after flycheck
   :hook (flycheck-mode . flycheck-popup-tip-mode))

@@ -85,7 +85,6 @@
 (require 'init-company)
 (require 'init-golang)
 (require 'init-python)
-(require 'init-yasnippet)
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-elisp)
