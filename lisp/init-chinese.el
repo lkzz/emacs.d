@@ -14,8 +14,6 @@
 ;;; Code:
 
 (use-package youdao-dictionary
-  :defer t
-  :ensure t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
   ;; Enable Cache
@@ -27,13 +25,11 @@
 
 ;; ** 设置拼音输入法
 (use-package pyim
-  :ensure t
   :demand t
   :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
   ;; 激活 basedict 拼音词库
   (use-package pyim-basedict
-    :ensure t
     :config (pyim-basedict-enable))
   (setq pyim-dcache-directory (expand-file-name "pyim" kevin-cache-directory))
   (setq default-input-method "pyim")
@@ -50,8 +46,6 @@
                 '(pyim-probe-program-mode)))
 
 (use-package pangu-spacing
-  :defer t
-  :ensure t
   :diminish pangu-spacing-mode
   :config
   (global-pangu-spacing-mode 1)
@@ -61,8 +55,6 @@
 
 ;; Chinese calendar
 (use-package cal-china-x
-  :defer t
-  :ensure t
   :commands cal-china-x-setup
   :hook (after-init . cal-china-x-setup)
   :config
@@ -121,14 +113,12 @@
 
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
-  :ensure nil
   :after company
   :load-path "vendor/company-english-helper"
   :bind ("C-c t e" . 'toggle-company-english-helper))
 
 ;; https://github.com/manateelazycat/insert-translated-name
 (use-package insert-translated-name
-  :ensure nil
   :load-path "vendor/insert-translated-name"
   :bind ("C-c t t" . 'insert-translated-name-insert)
   :config

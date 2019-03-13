@@ -14,7 +14,6 @@
 ;;; Code:
 
 (use-package awesome-tab
-  :ensure nil
   :load-path "vendor/awesome-tab"
   :config
   (with-eval-after-load 'evil

@@ -100,17 +100,14 @@
 
 ;; 安装常用的主题
 (use-package monokai-theme
-  :ensure t
   :if (eq kevin-theme-selected 'monokai)
   :config (load-theme 'monokai t))
 
 (use-package zenburn-theme
-  :ensure t
   :if (eq kevin-theme-selected 'zenburn)
   :config (load-theme 'zenburn t))
 
 (use-package doom-themes
-  :ensure t
   :if (eq kevin-theme-selected 'tomorrow)
   :config
   (doom-themes-visual-bell-config)
@@ -119,7 +116,6 @@
   (load-theme 'doom-tomorrow-night t))
 
 (use-package doom-themes
-  :ensure t
   :if (eq kevin-theme-selected 'doom)
   :config
   (doom-themes-visual-bell-config)
@@ -128,7 +124,6 @@
   (load-theme 'doom-one t))
 
 (use-package doom-themes
-  :ensure t
   :if (eq kevin-theme-selected 'molokai)
   :config
   (doom-themes-visual-bell-config)
@@ -137,7 +132,6 @@
   (load-theme 'doom-molokai t))
 
 (use-package doom-themes
-  :ensure t
   :if (eq kevin-theme-selected 'gruvbox)
   :config
   (load-theme 'gruvbox-dark-hard t))
@@ -172,8 +166,6 @@
 (add-hook 'after-init-hook 'turn-on-visual-line-mode)
 
 (use-package vi-tilde-fringe
-  :defer t
-  :ensure t
   :diminish vi-tilde-fringe-mode
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
@@ -186,6 +178,16 @@
   ;; (setq-default display-line-numbers-type 'relative)
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
+
+(use-package hide-mode-line
+  :hook (neotree-mode . hide-mode-line-mode))
+
+(use-package all-the-icons
+  :if (display-graphic-p)
+  :init
+  :config
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(gfm-mode  all-the-icons-octicon "markdown" :face all-the-icons-lblue)))
 
 (provide 'init-ui)
 ;;; init-ui ends here

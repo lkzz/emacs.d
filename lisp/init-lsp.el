@@ -14,7 +14,6 @@
 ;;; Code:
 
 (use-package lsp-mode
-  :ensure t
   :if kevin-lsp-mode-enable-p
   :diminish lsp-mode "ⓛ"
   :commands lsp
@@ -36,7 +35,6 @@
         lsp-clients-go-gocode-completion-enabled t))
 
 (use-package lsp-ui
-  :ensure t
   :if kevin-lsp-mode-enable-p
   :commands lsp-ui-mode
   :bind (:map lsp-ui-mode-map
@@ -58,7 +56,6 @@
         lsp-ui-sideline-ignore-duplicate t))
 
 (use-package company-lsp
-  :ensure t
   :if kevin-lsp-mode-enable-p
   :after (company lsp-mode)
   :commands company-lsp

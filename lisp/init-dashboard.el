@@ -16,7 +16,6 @@
 (eval-when-compile (require 'wid-edit))
 
 (use-package dashboard
-  :ensure t
   :diminish page-break-lines-mode
   :preface
   (defvar dashboard-recover-layout-p nil)

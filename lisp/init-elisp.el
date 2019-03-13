@@ -26,23 +26,19 @@
 
 (use-package elisp-mode
   :ensure nil
-  :defer t
   :hook (emacs-lisp-mode . remove-elc-on-save))
 
 (use-package elisp-def
-  :ensure t
   :diminish elisp-def-mode ""
   :hook (emacs-lisp-mode . elisp-def-mode))
 
 ;; Show function arglist or variable docstring
 (use-package eldoc
-  :ensure t
   :diminish eldoc-mode
   :hook (after-init . global-eldoc-mode))
 
 ;; This library adds all of the familiar highlighting to cl-lib macros
 (use-package cl-lib-highlight
-  :defer t
   :config
   (cl-lib-highlight-initialize))
 

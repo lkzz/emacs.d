@@ -27,35 +27,26 @@
 
 ;; Elec pair
 (use-package elec-pair
-  :defer t
   :ensure nil
   :init (add-hook 'after-init-hook #'electric-pair-mode))
 
 ;; Hungry deletion
 (use-package hungry-delete
-  :defer t
   :diminish hungry-delete-mode "ⓗ"
   :init (add-hook 'after-init-hook #'global-hungry-delete-mode))
 
-(use-package restart-emacs
-  :defer t)
+(use-package restart-emacs)
 
 (use-package server
-  :ensure t
   :init (server-mode 1)
-  :config
-  (unless (server-running-p)
-    (server-start)))
+  :hook (after-init . server-mode))
 
 ;; History
 (use-package saveplace
-  :defer t
   :ensure nil
-  :init
-  (add-hook 'after-init-hook #'save-place-mode))
+  :hook (after-init . save-place-mode))
 
 (use-package recentf
-  :defer t
   :ensure nil
   :config
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
@@ -68,25 +59,21 @@
                           "COMMIT_EDITMSG\\'"
                           "pyim"
                           "elpa"
+                          "vendor"
                           "custom.el")))
 
 
 ;; Delete selection if you insert
 (use-package delsel
-  :defer t
-  :ensure t
-  :init (add-hook 'after-init-hook #'delete-selection-mode))
+  :hook (after-init . delete-selection-mode))
 
 ;; Rectangle
 (use-package rect
-  :defer t
   :ensure nil
   :bind (("<C-return>" . rectangle-mark-mode)))
 
 ;; Jump to things in Emacs tree-style
 (use-package avy
-  :defer t
-  :ensure t
   :hook (after-init . avy-setup-default)
   :init
   (kevin/set-leader-keys "jc" 'avy-goto-char-2
@@ -96,15 +83,11 @@
 
 ;; Quickly follow links
 (use-package ace-link
-  :defer t
-  :ensure t
   :bind (("M-o" . ace-link-addr))
-  :init (add-hook 'after-init-hook #'ace-link-setup-default))
+  :hook (after-init . ace-link-setup-default))
 
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
-  :defer t
-  :ensure t
   :diminish aggressive-indent-mode
   :hook (prog-mode . global-aggressive-indent-mode)
   :config
@@ -131,23 +114,18 @@
 
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
-  :defer t
-  :ensure t
   :bind ("M-;" . comment-dwim-2))
 
 ;; Drag stuff (lines, words, region, etc...) around
 (use-package drag-stuff
-  :defer t
-  :ensure t
   :diminish drag-stuff-mode
-  :init (add-hook 'after-init-hook #'drag-stuff-global-mode)
+  :hook (after-init . drag-stuff-global-mode)
   :config
   (add-to-list 'drag-stuff-except-modes 'org-mode)
   (drag-stuff-define-keys))
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
-  :defer t
   :ensure nil
   :init
   ;; show org ediffs unfolded
@@ -157,24 +135,21 @@
   (with-eval-after-load 'winner
     (add-hook 'ediff-quit-hook #'winner-undo))
   :config
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  (setq ediff-split-window-function 'split-window-horizontally)
-  (setq ediff-merge-split-window-function 'split-window-horizontally))
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-horizontally
+        ediff-merge-split-window-function 'split-window-horizontally))
 
 ;; Treat undo history as a tree
 (use-package undo-tree
-  :defer t
-  :ensure t
   :diminish undo-tree-mode "ⓤ"
   :config
-  (setq undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history"))))
-  (setq undo-tree-auto-save-history nil)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t)
+  (setq undo-tree-auto-save-history nil
+        undo-tree-visualizer-timestamps t
+        undo-tree-visualizer-diff t
+        undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history"))))
   (global-undo-tree-mode))
 
 (use-package savehist
-  :defer t
   :ensure nil
   :init
   ;; Minibuffer history
@@ -191,48 +166,40 @@
 
 ;; Hideshow
 (use-package hideshow
-  :defer t
   :ensure nil
+  :diminish hs-minor-mode
   :bind (:map hs-minor-mode-map
               ("C-`" . hs-toggle-hiding))
-  :diminish hs-minor-mode)
+  :hook (prog-mode . hs-minor-mode))
 
 ;; Move to the beginning/end of line or code
-(use-package mwim
-  :defer t)
+(use-package mwim)
 
 (use-package smex
-  :defer t
-  :ensure t
   :config
-  (setq smex-save-file (concat kevin-cache-directory "smex-items"))
-  (setq smex-history-length 10))
+  (setq smex-history-length 10
+        smex-save-file (concat kevin-cache-directory "smex-items")))
 
 (use-package wgrep
-  :ensure t
   :init
-  (setq wgrep-auto-save-buffer t)
-  (setq wgrep-change-readonly-file t))
+  (setq wgrep-auto-save-buffer t
+        wgrep-change-readonly-file t))
 
 (use-package ag
-  :ensure t
   :defines projectile-command-map
   :init
   (with-eval-after-load 'projectile
     (bind-key "s S" #'ag-project projectile-command-map))
   :config
-  (setq ag-highlight-search t)
-  (setq ag-reuse-buffers t)
-  (setq ag-reuse-window t)
-  (use-package wgrep-ag
-    :ensure t))
+  (setq ag-reuse-window t
+        ag-reuse-buffers t
+        ag-highlight-search t))
 
 (use-package rg
-  :ensure t
   :hook (after-init . rg-enable-default-bindings)
   :config
-  (setq rg-group-result t)
-  (setq rg-show-columns t)
+  (setq rg-group-result t
+        rg-show-columns t)
   (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases)
   (with-eval-after-load 'projectile
     (defalias 'projectile-ripgrep 'rg-project)

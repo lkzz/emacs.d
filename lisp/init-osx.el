@@ -13,25 +13,19 @@
 ;;
 ;;; Code:
 (use-package exec-path-from-shell
-  :ensure t
-  :defer t
   :if kevin-mac-p
+  :hook (after-init . exec-path-from-shell-initialize)
   :init
-  (setq exec-path-from-shell-check-startup-files nil)
-  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH" "GOPATH" "GOROOT"))
-  (setq exec-path-from-shell-arguments '("-l"))
-  (add-hook 'after-init-hook 'exec-path-from-shell-initialize))
+  (setq exec-path-from-shell-check-startup-files nil
+        exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH" "GOPATH" "GOROOT")
+        exec-path-from-shell-arguments '("-l")))
 
 (use-package counsel-osx-app
-  :ensure t
-  :defer t
   :if kevin-mac-p
   :init
   (kevin/set-leader-keys "aa" 'counsel-osx-app))
 
 (use-package reveal-in-osx-finder
-  :ensure t
-  :defer t
   :if kevin-mac-p
   :commands reveal-in-osx-finder
   :init

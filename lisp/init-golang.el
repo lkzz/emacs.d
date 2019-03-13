@@ -61,7 +61,6 @@
 
 
 (use-package go-mode
-  :ensure t
   :mode "\\.go\\'"
   :bind (:map go-mode-map
               ([remap xref-find-definitions] . godef-jump)
@@ -102,32 +101,26 @@
 
 ;; Run: M-x `go-projectile-install-tools'
 (use-package go-projectile
-  :ensure t
   :after (go-mode projectile)
   :commands (go-projectile-mode go-projectile-switch-project)
   :hook ((go-mode . go-projectile-mode)
          (projectile-after-switch-project . go-projectile-switch-project)))
 
 (use-package go-eldoc
-  :ensure t
   :after (go-mode eldoc)
   :commands (godoc-at-point)
   :hook (go-mode . go-eldoc-setup))
 
 (use-package golint
-  :ensure t
   :after go-mode)
 
 (use-package govet
-  :ensure t
   :after go-mode)
 
 (use-package go-errcheck
-  :ensure t
   :after go-mode)
 
 (use-package go-guru
-  :ensure t
   :after go-mode
   :commands (go-guru-describe go-guru-freevars go-guru-implements go-guru-peers
                               go-guru-referrers go-guru-definition go-guru-pointsto
@@ -157,7 +150,6 @@
   (setq go-test-verbose nil))
 
 (use-package gotest
-  :ensure t
   :after go-mode
   :config
   (kevin/declare-prefix-for-mode 'go-mode "mt" "test")
@@ -170,12 +162,10 @@
                                         "tp" 'go-test-current-project))
 
 (use-package go-imenu
-  :ensure t
   :after go-mode
   :config (add-hook 'go-mode-hook 'go-imenu-setup))
 
 (use-package godoctor
-  :ensure t
   :after go-mode
   :config
   (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
@@ -186,7 +176,6 @@
                                         "rd" 'godoctor-godoc))
 
 (use-package go-tag
-  :ensure t
   :after go-mode
   :config
   (kevin/set-leader-keys-for-major-mode 'go-mode
@@ -199,7 +188,6 @@
   (with-eval-after-load 'company-lsp (add-to-list 'company-backends 'company-lsp)))
 
 (use-package company-go
-  :ensure t
   :after (company go-mode)
   :config
   (add-hook 'go-mode-hook #'kevin/setup-go-company-backends)

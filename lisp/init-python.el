@@ -15,7 +15,6 @@
 
 ;; ;; Python Mode
 ;; (use-package python
-;;   :defer t
 ;;   :ensure nil
 ;;   :init
 ;;   (setq-default python-indent-offset 4)
@@ -35,13 +34,11 @@
 
 ;; ;; Anaconda mode
 ;; (use-package anaconda-mode
-;;   :ensure t
 ;;   :after python
 ;;   :diminish anaconda-mode
 ;;   :hook (python-mode . anaconda-mode))
 
 ;; (use-package company-anaconda
-;;   :ensure t
 ;;   :after (company anaconda-mode)
 ;;   :init
 ;;   (add-hook 'python-mode-hook (lambda ()
@@ -51,20 +48,16 @@
 
 ;; ;; Autopep8
 ;; (use-package py-autopep8
-;;   :ensure t
 ;;   :after python
 ;;   :init (add-hook 'python-mode-hook #'py-autopep8-enable-on-save))
 
 ;; ;; Anaconda mode
 ;; (use-package anaconda-mode
-;;   :ensure t
-;;   :defer t
 ;;   :after python
 ;;   :diminish anaconda-mode
 ;;   :init (add-hook 'python-mode-hook #'anaconda-mode))
 
 ;; (use-package company-anaconda
-;;   :ensure t
 ;;   :after (python company anaconda-mode))
 
 ;; Python Mode
@@ -94,18 +87,15 @@
             (file-name-nondirectory buffer-file-name)))))
 
   ;; Live Coding in Python
-  (use-package live-py-mode
-    :ensure t)
+  (use-package live-py-mode)
 
   ;; Autopep8
   (use-package py-autopep8
-    :ensure t
     :hook (python-mode . py-autopep8-enable-on-save))
 
   ;; Anaconda mode
   (unless kevin-lsp-mode-enable-p
     (use-package anaconda-mode
-      :ensure t
       :defines anaconda-mode-localhost-address
       :diminish anaconda-mode
       :hook ((python-mode . anaconda-mode)
@@ -115,7 +105,6 @@
       (when kevin-mac-p
         (setq anaconda-mode-localhost-address "localhost"))
       (use-package company-anaconda
-        :ensure t
         :after company
         :defines company-backends
         :functions company-backend-with-yas

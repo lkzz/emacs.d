@@ -25,9 +25,7 @@
                                           ;; 补全文件系统的路径后端
                                           company-files
                                           ))
-
 (use-package company
-  :ensure t
   :diminish company-mode "ⓒ"
   :bind (("M-/" . company-complete)
          :map company-active-map
@@ -41,7 +39,13 @@
          :map company-search-map
          ("C-p" . company-select-previous)
          ("C-n" . company-select-next))
-  :hook (after-init . global-company-mode)
+  :init
+  (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'company-completion-started-hook
+            (lambda (&rest ignore)
+              (when (and (bound-and-true-p evil-mode) (evil-insert-state-p))
+                (define-key evil-insert-state-map (kbd "C-n") nil)
+                (define-key evil-insert-state-map (kbd "C-p") nil))))
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t
@@ -66,7 +70,6 @@
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
   :disabled
-  :ensure t
   :after company
   :hook (company-mode . company-statistics-mode)
   :config
@@ -75,13 +78,13 @@
 
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box
-  :ensure t
+  :disabled
   :after company
+  :requires all-the-icons
   :diminish company-box-mode
   :hook (company-mode . company-box-mode)
   :load-path "vendor/company-box-20180607.1545"
-  :init
-  (setq company-box-enable-icon (display-graphic-p))
+  :preface
   ;; refer: https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-company.el
   (defun kevin/company-box-icon (family icon icon_face &rest args)
     "Defines icons using `all-the-icons' for `company-box'."
@@ -94,6 +97,8 @@
         (unless (symbolp icon)
           (concat icon
                   (propertize " " 'face 'variable-pitch))))))
+  :init
+  (setq company-box-enable-icon (display-graphic-p))
   :config
   (setq company-box-enable-icon t
         company-box-doc-delay 0.5

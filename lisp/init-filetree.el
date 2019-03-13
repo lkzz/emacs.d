@@ -14,8 +14,6 @@
 ;;; Code:
 
 (use-package neotree
-  :defer t
-  :ensure t
   :commands (neotree-change-root
              neotree-quick-look
              neotree-toggle

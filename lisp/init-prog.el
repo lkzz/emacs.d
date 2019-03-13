@@ -16,12 +16,10 @@
 
 (use-package dash-at-point
   :if kevin-mac-p
-  :defer t
   :bind (("\C-cD" . dash-at-point)
          ("\C-ce" . dash-at-point-with-docset)))
 
 (use-package prog-mode
-  :defer t
   :ensure nil
   :init
   ;; e.g. display “lambda” as “λ”
@@ -32,18 +30,13 @@
                 (push '("<=" . ?≤) prettify-symbols-alist)))))
 
 (use-package nxml-mode
-  :defer t
   :ensure nil
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package toml-mode
-  :defer t
-  :ensure t
   :mode (("\\.toml$" . toml-mode)))
 
 (use-package fish-mode
-  :defer t
-  :ensure t
   :init
   (add-hook 'fish-mode-hook
             (lambda ()
@@ -51,8 +44,6 @@
                         #'fish_indent-before-save))))
 
 (use-package bazel-mode
-  :defer t
-  :ensure t
   :mode (("/BUILD\\(\\..*\\)?\\'" . bazel-mode)
          ("/WORKSPACE\\'" . bazel-mode)
          ("\\.bzl\\'" . bazel-mode))
@@ -60,7 +51,6 @@
   (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t))))
 
 (use-package protobuf-mode
-  :defer t
   :ensure nil
   :diminish abbrev-mode ;; required in protobuf-mode
   :mode (("\\.proto$" . protobuf-mode))
@@ -73,24 +63,15 @@
               (lambda () (c-add-style "my-style" kevin/protobuf-style t)))))
 
 (use-package yaml-mode
-  :ensure t
-  :defer t
   :mode (("\\.yml\\'" . yaml-mode)))
 
 (use-package quickrun
-  :defer t
-  :ensure t
-  :bind (("<f7>" . quickrun)
-         ("C-c x" . quickrun)))
+  :bind ("<f7>" . quickrun))
 
 (use-package json-reformat
-  :defer t
-  :ensure t
   :commands (json-reformat-region))
 
 (use-package editorconfig
-  :defer t
-  :ensure t
   :diminish editorconfig-mode
   :hook (after-init . editorconfig-mode))
 
