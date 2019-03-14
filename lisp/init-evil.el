@@ -103,8 +103,8 @@
   :config
   (setq evil-escape-key-sequence "jk"
         evil-escape-delay 0.25
-        evil-escape-excluded-states '(normal visual multiedit emacs motion)
-        evil-escape-excluded-major-modes '(neotree-mode treemacs-mode))
+        evil-escape-excluded-major-modes '(neotree-mode)
+        evil-escape-excluded-states '(normal visual multiedit emacs motion))
   ;; no `evil-escape' in minibuffer
   (add-hook 'evil-escape-inhibit-functions #'minibufferp)
   (evil-escape-mode))
@@ -112,18 +112,20 @@
 (use-package evil-mc
   :after evil
   :diminish evil-mc-mode "ⓜ"
-  :init
+  :preface
   (defun kevin/toggle-evil-mc ()
     (interactive)
     (if evil-mc-mode
         (progn
           (evil-mc-undo-all-cursors)
-          (evil-mc-mode -1)
+          (turn-off-evil-mc-mode)
           (message "evil mc mode disabled"))
       (progn
-        (evil-mc-mode 1)
+        (turn-on-evil-mc-mode)
         (message "evil mc mode enabled"))))
+  :init
   (kevin/set-leader-keys "tm" #'kevin/toggle-evil-mc)
+  :config
   ;; 清空evil-mc所有默认按键绑定
   (setq evil-mc-key-map (make-sparse-keymap))
   ;; 重新自定义按键绑定
@@ -146,18 +148,22 @@
           ))
   )
 
+;; s: 2 char forward; S: 2 char backward
+;; f: 1 char forward; F: 1 char backward
+;; ;and, repeat search
 (use-package evil-snipe
-  :after evil
   :diminish evil-snipe-local-mode
+  :init
+  (setq evil-snpe-smart-case t
+        evil-snipe-scope 'line
+        evil-snipe-repeat-scope 'visible
+        evil-snipe-char-fold t)
   :config
+  (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq)
   (evil-snipe-mode +1)
-  (evil-snipe-override-mode +1)
-  ;; fix problems with magit buffer
-  (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode))
+  (evil-snipe-override-mode +1))
 
-(use-package vimish-fold
-  :config
-  (vimish-fold-global-mode t))
+(use-package vimish-fold)
 
 (use-package evil-vimish-fold
   :after (evil vimish-fold)

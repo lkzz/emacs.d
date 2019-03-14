@@ -142,12 +142,13 @@
 ;; Treat undo history as a tree
 (use-package undo-tree
   :diminish undo-tree-mode "ⓤ"
+  :commands (undo-tree-visualize)
+  :hook (after-init . global-undo-tree-mode)
   :config
   (setq undo-tree-auto-save-history nil
         undo-tree-visualizer-timestamps t
         undo-tree-visualizer-diff t
-        undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history"))))
-  (global-undo-tree-mode))
+        undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history")))))
 
 (use-package savehist
   :ensure nil
