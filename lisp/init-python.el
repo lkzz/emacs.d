@@ -22,7 +22,9 @@
   (python-indent-offset 4)
   (python-indent-guess-indent-offset nil)
   :config
-  (setq python-shell-completion-native-enable nil))
+  (setq python-shell-completion-native-enable nil)
+  (setq py-python-command "python3")
+  (setq python-shell-interpreter "python3"))
 
 ;; Anaconda mode
 (use-package anaconda-mode
@@ -38,13 +40,14 @@
   (setq anaconda-mode-installation-directory
         (concat kevin-cache-directory "anaconda-mode")))
 
+(defun kevin/setup-python-company-backends ()
+  (make-local-variable 'company-backends)
+  (setq company-backends (list 'company-anaconda 'company-dabbrev 'company-keywords 'company-yasnippet 'company-files)))
+
 (use-package company-anaconda
-  :after (company anaconda-mode)
-  :preface
-  (defun kevin/setup-python-company-backends ()
-    (make-local-variable 'company-backends)
-    (setq company-backends (list 'company-anaconda 'company-dabbrev 'company-keywords 'company-yasnippet)))
-  :hook (python-mode . #'kevin/setup-go-company-backends))
+  :after (company python)
+  :config
+  (add-hook 'python-mode-hook #'kevin/setup-python-company-backends))
 
 ;; Autopep8
 (use-package py-autopep8
