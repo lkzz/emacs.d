@@ -14,8 +14,8 @@
 ;;; Code:
 
 ;; Personal information
-(setq user-full-name kevin-user-name)
-(setq user-mail-address kevin-mail-address)
+(setq user-full-name kevin-user-name
+      user-mail-address kevin-mail-address)
 
 
 ;; Don't ask me when kill process buffer
@@ -37,9 +37,8 @@
 (setq default-process-coding-system '(utf-8-unix . utf-8-unix))
 
 ;; 复制粘贴
-(setq select-enable-primary t)
-(setq select-enable-clipboard t)
-
+(setq select-enable-primary t
+      select-enable-clipboard t)
 
 (setq-default indent-tabs-mode nil ;; do not insert tab indentation
               tab-width 4 ;; 将TAB显示为4个空格.
@@ -56,7 +55,7 @@
               set-mark-command-repeat-pop t
               tooltip-delay 1.5
               truncate-partial-width-windows nil
-              truncate-lines nil           ; Do not display continuation lines
+              truncate-lines t             ; Do not display continuation lines
               split-height-threshold nil   ; Disable vertical window splitting
               split-width-threshold nil    ; Disable horizontal window splitting
               majar-mode 'text-mode)
@@ -107,15 +106,15 @@
 (setq mac-mouse-wheel-smooth-scroll nil)
 
 ;; 鼠标滚动设置
-(setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
-(setq mouse-wheel-progressive-speed nil)
 (setq scroll-step 3
       scroll-margin 3
-      scroll-conservatively 100000)
+      scroll-conservatively 100000
+      mouse-wheel-progressive-speed nil
+      mouse-wheel-scroll-amount '(3 ((shift) . 3)))
 
 ;; 文件末尾插入新行
-(setq require-final-newline t)
-(setq next-line-add-newlines nil)
+(setq require-final-newline t
+      next-line-add-newlines nil)
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;;删除时移到回收站

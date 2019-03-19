@@ -21,11 +21,13 @@
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
   :ensure nil
-  :init
-  (setq show-paren-delay 0)
-  (set-face-foreground 'show-paren-match "red")
-  (set-face-background 'show-paren-match "SkyBlue2")
-  (show-paren-mode t))
+  :hook (after-init . show-paren-mode)
+  :custom-face
+  (show-paren-match ((t (:background "SkyBlue2" :foreground "red" :underline t))))
+  :config
+  (setq show-paren-delay 0
+        show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t))
 
 ;; Highlight matching paren
 (use-package highlight-parentheses
@@ -36,28 +38,30 @@
 (use-package whitespace
   :ensure nil
   :diminish whitespace-mode
-  :hook (after-init . whitespace-mode)
+  :preface
+  (defun kevin/turn-off-whitespace-highlight ()
+    (setq show-trailing-whitespace nil))
+  :hook (((prog-mode outline-mode conf-mode) . whitespace-mode)
+         ((minibuffer-setup eshell-mode) . kevin/turn-off-whitespace-highlight))
   :init
-  (add-hook 'minibuffer-setup-hook (lambda () (setq show-trailing-whitespace nil)))
-  (add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-  (setq-default show-trailing-whitespace t)
-  (setq whitespace-style '(face trailing))
+  (setq show-trailing-whitespace t
+        whitespace-style '(face trailing))
   :config
   (with-eval-after-load 'popup
     ;; advice for whitespace-mode conflict with popup
     (defvar my-prev-whitespace-mode nil)
     (make-local-variable 'my-prev-whitespace-mode)
     (defadvice popup-draw (before my-turn-off-whitespace activate compile)
-	  "Turn off whitespace mode before showing autocomplete box."
-	  (if whitespace-mode
-		  (progn
+      "Turn off whitespace mode before showing autocomplete box."
+      (if whitespace-mode
+          (progn
             (setq my-prev-whitespace-mode t)
             (whitespace-mode -1))
         (setq my-prev-whitespace-mode nil)))
     (defadvice popup-delete (after my-restore-whitespace activate compile)
-	  "Restore previous whitespace mode when deleting autocomplete box."
-	  (if my-prev-whitespace-mode
-		  (whitespace-mode 1)))))
+      "Restore previous whitespace mode when deleting autocomplete box."
+      (if my-prev-whitespace-mode
+          (whitespace-mode 1)))))
 
 ;; An unobtrusive way to trim spaces from end of line
 (use-package ws-butler
