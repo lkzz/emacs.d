@@ -46,10 +46,6 @@
     ("v" flycheck-verify-setup exit: t)
     ("?" flycheck-describe-checker exit: t))
   :config
-  ;; go1.12 github issue: https://github.com/flycheck/flycheck/issues/1523
-  (let ((govet (flycheck-checker-get 'go-vet 'command)))
-    (when (equal (cadr govet) "tool")
-      (setf (cdr govet) (cddr govet))))
   (setq flycheck-emacs-lisp-check-declare t
         flycheck-indication-mode 'right-fringe
         flycheck-emacs-lisp-load-path 'inherit
