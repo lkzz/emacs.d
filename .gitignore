@@ -6,6 +6,7 @@ eshell/
 elpa/
 auto-save-list/
 transient/
+anaconda-mode/
 .DS_Store
 places
 recentf
