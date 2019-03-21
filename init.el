@@ -23,12 +23,13 @@
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
-(setq gc-cons-threshold 100000000)
+(setq gc-cons-threshold (* 1024 1024 500)) ; 500M
 (add-hook 'emacs-startup-hook
           (lambda ()
             "Restore defalut values after init"
             (setq file-name-handler-alist default-file-name-handler-alist)
-            (setq gc-cons-threshold 800000)))
+            ;; gc threshold 100M
+            (setq gc-cons-threshold (* 1024 1024 100))))
 
 ;;----------------------------------------------------------------------------
 ;; be quiet at startup; don't load or display anything unnecessary
