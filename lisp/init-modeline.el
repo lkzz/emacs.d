@@ -71,15 +71,15 @@
           " "
           branch)))))
 
-  ;; define buffer id segment
-  (spaceline-define-segment buffer-id
-    "Shorten buufer fileanme."
-    (when (buffer-file-name)
-      (concat
-       (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
-       " "
-       (shorten-directory default-directory 15)
-       (file-relative-name buffer-file-name))))
+  ;; ;; define buffer id segment
+  ;; (spaceline-define-segment buffer-id
+  ;;   "Shorten buufer fileanme."
+  ;;   (when (buffer-file-name)
+  ;;     (concat
+  ;;      (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
+  ;;      " "
+  ;;      (shorten-directory default-directory 15)
+  ;;      (file-relative-name buffer-file-name))))
 
   (use-package nyan-mode
     :config
