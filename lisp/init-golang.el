@@ -11,6 +11,29 @@
 ;;
 ;;; Commentary:
 ;;
+;;     go get -u github.com/gogo/protobuf/gogoproto
+;;     go get -u github.com/golang/protobuf/proto
+;;     go get -u github.com/gogo/protobuf/protoc-gen-gofast
+;;     go get -u github.com/gogo/protobuf/protoc-gen-gogo
+;;     go get -u github.com/golang/protobuf/protoc-gen-go
+;;     go get -u github.com/jstemmer/gotags
+;;     go get -u github.com/sourcegraph/go-langserver
+;;     go get -u github.com/mdempsky/gocode
+;;     go get -u github.com/godoctor/godoctor
+;;     go get -u github.com/graphql-go/graphql
+;;     go get -u github.com/zmb3/gogetdoc
+;;     go get -u github.com/lukehoban/go-outline
+;;     go get -u github.com/uudashr/gopkgs/cmd/gopkgs
+;;     go get -u github.com/golang/lint/golint
+;;     go get -u github.com/dougm/goflymake
+;;     go get -u github.com/cweill/gotests/...
+;;     go get -u github.com/hawkingrei/kazel
+;;     go get -u github.com/smartystreets/goconvey
+;;     go get -u github.com/golang/lint/golint
+;;     go get -u github.com/sqs/goreturns
+;;     go get -u github.com/rogpeppe/godef
+;;     go get -u golang.org/x/tools/cmd/...
+
 ;;; Code:
 
 (defun setup-go-mode-compile ()
@@ -86,17 +109,6 @@
                                         "ed" 'go-download-play
                                         "ga" 'ff-find-other-file
                                         "gc" 'go-coverage)
-  ;; ;; Go add-ons for Projectile
-  ;; :ensure-system-package
-  ;; ((dep . "go get -u github.com/golang/dep/cmd/dep")
-  ;;  (gocode . "go get -u github.com/nsf/gocode")
-  ;;  (godef . "go get -u github.com/rogpeppe/gode")
-  ;;  (golint . "go get -u golang.org/x/lint/golint")
-  ;;  (cmd . "go get -u golang.org/x/tools/cmd/...")
-  ;;  (gotest . "go get -u github.com/cweill/gotests/...")
-  ;;  (goflymake . "go get -u github.com/dougm/goflymake")
-  ;;  (godoctor . "go get github.com/godoctor/godoctor")
-  ;;  (go-langserver . "go get -u github.com/sourcegraph/go-langserver"))
   )
 
 ;; Run: M-x `go-projectile-install-tools'
@@ -182,15 +194,10 @@
                                         "rf" 'go-tag-add
                                         "rF" 'go-tag-remove))
 
-(defun kevin/setup-go-company-backends ()
-  (make-local-variable 'company-backends)
-  (setq company-backends (list 'company-go 'company-dabbrev 'company-keywords 'company-yasnippet))
-  (with-eval-after-load 'company-lsp (add-to-list 'company-backends 'company-lsp)))
-
 (use-package company-go
   :after (company go-mode)
+  :init (cl-pushnew 'company-go company-backends)
   :config
-  (add-hook 'go-mode-hook #'kevin/setup-go-company-backends)
   (setq company-go-show-annotation t))
 
 (provide 'init-golang)
