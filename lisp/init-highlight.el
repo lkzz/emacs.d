@@ -116,6 +116,7 @@
 
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon
+  :if (display-graphic-p)
   :diminish beacon-mode
   :config
   (beacon-mode t)

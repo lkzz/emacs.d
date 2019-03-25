@@ -85,6 +85,7 @@
   (kevin/set-step-fontsize -1))
 
 ;; Setup font size based on font-size-pair
-(kevin/set-pair-font kevin-english-font kevin-chinese-font kevin-fontsize-pair)
+(when (display-graphic-p)
+  (kevin/set-pair-font kevin-english-font kevin-chinese-font kevin-fontsize-pair))
 
 (provide 'init-font)
