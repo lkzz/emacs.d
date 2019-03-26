@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package awesome-tab
+  :disabled
   :load-path "vendor/awesome-tab"
   :config
   (with-eval-after-load 'evil
