@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package youdao-dictionary
+  :defer t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
   ;; Enable Cache
@@ -40,7 +41,9 @@
   ;; 显示6个候选词。
   (setq pyim-page-length 6)
   ;; 设置选词框的绘制方式
-  (setq pyim-page-tooltip 'posframe)
+  (if (display-graphic-p)
+      (setq pyim-page-tooltip 'posframe)
+    (setq pyim-page-tooltop 'popup))
   ;; 只能在字符串和 comment 中输入中文
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode)))
@@ -55,8 +58,9 @@
 
 ;; Chinese calendar
 (use-package cal-china-x
+  :defer t
   :commands cal-china-x-setup
-  :hook (after-init . cal-china-x-setup)
+  :hook (org-mode . cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
   (setq calendar-latitude 30.67)

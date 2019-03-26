@@ -23,13 +23,8 @@
 (defvar default-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
-(setq gc-cons-threshold (* 1024 1024 500)) ; 500M
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            "Restore defalut values after init"
-            (setq file-name-handler-alist default-file-name-handler-alist)
-            ;; gc threshold 100M
-            (setq gc-cons-threshold (* 1024 1024 100))))
+(setq gc-cons-threshold (* 1024 1024 1024); 1G
+      gc-cons-percentage 0.6)
 
 ;;----------------------------------------------------------------------------
 ;; be quiet at startup; don't load or display anything unnecessary
@@ -111,5 +106,11 @@
 (require 'init-windows-popup)
 
 (require 'init-keybinds)
+
+(add-hook 'emacs-startup-hook (lambda ()
+                                "Restore defalut values after init"
+                                (setq file-name-handler-alist default-file-name-handler-alist
+                                      gc-cons-threshold (* 1024 1024 16) ; 16M
+                                      gc-cons-percentage 0.1)))
 
 ;;; init.el ends here
