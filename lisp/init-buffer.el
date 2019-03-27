@@ -83,6 +83,7 @@
   "Create a scratch buffer."
   (interactive)
   (switch-to-buffer (get-buffer-create "*scratch*"))
+  (erase-buffer)
   (lisp-interaction-mode))
 
 ;;;###autoload

@@ -31,6 +31,7 @@
 
 ;; Highlight matching paren
 (use-package highlight-parentheses
+  :disabled
   :diminish highlight-parentheses-mode
   :hook (prog-mode . global-highlight-parentheses-mode))
 
@@ -71,8 +72,8 @@
 
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
-  :diminish highlight-indent-guides-mode
   :if (display-graphic-p)
+  :diminish highlight-indent-guides-mode
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-delay 0.5
@@ -82,11 +83,11 @@
 (use-package rainbow-mode
   :diminish rainbow-mode
   :hook ((text-mode . rainbow-mode)
-         (prog-mode . rainbow-mode)))
+         (emacs-lisp-mode . rainbow-mode)))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook (emacs-lisp-mode . rainbow-delimiters-mode))
 
 ;; Highlight TODO/FIXME/BUG...
 (use-package hl-todo
@@ -131,7 +132,7 @@
               ("M-n" . symbol-overlay-jump-next)
               ("M-r" . symbol-overlay-rename))
   :init
-  (kevin/set-leader-keys "ts" 'symbol-overlay-mode))
+  (kevin/set-leader-keys "ts" #'symbol-overlay-mode))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here

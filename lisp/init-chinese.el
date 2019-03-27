@@ -14,7 +14,6 @@
 ;;; Code:
 
 (use-package youdao-dictionary
-  :defer t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
   ;; Enable Cache
@@ -58,7 +57,6 @@
 
 ;; Chinese calendar
 (use-package cal-china-x
-  :defer t
   :commands cal-china-x-setup
   :hook (org-mode . cal-china-x-setup)
   :config

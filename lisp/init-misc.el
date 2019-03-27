@@ -38,7 +38,7 @@
 (use-package restart-emacs)
 
 (use-package server
-  :if (unless (bound-and-true-p server-mode))
+  :unless (bound-and-true-p server-mode)
   :init (server-mode 1)
   :hook (after-init . server-mode))
 
