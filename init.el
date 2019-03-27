@@ -102,8 +102,7 @@
 (require 'init-git)
 (require 'init-buffer)
 (require 'init-flycheck)
-(require 'init-dired)
-(require 'init-ranger)
+(require 'init-filemanager)
 (require 'init-eshell)
 ;; (require 'init-restore)
 

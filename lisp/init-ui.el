@@ -188,12 +188,5 @@
 (use-package hide-mode-line
   :hook (neotree-mode . hide-mode-line-mode))
 
-(use-package all-the-icons
-  :if (display-graphic-p)
-  :init
-  :config
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(gfm-mode  all-the-icons-octicon "markdown" :face all-the-icons-lblue)))
-
 (provide 'init-ui)
 ;;; init-ui ends here
