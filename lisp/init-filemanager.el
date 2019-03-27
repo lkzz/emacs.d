@@ -1,4 +1,4 @@
-;;; init-ranger.el -- Initizlize ranger. -*- lexical-binding: t; -*-
+;;; init-filemanager.el -- setup file manager by ranger and dired. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2019  Kevin Leung
 ;;
@@ -13,15 +13,23 @@
 ;;
 ;;; Code:
 
+(use-package all-the-icons
+  :if (display-graphic-p)
+  :config
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(gfm-mode  all-the-icons-octicon "markdown" :face all-the-icons-lblue)))
+
+
+(use-package all-the-icons-dired
+  :diminish all-the-icons-dired-mode
+  :after all-the-icons)
+
 (use-package ranger
-  :demand t
-  :commands (ranger deer deer-jump-other-window ranger-override-dired-mode)
+  :custom
+  (ranger-override-dired t)
   :init
-  (setq ranger-override-dired t)
-  (kevin/set-leader-keys "jd" 'deer
-                         "jr" 'ranger)
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal ranger-mode-map (kbd "q") 'ranger-close))
+  (kevin/set-leader-keys "jd" 'deer)
+  :hook (ranger-mode . all-the-icons-dired-mode)
   :config
   (setq ranger-cleanup-on-disable t
         ranger-cleanup-eagerly t
@@ -38,7 +46,9 @@
         ranger-parent-depth 0
         ranger-max-parent-width 0.12
         ;; Show cursor in ranger
-        ranger-hide-cursor nil))
+        ranger-hide-cursor nil)
+  (with-eval-after-load 'evil
+    (evil-define-key 'normal ranger-mode-map (kbd "q") 'ranger-close)))
 
-(provide 'init-ranger)
-;;; init-ranger.el ends here
+(provide 'init-filemanager)
+;;; init-filemanager.el ends here
