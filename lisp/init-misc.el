@@ -228,5 +228,14 @@
          :map mc/keymap
          ("C-|" . mc/vertical-align-with-space)))
 
+
+(use-package transient
+  :custom
+  (transient-history-limit 50)
+  (transient-save-history t)
+  (transient-levels-file (concat kevin-cache-directory "transient/levels.el"))
+  (transient-values-file (concat kevin-cache-directory "transient/values.el"))
+  (transient-history-file (concat kevin-cache-directory "transient/history.el")))
+
 (provide 'init-misc)
 ;;; init-misc.el ends here
