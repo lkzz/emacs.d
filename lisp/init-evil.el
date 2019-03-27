@@ -79,15 +79,12 @@
 
 (use-package evil-surround
   :after evil
-  :config
-  (global-evil-surround-mode t))
+  :custom (global-evil-surround-mode t))
 
+;; search selection in visual state(*:forward #:forward).
 (use-package evil-visualstar
   :after evil
-  :config
-  ;; search selection in visual state(*:forward #:forward).
-  (setq evil-visualstar/persistent t)
-  (global-evil-visualstar-mode))
+  :custom (global-evil-visualstar-mode t))
 
 (use-package evil-nerd-commenter
   :after evil
@@ -100,18 +97,19 @@
 (use-package evil-escape
   :after evil
   :diminish evil-escape-mode
+  :custom (evil-escape-mode t)
   :config
   (setq evil-escape-key-sequence "jk"
         evil-escape-delay 0.25
         evil-escape-excluded-major-modes '(neotree-mode)
         evil-escape-excluded-states '(normal visual multiedit emacs motion))
   ;; no `evil-escape' in minibuffer
-  (add-hook 'evil-escape-inhibit-functions #'minibufferp)
-  (evil-escape-mode))
+  (add-hook 'evil-escape-inhibit-functions #'minibufferp))
 
 (use-package evil-mc
   :after evil
   :diminish evil-mc-mode "ⓜ"
+  :custom (global-evil-mc-mode t)
   :preface
   (defun kevin/toggle-evil-mc ()
     (interactive)
@@ -125,7 +123,13 @@
         (message "evil mc mode enabled"))))
   :init
   (kevin/set-leader-keys "tm" #'kevin/toggle-evil-mc)
+  ;; 设置在evil-mc之下可以执行的命令
+  (setq evil-mc-custom-known-commands
+        '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
+          (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
+          (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))))
   :config
+  ;; FIXME 修复以下按键不生效的问题
   ;; 清空evil-mc所有默认按键绑定
   (setq evil-mc-key-map (make-sparse-keymap))
   ;; 重新自定义按键绑定
@@ -139,39 +143,24 @@
   (evil-define-key 'normal evil-mc-key-map (kbd "mu") 'evil-mc-undo-all-cursors)
   (evil-define-key 'normal evil-mc-key-map (kbd "mr") 'evil-mc-resume-cursors)
   (evil-define-key 'normal evil-mc-key-map (kbd "ma") 'evil-mc-make-and-goto-first-cursor)
-  (evil-define-key 'normal evil-mc-key-map (kbd "me") 'evil-mc-make-and-goto-last-cursor)
-  ;; 设置在evil-mc之下可以执行的命令
-  (setq evil-mc-custom-known-commands
-        '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
-          (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
-          (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))
-          ))
-  )
+  (evil-define-key 'normal evil-mc-key-map (kbd "me") 'evil-mc-make-and-goto-last-cursor))
 
 ;; s: 2 char forward; S: 2 char backward
 ;; f: 1 char forward; F: 1 char backward
 ;; ;and, repeat search
 (use-package evil-snipe
+  :after evil
   :diminish evil-snipe-local-mode
+  :custom
+  (evil-snipe-mode t)
+  (evil-snipe-override-mode t)
   :init
   (setq evil-snpe-smart-case t
         evil-snipe-scope 'line
         evil-snipe-repeat-scope 'visible
         evil-snipe-char-fold t)
   :config
-  (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq)
-  (evil-snipe-mode +1)
-  (evil-snipe-override-mode +1))
-
-(use-package vimish-fold)
-
-(use-package evil-vimish-fold
-  :after (evil vimish-fold)
-  :diminish evil-vimish-fold-mode
-  :hook (prog-mode . evil-vimish-fold-mode)
-  :init
-  (setq vimish-fold-dir (concat kevin-cache-directory "vimish-fold/")
-        vimish-fold-indication-mode 'right-fringe))
+  (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq))
 
 (use-package evil-collection
   :after evil
