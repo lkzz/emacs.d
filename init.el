@@ -105,7 +105,6 @@
 (require 'init-dired)
 (require 'init-ranger)
 (require 'init-eshell)
-(require 'init-restclient)
 ;; (require 'init-restore)
 
 (require 'init-windows)

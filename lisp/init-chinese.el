@@ -25,6 +25,7 @@
 
 ;; ** 设置拼音输入法
 (use-package pyim
+  :disabled
   :demand t
   :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
@@ -48,6 +49,7 @@
                 '(pyim-probe-program-mode)))
 
 (use-package pangu-spacing
+  :disabled
   :diminish pangu-spacing-mode
   :config
   (global-pangu-spacing-mode 1)
@@ -58,7 +60,7 @@
 ;; Chinese calendar
 (use-package cal-china-x
   :commands cal-china-x-setup
-  :hook (org-mode . cal-china-x-setup)
+  :init (cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
   (setq calendar-latitude 30.67)
@@ -115,18 +117,10 @@
 
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
+  :commands toggle-company-english-helper
   :after company
   :load-path "vendor/company-english-helper"
   :bind ("C-c t e" . 'toggle-company-english-helper))
-
-;; https://github.com/manateelazycat/insert-translated-name
-(use-package insert-translated-name
-  :load-path "vendor/insert-translated-name"
-  :bind ("C-c t t" . 'insert-translated-name-insert)
-  :config
-  (setq insert-translated-name-translate-engine 'youdao)
-  (defvar insert-translated-name-camel-style-mode-list
-    '(go-mode)))
 
 (provide 'init-chinese)
 ;;; init-chinese ends here
