@@ -16,6 +16,7 @@
 ;; Directory operations
 (use-package dired
   :ensure nil
+  :hook (dired-mode . all-the-icons-dired-mode)
   :config
   ;; Show directory first
   ;;  (setq dired-listing-switches "-alh --group-directories-first")
@@ -72,12 +73,6 @@
 ;;   :after dired
 ;;   :config
 ;;   (diredfl-global-mode))
-
-(use-package all-the-icons-dired
-  :diminish all-the-icons-dired-mode
-  :after (dired all-the-icons)
-  :hook ((dired-mode . all-the-icons-dired-mode)
-	     (ranger-mode . all-the-icons-dired-mode)))
 
 (provide 'init-dired)
 ;;; init-dired ends here
