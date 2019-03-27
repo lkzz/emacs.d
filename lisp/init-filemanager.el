@@ -24,6 +24,14 @@
   :diminish all-the-icons-dired-mode
   :after all-the-icons)
 
+(use-package dired
+  :ensure nil
+  :hook (dired-mode . all-the-icons-dired-mode)
+  :config
+  ;; Always delete and copy recursively
+  (setq dired-recursive-deletes 'always)
+  (setq dired-recursive-copies 'always))
+
 (use-package ranger
   :custom
   (ranger-override-dired t)
