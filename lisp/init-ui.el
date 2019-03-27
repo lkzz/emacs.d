@@ -136,6 +136,11 @@
   :config
   (load-theme 'gruvbox-dark-hard t))
 
+;; 加载主题
+(add-hook 'after-init-hook (lambda ()
+                             (load-theme 'doom-molokai t)
+                             ))
+
 ;; fringe 美化
 ;; left fringe with 4 pixel ,right fringe width:8 pixel
 (if (fboundp 'fringe-mode) (fringe-mode '(4 . 8)))
@@ -163,6 +168,7 @@
   (set-fringe-bitmap-face 'right-curly-arrow 'warning)
   (set-fringe-bitmap-face 'left-curly-arrow 'warning)
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)))
+
 (add-hook 'after-init-hook 'turn-on-visual-line-mode)
 
 (use-package vi-tilde-fringe

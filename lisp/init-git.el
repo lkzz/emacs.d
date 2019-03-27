@@ -58,7 +58,7 @@
     (get-buffer-window buffer)))
 
 (use-package magit
-  :commands (magit-status magit-init magit-file-log magit-blame-mode)
+  :commands (magit-file-log magit-blame-mode)
   :bind
   (("C-x g i" . magit-init)
    ("C-x g f" . magit-file-log)
@@ -70,17 +70,16 @@
    ("C-x g t" . magit-tag))
   :init
   (kevin/declare-prefix "g" "magit")
-  (kevin/set-leader-keys
-   "ga" 'kevin/git-add-current-file
-   "gc" 'kevin/git-checkout-current-file
-   "gd" 'magit-diff-buffer-file
-   "gl" 'magit-log-buffer-file
-   "gi" 'magit-init
-   "gL" 'magit-list-repositories
-   "gs" 'magit-status
-   "gS" 'magit-stage-file
-   "gU" 'magit-unstage-file
-   "gv" 'vc-annotate)
+  (kevin/set-leader-keys "ga" 'kevin/git-add-current-file
+                         "gc" 'kevin/git-checkout-current-file
+                         "gd" 'magit-diff-buffer-file
+                         "gl" 'magit-log-buffer-file
+                         "gi" 'magit-init
+                         "gL" 'magit-list-repositories
+                         "gs" 'magit-status
+                         "gS" 'magit-stage-file
+                         "gU" 'magit-unstage-file
+                         "gv" 'vc-annotate)
   :config
   ;; display buffer fullframe
   (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
@@ -210,16 +209,17 @@
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
-  :commands (diff-hl-mode diff-hl-dired-mode diff-hl-next-hunk diff-hl-previous-hunk
-                          hydra-diff-hl/body)
+  :commands (diff-hl-next-hunk diff-hl-previous-hunk)
   :custom-face
   (diff-hl-insert ((t (:background "#7ccd7c"))))
   (diff-hl-change ((t (:background "#3a81c3"))))
   (diff-hl-delete ((t (:background "#ee6363"))))
+  (diff-hl-margin-insert ((t (:background "#7ccd7c"))))
+  (diff-hl-margin-change ((t (:background "#3a81c3"))))
+  (diff-hl-margin-delete ((t (:background "#ee6363"))))
+  :hook ((after-init . global-diff-hl-mode)
+         (dired-mode . diff-hl-dired-mode))
   :init
-  (add-hook 'after-init-hook #'global-diff-hl-mode)
-  (add-hook 'dired-mode-hook #'diff-hl-dired-mode)
-  (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)
   (defhydra hydra-diff-hl (:color pink
                                   :hint nil)
     "
@@ -231,7 +231,23 @@
     ("q" nil exit: t))
   (kevin/set-leader-keys "gh" #'hydra-diff-hl/body)
   :config
-  (diff-hl-flydiff-mode 1))
+  ;; Highlight on-the-fly
+  (diff-hl-flydiff-mode 1)
+  ;; Set fringe style
+  (setq-default fringes-outside-margins nil)
+  (setq diff-hl-draw-borders nil)
+  ;; Set diff-hl-margin-mode
+  (unless (display-graphic-p)
+    (setq diff-hl-margin-symbols-alist '((insert . " ")
+                                         (delete . " ")
+                                         (change . " ")
+                                         (unknown . " ")
+                                         (ignored . " ")))
+    ;; Display margin since the fringe is unavailable in tty
+    (diff-hl-margin-mode 1))
+  ;; Integration with magit
+  (with-eval-after-load 'magit
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
 
 
 (provide 'init-git)

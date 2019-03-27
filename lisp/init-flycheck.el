@@ -59,7 +59,7 @@
   :hook (flycheck-mode . flycheck-posframe-mode))
 
 (use-package flycheck-popup-tip
-  :if (unless (display-graphic-p))
+  :unless (display-graphic-p)
   :after flycheck
   :hook (flycheck-mode . flycheck-popup-tip-mode))
 

@@ -88,7 +88,6 @@
   :hook (after-init . global-auto-revert-mode))
 
 (use-package expand-region
-  :defer t
   :bind (("C-=" . er/expand-region)))
 
 (use-package url
