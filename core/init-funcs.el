@@ -1,4 +1,4 @@
-;;; core-functions.el -- functions used in emacs configurations. -*- lexical-binding: t; -*-
+;;; init-funcs.el -- functions used in emacs configurations. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2019  Kevin Leung
 ;;
@@ -13,7 +13,8 @@
 ;;    refer: https://github.com/syl20bnr/spacemacs
 ;;; Code:
 
-;;;;;;;;;;;;;;;;;;;;;;;;;; functions adjust from spacemacs ;;;;;;;;;;;;;;;;;;;;;;;
+(defvar kevin-default-map (make-sparse-keymap)
+  "Base keymap for all leader key commands.")
 
 ;;; Generated autoloads from init-funcs.el
 ;;;###autoload
@@ -403,6 +404,6 @@ Argument VALUE 0 is transparent, 100 is opaque."
       (goto-char (point-max))
       (insert ";;; " fname " ends here\n"))))
 
-(byte-recompile-file "~/.emacs.d/core/core-functions.el" nil 0)
-(provide 'core-functions)
-;;; core-functions.el ends here
+
+(provide 'init-funcs)
+;;; init-funcs.el ends here

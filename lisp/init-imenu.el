@@ -13,7 +13,10 @@
 ;;
 ;;; Code:
 
+(kevin/declare-prefix "t" "toggle")
 (use-package imenu-list
+  :init
+  (kevin/set-leader-keys "ti" 'imenu-list-smart-toggle)
   :config
   (setq imenu-list-size     0.2)
   (setq imenu-list-position 'right)
