@@ -28,14 +28,16 @@
 ;; Elec pair
 (use-package elec-pair
   :ensure nil
-  :init (add-hook 'after-init-hook #'electric-pair-mode))
+  :hook (after-init . electric-pair-mode))
 
 ;; Hungry deletion
 (use-package hungry-delete
   :diminish hungry-delete-mode "ⓗ"
-  :init (add-hook 'after-init-hook #'global-hungry-delete-mode))
+  :hook (after-init . global-hungry-delete-mode))
 
-(use-package restart-emacs)
+(use-package restart-emacs
+  :init
+  (kevin/set-leader-keys "qr" 'restart-emacs))
 
 (use-package server
   :unless (bound-and-true-p server-mode)
@@ -82,11 +84,6 @@
                          "jl" 'avy-goto-line)
   :config (setq avy-background t))
 
-;; Quickly follow links
-(use-package ace-link
-  :bind (("M-o" . ace-link-addr))
-  :hook (after-init . ace-link-setup-default))
-
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
   :diminish aggressive-indent-mode
@@ -116,14 +113,6 @@
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
   :bind ("M-;" . comment-dwim-2))
-
-;; Drag stuff (lines, words, region, etc...) around
-(use-package drag-stuff
-  :diminish drag-stuff-mode
-  :hook (after-init . drag-stuff-global-mode)
-  :config
-  (add-to-list 'drag-stuff-except-modes 'org-mode)
-  (drag-stuff-define-keys))
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
@@ -175,27 +164,21 @@
   :hook (prog-mode . hs-minor-mode))
 
 ;; Move to the beginning/end of line or code
-(use-package mwim)
+(use-package mwim
+  :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
+         ([remap move-end-of-line] . mwim-end-of-code-or-line)))
 
-(use-package smex
-  :config
-  (setq smex-history-length 10
-        smex-save-file (concat kevin-cache-directory "smex-items")))
+;; An alternative M-x interface for Emacs
+(use-package amx
+  :hook (after-init . amx-mode)
+  :init
+  (setq amx-history-length 10
+        amx-save-file (concat kevin-cache-directory "amx-items")))
 
 (use-package wgrep
   :init
   (setq wgrep-auto-save-buffer t
         wgrep-change-readonly-file t))
-
-(use-package ag
-  :defines projectile-command-map
-  :init
-  (with-eval-after-load 'projectile
-    (bind-key "s S" #'ag-project projectile-command-map))
-  :config
-  (setq ag-reuse-window t
-        ag-reuse-buffers t
-        ag-highlight-search t))
 
 (use-package rg
   :hook (after-init . rg-enable-default-bindings)
@@ -206,8 +189,6 @@
   (with-eval-after-load 'projectile
     (defalias 'projectile-ripgrep 'rg-project)
     (bind-key "s R" #'rg-project projectile-command-map))
-  (when (fboundp 'ag)
-    (bind-key "a" #'ag rg-global-map))
   (with-eval-after-load 'counsel
     (bind-keys :map rg-global-map
                ("c r" . counsel-rg)
@@ -223,7 +204,6 @@
          ("C-c C-<"       . mc/mark-all-like-this)
          ("C-M->"         . mc/skip-to-next-like-this)
          ("C-M-<"         . mc/skip-to-previous-like-this)
-         ("s-<mouse-1>"   . mc/add-cursor-on-click)
          ("C-S-<mouse-1>" . mc/add-cursor-on-click)
          :map mc/keymap
          ("C-|" . mc/vertical-align-with-space)))
