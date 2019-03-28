@@ -1,4 +1,4 @@
-;;; core-elpa.el --- elpa config. -*- lexical-binding: t; -*-
+;;; init-elpa.el --- elpa config. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2019  Kevin Leung
 ;;
@@ -72,6 +72,5 @@
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
 
-;; (byte-recompile-file "~/.emacs.d/core/core-elpa.el" nil 0)
-(provide 'core-elpa)
-;;; core-elpa.el ends here
+(provide 'init-elpa)
+;;; init-elpa.el ends here

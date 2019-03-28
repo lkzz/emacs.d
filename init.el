@@ -35,7 +35,10 @@
 ;; Core files required.
 ;;----------------------------------------------------------------------------
 (add-to-list 'load-path (expand-file-name "core" user-emacs-directory))
-(require 'core)
+(require 'init-custom)
+(require 'init-elpa)
+(require 'init-const)
+(require 'init-funcs)
 
 ;;----------------------------------------------------------------------------
 ;; Load custom file first.
@@ -61,7 +64,7 @@
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
 (require 'init-font)
-(require 'init-dashboard)
+;; (require 'init-dashboard)
 
 ;; (if (display-graphic-p)
 ;;     (require 'init-modeline)
