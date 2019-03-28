@@ -13,8 +13,6 @@
 ;;
 ;;; Code:
 
-(require 'cl)
-
 (use-package evil-leader
   :after evil
   :config
@@ -77,14 +75,21 @@
   ;; Use evil as a default jump handler
   (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition))
 
+(use-package evil-escape
+  :after evil
+  :diminish evil-escape-mode
+  :hook (evil-mode . evil-escape-mode)
+  :config
+  (setq  evil-escape-delay 0.25
+         evil-escape-key-sequence "jk"
+         evil-escape-excluded-major-modes '(neotree-mode)
+         evil-escape-excluded-states '(normal visual multiedit emacs motion))
+  ;; no `evil-escape' in minibuffer
+  (add-hook 'evil-escape-inhibit-functions #'minibufferp))
+
 (use-package evil-surround
   :after evil
-  :custom (global-evil-surround-mode t))
-
-;; search selection in visual state(*:forward #:forward).
-(use-package evil-visualstar
-  :after evil
-  :custom (global-evil-visualstar-mode t))
+  :hook (evil-mode . global-evil-surround-mode))
 
 (use-package evil-nerd-commenter
   :after evil
@@ -94,71 +99,14 @@
                          "cp" 'evilnc-comment-or-uncomment-paragraphs
                          "cy" 'evilnc-copy-and-comment-operator))
 
-(use-package evil-escape
-  :after evil
-  :diminish evil-escape-mode
-  :custom (evil-escape-mode t)
-  :config
-  (setq evil-escape-key-sequence "jk"
-        evil-escape-delay 0.25
-        evil-escape-excluded-major-modes '(neotree-mode)
-        evil-escape-excluded-states '(normal visual multiedit emacs motion))
-  ;; no `evil-escape' in minibuffer
-  (add-hook 'evil-escape-inhibit-functions #'minibufferp))
-
-;; (use-package evil-mc
-;;   :diminish evil-mc-mode "ⓜ"
-;;   :functions evil-mc-mode
-;;   :commands (evil-mc-mode
-;;              evil-mc-undo-all-cursors
-;;              kevin/toggle-evil-mc)
-;;   :preface
-;;   (defun kevin/toggle-evil-mc ()
-;;     (interactive)
-;;     (if evil-mc-mode
-;;         (progn
-;;           (evil-mc-undo-all-cursors)
-;;           (turn-off-evil-mc-mode)
-;;           (message "evil mc mode disabled"))
-;;       (progn
-;;         (turn-on-evil-mc-mode)
-;;         (message "evil mc mode enabled"))))
-;;   :init
-;;   (kevin/set-leader-keys "tm" #'kevin/toggle-evil-mc)
-;;   ;; 设置在evil-mc之下可以执行的命令
-;;   (setq evil-mc-custom-known-commands
-;;         '((paredit-backward-delete . ((:default . evil-mc-execute-default-call-with-count)))
-;;           (hungry-delete-backward . ((:default . evil-mc-execute-default-call-with-count)))
-;;           (org-delete-backward-char . ((:default . evil-mc-execute-default-call-with-count)))))
-;;   :config
-;;   ;; FIXME 修复以下按键不生效的问题
-;;   (with-eval-after-load 'evil
-;;     ;; 清空evil-mc所有默认按键绑定
-;;     (setq evil-mc-key-map (make-sparse-keymap))
-;;     ;; 重新自定义按键绑定
-;;     (evil-define-key 'visual evil-mc-key-map (kbd "ma") 'evil-mc-make-all-cursors)
-;;     (evil-define-key '(normal visual) evil-mc-key-map (kbd "M-n")  'evil-mc-make-and-goto-next-match)
-;;     (evil-define-key '(normal visual) evil-mc-key-map (kbd "M-p")  'evil-mc-make-and-goto-prev-match)
-;;     (evil-define-key '(normal visual) evil-mc-key-map (kbd "C-n")  'evil-mc-skip-and-goto-next-match)
-;;     (evil-define-key '(normal visual) evil-mc-key-map (kbd "C-p")  'evil-mc-skip-and-goto-prev-match)
-;;     (evil-define-key 'normal evil-mc-key-map (kbd "ms") 'evil-mc-pause-cursors)
-;;     (evil-define-key 'normal evil-mc-key-map (kbd "mh") 'evil-mc-make-cursor-here)
-;;     (evil-define-key 'normal evil-mc-key-map (kbd "mu") 'evil-mc-undo-all-cursors)
-;;     (evil-define-key 'normal evil-mc-key-map (kbd "mr") 'evil-mc-resume-cursors)
-;;     (evil-define-key 'normal evil-mc-key-map (kbd "ma") 'evil-mc-make-and-goto-first-cursor)
-;;     (evil-define-key 'normal evil-mc-key-map (kbd "me") 'evil-mc-make-and-goto-last-cursor)
-;;     ))
-
-
 ;; s: 2 char forward; S: 2 char backward
 ;; f: 1 char forward; F: 1 char backward
 ;; ;and, repeat search
 (use-package evil-snipe
   :after evil
+  :hook ((evil-mode . evil-snipe-mode)
+         (evil-mode . evil-snipe-override-mode))
   :diminish evil-snipe-local-mode
-  :custom
-  (evil-snipe-mode t)
-  (evil-snipe-override-mode t)
   :init
   (setq evil-snpe-smart-case t
         evil-snipe-scope 'line
@@ -170,7 +118,7 @@
 (use-package evil-collection
   :after evil
   :custom (evil-collection-setup-minibuffer t)
-  :config
+  :init
   ;; The list of supported modes is configured by evil-collection-mode-list
   (evil-collection-init 'view)
   (evil-collection-init 'custom)
