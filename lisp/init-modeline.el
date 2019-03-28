@@ -13,6 +13,10 @@
 ;;
 ;;; Code:
 
+(use-package doom-modeline
+  :disabled
+  :hook (after-init . doom-modeline-mode))
+
 ;;;###autload
 (defun kevin/maybe-alltheicon (&rest args)
   "Display octicon via `ARGS'."
@@ -39,7 +43,15 @@
       (setq output (concat ".../" output)))
     output))
 
+(use-package nyan-mode
+  :init
+  (setq nyan-animate-nyancat nil)
+  (nyan-mode t))
+
 (use-package spaceline
+  :init
+  (add-hook 'after-init-hook (lambda ()
+                               (require 'spaceline)))
   :config
   (require 'spaceline-config)
   ;; let spaceline handle auzu info in modeline
@@ -58,34 +70,28 @@
   (spaceline-toggle-selection-info-on)
   (spaceline-toggle-input-method-on)
   (spaceline-toggle-buffer-encoding-abbrev-on)
+  (spaceline-toggle-nyan-cat-on)
   ;; configure the separator between the minor modes
   (setq spaceline-minor-modes-separator "")
-  ;; define version control segment
+  ;;define version control segment
   (spaceline-define-segment version-control
     "Version control information."
     (when vc-mode
       (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
-        (powerline-raw
-         (concat
-          (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
-          " "
-          branch)))))
+        (powerline-raw (concat (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
+                               " "
+                               branch)))))
 
-  ;; ;; define buffer id segment
-  ;; (spaceline-define-segment buffer-id
-  ;;   "Shorten buufer fileanme."
-  ;;   (when (buffer-file-name)
-  ;;     (concat
-  ;;      (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
-  ;;      " "
-  ;;      (shorten-directory default-directory 15)
-  ;;      (file-relative-name buffer-file-name))))
+  ;; define buffer id segment
+  (spaceline-define-segment buffer-id
+    "Shorten buufer fileanme."
+    (when (buffer-file-name)
+      (concat
+       (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
+       " "
+       (shorten-directory default-directory 6)
+       (file-relative-name buffer-file-name))))
 
-  (use-package nyan-mode
-    :config
-    (setq nyan-animate-nyancat nil)
-    (nyan-mode t)
-    (spaceline-toggle-nyan-cat-on))
   ;; hide the current position in the buffer as a percentage
   (spaceline-toggle-buffer-position-off)
   ;; shows the currently visible part of the buffer.

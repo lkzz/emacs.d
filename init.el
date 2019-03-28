@@ -64,18 +64,10 @@
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
 (require 'init-font)
-;; (require 'init-dashboard)
-
-;; (if (display-graphic-p)
-;;     (require 'init-modeline)
-;;   (require 'init-kevin-modeline))
-
-;; TODO 减小modeline启动占用的时间
-;; (require 'init-kevin-modeline)
-;; (require 'init-modeline)
-
+(require 'init-dashboard)
 (require 'init-highlight)
 (require 'init-filetree)
+(require 'init-modeline)
 ;; (require 'init-awesome-tab)
 
 ;; misc packages

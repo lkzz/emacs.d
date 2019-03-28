@@ -13,13 +13,6 @@
 ;;
 ;;; Code:
 
-(use-package all-the-icons
-  :if (display-graphic-p)
-  :config
-  (add-to-list 'all-the-icons-mode-icon-alist
-               '(gfm-mode  all-the-icons-octicon "markdown" :face all-the-icons-lblue)))
-
-
 (use-package all-the-icons-dired
   :diminish all-the-icons-dired-mode
   :after all-the-icons)
