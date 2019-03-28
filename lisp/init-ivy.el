@@ -57,7 +57,7 @@
          :map swiper-map
          ("M-%" . swiper-query-replace))
   :hook ((after-init . ivy-mode)
-         (after-init . counsel-mode))
+         (ivy-mode . counsel-mode))
   :config
   (setq ivy-height 12)
   (setq ivy-use-selectable-prompt t)
@@ -87,11 +87,8 @@
 ;; More friendly interface for ivy
 (use-package ivy-rich
   :after (ivy counsel projectile)
-  :config
-  ;; replace “/home/username” with “~”
-  (setq ivy-rich-path-style 'abbrev)
-  (setq ivy-virtual-abbreviate 'full)
-  (setq ivy-rich--display-transformers-list
+  :init
+  (setq ivy-rich-display-transformers-list
         '(ivy-switch-buffer (:columns ((ivy-rich-candidate (:width 30))  ; return the candidate itself
                                        (ivy-rich-switch-buffer-size (:width 10 :face warning))  ; return the buffer size
                                        (ivy-rich-switch-buffer-major-mode (:width 20 :face error))          ; return the major mode info
@@ -113,13 +110,9 @@
 
                             counsel-find-file (:columns ((ivy-rich-candidate (:width 0.5))
                                                          (ivy-rich-file-last-modified-time (:face font-lock-comment-face))))
-                            )
-        )
+                            ))
+  (setq ivy-rich-parse-remote-buffer nil)
   (ivy-rich-mode 1))
-
-(use-package all-the-icons-ivy
-  :config
-  (all-the-icons-ivy-setup))
 
 ;; For better fuzzy searching
 (use-package flx
