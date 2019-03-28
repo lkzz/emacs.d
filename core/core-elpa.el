@@ -13,9 +13,9 @@
 ;;
 ;;; Code:
 
-(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-                         ("melpa" . "http://elpa.emacs-china.org/melpa/")
-                         ("org"   . "http://elpa.emacs-china.org/org/")))
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
 ;;; Fire up package.el
 (setq package-enable-at-startup nil ; don't auto-initialize!
@@ -51,7 +51,6 @@
 (use-package dash-functional)
 
 (use-package which-key
-  :demand t
   :diminish which-key-mode "Ⓚ"
   :commands (which-key-add-major-mode-key-based-replacements
               which-key-add-key-based-replacements)
