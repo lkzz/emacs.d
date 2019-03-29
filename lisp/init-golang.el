@@ -197,6 +197,8 @@
 (use-package company-go
   :after (company go-mode)
   :init (cl-pushnew 'company-go company-backends)
+  :custom
+  (company-go-gocode-args '("-builtin" "-unimported-packages" "-cache" "-fallback-to-source"))
   :config
   (setq company-go-show-annotation t))
 
