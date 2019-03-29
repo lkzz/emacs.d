@@ -185,9 +185,9 @@
                windmove-down))
     (add-to-list 'golden-ratio-extra-commands f))
   ;; golden-ratio-exclude-buffer-names
-  (dolist (n '(" *NeoTree*"
+  (dolist (n '("*NeoTree*"
                "*LV*"
-               " *which-key*"))
+               "*which-key*"))
     (add-to-list 'golden-ratio-exclude-buffer-names n)))
 
 (use-package centered-cursor-mode
