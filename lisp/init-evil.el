@@ -122,6 +122,7 @@
   ;; The list of supported modes is configured by evil-collection-mode-list
   (evil-collection-init 'view)
   (evil-collection-init 'custom)
+  (evil-collection-init 'ibuffer)
   (evil-collection-init 'calendar))
 
 (provide 'init-evil)
