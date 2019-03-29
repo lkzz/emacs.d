@@ -35,9 +35,7 @@
 (when (and kevin-mac-p (fboundp 'set-fontset-font))
   (set-fontset-font "fontset-default"
                     '(#x1F600 . #x1F64F)
-                    (font-spec :name "Apple Color Emoji") nil 'prepend)
-
-  )
+                    (font-spec :name "Apple Color Emoji") nil 'prepend))
 
 (provide 'init-osx)
 ;;; init-osx ends here
