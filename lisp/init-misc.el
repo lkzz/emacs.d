@@ -47,10 +47,14 @@
 ;; History
 (use-package saveplace
   :ensure nil
+  :custom
+  (save-place-file (concat kevin-cache-directory "saveplace"))
   :hook (after-init . save-place-mode))
 
 (use-package recentf
   :ensure nil
+  :custom
+  (recentf-save-file (concat kevin-cache-directory "recentf"))
   :config
   (add-hook 'find-file-hook (lambda () (unless recentf-mode
                                     (recentf-mode)
