@@ -16,7 +16,7 @@
 (use-package flycheck
   :diminish flycheck-mode "ⓕ"
   :commands (hydra-flycheck/body)
-  :hook (after-init . global-flycheck-mode)
+  :hook (prog-mode . global-flycheck-mode)
   :init
   (kevin/declare-prefix "e" "flycheck")
   (kevin/set-leader-keys "ec" #'flycheck-buffer
