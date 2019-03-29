@@ -124,6 +124,7 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; Group ibuffer's list by project root
 (use-package ibuffer-projectile
+  :after (projectile)
   :bind ("C-x C-b" . ibuffer)
   :init
   (progn
