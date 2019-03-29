@@ -21,13 +21,8 @@
 
 (use-package prog-mode
   :ensure nil
-  :init
-  ;; e.g. display “lambda” as “λ”
-  (when (boundp 'global-prettify-symbols-mode)
-    (add-hook 'after-init-hook #'global-prettify-symbols-mode)
-    (add-hook 'emacs-lisp-mode-hook
-              (lambda ()
-                (push '("<=" . ?≤) prettify-symbols-alist)))))
+  :hook ((emacs-lisp-mode . global-prettify-symbols-mode)
+         (emacs-lisp-mode . (lambda () (push '("<=" . ?≤) prettify-symbols-alist)))))
 
 (use-package nxml-mode
   :ensure nil
@@ -38,10 +33,7 @@
 
 (use-package fish-mode
   :init
-  (add-hook 'fish-mode-hook
-            (lambda ()
-              (add-hook 'before-save-hook
-                        #'fish_indent-before-save))))
+  (add-hook 'fish-mode-hook (lambda () (add-hook 'before-save-hook #'fish_indent-before-save))))
 
 (use-package bazel-mode
   :mode (("/BUILD\\(\\..*\\)?\\'" . bazel-mode)
@@ -55,18 +47,13 @@
   :diminish abbrev-mode ;; required in protobuf-mode
   :mode (("\\.proto$" . protobuf-mode))
   :init
-  (progn
-    (defconst kevin/protobuf-style
-      '((c-basic-offset . 4)
-        (indent-tabs-mode . nil)))
-    (add-hook 'protobuf-mode-hook
-              (lambda () (c-add-style "my-style" kevin/protobuf-style t)))))
+  (defconst kevin/protobuf-style
+    '((c-basic-offset . 4)
+      (indent-tabs-mode . nil)))
+  (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" kevin/protobuf-style t))))
 
 (use-package yaml-mode
   :mode (("\\.yml\\'" . yaml-mode)))
-
-(use-package quickrun
-  :bind ("<f7>" . quickrun))
 
 (use-package json-reformat
   :commands (json-reformat-region))
