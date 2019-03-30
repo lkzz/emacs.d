@@ -38,7 +38,7 @@
 ;; Highlight show trailing whitespace
 (use-package whitespace
   :ensure nil
-  :diminish whitespace-mode
+  :diminish whitespace-mode "ⓦ"
   :preface
   (defun kevin/turn-off-whitespace-highlight ()
     (setq show-trailing-whitespace nil))
