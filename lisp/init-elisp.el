@@ -29,7 +29,7 @@
   :hook (emacs-lisp-mode . remove-elc-on-save))
 
 (use-package elisp-def
-  :diminish elisp-def-mode ""
+  :diminish elisp-def-mode
   :hook (emacs-lisp-mode . elisp-def-mode))
 
 ;; Show function arglist or variable docstring

@@ -132,7 +132,7 @@
 ;; Resolve diff3 conflicts
 (use-package smerge-mode
   :ensure nil
-  :diminish
+  :diminish smerge-mode
   :commands (smerge-mode
              smerge-auto-leave
              smerge-next
