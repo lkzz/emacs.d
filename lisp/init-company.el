@@ -13,7 +13,7 @@
 ;;
 ;;; Code:
 
-(defconst kevin/company-global-backends '(
+(defconst kevin/company-global-backends '(company-yasnippet
                                           ;; 当前文件所属编程语言的语法关键词
                                           company-keywords
                                           ;; 使用 completion-at-point-functions 的后端
@@ -21,24 +21,23 @@
                                           ;; 主要用来补全当前 buffer 中出现的 word
                                           company-dabbrev
                                           ;; 使用 yasnippet 补全的后端
-                                          company-yasnippet
+                                          ;; company-yasnippet
                                           ;; 补全文件系统的路径后端
                                           company-files
                                           ))
+
 (use-package company
   :diminish company-mode "ⓒ"
-  :bind (("M-/" . company-complete)
-         :map company-active-map
-         ("C-s" . company-filter-candidates)
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next)
-         ("C-g" . company-abort)
-         ("C-/" . yas-expand-from-trigger-key)
-         ("TAB" . company-complete-common)
-         ("<tab>" . company-complete-common)
-         :map company-search-map
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next))
+  :bind (:map company-active-map
+              ("C-s" . company-filter-candidates)
+              ("C-p" . company-select-previous)
+              ("C-n" . company-select-next)
+              ("C-g" . company-abort)
+              ("TAB" . company-complete-common)
+              ("<tab>" . company-complete-common)
+              :map company-search-map
+              ("C-p" . company-select-previous)
+              ("C-n" . company-select-next))
   :init
   (add-hook 'after-init-hook 'global-company-mode)
   (add-hook 'company-completion-started-hook
@@ -65,7 +64,8 @@
                                message-mode
                                help-mode
                                gud-mode)
-        company-backends kevin/company-global-backends))
+        ;; company-backends kevin/company-global-backends
+        ))
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
