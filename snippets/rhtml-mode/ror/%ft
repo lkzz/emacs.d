@@ -1,0 +1,6 @@
+#name : <%= form_tag url do %> ... <% end  %>
+# --
+<%= form_tag ${1:url} do %>
+  $0
+  <p class="button"><%= submit_tag %></p>
+<% end %>
