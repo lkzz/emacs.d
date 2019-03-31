@@ -23,11 +23,7 @@
 
 (use-package company-lua
   :after (lua-mode company)
-  :config
-  (add-hook 'lua-mode-hook (lambda ()
-                             (make-local-variable 'company-backends)
-                             (setq company-backends kevin/company-global-backends)
-                             (add-to-list 'company-backends 'company-lua))))
+  :init (cl-pushnew 'company-lua company-backends))
 
 (provide 'init-lua)
 ;; init-lua.el ends here.
