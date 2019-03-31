@@ -30,7 +30,8 @@
 (use-package anaconda-mode
   :after python
   :diminish anaconda-mode
-  :hook (python-mode . anaconda-mode)
+  :hook ((python-mode . anaconda-mode)
+         (python-mode . anaconda-eldoc-mode))
   :init
   (kevin/set-leader-keys-for-major-mode 'python-mode
                                         "hh" 'anaconda-mode-show-doc
