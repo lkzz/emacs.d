@@ -37,17 +37,12 @@
                                         "ga" 'anaconda-mode-find-assignments
                                         "gb" 'xref-pop-marker-stack
                                         "gu" 'anaconda-mode-find-references)
-  (setq anaconda-mode-installation-directory
-        (concat kevin-cache-directory "anaconda-mode")))
-
-(defun kevin/setup-python-company-backends ()
-  (make-local-variable 'company-backends)
-  (setq company-backends (list 'company-anaconda 'company-dabbrev 'company-keywords 'company-yasnippet 'company-files)))
+  (setq anaconda-mode-installation-directory (concat kevin-cache-directory "anaconda-mode")))
 
 (use-package company-anaconda
   :after (company python)
-  :config
-  (add-hook 'python-mode-hook #'kevin/setup-python-company-backends))
+  :init
+  (cl-pushnew 'company-anaconda company-backends))
 
 ;; Autopep8
 (use-package py-autopep8
