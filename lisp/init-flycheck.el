@@ -45,6 +45,62 @@
     ("s" flycheck-select-checker exit: t)
     ("v" flycheck-verify-setup exit: t)
     ("?" flycheck-describe-checker exit: t))
+  (define-fringe-bitmap 'kevin-flycheck-error-fringe
+    (vector #b00000000
+            #b00000000
+            #b11000011
+            #b01100110
+            #b00111100
+            #b00111000
+            #b00111100
+            #b01100110
+            #b11000011
+            #b00000000
+            #b00000000))
+  (define-fringe-bitmap 'kevin-flycheck-warn-fringe
+    (vector #b00000000
+            #b00000000
+            #b00110000
+            #b00110000
+            #b00110000
+            #b00110000
+            #b00110000
+            #b00110000
+            #b00000000
+            #b00000000
+            #b00110000
+            #b00110000
+            #b00000000
+            #b00000000))
+  (define-fringe-bitmap 'kevin-flycheck-info-fringe
+    (vector #b00000000
+            #b00000000
+            #b00000000
+            #b00000000
+            #b00011100
+            #b00111110
+            #b00111110
+            #b00111110
+            #b00011100
+            #b00000000
+            #b00000000
+            #b00000000
+            #b00000000))
+  (flycheck-define-error-level 'error
+    :severity 2
+    :overlay-category 'flycheck-error-overlay
+    :fringe-bitmap 'kevin-flycheck-error-fringe
+    :fringe-face 'flycheck-fringe-error)
+  (flycheck-define-error-level 'warning
+    :severity 1
+    :overlay-category 'flycheck-warning-overlay
+    :fringe-bitmap 'kevin-flycheck-warn-fringe
+    :fringe-face 'flycheck-fringe-warning)
+  (flycheck-define-error-level 'info
+    :severity 0
+    :overlay-category 'flycheck-info-overlay
+    :fringe-bitmap 'kevin-flycheck-info-fringe
+    :fringe-face 'flycheck-fringe-info)
   :config
   (setq flycheck-emacs-lisp-check-declare t
         flycheck-indication-mode 'right-fringe
