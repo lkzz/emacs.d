@@ -26,15 +26,12 @@
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'molokai
-  "Set color theme."
+(defcustom kevin-theme-selected 'doom-molokai
+  "Customize color theme."
   :type '(choice
-          (const :tag "zenburn theme" zenburn)
-          (const :tag "monokai theme" monokai)
-          (const :tag "doom one theme" doom)
-          (const :tag "doom tomorrow theme" tomorrow)
-          (const :tag "gruvbox theme" gruvbox)
-          (const :tag "doom molokai thme") molokai)
+          (const :tag "light theme" doom-solarized-light)
+          (const :rag "dark theme"  doom-molokai)
+          (const :tag "hard dark theme" gruvbox-hard-dark))
   :group 'kevin-customize-group)
 
 (defcustom kevin-lsp-mode-enable-p nil
