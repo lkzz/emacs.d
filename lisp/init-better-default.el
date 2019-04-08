@@ -92,8 +92,8 @@
 
 (use-package url
   :ensure nil
-  :custom
-  (url-configuration-directory (concat kevin-cache-directory "url")))
+  :config
+  (setq url-configuration-directory (concat kevin-cache-directory "url")))
 
 ;; Keep cursor at end of lines. Require line-move-visual is nil.
 (setq track-eol t)

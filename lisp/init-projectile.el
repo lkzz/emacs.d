@@ -13,9 +13,11 @@
 ;;
 ;;; Code:
 
-(use-package ripgrep)
+(use-package ripgrep
+  :defer t)
 
 (use-package projectile-ripgrep
+  :defer t
   :init (kevin/set-leader-keys "p/" 'projectile-ripgrep))
 
 (use-package projectile

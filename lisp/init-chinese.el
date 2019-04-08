@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package youdao-dictionary
+  :defer t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
   ;; Enable Cache
@@ -60,7 +61,7 @@
 ;; Chinese calendar
 (use-package cal-china-x
   :commands cal-china-x-setup
-  :init (cal-china-x-setup)
+  :hook (org-mode . cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
   (setq calendar-latitude 30.67)

@@ -67,7 +67,7 @@
 (require 'init-dashboard)
 (require 'init-highlight)
 (require 'init-filetree)
-(require 'init-modeline)
+;; (require 'init-modeline)
 ;; (require 'init-awesome-tab)
 
 ;; misc packages

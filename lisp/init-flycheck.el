@@ -14,8 +14,8 @@
 ;;; Code:
 
 (use-package flycheck
+  :defer t
   :diminish flycheck-mode "ⓕ"
-  :commands (hydra-flycheck/body)
   :hook (prog-mode . global-flycheck-mode)
   :init
   (kevin/declare-prefix "e" "flycheck")
@@ -23,6 +23,7 @@
                          "el" #'flycheck-list-errors
                          "ep" #'flycheck-previous-error
                          "en" #'flycheck-next-error)
+  :config
   (defhydra hydra-flycheck (:color red
                                    :hint nil)
     "
@@ -101,7 +102,6 @@
     :overlay-category 'flycheck-info-overlay
     :fringe-bitmap 'kevin-flycheck-info-fringe
     :fringe-face 'flycheck-fringe-info)
-  :config
   (setq flycheck-emacs-lisp-check-declare t
         flycheck-indication-mode 'right-fringe
         flycheck-emacs-lisp-load-path 'inherit
@@ -110,11 +110,13 @@
   (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
 
 (use-package flycheck-posframe
+  :defer t
   :if (display-graphic-p)
   :after flycheck
   :hook (flycheck-mode . flycheck-posframe-mode))
 
 (use-package flycheck-popup-tip
+  :defer t
   :unless (display-graphic-p)
   :after flycheck
   :hook (flycheck-mode . flycheck-popup-tip-mode))

@@ -21,6 +21,7 @@
         exec-path-from-shell-arguments '("-l")))
 
 (use-package counsel-osx-app
+  :defer t
   :if kevin-mac-p
   :init
   (kevin/set-leader-keys "aa" 'counsel-osx-app))

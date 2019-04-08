@@ -58,6 +58,7 @@
     (get-buffer-window buffer)))
 
 (use-package magit
+  :defer t
   :init
   (kevin/declare-prefix "g" "magit")
   (kevin/set-leader-keys "ga" #'kevin/git-add-current-file
