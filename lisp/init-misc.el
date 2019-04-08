@@ -15,6 +15,7 @@
 
 ;; bookmark 设置
 (use-package bookmark
+  :defer t
   :ensure nil
   :init
   (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
@@ -36,19 +37,21 @@
   :hook (after-init . global-hungry-delete-mode))
 
 (use-package restart-emacs
+  :defer t
   :init
   (kevin/set-leader-keys "qr" 'restart-emacs))
 
 (use-package server
+  :defer t
   :unless (bound-and-true-p server-mode)
-  :init (server-mode 1)
   :hook (after-init . server-mode))
 
 ;; History
 (use-package saveplace
+  :defer t
   :ensure nil
-  :custom
-  (save-place-file (concat kevin-cache-directory "saveplace"))
+  :config
+  (setq save-place-file (concat kevin-cache-directory "saveplace"))
   :hook (after-init . save-place-mode))
 
 (use-package recentf
@@ -120,6 +123,7 @@
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
+  :disabled
   :ensure nil
   :init
   ;; show org ediffs unfolded
@@ -180,6 +184,7 @@
         amx-save-file (concat kevin-cache-directory "amx-items")))
 
 (use-package wgrep
+  :disabled
   :init
   (setq wgrep-auto-save-buffer t
         wgrep-change-readonly-file t))

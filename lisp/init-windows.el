@@ -36,6 +36,7 @@
 
 ;; Quickly switch windows
 (use-package ace-window
+  :defer t
   :init
   (kevin/set-leader-keys "wo" #'ace-window))
 
@@ -85,15 +86,18 @@
   :init (setq zoom-window-mode-line-color "DarkGreen"))
 
 (use-package centered-window
+  :defer t
   :init
+  (kevin/set-leader-keys "wc" #'centered-window-mode)
+  :config
   (setq cwm-use-vertical-padding t
         cwm-frame-internal-border 15
         cwm-incremental-padding t
-        cwm-left-fringe-ratio 0)
-  (kevin/set-leader-keys "wc" #'centered-window-mode))
+        cwm-left-fringe-ratio 0))
 
 ;; resize window
 (use-package resize-window
+  :defer t
   :init
   (kevin/set-leader-keys "wr" #'resize-window))
 

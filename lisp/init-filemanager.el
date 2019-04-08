@@ -26,13 +26,12 @@
   (setq dired-recursive-copies 'always))
 
 (use-package ranger
-  :custom
-  (ranger-override-dired t)
   :init
   (kevin/set-leader-keys "jd" 'deer)
   :hook (ranger-mode . all-the-icons-dired-mode)
   :config
-  (setq ranger-cleanup-on-disable t
+  (setq ranger-override-dired t
+        ranger-cleanup-on-disable t
         ranger-cleanup-eagerly t
         ranger-modify-header nil
         ;; To exclude certain files (e.g. videos) from being previewed

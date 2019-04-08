@@ -27,7 +27,6 @@
             (lambda ()
               (setcdr (assq 'ns-appearance default-frame-alist)
                       (frame-parameter nil 'background-mode)))))
-(setq abce "asdffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffaddddddddddddddd")
 ;; 关闭srgb，修复modeline上的颜色显示问题
 (setq ns-use-srgb-colorspace nil)
 ;; 去除全屏时的黑边
@@ -68,7 +67,7 @@
 ;; 安装常用的主题
 (use-package doom-themes)
 (use-package gruvbox-theme)
-(use-package spacemacs-theme)
+;; (use-package spacemacs-theme)
 ;; 加载主题
 (defun kevin/load-customized-theme (theme)
   "Load customized THEME."
@@ -102,7 +101,7 @@
 ;;                               (toggle-frame-fullscreen)))))
 
 ;; 窗口最大化
-(toggle-frame-maximized)
+(add-hook 'after-init-hook 'toggle-frame-maximized)
 
 ;; fringe 美化,left fringe with 4 pixel ,right fringe width:8 pixel
 (set-fringe-mode '(4 . 8))
