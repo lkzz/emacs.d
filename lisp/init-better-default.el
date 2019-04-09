@@ -91,6 +91,7 @@
   :bind (("C-=" . er/expand-region)))
 
 (use-package url
+  :disabled
   :ensure nil
   :config
   (setq url-configuration-directory (concat kevin-cache-directory "url")))

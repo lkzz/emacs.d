@@ -56,22 +56,17 @@
 
 (use-package recentf
   :ensure nil
-  :custom
-  (recentf-save-file (concat kevin-cache-directory "recentf"))
-  :config
-  (add-hook 'find-file-hook (lambda () (unless recentf-mode
-                                    (recentf-mode)
-                                    (recentf-track-opened-file))))
-  (setq recentf-max-saved-items 100)
+  :hook (after-init . recentf-mode)
+  :init
+  (setq recentf-save-file (concat kevin-cache-directory "recentf"))
+  (setq recentf-max-saved-items 200)
   (setq recentf-exclude '((expand-file-name package-user-dir)
                           kevin-cache-directory
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
                           "pyim"
                           "elpa"
-                          "vendor"
-                          "custom.el")))
-
+                          "vendor")))
 
 ;; Delete selection if you insert
 (use-package delsel
@@ -219,12 +214,12 @@
 
 
 (use-package transient
-  :custom
-  (transient-history-limit 50)
-  (transient-save-history t)
-  (transient-levels-file (concat kevin-cache-directory "transient/levels.el"))
-  (transient-values-file (concat kevin-cache-directory "transient/values.el"))
-  (transient-history-file (concat kevin-cache-directory "transient/history.el")))
+  :init
+  (setq transient-history-limit 50)
+  (setq transient-save-history t)
+  (setq transient-levels-file (concat kevin-cache-directory "transient/levels.el"))
+  (setq transient-values-file (concat kevin-cache-directory "transient/values.el"))
+  (setq transient-history-file (concat kevin-cache-directory "transient/history.el")))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

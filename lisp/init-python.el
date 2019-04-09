@@ -19,13 +19,13 @@
 (use-package python
   :ensure nil
   :mode "\\.py\\'"
-  :custom
-  (python-indent-offset 4)
-  (python-indent-guess-indent-offset nil)
+  :init
+  (setq python-indent-offset 4
+        python-indent-guess-indent-offset nil)
   :config
-  (setq python-shell-completion-native-enable nil)
-  (setq py-python-command "python3")
-  (setq python-shell-interpreter "python3"))
+  (setq python-shell-completion-native-enable nil
+        py-python-command "python3"
+        python-shell-interpreter "python3"))
 
 ;; Anaconda mode
 (use-package anaconda-mode
