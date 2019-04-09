@@ -15,6 +15,7 @@
 
 (kevin/declare-prefix "t" "toggle")
 (use-package imenu-list
+  :defer t
   :init
   (kevin/set-leader-keys "ti" 'imenu-list-smart-toggle)
   :config

@@ -42,9 +42,7 @@
              projectile-switch-project
              projectile-switch-to-buffer
              projectile-vc)
-  :custom
-  (projectile-cache-file (concat kevin-cache-directory "projectile.cache"))
-  (projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld"))
+  :hook (after-init . projectile-mode)
   :init
   (kevin/declare-prefix "p" "projectile")
   (kevin/set-leader-keys "p!" 'projectile-run-shell-command-in-root
@@ -67,10 +65,11 @@
                          "pT" 'projectile-test-project
                          "pv" 'projectile-vc)
   :config
-  (setq projectile-enable-caching t
+  (setq projectile-cache-file (concat kevin-cache-directory "projectile.cache")
+        projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld")
+        projectile-enable-caching t
         projectile-sort-order 'recentf
-        projectile-completion-system 'ivy)
-  (projectile-global-mode))
+        projectile-completion-system 'ivy))
 
   (provide 'init-projectile)
 ;;; init-projectile ends here
