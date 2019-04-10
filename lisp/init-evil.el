@@ -123,6 +123,7 @@
   (evil-collection-init 'view)
   (evil-collection-init 'custom)
   (evil-collection-init 'ibuffer)
+  (evil-collection-init 'dired)
   (evil-collection-init 'calendar))
 
 (provide 'init-evil)

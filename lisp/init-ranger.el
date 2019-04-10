@@ -1,4 +1,4 @@
-;;; init-filemanager.el -- setup file manager by ranger and dired. -*- lexical-binding: t; -*-
+;;; init-ranger.el -- setup ranger. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2019  Kevin Leung
 ;;
@@ -13,21 +13,9 @@
 ;;
 ;;; Code:
 
-(use-package all-the-icons-dired
-  :diminish all-the-icons-dired-mode
-  :after all-the-icons)
-
-(use-package dired
-  :ensure nil
-  :hook (dired-mode . all-the-icons-dired-mode)
-  :config
-  ;; Always delete and copy recursively
-  (setq dired-recursive-deletes 'always)
-  (setq dired-recursive-copies 'always))
-
 (use-package ranger
   :init
-  (kevin/set-leader-keys "jd" 'deer)
+  (kevin/set-leader-keys "jr" 'deer)
   :hook (ranger-mode . all-the-icons-dired-mode)
   :config
   (setq ranger-override-dired t
@@ -50,5 +38,5 @@
   (with-eval-after-load 'evil
     (evil-define-key 'normal ranger-mode-map (kbd "q") 'ranger-close)))
 
-(provide 'init-filemanager)
-;;; init-filemanager.el ends here
+(provide 'init-ranger)
+;;; init-ranger.el ends here
