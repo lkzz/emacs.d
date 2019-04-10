@@ -26,15 +26,12 @@
 ;; default directory
 (setq default-directory kevin-default-directory)
 
-;; Core settings
-;; UTF-8 please
-(set-charset-priority 'unicode)
-(setq locale-coding-system   'utf-8)   ; pretty
-(set-terminal-coding-system  'utf-8)   ; pretty
-(set-keyboard-coding-system  'utf-8)   ; pretty
-(set-selection-coding-system 'utf-8)   ; please
-(prefer-coding-system        'utf-8)   ; with sugar on top
-(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+;; UTF-8 as the default coding system
+(when (fboundp 'set-charset-priority)
+  (set-charset-priority 'unicode))     ; pretty
+(prefer-coding-system 'utf-8)          ; pretty
+(setq selection-coding-system 'utf-8)  ; pretty
+(setq locale-coding-system 'utf-8)     ; please
 
 ;; 复制粘贴
 (setq select-enable-primary t
