@@ -48,7 +48,7 @@
 (use-package posframe)
 (use-package dash)
 (use-package dash-functional)
-(use-package all-the-icons :demand t)
+(use-package all-the-icons)
 (use-package which-key
   :diminish which-key-mode "Ⓚ"
   :commands (which-key-add-major-mode-key-based-replacements

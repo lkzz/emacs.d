@@ -99,7 +99,10 @@
             ("\\.md\\'" ,cmd))))
   (setq dired-omit-files
         (concat dired-omit-files
-                "\\|^.DS_Store$\\|^.projectile$\\|^.git*\\|^.svn$\\|^.vscode$\\|\\.js\\.meta$\\|\\.meta$\\|\\.elc$\\|^\\..*")))
+                "\\|^.DS_Store$\\|^.projectile$\\|^.svn$\\|^.vscode$\\|\\.elc$"))
+  (setq dired-omit-extensions
+        (append '(".git" ".gitignore" ".gitmodules" ".bazel")
+                dired-omit-extensions)))
 
 
 (provide 'init-dired)
