@@ -126,5 +126,11 @@
   (evil-collection-init 'dired)
   (evil-collection-init 'calendar))
 
+(use-package evil-terminal-cursor-changer
+  :unless (display-graphic-p)
+  :after evil
+  :config
+  (evil-terminal-cursor-changer-activate))
+
 (provide 'init-evil)
 ;;; init-evil ends here
