@@ -44,6 +44,7 @@
     output))
 
 (use-package nyan-mode
+  :if (display-graphic-p)
   :init
   (setq nyan-animate-nyancat nil)
   (nyan-mode t))
