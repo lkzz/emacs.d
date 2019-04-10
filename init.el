@@ -66,8 +66,7 @@
 (require 'init-font)
 (require 'init-dashboard)
 (require 'init-highlight)
-(require 'init-filetree)
-;; (require 'init-modeline)
+(require 'init-modeline)
 ;; (require 'init-awesome-tab)
 
 ;; misc packages
@@ -98,8 +97,9 @@
 (require 'init-git)
 (require 'init-buffer)
 (require 'init-flycheck)
-(require 'init-filemanager)
 (require 'init-eshell)
+(require 'init-dired)
+(require 'init-filetree)
 ;; (require 'init-restore)
 
 (require 'init-windows)
