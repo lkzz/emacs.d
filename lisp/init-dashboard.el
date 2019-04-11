@@ -94,6 +94,22 @@
          ("O" . dashboard-open-init-file)
          ("R" . restore-session)
          ("q" . quit-dashboard))
+  :general
+  (general-define-key
+   :keymaps 'dashboard-mode-map
+   :states 'normal
+   (kbd "TAB") 'widget-forward
+   (kbd "RET") 'widget-button-press
+   "g" 'dashboard-refresh-buffer
+   "}" 'dashboard-next-section
+   "{" 'dashboard-previous-section
+   "p" 'dashboard-goto-projects
+   "m" 'dashboard-goto-bookmarks
+   "r" 'dashboard-goto-recent-files
+   "H" 'browse-homepage
+   "R" 'restore-session
+   "O" 'dashboard-open-init-file
+   "q" 'quit-dashboard)
   :config
   (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
   (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory))
@@ -131,22 +147,7 @@
     (insert (format "[%d packages loaded in %s]" (length package-activated-list) (emacs-init-time))))
   (add-to-list 'dashboard-item-generators  '(buttons . dashboard-insert-buttons))
   (add-to-list 'dashboard-items '(buttons))
-  (dashboard-insert-startupify-lists)
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal dashboard-mode-map
-      (kbd "TAB") 'widget-forward
-      (kbd "RET") 'widget-button-press
-      "g" 'dashboard-refresh-buffer
-      "}" 'dashboard-next-section
-      "{" 'dashboard-previous-section
-      "p" 'dashboard-goto-projects
-      "m" 'dashboard-goto-bookmarks
-      "r" 'dashboard-goto-recent-files
-      "H" 'browse-homepage
-      "R" 'restore-session
-      "O" 'dashboard-open-init-file
-      "q" 'quit-dashboard))
-  )
+  (dashboard-insert-startupify-lists))
 
 (provide 'init-dashboard)
 

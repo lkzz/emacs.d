@@ -17,6 +17,11 @@
   :init
   (kevin/set-leader-keys "jr" 'deer)
   :hook (ranger-mode . all-the-icons-dired-mode)
+  :general
+  (general-define-key
+   :keymaps 'ranger-mode-map
+   :states 'normal
+   "q" 'ranger-close)
   :config
   (setq ranger-override-dired t
         ranger-cleanup-on-disable t
@@ -34,9 +39,7 @@
         ranger-parent-depth 0
         ranger-max-parent-width 0.12
         ;; Show cursor in ranger
-        ranger-hide-cursor nil)
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal ranger-mode-map (kbd "q") 'ranger-close)))
+        ranger-hide-cursor nil))
 
 (provide 'init-ranger)
 ;;; init-ranger.el ends here
