@@ -15,6 +15,7 @@
 
 ;; Interactively highlight the current-window (by dimming the others)
 (use-package dimmer
+  :disabled
   :hook (after-init . dimmer-mode)
   :config
   (setq dimmer-fraction 0.2))

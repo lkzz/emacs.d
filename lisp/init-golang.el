@@ -195,6 +195,7 @@
                                         "rF" 'go-tag-remove))
 
 (use-package company-go
+  :unless kevin-lsp-mode-enable-p
   :after (company go-mode)
   :init (cl-pushnew 'company-go company-backends)
   :custom

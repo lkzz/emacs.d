@@ -42,9 +42,9 @@
   (kevin/set-leader-keys "qr" 'restart-emacs))
 
 (use-package server
-  :defer t
-  :unless (bound-and-true-p server-mode)
-  :hook (after-init . server-mode))
+  :config
+  (unless (server-running-p)
+    (server-start)))
 
 ;; History
 (use-package saveplace
