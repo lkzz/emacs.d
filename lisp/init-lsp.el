@@ -19,6 +19,7 @@
   :commands lsp
   :init
   (add-hook 'go-mode-hook #'lsp)
+  (add-hook 'rust-mode-hook #'lsp)
   :config
   (setq lsp-enable-xref t
         lsp-enable-snippet t
