@@ -40,16 +40,16 @@
         ;; don't activate mark on shift-click
         shift-select-mode nil
         evil-cross-lines t
-        evil-move-cursor-back nil ;; don't move back the cursor one position when exiting insert mode
+        evil-move-cursor-back t ;; move back the cursor one position when exiting insert mode
         evil-esc-delay 0.01
         evil-mode-line-format 'after)
   ;; ;; evil cursor color
-  (setq  evil-default-cursor '("SkyBlue2" box)
-         evil-normal-state-cursor '("SkyBlue2" box)
-         evil-insert-state-cursor '("SkyBlue2" (bar . 2))
+  (setq  evil-default-cursor '("red" box)
+         evil-normal-state-cursor '("red" box)
+         evil-insert-state-cursor '("red" (bar . 2))
          evil-visual-state-cursor '("red" box)
-         evil-replace-state-cursor '("#cd5c5c" box)
-         evil-emacs-state-cursor '("#adfa2f" (bar . 2)))
+         evil-replace-state-cursor '("red" hollow)
+         evil-emacs-state-cursor '("red" hbar))
   :config
   ;; evil ex command
   (evil-ex-define-cmd "W" 'evil-write-all)
