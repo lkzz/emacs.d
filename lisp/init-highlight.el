@@ -23,7 +23,7 @@
   :ensure nil
   :hook (after-init . show-paren-mode)
   :config
-  (set-face-foreground 'show-paren-match "SkyBlue2") ;定义前景色
+  (set-face-foreground 'show-paren-match "red")      ;定义前景色
   (set-face-bold-p 'show-paren-match t)              ;加粗显示括号匹配
   (set-face-background 'show-paren-match nil)        ;定义背景色
   (set-face-underline 'show-paren-match t)           ;显示下划线
