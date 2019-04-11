@@ -24,6 +24,60 @@
         auto-revert-verbose nil
         ;; Hides symbolic link targets
         dired-hide-details-hide-symlink-targets nil)
+  :general
+  (general-define-key
+   :keymaps 'dired-mode-map
+   :states 'normal
+   ;; Lower keys for commands not operating on all the marked files
+   "a" 'dired-find-alternate-file
+   "d" 'dired-flag-file-deletion
+   "gf" 'dired-find-file
+   "gy" 'dired-show-file-type
+   "gr" 'revert-buffer
+   "h" 'dired-up-directory
+   "i" 'dired-toggle-read-only
+   "j" 'dired-next-line
+   "k" 'dired-previous-line
+   "l" 'dired-find-file
+   "m" 'dired-mark
+   "o" 'dired-sort-toggle-or-edit
+   "q" 'quit-window
+   "r" 'dired-do-redisplay
+   "tt" 'dired-toggle-marks
+   "th" 'dired-omit-mode
+   "u" 'dired-unmark
+   "x" 'dired-do-flagged-delete
+   (kbd "<return>") 'dired-find-file
+   ;; Commands to mark or flag certain categories of files
+   "+" 'dired-create-directory
+   "^" 'dired-up-directory
+   "#" 'dired-flag-auto-save-files
+   "." 'dired-clean-directory
+   "~" 'dired-flag-backup-files
+   "!" 'dired-do-shell-command
+   "&" 'dired-do-async-shell-command
+   ;; Upper case keys (except !) for operating on the marked files
+   "A" 'dired-do-find-regexp
+   "C" 'dired-do-copy
+   "B" 'dired-do-byte-compile
+   "D" 'dired-do-delete
+   "G" 'dired-do-chgrp
+   "H" 'dired-do-hardlink
+   "I" 'dired-maybe-insert-subdir
+   "J" 'dired-goto-file
+   "K" 'dired-do-kill-lines
+   "L" 'dired-do-load
+   "M" 'dired-do-chmod
+   "O" 'dired-do-chown
+   "P" 'dired-do-print
+   "Q" 'dired-do-find-regexp-and-replace
+   "R" 'dired-do-rename
+   "S" 'dired-do-symlink
+   "T" 'dired-do-touch
+   "W" 'browse-url-of-dired-file
+   "X" 'dired-do-shell-command
+   "Y" 'dired-copy-filename-as-kill
+   "Z" 'dired-do-compress)
   :config
   ;; Search file name only when focus is over file
   (setq dired-isearch-filenames 'dwim)
@@ -59,8 +113,7 @@
     (interactive)
     (let ((orig (current-buffer)))
       ad-do-it
-      (kill-buffer orig)))
-  )
+      (kill-buffer orig))))
 
 ;; Colourful dired
 (use-package diredfl
@@ -99,11 +152,7 @@
             ("\\.md\\'" ,cmd))))
   (setq dired-omit-files
         (concat dired-omit-files
-                "\\|^.DS_Store$\\|^.projectile$\\|^.svn$\\|^.vscode$\\|\\.elc$"))
-  (setq dired-omit-extensions
-        (append '(".git" ".gitignore" ".gitmodules" ".bazel")
-                dired-omit-extensions)))
-
+                "\\|^\\..*\\|^bazel*")))
 
 (provide 'init-dired)
 ;;; init-dired ends here

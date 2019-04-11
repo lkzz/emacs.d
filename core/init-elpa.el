@@ -49,6 +49,7 @@
 (use-package dash)
 (use-package dash-functional)
 (use-package all-the-icons)
+(use-package general)
 (use-package which-key
   :diminish which-key-mode "Ⓚ"
   :commands (which-key-add-major-mode-key-based-replacements
