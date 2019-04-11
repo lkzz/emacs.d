@@ -40,7 +40,7 @@
         ;; don't activate mark on shift-click
         shift-select-mode nil
         evil-cross-lines t
-        evil-move-cursor-back t ;; Move back the cursor one position when exiting insert mode
+        evil-move-cursor-back nil ;; don't move back the cursor one position when exiting insert mode
         evil-esc-delay 0.01
         evil-mode-line-format 'after)
   ;; ;; evil cursor color
