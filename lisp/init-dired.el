@@ -44,7 +44,6 @@
    "q" 'quit-window
    "r" 'dired-do-redisplay
    "tt" 'dired-toggle-marks
-   "th" 'dired-omit-mode
    "u" 'dired-unmark
    "x" 'dired-do-flagged-delete
    (kbd "<return>") 'dired-find-file
@@ -132,6 +131,11 @@
   :defer t
   :ensure nil
   :hook (dired-mode . dired-omit-mode)
+  :general
+  (general-define-key
+   :keymaps 'dired-mode-map
+   :states 'normal
+   "th" 'dired-omit-mode)
   :config
   (let ((cmd (cond
               (kevin-mac-p "open")
