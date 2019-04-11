@@ -20,7 +20,7 @@
   (kevin/define-jump-handlers rust-mode))
 
 (use-package flycheck-rust
-  :config
+  :after rust-mode
   :hook (flycheck-mode . flycheck-rust-setup))
 
 (provide 'init-rust)
