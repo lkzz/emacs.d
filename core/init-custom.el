@@ -34,7 +34,7 @@
           (const :tag "hard dark theme" gruvbox-hard-dark))
   :group 'kevin-customize-group)
 
-(defcustom kevin-lsp-mode-enable-p nil
+(defcustom kevin-lsp-mode-enable-p t
   "Enable lsp mode or not."
   :type 'boolean
   :group 'kevin-customize-group)
