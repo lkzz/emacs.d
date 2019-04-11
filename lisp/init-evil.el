@@ -123,7 +123,6 @@
   (evil-collection-init 'view)
   (evil-collection-init 'custom)
   (evil-collection-init 'ibuffer)
-  (evil-collection-init 'dired)
   (evil-collection-init 'calendar))
 
 (use-package evil-terminal-cursor-changer
