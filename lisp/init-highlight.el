@@ -22,9 +22,11 @@
 (use-package paren
   :ensure nil
   :hook (after-init . show-paren-mode)
-  :custom-face
-  (show-paren-match ((t (:background "SkyBlue2" :foreground "red" :underline t))))
   :config
+  (set-face-foreground 'show-paren-match "SkyBlue2") ;定义前景色
+  (set-face-bold-p 'show-paren-match t)              ;加粗显示括号匹配
+  (set-face-background 'show-paren-match nil)        ;定义背景色
+  (set-face-underline 'show-paren-match t)           ;显示下划线
   (setq show-paren-delay 0
         show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t))
