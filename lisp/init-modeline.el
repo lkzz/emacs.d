@@ -50,6 +50,7 @@
   (nyan-mode t))
 
 (use-package spaceline
+  :defer t
   :init
   (add-hook 'after-init-hook (lambda ()
                                (require 'spaceline)))
