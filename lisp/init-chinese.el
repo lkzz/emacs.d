@@ -24,11 +24,44 @@
   ;; Enable Chinese word segmentation support
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 
-;; ** 设置拼音输入法
+;; make IME compatible with evil-mode
+;; https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-chinese.el#L4
+(defun evil-toggle-input-method ()
+  "When input method is on, goto `evil-insert-state'."
+  (interactive)
+  ;; load IME when needed, less memory footprint
+  (unless (featurep 'pyim)
+    (require 'pyim))
+  ;; some guy don't use evil-mode at all
+  (cond
+   ((and (boundp 'evil-mode) evil-mode)
+    ;; evil-mode
+    (cond
+     ((eq evil-state 'insert)
+      (toggle-input-method))
+     (t
+      (evil-insert-state)
+      (unless current-input-method
+        (toggle-input-method))))
+    (cond
+     (current-input-method
+      ;; evil-escape and pyim may conflict
+      ;; @see https://github.com/redguardtoo/emacs.d/issues/629
+      (evil-escape-mode -1)
+      (message "IME on!"))
+     (t
+      (evil-escape-mode 1)
+      (message "IME off!"))))
+   (t
+    ;; NOT evil-mode
+    (toggle-input-method))))
+
+(global-set-key (kbd "C-\\") 'evil-toggle-input-method)
+
+;; 设置拼音输入法
 (use-package pyim
-  :disabled
-  :demand t
-  :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
+  :defer t
+  :bind (("M-j" . pyim-convert-code-at-point)) ; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
   ;; 激活 basedict 拼音词库
   (use-package pyim-basedict
@@ -36,7 +69,7 @@
   (setq pyim-dcache-directory (expand-file-name "pyim" kevin-cache-directory))
   (setq default-input-method "pyim")
   ;; 使用 emacs thread 来生成 dcache。
-  ;; (setq pyim-dcache-prefer-emacs-thread t)
+  (setq pyim-dcache-prefer-emacs-thread t)
   ;; 使用全拼
   (setq pyim-default-scheme 'quanpin)
   ;; 显示6个候选词。
