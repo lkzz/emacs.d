@@ -15,47 +15,53 @@
 
 (kevin/declare-prefix "c" "comment")
 (kevin/declare-prefix "f" "file")
-(kevin/set-leader-keys "fi" #'kevin/open-init-file)
 (kevin/declare-prefix "h" "help")
 (kevin/declare-prefix "j" "jump")
 (kevin/declare-prefix "p" "project")
 (kevin/declare-prefix "q" "quit")
 (kevin/declare-prefix "s" "search")
 
+(kevin/set-leader-keys "fi" #'kevin/open-init-file)
+
 ;; Toggle
 (kevin/declare-prefix "t" "toggle")
-(kevin/set-leader-keys "tM" 'toggle-major-mode
-                       "tb" 'toggle-scroll-bar
-                       "tw" 'toggle-word-wrap
-                       ;; "tm" 'toggle-frame-maximized
-                       "tf" 'toggle-frame-fullscreen
-                       "tp" 'persp-mode
-                       "tt" 'toggle-truncate-lines)
+(kevin/set-leader-keys
+  "tM" 'toggle-major-mode
+  "tb" 'toggle-scroll-bar
+  "tw" 'toggle-word-wrap
+  ;; "tm" 'toggle-frame-maximized
+  "tf" 'toggle-frame-fullscreen
+  "tp" 'persp-mkevin/set-leader-keys
+  "tt" 'toggle-truncate-lines)
 
 ;; Open applications with from emacs
 (kevin/declare-prefix "a" "application")
-(kevin/set-leader-keys "ai" #'kevin/open-iterm
-                       "aw" #'kevin/open-wechat
-                       "ay" #'kevin/open-youdao)
+(kevin/set-leader-keys
+  "ai" #'kevin/open-iterm
+  "aw" #'kevin/open-wechat
+  "ay" #'kevin/open-youdao)
 
 ;; Misc related keybindings
-(kevin/set-leader-keys "=" 'kevin/increase-fontsize
-                       "-" 'kevin/decrease-fontsize
-                       "hd" 'describe-function
-                       "hf" 'find-function
-                       "hk" 'describe-key
-                       "hv" 'describe-variable
-                       "qq" 'save-buffers-kill-terminal)
+(kevin/set-leader-keys
+  "=" 'kevin/increase-fontsize
+  "-" 'kevin/decrease-fontsize
+  "hd" 'describe-function
+  "hf" 'find-function
+  "hk" 'describe-key
+  "hv" 'descrikevin/set-leader-keys
+  "qq" 'save-buffers-kill-terminal)
 
 ;; Frame releated keybindings
 (kevin/declare-prefix "F" "frame")
-(kevin/set-leader-keys "Fm" #'kevin/make-frame
-                       "Fd" 'delete-frame)
+(kevin/set-leader-keys
+  "Fm" #'kevin/make-frame
+  "Fd" 'delete-frame)
 
 ;; Delimiter releated keybindings
 (kevin/declare-prefix "d" "delimiter")
-(kevin/set-leader-keys "dj" #'kevin/goto-match-delimiter
-                       "dd" #'kevin/delete-delimiter-enclosed-text)
+(kevin/set-leader-keys
+  "dj" #'kevin/goto-match-delimiter
+  "dd" #'kevin/delete-delimiter-enclosed-text)
 
 (bind-map kevin-default-map
   :keys (kevin-emacs-leader-key)
