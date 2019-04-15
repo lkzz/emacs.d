@@ -105,8 +105,8 @@ Including indent-buffer, which should not be called automatically on save."
   (indent-buffer))
 
 ;; buffer related keybindings
-(which-key-declare-prefixes "SPC b" "buffer")
-(kevin/space-leader-keys-add
+(kevin/declare-prefix "b" "buffer")
+(kevin/set-leader-keys
   "bb" 'ivy-switch-buffer
   "bc" 'kevin/cleanup-buffer
   "be" 'eval-buffer

@@ -94,7 +94,7 @@
 (use-package evil-nerd-commenter
   :after evil
   :init
-  (kevin/space-leader-keys-add
+  (kevin/set-leader-keys
     "ci" 'evilnc-comment-or-uncomment-lines
     "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
     "cp" 'evilnc-comment-or-uncomment-paragraphs

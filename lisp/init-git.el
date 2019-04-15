@@ -61,17 +61,18 @@
   :defer t
   :init
   (kevin/declare-prefix "g" "magit")
-  (kevin/set-leader-keys "ga" #'kevin/git-add-current-file
-                         "gb" 'magit-blame
-                         "gc" #'kevin/git-checkout-current-file
-                         "gd" 'magit-diff-buffer-file
-                         "gl" 'magit-log-buffer-file
-                         "gi" 'magit-init
-                         "gL" 'magit-list-repositories
-                         "gs" 'magit-status
-                         "gS" 'magit-stage-file
-                         "gu" 'magit-unstage-file
-                         "gv" 'vc-annotate)
+  (kevin/set-leader-keys
+    "ga" #'kevin/git-add-current-file
+    "gb" 'magit-blame
+    "gc" #'kevin/git-checkout-current-file
+    "gd" 'magit-diff-buffer-file
+    "gl" 'magit-log-buffer-file
+    "gi" 'magit-init
+    "gL" 'magit-list-repositories
+    "gs" 'magit-status
+    "gS" 'magit-stage-file
+    "gu" 'magit-unstage-file
+    "gv" 'vc-annotate)
   :config
   ;; display buffer fullframe
   (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
@@ -93,7 +94,7 @@
   ;; Use magit-show-commit for showing status/diff commands
   (setq git-messenger:use-magit-popup t)
   (setq git-messenger:show-detail t)
-  (kevin/set-leader-keys "gm"  'git-messenger:popup-message))
+  (kevin/set-leader-keys "gm" 'git-messenger:popup-message))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine

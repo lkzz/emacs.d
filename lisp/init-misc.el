@@ -20,11 +20,12 @@
   :init
   (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
   (kevin/declare-prefix "m" "bookmark")
-  (kevin/set-leader-keys "ms" 'bookmark-set
-                         "mr" 'bookmark-rename
-                         "md" 'bookmark-delete
-                         "mj" 'counsel-bookmark
-                         "ml" 'bookmark-bmenu-list))
+  (kevin/set-leader-keys
+    "ms" 'bookmark-set
+    "mr" 'bookmark-rename
+    "md" 'bookmark-delete
+    "mj" 'counsel-bookmark
+    "ml" 'bookmark-bmenu-list))
 
 ;; Elec pair
 (use-package elec-pair
@@ -81,9 +82,10 @@
 (use-package avy
   :hook (after-init . avy-setup-default)
   :init
-  (kevin/set-leader-keys "jc" 'avy-goto-char-2
-                         "jw" 'avy-goto-word-or-subword-1
-                         "jl" 'avy-goto-line)
+  (kevin/set-leader-keys
+    "jc" 'avy-goto-char-2
+    "jw" 'avy-goto-word-or-subword-1
+    "jl" 'avy-goto-line)
   :config (setq avy-background t))
 
 ;; Minor mode to aggressively keep your code always indented

@@ -71,15 +71,16 @@
         winum-auto-assign-0-to-minibuffer t)
   ;; window related keybindings
   (kevin/declare-prefix "w" "window")
-  (kevin/set-leader-keys "0"  'winum-select-window-0-or-10
-                         "1"  'winum-select-window-1
-                         "2"  'winum-select-window-2
-                         "3"  'winum-select-window-3
-                         "4"  'winum-select-window-4
-                         "wd" 'delete-window
-                         "w/" #'kevin/split-window-right-and-focus
-                         "w-" #'kevin/split-window-below-and-focus
-                         "wD" 'delete-other-windows))
+  (kevin/set-leader-keys
+    "0"  'winum-select-window-0-or-10
+    "1"  'winum-select-window-1
+    "2"  'winum-select-window-2
+    "3"  'winum-select-window-3
+    "4"  'winum-select-window-4
+    "wd" 'delete-window
+    "w/" #'kevin/split-window-right-and-focus
+    "w-" #'kevin/split-window-below-and-focus
+    "wD" 'delete-other-windows))
 
 ;; Zoom window like tmux
 (use-package zoom-window

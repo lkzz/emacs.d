@@ -19,10 +19,11 @@
   :hook (prog-mode . global-flycheck-mode)
   :init
   (kevin/declare-prefix "e" "flycheck")
-  (kevin/set-leader-keys "ec" #'flycheck-buffer
-                         "el" #'flycheck-list-errors
-                         "ep" #'flycheck-previous-error
-                         "en" #'flycheck-next-error)
+  (kevin/set-leader-keys
+    "ec" #'flycheck-buffer
+    "el" #'flycheck-list-errors
+    "ep" #'flycheck-previous-error
+    "en" #'flycheck-next-error)
   :config
   (defhydra hydra-flycheck (:color red
                                    :hint nil)
