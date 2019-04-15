@@ -52,25 +52,25 @@
 (use-package general
   :config
   (general-evil-setup t)
+  (general-create-definer kevin/comma-leader-keys-add
+    :prefix kevin-major-mode-leader-key
+    :keymaps 'override
+    :states '(normal visual motion))
   (general-create-definer kevin/evil-leader-key
-    :prefix "SPC"
+    :prefix kevin-leader-key
     :states '(normal visual motion)
     :keymaps 'override)
-  (general-create-definer kevin/global-leader-key
-    :prefix "S-SPC"
+  (general-create-definer kevin/emacs-leader-key
+    :prefix kevin-emacs-leader-key
     :keymaps 'override)
-  (defmacro kevin/space-leader-add (&rest args)
+  (defmacro kevin/space-leader-keys-add (&rest args)
     "Define for both default leader and global leader."
     (declare (indent defun))
     `(progn
-       (kevin/evil-leader-key-add
-         ,@args)
-       (kevin/global-leader-key-add
-         ,@args)))
-  (general-create-definer kevin/comma-leader-add
-    :prefix ","
-    :keymaps 'override
-    :states '(normal visual motion)))
+       (kevin/evil-leader-key ,@args)
+       (kevin/emacs-leader-key ,@args)))
+  )
+
 (use-package which-key
   :diminish which-key-mode "Ⓚ"
   :commands (which-key-add-major-mode-key-based-replacements

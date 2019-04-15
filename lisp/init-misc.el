@@ -65,8 +65,8 @@
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
                           "pyim"
-                          "elpa"
-                          "vendor")))
+                          (concat user-emacs-directory "elpa")
+                          (concat user-emacs-directory "vendor"))))
 
 ;; Delete selection if you insert
 (use-package delsel

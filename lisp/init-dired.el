@@ -16,7 +16,7 @@
 (use-package dired
   :ensure nil
   :init
-  (kevin/space-leader-add "jd" 'dired-jump)
+  (kevin/space-leader-keys-add "jd" 'dired-jump)
   (setq dired-recursive-copies 'always ; always copy recursively
         dired-recursive-deletes 'top   ; always delete recursively
         ;; Auto refresh dired, but be quiet about it
