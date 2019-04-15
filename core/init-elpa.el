@@ -63,7 +63,7 @@
   (general-create-definer kevin/emacs-leader-key
     :prefix kevin-emacs-leader-key
     :keymaps 'override)
-  (defmacro kevin/space-leader-keys-add (&rest args)
+  (defmacro kevin/set-leader-keys (&rest args)
     "Define for both default leader and global leader."
     (declare (indent defun))
     `(progn
@@ -76,6 +76,16 @@
   :commands (which-key-add-major-mode-key-based-replacements
               which-key-add-key-based-replacements)
   :hook (after-init . which-key-mode)
+  :init
+  (defun kevin/declare-prefix (prefix name)
+    "Declare a prefix PREFIX. PREFIX is a string describing a key
+sequence. NAME is a string used as the prefix command."
+    (let* ((full-prefix (concat kevin-leader-key " " prefix))
+           (full-prefix-emacs (concat kevin-emacs-leader-key " " prefix)))
+      ;; define the prefix command only if it does not already exist
+      (which-key-add-key-based-replacements
+        full-prefix name
+        full-prefix-emacs name)))
   :config
   (setq which-key-idle-delay 0.3
         which-key-min-display-lines 1

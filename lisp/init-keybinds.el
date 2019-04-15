@@ -63,9 +63,5 @@
   "dj" #'kevin/goto-match-delimiter
   "dd" #'kevin/delete-delimiter-enclosed-text)
 
-(bind-map kevin-default-map
-  :keys (kevin-emacs-leader-key)
-  :evil-keys (kevin-leader-key))
-
 (provide 'init-keybinds)
 ;;; init-keybinds ends here
