@@ -59,17 +59,17 @@
    "C-p" 'evil-previous-visual-line
    "C-n" 'evil-next-visual-line)
   (kevin/comma-leader-keys-add
-   "w" 'evil-write
-   "W" 'evil-write-all
-   "q" 'evil-quit
-   "y" 'kevin/copy-word
-   "p" 'kevin/cover-word
-   "d" 'kevin/delete-word)
+    "w" 'evil-write
+    "W" 'evil-write-all
+    "q" 'evil-quit
+    "y" 'kevin/copy-word
+    "p" 'kevin/cover-word
+    "d" 'kevin/delete-word)
   (general-nmap
     "j" 'evil-next-visual-line
     "k" 'evil-previous-visual-line
     "C-i" 'evil-jump-forward
-    "C-o" 'evil-delete-backward
+    "C-o" 'evil-jump-backward
     "C-w" 'evil-delete-backward-word)
   :config
   ;; Use evil as a default jump handler
