@@ -58,13 +58,13 @@
    "C-k" 'kill-whole-line
    "C-p" 'evil-previous-visual-line
    "C-n" 'evil-next-visual-line)
-  (kevin/comma-leader-add
-    "w" 'evil-write
-    "W" 'evil-write-all
-    "q" 'evil-quit
-    "y" 'kevin/copy-word
-    "p" 'kevin/cover-word
-    "d" 'kevin/delete-word)
+  (kevin/comma-leader-keys-add
+   "w" 'evil-write
+   "W" 'evil-write-all
+   "q" 'evil-quit
+   "y" 'kevin/copy-word
+   "p" 'kevin/cover-word
+   "d" 'kevin/delete-word)
   (general-nmap
     "j" 'evil-next-visual-line
     "k" 'evil-previous-visual-line
@@ -94,7 +94,7 @@
 (use-package evil-nerd-commenter
   :after evil
   :init
-  (kevin/space-leader-add
+  (kevin/space-leader-keys-add
     "ci" 'evilnc-comment-or-uncomment-lines
     "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
     "cp" 'evilnc-comment-or-uncomment-paragraphs
