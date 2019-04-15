@@ -49,7 +49,28 @@
 (use-package dash)
 (use-package dash-functional)
 (use-package all-the-icons)
-(use-package general)
+(use-package general
+  :config
+  (general-evil-setup t)
+  (general-create-definer kevin/evil-leader-key
+    :prefix "SPC"
+    :states '(normal visual motion)
+    :keymaps 'override)
+  (general-create-definer kevin/global-leader-key
+    :prefix "S-SPC"
+    :keymaps 'override)
+  (defmacro kevin/space-leader-add (&rest args)
+    "Define for both default leader and global leader."
+    (declare (indent defun))
+    `(progn
+       (kevin/evil-leader-key-add
+         ,@args)
+       (kevin/global-leader-key-add
+         ,@args)))
+  (general-create-definer kevin/comma-leader-add
+    :prefix ","
+    :keymaps 'override
+    :states '(normal visual motion)))
 (use-package which-key
   :diminish which-key-mode "Ⓚ"
   :commands (which-key-add-major-mode-key-based-replacements
