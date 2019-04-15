@@ -50,28 +50,28 @@
          evil-visual-state-cursor '("red" box)
          evil-replace-state-cursor '("red" hollow)
          evil-emacs-state-cursor '("red" hbar))
+  :general
+  (general-define-key
+   :states '(insert normal visual motion)
+   "C-a" 'mwim-beginning-of-code-or-line
+   "C-e" 'mwim-end-of-code-or-line
+   "C-k" 'kill-whole-line
+   "C-p" 'evil-previous-visual-line
+   "C-n" 'evil-next-visual-line)
+  (kevin/comma-leader-add
+    "w" 'evil-write
+    "W" 'evil-write-all
+    "q" 'evil-quit
+    "y" 'kevin/copy-word
+    "p" 'kevin/cover-word
+    "d" 'kevin/delete-word)
+  (general-nmap
+    "j" 'evil-next-visual-line
+    "k" 'evil-previous-visual-line
+    "C-i" 'evil-jump-forward
+    "C-o" 'evil-delete-backward
+    "C-w" 'evil-delete-backward-word)
   :config
-  ;; evil ex command
-  (evil-ex-define-cmd "W" 'evil-write-all)
-  ;; evil insert,normal,visual,motion state keybinds
-  (evil-define-key '(insert normal visual motion) 'global (kbd "C-a") 'mwim-beginning-of-code-or-line)
-  (evil-define-key '(insert normal visual motion) 'global (kbd "C-e") 'mwim-end-of-code-or-line)
-  (evil-define-key '(insert normal visual motion) 'global (kbd "C-k") 'kill-whole-line)
-  (evil-define-key '(insert normal visual motion) 'global (kbd "C-p") 'evil-previous-visual-line)
-  (evil-define-key '(insert normal visual motion) 'global (kbd "C-n") 'evil-next-visual-line)
-  ;; evil normal,visual,motion state keybinds
-  (evil-define-key '(normal visual motion) 'global (kbd "j") 'evil-next-visual-line)
-  (evil-define-key '(normal visual motion) 'global (kbd "k") 'evil-previous-visual-line)
-  (evil-define-key '(normal visual motion) 'global (kbd "C-i") 'evil-jump-forward)
-  (evil-define-key '(normal visual motion) 'global (kbd "C-o") 'evil-jump-backward)
-  ;; evil normal state keybinds
-  (evil-define-key 'normal 'global "Y" (kbd "y$"))
-  (evil-define-key 'normal 'global (kbd ",w") 'evil-write)
-  (evil-define-key 'normal 'global (kbd ",q") 'evil-quit)
-  (evil-define-key 'normal 'global (kbd ",y") 'kevin/copy-word)
-  (evil-define-key 'normal 'global (kbd ",p") 'kevin/cover-word)
-  (evil-define-key 'normal 'global (kbd ",d") 'kevin/delete-word)
-  (evil-define-key 'normal 'global (kbd "C-w") 'evil-delete-backward-word)
   ;; Use evil as a default jump handler
   (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition))
 
@@ -94,10 +94,11 @@
 (use-package evil-nerd-commenter
   :after evil
   :init
-  (kevin/set-leader-keys "ci" 'evilnc-comment-or-uncomment-lines
-                         "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-                         "cp" 'evilnc-comment-or-uncomment-paragraphs
-                         "cy" 'evilnc-copy-and-comment-operator))
+  (kevin/space-leader-add
+    "ci" 'evilnc-comment-or-uncomment-lines
+    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+    "cp" 'evilnc-comment-or-uncomment-paragraphs
+    "cy" 'evilnc-copy-and-comment-operator))
 
 ;; s: 2 char forward; S: 2 char backward
 ;; f: 1 char forward; F: 1 char backward

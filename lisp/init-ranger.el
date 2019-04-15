@@ -18,10 +18,8 @@
   (kevin/set-leader-keys "jr" 'deer)
   :hook (ranger-mode . all-the-icons-dired-mode)
   :general
-  (general-define-key
-   :keymaps 'ranger-mode-map
-   :states 'normal
-   "q" 'ranger-close)
+  (general-nmap ranger-mode-map
+    "q" 'ranger-close)
   :config
   (setq ranger-override-dired t
         ranger-cleanup-on-disable t

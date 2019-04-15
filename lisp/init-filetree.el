@@ -48,21 +48,19 @@
           "^bazel*"
           "^#.*#$"))
   :general
-  (general-define-key
-   :keymaps 'neotree-mode-map
-   :states 'normal
-   "RET" 'neotree-enter
-   "TAB" 'neotree-enter
-   "o" 'neotree-enter
-   "q" 'neotree-hide
-   "h" 'neotree-select-up-node
-   "l" 'neotree-change-root
-   "c" 'neotree-create-node
-   "C" 'neotree-copy-node
-   "d" 'neotree-delete-node
-   "g" 'neotree-refresh
-   "r" 'neotree-rename-node
-   "th" 'neotree-hidden-file-toggle))
+  (general-nmap neotree-mode-map
+    "RET" 'neotree-enter
+    "TAB" 'neotree-enter
+    "o" 'neotree-enter
+    "q" 'neotree-hide
+    "h" 'neotree-select-up-node
+    "l" 'neotree-change-root
+    "c" 'neotree-create-node
+    "C" 'neotree-copy-node
+    "d" 'neotree-delete-node
+    "g" 'neotree-refresh
+    "r" 'neotree-rename-node
+    "th" 'neotree-hidden-file-toggle))
 
 (provide 'init-filetree)
 ;;; init-filetree ends here
