@@ -58,14 +58,13 @@
    "C-k" 'kill-whole-line
    "C-p" 'evil-previous-visual-line
    "C-n" 'evil-next-visual-line)
-  (kevin/comma-leader-keys-add
-    "w" 'evil-write
-    "W" 'evil-write-all
-    "q" 'evil-quit
-    "y" 'kevin/copy-word
-    "p" 'kevin/cover-word
-    "d" 'kevin/delete-word)
   (general-nmap
+    ",w" 'evil-write
+    ",W" 'evil-write-all
+    ",q" 'evil-quit
+    ",y" 'kevin/copy-word
+    ",p" 'kevin/cover-word
+    ",d" 'kevin/delete-word
     "j" 'evil-next-visual-line
     "k" 'evil-previous-visual-line
     "C-i" 'evil-jump-forward
