@@ -96,11 +96,11 @@
   (add-hook 'before-save-hook #'gofmt-before-save)
   (make-local-variable 'after-save-hook)
   (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
-  (kevin/decalre-prefix-for-major-mode 'go-mode "i" "import")
-  (kevin/decalre-prefix-for-major-mode 'go-mode "g" "jump")
-  (kevin/decalre-prefix-for-major-mode 'go-mode "h" "help")
-  (kevin/decalre-prefix-for-major-mode 'go-mode "a" "comment")
-  (kevin/decalre-prefix-for-major-mode 'go-mode "e" "goplay")
+  (kevin/declare-prefix-for-major-mode 'go-mode "i" "import")
+  (kevin/declare-prefix-for-major-mode 'go-mode "g" "jump")
+  (kevin/declare-prefix-for-major-mode 'go-mode "h" "help")
+  (kevin/declare-prefix-for-major-mode 'go-mode "a" "comment")
+  (kevin/declare-prefix-for-major-mode 'go-mode "e" "goplay")
   (kevin/set-leader-keys-for-major-mode
     :keymaps 'go-mode-map
     "ac" #'kevin/go-auto-comment
@@ -143,7 +143,7 @@
                               go-guru-callstack go-guru-whicherrs go-guru-callers go-guru-callees
                               go-guru-set-scope)
   :config
-  (kevin/decalre-prefix-for-major-mode 'go-mode "f" "guru")
+  (kevin/declare-prefix-for-major-mode 'go-mode "f" "guru")
   (kevin/set-leader-keys-for-major-mode
     :keymaps 'go-mode-map
     "fd" 'go-guru-describe
@@ -169,7 +169,7 @@
 (use-package gotest
   :after go-mode
   :config
-  (kevin/decalre-prefix-for-major-mode 'go-mode "t" "test")
+  (kevin/declare-prefix-for-major-mode 'go-mode "t" "test")
   (kevin/set-leader-keys-for-major-mode
     :keymaps 'go-mode-map
     "tx" 'go-run
@@ -186,7 +186,7 @@
 (use-package godoctor
   :after go-mode
   :config
-  (kevin/decalre-prefix-for-major-mode 'go-mode "r" "refactoring")
+  (kevin/declare-prefix-for-major-mode 'go-mode "r" "refactoring")
   (kevin/set-leader-keys-for-major-mode
     :keymaps 'go-mode-map
     "rn" 'godoctor-rename
