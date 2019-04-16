@@ -128,6 +128,7 @@
 (use-package dired-x
   :defer t
   :ensure nil
+  :diminish dired-omit-mode
   :hook (dired-mode . dired-omit-mode)
   :general
   (general-nmap dired-mode-map
