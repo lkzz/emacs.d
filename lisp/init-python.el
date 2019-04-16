@@ -33,12 +33,13 @@
   :diminish anaconda-mode
   :hook ((python-mode . anaconda-mode)
          (python-mode . anaconda-eldoc-mode))
-  :init
-  (kevin/set-leader-keys-for-major-mode 'python-mode
-                                        "hh" 'anaconda-mode-show-doc
-                                        "ga" 'anaconda-mode-find-assignments
-                                        "gb" 'xref-pop-marker-stack
-                                        "gu" 'anaconda-mode-find-references)
+  :config
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'python-mode-map
+    "hh" 'anaconda-mode-show-doc
+    "ga" 'anaconda-mode-find-assignments
+    "gb" 'xref-pop-marker-stack
+    "gu" 'anaconda-mode-find-references)
   (setq anaconda-mode-installation-directory (concat kevin-cache-directory "anaconda-mode")))
 
 (use-package company-anaconda

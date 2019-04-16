@@ -39,7 +39,7 @@ sets `kevin-jump-handlers' in buffers of that mode."
                (append ,handlers-list
                        kevin-default-jump-handlers)))
        (add-hook ',mode-hook ',func)
-       (kevin/comma-leader-keys-add
+       (kevin/set-leader-keys-for-major-mode
          "gg" 'kevin/jump-to-definition
          "gG" 'kevin/jump-to-definition-other-window))))
 

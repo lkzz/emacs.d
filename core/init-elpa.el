@@ -36,13 +36,10 @@
 (eval-and-compile
   (setq use-package-always-ensure t)
   (setq use-package-expand-minimally t)
-  (setq use-package-enable-imenu-support t))
-
-(eval-when-compile
+  (setq use-package-enable-imenu-support t)
   (require 'use-package))
 
 (use-package diminish)
-(use-package bind-map)
 (use-package bind-key)
 (use-package hydra)
 (use-package posframe)
@@ -52,24 +49,13 @@
 (use-package general
   :config
   (general-evil-setup t)
-  (general-create-definer kevin/comma-leader-keys-add
-    :prefix kevin-major-mode-leader-key
-    :keymaps 'override
-    :states '(normal visual motion))
-  (general-create-definer kevin/evil-leader-key
+  (general-create-definer kevin/set-leader-keys-for-major-mode
+    :states '(normal visual)
+    :prefix kevin-major-mode-leader-key)
+  (general-create-definer kevin/set-leader-keys
+    :states '(normal insert emacs visual)
     :prefix kevin-leader-key
-    :states '(normal visual motion)
-    :keymaps 'override)
-  (general-create-definer kevin/emacs-leader-key
-    :prefix kevin-emacs-leader-key
-    :keymaps 'override)
-  (defmacro kevin/set-leader-keys (&rest args)
-    "Define for both default leader and global leader."
-    (declare (indent defun))
-    `(progn
-       (kevin/evil-leader-key ,@args)
-       (kevin/emacs-leader-key ,@args)))
-  )
+    :non-normal-prefix kevin-emacs-leader-key))
 
 (use-package which-key
   :diminish which-key-mode "Ⓚ"
@@ -78,14 +64,14 @@
   :hook (after-init . which-key-mode)
   :init
   (defun kevin/declare-prefix (prefix name)
-    "Declare a prefix PREFIX. PREFIX is a string describing a key
-sequence. NAME is a string used as the prefix command."
     (let* ((full-prefix (concat kevin-leader-key " " prefix))
            (full-prefix-emacs (concat kevin-emacs-leader-key " " prefix)))
-      ;; define the prefix command only if it does not already exist
       (which-key-add-key-based-replacements
         full-prefix name
         full-prefix-emacs name)))
+  (defun kevin/declare-prefix-for-major-mode (mode prefix name)
+    (let* ((full-prefix (concat kevin-major-mode-leader-key " " prefix)))
+      (which-key-add-major-mode-key-based-replacements mode full-prefix name)))
   :config
   (setq which-key-idle-delay 0.3
         which-key-min-display-lines 1
