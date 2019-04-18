@@ -48,7 +48,7 @@
   "hd" 'describe-function
   "hf" 'find-function
   "hk" 'describe-key
-  "hv" 'descrikevin/set-leader-keys
+  "hv" 'describe-variable
   "qq" 'save-buffers-kill-terminal)
 
 ;; Frame releated keybindings
