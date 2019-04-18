@@ -22,7 +22,7 @@
     "ff" 'counsel-find-file
     "fr" 'counsel-recentf
     "ss" 'swiper)
-  :bind (("C-s" . swiper)
+  :bind (("C-s" . swiper-isearch)
          ("C-S-s" . swiper-all)
          ("C-c C-r" . ivy-resume)
          ("C-c v" . ivy-push-view)
