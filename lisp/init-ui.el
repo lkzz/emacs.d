@@ -65,20 +65,21 @@
   (setq ns-pop-up-frames nil))
 
 ;; 安装常用的主题
-(use-package doom-themes)
-(use-package gruvbox-theme)
-;; (use-package spacemacs-theme)
+(use-package doom-themes
+  :defer t
+  :config
+  (doom-themes-org-config)
+  (doom-themes-neotree-config)
+  (doom-themes-visual-bell-config))
+(use-package gruvbox-theme :defer t)
+(use-package spacemacs-theme
+  :defer t
+  :init
+  (setq spacemacs-theme-comment-bg nil
+        spacemacs-theme-org-height nil
+        spacemacs-theme-comment-italic t))
 ;; 加载主题
-(defun kevin/load-customized-theme (theme)
-  "Load customized THEME."
-  (interactive)
-  ;; whether the theme is a doom theme
-  (when (string-prefix-p "doom" (symbol-name theme))
-    (doom-themes-org-config)
-    (doom-themes-neotree-config)
-    (doom-themes-visual-bell-config))
-  (load-theme theme t))
-(kevin/load-customized-theme kevin-theme-selected)
+(load-theme kevin-theme-selected t)
 
 ;; ;; 启动时全屏
 ;; (when (featurep 'cocoa)
