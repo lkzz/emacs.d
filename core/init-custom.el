@@ -26,10 +26,10 @@
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'spacemacs-light
+(defcustom kevin-theme-selected 'doom-solarized-light
   "Customize color theme."
   :type '(choice
-          (const :tag "light theme" spacemacs-light)
+          (const :tag "light theme" doom-solarized-light)
           (const :rag "dark theme"  doom-molokai)
           (const :tag "hard dark theme" gruvbox-hard-dark))
   :group 'kevin-customize-group)
