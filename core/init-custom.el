@@ -26,7 +26,7 @@
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'doom-solarized-light
+(defcustom kevin-theme-selected 'doom-molokai
   "Customize color theme."
   :type '(choice
           (const :tag "light theme" doom-solarized-light)
