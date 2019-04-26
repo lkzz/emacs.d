@@ -47,7 +47,7 @@
 ;; 设置scratch buffer message
 (setq initial-scratch-message kevin-scratch-message)
 ;; 高亮当前行
-(global-hl-line-mode t)
+(add-hook 'after-init-hook (lambda() (global-hl-line-mode t)))
 ;; 设置光标形状
 (setq-default cursor-type '(bar . 3))
 ;; 设置光标颜色
