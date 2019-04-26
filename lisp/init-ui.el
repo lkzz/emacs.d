@@ -69,8 +69,7 @@
   :defer t
   :config
   (doom-themes-org-config)
-  (doom-themes-neotree-config)
-  (doom-themes-visual-bell-config))
+  (doom-themes-neotree-config))
 (use-package gruvbox-theme :defer t)
 (use-package spacemacs-theme
   :defer t
