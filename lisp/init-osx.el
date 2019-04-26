@@ -27,8 +27,8 @@
   (kevin/set-leader-keys "aa" 'counsel-osx-app))
 
 (use-package reveal-in-osx-finder
+  :defer t
   :if kevin-mac-p
-  :commands reveal-in-osx-finder
   :init
   (kevin/set-leader-keys "br" 'reveal-in-osx-finder))
 
