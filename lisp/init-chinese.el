@@ -83,7 +83,6 @@
                 '(pyim-probe-program-mode)))
 
 (use-package pangu-spacing
-  :disabled
   :diminish pangu-spacing-mode
   :config
   (global-pangu-spacing-mode 1)
