@@ -13,26 +13,19 @@
 ;;
 ;;; Code:
 
-
 (use-package org
-  :bind (("C-c B" . org-switchb)
+  :bind (("C-c b" . org-switchb)
          :map org-mode-map
          ("C-c l" . org-store-link))
-  :init
-  (add-hook 'org-mode-hook (lambda ()
-                             (org-indent-mode 1)
-                             (diminish 'org-indent-mode)))
   :config
   (add-to-list 'org-export-backends 'md)
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")))
-  (setq org-todo-keyword-faces
-        '(("TODO" . (:foreground "#ee6363" :weight bold))
-          ("DOING" . (:foreground "#3a81c3" :weight bold))
-          ("HANGUP" . (:foreground "red" :weight bold))
-          ("DONE" . (:foreground "#7ccd7c" :weight bold))
-          ("CANCEL"  . (:foreground "yellow" :weight bold))))
-  (setq org-log-done 'time
+  (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)"))
+        org-todo-keyword-faces '(("TODO" . (:foreground "#ee6363" :weight bold))
+                                 ("DOING" . (:foreground "#3a81c3" :weight bold))
+                                 ("HANGUP" . (:foreground "red" :weight bold))
+                                 ("DONE" . (:foreground "#7ccd7c" :weight bold))
+                                 ("CANCEL"  . (:foreground "yellow" :weight bold)))
+        org-log-done 'time
         org-src-fontify-natively t
         org-clock-string "计时:"
         org-closed-string "已关闭:"
@@ -52,7 +45,11 @@
         org-clock-out-when-done nil
         ;; Save the running clock and all clock history when exiting Emacs,load it on startup
         org-clock-persist t
-        org-confirm-babel-evaluate nil)
+        org-confirm-babel-evaluate nil
+        org-agenda-inhibit-startup t ;; ~50x speedup
+        org-agenda-use-tag-inheritance nil ;; 3-4x speedup
+        org-pretty-entities t)
+
 
   ;; FIXME org-agenda-execute-calendar-command uses deprecated list-calendar-holidays
   (unless (fboundp 'list-calendar-holidays)
@@ -64,26 +61,22 @@
   )
 
 (use-package org-bullets
-  :after org-mode
+  :hook (org-mode . org-bullets-mode)
   :init
-  (setq org-bullets-bullet-list
-        '("✡" "✽" "✲" "✱" "✻" "✼" "✽" "✾" "✿" "❀" "❁" "❂" "❃" "❄" "❅" "❆" "❇"))
-  :hook (org-mode . org-bullets-mode))
+  (setq org-bullets-bullet-list '("✡" "✽" "✲" "✱" "✻" "✼" "✽" "✾" "✿" "❀" "❁" "❂" "❃" "❄" "❅" "❆" "❇")))
 
 ;; Presentation
 (use-package org-tree-slide
   :after org-mode
   :config
-  (add-hook 'org-tree-slide-play-hook
-            (lambda ()
-              (text-scale-set 4)
-              (org-display-inline-images)
-              (read-only-mode 1)))
-  (add-hook 'org-tree-slide-stop-hook
-            (lambda ()
-              (text-scale-set 0)
-              (org-remove-inline-images)
-              (read-only-mode -1))))
+  (add-hook 'org-tree-slide-play-hook (lambda ()
+                                        (text-scale-set 4)
+                                        (org-display-inline-images)
+                                        (read-only-mode 1)))
+  (add-hook 'org-tree-slide-stop-hook (lambda ()
+                                        (text-scale-set 0)
+                                        (org-remove-inline-images)
+                                        (read-only-mode -1))))
 
 ;; Pomodoro
 (use-package org-pomodoro
