@@ -52,16 +52,21 @@
                           (bookmarks . 5)
                           (projects . 5)))
 
-  (defun my-banner-path (&rest _)
-    "Return the full ,@restpath to banner."
-    (expand-file-name "banner.txt" user-emacs-directory))
-  (advice-add #'dashboard-get-banner-path :override #'my-banner-path)
-
   (defvar dashboard-recover-layout-p nil
     "Wether recovers the layout.")
 
   (defvar homepage-url "https://github.com/lkzz/emacs.d"
     "My emacs config github homepage.")
+
+  (defun my-banner-path (&rest _)
+    "Return the full ,@restpath to banner."
+    (expand-file-name "banner.txt" user-emacs-directory))
+  (advice-add #'dashboard-get-banner-path :override #'my-banner-path)
+
+  (defun browse-homepage ()
+    "Browse the github page of Emacs."
+    (interactive)
+    (browse-url homepage-url))
 
   (defun open-dashboard ()
     "Open the *dashboard* buffer and jump to the first widget."
