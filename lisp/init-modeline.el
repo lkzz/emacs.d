@@ -74,6 +74,7 @@
   (spaceline-toggle-buffer-encoding-abbrev-on)
   (spaceline-toggle-nyan-cat-on)
   ;; configure the separator between the minor modes
+  (spaceline-toggle-minor-modes-off)
   (setq spaceline-minor-modes-separator "")
   ;;define version control segment
   (spaceline-define-segment version-control
