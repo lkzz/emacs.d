@@ -30,10 +30,12 @@
         lsp-eldoc-render-all nil
         lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
         ;; lsp go client
+        lsp-clients-go-server "gopls"
         lsp-clients-go-format-tool "goimports"
         lsp-clients-go-use-binary-pkg-cache t
-        lsp-clients-go-func-snippet-enabled nil
-        lsp-clients-go-gocode-completion-enabled t))
+        lsp-clients-go-func-snippet-enabled t
+        lsp-clients-go-max-parallelism 2
+        lsp-clients-go-gocode-completion-enabled nil))
 
 (use-package lsp-ui
   :if kevin-lsp-mode-enable-p
