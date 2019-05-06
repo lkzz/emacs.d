@@ -27,6 +27,7 @@
         lsp-inhibit-message t
         lsp-prefer-flymake nil
         lsp-enable-indentation t
+        lsp-enable-symbol-highlighting nil
         lsp-eldoc-render-all nil
         lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
         ;; lsp go client
@@ -46,8 +47,8 @@
 	          ("C-c r d" . lsp-ui-peek-find-definitions)
 	          ("C-c r r" . lsp-ui-peek-find-references)
 	          ("C-c r i" . lsp-ui-imenu)
-	          ("C-c r F" . lsp-ui-sideline-apply-code-actions)
-	          ("C-c r R" . lsp-rename))
+	          ("C-c r f" . lsp-ui-sideline-apply-code-actions)
+	          ("C-c r n" . lsp-rename))
   :init
   (add-hook 'lsp-mode-hook 'lsp-ui-mode)
   :config
@@ -64,19 +65,9 @@
   :commands company-lsp
   :config
   (setq company-lsp-async t
-        company-lsp-enable-snippet nil
-        company-lsp-cache-candidates t
-        company-lsp-enable-recompletion nil))
-
-(use-package eglot
-  :disabled
-  :defer t
-  :init
-  (add-hook 'go-mode-hook 'eglot-ensure)
-  (add-hook 'rustic-mode 'eglot-ensure)
-  :config
-  (add-to-list 'eglot-server-programs
-               '(go-mode "bingo" "-format-style" "goimports")))
+        company-lsp-enable-snippet t
+        company-lsp-cache-candidates nil
+        company-lsp-enable-recompletion t))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
