@@ -91,6 +91,7 @@
 (require 'init-projectile)
 (require 'init-lua)
 (require 'init-rust)
+(require 'init-cpp)
 (require 'init-lsp)
 
 ;; tools

@@ -17,9 +17,9 @@
   :if kevin-lsp-mode-enable-p
   :diminish lsp-mode "ⓛ"
   :commands lsp
-  :init
-  (add-hook 'go-mode-hook #'lsp)
-  (add-hook 'rust-mode-hook #'lsp)
+  :hook ((go-mode . lsp)
+         (rust-mode . lsp)
+         (c++-mode . lsp))
   :config
   (setq lsp-enable-xref t
         lsp-enable-snippet t
