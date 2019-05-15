@@ -77,8 +77,13 @@
   (setq spacemacs-theme-comment-bg nil
         spacemacs-theme-org-height nil
         spacemacs-theme-comment-italic t))
+;; 配置在emacs -nw 下的主题
+(use-package color-theme-modern :defer t)
 ;; 加载主题
-(load-theme kevin-theme-selected t)
+(if (display-graphic-p)
+    (load-theme kevin-theme-selected t)
+  (load-theme 'tty-dark t t)
+  (enable-theme 'tty-dark))
 
 ;; ;; 启动时全屏
 ;; (when (featurep 'cocoa)
@@ -104,7 +109,8 @@
 (add-hook 'after-init-hook 'toggle-frame-maximized)
 
 ;; fringe 美化,left fringe with 4 pixel ,right fringe width:8 pixel
-(set-fringe-mode '(4 . 8))
+(when (fboundp 'set-fringe-mode)
+  (set-fringe-mode '(4 . 8)))
 ;; 设置visual line fringe bitmap
 (when (fboundp 'define-fringe-bitmap)
   (define-fringe-bitmap 'right-curly-arrow
@@ -130,6 +136,7 @@
 (add-hook 'after-init-hook 'turn-on-visual-line-mode)
 
 (use-package vi-tilde-fringe
+  :if (fboundp 'set-fringe-mode)
   :diminish vi-tilde-fringe-mode
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
