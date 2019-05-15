@@ -47,47 +47,49 @@
     ("s" flycheck-select-checker exit: t)
     ("v" flycheck-verify-setup exit: t)
     ("?" flycheck-describe-checker exit: t))
-  (define-fringe-bitmap 'kevin-flycheck-error-fringe
-    (vector #b00000000
-            #b00000000
-            #b11000011
-            #b01100110
-            #b00111100
-            #b00111000
-            #b00111100
-            #b01100110
-            #b11000011
-            #b00000000
-            #b00000000))
-  (define-fringe-bitmap 'kevin-flycheck-warn-fringe
-    (vector #b00000000
-            #b00000000
-            #b00110000
-            #b00110000
-            #b00110000
-            #b00110000
-            #b00110000
-            #b00110000
-            #b00000000
-            #b00000000
-            #b00110000
-            #b00110000
-            #b00000000
-            #b00000000))
-  (define-fringe-bitmap 'kevin-flycheck-info-fringe
-    (vector #b00000000
-            #b00000000
-            #b00000000
-            #b00000000
-            #b00011100
-            #b00111110
-            #b00111110
-            #b00111110
-            #b00011100
-            #b00000000
-            #b00000000
-            #b00000000
-            #b00000000))
+  (when (fboundp 'define-fringe-bitmap)
+    (define-fringe-bitmap 'kevin-flycheck-error-fringe
+      (vector #b00000000
+              #b00000000
+              #b11000011
+              #b01100110
+              #b00111100
+              #b00111000
+              #b00111100
+              #b01100110
+              #b11000011
+              #b00000000
+              #b00000000))
+    (define-fringe-bitmap 'kevin-flycheck-warn-fringe
+      (vector #b00000000
+              #b00000000
+              #b00110000
+              #b00110000
+              #b00110000
+              #b00110000
+              #b00110000
+              #b00110000
+              #b00000000
+              #b00000000
+              #b00110000
+              #b00110000
+              #b00000000
+              #b00000000))
+    (define-fringe-bitmap 'kevin-flycheck-info-fringe
+      (vector #b00000000
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00011100
+              #b00111110
+              #b00111110
+              #b00111110
+              #b00011100
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00000000))
+    )
   (flycheck-define-error-level 'error
     :severity 2
     :overlay-category 'flycheck-error-overlay
