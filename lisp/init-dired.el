@@ -44,7 +44,7 @@
     "tt" 'dired-toggle-marks
     "u" 'dired-unmark
     "x" 'dired-do-flagged-delete
-    (kbd "<return>") 'dired-find-file
+    "RET" 'dired-find-file
     ;; Commands to mark or flag certain categories of files
     "+" 'dired-create-directory
     "^" 'dired-up-directory
