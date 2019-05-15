@@ -6,8 +6,8 @@ clean:
 	@rm -rf $(ELPA_DIR)
 	@rm -rf $(CORE_DIR)/*.elc
 	@rm -rf $(EMACS_DIR)/custom.el $(EMACS_DIR)/.emacs.desktop $(EMACS_DIR)/auto-save-list
-	@find . -type f -maxdepth 1 -name "*~" | xargs rm
-	@find . -type f -maxdepth 1 -name ".?*" | grep -v .DS_Store  | grep -v .gitignore | grep -v .gitmodules | xargs rm
+	@find . -maxdepth 1 -type f -name "*~" | xargs -r rm
+	@find . -maxdepth 1 -type f -name ".?*" | grep -v .DS_Store  | grep -v .gitignore | grep -v .gitmodules | xargs -r rm
 	@rm -rf projectile* places recentf
 	@echo "make clean done."
 
