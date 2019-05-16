@@ -62,6 +62,9 @@
   :diminish editorconfig-mode
   :hook (after-init . editorconfig-mode))
 
+(use-package cmake-mode
+  :mode (("CMakeLists\\.txt$" . cmake-mode)
+         ("\\.cmake$'" . cmake-mode)))
 
 (provide 'init-prog)
 ;;; init-prog.el ends here

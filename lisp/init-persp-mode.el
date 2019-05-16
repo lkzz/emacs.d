@@ -67,7 +67,7 @@
     ("C-9" spacemacs/persp-switch-to-9)
     ("C-0" spacemacs/persp-switch-to-0)
     ("<tab>" spacemacs/jump-to-last-layout)
-    ("<return>" nil :exit t)
+    ("RET" nil :exit t)
     ("TAB" spacemacs/jump-to-last-layout)
     ("RET" nil :exit t)
     ("<" spacemacs/move-current-persp-left)
