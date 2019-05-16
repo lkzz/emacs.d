@@ -29,7 +29,7 @@
                             (setq-local frame-title-format "")
                             (setq-local tab-width 1)))
   :init (dashboard-setup-startup-hook)
-  :general
+  :config
   (general-nmap dashboard-mode-map
     "TAB" 'widget-forward
     "RET" 'widget-button-press
@@ -43,7 +43,6 @@
     "R" 'restore-session
     "O" 'dashboard-open-init-file
     "q" 'quit-dashboard)
-  :config
   (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
   (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory))
   (setq dashboard-center-content t)
