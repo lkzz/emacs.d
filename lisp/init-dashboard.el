@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package dashboard
+  :if (display-graphic-p)
   :diminish (dashboard-mode page-break-lines-mode)
   :defines (persp-save-dir persp-special-last-buffer)
   :functions (all-the-icons-faicon
