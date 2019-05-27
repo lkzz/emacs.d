@@ -43,7 +43,8 @@
 (if (fboundp 'menu-bar-mode)
     (menu-bar-mode -1))
 ;; 禁止启动画面
-(setq inhibit-startup-screen t)
+(setq inhibit-startup-screen t
+      initial-buffer-choice  nil)
 ;; 设置scratch buffer message
 (setq initial-scratch-message kevin-scratch-message)
 ;; 高亮当前行
