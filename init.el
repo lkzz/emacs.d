@@ -70,7 +70,6 @@
 ;; (require 'init-awesome-tab)
 
 ;; misc packages
-(require 'init-anzu)
 (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
