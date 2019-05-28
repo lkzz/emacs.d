@@ -70,7 +70,8 @@
         projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld")
         projectile-enable-caching t
         projectile-sort-order 'recentf
-        projectile-completion-system 'ivy))
+        projectile-completion-system 'ivy)
+  (add-to-list 'projectile-globally-ignored-directories "build"))
 
   (provide 'init-projectile)
 ;;; init-projectile ends here
