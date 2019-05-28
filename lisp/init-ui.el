@@ -72,19 +72,12 @@
   (doom-themes-org-config)
   (doom-themes-neotree-config))
 (use-package gruvbox-theme :defer t)
-(use-package spacemacs-theme
-  :defer t
-  :init
-  (setq spacemacs-theme-comment-bg nil
-        spacemacs-theme-org-height nil
-        spacemacs-theme-comment-italic t))
-
-;; 配置在emacs -nw 下的主题
 (use-package color-theme-sanityinc-tomorrow :defer t)
 ;; 加载主题
-(if (display-graphic-p)
-    (load-theme kevin-theme-selected t)
-  (load-theme 'sanityinc-tomorrow-night t))
+(load-theme kevin-theme-selected t)
+;; (if (display-graphic-p)
+;;     (load-theme kevin-theme-selected t)
+;; (load-theme 'sanityinc-tomorrow-night t))
 
 ;; ;; 启动时全屏
 ;; (when (featurep 'cocoa)
