@@ -44,10 +44,12 @@
   (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name)
         dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory)
         dashboard-center-content t
+        dashboard-set-init-info t
         dashboard-show-shortcuts nil
         dashboard-items '((recents  . 10)
                           (bookmarks . 5)
                           (projects . 5))
+        dashboard-set-file-icons t
         dashboard-set-heading-icons t
         dashboard-heading-icons '((recents   . "file-text")
                                   (bookmarks . "bookmark")
@@ -136,41 +138,6 @@
     "Go to bookmarks."
     (interactive)
     (funcall (local-key-binding "m")))
-
-  ;; Add file icons
-  ;; MUST redefine the sections because of the macro `dashboard-insert-section-list'
-  (defmacro dashboard-insert-section-list (section-name list action &rest rest)
-    "Insert into SECTION-NAME a LIST of items, expanding ACTION and passing REST to widget creation."
-    `(when (car ,list)
-       (mapc (lambda (el)
-               (let ((widget nil))
-                 (insert "\n    ")
-                 (when (display-graphic-p)
-                   (insert (when-let ((path (car (last (split-string ,@rest " - ")))))
-                             (if (file-directory-p path)
-                                 (cond
-                                  ((and (fboundp 'tramp-tramp-file-p)
-                                        (tramp-tramp-file-p default-directory))
-                                   (all-the-icons-octicon "file-directory" :height 1.0 :v-adjust 0.01))
-                                  ((file-symlink-p path)
-                                   (all-the-icons-octicon "file-symlink-directory" :height 1.0 :v-adjust 0.01))
-                                  ((all-the-icons-dir-is-submodule path)
-                                   (all-the-icons-octicon "file-submodule" :height 1.0 :v-adjust 0.01))
-                                  ((file-exists-p (format "%s/.git" path))
-                                   (all-the-icons-octicon "repo" :height 1.1 :v-adjust 0.01))
-                                  (t (let ((matcher (all-the-icons-match-to-alist path all-the-icons-dir-icon-alist)))
-                                       (apply (car matcher) (list (cadr matcher) :v-adjust 0.01)))))
-                               (all-the-icons-icon-for-file (file-name-nondirectory path)))))
-                   (insert "\t"))
-                 (setq widget
-                       (widget-create 'push-button
-                                      :action ,action
-                                      :mouse-face 'highlight
-                                      :button-prefix ""
-                                      :button-suffix ""
-                                      :format "%[%t%]"
-                                      ,@rest))))
-             ,list)))
 
   ;; Recentf
   (defun dashboard-insert-recents (list-size)

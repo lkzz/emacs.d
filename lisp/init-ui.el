@@ -144,5 +144,9 @@
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
 
+(use-package emojify
+  :init
+  (add-hook 'after-init-hook #'global-emojify-mode))
+
 (provide 'init-ui)
 ;;; init-ui ends here
