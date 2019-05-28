@@ -13,6 +13,9 @@
 ;;
 ;;; Code:
 
+(use-package hide-mode-line
+  :hook (neotree-mode . hide-mode-line-mode))
+
 (use-package doom-modeline
   :disabled
   :hook (after-init . doom-modeline-mode))

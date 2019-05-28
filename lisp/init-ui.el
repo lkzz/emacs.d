@@ -144,8 +144,5 @@
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
 
-(use-package hide-mode-line
-  :hook (neotree-mode . hide-mode-line-mode))
-
 (provide 'init-ui)
 ;;; init-ui ends here
