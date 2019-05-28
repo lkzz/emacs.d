@@ -19,7 +19,7 @@
 (defvar kevin-chinese-font "STKaiti"
   "The font name for Chinese.")
 
-(defvar kevin-fontsize-pair '(13 . 14.0)
+(defvar kevin-fontsize-pair '(14 . 16.5)
   "Default font size pair for (english . chinese)")
 
 (defvar kevin-fontsize-pair-list '((9    . 10.5)
