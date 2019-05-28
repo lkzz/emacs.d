@@ -14,7 +14,6 @@
 ;;; Code:
 
 (use-package dashboard
-  :if (display-graphic-p)
   :diminish (dashboard-mode page-break-lines-mode)
   :defines (persp-save-dir persp-special-last-buffer)
   :functions (all-the-icons-faicon
@@ -26,9 +25,7 @@
               winner-undo
               widget-forward)
   :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
-  :hook (dashboard-mode . (lambda ()
-                            (setq-local frame-title-format "")
-                            (setq-local tab-width 1)))
+  :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
   :init (dashboard-setup-startup-hook)
   :config
   (general-nmap dashboard-mode-map
@@ -44,13 +41,19 @@
     "R" 'restore-session
     "O" 'dashboard-open-init-file
     "q" 'quit-dashboard)
-  (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
-  (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory))
-  (setq dashboard-center-content t)
-  (setq dashboard-show-shortcuts nil)
-  (setq dashboard-items '((recents  . 10)
+  (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name)
+        dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory)
+        dashboard-center-content t
+        dashboard-show-shortcuts nil
+        dashboard-items '((recents  . 10)
                           (bookmarks . 5)
-                          (projects . 5)))
+                          (projects . 5))
+        dashboard-set-heading-icons t
+        dashboard-heading-icons '((recents   . "file-text")
+                                  (bookmarks . "bookmark")
+                                  (agenda    . "calendar")
+                                  (projects  . "file-directory")
+                                  (registers . "database")))
 
   (defvar dashboard-recover-layout-p nil
     "Wether recovers the layout.")
@@ -134,23 +137,6 @@
     (interactive)
     (funcall (local-key-binding "m")))
 
-  ;; Add heading icons
-  (defun dashboard-insert-heading-icon (heading &optional _shortcut)
-    (when (display-graphic-p)
-      ;; Load `all-the-icons' if it's unavailable
-      (unless (featurep 'all-the-icons)
-        (require 'all-the-icons nil t))
-
-      (insert (cond
-               ((string-equal heading "Recent Files:")
-                (all-the-icons-octicon "history" :height 1.2 :v-adjust 0.0 :face 'dashboard-heading))
-               ((string-equal heading "Bookmarks:")
-                (all-the-icons-octicon "bookmark" :height 1.2 :v-adjust 0.0 :face 'dashboard-heading))
-               ((string-equal heading "Projects:")
-                (all-the-icons-octicon "file-directory" :height 1.2 :v-adjust 0.0 :face 'dashboard-heading))))
-      (insert " ")))
-  (advice-add #'dashboard-insert-heading :before #'dashboard-insert-heading-icon)
-
   ;; Add file icons
   ;; MUST redefine the sections because of the macro `dashboard-insert-section-list'
   (defmacro dashboard-insert-section-list (section-name list action &rest rest)
@@ -185,25 +171,6 @@
                                       :format "%[%t%]"
                                       ,@rest))))
              ,list)))
-
-  (defmacro dashboard-insert-shortcut (shortcut-char
-                                       search-label
-                                       &optional no-next-line)
-    "Insert a shortcut SHORTCUT-CHAR for a given SEARCH-LABEL.
-Optionally, provide NO-NEXT-LINE to move the cursor forward a line."
-    `(progn
-       (eval-when-compile (defvar dashboard-mode-map))
-       (let ((sym (make-symbol (format "Jump to \"%s\"" ,search-label))))
-         (fset sym (lambda ()
-                     (interactive)
-                     (unless (search-forward ,search-label (point-max) t)
-                       (search-backward ,search-label (point-min) t))
-                     ,@(unless no-next-line
-                         '((forward-line 1)))
-                     (back-to-indentation)
-                     (if (display-graphic-p) (widget-forward 1))))
-         (eval-after-load 'dashboard
-           (define-key dashboard-mode-map ,shortcut-char sym)))))
 
   ;; Recentf
   (defun dashboard-insert-recents (list-size)
@@ -260,68 +227,66 @@ REAL-WIDTH: the real width of the line.  If the line contains an image, the size
       (insert (make-string margin ?\s))
       (end-of-line)))
 
-  (defun dashboard-insert-buttons ()
-    "Insert buttions after the banner."
+  (defun dashboard-insert-navigator ()
+    "Insert navigator below the banner."
     (interactive)
     (with-current-buffer (get-buffer dashboard-buffer-name)
       (let ((inhibit-read-only t))
         (goto-char (point-min))
         (search-forward dashboard-banner-logo-title nil t)
-
-        (insert "\n\n\n")
+        (insert "\n\n")
         (widget-create 'url-link
                        :tag (concat
-                             (if (display-graphic-p)
-                                 (concat
-                                  (all-the-icons-octicon "mark-github"
-                                                         :height 1.1
-                                                         :v-adjust 0.0
-                                                         :face 'font-lock-keyword-face)
-                                  (propertize " " 'face 'variable-pitch)))
+                             (when (display-graphic-p)
+                               (concat
+                                (all-the-icons-octicon "mark-github"
+                                                       :height 1.1
+                                                       :v-adjust 0.0
+                                                       :face 'font-lock-keyword-face)
+                                (propertize " " 'face 'variable-pitch)))
                              (propertize "Homepage" 'face 'font-lock-keyword-face))
                        :help-echo "Browse homepage"
                        :mouse-face 'highlight
+                       :button-prefix (propertize "[" 'face '(:inherit (font-lock-keyword-face bold)))
+                       :button-suffix (propertize "]" 'face '(:inherit (font-lock-keyword-face bold)))
+                       :format "%[%t%]"
                        homepage-url)
         (insert "  ")
         (widget-create 'push-button
-                       :help-echo "Open init config"
-                       :action (lambda (&rest _) (dashboard-open-init-file))
-                       :mouse-face 'highlight
                        :tag (concat
-                             (if (display-graphic-p)
-                                 (concat
-                                  (all-the-icons-faicon "floppy-o"
-                                                        :height 1.2
-                                                        :v-adjust -0.1
-                                                        :face 'font-lock-keyword-face)
-                                  (propertize " " 'face 'variable-pitch)))
-                             (propertize "Config" 'face 'font-lock-keyword-face))
-                       :button-prefix ""
-                       :button-suffix ""
-                       (propertize "Open Config" 'face 'font-lock-keyword-face))
+                             (when (display-graphic-p)
+                               (concat
+                                (all-the-icons-faicon "floppy-o"
+                                                      :height 1.2
+                                                      :v-adjust -0.1
+                                                      :face 'font-lock-keyword-face)
+                                (propertize " " 'face 'variable-pitch)))
+                             (propertize "Open Config" 'face 'font-lock-keyword-face))
+                       :action (lambda (&rest _) (dashboard-open-init-file))
+                       :help-echo "Open init config"
+                       :mouse-face 'highlight
+                       :button-prefix (propertize "[" 'face '(:inherit (font-lock-keyword-face bold)))
+                       :button-suffix (propertize "]" 'face '(:inherit (font-lock-keyword-face bold)))
+                       :format "%[%t%]")
         (insert "  ")
         (widget-create 'push-button
-                       :help-echo "Restore previous session"
-                       :action (lambda (&rest _) (restore-session))
-                       :mouse-face 'highlight
                        :tag (concat
-                             (if (display-graphic-p)
-                                 (concat
-                                  (all-the-icons-material "restore"
-                                                          :height 1.35
-                                                          :v-adjust -0.24
-                                                          :face 'font-lock-keyword-face)
-                                  (propertize " " 'face 'variable-pitch)))
-                             (propertize "Session" 'face 'font-lock-keyword-face)))
-        (dashboard-center-line)
-        (insert "\n\n")
-
-        (insert (concat
-                 (propertize (format "%d packages loaded in %s"
-                                     (length package-activated-list) (emacs-init-time))
-                             'face 'font-lock-comment-face)))
+                             (when (display-graphic-p)
+                               (concat
+                                (all-the-icons-material "restore"
+                                                        :height 1.35
+                                                        :v-adjust -0.24
+                                                        :face 'font-lock-keyword-face)
+                                (propertize " " 'face 'variable-pitch)))
+                             (propertize "Session" 'face 'font-lock-keyword-face))
+                       :action (lambda (&rest _) (restore-session))
+                       :help-echo "Restore previous session"
+                       :mouse-face 'highlight
+                       :button-prefix (propertize "[" 'face '(:inherit (font-lock-keyword-face bold)))
+                       :button-suffix (propertize "]" 'face '(:inherit (font-lock-keyword-face bold)))
+                       :format "%[%t%]")
         (dashboard-center-line))))
-  (add-hook 'dashboard-mode-hook #'dashboard-insert-buttons)
+  (add-hook 'dashboard-mode-hook #'dashboard-insert-navigator)
 
   (defun dashboard-insert-footer ()
     "Insert footer of dashboard."
@@ -329,20 +294,18 @@ REAL-WIDTH: the real width of the line.  If the line contains an image, the size
     (with-current-buffer (get-buffer dashboard-buffer-name)
       (let ((inhibit-read-only t))
         (goto-char (point-max))
-
-        (insert "\n\n")
+        (insert "\n")
         (insert (if (display-graphic-p)
                     (all-the-icons-faicon "heart"
                                           :height 1.1
                                           :v-adjust -0.05
                                           :face 'error)
-                  "🧡 "))
+                  "♥"))
         (insert " ")
         (insert (propertize
                  (format "Powered by %s, %s" kevin-user-name (format-time-string "%Y"))
                  'face font-lock-doc-face))
-        (dashboard-center-line)
-        (insert "\n"))))
+        (dashboard-center-line))))
   (add-hook 'dashboard-mode-hook #'dashboard-insert-footer)
 
   )

@@ -26,12 +26,12 @@
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'doom-tomorrow-night
+(defcustom kevin-theme-selected 'gruvbox-dark-medium
   "Customize color theme."
   :type '(choice
           (const :tag "light theme" doom-solarized-light)
           (const :rag "dark theme"  doom-molokai)
-          (const :tag "hard dark theme" gruvbox-hard-dark))
+          (const :tag "hard dark theme" gruvbox-dark-medium))
   :group 'kevin-customize-group)
 
 (defcustom kevin-lsp-mode-enable-p t
