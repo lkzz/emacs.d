@@ -145,6 +145,7 @@
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
 
 (use-package emojify
+  :disabled
   :init
   (add-hook 'after-init-hook #'global-emojify-mode))
 
