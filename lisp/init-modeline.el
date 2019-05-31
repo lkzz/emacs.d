@@ -64,7 +64,7 @@
 (use-package powerline
   :defer t
   :config
-  (setq powerline-height 22
+  (setq powerline-height 30
         powerline-default-separator (if (display-graphic-p) 'arrow 'utf-8)))
 
 (use-package spaceline
@@ -109,7 +109,6 @@
   (spaceline-toggle-window-number-on)
   (spaceline-toggle-buffer-size-off)
   (spaceline-toggle-remote-host-off)
-  (spaceline-toggle-major-mode-off)
   (spaceline-toggle-flycheck-info-off)
   (spaceline-toggle-selection-info-on)
   (spaceline-toggle-input-method-on)
@@ -119,6 +118,7 @@
   (spaceline-toggle-buffer-position-off)
   ;; shows the currently visible part of the buffer.
   (spaceline-toggle-hud-off)
+  (spaceline-toggle-major-mode-on)
   ;; configure the separator between the minor modes
   (unless (display-graphic-p)
     (spaceline-toggle-minor-modes-off))
