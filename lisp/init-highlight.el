@@ -74,7 +74,7 @@
 
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
-  ;; :if (display-graphic-p)
+  :if (display-graphic-p)
   :diminish highlight-indent-guides-mode
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
