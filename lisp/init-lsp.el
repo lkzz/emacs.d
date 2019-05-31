@@ -18,8 +18,7 @@
   :diminish lsp-mode "ⓛ"
   :commands lsp
   :hook ((go-mode . lsp)
-         (rust-mode . lsp)
-         (c++-mode . lsp))
+         (rust-mode . lsp))
   :config
   (setq lsp-enable-xref t
         lsp-enable-snippet t
