@@ -64,7 +64,7 @@
 (use-package powerline
   :defer t
   :config
-  (setq powerline-height 30
+  (setq powerline-height 23
         powerline-default-separator (if (display-graphic-p) 'arrow 'utf-8)))
 
 (use-package spaceline
