@@ -46,13 +46,26 @@
 (use-package aweshell
   :load-path "vendor/aweshell"
   :commands (aweshell-toggle)
-  :hook (eshell-first-time-mode . kevin/eshell-keymap)
+  :hook ((eshell-first-time-mode . kevin/eshell-keymap)
+         (eshell-exit . delete-window))
   :init
-  (kevin/set-leader-keys "'" 'aweshell-toggle)
+  (defvar eshell-window-height 35
+    "Percentage for shell-buffer window height.")
+  (defun kevin/calculate-window-height ()
+    (let* ((win (frame-root-window))
+           (size (window-height win)))
+      (round (* size (/ (- 100 eshell-window-height) 100.0)))))
+  (defun kevin/toggle-aweshell ()
+    (interactive)
+    (split-window (frame-root-window) (kevin/calculate-window-height) 'below)
+    (other-window 1)
+    (aweshell-toggle))
+  (kevin/set-leader-keys "'" 'kevin/toggle-aweshell)
   :config
-  (setq eshell-highlight-prompt t)
-  (setq eshell-prompt-function 'epe-theme-lambda)
-  (setq eshell-history-file-name (concat kevin-cache-directory "eshell/history")))
+  (setq eshell-highlight-prompt t
+        eshell-prompt-function 'epe-theme-lambda
+        eshell-directory-name (concat kevin-cache-directory "eshell/")))
+
 
 (provide 'init-eshell)
 ;;; init-eshell.el ends here
