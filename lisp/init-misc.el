@@ -91,7 +91,7 @@
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
   :diminish aggressive-indent-mode
-  :hook (prog-mode . global-aggressive-indent-mode)
+  :hook (emacs-lisp-mode . global-aggressive-indent-mode)
   :config
   (setq-default aggressive-indent-comments-too t)
   ;; NOTE: Disable in big files due to the performance issues
