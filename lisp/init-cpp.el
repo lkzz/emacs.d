@@ -13,6 +13,32 @@
 ;;
 ;;; Code:
 
+(defvar astyle-config-file (expand-file-name "vendor/astyle_config.ini" user-emacs-directory)
+  "The location of the astyle configuration file.")
+(defvar astyle-command (format "astyle --options=%s" astyle-config-file)
+  "Astyle format command.")
+
+(defun kevin/astyle-format-region (start end)
+  "Run astyle command on region."
+  (interactive "r")
+  (save-excursion
+    (shell-command-on-region start end astyle-command nil t (get-buffer-create "*Messages*") nil)))
+
+(defun kevin/astyle-format-buffer ()
+  "Run astyle command on current buffer."
+  (interactive)
+  (save-excursion
+    ;; (setq temp-point (point))
+    (kevin/astyle-format-region (point-min) (point-max))
+    ;; (goto-char temp-point)
+    (message "format buffer done")))
+
+(add-hook 'before-save-hook '(lambda()
+                               (when (or (eq major-mode 'c-mode)
+                                         (eq major-mode 'c++-mode))
+                                 (kevin/astyle-format-buffer))))
+
+
 (defun fix-c-indent-offset-according-to-syntax-context (key val)
   ;; remove the old element
   (setq c-offsets-alist (delq (assoc key c-offsets-alist) c-offsets-alist))
@@ -67,12 +93,7 @@
                                   (lsp)
                                 (user-error nil))
                               (setq-local company-idle-delay 0.3)
-                              (setq-local company-dabbrev-code-everywhere t))))
-         (before-save . (lambda()
-                          (when (or (eq major-mode 'c-mode)
-                                    (eq major-mode 'c++-mode)
-                                    (eq major-mode 'glsl-mode))
-                            (lsp-format-buffer)))))
+                              (setq-local company-dabbrev-code-everywhere t)))))
   :init
   (setq ccls-args '("--log-file=/tmp/ccls.log")
         ccls-initialization-options '(:index
