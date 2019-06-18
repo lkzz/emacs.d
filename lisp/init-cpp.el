@@ -37,6 +37,57 @@
                                          (eq major-mode 'c++-mode))
                                  (kevin/astyle-format-buffer))))
 
+(use-package cc-mode
+  :ensure nil
+  :diminish abbrev-mode
+  :mode ("\\.h\\'" . c++-mode))
+
+(use-package modern-cpp-font-lock
+  :diminish modern-c++-font-lock-mode
+  :hook (c++-mode . modern-c++-font-lock-mode))
+
+(use-package google-c-style
+  :config
+  (add-hook 'c-mode-common-hook 'google-set-c-style)
+  (add-hook 'c-mode-common-hook 'google-make-newline-indent))
+
+(use-package irony
+  :diminish irony-mode "Ⓘⓘ"
+  :init
+  (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+  (add-hook 'irony-mode-hook '(lambda ()
+                                (define-key irony-mode-map [remap completion-at-point]
+                                  'irony-completion-at-point-async)
+                                (define-key irony-mode-map [remap complete-symbol]
+                                  'irony-completion-at-point-async))))
+
+(use-package irony-eldoc
+  :init
+  (add-hook 'irony-mode-hook 'irony-eldoc))
+
+;; Use company-irony as company mode backend.
+(use-package company-irony
+  :after (company irony)
+  :commands (company-irony))
+
+(use-package company-c-headers
+  :after company
+  :commands (company-c-headers)
+  :config
+  (setq company-c-headers-path-user '("." "./include")))
+
+;; Use flycheck-irony in CC mode.
+(use-package flycheck-irony
+  :commands (flycheck-irony-setup)
+  :after flycheck
+  :init
+  (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
+
+(defvar kevin/cc-mode-backends '(company-files
+                                 company-c-headers
+                                 company-irony
+                                 company-dabbrev-code)
+  "Company backends to be used in CC mode.")
 
 (defun fix-c-indent-offset-according-to-syntax-context (key val)
   ;; remove the old element
@@ -49,56 +100,22 @@
   ;; give me NO newline automatically after electric expressions are entered
   (setq c-auto-newline nil)
 
-  ;; syntax-highlight aggressively
-  ;; (setq font-lock-support-mode 'lazy-lock-mode)
-  (setq lazy-lock-defer-contextually t)
-  (setq lazy-lock-defer-time 0)
-
-                                        ;make DEL take all previous whitespace with it
+  ;;make DEL take all previous whitespace with it
   (c-toggle-hungry-state 1)
 
-  ;; indent
-  ;; google "C/C++/Java code indentation in Emacs" for more advanced skills
-  ;; C code:
-  ;;   if(1) // press ENTER here, zero means no indentation
-  (fix-c-indent-offset-according-to-syntax-context 'substatement 0)
-  ;;   void fn() // press ENTER here, zero means no indentation
-  (fix-c-indent-offset-according-to-syntax-context 'func-decl-cont 0))
+  (when (derived-mode-p 'c-mode 'c++-mode)
+    (run-hooks 'prog-mode-hook) ; Run prog-mode hook since cc-mode does not derives from it.
+    (setq-local company-backends kevin/cc-mode-backends)
+    (irony-mode 1)))
 
 (add-hook 'c-mode-common-hook 'kevin/c++-mode-setup)
 
-(use-package cc-mode
-  :ensure nil
-  :mode ("\\.h\\'" . c++-mode))
-
-(use-package modern-cpp-font-lock
-  :hook (c++-mode . modern-c++-font-lock-mode))
-
-(use-package company-c-headers
-  :after company
-  :init (cl-pushnew 'company-c-headers company-backends))
-
-(use-package google-c-style
+(use-package cmake-mode
+  :mode (("CMakeLists\\.txt$" . cmake-mode)
+         ("\\.cmake$'" . cmake-mode))
   :config
-  (add-hook 'c-mode-common-hook 'google-set-c-style)
-  (add-hook 'c-mode-common-hook 'google-make-newline-indent))
+  (setq cmake-tab-width 4))
 
-(use-package ccls
-  :defer t
-  :hook ((c-mode-common . (lambda()
-                            (progn
-                              (require 'ccls)
-                              (condition-case nil
-                                  (lsp)
-                                (user-error nil))
-                              (setq-local company-idle-delay 0.3)
-                              (setq-local company-dabbrev-code-everywhere t)))))
-  :init
-  (setq ccls-args '("--log-file=/tmp/ccls.log")
-        ccls-initialization-options '(:index
-                                      (:comments 2)
-                                      :completion
-                                      (:detailedLabel t))))
 (use-package company-cmake
   :after (company cmake-mode)
   :load-path "vendor"
@@ -107,20 +124,8 @@
   (setq-local company-dabbrev-code-everywhere t)
   (setq-local company-backends '(company-cmake
                                  company-capf
-                                 company-files))
-  )
+                                 company-files)))
 
-(use-package cmake-mode
-  :mode (("CMakeLists\\.txt$" . cmake-mode)
-         ("\\.cmake$'" . cmake-mode))
-  :config
-  (setq cmake-tab-width 4))
-
-;; (use-package cmake-font-lock
-;;   :hook (cmake-mode . (lambda()
-;;                         (progn
-;;                           (cmake-font-lock-activate)
-;;                           (font-lock-refresh-defaults)))))
 (use-package cmake-font-lock
   :hook (cmake-mode . font-lock-refresh-defaults))
 
