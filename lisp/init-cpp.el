@@ -21,17 +21,16 @@
 (defun kevin/astyle-format-region (start end)
   "Run astyle command on region."
   (interactive "r")
-  (save-excursion
-    (shell-command-on-region start end astyle-command nil t (get-buffer-create "*Messages*") nil)))
+  (shell-command-on-region start end astyle-command nil t (get-buffer-create "*Messages*") nil))
 
 (defun kevin/astyle-format-buffer ()
   "Run astyle command on current buffer."
   (interactive)
-  (save-excursion
-    ;; (setq temp-point (point))
+  (let ((current-pos (point)))
     (kevin/astyle-format-region (point-min) (point-max))
-    ;; (goto-char temp-point)
-    (message "format buffer done")))
+    (goto-char current-pos)
+    ;; fix config bug with function: kevin/auto-save-buffer
+    (if mark-active (deactivate-mark))))
 
 (add-hook 'before-save-hook '(lambda()
                                (when (or (eq major-mode 'c-mode)
