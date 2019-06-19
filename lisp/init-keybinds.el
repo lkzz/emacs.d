@@ -63,5 +63,8 @@
   "dj" #'kevin/goto-match-delimiter
   "dd" #'kevin/delete-delimiter-enclosed-text)
 
+;; used as tmux prefix key
+(global-unset-key (kbd "C-q"))
+
 (provide 'init-keybinds)
 ;;; init-keybinds ends here
