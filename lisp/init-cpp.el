@@ -46,20 +46,18 @@
   :diminish modern-c++-font-lock-mode
   :hook (c++-mode . modern-c++-font-lock-mode))
 
-(use-package google-c-style
-  :config
-  (add-hook 'c-mode-common-hook 'google-set-c-style)
-  (add-hook 'c-mode-common-hook 'google-make-newline-indent))
-
 (use-package irony
-  :diminish irony-mode "Ⓘⓘ"
+  :diminish irony-mode "ⓘ"
+  :after company
   :init
+  (add-hook 'c++-mode-hook 'irony-mode)
   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
   (add-hook 'irony-mode-hook '(lambda ()
-                                (define-key irony-mode-map [remap completion-at-point]
-                                  'irony-completion-at-point-async)
-                                (define-key irony-mode-map [remap complete-symbol]
-                                  'irony-completion-at-point-async))))
+                                (define-key irony-mode-map [remap completion-at-point] 'irony-completion-at-point-async)
+                                (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))))
+
+(use-package company-irony-c-headers
+  :after company)
 
 (use-package irony-eldoc
   :init
@@ -67,54 +65,88 @@
 
 ;; Use company-irony as company mode backend.
 (use-package company-irony
-  :after (company irony)
-  :commands (company-irony))
+  :after company)
 
-(use-package company-c-headers
-  :after company
-  :commands (company-c-headers)
+(use-package rtags
+  :load-path "vendor/rtags"
+  :hook (c++-mode . rtags-start-process-unless-running)
   :config
-  (setq company-c-headers-path-user '("." "./include")))
+  (setq rtags-path "/usr/local/bin/"
+        rtags-completions-enabled t
+        rtags-autostart-diagnostics t
+        rtags-display-result-backend 'ivy)
+  (rtags-diagnostics)
+  (rtags-enable-standard-keybindings)
+  ;; keybindings
+  (kevin/define-jump-handlers c++-mode rtags-find-symbol-at-point)
+  (kevin/declare-prefix-for-major-mode 'c++-mode "f" "reference")
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'c-mode-base-map
+    "fs" 'rtags-find-symbol
+    "fd" 'rtags-symbol-type
+    "gg" 'rtags-find-symbol-at-point
+    "ff" 'rtags-find-file
+    "fr" 'rtags-find-references-at-point
+    "fR" 'rtags-find-references
+    "fm" 'rtags-imenu)
+  (kevin/declare-prefix-for-major-mode 'c++-mode "i" "import")
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'c-mode-base-map
+    "ia" 'rtags-include-file
+    "is" 'rtags-get-include-file-for-symbol)
+  (kevin/declare-prefix-for-major-mode 'c++-mode "r" "refactoring")
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'c++-mode-map
+    "rn" 'rtags-rename-symbol))
+
+(use-package ivy-rtags
+  :load-path "vendor/rtags"
+  :config
+  (setq rtags-display-result-backend 'ivy))
+
+(use-package flycheck-rtags
+  :load-path "vendor/rtags"
+  :if (not (eq system-type 'ms-dos))
+  :config
+  (defun c++-mode-rtags-hook ()
+    (interactive)
+    (flycheck-select-checker 'rtags))
+  (add-hook 'c++-mode-hook #'c++-mode-rtags-hook))
+
+(use-package company-rtags
+  :load-path "vendor/rtags"
+  :after (company rtags))
 
 ;; Use flycheck-irony in CC mode.
 (use-package flycheck-irony
-  :commands (flycheck-irony-setup)
   :after flycheck
-  :init
+  :config
   (add-hook 'flycheck-mode-hook #'flycheck-irony-setup))
 
-(defvar kevin/cc-mode-backends '(company-files
-                                 company-c-headers
-                                 company-irony
-                                 company-dabbrev-code)
+(defvar kevin/c++-mode-backends '(company-files
+                                  company-irony-c-headers
+                                  company-irony
+                                  company-rtags
+                                  company-dabbrev-code)
   "Company backends to be used in CC mode.")
 
-(defun fix-c-indent-offset-according-to-syntax-context (key val)
-  ;; remove the old element
-  (setq c-offsets-alist (delq (assoc key c-offsets-alist) c-offsets-alist))
-  ;; new value
-  (add-to-list 'c-offsets-alist '(key . val)))
-
 (defun kevin/c++-mode-setup ()
-  (setq c-basic-offset 4)
-  ;; give me NO newline automatically after electric expressions are entered
-  (setq c-auto-newline nil)
-
-  ;;make DEL take all previous whitespace with it
-  (c-toggle-hungry-state 1)
-
-  (when (derived-mode-p 'c-mode 'c++-mode)
-    (run-hooks 'prog-mode-hook) ; Run prog-mode hook since cc-mode does not derives from it.
-    (setq-local company-backends kevin/cc-mode-backends)
-    (irony-mode 1)))
-
-(add-hook 'c-mode-common-hook 'kevin/c++-mode-setup)
+  "setup shared by all languages (java/groovy/c++ ...)"
+  (setq c-basic-offset 4
+        tab-width 4
+        c-default-style "java")
+  (setq-local company-backends kevin/c++-mode-backends))
+(add-hook 'c++-mode-hook 'kevin/c++-mode-setup)
 
 (use-package cmake-mode
   :mode (("CMakeLists\\.txt$" . cmake-mode)
          ("\\.cmake$'" . cmake-mode))
   :config
   (setq cmake-tab-width 4))
+
+(use-package cmake-ide
+  :config
+  (cmake-ide-setup))
 
 (use-package company-cmake
   :after (company cmake-mode)
