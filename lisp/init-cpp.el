@@ -104,15 +104,6 @@
   :config
   (setq rtags-display-result-backend 'ivy))
 
-(use-package flycheck-rtags
-  :load-path "vendor/rtags"
-  :if (not (eq system-type 'ms-dos))
-  :config
-  (defun c++-mode-rtags-hook ()
-    (interactive)
-    (flycheck-select-checker 'rtags))
-  (add-hook 'c++-mode-hook #'c++-mode-rtags-hook))
-
 (use-package company-rtags
   :load-path "vendor/rtags"
   :after (company rtags))
