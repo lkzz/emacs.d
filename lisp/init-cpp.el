@@ -126,7 +126,9 @@
   (setq c-basic-offset 4
         tab-width 4
         c-default-style "java")
-  (setq-local company-backends kevin/c++-mode-backends))
+  (setq-local company-backends kevin/c++-mode-backends)
+  (define-key c++-mode-map (kbd "C-c C-o") 'ff-find-other-file))
+
 (add-hook 'c++-mode-hook 'kevin/c++-mode-setup)
 
 (use-package cmake-mode
@@ -136,6 +138,7 @@
   (setq cmake-tab-width 4))
 
 (use-package cmake-ide
+  :after (rtags flycheck company irony)
   :config
   (cmake-ide-setup))
 
