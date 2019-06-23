@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package dashboard
+  :diminish page-break-lines-mode
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
   :config
   (dashboard-setup-startup-hook)
@@ -48,23 +49,23 @@
         ;; Format: "icon title help action face prefix suffix"
         dashboard-navigator-buttons
         `(((,(when (display-graphic-p)
-              (all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0))
-           "Homepage"
-           "Browse homepage"
-           (lambda (&rest _) (kevin/browse-homepage)))
+               (all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0))
+            "Homepage"
+            "Browse homepage"
+            (lambda (&rest _) (kevin/browse-homepage)))
 
-          (,(when (display-graphic-p)
-              (all-the-icons-faicon "floppy-o" :height 1.2 :v-adjust -0.1 :face 'font-lock-keyword-face))
-           "Open Config"
-           "Open init config"
-           (lambda (&rest _) (kevin/open-init-file)))
+           (,(when (display-graphic-p)
+               (all-the-icons-faicon "floppy-o" :height 1.2 :v-adjust -0.1 :face 'font-lock-keyword-face))
+            "Open Config"
+            "Open init config"
+            (lambda (&rest _) (kevin/open-init-file)))
 
-          (,(when (display-graphic-p)
-              (all-the-icons-material "restore" :height 1.35 :v-adjust -0.24 :face 'font-lock-keyword-face))
-           "Restore"
-           "Restore session"
-           (lambda (&rest _) (kevin/restore-session)))
-          )))
+           (,(when (display-graphic-p)
+               (all-the-icons-material "restore" :height 1.35 :v-adjust -0.24 :face 'font-lock-keyword-face))
+            "Restore"
+            "Restore session"
+            (lambda (&rest _) (kevin/restore-session)))
+           )))
 
   (defvar dashboard-recover-layout-p nil
     "Wether recovers the layout.")
