@@ -13,9 +13,10 @@
 ;;
 ;;; Code:
 
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+(setq package-archives '(("gnu"   . "http://mirrors.163.com/elpa/gnu/")
+                         ("melpa" . "http://mirrors.163.com/elpa/melpa/")
+                         ("org"   . "http://mirrors.163.com/elpa/org/")))
+
 
 ;;; Fire up package.el
 (setq package-enable-at-startup nil ; don't auto-initialize!
