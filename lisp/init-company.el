@@ -13,21 +13,6 @@
 ;;
 ;;; Code:
 
-(defvar auto-completion-enable-snippets-in-popup t
-  "If non nil show snippets in the auto-completion popup.")
-
-(defvar kevin-company-default-backends '(
-                                         ;; company-semantic
-                                         ;; company-dabbrev-code
-                                         ;; 当前文件所属编程语言的语法关键词
-                                         company-keywords
-                                         ;; 使用 completion-at-point-functions 的后端
-                                         company-capf
-                                         ;; 主要用来补全当前 buffer 中出现的 word
-                                         company-dabbrev
-                                         ;; 补全文件系统的路径后端
-                                         company-files))
-
 (use-package company
   :diminish company-mode "ⓒ"
   :bind (:map company-active-map
@@ -50,12 +35,12 @@
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t
-        company-echo-delay 0                ; remove annoying blinking
-        company-idle-delay 0.1
-        company-minimum-prefix-length 2
+        company-echo-delay 0            ; remove annoying blinking
+        company-idle-delay 0.1          ; set the completion menu pop-up delay
+        company-minimum-prefix-length 2 ; pop up a completion menu by tapping a character
+        company-show-numbers t          ; display numbers on the left
         company-tooltip-limit 10
         company-require-match nil
-        company-show-numbers t
         company-selection-wrap-around t     ; make previous/next selection in the popup cycle
         company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
@@ -66,8 +51,7 @@
                                message-mode
                                help-mode
                                gud-mode)
-        ;; company-backends kevin/company-global-backends
-        ))
+        company-backends kevin-company-default-backends))
 
 ;; Show you likelier candidates at the top of the list
 (use-package company-statistics
