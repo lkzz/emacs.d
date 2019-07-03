@@ -286,6 +286,41 @@ Argument VALUE 0 is transparent, 100 is opaque."
       (goto-char (point-max))
       (insert ";;; " fname " ends here\n"))))
 
+(defun kevin/enable-yasnippet-in-company (backend)
+  (if (or (not kevin-enable-company-yasnippet)
+          (and (listp backend) (member 'company-yasnippet backend)))
+      backend
+    (append (if (consp backend) backend (list backend))
+            '(:with company-yasnippet))))
+
+(defmacro kevin/add-company-backend (&rest props)
+  "Add and enable company backends.Available PROPS:
+                 `:backend BACKEND' One company backends.
+                 `:mode MODE' One mode where BACKENDSwill be added."
+  (let* ((backend (plist-get props :backend))
+         (mode (plist-get props :mode))
+         (backend-list-name (intern (format "company-backends-%S" mode)))
+         (mode-hook-name (intern (format "%S-hook" mode)))
+         (init-func-name (intern (format "kevin/init-company-%S" mode))))
+    `(progn
+       ;; declare buffer local company-backends variable
+       (defvar ,backend-list-name kevin-company-default-backends
+         ,(format "Company backend list for %S." mode))
+       (add-to-list ',backend-list-name ',backend)
+       ;; define company init hook function for mode
+       (defun ,init-func-name ()
+         ,(format "Init company backends for %S" mode)
+
+         (if kevin-enable-company-yasnippet
+             (setq ,backend-list-name
+                   (mapcar 'kevin/enable-yasnippet-in-company
+                           ,backend-list-name)))
+         (set (make-variable-buffer-local 'company-backends)
+              ,backend-list-name))
+
+       (add-hook ',mode-hook-name ',init-func-name t))))
+
+
 
 (provide 'init-funcs)
 ;;; init-funcs.el ends here

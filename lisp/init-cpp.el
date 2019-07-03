@@ -39,7 +39,7 @@
   :disabled
   :after company
   :config
-  (spacemacs|add-company-backends :backends company-c-headers :modes c++-mode))
+  (kevin/add-company-backend :backend company-c-headers :mode c++-mode))
 
 (use-package google-c-style
   :if c++-enable-google-style
@@ -97,7 +97,7 @@
     :load-path "vendor/rtags"
     :init
     (setq rtags-completions-enabled t)
-    (spacemacs|add-company-backends :backends company-rtags :modes c++-mode))
+    (kevin/add-company-backend :backend company-rtags :mode c++-mode))
 
   (use-package ivy-rtags
     :load-path "vendor/rtags"
@@ -128,12 +128,12 @@
   (use-package company-irony-c-headers
     :after (company irony)
     :config
-    (spacemacs|add-company-backends :backends company-irony-c-headers :modes c++-mode))
+    (kevin/add-company-backend :backend company-irony-c-headers :mode c++-mode))
 
   ;; Use company-irony as company mode backend.
   (use-package company-irony
     :config
-    (spacemacs|add-company-backends :backends company-irony :modes c++-mode))
+    (kevin/add-company-backend :backend company-irony :mode c++-mode))
 
   ;; Use flycheck-irony in CC mode.
   (use-package flycheck-irony
@@ -156,7 +156,7 @@
   (use-package company-ycmd
     :after company
     :config
-    (spacemacs|add-company-backends :backends company-ycmd :modes c++-mode))
+    (kevin/add-company-backends :backend company-ycmd :mode c++-mode))
 
   (use-package flycheck-ycmd
     :after (flycheck ycmd)
@@ -185,8 +185,7 @@
   :after (company cmake-mode)
   :load-path "vendor"
   :config
-  ;; (spacemacs|add-company-backends :backends company-cmake :modes cmake-mode)
-  (cl-pushnew 'company-cmake company-backends)
+  (kevin/add-company-backends :backend company-cmake :mode cmake-mode)
   )
 
 (use-package cmake-font-lock

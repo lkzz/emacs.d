@@ -39,5 +39,11 @@
   :type 'boolean
   :group 'kevin-customize-group)
 
+;; Add yasnippet support for all company backends.
+(defcustom kevin-enable-company-yasnippet t
+  "Enable yasnippet for all backends."
+  :type 'boolean
+  :group 'kevin-customize-group)
+
 (provide 'init-custom)
 ;;; init-custom ends here
