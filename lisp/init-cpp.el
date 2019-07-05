@@ -36,7 +36,6 @@
   :mode ("\\.h\\'" . c++-mode))
 
 (use-package company-c-headers
-  :disabled
   :after company
   :config
   (kevin/add-company-backend :backend company-c-headers :mode c++-mode))
@@ -124,11 +123,6 @@
   (use-package irony-eldoc
     :config
     (add-hook 'irony-mode-hook 'irony-eldoc))
-
-  (use-package company-irony-c-headers
-    :after (company irony)
-    :config
-    (kevin/add-company-backend :backend company-irony-c-headers :mode c++-mode))
 
   ;; Use company-irony as company mode backend.
   (use-package company-irony
