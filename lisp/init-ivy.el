@@ -29,7 +29,7 @@
          ("C-c V" . ivy-pop-view)
          ("C-c t c" . ivy-toggle-calling)
          :map counsel-mode-map
-         ([remap swiper] . counsel-grep-or-swiper)
+         ([remap swiper] . swiper-isearch)
          ("C-x C-r" . counsel-recentf)
          ("C-x j" . counsel-mark-ring)
          ("C-c C-p" . counsel-package)
