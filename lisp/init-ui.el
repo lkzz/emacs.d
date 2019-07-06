@@ -74,7 +74,11 @@
 (use-package gruvbox-theme :defer t)
 (use-package color-theme-sanityinc-tomorrow :defer t)
 ;; 加载主题
-(load-theme kevin-theme-selected t)
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (load-theme kevin-theme-selected t)))
+  (load-theme kevin-theme-selected t))
 ;; (if (display-graphic-p)
 ;;     (load-theme kevin-theme-selected t)
 ;; (load-theme 'sanityinc-tomorrow-night t))
