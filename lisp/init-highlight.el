@@ -74,12 +74,15 @@
 
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
-  :if (display-graphic-p)
   :diminish highlight-indent-guides-mode
   :hook (prog-mode . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-delay 0.5
-        highlight-indent-guides-method 'character))
+        highlight-indent-guides-method 'character
+        highlight-indent-guides-auto-enabled nil)
+  (set-face-background 'highlight-indent-guides-odd-face "darkgray")
+  (set-face-background 'highlight-indent-guides-even-face "dimgray")
+  (set-face-foreground 'highlight-indent-guides-character-face "dimgray"))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
