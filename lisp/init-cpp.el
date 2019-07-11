@@ -27,6 +27,14 @@
   (setq c-basic-offset 4
         tab-width c-basic-offset
         c-default-style "java")
+
+  ;; config find-file.el
+  (setq cc-other-file-alist
+        '(("\\.c"   (".h"))
+          ("\\.cpp"   (".h"))
+          ("\\.h"   (".c"".cpp"))))
+  (setq ff-search-directories
+        '("." "../src" "../include"))
   (define-key c++-mode-map (kbd "C-c C-o") 'ff-find-other-file))
 (add-hook 'c++-mode-hook 'kevin/c++-mode-setup)
 
@@ -176,6 +184,7 @@
   (setq cmake-tab-width 4))
 
 (use-package company-cmake
+  :disabled
   :after (company cmake-mode)
   :load-path "vendor"
   :config
