@@ -286,6 +286,24 @@ Argument VALUE 0 is transparent, 100 is opaque."
       (goto-char (point-max))
       (insert ";;; " fname " ends here\n"))))
 
+(defun kevin/insert-cc-file-header ()
+  "Add ifndef header to an c/c++ header file."
+  (interactive)
+  (when (string= ".h" (substring (buffer-file-name (current-buffer)) -2))
+    (let* ((file-name (buffer-file-name (current-buffer)))
+           (fbasename (replace-regexp-in-string ".*/" "" file-name))
+           (inc-guard-base (replace-regexp-in-string "[.-]" "_" fbasename))
+           (include-guard (string-remove-suffix "_" (concat (upcase inc-guard-base) "_"))))
+      (insert "#ifndef " include-guard)
+      (newline 1)
+      (insert "#define " include-guard)
+      (newline 4)
+      (insert (format "#endif // %s" include-guard))
+      (newline 1)
+      (previous-line 3)
+      (set-buffer-modified-p nil))))
+
+
 (defun kevin/enable-yasnippet-in-company (backend)
   (if (or (not kevin-enable-company-yasnippet)
           (and (listp backend) (member 'company-yasnippet backend)))
