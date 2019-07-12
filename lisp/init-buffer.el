@@ -139,23 +139,26 @@ Including indent-buffer, which should not be called automatically on save."
 
 
 (defun kevin/auto-save-buffer()
-  (interactive)
-  (when (and
-         ;; filename is not empty
-         (buffer-file-name)
-         ;; buffer is modified
-         (buffer-modified-p)
-         ;; yassnippet is not active
-         (or (not (boundp 'yas--active-snippets))
-             (not yas--active-snippets))
-         ;; company is not active
-         (or (not (boundp 'company-candidates))
-             (not company-candidates))
-         ;; evil normal state
-         (evil-normal-state-p)
-         )
-    (basic-save-buffer)
-    (message "# saved %s" buffer-file-name)))
+  (ignore-errors
+    (save-excursion
+      (when (and
+             ;; filename is not empty
+             (buffer-file-name)
+             ;; buffer is modified
+             (buffer-modified-p)
+             ;; yassnippet is not active
+             (or (not (boundp 'yas--active-snippets))
+                 (not yas--active-snippets))
+             ;; company is not active
+             (or (not (boundp 'company-candidates))
+                 (not company-candidates))
+             ;; evil normal state
+             (evil-normal-state-p)
+             )
+        (basic-save-buffer)
+        (message "# saved %s" buffer-file-name))
+      ))
+  )
 
 (defun kevin/auto-save-enable ()
   (interactive)
