@@ -129,6 +129,11 @@
   :unless (display-graphic-p)
   :after evil
   :config
+  (setq evil-motion-state-cursor 'box
+        evil-visual-state-cursor 'box
+        evil-normal-state-cursor 'box
+        evil-insert-state-cursor 'bar
+        evil-emacs-state-cursor  'hbar)
   (evil-terminal-cursor-changer-activate))
 
 (provide 'init-evil)
