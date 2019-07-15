@@ -201,18 +201,19 @@
 (defvar astyle-command (format "astyle --options=%s" astyle-config-file)
   "Astyle format command.")
 
+(defun kevin/astyle-format-region (start end)
+  "Run astyle command on region."
+  (interactive "r")
+  (shell-command-on-region start end astyle-command nil t (get-buffer-create "*Messages*") nil))
+
 (defun kevin/astyle-format-buffer ()
   "Run astyle command on current buffer."
-  (interactive (if mark-active
-                   (list (region-beginning) (region-end))
-                 (list (point-min) (point-max))
-                 ))
-  (save-restriction
-    (shell-command-on-region start end
-                             astyle-command
-                             (current-buffer) t
-                             (get-buffer-create "*Astyle Errors*") t))
-  )
+  (interactive)
+  (let ((current-pos (point)))
+    (kevin/astyle-format-region (point-min) (point-max))
+    (goto-char current-pos)
+    ;; fix config bug with function: kevin/auto-save-buffer
+    (if mark-active (deactivate-mark))))
 
 (add-hook 'before-save-hook '(lambda ()
                                (when (eq major-mode 'c++-mode)
