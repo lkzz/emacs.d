@@ -205,11 +205,11 @@
 (use-package company-go
   :unless kevin-lsp-mode-enable-p
   :after (company go-mode)
-  :init (cl-pushnew 'company-go company-backends)
   :custom
   (company-go-gocode-args '("-builtin" "-unimported-packages" "-cache" "-fallback-to-source"))
   :config
-  (setq company-go-show-annotation t))
+  (setq company-go-show-annotation t)
+  (kevin/add-company-backend :backend company-go :mode go-mode))
 
 (provide 'init-golang)
 ;;; init-golang ends here

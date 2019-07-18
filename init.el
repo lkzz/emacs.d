@@ -57,7 +57,6 @@
 ;;----------------------------------------------------------------------------
 (require 'init-osx)                    ; set up osx
 (require 'init-evil)                   ; evil mode
-(require 'init-better-default)         ; better defaluts
 
 ;;----------------------------------------------------------------------------
 ;; personal package config
@@ -106,6 +105,7 @@
 (require 'init-windows-popup)
 
 (require 'init-keybinds)
+(require 'init-better-default)         ; better defaluts
 
 (add-hook 'emacs-startup-hook (lambda ()
                                 "Restore defalut values after init"
