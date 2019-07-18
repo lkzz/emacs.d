@@ -92,8 +92,7 @@
 
 ;; Chinese calendar
 (use-package cal-china-x
-  :commands cal-china-x-setup
-  :hook (org-mode . cal-china-x-setup)
+  :hook (after-init . cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
   (setq calendar-latitude 30.67)
@@ -140,9 +139,7 @@
           (holiday-solar-term "立冬" "立冬")
           (holiday-solar-term "小雪" "小雪")
           (holiday-solar-term "大雪" "大雪")
-          (holiday-solar-term "冬至" "冬至")
-
-          ))
+          (holiday-solar-term "冬至" "冬至")))
   (setq calendar-holidays
         (append cal-china-x-important-holidays
                 cal-china-x-general-holidays
@@ -150,7 +147,6 @@
 
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
-  :commands toggle-company-english-helper
   :after company
   :load-path "vendor/company-english-helper"
   :bind ("C-c t e" . 'toggle-company-english-helper))

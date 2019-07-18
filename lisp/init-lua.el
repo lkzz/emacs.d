@@ -23,7 +23,8 @@
 
 (use-package company-lua
   :after (lua-mode company)
-  :init (cl-pushnew 'company-lua company-backends))
+  :config
+  (kevin/add-company-backend :backend company-lua :mode lua-mode))
 
 (provide 'init-lua)
 ;; init-lua.el ends here.
