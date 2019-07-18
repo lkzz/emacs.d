@@ -16,9 +16,6 @@
 (defvar c++-backend 'irony
   "Enable `ycmd or `irony support")
 
-(defvar c++-enable-google-style nil
-  "If non-nil `google-set-c-style' will be added as as `c++-mode-hook'.")
-
 (defvar c++-enable-rtags-completion t
   "If `nil', RTags completion is disabled when the RTags backend is enabled.")
 
@@ -35,6 +32,9 @@
           ("\\.h"   (".c"".cpp"))))
   (setq ff-search-directories
         '("." "../src" "../include"))
+
+  (if c++-enable-rtags-completion
+      (require 'rtags))
   (define-key c++-mode-map (kbd "C-c C-o") 'ff-find-other-file))
 (add-hook 'c++-mode-hook 'kevin/c++-mode-setup)
 
@@ -48,20 +48,14 @@
   :config
   (kevin/add-company-backend :backend company-c-headers :mode c++-mode))
 
-(use-package google-c-style
-  :if c++-enable-google-style
-  :config
-  (add-hook 'c++-mode-hook 'google-set-c-style))
-
 (use-package modern-cpp-font-lock
   :diminish modern-c++-font-lock-mode
-  :config
-  (add-hook 'c++-mode-hook 'modern-c++-font-lock-mode))
+  :hook (c++-mode . modern-c++-font-lock-mode))
 ;;--------------------------------common----------------------------------------
 
 ;;--------------------------------rtag------------------------------------------
 (use-package rtags
-  :if c++-enable-rtags-completion
+  :defer t ; require before c++-mode
   :load-path "vendor/rtags"
   :config
   (setq rtags-autostart-diagnostics t)
@@ -147,8 +141,8 @@
 ;;------------------------------------ycmd---------------------------------------
 (use-package ycmd
   :if (eq c++-backend 'ycmd)
+  :hook (c++-mode . ycmd-mode)
   :config
-  (add-hook 'c++-mode-hook 'ycmd-mode)
   (setq url-show-status nil)
   (setq request-message-level -1)
   (kevin/define-jump-handlers c++-mode (ycmd-goto :async t))
