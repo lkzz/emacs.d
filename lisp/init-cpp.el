@@ -13,7 +13,7 @@
 ;;
 ;;; Code:
 
-(defvar c++-backend 'irony
+(defvar kevin-c++-backend 'irony
   "Enable `ycmd or `irony support")
 
 (defvar c++-enable-rtags-completion t
@@ -114,7 +114,7 @@
   (define-key irony-mode-map [remap complete-symbol] 'irony-completion-at-point-async))
 
 (use-package irony
-  :if (eq c++-backend 'irony)
+  :if (eq kevin-c++-backend 'irony)
   :diminish irony-mode "ⓘ"
   :after (company flycheck)
   :hook (c++-mode . irony-mode)
@@ -140,7 +140,7 @@
 
 ;;------------------------------------ycmd---------------------------------------
 (use-package ycmd
-  :if (eq c++-backend 'ycmd)
+  :if (eq kevin-c++-backend 'ycmd)
   :hook (c++-mode . ycmd-mode)
   :config
   (setq url-show-status nil)
@@ -163,7 +163,7 @@
 
   (use-package ycmd-eldoc
     :disabled
-    :if (eq c++-backend 'ycmd)
+    :if (eq kevin-c++-backend 'ycmd)
     :init
     (add-hook 'ycmd-mode-hook 'ycmd-eldoc-setup))
   )
@@ -195,23 +195,40 @@
 (defvar astyle-command (format "astyle --options=%s" astyle-config-file)
   "Astyle format command.")
 
-(defun kevin/astyle-format-region (start end)
-  "Run astyle command on region."
-  (interactive "r")
-  (shell-command-on-region start end astyle-command nil t (get-buffer-create "*Messages*") nil))
-
-(defun kevin/astyle-format-buffer ()
-  "Run astyle command on current buffer."
+(defun kevin/astyle-format-region-or-buffer ()
+  "Format the current region or buffer with astyle command"
   (interactive)
   (let ((current-pos (point)))
-    (kevin/astyle-format-region (point-min) (point-max))
+    (if (region-active-p)
+        (shell-command-on-region (region-beginning) (region-end) astyle-command nil t)
+      (shell-command-on-region (point-min) (point-max) astyle-command nil t))
     (goto-char current-pos)
-    ;; fix config bug with function: kevin/auto-save-buffer
     (if mark-active (deactivate-mark))))
 
-(add-hook 'before-save-hook '(lambda ()
-                               (when (eq major-mode 'c++-mode)
-                                 (kevin/astyle-format-buffer))))
+(defun kevin/clang-format-region-or-buffer ()
+  "Format the current region or buffer with clang-format.
+if .clang-format exists in the projectile root, Otherwise, use google style by default"
+  (interactive)
+  (save-excursion
+    (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
+      (setq clang-format-style-option "file"))
+    (if (region-active-p)
+        (clang-format-region (region-beginning) (region-end))
+      (clang-format-buffer))))
+
+(defun kevin/c++-format-on-save ()
+  (if (eq kevin-c++-format-tool 'clang-format)
+      (add-hook 'before-save-hook #'kevin/clang-format-region-or-buffer nil t)
+    (add-hook 'before-save-hook #'kevin/astyle-format-region-or-buffer nil t)))
+
+(add-hook 'c++-mode-hook 'kevin/c++-format-on-save)
+
+(use-package clang-format
+  :if (eq kevin-c++-format-tool 'clang-format)
+  :commands (clang-format-buffer clang-format-region)
+  :config
+  (setq clang-format-style-option "google"))
+
 ;;------------------------ code format -----------------------------------------
 
 

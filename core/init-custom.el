@@ -45,5 +45,20 @@
   :type 'boolean
   :group 'kevin-customize-group)
 
+(defcustom kevin-c++-format-tool 'clang-format
+  "Format tool used in c++ mode."
+  :type '(choice
+          (const :tag "clang-format" clang-format)
+          (const :tag "astyle" astyle))
+  :group 'kevin-customize-group)
+
+(defcustom kevin-c++-backend 'irony
+  "Company backend in c++ mode."
+  :type '(choice
+          (const :tag "irony" irony)
+          (const :tag "ycmd" ycmd))
+  :group 'kevin-customize-group)
+
+
 (provide 'init-custom)
 ;;; init-custom ends here
