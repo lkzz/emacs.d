@@ -72,7 +72,11 @@
     "C-w" 'evil-delete-backward-word)
   :config
   ;; Use evil as a default jump handler
-  (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition))
+  (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition)
+  (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
+  (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
+  (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
+  (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element))
 
 (use-package evil-escape
   :after evil

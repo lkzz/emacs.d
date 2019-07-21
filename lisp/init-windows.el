@@ -197,7 +197,6 @@
     (add-to-list 'golden-ratio-exclude-buffer-names n)))
 
 (use-package centered-cursor-mode
-  :disabled
   :commands (centered-cursor-mode global-centered-cursor-mode)
   :diminish centered-cursor-mode "⊝"
   :init
