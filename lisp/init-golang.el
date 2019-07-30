@@ -89,6 +89,7 @@
               ([remap xref-find-definitions] . godef-jump)
               ("C-c R" . go-remove-unused-imports)
               ("<f1>" . godoc-at-point))
+  :hook (go-mode . lsp-deferred)
   :config
   (kevin/define-jump-handlers go-mode godef-jump)
   (setq gofmt-command "goimports") ; use goimports instead of gofmt
