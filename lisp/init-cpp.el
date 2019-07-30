@@ -13,9 +13,6 @@
 ;;
 ;;; Code:
 
-(defvar kevin-c++-backend 'irony
-  "Enable `ycmd or `irony support")
-
 (defvar c++-enable-rtags-completion t
   "If `nil', RTags completion is disabled when the RTags backend is enabled.")
 
@@ -170,6 +167,7 @@
 
 ;;------------------------------------ccls---------------------------------------
 (use-package ccls
+  :if (eq kevin-c++-backend 'ccls)
   :defines projectile-project-root-files-top-down-recurring
   :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda ()
                                                    (require 'ccls)

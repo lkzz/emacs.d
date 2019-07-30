@@ -52,9 +52,10 @@
           (const :tag "astyle" astyle))
   :group 'kevin-customize-group)
 
-(defcustom kevin-c++-backend 'irony
+(defcustom kevin-c++-backend 'ccls
   "Company backend in c++ mode."
   :type '(choice
+          (const :tag "ccls" ccls)
           (const :tag "irony" irony)
           (const :tag "ycmd" ycmd))
   :group 'kevin-customize-group)
