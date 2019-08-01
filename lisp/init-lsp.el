@@ -15,11 +15,9 @@
 
 (use-package lsp-mode
   :diminish lsp-mode "ⓛ"
-  :commands lsp
-  :hook ((c-mode c++-mode python-mode go-mode) . lsp)
+  :hook ((c-mode c++-mode python-mode go-mode) . lsp-deferred)
   :config
   (setq lsp-enable-xref t
-        lsp-auto-configure t
         lsp-enable-snippet t
         lsp-auto-guess-root t
         lsp-inhibit-message t
@@ -37,8 +35,6 @@
         lsp-clients-go-gocode-completion-enabled nil))
 
 (use-package lsp-ui
-  :commands lsp-ui-mode
-  :hook (lsp-mode . lsp-ui-mode)
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references)
@@ -47,7 +43,7 @@
 	          ("C-c r i" . lsp-ui-imenu)
 	          ("C-c r f" . lsp-ui-sideline-apply-code-actions)
 	          ("C-c r n" . lsp-rename))
-  :config
+  :init
   (setq lsp-ui-peek-enable t
         lsp-ui-doc-enable nil
         lsp-ui-imenu-enable t
@@ -56,9 +52,7 @@
         lsp-ui-sideline-ignore-duplicate t))
 
 (use-package company-lsp
-  :after (company lsp-mode)
-  :commands company-lsp
-  :config
+  :init
   (setq company-lsp-async t
         company-lsp-enable-snippet t
         company-lsp-cache-candidates 'auto

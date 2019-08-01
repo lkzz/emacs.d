@@ -14,15 +14,6 @@
 ;;; Code:
 
 (defun kevin/cxx-mode-setup ()
-  (setq-local company-backends '(
-                                 company-lsp
-                                 company-keywords
-                                 company-gtags
-                                 company-yasnippet
-                                 company-capf
-                                 company-dabbrev-code
-                                 company-files
-                                 ))
   (require 'rtags)
 
   (setq c-default-style "horstmann")
@@ -133,6 +124,7 @@
     "gY" 'rtags-cycle-through-diagnostics)
 
   (use-package company-rtags
+    :disabled
     :load-path "vendor/rtags"
     :init
     (setq rtags-completions-enabled t)
@@ -176,51 +168,6 @@
 
   )
 
-;;------------------------------------ycmd---------------------------------------
-(use-package ycmd
-  :if (eq kevin-c++-backend 'ycmd)
-  :hook (c++-mode . ycmd-mode)
-  :config
-  (setq url-show-status nil)
-  (setq request-message-level -1)
-  (kevin/define-jump-handlers c++-mode (ycmd-goto :async t))
-  (set-variable 'ycmd-global-config "/home/kevin/workspace/boss/.ycm_extra_conf.py")
-  (set-variable 'ycmd-server-command `("python3" ,(file-truename "~/workspace/third_party/ycmd/ycmd")))
-
-  (use-package company-ycmd
-    :after company
-    :config
-    (kevin/add-company-backends :backend company-ycmd :mode c++-mode))
-
-  (use-package flycheck-ycmd
-    :after (flycheck ycmd)
-    :config
-    (flycheck-ycmd-setup)
-    (when (not (display-graphic-p))
-      (setq flycheck-indication-mode nil)))
-
-  (use-package ycmd-eldoc
-    :disabled
-    :if (eq kevin-c++-backend 'ycmd)
-    :init
-    (add-hook 'ycmd-mode-hook 'ycmd-eldoc-setup))
-  )
-
-;;------------------------------------ccls---------------------------------------
-(use-package ccls
-  :if (eq kevin-c++-backend 'ccls)
-  :defines projectile-project-root-files-top-down-recurring
-  :hook ((c-mode c++-mode objc-mode) . (lambda ()
-                                         (require 'ccls)
-                                         (lsp-deferred)))
-  :config
-  (with-eval-after-load 'projectile
-    (setq projectile-project-root-files-top-down-recurring
-          (append '("compile_commands.json"
-                    ".ccls")
-                  projectile-project-root-files-top-down-recurring)))
-  )
-
 ;; -----------------------------------cmake--------------------------------------
 (use-package cmake-mode
   :mode (("CMakeLists\\.txt$" . cmake-mode)
@@ -229,12 +176,10 @@
   (setq cmake-tab-width 4))
 
 (use-package company-cmake
-  :disabled
   :after (company cmake-mode)
   :load-path "vendor"
   :config
-  (kevin/add-company-backends :backend company-cmake :mode cmake-mode)
-  )
+  (kevin/add-company-backend :backend company-cmake :mode cmake-mode))
 
 (use-package cmake-font-lock
   :hook (cmake-mode . font-lock-refresh-defaults))
