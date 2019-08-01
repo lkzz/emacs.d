@@ -110,6 +110,9 @@
         flycheck-emacs-lisp-load-path 'inherit
         flycheck-highlighting-mode 'symbols
         flycheck-check-syntax-automatically '(save mode-enabled))
+  ;; c/c++ mode
+  (setq flycheck-gcc-language-standard "c++11")
+  (setq flycheck-clang-language-standard "c++11")
   (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
 
 (use-package flycheck-posframe

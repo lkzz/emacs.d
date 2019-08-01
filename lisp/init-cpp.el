@@ -13,32 +13,73 @@
 ;;
 ;;; Code:
 
-(defvar c++-enable-rtags-completion t
-  "If `nil', RTags completion is disabled when the RTags backend is enabled.")
+(defun kevin/cxx-mode-setup ()
+  (setq-local company-backends '(
+                                 company-lsp
+                                 company-keywords
+                                 company-gtags
+                                 company-yasnippet
+                                 company-capf
+                                 company-dabbrev-code
+                                 company-files
+                                 ))
+  (require 'rtags)
 
-;;--------------------------------common----------------------------------------
-(defun kevin/c++-mode-setup ()
-  (setq c-basic-offset 4
-        tab-width c-basic-offset
-        c-default-style "java")
-
-  ;; config find-file.el
-  (setq cc-other-file-alist
-        '(("\\.c"   (".h"))
-          ("\\.cpp"   (".h"))
-          ("\\.h"   (".c"".cpp"))))
-  (setq ff-search-directories
-        '("." "../src" "../include"))
-
-  (if c++-enable-rtags-completion
-      (require 'rtags))
-  (define-key c++-mode-map (kbd "C-c C-o") 'ff-find-other-file))
-(add-hook 'c++-mode-hook 'kevin/c++-mode-setup)
+  (setq c-default-style "horstmann")
+  ;; add horstmann style - copy bsd style
+  (c-add-style "horstmann"
+               '("bsd"
+                 (c-offsets-alist
+                  (case-label . +)))
+               )  ;; end c-add-style
+  (setq c-basic-offset 4)
+  ;; don't mix tab and space indents
+  (setq indent-tabs-mode nil)
+  ;; don't change alignment of C type comments (fixes problem in JEdit)
+  (c-set-offset 'c 'c-lineup-dont-change)
+  ;; align a continued string under the one it continues
+  (c-set-offset 'statement-cont 'c-lineup-string-cont)
+  ;; align or indent after an assignment operator
+  (c-set-offset 'statement-cont 'c-lineup-math)
+  ;; align closing brace/paren with opening brace/paren
+  (c-set-offset 'arglist-close 'c-lineup-close-paren)
+  (c-set-offset 'brace-list-close 'c-lineup-close-paren)
+  ;; align current argument line with opening argument line
+  (c-set-offset 'arglist-cont-nonempty 'c-lineup-arglist)
+  ;; don't change indent of java 'throws' statement in method declaration
+  ;;     and other items after the function argument list
+  (c-set-offset 'func-decl-cont 'c-lineup-dont-change)
+  ;; always unindent C++ class access labels
+  (c-set-offset  'access-label -4)
+  ;; set to NOT Indent Namespaces
+  (c-set-offset  'namespace-open 0)
+  (c-set-offset  'namespace-close 0)
+  (c-set-offset  'innamespace 0)
+  )
 
 (use-package cc-mode
+  :hook ((c-mode c++-mode) . kevin/cxx-mode-setup)
+  :bind (:map c++-mode-map
+              ("C-c C-o" . ff-find-other-file))
+  :init
+  (setq cc-other-file-alist
+        '(("\\.c\\'"   (".h"))
+          ("\\.C\\'"   (".h" ".hpp" ".hxx"))
+          ("\\.cc\\'"  (".h" ".hpp" ".hxx"))
+          ("\\.cpp\\'" (".h" ".hpp" ".hxx"))
+          ("\\.cxx\\'" (".h" ".hpp" ".hxx"))
+          ("\\.tpp\\'" (".h" ".hpp" ".hxx"))
+          ("\\.tcc\\'" (".h" ".hpp" ".hxx"))
+          ("\\.h\\'"   (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".hxx" ".hpp"))
+          ("\\.hpp\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))
+          ("\\.hxx\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))))
+  (setq ff-search-directories
+        '("." "../src" "../include"))
+  )
+
+(use-package c++-mode
   :ensure nil
-  :diminish abbrev-mode
-  :mode ("\\.h\\'" . c++-mode))
+  :mode ("\\.h|\\.cpp" . c++-mode))
 
 (use-package company-c-headers
   :after company
@@ -47,7 +88,7 @@
 
 (use-package modern-cpp-font-lock
   :diminish modern-c++-font-lock-mode
-  :hook (c++-mode . modern-c++-font-lock-mode))
+  :hook ((c-mode c++-mode) . modern-c++-font-lock-mode))
 ;;--------------------------------common----------------------------------------
 
 ;;--------------------------------rtag------------------------------------------
@@ -169,15 +210,16 @@
 (use-package ccls
   :if (eq kevin-c++-backend 'ccls)
   :defines projectile-project-root-files-top-down-recurring
-  :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda ()
-                                                   (require 'ccls)
-                                                   (lsp-deferred)))
+  :hook ((c-mode c++-mode objc-mode) . (lambda ()
+                                         (require 'ccls)
+                                         (lsp-deferred)))
   :config
   (with-eval-after-load 'projectile
     (setq projectile-project-root-files-top-down-recurring
           (append '("compile_commands.json"
                     ".ccls")
-                  projectile-project-root-files-top-down-recurring))))
+                  projectile-project-root-files-top-down-recurring)))
+  )
 
 ;; -----------------------------------cmake--------------------------------------
 (use-package cmake-mode
@@ -239,7 +281,6 @@ if .clang-format exists in the projectile root, Otherwise, use google style by d
   (setq clang-format-style-option "google"))
 
 ;;------------------------ code format -----------------------------------------
-
 
 (provide 'init-cpp)
 ;;; init-cpp.el ends here

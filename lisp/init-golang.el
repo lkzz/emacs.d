@@ -82,14 +82,12 @@
 (defun kevin/go-type-comment (f)
   (kevin/go-add-comment (car f) (cdr f)))
 
-
 (use-package go-mode
   :mode "\\.go\\'"
   :bind (:map go-mode-map
               ([remap xref-find-definitions] . godef-jump)
               ("C-c R" . go-remove-unused-imports)
               ("<f1>" . godoc-at-point))
-  :hook (go-mode . lsp-deferred)
   :config
   (kevin/define-jump-handlers go-mode godef-jump)
   (setq gofmt-command "goimports") ; use goimports instead of gofmt
@@ -204,7 +202,6 @@
     "rF" 'go-tag-remove))
 
 (use-package company-go
-  :unless kevin-lsp-mode-enable-p
   :after (company go-mode)
   :custom
   (company-go-gocode-args '("-builtin" "-unimported-packages" "-cache" "-fallback-to-source"))
