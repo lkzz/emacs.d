@@ -14,11 +14,12 @@
 ;;; Code:
 
 (use-package lsp-mode
-  :defer t
   :diminish lsp-mode "ⓛ"
   :commands lsp
+  :hook ((c-mode c++-mode python-mode go-mode) . lsp)
   :config
   (setq lsp-enable-xref t
+        lsp-auto-configure t
         lsp-enable-snippet t
         lsp-auto-guess-root t
         lsp-inhibit-message t
@@ -36,8 +37,8 @@
         lsp-clients-go-gocode-completion-enabled nil))
 
 (use-package lsp-ui
-  :defer t
   :commands lsp-ui-mode
+  :hook (lsp-mode . lsp-ui-mode)
   :bind (:map lsp-ui-mode-map
               ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
               ([remap xref-find-references] . lsp-ui-peek-find-references)
@@ -46,7 +47,6 @@
 	          ("C-c r i" . lsp-ui-imenu)
 	          ("C-c r f" . lsp-ui-sideline-apply-code-actions)
 	          ("C-c r n" . lsp-rename))
-  :hook (lsp-mode . lsp-ui-mode)
   :config
   (setq lsp-ui-peek-enable t
         lsp-ui-doc-enable nil

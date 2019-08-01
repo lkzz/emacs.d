@@ -34,11 +34,6 @@
           (const :tag "hard dark theme" gruvbox-dark-medium))
   :group 'kevin-customize-group)
 
-(defcustom kevin-lsp-mode-enable-p t
-  "Enable lsp mode or not."
-  :type 'boolean
-  :group 'kevin-customize-group)
-
 ;; Add yasnippet support for all company backends.
 (defcustom kevin-enable-company-yasnippet t
   "Enable yasnippet for all backends."
