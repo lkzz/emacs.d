@@ -1,4 +1,4 @@
-;;; init-better-default.el --- 些常用的琐碎的配置，应该在init.el的最后加载. -*- lexical-binding: t; -*-
+;;; init-better-default.el --- 常用的琐碎配置，应该在init.el的最后加载. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2019  Kevin Leung
 ;;
@@ -93,35 +93,35 @@
   :config
   (setq url-configuration-directory (concat kevin-cache-directory "url")))
 
-;; Keep cursor at end of lines. Require line-move-visual is nil.
-(setq track-eol t)
-(setq line-move-visual nil)
-
-;; (mouse-avoidance-mode 'animate)
-
-;; 当鼠标移动的时候自动转换frame，window或者minibuffer
-(setq mouse-autoselect-window t)
-;; 关闭像素滚动
-(setq mac-mouse-wheel-smooth-scroll nil)
+(use-package simple
+  :ensure nil
+  :hook (window-setup . size-indication-mode)
+  :init (setq column-number-mode t
+              line-number-mode t
+              kill-whole-line t               ; Kill line including '\n'
+              line-move-visual nil
+              track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
+              set-mark-command-repeat-pop t)) ; Repeating C-SPC after popping mark pops it again
 
 ;; 鼠标滚动设置
-(setq scroll-step 3
-      scroll-margin 3
+(when (display-graphic-p)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+        ;; 关闭像素滚动
+        mouse-wheel-progressive-speed nil))
+(setq scroll-step 1
+      scroll-margin 0
       scroll-conservatively 100000
-      mouse-wheel-progressive-speed nil
-      mouse-wheel-scroll-amount '(3 ((shift) . 3)))
+      ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
+      mouse-autoselect-window t)
 
 ;; 文件末尾插入新行
 (setq require-final-newline t
       next-line-add-newlines nil)
-(define-key global-map (kbd "RET") 'newline-and-indent)
 
 ;;删除时移到回收站
 (setq delete-by-moving-to-trash t)
-
-;; Control use of local variables in files you visit.
-;; :safe means set the safe variables, and ignore the rest.
-(setq enable-local-variables :safe)
+;; gc时忽略字体缓存
+(setq inhibit-compacting-font-caches t)
 
 (provide 'init-better-default)
 ;;; init-better-default.el ends here

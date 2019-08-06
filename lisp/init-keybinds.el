@@ -65,6 +65,7 @@
 
 ;; used as tmux prefix key
 (global-unset-key (kbd "C-q"))
+(define-key global-map (kbd "RET") 'newline-and-indent)
 
 (provide 'init-keybinds)
 ;;; init-keybinds ends here
