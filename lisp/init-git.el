@@ -131,72 +131,41 @@
          ("/\\.git/info/exclude\\'" . gitignore-mode)
          ("/git/ignore\\'" . gitignore-mode)))
 
-;; Resolve diff3 conflicts
 (use-package smerge-mode
   :ensure nil
   :diminish smerge-mode
-  :commands (smerge-mode
-             smerge-auto-leave
-             smerge-next
-             smerge-prev
-             smerge-keep-base
-             smerge-keep-upper
-             smerge-keep-lower
-             smerge-keep-all
-             smerge-keep-current
-             smerge-keep-current
-             smerge-diff-base-upper
-             smerge-diff-upper-lower
-             smerge-diff-base-lower
-             smerge-refine
-             smerge-ediff
-             smerge-combine-with-next
-             smerge-resolve
-             smerge-kill-current)
-  :preface
-  (defhydra hydra-smerge
-    (:color pink :hint nil :post (smerge-auto-leave))
-    "
-^Move^       ^Keep^               ^Diff^                 ^Other^
-^^-----------^^-------------------^^---------------------^^-------
-_n_ext       _b_ase               _<_: upper/base        _C_ombine
-_p_rev       _u_pper              _=_: upper/lower       _r_esolve
-^^           _l_ower              _>_: base/lower        _k_ill current
-^^           _a_ll                _R_efine
-^^           _RET_: current       _E_diff
-"
-    ("n" smerge-next)
-    ("p" smerge-prev)
-    ("b" smerge-keep-base)
-    ("u" smerge-keep-upper)
-    ("l" smerge-keep-lower)
-    ("a" smerge-keep-all)
-    ("RET" smerge-keep-current)
-    ("\C-m" smerge-keep-current)
-    ("<" smerge-diff-base-upper)
-    ("=" smerge-diff-upper-lower)
-    (">" smerge-diff-base-lower)
-    ("R" smerge-refine)
-    ("E" smerge-ediff)
-    ("C" smerge-combine-with-next)
-    ("r" smerge-resolve)
-    ("k" smerge-kill-current)
-    ("ZZ" (lambda ()
-            (interactive)
-            (save-buffer)
-            (bury-buffer))
-     "Save and bury buffer" :color blue)
-    ("q" nil "cancel" :color blue))
-  :init
-  (kevin/set-leader-keys "gr" #'hydra-smerge/body)
+  :pretty-hydra
+  ((:color pink :quit-key "q")
+   ("Move"
+    (("n" smerge-next "next")
+     ("p" smerge-prev "previous"))
+    "Keep"
+    (("b" smerge-keep-base "base")
+     ("u" smerge-keep-upper "upper")
+     ("l" smerge-keep-lower "lower")
+     ("a" smerge-keep-all "all")
+     ("RET" smerge-keep-current "current")
+     ("C-m" smerge-keep-current "current"))
+    "Diff"
+    (("<" smerge-diff-base-upper "upper/base")
+     ("=" smerge-diff-upper-lower "upper/lower")
+     (">" smerge-diff-base-lower "upper/lower")
+     ("R" smerge-refine "refine")
+     ("E" smerge-ediff "ediff"))
+    "Other"
+    (("C" smerge-combine-with-next "combine")
+     ("r" smerge-resolve "resolve")
+     ("k" smerge-kill-current "kill"))))
+  :init (kevin/set-leader-keys "gr" #'smerge-mode-hydra/body)
   :hook ((find-file . (lambda ()
                         (save-excursion
                           (goto-char (point-min))
                           (when (re-search-forward "^<<<<<<< " nil t)
-                            (smerge-mode 1)))))
+                            (smerge-mode 1)
+                            (smerge-mode-hydra/body)))))
          (magit-diff-visit-file . (lambda ()
                                     (when smerge-mode
-                                      (smerge-hydra/body))))))
+                                      (smerge-mode-hydra/body))))))
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
@@ -211,17 +180,17 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (diff-hl-margin-delete ((t (:background "#ee6363"))))
   :hook ((after-init . global-diff-hl-mode)
          (dired-mode . diff-hl-dired-mode))
-  :preface
-  (defhydra hydra-diff-hl (:color pink :hint nil)
-    "
-[_p_] previous hunk [_n_] next hunk [_r_] revert hunk [_q_] quit\n
-"
-    ("p" diff-hl-previous-hunk)
-    ("n" diff-hl-next-hunk)
-    ("r" diff-hl-revert-hunk)
-    ("q" nil exit: t))
+  :pretty-hydra
+  ((:color pink :quit-key "q")
+   ("Move"
+    (("p" diff-hl-previous-hunk)
+     ("n" diff-hl-next-hunk))
+    "Action"
+    (("m" diff-hl-mark-hunk)
+     ("=" diff-hl-diff-goto-hunk)
+     ("r" diff-hl-revert-hunk))))
   :init
-  (kevin/set-leader-keys "gh" #'hydra-diff-hl/body)
+  (kevin/set-leader-keys "gh" #'diff-hl-hydra/body)
   :config
   ;; Highlight on-the-fly
   (diff-hl-flydiff-mode 1)
