@@ -7,3 +7,6 @@
 [submodule "vendor/aweshell"]
 	path = vendor/aweshell
 	url = https://github.com/manateelazycat/aweshell.git
+[submodule "vendor/maple-imenu"]
+	path = vendor/maple-imenu
+	url = https://github.com/honmaple/emacs-maple-imenu.git

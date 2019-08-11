@@ -13,15 +13,18 @@
 ;;
 ;;; Code:
 
-(kevin/declare-prefix "t" "toggle")
-(use-package imenu-list
-  :defer t
+;; with use-package
+(use-package maple-imenu
+  :ensure nil
+  :commands (maple-imenu)
+  :load-path "vendor/maple-imenu"
   :init
-  (kevin/set-leader-keys "ti" 'imenu-list-smart-toggle)
+  (kevin/set-leader-keys "ti" 'maple-imenu)
   :config
-  (setq imenu-list-size     0.2)
-  (setq imenu-list-position 'right)
-  (setq imenu-list-focus-after-activation t))
+  (setq maple-imenu-autoupdate t
+        maple-imenu-width 25
+        maple-imenu-indent 2
+        maple-imenu-display-alist '((side . right) (slot . -1))))
 
 (provide 'init-imenu)
 ;;; init-imenu.el ends here
