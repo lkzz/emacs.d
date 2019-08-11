@@ -13,9 +13,9 @@
 ;;
 ;;; Code:
 
-(setq package-archives '(("gnu"   . "http://mirrors.163.com/elpa/gnu/")
-                         ("melpa" . "http://mirrors.163.com/elpa/melpa/")
-                         ("org"   . "http://mirrors.163.com/elpa/org/")))
+(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
+                         ("melpa" . "http://elpa.emacs-china.org/elpa/melpa/")
+                         ("org"   . "http://elpa.emacs-china.org/elpa/org/")))
 
 
 ;;; Fire up package.el
@@ -43,6 +43,7 @@
 (use-package diminish)
 (use-package bind-key)
 (use-package hydra)
+(use-package pretty-hydra)
 (use-package posframe)
 (use-package dash)
 (use-package dash-functional)

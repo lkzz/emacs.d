@@ -108,7 +108,7 @@
   (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
         ;; 关闭像素滚动
         mouse-wheel-progressive-speed nil))
-(setq scroll-step 1
+(setq scroll-step 3
       scroll-margin 0
       scroll-conservatively 100000
       ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
