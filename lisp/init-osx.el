@@ -17,7 +17,7 @@
   :hook (after-init . exec-path-from-shell-initialize)
   :init
   (setq exec-path-from-shell-check-startup-files nil
-        exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH" "GOPATH" "GOROOT")
+        exec-path-from-shell-variables '("PATH" "MANPATH")
         exec-path-from-shell-arguments '("-l")))
 
 (use-package counsel-osx-app
