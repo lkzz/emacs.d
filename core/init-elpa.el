@@ -76,6 +76,7 @@
       (which-key-add-major-mode-key-based-replacements mode full-prefix name)))
   :config
   (setq which-key-idle-delay 0.3
+        which-key-compute-remaps t
         which-key-min-display-lines 1
         which-key-add-column-padding 1
         which-key-max-display-columns nil
@@ -89,6 +90,11 @@
   (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))
   (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil)))
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
+
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-interval 7
+        auto-package-update-delete-old-versions t))
 
 
 (provide 'init-elpa)
