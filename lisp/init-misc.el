@@ -195,6 +195,10 @@
   (with-eval-after-load 'projectile
     (defalias 'projectile-ripgrep 'rg-project)
     (bind-key "s R" #'rg-project projectile-command-map))
+  (kevin/set-leader-keys
+    "sc" 'rg-dwim-current-dir
+    "sf" 'rg-dwim-current-file
+    "s/" 'counsel-rg)
   (with-eval-after-load 'counsel
     (bind-keys :map rg-global-map
                ("c r" . counsel-rg)

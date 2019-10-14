@@ -33,6 +33,7 @@
 ;;     go get -u github.com/sqs/goreturns
 ;;     go get -u github.com/rogpeppe/godef
 ;;     go get -u golang.org/x/tools/cmd/...
+;;     go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint
 
 ;;; Code:
 
@@ -83,18 +84,21 @@
   (kevin/go-add-comment (car f) (cdr f)))
 
 (use-package go-mode
-  :mode "\\.go\\'"
+  :mode ("\\.go\\'" . go-mode)
   :bind (:map go-mode-map
               ([remap xref-find-definitions] . godef-jump)
               ("C-c R" . go-remove-unused-imports)
               ("<f1>" . godoc-at-point))
   :config
+  ;; Env vars
+  (with-eval-after-load 'exec-path-from-shell
+    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
   (kevin/define-jump-handlers go-mode godef-jump)
   (setq gofmt-command "goimports") ; use goimports instead of gofmt
   (add-hook 'go-mode-hook 'setup-go-mode-compile)
   (add-hook 'before-save-hook #'gofmt-before-save)
-  (make-local-variable 'after-save-hook)
-  (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
+  ;; (make-local-variable 'after-save-hook)
+  ;; (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
   (kevin/declare-prefix-for-major-mode 'go-mode "i" "import")
   (kevin/declare-prefix-for-major-mode 'go-mode "g" "jump")
   (kevin/declare-prefix-for-major-mode 'go-mode "h" "help")
@@ -114,26 +118,35 @@
     "gj" 'godef-jump
     "gc" 'go-coverage))
 
-;; Run: M-x `go-projectile-install-tools'
-(use-package go-projectile
-  :after (go-mode projectile)
-  :commands (go-projectile-mode go-projectile-switch-project)
-  :hook ((go-mode . go-projectile-mode)
-         (projectile-after-switch-project . go-projectile-switch-project)))
-
-(use-package go-eldoc
-  :after (go-mode eldoc)
-  :commands (godoc-at-point)
-  :hook (go-mode . go-eldoc-setup))
-
-(use-package golint
-  :after go-mode)
-
-(use-package govet
-  :after go-mode)
-
-(use-package go-errcheck
-  :after go-mode)
+;; Install: go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+(use-package flycheck-golangci-lint
+  :after flycheck
+  :hook (go-mode . (lambda ()
+                     "Enable golangci-lint."
+                     (setq flycheck-disabled-checkers '(go-gofmt
+                                                        go-golint
+                                                        go-vet
+                                                        go-build
+                                                        go-test
+                                                        go-errcheck))
+                     (flycheck-golangci-lint-setup)))
+  :init
+  (setq flycheck-golangci-lint-deadline "1m"
+        flycheck-golangci-lint-tests t
+        flycheck-golangci-lint-fast t
+        flycheck-golangci-lint-enable-linters '(govet
+                                                errcheck
+                                                staticcheck
+                                                goimport
+                                                unused
+                                                gosimple
+                                                structcheck
+                                                varcheck
+                                                ineffassign
+                                                decode
+                                                unconvert
+                                                typecheck)
+        flycheck-golangci-lint-disable-linters '()))
 
 (use-package go-guru
   :after go-mode
@@ -178,10 +191,6 @@
     "tm" 'go-test-current-file
     "tp" 'go-test-current-project))
 
-(use-package go-imenu
-  :after go-mode
-  :config (add-hook 'go-mode-hook 'go-imenu-setup))
-
 (use-package godoctor
   :after go-mode
   :config
@@ -202,6 +211,7 @@
     "rF" 'go-tag-remove))
 
 (use-package company-go
+  :disabled
   :after (company go-mode)
   :custom
   (company-go-gocode-args '("-builtin" "-unimported-packages" "-cache" "-fallback-to-source"))
