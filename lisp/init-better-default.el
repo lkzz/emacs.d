@@ -39,7 +39,7 @@
 
 (setq-default indent-tabs-mode nil ;; do not insert tab indentation
               tab-width 4 ;; 将TAB显示为4个空格.
-              fill-column 80 ;; 设置列宽度
+              fill-column 100 ;; 设置列宽度
               buffers-menu-max-size 30
               case-fold-search t
               compilation-scroll-output t
@@ -98,7 +98,7 @@
   :hook (window-setup . size-indication-mode)
   :init (setq column-number-mode t
               line-number-mode t
-              kill-whole-line t               ; Kill line including '\n'
+              ;; kill-whole-line t               ; Kill line including '\n'
               line-move-visual nil
               track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
               set-mark-command-repeat-pop t)) ; Repeating C-SPC after popping mark pops it again
