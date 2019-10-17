@@ -57,10 +57,10 @@
               split-width-threshold nil    ; Disable horizontal window splitting
               majar-mode 'text-mode)
 
-;; 禁止显示警告提示
-(setq visible-bell nil)
-;; 关闭警告提示音
-(setq ring-bell-function 'ignore)
+(setq confirm-nonexistent-file-or-buffer t)
+;; How to construct unique buffer names for files with the same base name.
+(setq uniquify-buffer-name-style 'forward)
+
 ;; 一键删除选择区域
 (delete-selection-mode t)
 ;; 简化yes-or-no 输入
@@ -102,17 +102,6 @@
               line-move-visual nil
               track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
               set-mark-command-repeat-pop t)) ; Repeating C-SPC after popping mark pops it again
-
-;; 鼠标滚动设置
-(when (display-graphic-p)
-  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
-        ;; 关闭像素滚动
-        mouse-wheel-progressive-speed nil))
-(setq scroll-step 3
-      scroll-margin 0
-      scroll-conservatively 100000
-      ;; 当鼠标移动的时候自动转换frame，window或者minibuffer
-      mouse-autoselect-window t)
 
 ;; 文件末尾插入新行
 (setq require-final-newline t
