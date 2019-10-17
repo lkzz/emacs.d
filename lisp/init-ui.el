@@ -31,8 +31,6 @@
 (setq ns-use-srgb-colorspace nil)
 ;; 去除全屏时的黑边
 (setq frame-resize-pixelwise t)
-;; 显示buffer末尾空行fringe
-(setq indicate-empty-lines t)
 ;; 移除工具栏
 (if (fboundp 'tool-bar-mode)
     (tool-bar-mode -1))
@@ -49,14 +47,49 @@
 (setq initial-scratch-message kevin-scratch-message)
 ;; 高亮当前行
 (add-hook 'after-init-hook (lambda() (global-hl-line-mode t)))
-;; 设置光标形状
-(setq-default cursor-type '(bar . 3))
-;; 设置光标颜色
-(add-to-list 'default-frame-alist '(cursor-color . "red"))
+
+;;=================== 鼠标设置 =======================================
+;; middle-click paste at point, not at click
+(setq mouse-yank-at-point t)
+
+;; Enable mouse in terminal Emacs
+(add-hook 'tty-setup-hook #'xterm-mouse-mode)
+
+;; 鼠标滚动设置
+(when kevin-mac-p
+  ;; sane trackpad/mouse scroll settings
+  (setq mac-redisplay-dont-reset-vscroll t
+        mac-mouse-wheel-smooth-scroll nil))
+
+(setq hscroll-margin 2
+      hscroll-step 1
+      scroll-conservatively 10
+      scroll-margin 0
+      scroll-preserve-screen-position t
+      ;; mouse
+      mouse-wheel-scroll-amount '(5 ((shift) . 2))
+      mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
+
+;; Remove hscroll-margin in shells, otherwise it causes jumpiness
+(add-hook 'eshell-mode-hook (lambda() (setq hscroll-margin 0)))
+(add-hook 'term-mode-hook (lambda() (setq hscroll-margin 0)))
+;;=================== 鼠标设置 =======================================
+
+;;=================== 光标设置 =======================================
 ;; 禁止光标闪烁
 (blink-cursor-mode -1)
-;; 禁止响铃
+;; Don't blink the paren matching the one at point.
+(setq blink-matching-paren nil)
+;; Don't stretch the cursor to fit wide characters, it is disorienting,
+;; especially for tabs.
+(setq x-stretch-cursor nil)
+;;=================== 光标设置 =======================================
+
+;; 禁止显示警告提示
+(setq visible-bell nil)
+;; 关闭警告提示音
 (setq ring-bell-function 'ignore)
+
 ;; 标题栏格式设置
 (setq frame-title-format
       '(:eval (if (buffer-file-name)
@@ -65,7 +98,11 @@
 (when (boundp 'ns-pop-up-frames)
   (setq ns-pop-up-frames nil))
 
-;; 安装常用的主题
+;; Don't resize emacs in steps, it looks weird.
+(setq window-resize-pixelwise t
+      frame-resize-pixelwise t)
+
+;;========================= 安装常用的主题 ===========================
 (use-package doom-themes
   :defer t
   :config
@@ -79,9 +116,10 @@
               (lambda (frame)
                 (load-theme kevin-theme-selected t)))
   (load-theme kevin-theme-selected t))
-;; (if (display-graphic-p)
-;;     (load-theme kevin-theme-selected t)
-;; (load-theme 'sanityinc-tomorrow-night t))
+
+;; Underline looks a bit better when drawn lower
+(setq x-underline-at-descent-line t)
+;;========================= 安装常用的主题 ===========================
 
 ;; ;; 启动时全屏
 ;; (when (featurep 'cocoa)
@@ -106,7 +144,12 @@
 ;; 窗口最大化
 (add-hook 'after-init-hook 'toggle-frame-maximized)
 
-;; fringe 美化,left fringe with 4 pixel ,right fringe width:8 pixel
+;;======================== fringe 美化 =====================
+(setq indicate-buffer-boundaries nil)
+;; 不显示buffer末尾空行fringe
+(setq indicate-empty-lines nil)
+;; remove continuation arrow on right fringe
+;; (delq! 'continuation fringe-indicator-alist 'assq)
 (when (fboundp 'set-fringe-mode)
   (set-fringe-mode '(4 . 8)))
 ;; 设置visual line fringe bitmap
@@ -131,12 +174,49 @@
   (set-fringe-bitmap-face 'left-curly-arrow 'warning)
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)))
 
-(add-hook 'after-init-hook 'turn-on-visual-line-mode)
+;; doesn't exist in terminal Emacs; we define it to prevent errors
+(unless (fboundp 'define-fringe-bitmap)
+  (fset 'define-fringe-bitmap #'ignore))
+
+;; =========================== minbuffer =============================
+;;
+;;; Minibuffer
+
+;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
+;; _while_ we're in the minibuffer.
+(setq enable-recursive-minibuffers t)
+
+;; Show current key-sequence in minibuffer, like vim does. Any feedback after
+;; typing is better UX than no feedback at all.
+(setq echo-keystrokes 0.02)
+
+;; Expand the minibuffer to fit multi-line text displayed in the echo-area. This
+;; doesn't look too great with direnv, however...
+(setq resize-mini-windows 'grow-only
+      ;; But don't let the minibuffer grow beyond this size
+      max-mini-window-height 0.15)
+
+;; Disable help mouse-overs for mode-line segments (i.e. :help-echo text).
+;; They're generally unhelpful and only add confusing visual clutter.
+(setq mode-line-default-help-echo nil
+      show-help-function nil)
+
+;; Typing yes/no is obnoxious when y/n will do
+(fset #'yes-or-no-p #'y-or-n-p)
+
+;; Try really hard to keep the cursor from getting stuck in the read-only prompt
+;; portion of the minibuffer.
+(setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
+(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+;; =========================== minbuffer =============================
 
 (use-package vi-tilde-fringe
   :if (fboundp 'set-fringe-mode)
   :diminish vi-tilde-fringe-mode
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
+;;======================== fringe 美化 =====================
+
+(add-hook 'after-init-hook 'turn-on-visual-line-mode)
 
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
