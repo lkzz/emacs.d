@@ -40,7 +40,9 @@
 (use-package restart-emacs
   :defer t
   :init
-  (kevin/set-leader-keys "qr" 'restart-emacs))
+  (kevin/set-leader-keys
+    ";r" 'restart-emacs
+    ";q"  'save-buffers-kill-terminal))
 
 (use-package server
   :config
@@ -147,18 +149,19 @@
 
 (use-package savehist
   :ensure nil
-  :init
-  ;; Minibuffer history
+  :config
   (setq savehist-file (concat kevin-cache-directory "savehist")
-        enable-recursive-minibuffers t ; Allow commands in minibuffers
-        history-length 1000
-        savehist-additional-variables '(mark-ring
-                                        global-mark-ring
-                                        search-ring
-                                        regexp-search-ring
-                                        extended-command-history)
-        savehist-autosave-interval 60)
-  (savehist-mode t))
+        savehist-save-minibuffer-history t
+        savehist-autosave-interval nil ; save on kill only
+        savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+  (savehist-mode +1)
+  (add-hook 'kill-emacs-hook
+            (defun kevin/unpropertize-kill-ring ()
+              "Remove text properties from `kill-ring' for a smaller savehist file."
+              (setq kill-ring (cl-loop for item in kill-ring
+                                       if (stringp item)
+                                       collect (substring-no-properties item)
+                                       else if item collect it)))))
 
 ;; Hideshow
 (use-package hideshow
@@ -179,12 +182,6 @@
   :init
   (setq amx-history-length 10
         amx-save-file (concat kevin-cache-directory "amx-items")))
-
-(use-package wgrep
-  :disabled
-  :init
-  (setq wgrep-auto-save-buffer t
-        wgrep-change-readonly-file t))
 
 (use-package rg
   :hook (after-init . rg-enable-default-bindings)

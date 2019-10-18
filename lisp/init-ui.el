@@ -45,8 +45,6 @@
       initial-buffer-choice  nil)
 ;; 设置scratch buffer message
 (setq initial-scratch-message kevin-scratch-message)
-;; 高亮当前行
-(add-hook 'after-init-hook (lambda() (global-hl-line-mode t)))
 
 ;;=================== 鼠标设置 =======================================
 ;; middle-click paste at point, not at click
@@ -223,15 +221,9 @@
   :ensure nil
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
-  (setq-default display-line-numbers-width 2)
-  ;; (setq-default display-line-numbers-type 'relative)
+  (setq-default display-line-numbers-width 3)
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
-
-(use-package emojify
-  :disabled
-  :init
-  (add-hook 'after-init-hook #'global-emojify-mode))
 
 (provide 'init-ui)
 ;;; init-ui ends here
