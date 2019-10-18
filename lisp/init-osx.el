@@ -24,7 +24,7 @@
   :defer t
   :if kevin-mac-p
   :init
-  (kevin/set-leader-keys "aa" 'counsel-osx-app))
+  (kevin/set-leader-keys "oa" 'counsel-osx-app))
 
 (use-package reveal-in-osx-finder
   :defer t

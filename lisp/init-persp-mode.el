@@ -49,7 +49,6 @@
      ("x" spacemacs/layouts-ts-kill)
      ("X" spacemacs/layouts-ts-kill-other :exit t))))
   :init
-  (kevin/declare-prefix "l" "layout")
   (kevin/set-leader-keys "l" #'persp-mode-hydra/body)
   :config
   (setq persp-autokill-buffer-on-remove 'kill-weak

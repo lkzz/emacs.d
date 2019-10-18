@@ -83,8 +83,8 @@
         which-key-sort-uppercase-first nil
         which-key-side-window-max-width 0.33
         which-key-side-window-max-height 0.25
-        which-key-allow-imprecise-window-fit t ; performance
         which-key-sort-order #'which-key-prefix-then-key-order)
+  (which-key-setup-side-window-bottom)
   (add-to-list 'which-key-replacement-alist '(("TAB" . nil) . ("↹" . nil)))
   (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil)))
   (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))

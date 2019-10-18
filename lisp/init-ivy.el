@@ -18,7 +18,7 @@
   :init
   (kevin/set-leader-keys
     "SPC" 'counsel-M-x
-    "/" 'counsel-rg
+    "s/" 'counsel-rg
     "ff" 'counsel-find-file
     "fr" 'counsel-recentf
     "ss" 'swiper)

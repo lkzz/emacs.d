@@ -13,59 +13,76 @@
 ;;
 ;;; Code:
 
+;; used as tmux prefix key
+(global-unset-key (kbd "C-q"))
+(define-key global-map (kbd "RET") 'newline-and-indent)
+
 (kevin/declare-prefix "c" "comment")
 (kevin/declare-prefix "f" "file")
-(kevin/declare-prefix "h" "help")
-(kevin/declare-prefix "j" "jump")
+(kevin/declare-prefix "l" "layout")
 (kevin/declare-prefix "p" "project")
-(kevin/declare-prefix "q" "quit")
 (kevin/declare-prefix "s" "search")
 
-(kevin/set-leader-keys "fi" #'kevin/open-init-file)
+;; delete related keybindings
+(kevin/declare-prefix "d" "delete")
+(kevin/set-leader-keys
+  "dd" #'kevin/delete-delimiter-enclosed-text
+  "df" 'delete-frame
+  "dw" 'kevin/delete-word)
+
+;; Help related keybindings
+(kevin/declare-prefix "h" "help")
+(kevin/set-leader-keys
+  "hd" 'describe-function
+  "hf" 'find-function
+  "hk" 'describe-key
+  "hv" 'describe-variable)
+
+(kevin/declare-prefix "j" "jump")
+(kevin/set-leader-keys
+  "jm" 'kevin/jump-match-delimiter)
+
+;; Open applications with from emacs
+(kevin/declare-prefix "o" "open")
+(kevin/set-leader-keys
+  "oi" #'kevin/open-init-file
+  "ot" #'kevin/open-iterm
+  "ow" #'kevin/open-wechat
+  "oy" #'kevin/open-youdao)
+
+(kevin/declare-prefix ";" "custom")
+(kevin/set-leader-keys
+  ";=" 'kevin/increase-fontsize
+  ";-" 'kevin/decrease-fontsize)
 
 ;; Toggle
 (kevin/declare-prefix "t" "toggle")
 (kevin/set-leader-keys
-  "tM" 'toggle-major-mode
   "tb" 'toggle-scroll-bar
   "tw" 'toggle-word-wrap
-  ;; "tm" 'toggle-frame-maximized
-  "tf" 'toggle-frame-fullscreen
-  "tp" 'persp-mkevin/set-leader-keys
-  "tt" 'toggle-truncate-lines)
+  "t;" 'toggle-frame-fullscreen
+  "tt" 'toggle-truncate-lines
+  "tg" 'kevin/toggle-golden-ratio
+  "t'" 'kevin/toggle-aweshell)
 
-;; Open applications with from emacs
-(kevin/declare-prefix "a" "application")
+;; window related keybindings
+(kevin/declare-prefix "w" "window")
 (kevin/set-leader-keys
-  "ai" #'kevin/open-iterm
-  "aw" #'kevin/open-wechat
-  "ay" #'kevin/open-youdao)
-
-;; Misc related keybindings
-(kevin/set-leader-keys
-  "=" 'kevin/increase-fontsize
-  "-" 'kevin/decrease-fontsize
-  "hd" 'describe-function
-  "hf" 'find-function
-  "hk" 'describe-key
-  "hv" 'describe-variable
-  "qq" 'save-buffers-kill-terminal)
-
-;; Frame releated keybindings
-(kevin/declare-prefix "F" "frame")
-(kevin/set-leader-keys
-  "Fm" #'kevin/make-frame
-  "Fd" 'delete-frame)
-
-;; Delimiter releated keybindings
-(kevin/declare-prefix "d" "delimiter")
-(kevin/set-leader-keys
-  "dj" #'kevin/goto-match-delimiter
-  "dd" #'kevin/delete-delimiter-enclosed-text)
-
-;; used as tmux prefix key
-(global-unset-key (kbd "C-q"))
-(define-key global-map (kbd "RET") 'newline-and-indent)
+  "1"  'winum-select-window-1
+  "2"  'winum-select-window-2
+  "3"  'winum-select-window-3
+  "4"  'winum-select-window-4
+  "5"  'winum-select-window-5
+  "6"  'winum-select-window-6
+  "7"  'winum-select-window-7
+  "8"  'winum-select-window-8
+  "9"  'winum-select-window-9
+  "wd" 'delete-window
+  "wo" 'other-window
+  "wd" 'delete-window
+  "w/" #'kevin/split-window-right-and-focus
+  "w-" #'kevin/split-window-below-and-focus
+  "wD" 'delete-other-windows)
 
 (provide 'init-keybinds)
 ;;; init-keybinds ends here

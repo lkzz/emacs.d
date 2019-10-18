@@ -14,13 +14,15 @@
 ;;; Code:
 
 (use-package neotree
-  :commands (neotree-change-root
-             neotree-quick-look
-             neotree-toggle
+  :commands (neotree-show
              neotree-hide
-             neotree-enter)
+             neotree-toggle
+             neotree-dir
+             neotree-find
+             neo-global--with-buffer
+             neo-global--window-exists-p)
   :init
-  (kevin/set-leader-keys "ft" 'neotree-toggle)
+  (kevin/set-leader-keys "tf" 'neotree-toggle)
   (setq neo-create-file-auto-open t
         neo-auto-indent-point nil
         neo-autorefresh t

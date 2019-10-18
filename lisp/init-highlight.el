@@ -16,7 +16,12 @@
 ;; Highlight the current line
 (use-package hl-line
   :ensure nil
-  :hook (after-init . global-hl-line-mode))
+  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
+  :config
+  ;; Not having to render the hl-line overlay in multiple buffers offers a tiny
+  ;; performance boost. I also don't need to see it in other buffers.
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil))
 
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
@@ -27,15 +32,9 @@
   (set-face-bold-p 'show-paren-match t)              ;加粗显示括号匹配
   (set-face-background 'show-paren-match nil)        ;定义背景色
   (set-face-underline 'show-paren-match t)           ;显示下划线
-  (setq show-paren-delay 0
+  (setq show-paren-delay 0.1
         show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t))
-
-;; Highlight matching paren
-(use-package highlight-parentheses
-  :disabled
-  :diminish highlight-parentheses-mode
-  :hook (prog-mode . global-highlight-parentheses-mode))
 
 ;; Highlight show trailing whitespace
 (use-package whitespace
@@ -72,53 +71,48 @@
   :hook (prog-mode . ws-butler-mode)
   :init (setq ws-butler-keep-whitespace-before-point nil))
 
+(defun kevin/disable-highlight-indent-guides ()
+  (when highlight-indent-guides-mode
+    (highlight-indent-guides-mode -1)))
+
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
   :diminish highlight-indent-guides-mode
-  :hook (prog-mode . highlight-indent-guides-mode)
+  :hook ((prog-mode text-mode conf-mode) . highlight-indent-guides-mode)
+  :init
+  (setq highlight-indent-guides-method 'character)
   :config
+  (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
+  ;; `highlight-indent-guides' breaks in these modes
+  (add-hook 'visual-line-mode-hook #'kevin/disable-highlight-indent-guides)
+  (add-hook 'org-indent-mode-hook #'kevin/disable-highlight-indent-guides)
   (setq highlight-indent-guides-delay 0.5
-        highlight-indent-guides-method 'character
         highlight-indent-guides-auto-enabled nil)
-  (set-face-background 'highlight-indent-guides-odd-face "darkgray")
-  (set-face-background 'highlight-indent-guides-even-face "dimgray")
   (set-face-foreground 'highlight-indent-guides-character-face "dimgray"))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
   :diminish rainbow-mode
-  :hook ((text-mode . rainbow-mode)
-         (emacs-lisp-mode . rainbow-mode)))
+  :hook ((text-mode emacs-list-mode) . rainbow-mode))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
-  :hook (emacs-lisp-mode . rainbow-delimiters-mode))
+  :hook (emacs-lisp-mode . rainbow-delimiters-mode)
+  :config
+  (setq rainbow-delimiters-max-face-count 3))
 
-;; Highlight TODO/FIXME/BUG...
+;; Highlight TODO/FIXME/NOTE...
 (use-package hl-todo
   :hook (prog-mode . hl-todo-mode)
   :config
-  (setq hl-todo-keyword-faces `(("TODO"  . ,(face-foreground 'warning))
-                                ("FIXME" . ,(face-foreground 'error))
-                                ("NOTE"  . ,(face-foreground 'success)))))
-
-;; Show column indicator.
-(use-package fill-column-indicator
-  :disabled
-  :diminish auto-fill-mode
-  :config
-  (kevin/set-leader-keys "tF" 'fci-mode)
-  ;; NOTE fix display compatibility issue with company-mode
-  (defun on-off-fci-before-company(command)
-    (when (string= "show" command)
-      (turn-off-fci-mode))
-    (when (string= "hide" command)
-      (turn-on-fci-mode)))
-  (with-eval-after-load 'company-mode
-    (advice-add 'company-call-frontends :before #'on-off-fci-before-company))
-  (setq fci-rule-column 110)
-  (setq fci-rule-width 1)
-  (turn-on-auto-fill))
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        `(("TODO"       . ,(face-foreground 'warning))
+          ("FIXME"      . ,(face-foreground 'error))
+          ("HACK"       . ,(face-foreground 'font-lock-constant-face))
+          ("REVIEW"     . ,(face-foreground 'font-lock-keyword-face))
+          ("NOTE"       . ,(face-foreground 'success))
+          ("DEPRECATED" . ,(face-foreground 'font-lock-doc-face)))))
 
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon

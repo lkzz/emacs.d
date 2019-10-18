@@ -111,7 +111,7 @@ sets `kevin-jump-handlers' in buffers of that mode."
   (shell-command "open /Applications/Google\sChrome.app --args --enable-net-benchmarking"))
 
 ;;;###autoload
-(defun kevin/goto-match-delimiter ()
+(defun kevin/jump-match-delimiter ()
   "Go to the matching  if on (){}[], similar to vi style of %."
   (interactive)
   ;; first, check for "outside of bracket" positions expected by forward-sexp, etc

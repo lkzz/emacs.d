@@ -60,7 +60,6 @@
     (split-window (frame-root-window) (kevin/calculate-window-height) 'below)
     (other-window 1)
     (aweshell-toggle))
-  (kevin/set-leader-keys "'" 'kevin/toggle-aweshell)
   :config
   (setq eshell-highlight-prompt t
         eshell-prompt-function 'epe-theme-lambda
