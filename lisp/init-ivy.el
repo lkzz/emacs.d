@@ -22,6 +22,14 @@
     "ff" 'counsel-find-file
     "fr" 'counsel-recentf
     "ss" 'swiper)
+  (setq ivy-re-builders-alist
+        '((counsel-ag . ivy--regex-plus)
+          (counsel-rg . ivy--regex-plus)
+          (counsel-grep . ivy--regex-plus)
+          (swiper . ivy--regex-plus)
+          (swiper-isearch . ivy--regex-plus)
+          ;; Ignore order for non-fuzzy searches by default
+          (t . ivy--regex-ignore-order)))
   :bind (("C-s" . swiper-isearch)
          ("C-S-s" . swiper-all)
          ("C-c C-r" . ivy-resume)
@@ -60,22 +68,27 @@
   :hook ((after-init . ivy-mode)
          (ivy-mode . counsel-mode))
   :config
-  (setq ivy-height 12)
-  (setq ivy-use-selectable-prompt t)
-  (setq enable-recursive-minibuffers t) ; Allow commands in minibuffers
-  ;;add recent files and bookmarks to ‘ivy-switch-buffer’
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-fixed-height-minibuffer t)
-  (setq ivy-format-function #'ivy-format-function-arrow)
-  (setq ivy-count-format "(%d/%d) ")
-  (setq ivy-on-del-error-function nil)
-  (setq ivy-initial-inputs-alist nil)
-  (setq ivy-re-builders-alist
-        '((read-file-name-internal . ivy--regex-fuzzy)
-          (t . ivy--regex-plus)))
-  (setq swiper-action-recenter t)
-  (setq counsel-find-file-at-point t)
-  (setq counsel-yank-pop-separator "\n-------\n")
+  (setq ivy-height 15
+        ivy-wrap t
+        ivy-fixed-height-minibuffer t
+        projectile-completion-system 'ivy
+        ;; Don't use ^ as initial input
+        ivy-initial-inputs-alist nil
+        ;; disable magic slash on non-match
+        ivy-magic-slash-non-match-action nil
+        ;; don't show recent files in switch-buffer
+        ivy-use-virtual-buffers nil
+        ;; ...but if that ever changes, show their full path
+        ivy-virtual-abbreviate 'full
+        ;; don't quit minibuffer on delete-error
+        ivy-on-del-error-function nil
+        ;; enable ability to select prompt (alternative to `ivy-immediate-done')
+        ivy-use-selectable-prompt t
+        ivy-format-function #'ivy-format-function-arrow
+        ivy-count-format "(%d/%d) "
+        ;; when non-nil, frame blink in terminal
+        swiper-action-recenter nil
+        counsel-find-file-at-point t)
   ;; Integration with `magit'
   (with-eval-after-load 'magit
     (setq magit-completing-read-function 'ivy-completing-read)))
@@ -83,7 +96,10 @@
 ;; Ivy integration for Projectile
 (use-package counsel-projectile
   :after (counsel projectile)
-  :init (counsel-projectile-mode 1))
+  :init (counsel-projectile-mode 1)
+  :config
+  ;; no highlighting visited files; slows down the filtering
+  (ivy-set-display-transformer #'counsel-projectile-find-file nil))
 
 ;; More friendly interface for ivy
 (use-package ivy-rich
@@ -124,7 +140,6 @@
           (counsel-pt   . ivy--regex-plus)
           (swiper       . ivy--regex-plus)
           (t            . ivy--regex-fuzzy))))
-
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here
