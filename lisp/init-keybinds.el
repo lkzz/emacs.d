@@ -17,41 +17,6 @@
   (setq mac-command-modifier 'super
         mac-option-modifier 'meta))
 
-;;
-;;; Universal, non-nuclear escape
-;; refer page:https://github.com/hlissner/doom-emacs/blob/develop/core/core-keybinds.el
-;; `keyboard-quit' is too much of a nuclear option. I wanted an ESC/C-g to
-;; do-what-I-mean. It serves four purposes (in order):
-;;
-;; 1. Quit active states; e.g. highlights, searches, snippets, iedit,
-;;    multiple-cursors, recording macros, etc.
-;; 2. Close popup windows remotely (if it is allowed to)
-;; 3. Refresh buffer indicators, like git-gutter and flycheck
-;; 4. Or fall back to `keyboard-quit'
-;;
-;; And it should do these things incrementally, rather than all at once. And it
-;; shouldn't interfere with recording macros or the minibuffer. This may require
-;; you press ESC/C-g two or three times on some occasions to reach
-;; `keyboard-quit', but this is much more intuitive.
-
-(defvar kevin-keyboard-quit-hook nil
-  "A hook run when C-g is pressed (or ESC in normal mode, for evil users).")
-
-(defun kevin/keyboard-quit ()
-  "Run `kevin-keyboard-quit-hook'."
-  (interactive)
-  (cond ((minibuffer-window-active-p (minibuffer-window))
-         ;; quit the minibuffer if open.
-         (abort-recursive-edit))
-        ;; Run all escape hooks. If any returns non-nil, then stop there.
-        ((run-hook-with-args-until-success 'kevin-keyboard-quit-hook))
-        ;; don't abort macros
-        ((or defining-kbd-macro executing-kbd-macro) nil)
-        ;; Back to the default
-        ((keyboard-quit))))
-
-(global-set-key [remap keyboard-quit] #'kevin/keyboard-quit)
-
 ;; used as tmux prefix key
 (global-unset-key (kbd "C-q"))
 (define-key global-map (kbd "RET") 'newline-and-indent)
