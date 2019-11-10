@@ -53,10 +53,12 @@
   (general-evil-setup t)
   (general-create-definer kevin/set-leader-keys-for-major-mode
     :states '(normal visual)
+    :keymaps 'override ; keybindings that should not be overriden
     :prefix kevin-major-mode-leader-key)
   (general-create-definer kevin/set-leader-keys
     :states '(normal insert emacs visual)
     :prefix kevin-leader-key
+    :keymaps 'override ; keybindings that should not be overriden
     :non-normal-prefix kevin-emacs-leader-key))
 
 (use-package which-key
@@ -89,6 +91,10 @@
   (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil)))
   (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))
   (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil)))
+  ;; rename winum-select-window-1 entry to 1..9
+  (add-to-list 'which-key-replacement-alist '(("\\(.*\\)1" . "winum-select-window-1") . ("\\11..9" . "window 1..9")))
+  ;; hide winum-select-window-[2-9] entries
+  (add-to-list 'which-key-replacement-alist '((nil . "winum-select-window-[2-9]") . t))
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
 (use-package auto-package-update
