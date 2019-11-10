@@ -259,8 +259,7 @@ Argument VALUE 0 is transparent, 100 is opaque."
     (python-mode (call-interactively 'jedi:goto-definition))
     (otherwise
      (counsel-etags-find-tag-at-point)))
-  (setq this-command 'kevin/goto-definition)
-  )
+  (setq this-command 'kevin/goto-definition))
 
 (defun kevin/insert-elisp-file-header ()
   "Add minimal header and footer to an elisp buffer in order to placate flycheck."
@@ -337,8 +336,6 @@ Argument VALUE 0 is transparent, 100 is opaque."
               ,backend-list-name))
 
        (add-hook ',mode-hook-name ',init-func-name t))))
-
-
 
 (provide 'init-funcs)
 ;;; init-funcs.el ends here

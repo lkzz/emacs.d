@@ -47,8 +47,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
 (defconst kevin-scratch-message (format ";; Happy Hacking, %s - Emacs ♥ You!\n" kevin-user-name))
 
 ;; Default company backends.
-(defvar kevin-company-default-backends '(
-                                         company-dabbrev-code
+(defvar kevin-company-default-backends '(company-dabbrev-code
                                          ;; 当前文件所属编程语言的语法关键词
                                          company-keywords
                                          ;; 使用 completion-at-point-functions 的后端
@@ -56,8 +55,7 @@ pressing `<leader> m`. Set it to `nil` to disable it.")
                                          ;; 主要用来补全当前 buffer 中出现的 word
                                          company-dabbrev
                                          ;; 补全文件系统的路径后端
-                                         company-files
-                                         ))
+                                         company-files))
 
 (provide 'init-const)
 ;;; init-const.el ends here
