@@ -22,14 +22,6 @@
     "ff" 'counsel-find-file
     "fr" 'counsel-recentf
     "ss" 'swiper)
-  (setq ivy-re-builders-alist
-        '((counsel-ag . ivy--regex-plus)
-          (counsel-rg . ivy--regex-plus)
-          (counsel-grep . ivy--regex-plus)
-          (swiper . ivy--regex-plus)
-          (swiper-isearch . ivy--regex-plus)
-          ;; Ignore order for non-fuzzy searches by default
-          (t . ivy--regex-ignore-order)))
   :bind (("C-s" . swiper-isearch)
          ("C-S-s" . swiper-all)
          ("C-c C-r" . ivy-resume)
@@ -133,6 +125,7 @@
 
 ;; For better fuzzy searching
 (use-package flx
+  :disabled
   :init
   (setq ivy-re-builders-alist
         '((counsel-grep . ivy--regex-plus)
