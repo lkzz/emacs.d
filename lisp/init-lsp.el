@@ -32,31 +32,31 @@
         lsp-clients-go-use-binary-pkg-cache t
         lsp-clients-go-func-snippet-enabled t
         lsp-clients-go-max-parallelism 2
-        lsp-clients-go-gocode-completion-enabled nil))
+        lsp-clients-go-gocode-completion-enabled nil)
 
-(use-package lsp-ui
-  :bind (:map lsp-ui-mode-map
-              ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-              ([remap xref-find-references] . lsp-ui-peek-find-references)
-	          ("C-c r d" . lsp-ui-peek-find-definitions)
-	          ("C-c r r" . lsp-ui-peek-find-references)
-	          ("C-c r i" . lsp-ui-imenu)
-	          ("C-c r f" . lsp-ui-sideline-apply-code-actions)
-	          ("C-c r n" . lsp-rename))
-  :init
-  (setq lsp-ui-peek-enable t
-        lsp-ui-doc-enable nil
-        lsp-ui-imenu-enable t
-        lsp-ui-flycheck-enable t
-        lsp-ui-sideline-enable nil
-        lsp-ui-sideline-ignore-duplicate t))
+  (use-package lsp-ui
+    :bind (:map lsp-ui-mode-map
+                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+                ([remap xref-find-references] . lsp-ui-peek-find-references)
+                ("C-c r d" . lsp-ui-peek-find-definitions)
+                ("C-c r r" . lsp-ui-peek-find-references)
+                ("C-c r i" . lsp-ui-imenu)
+                ("C-c r f" . lsp-ui-sideline-apply-code-actions)
+                ("C-c r n" . lsp-rename))
+    :init
+    (setq lsp-ui-peek-enable t
+          lsp-ui-doc-enable nil
+          lsp-ui-imenu-enable t
+          lsp-ui-flycheck-enable t
+          lsp-ui-sideline-enable nil
+          lsp-ui-sideline-ignore-duplicate t))
 
-(use-package company-lsp
-  :init
-  (setq company-lsp-async t
-        company-lsp-enable-snippet t
-        company-lsp-cache-candidates 'auto
-        company-lsp-enable-recompletion t))
+  (use-package company-lsp
+    :init
+    (setq company-lsp-async t
+          company-lsp-enable-snippet t
+          company-lsp-cache-candidates 'auto
+          company-lsp-enable-recompletion t)))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
