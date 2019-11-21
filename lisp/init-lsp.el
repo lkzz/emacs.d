@@ -14,90 +14,49 @@
 ;;; Code:
 
 (use-package lsp-mode
-  :ensure t
-  :if kevin-lsp-mode-enable-p
-  :diminish lsp-mode
+  :diminish lsp-mode "ⓛ"
+  :hook ((c-mode c++-mode python-mode go-mode) . lsp-deferred)
   :config
-  (require 'lsp-imenu)
-  (setq create-lockfiles nil)
-  (setq lsp-inhibit-message t)
-  (setq lsp-message-project-root-warning t)
-  (setq lsp-hover-text-function 'lsp--text-document-signature-help)
-  (add-hook 'lsp-after-open-hook 'lsp-enable-imenu)
-  (add-hook 'prog-major-mode #'lsp-prog-major-mode-enable)
-
-  (defun lsp-restart-server ()
-    "Restart LSP server."
-    (interactive)
-    (lsp-restart-workspace)
-    (revert-buffer t t)
-    (message "LSP server restarted."))
+  (setq lsp-enable-xref t
+        lsp-enable-snippet t
+        lsp-auto-guess-root t
+        lsp-inhibit-message t
+        lsp-prefer-flymake nil
+        lsp-enable-indentation t
+        lsp-enable-symbol-highlighting nil
+        lsp-eldoc-render-all nil
+        lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
+        ;; lsp go client
+        lsp-clients-go-server "gopls"
+        lsp-clients-go-format-tool "goimports"
+        lsp-clients-go-use-binary-pkg-cache t
+        lsp-clients-go-func-snippet-enabled t
+        lsp-clients-go-max-parallelism 2
+        lsp-clients-go-gocode-completion-enabled nil)
 
   (use-package lsp-ui
-    :ensure t
-    :hook (lsp-mode . lsp-ui-mode)
     :bind (:map lsp-ui-mode-map
                 ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
                 ([remap xref-find-references] . lsp-ui-peek-find-references)
-	            ("C-c r d" . lsp-ui-peek-find-definitions)
-	            ("C-c r r" . lsp-ui-peek-find-references)
-	            ("C-c r i" . lsp-ui-imenu)
-	            ("C-c r F" . lsp-ui-sideline-apply-code-actions)
-	            ("C-c r R" . lsp-rename))
-    :config
-    (setq scroll-margin 0)
-    (setq lsp-ui-doc-enable t)
-    (setq lsp-ui-flycheck-enable t)
-    (setq lsp-ui-imenu-enable t)
-    (setq lsp-ui-sideline-ignore-duplicate t)
-    (setq lsp-ui-sideline-show-symbol t)
-    (setq lsp-ui-sideline-show-hover t)
-    (setq lsp-ui-sideline-show-flycheck t)
-    (setq lsp-ui-sideline-enable t)
+                ("C-c r d" . lsp-ui-peek-find-definitions)
+                ("C-c r r" . lsp-ui-peek-find-references)
+                ("C-c r i" . lsp-ui-imenu)
+                ("C-c r f" . lsp-ui-sideline-apply-code-actions)
+                ("C-c r n" . lsp-rename))
+    :init
+    (setq lsp-ui-peek-enable t
+          lsp-ui-doc-enable nil
+          lsp-ui-imenu-enable t
+          lsp-ui-flycheck-enable t
+          lsp-ui-sideline-enable nil
+          lsp-ui-sideline-ignore-duplicate t))
 
-    (use-package company-lsp
-      :ensure t
-      :after (company lsp-mode)
-      :config
-      (cl-pushnew 'company-lsp company-backends)
-      (setq company-lsp-async t)
-      (setq company-lsp-enable-snippet t)
-      (setq company-lsp-cache-candidates t))
+  (use-package company-lsp
+    :init
+    (setq company-lsp-async t
+          company-lsp-enable-snippet t
+          company-lsp-cache-candidates 'auto
+          company-lsp-enable-recompletion t)))
 
-    ;; Go support for lsp-mode using Sourcegraph's Go Language Server
-    ;; Install: go get -u github.com/sourcegraph/go-langserver
-    (use-package lsp-go
-      :ensure t
-      :after go-mode
-      :commands lsp-go-enable
-      :hook (go-mode . lsp-go-enable)
-      :config
-      (setq lsp-ui-flycheck-enable nil)
-      (setq lsp-go-gocode-completion-enabled t))
-
-
-    (use-package pyenv-mode
-      :ensure t
-      :config
-      (python-mode))
-
-    ;; Python support for lsp-mode using pyls.
-    ;; Install: pip install python-language-server
-    (use-package lsp-python
-      :ensure t
-      :after python-mode
-      :commands lsp-python-enable
-      :hook (python-mode . lsp-python-enable)
-      ;; :config
-      ;; (setq-default flycheck-flake8-maximum-line-length 100)
-      )
-    ;; Bash support for lsp-mode using Mads Hartmann's bash-language-server
-    ;; Install: npm i -g bash-language-server@1.4.0
-    ;; Require Python2.5+, use --python to specify.
-    (use-package lsp-sh
-      :commands lsp-sh-enable
-      :hook (sh-mode . lsp-sh-enable))
-
-    ))
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

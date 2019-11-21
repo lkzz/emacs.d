@@ -13,6 +13,9 @@
 ;;
 ;;; Code:
 
+(use-package hide-mode-line
+  :hook (neotree-mode . hide-mode-line-mode))
+
 ;;;###autload
 (defun kevin/maybe-alltheicon (&rest args)
   "Display octicon via `ARGS'."
@@ -39,39 +42,54 @@
       (setq output (concat ".../" output)))
     output))
 
-(use-package spaceline
-  :ensure t
+(use-package nyan-mode
+  :if (display-graphic-p)
+  :init
+  (setq nyan-animate-nyancat nil)
+  (nyan-mode t))
+
+(use-package anzu
+  :diminish anzu-mode
+  :bind (([remap query-replace] . anzu-query-replace)
+         ([remap query-replace-regexp] . anzu-query-replace-regexp)
+         :map isearch-mode-map
+         ([remap isearch-query-replace] . anzu-isearch-query-replace)
+         ([remap isearch-query-replace-regexp] . anzu-isearch-query-replace-regexp))
+  :init (add-hook 'after-init-hook #'global-anzu-mode)
   :config
-  (require 'spaceline-config)
-  ;; let spaceline handle auzu info in modeline
-  (setq anzu-cons-mode-line-p nil)
-  (setq powerline-default-separator 'arrow)
-  ;; get the nice-looking unicode numbers of window-numbering-mode
-  (setq spaceline-window-numbers-unicode t)
-  (setq spaceline-workspace-numbers-unicode t)
+  (setq anzu-replace-to-string-separator (if (char-displayable-p ?→) " → " " -> ")
+        ;; let spaceline handle auzu info in modeline
+        anzu-cons-mode-line-p nil))
+
+(use-package powerline
+  :defer t
+  :config
+  (setq powerline-height 23
+        powerline-default-separator (if (display-graphic-p) 'arrow 'utf-8)))
+
+(use-package spaceline
+  :defer t
+  :init
+  (add-hook 'after-init-hook (lambda () (require 'spaceline)))
+  :config
   ;; To get the mode-line highlight to change color depending on the evil state
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-  ;; turn off buffer size info segment
-  (spaceline-toggle-buffer-size-off)
-  (spaceline-toggle-remote-host-off)
-  (spaceline-toggle-major-mode-off)
-  (spaceline-toggle-flycheck-info-off)
-  (spaceline-toggle-selection-info-on)
-  (spaceline-toggle-input-method-on)
-  (spaceline-toggle-buffer-encoding-abbrev-on)
-  ;; configure the separator between the minor modes
-  (setq spaceline-minor-modes-separator "")
-  ;; define version control segment
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state))
+
+(use-package spaceline-segments
+  :ensure nil
+  :after spaceline
+  :config
+  (setq spaceline-window-numbers-unicode t
+        spaceline-minor-modes-separator ""
+        spaceline-workspace-numbers-unicode t)
+  ;;define version control segment
   (spaceline-define-segment version-control
     "Version control information."
     (when vc-mode
       (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
-        (powerline-raw
-         (concat
-          (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
-          " "
-          branch)))))
-
+        (powerline-raw (concat (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
+                               " "
+                               branch)))))
   ;; define buffer id segment
   (spaceline-define-segment buffer-id
     "Shorten buufer fileanme."
@@ -79,21 +97,59 @@
       (concat
        (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
        " "
-       (shorten-directory default-directory 15)
-       (file-relative-name buffer-file-name))))
+       (shorten-directory default-directory 6)
+       (file-relative-name buffer-file-name)))))
 
-  (use-package nyan-mode
-    :ensure t
-    :config
-    (setq nyan-animate-nyancat nil)
-    (nyan-mode t)
-    (spaceline-toggle-nyan-cat-on))
+(use-package spaceline-config
+  :ensure nil
+  :after spaceline
+  :config
+  (spaceline-toggle-persp-name-on)
+  (spaceline-toggle-workspace-number-on)
+  (spaceline-toggle-window-number-on)
+  (spaceline-toggle-buffer-size-off)
+  (spaceline-toggle-remote-host-off)
+  (spaceline-toggle-flycheck-info-off)
+  (spaceline-toggle-selection-info-on)
+  (spaceline-toggle-input-method-on)
+  (spaceline-toggle-buffer-encoding-abbrev-on)
+  (spaceline-toggle-nyan-cat-on)
   ;; hide the current position in the buffer as a percentage
   (spaceline-toggle-buffer-position-off)
   ;; shows the currently visible part of the buffer.
-  (spaceline-toggle-hud-on)
-  (setq powerline-height 23)
-  (spaceline-emacs-theme))
+  (spaceline-toggle-hud-off)
+  (spaceline-toggle-major-mode-on)
+  ;; configure the separator between the minor modes
+  (unless (display-graphic-p)
+    (spaceline-toggle-minor-modes-off))
+  ;; custom spaceline theme
+  (spaceline-compile
+    ;; define spaceline theme name: spaceline-ml-custom
+    "custom"
+    ;; left side
+    '(((((persp-name :fallback workspace-number) window-number) :separator "")
+       :fallback evil-state
+       :face highlight-face
+       :priority 100)
+      (anzu :priority 95)
+      ((buffer-id) :priority 98)
+      (process :when active)
+      ((flycheck-error flycheck-warning flycheck-info) :when active :priority 99)
+      (version-control :when active :priority 97)
+      (org-pomodoro :when active)
+      (org-clock :when active)
+      (nyan-cat :when active :priority 70)
+      (major-mode :when active :priority 79)
+      (minor-modes :when active :priority 78))
+    ;; right side
+    '((purpose :priority 94)
+      (selection-info :priority 95)
+      input-method
+      ((buffer-encoding-abbrev line-column) :separator "|" :priority 96)
+      (global :when active)
+      (hud :priority 99)))
+
+  (setq-default mode-line-format '("%e" (:eval (spaceline-ml-custom)))))
 
 (provide 'init-modeline)
 ;;; init-modeline ends here

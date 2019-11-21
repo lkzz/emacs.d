@@ -14,18 +14,18 @@
 ;;; Code:
 
 (use-package neotree
-  :defer t
-  :ensure t
-  :commands (neotree-change-root
-             neotree-quick-look
-             neotree-toggle
+  :commands (neotree-show
              neotree-hide
-             neotree-enter)
+             neotree-toggle
+             neotree-dir
+             neotree-find
+             neo-global--with-buffer
+             neo-global--window-exists-p)
   :init
-  (kevin/set-leader-keys "ft" 'neotree-toggle)
+  (kevin/set-leader-keys "tf" 'neotree-toggle)
   (setq neo-create-file-auto-open t
         neo-auto-indent-point nil
-        ;; neo-autorefresh t
+        neo-autorefresh t
         neo-smart-open t
         neo-mode-line-type 'none
         neo-window-width 28
@@ -47,21 +47,22 @@
           "^\\.\\(sync\\|export\\|attach\\)$"
           "~$" "\\.emacs*"
           ;; ignore bazel file
-          "^bazel-*"
+          "^bazel*"
           "^#.*#$"))
-  :config
-  (when (bound-and-true-p evil-mode)
-    (evil-define-key 'normal neotree-mode-map (kbd "TAB") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd "q") 'neotree-hide)
-    (evil-define-key 'normal neotree-mode-map (kbd "RET") 'neotree-enter)
-    (evil-define-key 'normal neotree-mode-map (kbd "h") 'neotree-select-up-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "l") 'neotree-change-root)
-    (evil-define-key 'normal neotree-mode-map (kbd "c") 'neotree-create-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "C") 'neotree-copy-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "d") 'neotree-delete-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "g") 'neotree-refresh)
-    (evil-define-key 'normal neotree-mode-map (kbd "r") 'neotree-rename-node)
-    (evil-define-key 'normal neotree-mode-map (kbd "s") 'neotree-hidden-file-toggle)))
+  :general
+  (general-nmap neotree-mode-map
+    "RET" 'neotree-enter
+    "TAB" 'neotree-enter
+    "o" 'neotree-enter
+    "q" 'neotree-hide
+    "h" 'neotree-select-up-node
+    "l" 'neotree-change-root
+    "c" 'neotree-create-node
+    "C" 'neotree-copy-node
+    "d" 'neotree-delete-node
+    "g" 'neotree-refresh
+    "r" 'neotree-rename-node
+    "th" 'neotree-hidden-file-toggle))
 
 (provide 'init-filetree)
 ;;; init-filetree ends here

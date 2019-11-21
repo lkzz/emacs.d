@@ -11,6 +11,30 @@
 ;;
 ;;; Commentary:
 ;;
+;;     go get -u github.com/gogo/protobuf/gogoproto
+;;     go get -u github.com/golang/protobuf/proto
+;;     go get -u github.com/gogo/protobuf/protoc-gen-gofast
+;;     go get -u github.com/gogo/protobuf/protoc-gen-gogo
+;;     go get -u github.com/golang/protobuf/protoc-gen-go
+;;     go get -u github.com/jstemmer/gotags
+;;     go get -u github.com/sourcegraph/go-langserver
+;;     go get -u github.com/mdempsky/gocode
+;;     go get -u github.com/godoctor/godoctor
+;;     go get -u github.com/graphql-go/graphql
+;;     go get -u github.com/zmb3/gogetdoc
+;;     go get -u github.com/lukehoban/go-outline
+;;     go get -u github.com/uudashr/gopkgs/cmd/gopkgs
+;;     go get -u github.com/golang/lint/golint
+;;     go get -u github.com/dougm/goflymake
+;;     go get -u github.com/cweill/gotests/...
+;;     go get -u github.com/hawkingrei/kazel
+;;     go get -u github.com/smartystreets/goconvey
+;;     go get -u github.com/golang/lint/golint
+;;     go get -u github.com/sqs/goreturns
+;;     go get -u github.com/rogpeppe/godef
+;;     go get -u golang.org/x/tools/cmd/...
+;;     go get -u -v github.com/golangci/golangci-lint/cmd/golangci-lint
+
 ;;; Code:
 
 (defun setup-go-mode-compile ()
@@ -59,95 +83,93 @@
 (defun kevin/go-type-comment (f)
   (kevin/go-add-comment (car f) (cdr f)))
 
-
 (use-package go-mode
-  :ensure t
-  :mode "\\.go\\'"
+  :mode ("\\.go\\'" . go-mode)
   :bind (:map go-mode-map
               ([remap xref-find-definitions] . godef-jump)
               ("C-c R" . go-remove-unused-imports)
               ("<f1>" . godoc-at-point))
   :config
+  ;; Env vars
+  (with-eval-after-load 'exec-path-from-shell
+    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
   (kevin/define-jump-handlers go-mode godef-jump)
   (setq gofmt-command "goimports") ; use goimports instead of gofmt
   (add-hook 'go-mode-hook 'setup-go-mode-compile)
   (add-hook 'before-save-hook #'gofmt-before-save)
-  (make-local-variable 'after-save-hook)
-  (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
-  (kevin/declare-prefix-for-mode 'go-mode "mi" "imports")
-  (kevin/set-leader-keys-for-major-mode 'go-mode
-                                        "cj" 'godef-jump
-                                        "ac" #'kevin/go-auto-comment
-                                        "hh" 'godoc-at-point
-                                        "ig" 'go-goto-imports
-                                        "ia" 'go-import-add
-                                        "ir" 'go-remove-unused-imports
-                                        "eb" 'go-play-buffer
-                                        "er" 'go-play-region
-                                        "ed" 'go-download-play
-                                        "ga" 'ff-find-other-file
-                                        "gc" 'go-coverage)
-  ;; ;; Go add-ons for Projectile
-  ;; :ensure-system-package
-  ;; ((dep . "go get -u github.com/golang/dep/cmd/dep")
-  ;;  (gocode . "go get -u github.com/nsf/gocode")
-  ;;  (godef . "go get -u github.com/rogpeppe/gode")
-  ;;  (golint . "go get -u golang.org/x/lint/golint")
-  ;;  (cmd . "go get -u golang.org/x/tools/cmd/...")
-  ;;  (gotest . "go get -u github.com/cweill/gotests/...")
-  ;;  (goflymake . "go get -u github.com/dougm/goflymake")
-  ;;  (godoctor . "go get github.com/godoctor/godoctor")
-  ;;  (go-langserver . "go get -u github.com/sourcegraph/go-langserver"))
-  )
+  ;; (make-local-variable 'after-save-hook)
+  ;; (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
+  (kevin/declare-prefix-for-major-mode 'go-mode "i" "import")
+  (kevin/declare-prefix-for-major-mode 'go-mode "g" "jump")
+  (kevin/declare-prefix-for-major-mode 'go-mode "h" "help")
+  (kevin/declare-prefix-for-major-mode 'go-mode "a" "comment")
+  (kevin/declare-prefix-for-major-mode 'go-mode "e" "goplay")
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'go-mode-map
+    "ac" #'kevin/go-auto-comment
+    "hh" 'godoc-at-point
+    "ig" 'go-goto-imports
+    "ia" 'go-import-add
+    "ir" 'go-remove-unused-imports
+    "eb" 'go-play-buffer
+    "er" 'go-play-region
+    "ed" 'go-download-play
+    "ga" 'ff-find-other-file
+    "gj" 'godef-jump
+    "gc" 'go-coverage))
 
-;; Run: M-x `go-projectile-install-tools'
-(use-package go-projectile
-  :ensure t
-  :after (go-mode projectile)
-  :commands (go-projectile-mode go-projectile-switch-project)
-  :hook ((go-mode . go-projectile-mode)
-         (projectile-after-switch-project . go-projectile-switch-project)))
-
-(use-package go-eldoc
-  :ensure t
-  :after (go-mode eldoc)
-  :commands (godoc-at-point)
-  :hook (go-mode . go-eldoc-setup))
-
-(use-package golint
-  :ensure t
-  :after go-mode)
-
-(use-package govet
-  :ensure t
-  :after go-mode)
-
-(use-package go-errcheck
-  :ensure t
-  :after go-mode)
+;; Install: go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+(use-package flycheck-golangci-lint
+  :after flycheck
+  :hook (go-mode . (lambda ()
+                     "Enable golangci-lint."
+                     (setq flycheck-disabled-checkers '(go-gofmt
+                                                        go-golint
+                                                        go-vet
+                                                        go-build
+                                                        go-test
+                                                        go-errcheck))
+                     (flycheck-golangci-lint-setup)))
+  :init
+  (setq flycheck-golangci-lint-deadline "1m"
+        flycheck-golangci-lint-tests t
+        flycheck-golangci-lint-fast t
+        flycheck-golangci-lint-enable-linters '(govet
+                                                errcheck
+                                                staticcheck
+                                                goimport
+                                                unused
+                                                gosimple
+                                                structcheck
+                                                varcheck
+                                                ineffassign
+                                                decode
+                                                unconvert
+                                                typecheck)
+        flycheck-golangci-lint-disable-linters '()))
 
 (use-package go-guru
-  :ensure t
   :after go-mode
   :commands (go-guru-describe go-guru-freevars go-guru-implements go-guru-peers
                               go-guru-referrers go-guru-definition go-guru-pointsto
                               go-guru-callstack go-guru-whicherrs go-guru-callers go-guru-callees
                               go-guru-set-scope)
-  :init
-  (kevin/declare-prefix-for-mode 'go-mode "mf" "guru")
-  (kevin/set-leader-keys-for-major-mode 'go-mode
-                                        "fd" 'go-guru-describe
-                                        "ff" 'go-guru-freevars
-                                        "fi" 'go-guru-implements
-                                        "fc" 'go-guru-peers
-                                        "fr" 'go-guru-referrers
-                                        "fj" 'go-guru-definition
-                                        "fp" 'go-guru-pointsto
-                                        "fs" 'go-guru-callstack
-                                        "fe" 'go-guru-whicherrs
-                                        "f<" 'go-guru-callers
-                                        "f>" 'go-guru-callees
-                                        "fo" 'go-guru-set-scope))
+  :config
+  (kevin/declare-prefix-for-major-mode 'go-mode "f" "guru")
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'go-mode-map
+    "fd" 'go-guru-describe
+    "ff" 'go-guru-freevars
+    "fi" 'go-guru-implements
+    "fc" 'go-guru-peers
+    "fr" 'go-guru-referrers
+    "fj" 'go-guru-definition
+    "fp" 'go-guru-pointsto
+    "fs" 'go-guru-callstack
+    "fe" 'go-guru-whicherrs
+    "f<" 'go-guru-callers
+    "f>" 'go-guru-callees
+    "fo" 'go-guru-set-scope))
 
 (defun kevin/go-test-current-test-verbose()
   "Add -v flag to go test command."
@@ -157,53 +179,45 @@
   (setq go-test-verbose nil))
 
 (use-package gotest
-  :ensure t
   :after go-mode
   :config
-  (kevin/declare-prefix-for-mode 'go-mode "mt" "test")
-  (kevin/set-leader-keys-for-major-mode 'go-mode
-                                        "tx" 'go-run
-                                        "tb" 'go-test-current-benchmark
-                                        "tt" 'go-test-current-test
-                                        "tv" 'kevin/go-test-current-test-verbose
-                                        "tm" 'go-test-current-file
-                                        "tp" 'go-test-current-project))
-
-(use-package go-imenu
-  :ensure t
-  :after go-mode
-  :config (add-hook 'go-mode-hook 'go-imenu-setup))
+  (kevin/declare-prefix-for-major-mode 'go-mode "t" "test")
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'go-mode-map
+    "tx" 'go-run
+    "tb" 'go-test-current-benchmark
+    "tt" 'go-test-current-test
+    "tv" 'kevin/go-test-current-test-verbose
+    "tm" 'go-test-current-file
+    "tp" 'go-test-current-project))
 
 (use-package godoctor
-  :ensure t
   :after go-mode
   :config
-  (kevin/declare-prefix-for-mode 'go-mode "mr" "refactoring")
-  (kevin/set-leader-keys-for-major-mode 'go-mode
-                                        "rn" 'godoctor-rename
-                                        "re" 'godoctor-extract
-                                        "rt" 'godoctor-toggle
-                                        "rd" 'godoctor-godoc))
+  (kevin/declare-prefix-for-major-mode 'go-mode "r" "refactoring")
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'go-mode-map
+    "rn" 'godoctor-rename
+    "re" 'godoctor-extract
+    "rt" 'godoctor-toggle
+    "rd" 'godoctor-godoc))
 
 (use-package go-tag
-  :ensure t
   :after go-mode
   :config
-  (kevin/set-leader-keys-for-major-mode 'go-mode
-                                        "rf" 'go-tag-add
-                                        "rF" 'go-tag-remove))
-
-(defun kevin/setup-go-company-backends ()
-  (make-local-variable 'company-backends)
-  (setq company-backends (list 'company-go 'company-dabbrev 'company-keywords 'company-yasnippet))
-  (with-eval-after-load 'company-lsp (add-to-list 'company-backends 'company-lsp)))
+  (kevin/set-leader-keys-for-major-mode
+    :keymaps 'go-mode-map
+    "rf" 'go-tag-add
+    "rF" 'go-tag-remove))
 
 (use-package company-go
-  :ensure t
+  :disabled
   :after (company go-mode)
+  :custom
+  (company-go-gocode-args '("-builtin" "-unimported-packages" "-cache" "-fallback-to-source"))
   :config
-  (add-hook 'go-mode-hook #'kevin/setup-go-company-backends)
-  (setq company-go-show-annotation t))
+  (setq company-go-show-annotation t)
+  (kevin/add-company-backend :backend company-go :mode go-mode))
 
 (provide 'init-golang)
 ;;; init-golang ends here

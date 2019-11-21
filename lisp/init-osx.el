@@ -13,27 +13,22 @@
 ;;
 ;;; Code:
 (use-package exec-path-from-shell
-  :ensure t
-  :defer t
   :if kevin-mac-p
+  :hook (after-init . exec-path-from-shell-initialize)
   :init
-  (setq exec-path-from-shell-check-startup-files nil)
-  (setq exec-path-from-shell-variables '("PATH" "MANPATH" "PYTHONPATH" "GOPATH" "GOROOT"))
-  (setq exec-path-from-shell-arguments '("-l"))
-  (add-hook 'after-init-hook 'exec-path-from-shell-initialize))
+  (setq exec-path-from-shell-check-startup-files nil
+        exec-path-from-shell-variables '("PATH" "MANPATH")
+        exec-path-from-shell-arguments '("-l")))
 
 (use-package counsel-osx-app
-  :ensure t
   :defer t
   :if kevin-mac-p
   :init
-  (kevin/set-leader-keys "aa" 'counsel-osx-app))
+  (kevin/set-leader-keys "oa" 'counsel-osx-app))
 
 (use-package reveal-in-osx-finder
-  :ensure t
   :defer t
   :if kevin-mac-p
-  :commands reveal-in-osx-finder
   :init
   (kevin/set-leader-keys "br" 'reveal-in-osx-finder))
 
@@ -41,9 +36,7 @@
 (when (and kevin-mac-p (fboundp 'set-fontset-font))
   (set-fontset-font "fontset-default"
                     '(#x1F600 . #x1F64F)
-                    (font-spec :name "Apple Color Emoji") nil 'prepend)
-
-  )
+                    (font-spec :name "Apple Color Emoji") nil 'prepend))
 
 (provide 'init-osx)
 ;;; init-osx ends here

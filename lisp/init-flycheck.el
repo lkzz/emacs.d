@@ -16,14 +16,15 @@
 (use-package flycheck
   :defer t
   :diminish flycheck-mode "ⓕ"
-  :commands (hydra-flycheck/body)
-  :hook (after-init . global-flycheck-mode)
+  :hook (prog-mode . global-flycheck-mode)
   :init
   (kevin/declare-prefix "e" "flycheck")
-  (kevin/set-leader-keys "ec" #'flycheck-buffer)
-  (kevin/set-leader-keys "el" #'flycheck-list-errors)
-  (kevin/set-leader-keys "ep" #'flycheck-previous-error)
-  (kevin/set-leader-keys "en" #'flycheck-next-error)
+  (kevin/set-leader-keys
+    "ec" #'flycheck-buffer
+    "el" #'flycheck-list-errors
+    "ep" #'flycheck-previous-error
+    "en" #'flycheck-next-error)
+  :config
   (defhydra hydra-flycheck (:color red
                                    :hint nil)
     "
@@ -46,27 +47,85 @@
     ("s" flycheck-select-checker exit: t)
     ("v" flycheck-verify-setup exit: t)
     ("?" flycheck-describe-checker exit: t))
-  :config
-  (setq flycheck-emacs-lisp-check-declare t)
-  (setq flycheck-indication-mode 'right-fringe)
-  (setq flycheck-emacs-lisp-load-path 'inherit)
-  (setq flycheck-highlighting-mode 'symbols)
-  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (when (fboundp 'define-fringe-bitmap)
+    (define-fringe-bitmap 'kevin-flycheck-error-fringe
+      (vector #b00000000
+              #b00000000
+              #b11000011
+              #b01100110
+              #b00111100
+              #b00111000
+              #b00111100
+              #b01100110
+              #b11000011
+              #b00000000
+              #b00000000))
+    (define-fringe-bitmap 'kevin-flycheck-warn-fringe
+      (vector #b00000000
+              #b00000000
+              #b00110000
+              #b00110000
+              #b00110000
+              #b00110000
+              #b00110000
+              #b00110000
+              #b00000000
+              #b00000000
+              #b00110000
+              #b00110000
+              #b00000000
+              #b00000000))
+    (define-fringe-bitmap 'kevin-flycheck-info-fringe
+      (vector #b00000000
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00011100
+              #b00111110
+              #b00111110
+              #b00111110
+              #b00011100
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00000000))
+    )
+  (flycheck-define-error-level 'error
+    :severity 2
+    :overlay-category 'flycheck-error-overlay
+    :fringe-bitmap 'kevin-flycheck-error-fringe
+    :fringe-face 'flycheck-fringe-error)
+  (flycheck-define-error-level 'warning
+    :severity 1
+    :overlay-category 'flycheck-warning-overlay
+    :fringe-bitmap 'kevin-flycheck-warn-fringe
+    :fringe-face 'flycheck-fringe-warning)
+  (flycheck-define-error-level 'info
+    :severity 0
+    :overlay-category 'flycheck-info-overlay
+    :fringe-bitmap 'kevin-flycheck-info-fringe
+    :fringe-face 'flycheck-fringe-info)
+  (setq flycheck-emacs-lisp-check-declare t
+        flycheck-indication-mode 'right-fringe
+        flycheck-emacs-lisp-load-path 'inherit
+        flycheck-highlighting-mode 'symbols
+        flycheck-check-syntax-automatically '(save mode-enabled))
+  ;; c/c++ mode
+  (setq flycheck-gcc-language-standard "c++11")
+  (setq flycheck-clang-language-standard "c++11")
   (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
 
-;; Jump to and fix syntax errors via `avy'
-(use-package avy-flycheck
-  :ensure t
-  :after (avy flycheck)
-  :init
-  (avy-flycheck-setup)
-  (kevin/set-leader-keys "eg" #'avy-flycheck-goto-error))
-
 (use-package flycheck-posframe
-  :ensure t
+  :defer t
   :if (display-graphic-p)
   :after flycheck
-  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
+  :hook (flycheck-mode . flycheck-posframe-mode))
+
+(use-package flycheck-popup-tip
+  :defer t
+  :unless (display-graphic-p)
+  :after flycheck
+  :hook (flycheck-mode . flycheck-popup-tip-mode))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here

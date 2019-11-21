@@ -14,15 +14,13 @@
 ;;; Code:
 
 (use-package ripgrep
-  :ensure t)
+  :defer t)
 
 (use-package projectile-ripgrep
-  :ensure t
-  :config (kevin/set-leader-keys "p/" 'projectile-ripgrep))
+  :defer t
+  :init (kevin/set-leader-keys "p/" 'projectile-ripgrep))
 
 (use-package projectile
-  :defer t
-  :ensure t
   :diminish projectile-mode "ⓟ"
   :commands (projectile-compile-project
              projectile-dired
@@ -44,35 +42,36 @@
              projectile-switch-project
              projectile-switch-to-buffer
              projectile-vc)
+  :hook (after-init . projectile-mode)
   :init
-  (setq projectile-sort-order 'recentf)
-  (setq projectile-cache-file (concat kevin-cache-directory "projectile.cache"))
-  (setq projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld"))
   (kevin/declare-prefix "p" "projectile")
   (kevin/set-leader-keys
-   "p!" 'projectile-run-shell-command-in-root
-   "p&" 'projectile-run-async-shell-command-in-root
-   "p%" 'projectile-replace-regexp
-   "pa" 'projectile-toggle-between-implementation-and-test
-   "pb" 'projectile-switch-to-buffer
-   "pc" 'projectile-compile-project
-   "pd" 'projectile-find-dir
-   "pD" 'projectile-dired
-   "pf" 'projectile-find-file
-   "pF" 'projectile-find-file-dwim
-   "pg" 'projectile-find-tag
-   "pG" 'projectile-regenerate-tags
-   "pI" 'projectile-invalidate-cache
-   "pk" 'projectile-kill-buffers
-   "pp" 'projectile-switch-project
-   "pr" 'projectile-recentf
-   "pR" 'projectile-replace
-   "pT" 'projectile-test-project
-   "pv" 'projectile-vc)
+    "p!" 'projectile-run-shell-command-in-root
+    "p&" 'projectile-run-async-shell-command-in-root
+    "p%" 'projectile-replace-regexp
+    "pa" 'projectile-toggle-between-implementation-and-test
+    "pb" 'projectile-switch-to-buffer
+    "pc" 'projectile-compile-project
+    "pd" 'projectile-find-dir
+    "pD" 'projectile-dired
+    "pf" 'projectile-find-file
+    "pF" 'projectile-find-file-dwim
+    "pg" 'projectile-find-tag
+    "pG" 'projectile-regenerate-tags
+    "pI" 'projectile-invalidate-cache
+    "pk" 'projectile-kill-buffers
+    "pp" 'projectile-switch-project
+    "pr" 'projectile-recentf
+    "pR" 'projectile-replace
+    "pT" 'projectile-test-project
+    "pv" 'projectile-vc)
   :config
-  (setq projectile-completion-system 'ivy)
-  (setq projectile-enable-caching t)
-  (projectile-global-mode))
+  (setq projectile-cache-file (concat kevin-cache-directory "projectile.cache")
+        projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld")
+        projectile-enable-caching t
+        projectile-sort-order 'recentf
+        projectile-completion-system 'ivy)
+  (add-to-list 'projectile-globally-ignored-directories "build"))
 
-(provide 'init-projectile)
+  (provide 'init-projectile)
 ;;; init-projectile ends here

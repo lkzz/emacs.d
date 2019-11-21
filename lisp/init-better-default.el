@@ -1,4 +1,4 @@
-;;; init-better-default.el --- 些常用的琐碎的配置，应该在init.el的最后加载. -*- lexical-binding: t; -*-
+;;; init-better-default.el --- 常用的琐碎配置，应该在init.el的最后加载. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2019  Kevin Leung
 ;;
@@ -14,8 +14,8 @@
 ;;; Code:
 
 ;; Personal information
-(setq user-full-name kevin-user-name)
-(setq user-mail-address kevin-mail-address)
+(setq user-full-name kevin-user-name
+      user-mail-address kevin-mail-address)
 
 
 ;; Don't ask me when kill process buffer
@@ -26,24 +26,20 @@
 ;; default directory
 (setq default-directory kevin-default-directory)
 
-;; Core settings
-;; UTF-8 please
-(set-charset-priority 'unicode)
-(setq locale-coding-system   'utf-8)   ; pretty
-(set-terminal-coding-system  'utf-8)   ; pretty
-(set-keyboard-coding-system  'utf-8)   ; pretty
-(set-selection-coding-system 'utf-8)   ; please
-(prefer-coding-system        'utf-8)   ; with sugar on top
-(setq default-process-coding-system '(utf-8-unix . utf-8-unix))
+;; UTF-8 as the default coding system
+(when (fboundp 'set-charset-priority)
+  (set-charset-priority 'unicode))     ; pretty
+(prefer-coding-system 'utf-8)          ; pretty
+(setq selection-coding-system 'utf-8)  ; pretty
+(setq locale-coding-system 'utf-8)     ; please
 
 ;; 复制粘贴
-(setq select-enable-primary t)
-(setq select-enable-clipboard t)
-
+(setq select-enable-primary t
+      select-enable-clipboard t)
 
 (setq-default indent-tabs-mode nil ;; do not insert tab indentation
               tab-width 4 ;; 将TAB显示为4个空格.
-              fill-column 80 ;; 设置列宽度
+              fill-column 100 ;; 设置列宽度
               buffers-menu-max-size 30
               case-fold-search t
               compilation-scroll-output t
@@ -61,10 +57,10 @@
               split-width-threshold nil    ; Disable horizontal window splitting
               majar-mode 'text-mode)
 
-;; 禁止显示警告提示
-(setq visible-bell nil)
-;; 关闭警告提示音
-(setq ring-bell-function 'ignore)
+(setq confirm-nonexistent-file-or-buffer t)
+;; How to construct unique buffer names for files with the same base name.
+(setq uniquify-buffer-name-style 'forward)
+
 ;; 一键删除选择区域
 (delete-selection-mode t)
 ;; 简化yes-or-no 输入
@@ -85,47 +81,36 @@
 ;; 自动刷新文件
 (use-package autorevert
   :ensure nil
-  :defer t
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 
 (use-package expand-region
-  :ensure t
   :bind (("C-=" . er/expand-region)))
 
 (use-package url
+  :disabled
   :ensure nil
-  :init
+  :config
   (setq url-configuration-directory (concat kevin-cache-directory "url")))
 
-;; Keep cursor at end of lines. Require line-move-visual is nil.
-(setq track-eol t)
-(setq line-move-visual nil)
-
-(mouse-avoidance-mode 'animate)
-;; 当鼠标移动的时候自动转换frame，window或者minibuffer
-(setq mouse-autoselect-window t)
-;; 关闭像素滚动
-(setq mac-mouse-wheel-smooth-scroll nil)
-
-;; 鼠标滚动设置
-(setq mouse-wheel-scroll-amount '(3 ((shift) . 3)))
-(setq mouse-wheel-progressive-speed nil)
-(setq scroll-step 3
-      scroll-margin 3
-      scroll-conservatively 100000)
+(use-package simple
+  :ensure nil
+  :hook (window-setup . size-indication-mode)
+  :init (setq column-number-mode t
+              line-number-mode t
+              ;; kill-whole-line t               ; Kill line including '\n'
+              line-move-visual nil
+              track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
+              set-mark-command-repeat-pop t)) ; Repeating C-SPC after popping mark pops it again
 
 ;; 文件末尾插入新行
-(setq require-final-newline t)
-(setq next-line-add-newlines nil)
-(define-key global-map (kbd "RET") 'newline-and-indent)
+(setq require-final-newline t
+      next-line-add-newlines nil)
 
 ;;删除时移到回收站
 (setq delete-by-moving-to-trash t)
-
-;; Control use of local variables in files you visit.
-;; :safe means set the safe variables, and ignore the rest.
-(setq enable-local-variables :safe)
+;; gc时忽略字体缓存
+(setq inhibit-compacting-font-caches t)
 
 (provide 'init-better-default)
 ;;; init-better-default.el ends here
