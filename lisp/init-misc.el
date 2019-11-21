@@ -15,34 +15,36 @@
 
 ;; bookmark 设置
 (use-package bookmark
+  :defer t
   :ensure nil
   :init
   (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
   (kevin/declare-prefix "m" "bookmark")
-  (kevin/set-leader-keys "ms" 'bookmark-set
-                         "mr" 'bookmark-rename
-                         "md" 'bookmark-delete
-                         "mj" 'counsel-bookmark
-                         "ml" 'bookmark-bmenu-list))
+  (kevin/set-leader-keys
+    "ms" 'bookmark-set
+    "mr" 'bookmark-rename
+    "md" 'bookmark-delete
+    "mj" 'counsel-bookmark
+    "ml" 'bookmark-bmenu-list))
 
 ;; Elec pair
 (use-package elec-pair
-  :defer t
   :ensure nil
-  :init (add-hook 'after-init-hook #'electric-pair-mode))
+  :hook (after-init . electric-pair-mode))
 
 ;; Hungry deletion
 (use-package hungry-delete
-  :defer t
   :diminish hungry-delete-mode "ⓗ"
-  :init (add-hook 'after-init-hook #'global-hungry-delete-mode))
+  :hook (after-init . global-hungry-delete-mode))
 
 (use-package restart-emacs
-  :defer t)
+  :defer t
+  :init
+  (kevin/set-leader-keys
+    ";r" 'restart-emacs
+    ";q"  'save-buffers-kill-terminal))
 
 (use-package server
-  :ensure t
-  :init (server-mode 1)
   :config
   (unless (server-running-p)
     (server-start)))
@@ -51,64 +53,47 @@
 (use-package saveplace
   :defer t
   :ensure nil
-  :init
-  (add-hook 'after-init-hook #'save-place-mode))
+  :config
+  (setq save-place-file (concat kevin-cache-directory "saveplace"))
+  :hook (after-init . save-place-mode))
 
 (use-package recentf
-  :defer t
   :ensure nil
-  :config
-  (add-hook 'find-file-hook (lambda () (unless recentf-mode
-                                    (recentf-mode)
-                                    (recentf-track-opened-file))))
-  (setq recentf-max-saved-items 100)
+  :hook (after-init . recentf-mode)
+  :init
+  (setq recentf-save-file (concat kevin-cache-directory "recentf"))
+  (setq recentf-max-saved-items 200)
   (setq recentf-exclude '((expand-file-name package-user-dir)
                           kevin-cache-directory
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
                           "pyim"
-                          "elpa"
-                          "custom.el")))
-
+                          (concat user-emacs-directory "elpa")
+                          (concat user-emacs-directory "vendor"))))
 
 ;; Delete selection if you insert
 (use-package delsel
-  :defer t
-  :ensure t
-  :init (add-hook 'after-init-hook #'delete-selection-mode))
+  :hook (after-init . delete-selection-mode))
 
 ;; Rectangle
 (use-package rect
-  :defer t
   :ensure nil
   :bind (("<C-return>" . rectangle-mark-mode)))
 
 ;; Jump to things in Emacs tree-style
 (use-package avy
-  :defer t
-  :ensure t
   :hook (after-init . avy-setup-default)
   :init
   (kevin/set-leader-keys
-   "jc" 'avy-goto-char-2
-   "jw" 'avy-goto-word-or-subword-1
-   "jl" 'avy-goto-line
-   "jp" #'kevin/goto-match-parent)
+    "jc" 'avy-goto-char-2
+    "jw" 'avy-goto-word-or-subword-1
+    "jl" 'avy-goto-line)
   :config (setq avy-background t))
-
-;; Quickly follow links
-(use-package ace-link
-  :defer t
-  :ensure t
-  :bind (("M-o" . ace-link-addr))
-  :init (add-hook 'after-init-hook #'ace-link-setup-default))
 
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
-  :defer t
-  :ensure t
   :diminish aggressive-indent-mode
-  :hook (prog-mode . global-aggressive-indent-mode)
+  :hook ((lisp-mode lisp-interaction-mode emacs-lisp-mode clojure-mode) . aggressive-indent-mode)
   :config
   (setq-default aggressive-indent-comments-too t)
   ;; NOTE: Disable in big files due to the performance issues
@@ -118,7 +103,7 @@
               (if (> (buffer-size) (* 3000 80))
                   (aggressive-indent-mode -1))))
   ;; Disable in some modes
-  (dolist (mode '(asm-mode web-mode html-mode css-mode robot-mode))
+  (dolist (mode '(go-mode asm-mode web-mode html-mode css-mode robot-mode))
     (push mode aggressive-indent-excluded-modes))
   ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
   (add-to-list 'aggressive-indent-dont-indent-if
@@ -126,30 +111,18 @@
                          (derived-mode-p 'c++-mode)
                          (derived-mode-p 'csharp-mode)
                          (derived-mode-p 'java-mode)
-                         (derived-mode-p 'go-mode)
+                         ;; (derived-mode-p 'go-mode)
                          (derived-mode-p 'swift-mode))
                      (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
                                          (thing-at-point 'line))))))
 
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
-  :defer t
-  :ensure t
   :bind ("M-;" . comment-dwim-2))
-
-;; Drag stuff (lines, words, region, etc...) around
-(use-package drag-stuff
-  :defer t
-  :ensure t
-  :diminish drag-stuff-mode
-  :init (add-hook 'after-init-hook #'drag-stuff-global-mode)
-  :config
-  (add-to-list 'drag-stuff-except-modes 'org-mode)
-  (drag-stuff-define-keys))
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
-  :defer t
+  :disabled
   :ensure nil
   :init
   ;; show org ediffs unfolded
@@ -159,94 +132,97 @@
   (with-eval-after-load 'winner
     (add-hook 'ediff-quit-hook #'winner-undo))
   :config
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  (setq ediff-split-window-function 'split-window-horizontally)
-  (setq ediff-merge-split-window-function 'split-window-horizontally))
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain
+        ediff-split-window-function 'split-window-horizontally
+        ediff-merge-split-window-function 'split-window-horizontally))
 
 ;; Treat undo history as a tree
 (use-package undo-tree
-  :defer t
-  :ensure t
   :diminish undo-tree-mode "ⓤ"
+  :commands (undo-tree-visualize)
+  :hook (after-init . global-undo-tree-mode)
   :config
-  (setq undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history"))))
-  (setq undo-tree-auto-save-history nil)
-  (setq undo-tree-visualizer-timestamps t)
-  (setq undo-tree-visualizer-diff t)
-  (global-undo-tree-mode))
+  (setq undo-tree-auto-save-history nil
+        undo-tree-visualizer-timestamps t
+        undo-tree-visualizer-diff t
+        undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history")))))
 
 (use-package savehist
-  :defer t
   :ensure nil
-  :init
-  ;; Minibuffer history
+  :config
   (setq savehist-file (concat kevin-cache-directory "savehist")
-        enable-recursive-minibuffers t ; Allow commands in minibuffers
-        history-length 1000
-        savehist-additional-variables '(mark-ring
-                                        global-mark-ring
-                                        search-ring
-                                        regexp-search-ring
-                                        extended-command-history)
-        savehist-autosave-interval 60)
-  (savehist-mode t))
+        savehist-save-minibuffer-history t
+        savehist-autosave-interval nil ; save on kill only
+        savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
+  (savehist-mode +1)
+  (add-hook 'kill-emacs-hook
+            (defun kevin/unpropertize-kill-ring ()
+              "Remove text properties from `kill-ring' for a smaller savehist file."
+              (setq kill-ring (cl-loop for item in kill-ring
+                                       if (stringp item)
+                                       collect (substring-no-properties item)
+                                       else if item collect it)))))
 
 ;; Hideshow
 (use-package hideshow
-  :defer t
   :ensure nil
+  :diminish hs-minor-mode
   :bind (:map hs-minor-mode-map
               ("C-`" . hs-toggle-hiding))
-  :diminish hs-minor-mode)
+  :hook (prog-mode . hs-minor-mode))
 
 ;; Move to the beginning/end of line or code
 (use-package mwim
-  :defer t)
+  :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
+         ([remap move-end-of-line] . mwim-end-of-code-or-line)))
 
-(use-package smex
-  :defer t
-  :ensure t
-  :config
-  (setq smex-save-file (concat kevin-cache-directory "smex-items"))
-  (setq smex-history-length 10))
-
-(use-package wgrep
-  :ensure t
+;; An alternative M-x interface for Emacs
+(use-package amx
+  :hook (after-init . amx-mode)
   :init
-  (setq wgrep-auto-save-buffer t)
-  (setq wgrep-change-readonly-file t))
-
-(use-package ag
-  :ensure t
-  :defines projectile-command-map
-  :init
-  (with-eval-after-load 'projectile
-    (bind-key "s S" #'ag-project projectile-command-map))
-  :config
-  (setq ag-highlight-search t)
-  (setq ag-reuse-buffers t)
-  (setq ag-reuse-window t)
-  (use-package wgrep-ag
-    :ensure t))
+  (setq amx-history-length 10
+        amx-save-file (concat kevin-cache-directory "amx-items")))
 
 (use-package rg
-  :ensure t
   :hook (after-init . rg-enable-default-bindings)
   :config
-  (setq rg-group-result t)
-  (setq rg-show-columns t)
+  (setq rg-group-result t
+        rg-show-columns t)
   (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases)
   (with-eval-after-load 'projectile
     (defalias 'projectile-ripgrep 'rg-project)
     (bind-key "s R" #'rg-project projectile-command-map))
-  (when (fboundp 'ag)
-    (bind-key "a" #'ag rg-global-map))
+  (kevin/set-leader-keys
+    "sc" 'rg-dwim-current-dir
+    "sf" 'rg-dwim-current-file
+    "s/" 'counsel-rg)
   (with-eval-after-load 'counsel
     (bind-keys :map rg-global-map
                ("c r" . counsel-rg)
                ("c s" . counsel-ag)
                ("c p" . counsel-pt)
                ("c f" . counsel-fzf))))
+
+;; Multiple cursors
+(use-package multiple-cursors
+  :bind (("C-S-c C-S-c"   . mc/edit-lines)
+         ("C->"           . mc/mark-next-like-this)
+         ("C-<"           . mc/mark-previous-like-this)
+         ("C-c C-<"       . mc/mark-all-like-this)
+         ("C-M->"         . mc/skip-to-next-like-this)
+         ("C-M-<"         . mc/skip-to-previous-like-this)
+         ("C-S-<mouse-1>" . mc/add-cursor-on-click)
+         :map mc/keymap
+         ("C-|" . mc/vertical-align-with-space)))
+
+
+(use-package transient
+  :init
+  (setq transient-history-limit 50)
+  (setq transient-save-history t)
+  (setq transient-levels-file (concat kevin-cache-directory "transient/levels.el"))
+  (setq transient-values-file (concat kevin-cache-directory "transient/values.el"))
+  (setq transient-history-file (concat kevin-cache-directory "transient/history.el")))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

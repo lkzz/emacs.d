@@ -14,18 +14,24 @@
 ;;; Code:
 
 (use-package evil-leader
+  :disabled
   :after evil
-  :config
+  :init
+  (setq evil-want-keybinding nil)
   (global-evil-leader-mode t)
   (evil-leader/set-leader "<SPC>"))
 
 (use-package evil
-  :ensure t
   :hook (after-init . evil-mode)
-  :config
-  (setq evil-default-state 'normal)
+  :init
   (setq evil-magic t
         evil-echo-state t
+        evil-default-state 'normal
+        evil-want-C-u-scroll t
+        evil-want-Y-yank-to-eol t
+        evil-want-integration t
+        evil-want-keybinding nil
+        evil-want-visual-char-semi-exclusive t
         evil-indent-convert-tabs t
         evil-ex-search-vim-style-regexp t
         evil-ex-substitute-global t
@@ -36,137 +42,105 @@
         ;; don't activate mark on shift-click
         shift-select-mode nil
         evil-cross-lines t
-        evil-move-cursor-back t ;; Move back the cursor one position when exiting insert mode
-        evil-esc-delay 0
+        evil-move-cursor-back t ;; move back the cursor one position when exiting insert mode
+        evil-esc-delay 0.01
         evil-mode-line-format 'after)
-  ;; evil cursor color
-  (setq  evil-default-cursor '("SkyBlue2" box)
-         evil-normal-state-cursor '("SkyBlue2" box)
+  ;; ;; evil cursor color
+  (setq  evil-default-cursor '("red" box)
+         evil-normal-state-cursor '("red" box)
          evil-insert-state-cursor '("red" (bar . 2))
-         evil-visual-state-cursor '("#98f5ff" box)
-         evil-replace-state-cursor '("#cd5c5c" box)
-         evil-operator-state-cursor '("#98f5ff" box)
-         evil-motion-state-cursor '("#98f5ff" box)
-         evil-emacs-state-cursor '("#adfa2f" (bar . 2)))
-  ;; evil ex command
-  (evil-ex-define-cmd "W" 'evil-write-all)
-
-  ;; evil insert state keybinds
-  (define-key evil-insert-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
-  (define-key evil-insert-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-  (define-key evil-insert-state-map (kbd "C-k") 'kill-line)
-  (define-key evil-insert-state-map (kbd "C-p") 'evil-previous-visual-line)
-  (define-key evil-insert-state-map (kbd "C-n") 'evil-next-visual-line)
-
-  ;; evil normal state keybinds
-  (define-key evil-normal-state-map "Y" (kbd "y$"))
-  (define-key evil-normal-state-map (kbd ",w") 'evil-write)
-  (define-key evil-normal-state-map (kbd ",q") 'evil-quit)
-  (define-key evil-normal-state-map (kbd ",y") 'kevin/copy-word)
-  (define-key evil-normal-state-map (kbd ",p") 'kevin/cover-word)
-  (define-key evil-normal-state-map (kbd ",d") 'kevin/delete-word)
-  (define-key evil-normal-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-  (define-key evil-normal-state-map (kbd "C-a") 'mwim-beginning-of-code-or-line)
-  (define-key evil-normal-state-map (kbd "C-w") 'evil-delete-backward-word)
-  (define-key evil-normal-state-map (kbd "j") 'evil-next-visual-line)
-  (define-key evil-normal-state-map (kbd "k") 'evil-previous-visual-line)
-  (define-key evil-normal-state-map (kbd "C-n") nil)
-  (define-key evil-normal-state-map (kbd "C-p") nil)
-
-  ;; evil motion state keybinds
-  (define-key evil-motion-state-map (kbd "C-i") 'evil-jump-forward)
-  (define-key evil-motion-state-map (kbd "C-o") 'evil-jump-backward)
-  (define-key evil-motion-state-map (kbd "C-e") 'mwim-end-of-code-or-line)
-
-  ;; evil visual state keybinds
-  (define-key evil-visual-state-map (kbd "C-e") 'end-of-line)
-
+         evil-visual-state-cursor '("red" box)
+         evil-replace-state-cursor '("red" hollow)
+         evil-emacs-state-cursor '("red" hbar))
+  :general
+  (general-define-key
+   :states '(insert normal visual motion)
+   "C-a" 'mwim-beginning-of-code-or-line
+   "C-e" 'mwim-end-of-code-or-line
+   "C-k" 'kill-whole-line
+   "C-p" 'evil-previous-visual-line
+   "C-n" 'evil-next-visual-line)
+  (general-nmap
+    ",w" 'evil-write
+    ",W" 'evil-write-all
+    ",q" 'evil-quit
+    ",y" 'kevin/copy-word
+    ",p" 'kevin/cover-word
+    ",d" 'kevin/delete-word
+    "j" 'evil-next-visual-line
+    "k" 'evil-previous-visual-line
+    "C-i" 'evil-jump-forward
+    "C-o" 'evil-jump-backward
+    "C-w" 'evil-delete-backward-word)
+  :config
   ;; Use evil as a default jump handler
   (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition)
+  (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
+  (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
+  (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
+  (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element))
 
-  ;; set evil state for major mode
-  (require 'cl)
-  (loop for (mode . state) in
-        '(
-          (view-mode . motion)
-          )
-        do (evil-set-initial-state mode state))
-  )
+(use-package evil-escape
+  :after evil
+  :diminish evil-escape-mode
+  :hook (evil-mode . evil-escape-mode)
+  :config
+  (setq  evil-escape-delay 0.25
+         evil-escape-key-sequence "jk"
+         evil-escape-excluded-major-modes '(neotree-mode)
+         evil-escape-excluded-states '(normal visual multiedit emacs motion))
+  ;; no `evil-escape' in minibuffer
+  (add-hook 'evil-escape-inhibit-functions #'minibufferp))
 
 (use-package evil-surround
   :after evil
-  :config
-  (global-evil-surround-mode t))
-
-(use-package evil-visualstar
-  :after evil
-  :config
-  (setq evil-visualstar/persistent t)
-  (global-evil-visualstar-mode))
+  :hook (evil-mode . global-evil-surround-mode))
 
 (use-package evil-nerd-commenter
-  :ensure t
   :after evil
   :init
-  (kevin/set-leader-keys "ci" 'evilnc-comment-or-uncomment-lines
-                         "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-                         "cp" 'evilnc-comment-or-uncomment-paragraphs
-                         "cy" 'evilnc-copy-and-comment-operator))
+  (kevin/set-leader-keys
+    "ci" 'evilnc-comment-or-uncomment-lines
+    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
+    "cp" 'evilnc-comment-or-uncomment-paragraphs
+    "cy" 'evilnc-copy-and-comment-operator))
 
-(use-package evil-escape
-  :ensure t
-  :after evil
-  :diminish evil-escape-mode
-  :config
-  (evil-escape-mode)
-  (setq-default evil-escape-key-sequence "jk")
-  (setq-default evil-escape-delay 0.3))
-
-(use-package evil-mc
-  :ensure t
-  :after evil
-  :diminish evil-mc-mode "ⓜ"
-  :init
-  (defun kevin/toggle-evil-mc ()
-    (interactive)
-    (if evil-mc-mode
-        (progn
-          (evil-mc-undo-all-cursors)
-          (evil-mc-mode -1)
-          (message "evil mc mode disabled"))
-      (progn
-        (evil-mc-mode 1)
-        (message "evil mc mode enabled"))))
-  (kevin/set-leader-keys "tm" #'kevin/toggle-evil-mc)
-  (defun kevin/reset-evil-mc-key-map ()
-    (let ((keys '(("ma" . evil-mc-make-all-cursors)
-                  ("mu" . evil-mc-undo-all-cursors)
-                  ("ms" . evil-mc-pause-cursors)
-                  ("mr" . evil-mc-resume-cursors)
-                  ("mf" . evil-mc-make-and-goto-first-cursor)
-                  ("mb" . evil-mc-make-and-goto-last-cursor)
-                  ("mh" . evil-mc-make-cursor-here)
-                  ("mn" . evil-mc-skip-and-goto-next-match)
-                  ("mp" . evil-mc-skip-and-goto-prev-match)
-                  ("C-n" . evil-mc-make-and-goto-next-match)
-                  ("C-p" . evil-mc-make-and-goto-prev-match)
-                  )))
-      (dolist (key-data keys)
-        ;; (evil-define-key 'normal 'evil-mc-key-map (kbd (car key-data)) (cdr key-data))
-        (evil-define-key 'visual 'evil-mc-key-map (kbd (car key-data)) (cdr key-data)))))
-  :config
-  (kevin/reset-evil-mc-key-map))
-
-
+;; s: 2 char forward; S: 2 char backward
+;; f: 1 char forward; F: 1 char backward
+;; ;and, repeat search
 (use-package evil-snipe
-  :ensure t
   :after evil
+  :hook ((evil-mode . evil-snipe-mode)
+         (evil-mode . evil-snipe-override-mode))
   :diminish evil-snipe-local-mode
+  :init
+  (setq evil-snpe-smart-case t
+        evil-snipe-scope 'line
+        evil-snipe-repeat-scope 'visible
+        evil-snipe-char-fold t)
   :config
-  (evil-snipe-mode +1)
-  (evil-snipe-override-mode +1)
-  ;; fix problems with magit buffer
-  (add-hook 'magit-mode-hook 'turn-off-evil-snipe-override-mode))
+  (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq))
+
+(use-package evil-collection
+  :after evil
+  :custom (evil-collection-setup-minibuffer t)
+  :init
+  ;; The list of supported modes is configured by evil-collection-mode-list
+  (evil-collection-init 'view)
+  (evil-collection-init 'custom)
+  (evil-collection-init 'ibuffer)
+  (evil-collection-init 'calendar))
+
+(use-package evil-terminal-cursor-changer
+  :unless (display-graphic-p)
+  :after evil
+  :config
+  (setq evil-motion-state-cursor 'box
+        evil-visual-state-cursor 'box
+        evil-normal-state-cursor 'box
+        evil-insert-state-cursor 'bar
+        evil-emacs-state-cursor  'hbar)
+  (evil-terminal-cursor-changer-activate))
 
 (provide 'init-evil)
 ;;; init-evil ends here

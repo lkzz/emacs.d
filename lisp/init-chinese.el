@@ -15,7 +15,6 @@
 
 (use-package youdao-dictionary
   :defer t
-  :ensure t
   :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
   :config
   ;; Enable Cache
@@ -25,33 +24,65 @@
   ;; Enable Chinese word segmentation support
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 
-;; ** 设置拼音输入法
+;; make IME compatible with evil-mode
+;; https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-chinese.el#L4
+(defun evil-toggle-input-method ()
+  "When input method is on, goto `evil-insert-state'."
+  (interactive)
+  ;; load IME when needed, less memory footprint
+  (unless (featurep 'pyim)
+    (require 'pyim))
+  ;; some guy don't use evil-mode at all
+  (cond
+   ((and (boundp 'evil-mode) evil-mode)
+    ;; evil-mode
+    (cond
+     ((eq evil-state 'insert)
+      (toggle-input-method))
+     (t
+      (evil-insert-state)
+      (unless current-input-method
+        (toggle-input-method))))
+    (cond
+     (current-input-method
+      ;; evil-escape and pyim may conflict
+      ;; @see https://github.com/redguardtoo/emacs.d/issues/629
+      (evil-escape-mode -1)
+      (message "IME on!"))
+     (t
+      (evil-escape-mode 1)
+      (message "IME off!"))))
+   (t
+    ;; NOT evil-mode
+    (toggle-input-method))))
+
+(global-set-key (kbd "C-\\") 'evil-toggle-input-method)
+
+;; 设置拼音输入法
 (use-package pyim
-  :ensure t
-  :demand t
-  :bind (("M-j" . pyim-convert-code-at-point)) ;; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
+  :defer t
+  :bind (("M-j" . pyim-convert-code-at-point)) ; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
   ;; 激活 basedict 拼音词库
   (use-package pyim-basedict
-    :ensure t
     :config (pyim-basedict-enable))
   (setq pyim-dcache-directory (expand-file-name "pyim" kevin-cache-directory))
   (setq default-input-method "pyim")
   ;; 使用 emacs thread 来生成 dcache。
-  ;; (setq pyim-dcache-prefer-emacs-thread t)
+  (setq pyim-dcache-prefer-emacs-thread t)
   ;; 使用全拼
   (setq pyim-default-scheme 'quanpin)
   ;; 显示6个候选词。
   (setq pyim-page-length 6)
   ;; 设置选词框的绘制方式
-  (setq pyim-page-tooltip 'posframe)
+  (if (display-graphic-p)
+      (setq pyim-page-tooltip 'posframe)
+    (setq pyim-page-tooltop 'popup))
   ;; 只能在字符串和 comment 中输入中文
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode)))
 
 (use-package pangu-spacing
-  :defer t
-  :ensure t
   :diminish pangu-spacing-mode
   :config
   (global-pangu-spacing-mode 1)
@@ -61,9 +92,6 @@
 
 ;; Chinese calendar
 (use-package cal-china-x
-  :defer t
-  :ensure t
-  :commands cal-china-x-setup
   :hook (after-init . cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
@@ -111,9 +139,7 @@
           (holiday-solar-term "立冬" "立冬")
           (holiday-solar-term "小雪" "小雪")
           (holiday-solar-term "大雪" "大雪")
-          (holiday-solar-term "冬至" "冬至")
-
-          ))
+          (holiday-solar-term "冬至" "冬至")))
   (setq calendar-holidays
         (append cal-china-x-important-holidays
                 cal-china-x-general-holidays
@@ -121,20 +147,9 @@
 
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
-  :ensure nil
   :after company
   :load-path "vendor/company-english-helper"
   :bind ("C-c t e" . 'toggle-company-english-helper))
-
-;; https://github.com/manateelazycat/insert-translated-name
-(use-package insert-translated-name
-  :ensure nil
-  :load-path "vendor/insert-translated-name"
-  :bind ("C-c t t" . 'insert-translated-name-insert)
-  :config
-  (setq insert-translated-name-translate-engine 'youdao)
-  (defvar insert-translated-name-camel-style-mode-list
-    '(go-mode)))
 
 (provide 'init-chinese)
 ;;; init-chinese ends here

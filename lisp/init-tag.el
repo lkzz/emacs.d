@@ -14,18 +14,14 @@
 ;;; Code:
 
 (use-package counsel-etags
-  :defer t
   :config
   ;; counsel-etags-ignore-directories does NOT support wildcast
   (add-to-list 'counsel-etags-ignore-directories "build_clang")
   ;; counsel-etags-ignore-filenames supports wildcast
   (add-to-list 'counsel-etags-ignore-filenames "TAGS")
-  (add-to-list 'counsel-etags-ignore-filenames "*.json")
-  ;; (setq tags-file-name "~/Code/gopath/src/go-common/tags")
-  )
+  (add-to-list 'counsel-etags-ignore-filenames "*.json"))
 
 (use-package bm
-  :ensure t
   :after evil
   :init
   ;; restore on load (even before you require bm)
@@ -49,7 +45,7 @@
   ;; where to store persistant files
   (setq bm-repository-file (concat kevin-cache-directory "bm-repository"))
   ;; Loading the repository from file when on start up.
-  (add-hook' after-init-hook 'bm-repository-load)
+  (add-hook 'after-init-hook 'bm-repository-load)
 
   ;; 按下ctrl-g时，如果当前光标处有书签，则删除此书签
   (advice-add 'keyboard-quit :before 'bm-bookmark-remove)

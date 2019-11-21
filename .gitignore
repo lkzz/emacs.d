@@ -4,8 +4,13 @@ autosave/
 backups/
 eshell/
 elpa/
+irony/
 auto-save-list/
 transient/
+anaconda-mode/
+url/
+request/
+
 .DS_Store
 places
 recentf

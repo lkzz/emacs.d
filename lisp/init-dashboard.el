@@ -13,39 +13,84 @@
 ;;      refer: https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-dashboard.el
 ;;; Code:
 
-(eval-when-compile (require 'wid-edit))
-
 (use-package dashboard
-  :ensure t
   :diminish page-break-lines-mode
-  :preface
-  (defvar dashboard-recover-layout-p nil)
-  (defvar homepage-url "https://github.com/lkzz/emacs.d")
+  :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
+  :config
+  (dashboard-setup-startup-hook)
+  (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory)
+        initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
+        dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name)
+        dashboard-center-content t
+        dashboard-set-init-info t
+        dashboard-init-info (format "%d packages loaded in %s"
+                                    (length package-activated-list) (emacs-init-time))
+        dashboard-show-shortcuts nil
+        dashboard-items '((recents  . 10)
+                          (bookmarks . 5)
+                          (projects . 5))
+        dashboard-set-file-icons t
+        dashboard-set-heading-icons t
+        dashboard-heading-icons '((recents   . "file-text")
+                                  (bookmarks . "bookmark")
+                                  (agenda    . "calendar")
+                                  (projects  . "file-directory")
+                                  (registers . "database"))
+        dashboard-set-footer t
+        dashboard-footer (format "Powered by %s, %s" kevin-user-name (format-time-string "%Y"))
+        dashboard-footer-icon (if (display-graphic-p)
+                                  (all-the-icons-faicon "heart"
+                                                        :height 1.1
+                                                        :v-adjust -0.05
+                                                        :face 'error)
+                                "♥")
+        dashboard-set-navigator t
 
-  (defun browse-homepage ()
+        ;; Format: "icon title help action face prefix suffix"
+        dashboard-navigator-buttons
+        `(((,(when (display-graphic-p)
+               (all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0))
+            "Homepage"
+            "Browse homepage"
+            (lambda (&rest _) (kevin/browse-homepage)))
+
+           (,(when (display-graphic-p)
+               (all-the-icons-faicon "floppy-o" :height 1.2 :v-adjust -0.1 :face 'font-lock-keyword-face))
+            "Open Config"
+            "Open init config"
+            (lambda (&rest _) (kevin/open-init-file)))
+
+           (,(when (display-graphic-p)
+               (all-the-icons-material "restore" :height 1.35 :v-adjust -0.24 :face 'font-lock-keyword-face))
+            "Restore"
+            "Restore session"
+            (lambda (&rest _) (kevin/restore-session)))
+           )))
+
+  (defvar dashboard-recover-layout-p nil
+    "Wether recovers the layout.")
+
+  (defun kevin/browse-homepage ()
     "Browse the github page of Emacs."
     (interactive)
-    (browse-url homepage-url))
+    (browse-url "https://github.com/lkzz/emacs.d"))
 
-  (defun open-dashboard ()
-    "Open the *dashboard* buffer and jump to the first widget."
+  (defun kevin/quit-dashboard ()
+    "Quit dashboard window."
     (interactive)
-    (if (get-buffer dashboard-buffer-name)
-        (kill-buffer dashboard-buffer-name))
-    (dashboard-insert-startupify-lists)
-    (switch-to-buffer dashboard-buffer-name)
-    (goto-char (point-min))
-    (dashboard-goto-recent-files)
-    (if (> (length (window-list-1))
-           ;; exclude `treemacs' window
-           (if (and (fboundp 'treemacs-current-visibility)
-                    (eq (treemacs-current-visibility) 'visible))
-               2
-             1))
-        (setq dashboard-recover-layout-p t))
-    (delete-other-windows))
+    (quit-window t)
+    (when (and dashboard-recover-layout-p
+               (bound-and-true-p winner-mode))
+      (winner-undo)
+      (setq dashboard-recover-layout-p nil)))
 
-  (defun restore-session ()
+  (defun kevin/dashboard-open-init-file ()
+    "Open init config file."
+    (interactive)
+    (kevin/quit-dashboard)
+    (kevin/open-init-file))
+
+  (defun kevin/restore-session ()
     "Restore last session."
     (interactive)
     (when (bound-and-true-p persp-mode)
@@ -57,95 +102,34 @@
       (when (persp-get-buffer-or-null persp-special-last-buffer)
         (persp-switch-to-buffer persp-special-last-buffer))))
 
-  (defun quit-dashboard ()
-    "Quit dashboard window."
-    (interactive)
-    (quit-window t)
-    (when (and dashboard-recover-layout-p
-               (bound-and-true-p winner-mode))
-      (winner-undo)
-      (setq dashboard-recover-layout-p nil)))
-
-  (defun dashboard-open-init-file ()
-    "Open init config file."
-    (interactive)
-    (quit-dashboard)
-    (kevin/open-init-file))
-
-  (defun dashboard-goto-recent-files ()
+  (defun kevin/dashboard-goto-recent-files ()
     "Go to recent files."
     (interactive)
     (funcall (local-key-binding "r")))
 
-  (defun dashboard-goto-projects ()
+  (defun kevin/dashboard-goto-projects ()
     "Go to projects."
     (interactive)
     (funcall (local-key-binding "p")))
 
-  (defun dashboard-goto-bookmarks ()
+  (defun kevin/dashboard-goto-bookmarks ()
     "Go to bookmarks."
     (interactive)
     (funcall (local-key-binding "m")))
-  :init (setq initial-buffer-choice (lambda () (get-buffer dashboard-buffer-name)))
-  :hook (after-init . dashboard-setup-startup-hook)
-  :bind (("<f2>" . open-dashboard)
-         :map dashboard-mode-map
-         ("H" . browse-homepage)
-         ("O" . dashboard-open-init-file)
-         ("R" . restore-session)
-         ("q" . quit-dashboard))
-  :config
-  (setq dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name))
-  (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory))
-  (setq dashboard-items '((recents . 5)
-                          (bookmarks . 5)
-                          (projects . 3)))
 
-  (defun dashboard-insert-buttons (_list-size)
-    (insert "\n")
-    (insert (make-string (max 0 (floor (/ (- dashboard-banner-length 51) 2))) ?\ ))
-    (widget-create 'url-link
-                   :tag (propertize "Homepage" 'face 'font-lock-keyword-face)
-                   :help-echo "Open Emacs Github page"
-                   :mouse-face 'highlight
-                   homepage-url)
-    (insert " ")
-    (widget-create 'push-button
-                   :help-echo "Open Personal Configurations"
-                   :action (lambda (&rest _) (dashboard-open-init-file))
-                   :mouse-face 'highlight
-                   :button-prefix ""
-                   :button-suffix ""
-                   (propertize "Open Config" 'face 'font-lock-keyword-face))
-    (insert " ")
-    (widget-create 'push-button
-                   :help-echo "Restore previous session"
-                   :action (lambda (&rest _) (restore-session))
-                   :mouse-face 'highlight
-                   :button-prefix ""
-                   :button-suffix ""
-                   (propertize "Restore Session" 'face 'font-lock-keyword-face))
-    (insert "\n")
-    (insert "\n")
-    ;; (insert "\n")
-    (insert (format "[%d packages loaded in %s]" (length package-activated-list) (emacs-init-time))))
-  (add-to-list 'dashboard-item-generators  '(buttons . dashboard-insert-buttons))
-  (add-to-list 'dashboard-items '(buttons))
-  (dashboard-insert-startupify-lists)
-  (with-eval-after-load 'evil
-    (evil-define-key 'normal dashboard-mode-map
-      (kbd "TAB") 'widget-forward
-      (kbd "RET") 'widget-button-press
-      "g" 'dashboard-refresh-buffer
-      "}" 'dashboard-next-section
-      "{" 'dashboard-previous-section
-      "p" 'dashboard-goto-projects
-      "m" 'dashboard-goto-bookmarks
-      "r" 'dashboard-goto-recent-files
-      "H" 'browse-homepage
-      "R" 'restore-session
-      "O" 'dashboard-open-init-file
-      "q" 'quit-dashboard))
+  (general-nmap dashboard-mode-map
+    "TAB" 'widget-forward
+    "RET" 'widget-button-press
+    "g" 'dashboard-refresh-buffer
+    "}" 'dashboard-next-section
+    "{" 'dashboard-previous-section
+    "p" 'kevin/dashboard-goto-projects
+    "m" 'kevin/dashboard-goto-bookmarks
+    "r" 'kevin/dashboard-goto-recent-files
+    "H" 'kevin/browse-homepage
+    "R" 'kevin/restore-session
+    "O" 'kevin/dashboard-open-init-file
+    "q" 'kevin/quit-dashboard)
   )
 
 (provide 'init-dashboard)

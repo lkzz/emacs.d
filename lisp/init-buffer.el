@@ -83,6 +83,7 @@
   "Create a scratch buffer."
   (interactive)
   (switch-to-buffer (get-buffer-create "*scratch*"))
+  (erase-buffer)
   (lisp-interaction-mode))
 
 ;;;###autoload
@@ -105,26 +106,26 @@ Including indent-buffer, which should not be called automatically on save."
 
 ;; buffer related keybindings
 (kevin/declare-prefix "b" "buffer")
-(kevin/set-leader-keys "bb" 'ivy-switch-buffer
-                       "bc" 'kevin/cleanup-buffer
-                       "be" 'eval-buffer
-                       "bd" 'kill-this-buffer
-                       "bD" #'kevin/kill-other-buffers
-                       "bf" 'beginning-of-defun
-                       "bi"  #'kevin/indent-region-or-buffer
-                       "bk" 'kill-buffer
-                       "bl" 'ibuffer-list-buffers
-                       "bm" #'kevin/kill-all-buffers
-                       "bp" #'kevin/switch-to-prev-buffer
-                       "bn" #'kevin/switch-to-next-buffer
-                       "bg" #'kevin/revert-buffer-no-confirm
-                       "bs" 'save-buffer
-                       "bS" #'kevin/create-scratch-buffer)
+(kevin/set-leader-keys
+  "bb" 'ivy-switch-buffer
+  "bc" 'kevin/cleanup-buffer
+  "be" 'eval-buffer
+  "bd" 'kill-this-buffer
+  "bD" #'kevin/kill-other-buffers
+  "bf" 'beginning-of-defun
+  "bi"  #'kevin/indent-region-or-buffer
+  "bk" 'kill-buffer
+  "bl" 'ibuffer-list-buffers
+  "bm" #'kevin/kill-all-buffers
+  "bp" #'kevin/switch-to-prev-buffer
+  "bn" #'kevin/switch-to-next-buffer
+  "bg" #'kevin/revert-buffer-no-confirm
+  "bs" 'save-buffer
+  "bS" #'kevin/create-scratch-buffer)
 
 ;; Group ibuffer's list by project root
 (use-package ibuffer-projectile
-  :defer t
-  :ensure t
+  :after (projectile)
   :bind ("C-x C-b" . ibuffer)
   :init
   (progn
@@ -138,23 +139,26 @@ Including indent-buffer, which should not be called automatically on save."
 
 
 (defun kevin/auto-save-buffer()
-  (interactive)
-  (when (and
-         ;; filename is not empty
-         (buffer-file-name)
-         ;; buffer is modified
-         (buffer-modified-p)
-         ;; yassnippet is not active
-         (or (not (boundp 'yas--active-snippets))
-             (not yas--active-snippets))
-         ;; company is not active
-         (or (not (boundp 'company-candidates))
-             (not company-candidates))
-         ;; evil normal state
-         (evil-normal-state-p)
-         )
-    (basic-save-buffer)
-    (message "# saved %s" buffer-file-name)))
+  (ignore-errors
+    (save-excursion
+      (when (and
+             ;; filename is not empty
+             (buffer-file-name)
+             ;; buffer is modified
+             (buffer-modified-p)
+             ;; yassnippet is not active
+             (or (not (boundp 'yas--active-snippets))
+                 (not yas--active-snippets))
+             ;; company is not active
+             (or (not (boundp 'company-candidates))
+                 (not company-candidates))
+             ;; evil normal state
+             (evil-normal-state-p)
+             )
+        (basic-save-buffer)
+        (message "# saved %s" buffer-file-name))
+      ))
+  )
 
 (defun kevin/auto-save-enable ()
   (interactive)

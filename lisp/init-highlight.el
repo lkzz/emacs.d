@@ -16,133 +16,122 @@
 ;; Highlight the current line
 (use-package hl-line
   :ensure nil
-  :hook (after-init . global-hl-line-mode))
+  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
+  :config
+  ;; Not having to render the hl-line overlay in multiple buffers offers a tiny
+  ;; performance boost. I also don't need to see it in other buffers.
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil))
 
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
   :ensure nil
-  :defer t
-  :init
-  (setq show-paren-delay 0)
-  (set-face-foreground 'show-paren-match "red")
-  (set-face-background 'show-paren-match "SkyBlue2")
-  (show-paren-mode t))
-
-;; Highlight matching paren
-(use-package highlight-parentheses
-  :ensure t
-  :diminish highlight-parentheses-mode
-  :hook (prog-mode . global-highlight-parentheses-mode))
+  :hook (after-init . show-paren-mode)
+  :config
+  (set-face-foreground 'show-paren-match "red")      ;定义前景色
+  (set-face-bold-p 'show-paren-match t)              ;加粗显示括号匹配
+  (set-face-background 'show-paren-match nil)        ;定义背景色
+  (set-face-underline 'show-paren-match t)           ;显示下划线
+  (setq show-paren-delay 0.1
+        show-paren-when-point-inside-paren t
+        show-paren-when-point-in-periphery t))
 
 ;; Highlight show trailing whitespace
 (use-package whitespace
   :ensure nil
-  :defer t
-  :diminish whitespace-mode
-  :hook (after-init . whitespace-mode)
+  :diminish whitespace-mode "ⓦ"
+  :preface
+  (defun kevin/turn-off-whitespace-highlight ()
+    (setq show-trailing-whitespace nil))
+  :hook (((prog-mode outline-mode conf-mode) . whitespace-mode)
+         ((minibuffer-setup eshell-mode) . kevin/turn-off-whitespace-highlight))
   :init
-  (add-hook 'minibuffer-setup-hook (lambda () (setq show-trailing-whitespace nil)))
-  (add-hook 'eshell-mode-hook (lambda () (setq show-trailing-whitespace nil)))
-  (setq-default show-trailing-whitespace t)
-  (setq whitespace-style '(face trailing))
+  (setq show-trailing-whitespace t
+        whitespace-style '(face trailing))
   :config
   (with-eval-after-load 'popup
     ;; advice for whitespace-mode conflict with popup
     (defvar my-prev-whitespace-mode nil)
     (make-local-variable 'my-prev-whitespace-mode)
     (defadvice popup-draw (before my-turn-off-whitespace activate compile)
-	  "Turn off whitespace mode before showing autocomplete box."
-	  (if whitespace-mode
-		  (progn
+      "Turn off whitespace mode before showing autocomplete box."
+      (if whitespace-mode
+          (progn
             (setq my-prev-whitespace-mode t)
             (whitespace-mode -1))
         (setq my-prev-whitespace-mode nil)))
     (defadvice popup-delete (after my-restore-whitespace activate compile)
-	  "Restore previous whitespace mode when deleting autocomplete box."
-	  (if my-prev-whitespace-mode
-		  (whitespace-mode 1)))))
+      "Restore previous whitespace mode when deleting autocomplete box."
+      (if my-prev-whitespace-mode
+          (whitespace-mode 1)))))
 
 ;; An unobtrusive way to trim spaces from end of line
 (use-package ws-butler
-  :ensure t
-  :defer t
   :diminish ws-butler-mode
   :hook (prog-mode . ws-butler-mode)
   :init (setq ws-butler-keep-whitespace-before-point nil))
 
+(defun kevin/disable-highlight-indent-guides ()
+  (when highlight-indent-guides-mode
+    (highlight-indent-guides-mode -1)))
+
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
-  :defer t
-  :ensure t
   :diminish highlight-indent-guides-mode
-  :if (display-graphic-p)
-  :hook (prog-mode . highlight-indent-guides-mode)
+  :hook ((prog-mode text-mode conf-mode) . highlight-indent-guides-mode)
+  :init
+  (setq highlight-indent-guides-method 'character)
   :config
-  (setq highlight-indent-guides-delay 0.5)
-  (setq highlight-indent-guides-method 'character))
+  (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
+  ;; `highlight-indent-guides' breaks in these modes
+  (add-hook 'visual-line-mode-hook #'kevin/disable-highlight-indent-guides)
+  (add-hook 'org-indent-mode-hook #'kevin/disable-highlight-indent-guides)
+  (setq highlight-indent-guides-delay 0.5
+        highlight-indent-guides-auto-enabled nil)
+  (set-face-foreground 'highlight-indent-guides-character-face "dimgray"))
 
 ;; Colorize color names in buffers
 (use-package rainbow-mode
-  :defer t
-  :ensure t
   :diminish rainbow-mode
-  :hook ((text-mode . rainbow-mode)
-         (prog-mode . rainbow-mode)))
+  :hook ((text-mode emacs-list-mode) . rainbow-mode))
 
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
-  :ensure t
-  :disabled
-  :hook (prog-mode . rainbow-delimiters-mode))
+  :hook (emacs-lisp-mode . rainbow-delimiters-mode)
+  :config
+  (setq rainbow-delimiters-max-face-count 3))
 
-;; Highlight TODO/FIXME/BUG...
+;; Highlight TODO/FIXME/NOTE...
 (use-package hl-todo
-  :defer t
-  :ensure t
   :hook (prog-mode . hl-todo-mode)
   :config
-  (setq hl-todo-keyword-faces `(("TODO"  . ,(face-foreground 'warning))
-                                ("FIXME" . ,(face-foreground 'error))
-                                ("NOTE"  . ,(face-foreground 'success)))))
-
-;; Show column indicator.
-(use-package fill-column-indicator
-  :disabled
-  :ensure t
-  :diminish auto-fill-mode
-  :config
-  (kevin/set-leader-keys "tF" 'fci-mode)
-  ;; NOTE fix display compatibility issue with company-mode
-  (defun on-off-fci-before-company(command)
-    (when (string= "show" command)
-      (turn-off-fci-mode))
-    (when (string= "hide" command)
-      (turn-on-fci-mode)))
-  (with-eval-after-load 'company-mode
-    (advice-add 'company-call-frontends :before #'on-off-fci-before-company))
-  (setq fci-rule-column 110)
-  (setq fci-rule-width 1)
-  (turn-on-auto-fill))
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces
+        `(("TODO"       . ,(face-foreground 'warning))
+          ("FIXME"      . ,(face-foreground 'error))
+          ("HACK"       . ,(face-foreground 'font-lock-constant-face))
+          ("REVIEW"     . ,(face-foreground 'font-lock-keyword-face))
+          ("NOTE"       . ,(face-foreground 'success))
+          ("DEPRECATED" . ,(face-foreground 'font-lock-doc-face)))))
 
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon
-  :ensure t
+  :if (display-graphic-p)
   :diminish beacon-mode
   :config
   (beacon-mode t)
-  (setq beacon-color "red")
-  (setq beacon-size 80)
+  (setq beacon-size 40
+        beacon-color "red")
   (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
 
 (use-package symbol-overlay
-  :ensure t
-  :defer t
   :diminish symbol-overlay-mode "ⓢ"
   :bind (:map symbol-overlay-mode-map
-              ("C-p" . symbol-overlay-jump-prev)
-              ("C-n" . symbol-overlay-jump-next))
+              ("M-p" . symbol-overlay-jump-prev)
+              ("M-n" . symbol-overlay-jump-next)
+              ("M-r" . symbol-overlay-rename))
   :init
-  (kevin/set-leader-keys "ts" 'symbol-overlay-mode))
+  (kevin/set-leader-keys "ts" #'symbol-overlay-mode))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here

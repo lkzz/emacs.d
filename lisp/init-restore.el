@@ -26,7 +26,6 @@
 
 ;; Persistent the scratch buffter
 (use-package persistent-scratch
-  :defer t
   :hook (after-init . persistent-scratch-setup-default)
   :config
   (setq persistent-scratch-save-file (concat kevin-cache-directory ".persistent-scratch")))

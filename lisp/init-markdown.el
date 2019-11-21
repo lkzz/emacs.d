@@ -14,7 +14,6 @@
 ;;; Code:
 
 (use-package markdown-mode
-  :ensure t
   :mode (("\\.mmark\\'" . markdown-mode)
          ("README\\.md$'" . gfm-mode)
          ("\\.md$'" . markdon-mode)
@@ -33,8 +32,6 @@
     (add-to-list 'auto-mode-alist `(,regex . markdown-mode))))
 
 (use-package markdown-preview-mode
-  :defer t
-  :ensure t
   :after markdown-mode
   :config
   (setq markdown-command "multimarkdown")

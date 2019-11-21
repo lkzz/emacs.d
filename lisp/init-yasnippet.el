@@ -1,4 +1,4 @@
-;;; init-yasnippet.el --- Initialize yasnippet configurations. -*- lexical-binding: t; -*-
+;;; init-yasnippet.el --- insert description here -*- lexical-binding: t -*-
 ;;
 ;; Copyright (C) 2017-2019  Kevin Leung
 ;;
@@ -10,20 +10,16 @@
 ;;; License: GPLv3
 ;;
 ;;; Commentary:
-;;
 ;;; Code:
 
 (use-package yasnippet
-  :defer t
-  :ensure t
   :diminish yas-minor-mode
-  :hook (after-init . yas-global-mode))
-
-(use-package yasnippet-snippets
-  :defer t
-  :ensure t
-  :after (yasnippet)
-  :ensure t)
+  :hook (after-init . yas-global-mode)
+  :bind (("M-/" . company-yasnippet)
+         :map company-active-map
+         ("C-/" . yas-expand-from-trigger-key))
+  :config
+  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
 
 (provide 'init-yasnippet)
 ;;; init-yasnippet.el ends here

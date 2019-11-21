@@ -15,15 +15,14 @@
 
 ;; Interactively highlight the current-window (by dimming the others)
 (use-package dimmer
-  :defer t
-  :ensure t
-  :init (add-hook 'after-init-hook #'dimmer-mode)
+  :disabled
+  :hook (after-init . dimmer-mode)
   :config
   (setq dimmer-fraction 0.2))
 
 ;; Restore old window configurations
 (use-package winner
-  :defer t
+  :hook (after-init . winner-mode)
   :init
   (setq winner-boring-buffers '("*Completions*"
                                 "*Compile-Log*"
@@ -34,15 +33,17 @@
                                 "*cvs*"
                                 "*Buffer List*"
                                 "*Ibuffer*"
-                                "*esh command on file*"))
-  (add-hook 'after-init-hook #'winner-mode))
+                                "*esh command on file*")))
 
 ;; Quickly switch windows
 (use-package ace-window
   :defer t
-  :ensure t
   :init
-  (kevin/set-leader-keys "wo" #'ace-window))
+  (global-set-key [remap other-window] #'ace-window)
+  :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
+        aw-scope 'frame
+        aw-background t))
 
 ;;;###autoload
 (defun kevin/split-window-below-and-focus ()
@@ -66,56 +67,33 @@
 
 ;; Numbered window shortcuts
 (use-package winum
-  :defer t
-  :ensure t
+  :hook (after-init . winum-mode)
   :init
-  (setq window-numbering-scope 'global)
-  (setq winum-auto-setup-mode-line nil)
-  (setq winum-ignored-buffers '(" *which-key*"))
-  (setq winum-auto-assign-0-to-minibuffer t)
-  (kevin/declare-prefix "w" "window")
-  ;; window related keybindings
-  (kevin/set-leader-keys
-   "0"  'winum-select-window-0-or-10
-   "1"  'winum-select-window-1
-   "2"  'winum-select-window-2
-   "3"  'winum-select-window-3
-   "4"  'winum-select-window-4
-   "5"  'winum-select-window-5
-   "6"  'winum-select-window-6
-   "7"  'winum-select-window-7
-   "8"  'winum-select-window-8
-   "9"  'winum-select-window-9
-   "wd" 'delete-window
-   "w/" #'kevin/split-window-right-and-focus
-   "w-" #'kevin/split-window-below-and-focus
-   "wD" 'delete-other-windows)
-  (winum-mode))
+  (setq window-numbering-scope 'global
+        winum-auto-setup-mode-line nil
+        winum-ignored-buffers '(" *which-key*")
+        winum-auto-assign-0-to-minibuffer t))
 
 ;; Zoom window like tmux
 (use-package zoom-window
-  :defer t
-  :ensure t
   :bind ("C-x C-z" . zoom-window-zoom)
   :init (setq zoom-window-mode-line-color "DarkGreen"))
 
 (use-package centered-window
   :defer t
-  :ensure t
   :init
-  (setq cwm-use-vertical-padding t)
-  (setq cwm-frame-internal-border 15)
-  (setq cwm-incremental-padding t)
-  (setq cwm-left-fringe-ratio 0)
-  (kevin/set-leader-keys "wc" #'centered-window-mode))
+  (kevin/set-leader-keys "wc" #'centered-window-mode)
+  :config
+  (setq cwm-use-vertical-padding t
+        cwm-frame-internal-border 15
+        cwm-incremental-padding t
+        cwm-left-fringe-ratio 0))
 
 ;; resize window
 (use-package resize-window
   :defer t
-  :ensure t
   :init
   (kevin/set-leader-keys "wr" #'resize-window))
-
 
 ;;;###autoload
 (defun kevin/toggle-golden-ratio ()
@@ -132,8 +110,6 @@
       (golden-ratio))))
 
 (use-package golden-ratio
-  :defer t
-  :ensure t
   :diminish golden-ratio-mode "ⓖ"
   :init
   (kevin/set-leader-keys "tg" #'kevin/toggle-golden-ratio)
@@ -207,14 +183,12 @@
                windmove-down))
     (add-to-list 'golden-ratio-extra-commands f))
   ;; golden-ratio-exclude-buffer-names
-  (dolist (n '(" *NeoTree*"
+  (dolist (n '("*NeoTree*"
                "*LV*"
-               " *which-key*"))
+               "*which-key*"))
     (add-to-list 'golden-ratio-exclude-buffer-names n)))
 
 (use-package centered-cursor-mode
-  :defer t
-  :ensure t
   :commands (centered-cursor-mode global-centered-cursor-mode)
   :diminish centered-cursor-mode "⊝"
   :init
