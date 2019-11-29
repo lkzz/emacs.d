@@ -120,7 +120,9 @@
 
 ;; Install: go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 (use-package flycheck-golangci-lint
+  :if (executable-find "golangci-lint")
   :after flycheck
+  :defines flycheck-disabled-checkers
   :hook (go-mode . (lambda ()
                      "Enable golangci-lint."
                      (setq flycheck-disabled-checkers '(go-gofmt
@@ -129,24 +131,7 @@
                                                         go-build
                                                         go-test
                                                         go-errcheck))
-                     (flycheck-golangci-lint-setup)))
-  :init
-  (setq flycheck-golangci-lint-deadline "1m"
-        flycheck-golangci-lint-tests t
-        flycheck-golangci-lint-fast t
-        flycheck-golangci-lint-enable-linters '(govet
-                                                errcheck
-                                                staticcheck
-                                                goimport
-                                                unused
-                                                gosimple
-                                                structcheck
-                                                varcheck
-                                                ineffassign
-                                                decode
-                                                unconvert
-                                                typecheck)
-        flycheck-golangci-lint-disable-linters '()))
+                     (flycheck-golangci-lint-setup))))
 
 (use-package go-guru
   :after go-mode
