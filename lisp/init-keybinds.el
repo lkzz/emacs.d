@@ -14,8 +14,17 @@
 ;;; Code:
 
 (when kevin-mac-p
-  (setq mac-command-modifier 'super
-        mac-option-modifier 'meta))
+  (setq mac-command-modifier 'super) ; make Super key do command
+  (setq mac-option-modifier 'meta)  ; make Option key do meta
+  (setq mac-right-option-modifier 'none) ;; disable right Option key
+  (setq mac-control-modifer 'control)
+  (global-set-key [(super a)] 'mark-whole-buffer)
+  (global-set-key [(super v)] 'yank)
+  (global-set-key [(super c)] 'kill-ring-save)
+  (global-set-key [(super s)] 'save-buffer)
+  (global-set-key [(super w)]
+                  (lambda () (interactive) (delete-window)))
+  (global-set-key [(super z)] 'undo))
 
 ;; used as tmux prefix key
 (global-unset-key (kbd "C-q"))
