@@ -16,24 +16,25 @@
 ;;-----------------------------------------------------------------------------
 ;; enable package manager: straight
 ;;-----------------------------------------------------------------------------
-(defvar bootstrap-version)
-(let ((bootstrap-file
-        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-          "http://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-          'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
 (setq straight-base-dir user-emacs-directory
       ;; Straight's own emacsmirror mirror is a little smaller and faster.
       straight-recipes-emacsmirror-use-mirror t
       straight-enable-package-integration nil
       straight-repository-branch "develop"
+      straight-check-for-modifications '(check-on-save)
       straight-vc-git-default-clone-depth 1)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
 ;;-----------------------------------------------------------------------------
 ;; install use-package
