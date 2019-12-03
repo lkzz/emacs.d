@@ -13,32 +13,39 @@
 ;;
 ;;; Code:
 
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+;; (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+;;                          ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 
 
-;;; Fire up package.el
-(setq package-enable-at-startup nil ; don't auto-initialize!
-      ;; don't add that `custom-set-variables' block to my initl!
-      package--init-file-ensured t)
-(package-initialize)
-;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
-(setq load-prefer-newer t)
+;; ;;; Fire up package.el
+;; (setq package-enable-at-startup nil ; don't auto-initialize!
+;;       ;; don't add that `custom-set-variables' block to my initl!
+;;       package--init-file-ensured t)
+;; (package-initialize)
+;; ;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
+;; (setq load-prefer-newer t)
+
+;;-----------------------------------------------------------------------------
+;; enable package manager: straight
+;;-----------------------------------------------------------------------------
+(kevin/ensure-straight)
+(setq straight-base-dir user-emacs-directory
+      straight-repository-branch "develop"
+      straight-vc-git-default-clone-depth 1)
 
 ;;-----------------------------------------------------------------------------
 ;; install use-package
 ;;-----------------------------------------------------------------------------
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
+(straight-use-package 'use-package)
 ;; Should set before loading `use-package'
 (eval-and-compile
-  (setq use-package-always-ensure t)
+  (setq straight-use-package-by-default t)
+  ;; (setq use-package-always-ensure t)
   (setq use-package-expand-minimally t)
   (setq use-package-enable-imenu-support t)
   (require 'use-package))
+
 
 (use-package diminish)
 (use-package bind-key)
