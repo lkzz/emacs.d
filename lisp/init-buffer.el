@@ -112,7 +112,6 @@ Including indent-buffer, which should not be called automatically on save."
   "be" 'eval-buffer
   "bd" 'kill-this-buffer
   "bD" #'kevin/kill-other-buffers
-  "bf" 'beginning-of-defun
   "bi"  #'kevin/indent-region-or-buffer
   "bk" 'kill-buffer
   "bl" 'ibuffer-list-buffers
