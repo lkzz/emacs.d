@@ -20,12 +20,12 @@
          ("\C-ce" . dash-at-point-with-docset)))
 
 (use-package prog-mode
-  :ensure nil
+  :straight nil
   :hook ((emacs-lisp-mode . global-prettify-symbols-mode)
          (emacs-lisp-mode . (lambda () (push '("<=" . ?≤) prettify-symbols-alist)))))
 
 (use-package nxml-mode
-  :ensure nil
+  :straight nil
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package toml-mode
@@ -43,7 +43,7 @@
   (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t))))
 
 (use-package protobuf-mode
-  :ensure nil
+  :straight nil
   :diminish abbrev-mode ;; required in protobuf-mode
   :mode (("\\.proto$" . protobuf-mode))
   :init

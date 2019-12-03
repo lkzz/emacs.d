@@ -25,7 +25,7 @@
                   (delete-file (concat buffer-file-name "c"))))))
 
 (use-package elisp-mode
-  :ensure nil
+  :straight nil
   :hook (emacs-lisp-mode . remove-elc-on-save))
 
 (use-package elisp-def

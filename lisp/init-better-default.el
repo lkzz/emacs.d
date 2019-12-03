@@ -80,7 +80,7 @@
 
 ;; 自动刷新文件
 (use-package autorevert
-  :ensure nil
+  :straight nil
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 
@@ -89,12 +89,12 @@
 
 (use-package url
   :disabled
-  :ensure nil
+  :straight nil
   :config
   (setq url-configuration-directory (concat kevin-cache-directory "url")))
 
 (use-package simple
-  :ensure nil
+  :straight nil
   :hook (window-setup . size-indication-mode)
   :init (setq column-number-mode t
               line-number-mode t

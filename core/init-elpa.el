@@ -13,24 +13,25 @@
 ;;
 ;;; Code:
 
-;; (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-;;                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-;;                          ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-
-
-;; ;;; Fire up package.el
-;; (setq package-enable-at-startup nil ; don't auto-initialize!
-;;       ;; don't add that `custom-set-variables' block to my initl!
-;;       package--init-file-ensured t)
-;; (package-initialize)
-;; ;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
-;; (setq load-prefer-newer t)
-
 ;;-----------------------------------------------------------------------------
 ;; enable package manager: straight
 ;;-----------------------------------------------------------------------------
-(kevin/ensure-straight)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+          "http://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+          'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 (setq straight-base-dir user-emacs-directory
+      ;; Straight's own emacsmirror mirror is a little smaller and faster.
+      straight-recipes-emacsmirror-use-mirror t
+      straight-enable-package-integration nil
       straight-repository-branch "develop"
       straight-vc-git-default-clone-depth 1)
 

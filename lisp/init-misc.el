@@ -16,7 +16,7 @@
 ;; bookmark 设置
 (use-package bookmark
   :defer t
-  :ensure nil
+  :straight nil
   :init
   (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
   (kevin/declare-prefix "m" "bookmark")
@@ -29,7 +29,7 @@
 
 ;; Elec pair
 (use-package elec-pair
-  :ensure nil
+  :straight nil
   :hook (after-init . electric-pair-mode))
 
 ;; Hungry deletion
@@ -52,13 +52,13 @@
 ;; History
 (use-package saveplace
   :defer t
-  :ensure nil
+  :straight nil
   :config
   (setq save-place-file (concat kevin-cache-directory "saveplace"))
   :hook (after-init . save-place-mode))
 
 (use-package recentf
-  :ensure nil
+  :straight nil
   :hook (after-init . recentf-mode)
   :init
   (setq recentf-save-file (concat kevin-cache-directory "recentf"))
@@ -77,7 +77,7 @@
 
 ;; Rectangle
 (use-package rect
-  :ensure nil
+  :straight nil
   :bind (("<C-return>" . rectangle-mark-mode)))
 
 ;; Jump to things in Emacs tree-style
@@ -123,7 +123,7 @@
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
   :disabled
-  :ensure nil
+  :straight nil
   :init
   ;; show org ediffs unfolded
   (with-eval-after-load 'outline
@@ -148,7 +148,7 @@
         undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history")))))
 
 (use-package savehist
-  :ensure nil
+  :straight nil
   :config
   (setq savehist-file (concat kevin-cache-directory "savehist")
         savehist-save-minibuffer-history t
@@ -165,7 +165,7 @@
 
 ;; Hideshow
 (use-package hideshow
-  :ensure nil
+  :straight nil
   :diminish hs-minor-mode
   :bind (:map hs-minor-mode-map
               ("C-`" . hs-toggle-hiding))
