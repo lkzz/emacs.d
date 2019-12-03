@@ -53,6 +53,7 @@
 
 (kevin/declare-prefix "j" "jump")
 (kevin/set-leader-keys
+  "jf" 'beginning-of-defun
   "jm" 'kevin/jump-match-delimiter)
 
 ;; Open applications with from emacs
