@@ -15,7 +15,7 @@
 ;;; Code:
 
 (use-package mu4e
-  :ensure nil
+  :straight nil
   :config
   ;; Use mu4e as default mail agent
   (setq mail-user-agent 'mu4e-user-agent)
@@ -51,7 +51,7 @@
   )
 
 (use-package mu4e-contrib
-  :ensure nil
+  :straight nil
   :init
   (setq mu4e-html2text-command 'mu4e-shr2text)
   ;; try to emulate some of the eww key-bindings

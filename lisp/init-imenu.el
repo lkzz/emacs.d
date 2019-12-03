@@ -15,7 +15,7 @@
 
 ;; with use-package
 (use-package maple-imenu
-  :ensure nil
+  :straight nil
   :commands (maple-imenu)
   :load-path "vendor/maple-imenu"
   :init

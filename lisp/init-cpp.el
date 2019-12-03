@@ -69,7 +69,7 @@
   )
 
 (use-package c++-mode
-  :ensure nil
+  :straight nil
   :mode ("\\.h|\\.cpp" . c++-mode))
 
 (use-package company-c-headers
@@ -177,7 +177,7 @@
 
 (use-package company-cmake
   :after (company cmake-mode)
-  :load-path "vendor"
+  :straight (company-cmake type git :host github :repo "purcell/company-cmake")
   :config
   (kevin/add-company-backend :backend company-cmake :mode cmake-mode))
 

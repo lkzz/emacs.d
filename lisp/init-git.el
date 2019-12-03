@@ -132,7 +132,7 @@
          ("/git/ignore\\'" . gitignore-mode)))
 
 (use-package smerge-mode
-  :ensure nil
+  :straight nil
   :diminish smerge-mode
   :pretty-hydra
   ((:color pink :quit-key "q")
