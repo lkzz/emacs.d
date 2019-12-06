@@ -40,6 +40,38 @@
   :defer t
   :init
   (global-set-key [remap other-window] #'ace-window)
+  :pretty-hydra
+  ((:title (pretty-hydra-title "Window Management" 'faicon "windows") :foreign-keys warn :quit-key "q")
+   ("Actions"
+    (("TAB" other-window "switch")
+     ("x" ace-delete-window "delete" :exit t)
+     ("m" ace-delete-other-windows "maximize" :exit t)
+     ("s" ace-swap-window "swap" :exit t)
+     ("a" ace-select-window "select" :exit t)
+     ("f" toggle-frame-fullscreen "fullscreen" :exit t))
+    "Resize"
+    (("h" shrink-window-horizontally "←")
+     ("j" enlarge-window "↓")
+     ("k" shrink-window "↑")
+     ("l" enlarge-window-horizontally "→")
+     ("n" balance-windows "balance"))
+    "Split"
+    (("b" split-window-right "horizontally")
+     ("B" split-window-horizontally-instead "horizontally instead")
+     ("v" split-window-below "vertically")
+     ("V" split-window-vertically-instead "vertically instead")
+     ("t" toggle-window-split "toggle"))
+    "Zoom"
+    (("+" text-scale-increase "in")
+     ("=" text-scale-increase "in")
+     ("-" text-scale-decrease "out")
+     ("0" (text-scale-increase 0) "reset"))
+    "Appearance"
+    (("F" set-frame-font "font")
+     ("T" centaur-load-theme "theme"))))
+  :custom-face
+  (aw-leading-char-face ((t (:inherit font-lock-keyword-face :bold t :height 3.0))))
+  (aw-mode-line-face ((t (:inherit mode-line-emphasis :bold t))))
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)
         aw-scope 'frame
@@ -91,6 +123,7 @@
 
 ;; resize window
 (use-package resize-window
+  :disabled
   :defer t
   :init
   (kevin/set-leader-keys "wr" #'resize-window))
