@@ -120,7 +120,6 @@
 
 ;; Install: go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 (use-package flycheck-golangci-lint
-  :disabled
   :if (executable-find "golangci-lint")
   :after flycheck
   :defines flycheck-disabled-checkers
