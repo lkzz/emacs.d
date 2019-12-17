@@ -13,6 +13,14 @@
 ;;
 ;;; Code:
 
+;; fix icon background color
+;; https://github.com/domtronn/all-the-icons.el/issues/131
+(defun kevin/propertize-icon (icon)
+  (add-face-text-property
+   0 (length icon)
+   :inherit t icon)
+  icon)
+
 (use-package hide-mode-line
   :hook (neotree-mode . hide-mode-line-mode))
 
@@ -20,13 +28,13 @@
 (defun kevin/maybe-alltheicon (&rest args)
   "Display octicon via `ARGS'."
   (when (display-graphic-p)
-    (apply 'all-the-icons-alltheicon args)))
+    (kevin/propertize-icon (apply 'all-the-icons-alltheicon args))))
 
 ;;;###autload
 (defun kevin/maybe-faicon-icon (&rest args)
   "Display font awesome icon via `ARGS'."
   (when (display-graphic-p)
-    (apply 'all-the-icons-faicon args)))
+    (kevin/propertize-icon (apply 'all-the-icons-faicon args))))
 
 ;;;###
 (defun shorten-directory (dir max-length)
@@ -83,21 +91,21 @@
           spaceline-workspace-numbers-unicode t)
     ;;define version control segment
     (spaceline-define-segment version-control
-                              "Version control information."
-                              (when vc-mode
-                                (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
-                                  (powerline-raw (concat (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
-                                                         " "
-                                                         branch)))))
+      "Version control information."
+      (when vc-mode
+        (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
+          (powerline-raw (concat (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
+                                 " "
+                                 branch)))))
     ;; define buffer id segment
     (spaceline-define-segment buffer-id
-                              "Shorten buufer fileanme."
-                              (when (buffer-file-name)
-                                (concat
-                                 (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
-                                 " "
-                                 (shorten-directory default-directory 6)
-                                 (file-relative-name buffer-file-name)))))
+      "Shorten buufer fileanme."
+      (when (buffer-file-name)
+        (concat
+         (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
+         " "
+         (shorten-directory default-directory 6)
+         (file-relative-name buffer-file-name)))))
 
   (use-package spaceline-config
     :straight nil
@@ -122,30 +130,30 @@
       (spaceline-toggle-minor-modes-off))
     ;; custom spaceline theme
     (spaceline-compile
-     ;; define spaceline theme name: spaceline-ml-custom
-     "custom"
-     ;; left side
-     '(((((persp-name :fallback workspace-number) window-number) :separator "")
-        :fallback evil-state
-        :face highlight-face
-        :priority 100)
-       (anzu :priority 95)
-       ((buffer-id) :priority 98)
-       (process :when active)
-       ((flycheck-error flycheck-warning flycheck-info) :when active :priority 99)
-       (version-control :when active :priority 97)
-       (org-pomodoro :when active)
-       (org-clock :when active)
-       (nyan-cat :when active :priority 70)
-       (major-mode :when active :priority 79)
-       (minor-modes :when active :priority 78))
-     ;; right side
-     '((purpose :priority 94)
-       (selection-info :priority 95)
-       input-method
-       ((buffer-encoding-abbrev line-column) :separator "|" :priority 96)
-       (global :when active)
-       (hud :priority 99)))
+      ;; define spaceline theme name: spaceline-ml-custom
+      "custom"
+      ;; left side
+      '(((((persp-name :fallback workspace-number) window-number) :separator "")
+         :fallback evil-state
+         :face highlight-face
+         :priority 100)
+        (anzu :priority 95)
+        ((buffer-id) :priority 98)
+        (process :when active)
+        ((flycheck-error flycheck-warning flycheck-info) :when active :priority 99)
+        (version-control :when active :priority 97)
+        (org-pomodoro :when active)
+        (org-clock :when active)
+        (nyan-cat :when active :priority 70)
+        (major-mode :when active :priority 79)
+        (minor-modes :when active :priority 78))
+      ;; right side
+      '((purpose :priority 94)
+        (selection-info :priority 95)
+        input-method
+        ((buffer-encoding-abbrev line-column) :separator "|" :priority 96)
+        (global :when active)
+        (hud :priority 99)))
 
     (setq-default mode-line-format '("%e" (:eval (spaceline-ml-custom)))))
   )
