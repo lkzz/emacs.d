@@ -83,6 +83,7 @@
 
 ;; Show TODOs in magit
 (use-package magit-todos
+  :disabled
   :after magit
   :init
   (setq magit-todos-nice (if (executable-find "nice") t nil))
