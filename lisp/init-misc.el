@@ -60,16 +60,21 @@
 (use-package recentf
   :straight nil
   :hook (after-init . recentf-mode)
-  :init
-  (setq recentf-save-file (concat kevin-cache-directory "recentf"))
-  (setq recentf-max-saved-items 200)
-  (setq recentf-exclude '((expand-file-name package-user-dir)
+  :config
+  (setq recentf-save-file (concat kevin-cache-directory "recentf")
+        recentf-max-saved-items 200
+        recentf-auto-cleanup 'never
+        recentf-exclude '((expand-file-name package-user-dir)
                           kevin-cache-directory
                           "bookmarks"
                           "COMMIT_EDITMSG\\'"
                           "pyim"
-                          (concat user-emacs-directory "elpa")
-                          (concat user-emacs-directory "vendor"))))
+                          (concat user-emacs-directory "straight")))
+  (add-hook 'dired-mode-hook
+            (lambda ()
+              "Add dired directory to recentf file list."
+              (recentf-add-file default-directory)))
+  )
 
 ;; Delete selection if you insert
 (use-package delsel
