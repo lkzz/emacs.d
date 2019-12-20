@@ -20,12 +20,12 @@
          ("\C-ce" . dash-at-point-with-docset)))
 
 (use-package prog-mode
-  :straight nil
+  :straight (:type built-in)
   :hook ((emacs-lisp-mode . global-prettify-symbols-mode)
          (emacs-lisp-mode . (lambda () (push '("<=" . ?≤) prettify-symbols-alist)))))
 
 (use-package nxml-mode
-  :straight nil
+  :straight (:type built-in)
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package toml-mode
