@@ -14,7 +14,7 @@
 ;;; Code:
 
 (use-package dired
-  :straight nil
+  :straight (:type built-in)
   :init
   (kevin/set-leader-keys "jd" 'dired-jump)
   (setq dired-recursive-copies 'always ; always copy recursively
@@ -124,7 +124,7 @@
 
 (use-package dired-x
   :defer t
-  :straight nil
+  :straight (:type built-in)
   :diminish dired-omit-mode
   :hook (dired-mode . dired-omit-mode)
   :general

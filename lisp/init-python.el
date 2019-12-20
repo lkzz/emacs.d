@@ -17,7 +17,7 @@
 
 ;; Python Mode
 (use-package python
-  :straight nil
+  :straight (:type built-in)
   :mode ("\\.py\\'" . python-mode)
   :init
   (setq python-indent-offset 4

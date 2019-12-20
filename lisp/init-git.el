@@ -140,7 +140,7 @@
          ("/git/ignore\\'" . gitignore-mode)))
 
 (use-package smerge-mode
-  :straight nil
+  :straight (:type built-in)
   :diminish smerge-mode
   :pretty-hydra
   ((:title (pretty-hydra-title "Smerge" 'octicon "diff") :color pink :quit-key "q")

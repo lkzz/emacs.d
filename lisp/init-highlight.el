@@ -15,7 +15,7 @@
 
 ;; Highlight the current line
 (use-package hl-line
-  :straight nil
+  :straight (:type built-in)
   :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
   :config
   ;; Not having to render the hl-line overlay in multiple buffers offers a tiny
@@ -25,7 +25,7 @@
 
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
-  :straight nil
+  :straight (:type built-in)
   :hook (after-init . show-paren-mode)
   :config
   (set-face-foreground 'show-paren-match "red")      ;定义前景色
@@ -38,7 +38,7 @@
 
 ;; Highlight show trailing whitespace
 (use-package whitespace
-  :straight nil
+  :straight (:type built-in)
   :diminish whitespace-mode "ⓦ"
   :preface
   (defun kevin/turn-off-whitespace-highlight ()

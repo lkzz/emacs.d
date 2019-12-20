@@ -69,7 +69,7 @@
   )
 
 (use-package c++-mode
-  :straight nil
+  :straight (:type built-in)
   :mode ("\\.h|\\.cpp" . c++-mode))
 
 (use-package company-c-headers

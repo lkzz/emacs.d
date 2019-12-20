@@ -84,7 +84,7 @@
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 
   (use-package spaceline-segments
-    :straight nil
+    :straight (:type built-in)
     :config
     (setq spaceline-window-numbers-unicode t
           spaceline-minor-modes-separator ""
@@ -108,7 +108,7 @@
          (file-relative-name buffer-file-name)))))
 
   (use-package spaceline-config
-    :straight nil
+    :straight (:type built-in)
     :config
     (spaceline-toggle-persp-name-on)
     (spaceline-toggle-workspace-number-on)
