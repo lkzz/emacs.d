@@ -52,7 +52,7 @@
     :bind (:map lsp-ui-mode-map
                 ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
                 ([remap xref-find-references] . lsp-ui-peek-find-references))
-    :init (setq lsp-ui-doc-enable t
+    :init (setq lsp-ui-doc-enable nil
                 lsp-ui-doc-use-webkit nil
                 lsp-ui-doc-delay 0.5
                 lsp-ui-doc-include-signature nil
