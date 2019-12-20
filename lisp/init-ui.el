@@ -106,8 +106,6 @@
   :config
   (doom-themes-org-config)
   (doom-themes-neotree-config))
-(use-package gruvbox-theme :defer t)
-(use-package color-theme-sanityinc-tomorrow :defer t)
 ;; 加载主题
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -218,7 +216,7 @@
 
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
-  :straight nil
+  :straight (:type built-in)
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
   (setq-default display-line-numbers-width 3)
