@@ -17,7 +17,6 @@
 (setq user-full-name kevin-user-name
       user-mail-address kevin-mail-address)
 
-
 ;; Don't ask me when kill process buffer
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
@@ -88,7 +87,6 @@
   :bind (("C-=" . er/expand-region)))
 
 (use-package url
-  :disabled
   :ensure nil
   :config
   (setq url-configuration-directory (concat kevin-cache-directory "url")))

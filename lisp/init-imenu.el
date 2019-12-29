@@ -15,9 +15,8 @@
 
 ;; with use-package
 (use-package maple-imenu
-  :ensure nil
-  :commands (maple-imenu)
   :load-path "vendor/maple-imenu"
+  :commands (maple-imenu)
   :init
   (kevin/set-leader-keys "ti" 'maple-imenu)
   :config

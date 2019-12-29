@@ -18,7 +18,7 @@
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
   :config
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner (expand-file-name "vendor/banners/spacemacs.png" user-emacs-directory)
+  (setq dashboard-startup-banner (expand-file-name "spacemacs.png" user-emacs-directory)
         initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
         dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name)
         dashboard-center-content t

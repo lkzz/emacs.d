@@ -85,16 +85,20 @@
     | ~SPC w4~    | ~select window 4~              |
 
   * toggle
-    | Key Binding | Description                  |
-    |-------------+------------------------------|
-    | ~SPC tg~    | ~toggle golden ratio mode~   |
-    | ~SPC ft~    | ~toggle neotree~             |
-    | ~SPC t-~    | ~toggle center mode~         |
-    | ~SPC tf~    | ~toggle fullscreen~          |
-    | ~SPC tw~    | ~toggle word wrap~           |
-    | ~SPC ts~    | ~toggle symbol overlay mode~ |
-    | ~SPC tt~    | ~toggle truncate line~       |
-    | ~C-c te~    | ~toggle english helper~      |
+    | Key Binding | Description                       |
+    |-------------+-----------------------------------|
+    | ~SPC tb~    | ~toggle scroll bar~               |
+    | ~C-c te~    | ~toggle english helper~           |
+    | ~SPC tf~    | ~toggle neotree~                  |
+    | ~SPC tg~    | ~toggle golden ratio mode~        |
+    | ~SPC ti~    | ~toggle imenu~                    |
+    | ~SPC tn~    | ~toggle dispaly line number mode~ |
+    | ~SPC tw~    | ~toggle word wrap~                |
+    | ~SPC ts~    | ~toggle symbol overlay mode~      |
+    | ~SPC tt~    | ~toggle truncate line~            |
+    | ~SPC t-~    | ~toggle center mode~              |
+    | ~SPC t;~    | ~toggle fullscreen~               |
+    | ~SPC t'~    | ~toggle eshell~                   |
 
   * bookmark
     | Key Binding | Description               |
@@ -122,28 +126,34 @@
     | ~SPC bg~    | ~revert buffer~         |
 
   * cursor move
-    | Key Binding | Description                |
-    |-------------+----------------------------|
-    | ~C-a~       | ~mwim-beginning-of-line~   |
-    | ~C-e~       | ~mwim-end-of-code-or-line~ |
-    | ~SPC jp~    | ~goto-match-parent~        |
-    | ~SPC jl~    | ~goto-line~                |
+    | Key Binding | Description                  |
+    |-------------+------------------------------|
+    | ~C-a~       | ~mwim-beginning-of-line~     |
+    | ~C-e~       | ~mwim-end-of-code-or-line~   |
+    | ~SPC jc~    | ~ivy goto char~              |
+    | ~SPC jd~    | ~dired jump~                 |
+    | ~SPC jf~    | ~jump beginning of function~ |
+    | ~SPC jl~    | ~avy goto line~              |
+    | ~SPC jm~    | ~jump match delimiter~       |
+    | ~SPC jp~    | ~goto-match-parent~          |
+    | ~SPC jw~    | ~ivy goto word~              |
 
-  * application
+  * application open
     | Key Binding | Description               |
     |-------------+---------------------------|
-    | ~SPC aa~    | ~counsel osx application~ |
-    | ~SPC ai~    | ~open iterm2~             |
-    | ~SPC aw~    | ~open wechat~             |
-    | ~SPC ay~    | ~open youdao directory~   |
+    | ~SPC oa~    | ~counsel osx application~ |
+    | ~SPC oi~    | ~open init config file~   |
+    | ~SPC ot~    | ~open iterm~              |
+    | ~SPC ow~    | ~open wechat~             |
+    | ~SPC oy~    | ~open youdao directory~   |
 
   * other
     | Key Binding | Description               |
     |-------------+---------------------------|
     | ~C-c y~     | ~youdao directory search~ |
     | ~C-\~       | ~pyim~                    |
-    | ~SPC /~     | ~rg search~               |
-    | ~SPC '~     | ~eshell popup~            |
+    | ~SPC s/~    | ~counsel rg search~       |
+    | ~SPC ss~    | ~swiper isearch~          |
 
 
 
