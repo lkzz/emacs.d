@@ -176,8 +176,8 @@
   (setq cmake-tab-width 4))
 
 (use-package company-cmake
-  :after (company cmake-mode)
   :load-path "vendor"
+  :after (company cmake-mode)
   :config
   (kevin/add-company-backend :backend company-cmake :mode cmake-mode))
 

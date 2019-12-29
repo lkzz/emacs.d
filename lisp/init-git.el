@@ -81,6 +81,14 @@
         git-commit-summary-max-length 50
         git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
 
+;; Show TODOs in magit
+(use-package magit-todos
+  :disabled
+  :after magit
+  :init
+  (setq magit-todos-nice (if (executable-find "nice") t nil))
+  (magit-todos-mode 1))
+
 (use-package evil-magit
   :after (evil magit)
   :init (evil-magit-init)
@@ -100,7 +108,7 @@
 (use-package git-timemachine
   :commands (hydra-git-timemachine/body)
   :custom-face
-  (git-timemachine-minibuffer-author-face ((t (:inherit font-lock-string-face))))
+  (git-timemachine-minibuffer-author-face ((t (:inherit success))))
   (git-timemachine-minibuffer-detail-face ((t (:inherit warning))))
   :preface
   (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
@@ -135,7 +143,7 @@
   :ensure nil
   :diminish smerge-mode
   :pretty-hydra
-  ((:color pink :quit-key "q")
+  ((:title (pretty-hydra-title "Smerge" 'octicon "diff") :color pink :quit-key "q")
    ("Move"
     (("n" smerge-next "next")
      ("p" smerge-prev "previous"))

@@ -26,12 +26,12 @@
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'doom-one
+(defcustom kevin-theme-selected 'doom-gruvbox
   "Customize color theme."
   :type '(choice
           (const :tag "light theme" doom-solarized-light)
           (const :rag "dark theme"  doom-one)
-          (const :tag "hard dark theme" gruvbox-dark-medium))
+          (const :tag "hard dark theme" doom-gruvbox))
   :group 'kevin-customize-group)
 
 ;; Add yasnippet support for all company backends.

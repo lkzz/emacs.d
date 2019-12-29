@@ -13,11 +13,11 @@
 ;;
 ;;; Code:
 
+;;-----------------------------------------------------------------------------
+;; package-initialize
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-
-
 ;;; Fire up package.el
 (setq package-enable-at-startup nil ; don't auto-initialize!
       ;; don't add that `custom-set-variables' block to my initl!
@@ -25,6 +25,7 @@
 (package-initialize)
 ;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
 (setq load-prefer-newer t)
+;;-----------------------------------------------------------------------------
 
 ;;-----------------------------------------------------------------------------
 ;; install use-package
@@ -32,7 +33,6 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
 ;; Should set before loading `use-package'
 (eval-and-compile
   (setq use-package-always-ensure t)
@@ -40,10 +40,27 @@
   (setq use-package-enable-imenu-support t)
   (require 'use-package))
 
+
 (use-package diminish)
 (use-package bind-key)
 (use-package hydra)
-(use-package pretty-hydra)
+(use-package pretty-hydra
+  :init
+  (cl-defun pretty-hydra-title (title &optional icon-type icon-name
+                                      &key face height v-adjust)
+    "Add an icon in the hydra title."
+    (let ((face (or face `(:foreground ,(face-background 'highlight))))
+          (height (or height 1.0))
+          (v-adjust (or v-adjust 0.0)))
+      (concat
+       (when (and (display-graphic-p) icon-type icon-name)
+         (let ((f (intern (format "all-the-icons-%s" icon-type))))
+           (when (fboundp f)
+             (concat
+              (apply f (list icon-name :face face :height height :v-adjust v-adjust))
+              " "))))
+       (propertize title 'face face)))))
+
 (use-package posframe)
 (use-package dash)
 (use-package dash-functional)
@@ -96,12 +113,6 @@
   ;; hide winum-select-window-[2-9] entries
   (add-to-list 'which-key-replacement-alist '((nil . "winum-select-window-[2-9]") . t))
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
-
-(use-package auto-package-update
-  :config
-  (setq auto-package-update-interval 7
-        auto-package-update-delete-old-versions t))
-
 
 (provide 'init-elpa)
 ;;; init-elpa.el ends here

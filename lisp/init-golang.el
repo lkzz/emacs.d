@@ -92,11 +92,11 @@
   :config
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
+    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY" "GOBIN" "GOSUMDB")))
   (kevin/define-jump-handlers go-mode godef-jump)
-  (setq gofmt-command "goimports") ; use goimports instead of gofmt
+  ;; (setq gofmt-command "goimports") ; use goimports instead of gofmt
   (add-hook 'go-mode-hook 'setup-go-mode-compile)
-  (add-hook 'before-save-hook #'gofmt-before-save)
+  ;; (add-hook 'before-save-hook #'gofmt-before-save)
   ;; (make-local-variable 'after-save-hook)
   ;; (add-hook 'after-save-hook #'kevin/revert-buffer-no-confirm)
   (kevin/declare-prefix-for-major-mode 'go-mode "i" "import")
@@ -120,7 +120,6 @@
 
 ;; Install: go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
 (use-package flycheck-golangci-lint
-  :disabled
   :if (executable-find "golangci-lint")
   :after flycheck
   :defines flycheck-disabled-checkers
@@ -131,7 +130,10 @@
                                                         go-vet
                                                         go-build
                                                         go-test
+                                                        go-unconvert
                                                         go-errcheck))
+                     (setq flycheck-golangci-lint-disable-linters '("unconvert"
+                                                                    "errcheck"))
                      (flycheck-golangci-lint-setup))))
 
 (use-package go-guru
