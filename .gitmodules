@@ -7,3 +7,6 @@
 [submodule "vendor/maple-imenu"]
 	path = vendor/maple-imenu
 	url = https://github.com/honmaple/emacs-maple-imenu.git
+[submodule "vendor/snails"]
+	path = vendor/snails
+	url = https://github.com/manateelazycat/snails
