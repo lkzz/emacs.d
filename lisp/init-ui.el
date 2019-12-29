@@ -223,5 +223,14 @@
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
 
+;; Default snails search input in backends: awesome-tab group, buffer name, recently files or bookmar
+(use-package snails
+  :when (display-graphic-p)
+  :load-path "vendor/snails"
+  :config
+  (add-hook 'snails-mode-hook (lambda ()
+                                (snails-init-face-with-theme)
+                                (evil-emacs-state))))
+
 (provide 'init-ui)
 ;;; init-ui ends here
