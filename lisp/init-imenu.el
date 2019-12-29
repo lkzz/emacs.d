@@ -15,7 +15,7 @@
 
 ;; with use-package
 (use-package maple-imenu
-  :straight (emacs-maple-imenu :host github :repo "honmaple/emacs-maple-imenu")
+  :load-path "vendor/maple-imenu"
   :commands (maple-imenu)
   :init
   (kevin/set-leader-keys "ti" 'maple-imenu)

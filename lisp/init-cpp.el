@@ -69,7 +69,7 @@
   )
 
 (use-package c++-mode
-  :straight (:type built-in)
+  :ensure nil
   :mode ("\\.h|\\.cpp" . c++-mode))
 
 (use-package company-c-headers
@@ -176,8 +176,8 @@
   (setq cmake-tab-width 4))
 
 (use-package company-cmake
+  :ensure nil
   :after (company cmake-mode)
-  :straight (company-cmake type git :host github :repo "purcell/company-cmake")
   :config
   (kevin/add-company-backend :backend company-cmake :mode cmake-mode))
 

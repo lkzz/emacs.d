@@ -33,7 +33,7 @@
 
   ;; Configure LSP clients
   (use-package lsp-clients
-    :straight (:type built-in)
+    :ensure nil
     :hook (go-mode . (lambda ()
                        "Format and add/delete imports."
                        (add-hook 'before-save-hook #'lsp-format-buffer t t)

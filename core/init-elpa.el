@@ -14,36 +14,28 @@
 ;;; Code:
 
 ;;-----------------------------------------------------------------------------
-;; enable package manager: straight
+;; package-initialize
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+;;; Fire up package.el
+(setq package-enable-at-startup nil ; don't auto-initialize!
+      ;; don't add that `custom-set-variables' block to my initl!
+      package--init-file-ensured t)
+(package-initialize)
+;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
+(setq load-prefer-newer t)
 ;;-----------------------------------------------------------------------------
-(setq straight-base-dir user-emacs-directory
-      ;; Straight's own emacsmirror mirror is a little smaller and faster.
-      straight-recipes-emacsmirror-use-mirror t
-      straight-enable-package-integration nil
-      straight-repository-branch "develop"
-      straight-check-for-modifications '(check-on-save)
-      straight-vc-git-default-clone-depth 1)
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
 
 ;;-----------------------------------------------------------------------------
 ;; install use-package
 ;;-----------------------------------------------------------------------------
-(straight-use-package 'use-package)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 ;; Should set before loading `use-package'
 (eval-and-compile
-  (setq straight-use-package-by-default t)
-  ;; (setq use-package-always-ensure t)
+  (setq use-package-always-ensure t)
   (setq use-package-expand-minimally t)
   (setq use-package-enable-imenu-support t)
   (require 'use-package))
@@ -121,12 +113,6 @@
   ;; hide winum-select-window-[2-9] entries
   (add-to-list 'which-key-replacement-alist '((nil . "winum-select-window-[2-9]") . t))
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
-
-(use-package auto-package-update
-  :config
-  (setq auto-package-update-interval 7
-        auto-package-update-delete-old-versions t))
-
 
 (provide 'init-elpa)
 ;;; init-elpa.el ends here
