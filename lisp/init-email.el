@@ -15,7 +15,7 @@
 ;;; Code:
 
 (use-package mu4e
-  :straight (:type built-in)
+  :ensure nil
   :config
   ;; Use mu4e as default mail agent
   (setq mail-user-agent 'mu4e-user-agent)
@@ -51,7 +51,7 @@
   )
 
 (use-package mu4e-contrib
-  :straight (:type built-in)
+  :ensure nil
   :init
   (setq mu4e-html2text-command 'mu4e-shr2text)
   ;; try to emulate some of the eww key-bindings
@@ -59,8 +59,7 @@
             (lambda ()
               (local-set-key (kbd "<tab>") 'shr-next-link)
               (local-set-key (kbd "<backtab>") 'shr-previous-link)))
-  (setq mu4e-view-show-images t)
-  )
+  (setq mu4e-view-show-images t))
 
 
 ;; (use-package mu4e-alert

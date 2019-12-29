@@ -148,7 +148,7 @@
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
   :after company
-  :straight (company-english-helper type git :host github :repo "manateelazycat/company-english-helper")
+  :load-path "vendor/company-english-helper"
   :bind ("C-c t e" . 'toggle-company-english-helper))
 
 (provide 'init-chinese)

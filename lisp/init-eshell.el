@@ -44,7 +44,7 @@
     (kbd "TAB") 'pcomplete-std-complete))
 
 (use-package aweshell
-  :straight (aweshell :host github :repo "manateelazycat/aweshell")
+  :load-path "vendor/aweshell"
   :commands (aweshell-toggle)
   :hook ((eshell-first-time-mode . kevin/eshell-keymap)
          (eshell-exit . delete-window))

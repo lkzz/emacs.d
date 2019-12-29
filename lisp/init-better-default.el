@@ -17,7 +17,6 @@
 (setq user-full-name kevin-user-name
       user-mail-address kevin-mail-address)
 
-
 ;; Don't ask me when kill process buffer
 (setq kill-buffer-query-functions
       (remq 'process-kill-buffer-query-function
@@ -80,7 +79,7 @@
 
 ;; 自动刷新文件
 (use-package autorevert
-  :straight (:type built-in)
+  :ensure nil
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 
@@ -88,13 +87,12 @@
   :bind (("C-=" . er/expand-region)))
 
 (use-package url
-  :disabled
-  :straight (:type built-in)
+  :ensure nil
   :config
   (setq url-configuration-directory (concat kevin-cache-directory "url")))
 
 (use-package simple
-  :straight (:type built-in)
+  :ensure nil
   :hook (window-setup . size-indication-mode)
   :init (setq column-number-mode t
               line-number-mode t

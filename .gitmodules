@@ -1,12 +1,9 @@
-[submodule "awesome-tab"]
-	path = vendor/awesome-tab
-	url = https://github.com/manateelazycat/awesome-tab.git
-[submodule "company-english-helper"]
+[submodule "vendor/company-english-helper"]
 	path = vendor/company-english-helper
-	url = https://github.com/manateelazycat/company-english-helper.git
+	url = https://github.com/manateelazycat/company-english-helper
 [submodule "vendor/aweshell"]
 	path = vendor/aweshell
-	url = https://github.com/manateelazycat/aweshell.git
+	url = https://github.com/manateelazycat/aweshell
 [submodule "vendor/maple-imenu"]
 	path = vendor/maple-imenu
 	url = https://github.com/honmaple/emacs-maple-imenu.git

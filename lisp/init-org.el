@@ -89,7 +89,7 @@
   :after org-mode)
 
 (use-package org-archive
-  :straight (:type built-in)
+  :ensure nil
   :after (org-mode org-agenda)
   :config
   ;; 使用 org-archive-subtree 时，原来的 header 层级容易被打乱，而且容易
@@ -99,7 +99,7 @@
   (setq org-archive-default-command 'org-archive-set-tag))
 
 (use-package org-agenda
-  :straight (:type built-in)
+  :ensure nil
   :after org-mode
   :bind (("C-c a" . org-agenda)
          :map org-agenda-mode-map
