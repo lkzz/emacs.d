@@ -123,7 +123,6 @@
 
 ;; resize window
 (use-package resize-window
-  :disabled
   :defer t
   :init
   (kevin/set-leader-keys "wr" #'resize-window))

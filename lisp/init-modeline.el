@@ -155,8 +155,7 @@
         (global :when active)
         (hud :priority 99)))
 
-    (setq-default mode-line-format '("%e" (:eval (spaceline-ml-custom)))))
-  )
+    (setq-default mode-line-format '("%e" (:eval (spaceline-ml-custom))))))
 
 (provide 'init-modeline)
 ;;; init-modeline ends here

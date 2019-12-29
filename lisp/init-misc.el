@@ -15,8 +15,8 @@
 
 ;; bookmark 设置
 (use-package bookmark
-  :ensure nil
   :defer t
+  :ensure nil
   :init
   (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
   (kevin/declare-prefix "m" "bookmark")
@@ -51,8 +51,8 @@
 
 ;; History
 (use-package saveplace
-  :ensure nil
   :defer t
+  :ensure nil
   :config
   (setq save-place-file (concat kevin-cache-directory "saveplace"))
   :hook (after-init . save-place-mode))
@@ -127,8 +127,8 @@
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
-  :ensure nil
   :disabled
+  :ensure nil
   :init
   ;; show org ediffs unfolded
   (with-eval-after-load 'outline
