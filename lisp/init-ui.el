@@ -1,6 +1,6 @@
 ;;; init-ui.el ---  setup ui. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -223,14 +223,14 @@
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
 
-;; Default snails search input in backends: awesome-tab group, buffer name, recently files or bookmar
-(use-package snails
-  :when (display-graphic-p)
-  :load-path "vendor/snails"
-  :config
-  (add-hook 'snails-mode-hook (lambda ()
-                                (snails-init-face-with-theme)
-                                (evil-emacs-state))))
+;; 设置时间格式
+(use-package time
+  :ensure nil
+  :unless (display-graphic-p)
+  :hook (after-init . display-time-mode)
+  :init
+  (setq display-time-24hr-format t)
+  (setq display-time-day-and-date t))
 
 (provide 'init-ui)
 ;;; init-ui ends here
