@@ -1,6 +1,6 @@
 ;;; init-better-default.el --- 常用的琐碎配置，应该在init.el的最后加载. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -86,10 +86,11 @@
 (use-package expand-region
   :bind (("C-=" . er/expand-region)))
 
-(use-package url
-  :ensure nil
-  :config
-  (setq url-configuration-directory (concat kevin-cache-directory "url")))
+;; Pass a URL to a WWW browser
+(use-package browse-url
+  :commands browse-url
+  :init
+  (setq browse-url-browser-function 'browse-url-default-browser))
 
 (use-package simple
   :ensure nil

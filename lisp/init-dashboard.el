@@ -1,6 +1,6 @@
 ;;; init-dashboard.el --- dashboard configuration -*- lexical-binding: t -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -16,8 +16,22 @@
 (use-package dashboard
   :diminish page-break-lines-mode
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
+  :general
+  (general-nmap dashboard-mode-map
+    "TAB" 'widget-forward
+    "RET" 'widget-button-press
+    "g" 'dashboard-refresh-buffer
+    "}" 'dashboard-next-section
+    "{" 'dashboard-previous-section
+    "p" 'kevin/dashboard-goto-projects
+    "m" 'kevin/dashboard-goto-bookmarks
+    "r" 'kevin/dashboard-goto-recent-files
+    "H" 'kevin/browse-homepage
+    "R" 'kevin/restore-session
+    "O" 'kevin/dashboard-open-init-file
+    "q" 'kevin/quit-dashboard)
+  :init (dashboard-setup-startup-hook)
   :config
-  (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner (expand-file-name "spacemacs.png" user-emacs-directory)
         initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
         dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name)
@@ -117,19 +131,6 @@
     (interactive)
     (funcall (local-key-binding "m")))
 
-  (general-nmap dashboard-mode-map
-    "TAB" 'widget-forward
-    "RET" 'widget-button-press
-    "g" 'dashboard-refresh-buffer
-    "}" 'dashboard-next-section
-    "{" 'dashboard-previous-section
-    "p" 'kevin/dashboard-goto-projects
-    "m" 'kevin/dashboard-goto-bookmarks
-    "r" 'kevin/dashboard-goto-recent-files
-    "H" 'kevin/browse-homepage
-    "R" 'kevin/restore-session
-    "O" 'kevin/dashboard-open-init-file
-    "q" 'kevin/quit-dashboard)
   )
 
 (provide 'init-dashboard)
