@@ -1,6 +1,6 @@
 ;;; init-misc.el --- misc config files. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -51,25 +51,31 @@
 
 ;; History
 (use-package saveplace
-  :defer t
   :ensure nil
-  :config
-  (setq save-place-file (concat kevin-cache-directory "saveplace"))
+  :init (setq save-place-file (concat kevin-cache-directory "saveplace"))
   :hook (after-init . save-place-mode))
 
 (use-package recentf
   :ensure nil
   :hook (after-init . recentf-mode)
-  :init
-  (setq recentf-save-file (concat kevin-cache-directory "recentf"))
-  (setq recentf-max-saved-items 200)
-  (setq recentf-exclude '((expand-file-name package-user-dir)
-                          kevin-cache-directory
-                          "bookmarks"
-                          "COMMIT_EDITMSG\\'"
-                          "pyim"
-                          (concat user-emacs-directory "elpa")
-                          (concat user-emacs-directory "vendor"))))
+  :init (setq recentf-max-saved-items 300
+              recentf-exclude '("/tmp/"
+                                "recentf$"
+                                "\\.cask$"
+                                "\\.mkv$"
+                                "\\.mp[34]$"
+                                "\\.avi$"
+                                "\\.wav$"
+                                "\\.pdf$"
+                                "\\.docx?$"
+                                "\\.xlsx?$"
+                                "url"
+                                "COMMIT_EDITMSG\\'"
+                                "bookmarks"
+                                "pyim"
+                                (lambda (file) (file-in-directory-p file package-user-dir))))
+  :config
+  (push (expand-file-name recentf-save-file) recentf-exclude))
 
 ;; Delete selection if you insert
 (use-package delsel
@@ -88,7 +94,7 @@
     "jc" 'avy-goto-char-2
     "jw" 'avy-goto-word-or-subword-1
     "jl" 'avy-goto-line)
-  :config (setq avy-background t))
+  (setq avy-background t))
 
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
@@ -122,26 +128,22 @@
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
-  :disabled
   :ensure nil
-  :init
-  ;; show org ediffs unfolded
-  (with-eval-after-load 'outline
-    (add-hook 'ediff-prepare-buffer-hook #'show-all))
-  ;; restore window layout when done
-  (with-eval-after-load 'winner
-    (add-hook 'ediff-quit-hook #'winner-undo))
+  :hook(;; show org ediffs unfolded
+        (ediff-prepare-buffer . outline-show-all)
+        ;; restore window layout when done
+        (ediff-quit . winner-undo))
   :config
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain
-        ediff-split-window-function 'split-window-horizontally
-        ediff-merge-split-window-function 'split-window-horizontally))
+  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
+  (setq ediff-split-window-function 'split-window-horizontally)
+  (setq ediff-merge-split-window-function 'split-window-horizontally))
 
 ;; Treat undo history as a tree
 (use-package undo-tree
   :diminish undo-tree-mode "ⓤ"
   :commands (undo-tree-visualize)
   :hook (after-init . global-undo-tree-mode)
-  :config
+  :init
   (setq undo-tree-auto-save-history nil
         undo-tree-visualizer-timestamps t
         undo-tree-visualizer-diff t
@@ -149,19 +151,17 @@
 
 (use-package savehist
   :ensure nil
-  :config
+  :hook (after-init . savehist-mode)
+  :init
   (setq savehist-file (concat kevin-cache-directory "savehist")
-        savehist-save-minibuffer-history t
-        savehist-autosave-interval nil ; save on kill only
-        savehist-additional-variables '(kill-ring search-ring regexp-search-ring))
-  (savehist-mode +1)
-  (add-hook 'kill-emacs-hook
-            (defun kevin/unpropertize-kill-ring ()
-              "Remove text properties from `kill-ring' for a smaller savehist file."
-              (setq kill-ring (cl-loop for item in kill-ring
-                                       if (stringp item)
-                                       collect (substring-no-properties item)
-                                       else if item collect it)))))
+        enable-recursive-minibuffers t
+        history-length 1000
+        savehist-additional-variables '(mark-ring
+                                        global-mark-ring
+                                        search-ring
+                                        regexp-search-ring
+                                        extended-command-history)
+        savehist-autosave-interval 300))
 
 ;; Hideshow
 (use-package hideshow
@@ -185,23 +185,15 @@
 
 (use-package rg
   :hook (after-init . rg-enable-default-bindings)
-  :config
-  (setq rg-group-result t
-        rg-show-columns t)
-  (cl-pushnew '("tmpl" . "*.tmpl") rg-custom-type-aliases)
-  (with-eval-after-load 'projectile
-    (defalias 'projectile-ripgrep 'rg-project)
-    (bind-key "s R" #'rg-project projectile-command-map))
-  (kevin/set-leader-keys
-    "sc" 'rg-dwim-current-dir
-    "sf" 'rg-dwim-current-file
-    "s/" 'counsel-rg)
-  (with-eval-after-load 'counsel
-    (bind-keys :map rg-global-map
-               ("c r" . counsel-rg)
-               ("c s" . counsel-ag)
-               ("c p" . counsel-pt)
-               ("c f" . counsel-fzf))))
+  :bind (:map rg-global-map
+              ("c" . rg-dwim-current-dir)
+              ("f" . rg-dwim-current-file)
+              ("m" . rg-menu)
+              :map rg-mode-map
+              ("m" . rg-menu))
+  :init
+  (setq rg-show-columns t
+        rg-group-result t))
 
 ;; Multiple cursors
 (use-package multiple-cursors
@@ -214,15 +206,6 @@
          ("C-S-<mouse-1>" . mc/add-cursor-on-click)
          :map mc/keymap
          ("C-|" . mc/vertical-align-with-space)))
-
-
-(use-package transient
-  :init
-  (setq transient-history-limit 50)
-  (setq transient-save-history t)
-  (setq transient-levels-file (concat kevin-cache-directory "transient/levels.el"))
-  (setq transient-values-file (concat kevin-cache-directory "transient/values.el"))
-  (setq transient-history-file (concat kevin-cache-directory "transient/history.el")))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

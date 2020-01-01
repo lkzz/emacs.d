@@ -1,6 +1,6 @@
 ;;; init-imenu.el --- imenu config. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -15,9 +15,8 @@
 
 ;; with use-package
 (use-package maple-imenu
-  :ensure nil
-  :commands (maple-imenu)
   :load-path "vendor/maple-imenu"
+  :commands (maple-imenu)
   :init
   (kevin/set-leader-keys "ti" 'maple-imenu)
   :config

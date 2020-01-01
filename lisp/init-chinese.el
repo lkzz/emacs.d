@@ -1,6 +1,6 @@
 ;;; init-packages.el --- chinese package config for emacs.-*- lexical-binding: t -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -48,10 +48,10 @@
       ;; evil-escape and pyim may conflict
       ;; @see https://github.com/redguardtoo/emacs.d/issues/629
       (evil-escape-mode -1)
-      (message "IME on!"))
+      (message "中文输入法开启!"))
      (t
       (evil-escape-mode 1)
-      (message "IME off!"))))
+      (message "中文输入法关闭!"))))
    (t
     ;; NOT evil-mode
     (toggle-input-method))))

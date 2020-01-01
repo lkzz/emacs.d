@@ -1,6 +1,6 @@
 ;;; init-windows-popup.el ---  popup windows config. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -93,7 +93,7 @@
           (("*shell*" "*eshell*" "*ielm*") :popup t :align 'below)
           ("*Calendar*" :select t :size 0.3 :align 'below)
           ("\\*ivy-occur .*\\*" :regexp t :select t :align 'below)
-          (" *undo-tree*" :select t)
+          ("*undo-tree*" :select t)
           ("*quickrun*" :select t :size 15 :align 'below)
           ("*tldr*" :align 'below :autoclose t)
           ("*Youdao Dictionary*" :size 0.3 :align 'below :autoclose t)
@@ -101,11 +101,11 @@
           ("^\\*elfeed-entry" :regexp t :size 0.7 :align 'below :autoclose t)
           ("*lsp-help*" :size 0.3 :align 'below :autoclose t)
           ("*lsp session*" :align 'below :autoclose t)
-          (" *Org todo*" :select t :align 'below :autoclose t)
+          ("*Org todo*" :select t :align 'below :autoclose t)
           ("*Org Dashboard*" :select t :align 'below :autoclose t)
           ("*gud-debug*" :select t :align 'below :autoclose t)
           ("^\\*macro expansion\\**" :regexp t :size 0.4 :align 'below)
-          (" *Install vterm" :size 0.3 :align 'below)
+          ("*Install vterm" :size 0.3 :align 'below)
           ("*Paradox Report*" :size 0.2 :align 'below :autoclose t)
           ("*package update results*" :size 0.2 :align 'below :autoclose t)
           ("*Package-Lint*" :align 'below :autoclose t)
@@ -119,7 +119,7 @@
           (pt-mode :select t :align 'below)
           (rg-mode :select t :align 'below)
 
-          (" *Flycheck checkers*" :select t :size 0.4 :align 'below :autoclose t)
+          ("*Flycheck checkers*" :select t :size 0.4 :align 'below :autoclose t)
           (flycheck-error-list-mode :select t :size 0.3 :align 'below :autoclose t)
           (flymake-diagnostics-buffer-mode :select t :size 0.3 :align 'below :autoclose t)
 

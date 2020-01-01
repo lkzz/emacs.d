@@ -1,6 +1,6 @@
 ;;; init-flycheck.el --- initialize flycheck configurations. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -18,35 +18,23 @@
   :diminish flycheck-mode "ⓕ"
   :hook (prog-mode . global-flycheck-mode)
   :init
-  (kevin/declare-prefix "e" "flycheck")
-  (kevin/set-leader-keys
-    "ec" #'flycheck-buffer
-    "el" #'flycheck-list-errors
-    "ep" #'flycheck-previous-error
-    "en" #'flycheck-next-error)
+  (kevin/set-leader-keys "e" #'flycheck-hydra/body)
+  :pretty-hydra
+  ((:color red :quit-key "q")
+   ("Flycheck"
+    (("q" nil "quit" :exit t)
+     ("v" flycheck-verify-setup "verify setup" :exit t)
+     ("m" flycheck-manual "manual" :exit t))
+    "Errors"
+    (("l" flycheck-list-errors "list" :exit t)
+     ("c" flycheck-buffer "check" :exit t)
+     ("n" flycheck-next-error "next")
+     ("p" flycheck-previous-error "previous"))
+    "Checker"
+    (("d" flycheck-disable-checker "disable" :exit t)
+     ("s" flycheck-select-checker "select" :exit t)
+     ("?" flycheck-describe-checker "describe" :exit t))))
   :config
-  (defhydra hydra-flycheck (:color red
-                                   :hint nil)
-    "
-    ^
-    ^Flycheck^        ^Errors^          ^Checker^
-    ^────────^────────^──────^──────────^───────^───────────
-    _q_ quit          _c_ check         _s_ select
-    _v_ verify setup  _n_ next          _d_ disable
-    _m_ manual        _p_ previous      _?_ describe
-                    _l_ list
-    ^^                  ^^                  ^^
-    "
-    ("q" nil exit: t)
-    ("c" flycheck-buffer exit: t)
-    ("d" flycheck-disable-checker exit: t)
-    ("l" flycheck-list-errors exit: t)
-    ("m" flycheck-manual exit: t)
-    ("n" flycheck-next-error exit: t)
-    ("p" flycheck-previous-error exit: t)
-    ("s" flycheck-select-checker exit: t)
-    ("v" flycheck-verify-setup exit: t)
-    ("?" flycheck-describe-checker exit: t))
   (when (fboundp 'define-fringe-bitmap)
     (define-fringe-bitmap 'kevin-flycheck-error-fringe
       (vector #b00000000
@@ -106,6 +94,7 @@
     :fringe-bitmap 'kevin-flycheck-info-fringe
     :fringe-face 'flycheck-fringe-info)
   (setq flycheck-emacs-lisp-check-declare t
+        flycheck-display-errors-delay 0.25
         flycheck-indication-mode 'right-fringe
         flycheck-emacs-lisp-load-path 'inherit
         flycheck-highlighting-mode 'symbols
@@ -117,9 +106,11 @@
 
 (use-package flycheck-posframe
   :defer t
-  :if (display-graphic-p)
+  :when (display-graphic-p)
   :after flycheck
-  :hook (flycheck-mode . flycheck-posframe-mode))
+  :hook (flycheck-mode . flycheck-posframe-mode)
+  :config  (add-to-list 'flycheck-posframe-inhibit-functions
+			#'(lambda () (bound-and-true-p company-backend))))
 
 (use-package flycheck-popup-tip
   :defer t

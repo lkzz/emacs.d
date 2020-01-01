@@ -1,6 +1,6 @@
 ;;; init-buffer.el -- Initialization buffer. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -112,7 +112,6 @@ Including indent-buffer, which should not be called automatically on save."
   "be" 'eval-buffer
   "bd" 'kill-this-buffer
   "bD" #'kevin/kill-other-buffers
-  "bf" 'beginning-of-defun
   "bi"  #'kevin/indent-region-or-buffer
   "bk" 'kill-buffer
   "bl" 'ibuffer-list-buffers

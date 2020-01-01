@@ -1,6 +1,6 @@
 ;;; init-ui.el ---  setup ui. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -106,8 +106,6 @@
   :config
   (doom-themes-org-config)
   (doom-themes-neotree-config))
-(use-package gruvbox-theme :defer t)
-(use-package color-theme-sanityinc-tomorrow :defer t)
 ;; 加载主题
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -224,6 +222,15 @@
   (setq-default display-line-numbers-width 3)
   (setq display-line-numbers-current-absolute t)
   (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
+
+;; 设置时间格式
+(use-package time
+  :ensure nil
+  :unless (display-graphic-p)
+  :hook (after-init . display-time-mode)
+  :init
+  (setq display-time-24hr-format t)
+  (setq display-time-day-and-date t))
 
 (provide 'init-ui)
 ;;; init-ui ends here
