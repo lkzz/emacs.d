@@ -1,6 +1,6 @@
 ;;; init-custom.el --- define variables can be customized. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -26,12 +26,12 @@
   :type 'string
   :group 'kevin-customize-group)
 
-(defcustom kevin-theme-selected 'doom-one
+(defcustom kevin-theme-selected 'doom-gruvbox
   "Customize color theme."
   :type '(choice
           (const :tag "light theme" doom-solarized-light)
           (const :rag "dark theme"  doom-one)
-          (const :tag "hard dark theme" gruvbox-dark-medium))
+          (const :tag "hard dark theme" doom-gruvbox))
   :group 'kevin-customize-group)
 
 ;; Add yasnippet support for all company backends.

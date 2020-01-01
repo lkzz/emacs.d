@@ -10,6 +10,7 @@ transient/
 anaconda-mode/
 url/
 request/
+straight/
 
 .DS_Store
 places

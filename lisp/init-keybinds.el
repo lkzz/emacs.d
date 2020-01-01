@@ -1,6 +1,6 @@
 ;;; init-keybinds.el --- personal keybinds,should be required finally. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -14,8 +14,17 @@
 ;;; Code:
 
 (when kevin-mac-p
-  (setq mac-command-modifier 'super
-        mac-option-modifier 'meta))
+  (setq mac-command-modifier 'super) ; make Super key do command
+  (setq mac-option-modifier 'meta)  ; make Option key do meta
+  (setq mac-right-option-modifier 'none) ;; disable right Option key
+  (setq mac-control-modifer 'control)
+  (global-set-key [(super a)] 'mark-whole-buffer)
+  (global-set-key [(super v)] 'yank)
+  (global-set-key [(super c)] 'kill-ring-save)
+  (global-set-key [(super s)] 'save-buffer)
+  (global-set-key [(super w)]
+                  (lambda () (interactive) (delete-window)))
+  (global-set-key [(super z)] 'undo))
 
 ;; used as tmux prefix key
 (global-unset-key (kbd "C-q"))
@@ -44,6 +53,7 @@
 
 (kevin/declare-prefix "j" "jump")
 (kevin/set-leader-keys
+  "jf" 'beginning-of-defun
   "jm" 'kevin/jump-match-delimiter)
 
 ;; Open applications with from emacs

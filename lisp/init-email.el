@@ -1,6 +1,6 @@
 ;;; init-email.el --- emacs mail client. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -59,8 +59,7 @@
             (lambda ()
               (local-set-key (kbd "<tab>") 'shr-next-link)
               (local-set-key (kbd "<backtab>") 'shr-previous-link)))
-  (setq mu4e-view-show-images t)
-  )
+  (setq mu4e-view-show-images t))
 
 
 ;; (use-package mu4e-alert

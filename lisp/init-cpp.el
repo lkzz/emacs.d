@@ -1,6 +1,6 @@
 ;;; init-cpp.el --- cpp config. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -176,8 +176,8 @@
   (setq cmake-tab-width 4))
 
 (use-package company-cmake
-  :after (company cmake-mode)
   :load-path "vendor"
+  :after (company cmake-mode)
   :config
   (kevin/add-company-backend :backend company-cmake :mode cmake-mode))
 

@@ -1,6 +1,6 @@
 ;;; init-dired.el --- config dired mode. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2019  Kevin Leung
+;; Copyright (C) 2017-2020  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -19,10 +19,7 @@
   (kevin/set-leader-keys "jd" 'dired-jump)
   (setq dired-recursive-copies 'always ; always copy recursively
         dired-recursive-deletes 'top   ; always delete recursively
-        ;; Auto refresh dired, but be quiet about it
-        global-auto-revert-non-file-buffers t
-        auto-revert-verbose nil
-        ;; Hides symbolic link targets
+        dired-auto-revert-buffer t
         dired-hide-details-hide-symlink-targets nil)
   :general
   (general-nmap dired-mode-map
@@ -115,7 +112,7 @@
 ;; Colourful dired
 (use-package diredfl
   :defer t
-  :hook (dired-mode . diredfl-global-mode))
+  :hook (dired-mode . diredfl-mode))
 
 ;; Shows icons
 (use-package all-the-icons-dired
@@ -126,8 +123,8 @@
   :hook (dired-mode . all-the-icons-dired-mode))
 
 (use-package dired-x
-  :defer t
   :ensure nil
+  :defer t
   :diminish dired-omit-mode
   :hook (dired-mode . dired-omit-mode)
   :general
@@ -151,6 +148,8 @@
             ("\\.\\(?:mp3\\|flac\\)\\'" ,cmd)
             ("\\.html?\\'" ,cmd)
             ("\\.md\\'" ,cmd))))
+  ;; Don’t ask whether to kill buffers visiting deleted files
+  (setq dired-clean-confirm-killing-deleted-buffers nil)
   (setq dired-omit-files
         (concat dired-omit-files
                 "\\|^\\..*\\|^bazel*")))
