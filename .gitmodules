@@ -7,3 +7,9 @@
 [submodule "insert-translated-name"]
 	path = vendor/insert-translated-name
 	url = https://github.com/manateelazycat/insert-translated-name.git
+[submodule "aweshell"]
+	path = vendor/aweshell
+	url = https://github.com/manateelazycat/aweshell.git
+[submodule "maple-imenu"]
+	path = vendor/maple-imenu
+	url = https://github.com/honmaple/emacs-maple-imenu.git
