@@ -13,7 +13,7 @@
 ;;
 ;;; Code:
 (use-package exec-path-from-shell
-  :if kevin-mac-p
+  :if is-mac-p
   :hook (after-init . exec-path-from-shell-initialize)
   :init
   (setq exec-path-from-shell-check-startup-files nil
@@ -22,18 +22,18 @@
 
 (use-package counsel-osx-app
   :defer t
-  :if kevin-mac-p
+  :if is-mac-p
   :init
   (kevin/set-leader-keys "oa" 'counsel-osx-app))
 
 (use-package reveal-in-osx-finder
   :defer t
-  :if kevin-mac-p
+  :if is-mac-p
   :init
   (kevin/set-leader-keys "br" 'reveal-in-osx-finder))
 
 ;; Use the OS X Emoji font for Emoticons
-(when (and kevin-mac-p (fboundp 'set-fontset-font))
+(when (and is-mac-p (fboundp 'set-fontset-font))
   (set-fontset-font "fontset-default"
                     '(#x1F600 . #x1F64F)
                     (font-spec :name "Apple Color Emoji") nil 'prepend))

@@ -15,7 +15,7 @@
 ;;; Code:
 
 (use-package dash-at-point
-  :if kevin-mac-p
+  :if is-mac-p
   :bind (("\C-cD" . dash-at-point)
          ("\C-ce" . dash-at-point-with-docset)))
 

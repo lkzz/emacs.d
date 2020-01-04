@@ -65,7 +65,7 @@
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box
   :diminish
-  :when emacs/>=26p
+  :when is-emacs26-p
   :hook (company-mode . company-box-mode)
   :init (setq company-box-backends-colors nil
               company-box-show-single-candidate t
