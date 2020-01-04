@@ -43,7 +43,6 @@
   (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t))))
 
 (use-package protobuf-mode
-  :ensure nil
   :diminish abbrev-mode ;; required in protobuf-mode
   :mode (("\\.proto$" . protobuf-mode))
   :init

@@ -63,7 +63,6 @@
   (setq ivy-height 15
         ivy-wrap t
         ivy-fixed-height-minibuffer t
-        projectile-completion-system 'ivy
         ;; Don't use ^ as initial input
         ivy-initial-inputs-alist nil
         ;; disable magic slash on non-match
@@ -78,9 +77,17 @@
         ivy-use-selectable-prompt t
         ivy-format-function #'ivy-format-function-arrow
         ivy-count-format "(%d/%d) "
-        ;; when non-nil, frame blink in terminal
-        swiper-action-recenter nil
         counsel-find-file-at-point t)
+
+  ;; when swiper-action-recenter non-nil, frame blink in terminal
+  (if (display-graphic-p)
+      (setq swiper-action-recenter t)
+    (setq swiper-action-recenter nil))
+
+  ;; Integration with `projectile'
+  (with-eval-after-load 'projectile
+    (setq projectile-completion-system 'ivy))
+
   ;; Integration with `magit'
   (with-eval-after-load 'magit
     (setq magit-completing-read-function 'ivy-completing-read)))
