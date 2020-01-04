@@ -13,10 +13,7 @@
 ;;
 ;;; Code:
 
-(setq use-file-dialog nil)
-(setq use-dialog-box nil)
-
-(when kevin-mac-p
+(when is-mac-p
   ;; 打开抗锯齿
   (setq mac-allow-anti-aliasing t)
   ;; (setq ns-use-native-fullscreen nil)
@@ -45,6 +42,13 @@
       initial-buffer-choice  nil)
 ;; 设置scratch buffer message
 (setq initial-scratch-message kevin-scratch-message)
+;; 禁止使用对话框
+(setq use-file-dialog nil
+      use-dialog-box nil)
+(setq inhibit-startup-echo-area-message t ; 禁止echo area message
+      inhibit-default-init t              ; 禁止加载default lib
+      initial-major-mode 'fundamental-mode) ; 设置默认的major mode
+(fset #'display-startup-echo-area-message #'ignore)
 
 ;;=================== 鼠标设置 =======================================
 ;; middle-click paste at point, not at click
@@ -54,7 +58,7 @@
 (add-hook 'tty-setup-hook #'xterm-mouse-mode)
 
 ;; 鼠标滚动设置
-(when kevin-mac-p
+(when is-mac-p
   ;; sane trackpad/mouse scroll settings
   (setq mac-redisplay-dont-reset-vscroll t
         mac-mouse-wheel-smooth-scroll nil))

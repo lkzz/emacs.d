@@ -13,7 +13,7 @@
 ;;
 ;;; Code:
 
-(when kevin-mac-p
+(when is-mac-p
   (setq mac-command-modifier 'super) ; make Super key do command
   (setq mac-option-modifier 'meta)  ; make Option key do meta
   (setq mac-right-option-modifier 'none) ;; disable right Option key
