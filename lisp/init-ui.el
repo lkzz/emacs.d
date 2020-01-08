@@ -153,7 +153,7 @@
 (when (fboundp 'set-fringe-mode)
   (set-fringe-mode '(4 . 8)))
 ;; 设置visual line fringe bitmap
-(when (fboundp 'define-fringe-bitmap)
+(when (and (fboundp 'define-fringe-bitmap) (display-graphic-p))
   (define-fringe-bitmap 'right-curly-arrow
     [#b00000000
      #b01111100
@@ -173,6 +173,9 @@
   (set-fringe-bitmap-face 'right-curly-arrow 'warning)
   (set-fringe-bitmap-face 'left-curly-arrow 'warning)
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)))
+
+(unless (display-graphic-p)
+  (setq overflow-newline-into-fringe nil))
 
 ;; doesn't exist in terminal Emacs; we define it to prevent errors
 (unless (fboundp 'define-fringe-bitmap)

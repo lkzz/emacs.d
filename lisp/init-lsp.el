@@ -29,6 +29,8 @@
         lsp-enable-snippet t
         lsp-inhibit-message t
         lsp-enable-symbol-highlighting nil
+        lsp-enable-file-watchers t
+        lsp-file-watch-threshold 5000
         lsp-session-file (concat kevin-cache-directory "lsp-session-v1"))
 
   ;; Configure LSP clients
@@ -109,6 +111,18 @@
            (elixir-mode . (lambda () (require 'dap-elixir)))
            ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))))
 
+  ;; C/C++/Objective-C support
+  (use-package ccls
+    :defines projectile-project-root-files-top-down-recurring
+    :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
+    :config
+    (with-eval-after-load 'projectile
+      (setq projectile-project-root-files-top-down-recurring
+            (append '("compile_commands.json" ".ccls")
+                    projectile-project-root-files-top-down-recurring)))
+    (setq ccls-executable "ccls"
+          ccls-initialization-options `(:cache (:directory "/tmp/ccls-cache"),
+                                               :compilationDatabaseDirectory "build")))
   )
 
 (provide 'init-lsp)
