@@ -13,3 +13,6 @@
 [submodule "maple-imenu"]
 	path = vendor/maple-imenu
 	url = https://github.com/honmaple/emacs-maple-imenu.git
+[submodule "hydra-posframe"]
+	path = vendor/hydra-posframe
+	url = https://github.com/Ladicle/hydra-posframe.git
