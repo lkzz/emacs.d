@@ -15,7 +15,9 @@
 
 (use-package lsp-mode
   :diminish lsp-mode "ⓛ"
-  :hook (prog-mode . lsp-deferred)
+  :hook (prog-mode . (lambda ()
+                       (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
+                         (lsp-deferred))))
   :bind (:map lsp-mode-map
               ("C-c C-d" . lsp-describe-thing-at-point)
               ("C-c C-r" . lsp-ui-peek-find-references)
