@@ -140,7 +140,7 @@
 
 ;; Treat undo history as a tree
 (use-package undo-tree
-  :diminish undo-tree-mode "ⓤ"
+  :diminish undo-tree-mode
   :commands (undo-tree-visualize)
   :hook (after-init . global-undo-tree-mode)
   :init
@@ -194,18 +194,6 @@
   :init
   (setq rg-show-columns t
         rg-group-result t))
-
-;; Multiple cursors
-(use-package multiple-cursors
-  :bind (("C-S-c C-S-c"   . mc/edit-lines)
-         ("C->"           . mc/mark-next-like-this)
-         ("C-<"           . mc/mark-previous-like-this)
-         ("C-c C-<"       . mc/mark-all-like-this)
-         ("C-M->"         . mc/skip-to-next-like-this)
-         ("C-M-<"         . mc/skip-to-previous-like-this)
-         ("C-S-<mouse-1>" . mc/add-cursor-on-click)
-         :map mc/keymap
-         ("C-|" . mc/vertical-align-with-space)))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

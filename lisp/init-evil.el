@@ -142,5 +142,35 @@
         evil-emacs-state-cursor  'hbar)
   (evil-terminal-cursor-changer-activate))
 
+(use-package evil-mc
+  :after evil
+  :init
+  (defun kevin/toggle-evil-mc ()
+    "Toggle evil mc mode and popup hydra."
+    (interactive)
+    (evil-mc-mode 1)
+    (evil-mc-hydra/body))
+  (kevin/set-leader-keys "tm" #'kevin/toggle-evil-mc)
+  :pretty-hydra
+  ((:foreign-keys run :quit-key "C-g" :post (progn
+                                              (evil-mc-undo-all-cursors)
+                                              (evil-mc-mode -1)))
+   ("Mark"
+    (("m" evil-mc-make-all-cursors)
+     ("M" evil-mc-make-cursor-here)
+     ("U" evil-mc-undo-last-added-cursor)
+     ("n" evil-mc-make-and-goto-next-match)
+     ("p" evil-mc-make-and-goto-prev-match)
+     ("q" evil-mc-undo-all-cursors))
+    "Move"
+    (("N" evil-mc-skip-and-goto-next-match)
+     ("P" evil-mc-skip-and-goto-prev-match))
+    "Action"
+    (("s" evil-mc-pause-cursors)
+     ("r" evil-mc-resume-cursors)
+     ("I" evil-mc-make-cursor-in-visual-selection-beg)
+     ("A" evil-mc-make-cursor-in-visual-selection-end)))))
+
+
 (provide 'init-evil)
 ;;; init-evil ends here
