@@ -97,6 +97,20 @@
           (powerline-raw (concat (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
                                  " "
                                  branch)))))
+    ;;define major mode segment
+    (spaceline-define-segment major-mode
+      "Return simplifyed major mode name."
+      (let* ((major-name (format-mode-line "%m"))
+             (replace-table '(
+                              Emacs-Lisp "Elisp"
+                              Shell-script ""
+                              Python ""
+                              Go ""
+                              Org "Org"
+                              Fundamental ""))
+             (replace-name (plist-get replace-table (intern major-name))))
+        (if replace-name
+            replace-name major-name)))
     ;; define buffer id segment
     (spaceline-define-segment buffer-id
       "Shorten buufer fileanme."

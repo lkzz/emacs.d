@@ -145,6 +145,8 @@ Including indent-buffer, which should not be called automatically on save."
              (buffer-file-name)
              ;; buffer is modified
              (buffer-modified-p)
+             ;; smerge mode is not active
+             (not smerge-mode)
              ;; yassnippet is not active
              (or (not (boundp 'yas--active-snippets))
                  (not yas--active-snippets))

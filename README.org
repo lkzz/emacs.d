@@ -5,7 +5,7 @@
 [[file:screenshot.png]]
 * 安装
 #+BEGIN_SRC shell
-1. git clonet https://github.com/lkzz/emacs.d ~/.emacs.d
+1. git clone https://github.com/lkzz/emacs.d ~/.emacs.d
 #+END_SRC
 
 #+BEGIN_SRC shell
@@ -99,6 +99,7 @@
     | ~SPC t-~    | ~toggle center mode~              |
     | ~SPC t;~    | ~toggle fullscreen~               |
     | ~SPC t'~    | ~toggle eshell~                   |
+    | ~SPC tm~    | ~toggle evil mc mode~             |
 
   * bookmark
     | Key Binding | Description               |

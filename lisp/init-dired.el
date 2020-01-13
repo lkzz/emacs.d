@@ -79,15 +79,15 @@
   ;; as target buffer (target for copying files, for example).
   ;; It's similar to windows commander.
   (setq dired-dwim-target t)
-  (when kevin-mac-p
+  (when is-mac-p
     ;; Suppress the warning: `ls does not support --dired'.
     (setq dired-use-ls-dired nil)
 
     (when (executable-find "gls") ; brew install coreutils
       ;; Use GNU ls as `gls' from `coreutils' if available.
       (setq insert-directory-program "gls")))
-  (when (or (and kevin-mac-p (executable-find "gls"))
-            (and (not kevin-mac-p) (executable-find "ls")))
+  (when (or (and is-mac-p (executable-find "gls"))
+            (and (not is-mac-p) (executable-find "ls")))
     ;; Using `insert-directory-program'
     (setq ls-lisp-use-insert-directory-program t)
     ;; Show directory first
@@ -132,8 +132,8 @@
     "th" 'dired-omit-mode)
   :config
   (let ((cmd (cond
-              (kevin-mac-p "open")
-              (kevin-linux-p "xdg-open")
+              (is-mac-p "open")
+              (is-linux-p "xdg-open")
               (kevin-window-p "start")
               (t ""))))
     (setq dired-guess-shell-alist-user
