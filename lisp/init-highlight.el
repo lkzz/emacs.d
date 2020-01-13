@@ -78,7 +78,7 @@
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
   :diminish highlight-indent-guides-mode
-  :hook ((prog-mode text-mode conf-mode) . highlight-indent-guides-mode)
+  :hook ((prog-mode text-mode conf-mode protobuf-mode) . highlight-indent-guides-mode)
   :init
   (setq highlight-indent-guides-method 'character)
   :config

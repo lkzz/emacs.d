@@ -13,10 +13,7 @@
 ;;
 ;;; Code:
 
-(setq use-file-dialog nil)
-(setq use-dialog-box nil)
-
-(when kevin-mac-p
+(when is-mac-p
   ;; 打开抗锯齿
   (setq mac-allow-anti-aliasing t)
   ;; (setq ns-use-native-fullscreen nil)
@@ -45,6 +42,13 @@
       initial-buffer-choice  nil)
 ;; 设置scratch buffer message
 (setq initial-scratch-message kevin-scratch-message)
+;; 禁止使用对话框
+(setq use-file-dialog nil
+      use-dialog-box nil)
+(setq inhibit-startup-echo-area-message t ; 禁止echo area message
+      inhibit-default-init t              ; 禁止加载default lib
+      initial-major-mode 'fundamental-mode) ; 设置默认的major mode
+(fset #'display-startup-echo-area-message #'ignore)
 
 ;;=================== 鼠标设置 =======================================
 ;; middle-click paste at point, not at click
@@ -54,7 +58,7 @@
 (add-hook 'tty-setup-hook #'xterm-mouse-mode)
 
 ;; 鼠标滚动设置
-(when kevin-mac-p
+(when is-mac-p
   ;; sane trackpad/mouse scroll settings
   (setq mac-redisplay-dont-reset-vscroll t
         mac-mouse-wheel-smooth-scroll nil))
@@ -149,7 +153,7 @@
 (when (fboundp 'set-fringe-mode)
   (set-fringe-mode '(4 . 8)))
 ;; 设置visual line fringe bitmap
-(when (fboundp 'define-fringe-bitmap)
+(when (and (fboundp 'define-fringe-bitmap) (display-graphic-p))
   (define-fringe-bitmap 'right-curly-arrow
     [#b00000000
      #b01111100
@@ -169,6 +173,9 @@
   (set-fringe-bitmap-face 'right-curly-arrow 'warning)
   (set-fringe-bitmap-face 'left-curly-arrow 'warning)
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)))
+
+(unless (display-graphic-p)
+  (setq overflow-newline-into-fringe nil))
 
 ;; doesn't exist in terminal Emacs; we define it to prevent errors
 (unless (fboundp 'define-fringe-bitmap)

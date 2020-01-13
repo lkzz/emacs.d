@@ -64,75 +64,88 @@
 
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box
-  :disabled
-  :after company
-  :requires all-the-icons
-  :diminish company-box-mode
+  :diminish
+  :when is-emacs26-p
   :hook (company-mode . company-box-mode)
-  :load-path "vendor/company-box-20180607.1545"
-  :preface
-  ;; refer: https://github.com/seagle0128/.emacs.d/blob/master/lisp/init-company.el
-  (defun kevin/company-box-icon (family icon icon_face &rest args)
-    "Defines icons using `all-the-icons' for `company-box'."
-    (when icon
-      (let ((icon (pcase family
-                    ('octicon (all-the-icons-octicon icon :v-adjust -0.05 :face icon_face args))
-                    ('faicon (all-the-icons-faicon icon :v-adjust -0.0575 :face icon_face))
-                    ('material (all-the-icons-material icon :v-adjust -0.225 :face icon_face args))
-                    ('alltheicon (all-the-icons-alltheicon icon :face icon_face args)))))
-        (unless (symbolp icon)
-          (concat icon
-                  (propertize " " 'face 'variable-pitch))))))
-  :init
-  (setq company-box-enable-icon (display-graphic-p))
+  :init (setq company-box-backends-colors nil
+              company-box-show-single-candidate t
+              company-box-max-candidates 50
+              company-box-doc-delay 0.5)
   :config
-  (setq company-box-enable-icon t
-        company-box-doc-delay 0.5
-        company-box-backends-colors nil
-        company-box-max-candidates 50)
+  ;; Highlight `company-common'
+  (defun my-company-box--make-line (candidate)
+    (-let* (((candidate annotation len-c len-a backend) candidate)
+            (color (company-box--get-color backend))
+            ((c-color a-color i-color s-color) (company-box--resolve-colors color))
+            (icon-string (and company-box--with-icons-p (company-box--add-icon candidate)))
+            (candidate-string (concat (propertize (or company-common "") 'face 'company-tooltip-common)
+                                      (substring (propertize candidate 'face 'company-box-candidate)
+                                                 (length company-common) nil)))
+            (align-string (when annotation
+                            (concat " " (and company-tooltip-align-annotations
+                                             (propertize " " 'display `(space :align-to (- right-fringe ,(or len-a 0) 1)))))))
+            (space company-box--space)
+            (icon-p company-box-enable-icon)
+            (annotation-string (and annotation (propertize annotation 'face 'company-box-annotation)))
+            (line (concat (unless (or (and (= space 2) icon-p) (= space 0))
+                            (propertize " " 'display `(space :width ,(if (or (= space 1) (not icon-p)) 1 0.75))))
+                          (company-box--apply-color icon-string i-color)
+                          (company-box--apply-color candidate-string c-color)
+                          align-string
+                          (company-box--apply-color annotation-string a-color)))
+            (len (length line)))
+      (add-text-properties 0 len (list 'company-box--len (+ len-c len-a)
+                                       'company-box--color s-color)
+                           line)
+      line))
+  (advice-add #'company-box--make-line :override #'my-company-box--make-line)
 
-  (setq company-box-icons-yasnippet
-        (kevin/company-box-icon 'octicon "file-code" 'all-the-icons-green))
+  ;; Prettify icons
+  (defun my-company-box-icons--elisp (candidate)
+    (when (derived-mode-p 'emacs-lisp-mode)
+      (let ((sym (intern candidate)))
+        (cond ((fboundp sym) 'Function)
+              ((featurep sym) 'Module)
+              ((facep sym) 'Color)
+              ((boundp sym) 'Variable)
+              ((symbolp sym) 'Text)
+              (t . nil)))))
+  (advice-add #'company-box-icons--elisp :override #'my-company-box-icons--elisp)
 
-  (setq company-box-icons-unknown
-        (kevin/company-box-icon 'octicon "file-text" 'all-the-icons-purple))
-
-  (setq company-box-icons-elisp
-        (list
-         (kevin/company-box-icon 'material "functions" 'all-the-icons-red)        ; Function
-         (kevin/company-box-icon 'faicon "tag" 'all-the-icons-blue)               ; Variable
-         (kevin/company-box-icon 'faicon "cog"  'all-the-icons-orange)            ; Feature
-         (kevin/company-box-icon 'material "palette" 'all-the-icons-pink)         ; Face
-         ))
-
-  (setq company-box-icons-lsp
-        `(( 1  . ,(kevin/company-box-icon 'material "text_fields" 'all-the-icons-purple))         ; Text
-          ( 2  . ,(kevin/company-box-icon 'material "functions" 'all-the-icons-red))              ; Method
-          ( 3  . ,(kevin/company-box-icon 'material "functions" 'all-the-icons-red))              ; Function
-          ( 4  . ,(kevin/company-box-icon 'material "functions" 'all-the-icons-red))              ; Constructor
-          ( 5  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Field
-          ( 6  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Variable
-          ( 7  . ,(kevin/company-box-icon 'material "class"  'all-the-icons-orange))              ; Class
-          ( 8  . ,(kevin/company-box-icon 'faicon "cogs" 'all-the-icons-orange))                  ; Interface
-          ( 9  . ,(kevin/company-box-icon 'alltheicon "less" 'all-the-icons-yellow))              ; Module
-          (10  . ,(kevin/company-box-icon 'faicon "wrench" 'all-the-icons-yellow))                ; Property
-          (11  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Unit
-          (12  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Value
-          (13  . ,(kevin/company-box-icon 'faicon "file-text-o" 'all-the-icons-purple))           ; Enum
-          (14  . ,(kevin/company-box-icon 'material "format_align_center" 'all-the-icons-yellow)) ; Keyword
-          (15  . ,(kevin/company-box-icon 'material "content_paste" 'all-the-icons-yellow))       ; Snippet
-          (16  . ,(kevin/company-box-icon 'material "palette" 'all-the-icons-yellow))             ; Color
-          (17  . ,(kevin/company-box-icon 'faicon "file" 'all-the-icons-yellow))                  ; File
-          (18  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Reference
-          (19  . ,(kevin/company-box-icon 'faicon "folder" 'all-the-icons-yellow))                ; Folder
-          (20  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; EnumMember
-          (21  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Constant
-          (22  . ,(kevin/company-box-icon 'faicon "cog" 'all-the-icons-orange))                   ; Struct
-          (23  . ,(kevin/company-box-icon 'faicon "bolt" 'all-the-icons-yellow))                  ; Event
-          (24  . ,(kevin/company-box-icon 'faicon "tag"  'all-the-icons-blue))                    ; Operator
-          (25  . ,(kevin/company-box-icon 'faicon "cog" 'all-the-icons-orange))                   ; TypeParameter
-          ))
-  )
+  (when (and (display-graphic-p)
+             (require 'all-the-icons nil t))
+    (declare-function all-the-icons-faicon 'all-the-icons)
+    (declare-function all-the-icons-material 'all-the-icons)
+    (declare-function all-the-icons-octicon 'all-the-icons)
+    (setq company-box-icons-all-the-icons
+          `((Unknown . ,(all-the-icons-material "find_in_page" :height 0.85 :v-adjust -0.2))
+            (Text . ,(all-the-icons-faicon "text-width" :height 0.8 :v-adjust -0.05))
+            (Method . ,(all-the-icons-faicon "cube" :height 0.8 :v-adjust -0.05 :face 'all-the-icons-purple))
+            (Function . ,(all-the-icons-faicon "cube" :height 0.8 :v-adjust -0.05 :face 'all-the-icons-purple))
+            (Constructor . ,(all-the-icons-faicon "cube" :height 0.8 :v-adjust -0.05 :face 'all-the-icons-purple))
+            (Field . ,(all-the-icons-octicon "tag" :height 0.8 :v-adjust 0 :face 'all-the-icons-lblue))
+            (Variable . ,(all-the-icons-octicon "tag" :height 0.8 :v-adjust 0 :face 'all-the-icons-lblue))
+            (Class . ,(all-the-icons-material "settings_input_component" :height 0.85 :v-adjust -0.2 :face 'all-the-icons-orange))
+            (Interface . ,(all-the-icons-material "share" :height 0.85 :v-adjust -0.2 :face 'all-the-icons-lblue))
+            (Module . ,(all-the-icons-material "view_module" :height 0.85 :v-adjust -0.2 :face 'all-the-icons-lblue))
+            (Property . ,(all-the-icons-faicon "wrench" :height 0.8 :v-adjust -0.05))
+            (Unit . ,(all-the-icons-material "settings_system_daydream" :height 0.85 :v-adjust -0.2))
+            (Value . ,(all-the-icons-material "format_align_right" :height 0.85 :v-adjust -0.2 :face 'all-the-icons-lblue))
+            (Enum . ,(all-the-icons-material "storage" :height 0.85 :v-adjust -0.2 :face 'all-the-icons-orange))
+            (Keyword . ,(all-the-icons-material "filter_center_focus" :height 0.85 :v-adjust -0.2))
+            (Snippet . ,(all-the-icons-material "format_align_center" :height 0.85 :v-adjust -0.2))
+            (Color . ,(all-the-icons-material "palette" :height 0.85 :v-adjust -0.2))
+            (File . ,(all-the-icons-faicon "file-o" :height 0.85 :v-adjust -0.05))
+            (Reference . ,(all-the-icons-material "collections_bookmark" :height 0.85 :v-adjust -0.2))
+            (Folder . ,(all-the-icons-faicon "folder-open" :height 0.85 :v-adjust -0.05))
+            (EnumMember . ,(all-the-icons-material "format_align_right" :height 0.85 :v-adjust -0.2 :face 'all-the-icons-lblue))
+            (Constant . ,(all-the-icons-faicon "square-o" :height 0.85 :v-adjust -0.05))
+            (Struct . ,(all-the-icons-material "settings_input_component" :height 0.85 :v-adjust -0.2 :face 'all-the-icons-orange))
+            (Event . ,(all-the-icons-octicon "zap" :height 0.8 :v-adjust 0 :face 'all-the-icons-orange))
+            (Operator . ,(all-the-icons-material "control_point" :height 0.85 :v-adjust -0.2))
+            (TypeParameter . ,(all-the-icons-faicon "arrows" :height 0.8 :v-adjust -0.05))
+            (Template . ,(all-the-icons-material "format_align_center" :height 0.85 :v-adjust -0.2)))
+          company-box-icons-alist 'company-box-icons-all-the-icons)))
 
 (provide 'init-company)
 ;;; init-company.el ends here
