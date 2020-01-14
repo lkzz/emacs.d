@@ -118,6 +118,8 @@
     :defines projectile-project-root-files-top-down-recurring
     :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
     :config
+    (kevin/define-jump-handlers c-mode lsp-find-definition)
+    (kevin/define-jump-handlers c++-mode lsp-find-definition)
     (with-eval-after-load 'projectile
       (setq projectile-project-root-files-top-down-recurring
             (append '("compile_commands.json" ".ccls")
