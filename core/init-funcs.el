@@ -337,5 +337,10 @@ Argument VALUE 0 is transparent, 100 is opaque."
 
        (add-hook ',mode-hook-name ',init-func-name t))))
 
+(defun kevin/reload-init-file ()
+  "Reload Emacs configurations."
+  (interactive)
+  (load user-init-file))
+
 (provide 'init-funcs)
 ;;; init-funcs.el ends here

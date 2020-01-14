@@ -67,7 +67,8 @@
 (kevin/declare-prefix ";" "custom")
 (kevin/set-leader-keys
   ";=" 'kevin/increase-fontsize
-  ";-" 'kevin/decrease-fontsize)
+  ";-" 'kevin/decrease-fontsize
+  ";R" 'kevin/reload-init-file)
 
 ;; Toggle
 (kevin/declare-prefix "t" "toggle")
