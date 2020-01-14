@@ -106,7 +106,8 @@
                               Shell-script ""
                               Python ""
                               Go ""
-                              Org "Org"
+                              C++//l "C++"
+                              Protocol-Buffers//l "PB"
                               Fundamental ""))
              (replace-name (plist-get replace-table (intern major-name))))
         (if replace-name
