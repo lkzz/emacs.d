@@ -8,7 +8,7 @@ clean:
 	@rm -rf $(EMACS_DIR)/custom.el $(EMACS_DIR)/.emacs.desktop $(EMACS_DIR)/auto-save-list
 	@find . -maxdepth 1 -type f -name "*~" | xargs rm
 	@find . -maxdepth 1 -type f -name ".?*" | grep -v .DS_Store  | grep -v .gitignore | grep -v .gitmodules | xargs rm
-	@rm -rf projectile* places recentf
+	@rm -rf projectile* places recentf transient
 	@echo "make clean done."
 
 compile:
