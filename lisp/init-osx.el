@@ -21,14 +21,14 @@
         exec-path-from-shell-arguments '("-l")))
 
 (use-package counsel-osx-app
-  :defer t
   :if is-mac-p
+  :commands counsel-osx-app
   :init
   (kevin/set-leader-keys "oa" 'counsel-osx-app))
 
 (use-package reveal-in-osx-finder
-  :defer t
   :if is-mac-p
+  :commands reveal-in-osx-finder
   :init
   (kevin/set-leader-keys "br" 'reveal-in-osx-finder))
 

@@ -83,12 +83,12 @@
                 '(pyim-probe-program-mode)))
 
 (use-package pangu-spacing
+  :defer t
   :diminish pangu-spacing-mode
+  :hook (org-mode . pangu-spacing-mode)
   :config
-  (global-pangu-spacing-mode 1)
   ;; Always insert `real' space in org-mode.
-  (add-hook 'org-mode-hook '(lambda ()
-                              (set (make-local-variable 'pangu-spacing-real-insert-separtor) t))))
+  (setq pangu-spacing-real-insert-separtor t))
 
 ;; Chinese calendar
 (use-package cal-china-x
@@ -148,6 +148,7 @@
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
   :after company
+  :commands toggle-company-english-helper
   :load-path "vendor/company-english-helper"
   :bind ("C-c t e" . 'toggle-company-english-helper))
 

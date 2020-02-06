@@ -13,28 +13,6 @@
 ;;
 ;;; Code:
 
-;; Interactively highlight the current-window (by dimming the others)
-(use-package dimmer
-  :disabled
-  :hook (after-init . dimmer-mode)
-  :config
-  (setq dimmer-fraction 0.2))
-
-;; Restore old window configurations
-(use-package winner
-  :hook (after-init . winner-mode)
-  :init
-  (setq winner-boring-buffers '("*Completions*"
-                                "*Compile-Log*"
-                                "*inferior-lisp*"
-                                "*Fuzzy Completions*"
-                                "*Apropos*"
-                                "*Help*"
-                                "*cvs*"
-                                "*Buffer List*"
-                                "*Ibuffer*"
-                                "*esh command on file*")))
-
 ;; Quickly switch windows
 (use-package ace-window
   :defer t
@@ -121,12 +99,6 @@
         cwm-incremental-padding t
         cwm-left-fringe-ratio 0))
 
-;; resize window
-(use-package resize-window
-  :defer t
-  :init
-  (kevin/set-leader-keys "wr" #'resize-window))
-
 ;;;###autoload
 (defun kevin/toggle-golden-ratio ()
   "Golden ratio mode toggle function."
@@ -161,8 +133,7 @@
                "gdb-disassembly-mode"
                "gdb-memory-mode"
                "speedbar-mode"
-               "ranger-mode"
-               ))
+               "ranger-mode"))
     (add-to-list 'golden-ratio-exclude-modes m))
   (add-to-list 'golden-ratio-exclude-buffer-regexp "^\\*[hH]elm.*")
   ;; golden-ratio-extra-commands

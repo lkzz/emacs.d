@@ -13,14 +13,6 @@
 ;;
 ;;; Code:
 
-(use-package evil-leader
-  :disabled
-  :after evil
-  :init
-  (setq evil-want-keybinding nil)
-  (global-evil-leader-mode t)
-  (evil-leader/set-leader "<SPC>"))
-
 (use-package evil
   :hook (after-init . evil-mode)
   :init
