@@ -53,15 +53,6 @@
                                gud-mode)
         company-backends kevin-company-default-backends))
 
-;; Show you likelier candidates at the top of the list
-(use-package company-statistics
-  :disabled
-  :after company
-  :hook (company-mode . company-statistics-mode)
-  :config
-  (setq company-statistics-file (concat kevin-cache-directory
-                                        "company-statistics-cache.el")))
-
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box
   :diminish

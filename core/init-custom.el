@@ -40,20 +40,5 @@
   :type 'boolean
   :group 'kevin-customize-group)
 
-(defcustom kevin-c++-format-tool 'clang-format
-  "Format tool used in c++ mode."
-  :type '(choice
-          (const :tag "clang-format" clang-format)
-          (const :tag "astyle" astyle))
-  :group 'kevin-customize-group)
-
-(defcustom kevin-c++-backend 'lsp
-  "Company backend in c++ mode."
-  :type '(choice
-          (const :tag "lsp" lsp)
-          (const :tag "irony" irony))
-  :group 'kevin-customize-group)
-
-
 (provide 'init-custom)
 ;;; init-custom ends here

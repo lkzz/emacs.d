@@ -90,10 +90,8 @@
 (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
-;; (require 'init-email)
 
 ;; programming releated packages
-;; (require 'init-tag)
 (require 'init-prog)
 (require 'init-yasnippet)
 (require 'init-company)

@@ -81,14 +81,6 @@
         git-commit-summary-max-length 50
         git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
 
-;; Show TODOs in magit
-(use-package magit-todos
-  :disabled
-  :after magit
-  :init
-  (setq magit-todos-nice (if (executable-find "nice") t nil))
-  (magit-todos-mode 1))
-
 (use-package evil-magit
   :after (evil magit)
   :init (evil-magit-init)
@@ -217,7 +209,6 @@
   ;; Integration with magit
   (with-eval-after-load 'magit
     (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
-
 
 (provide 'init-git)
 ;;; init-git ends here
