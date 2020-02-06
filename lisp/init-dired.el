@@ -154,5 +154,12 @@
         (concat dired-omit-files
                 "\\|^\\..*\\|^bazel*")))
 
+;; Show git info in dired
+(use-package dired-git-info
+  :after dired
+  :general
+  (general-nmap dired-mode-map
+    "v" 'dired-git-info-mode))
+
 (provide 'init-dired)
 ;;; init-dired ends here
