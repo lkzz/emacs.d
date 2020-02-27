@@ -86,14 +86,12 @@
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode)
   :bind (:map go-mode-map
-              ([remap xref-find-definitions] . godef-jump)
               ("C-c R" . go-remove-unused-imports)
               ("<f1>" . godoc-at-point))
   :config
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY" "GOBIN" "GOSUMDB")))
-  (kevin/define-jump-handlers go-mode godef-jump)
   ;; (setq gofmt-command "goimports") ; use goimports instead of gofmt
   (add-hook 'go-mode-hook 'setup-go-mode-compile)
   ;; (add-hook 'before-save-hook #'gofmt-before-save)
@@ -131,7 +129,8 @@
                                                         go-build
                                                         go-test
                                                         go-unconvert
-                                                        go-errcheck))
+                                                        go-errcheck
+                                                        go-staticcheck))
                      (setq flycheck-golangci-lint-disable-linters '("unconvert"
                                                                     "errcheck"))
                      (flycheck-golangci-lint-setup))))

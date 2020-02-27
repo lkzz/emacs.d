@@ -14,56 +14,56 @@
 ;;; Code:
 
 (use-package lsp-mode
-  :diminish lsp-mode "ⓛ"
-  :hook (prog-mode . (lambda ()
-                       (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
-                         (lsp-deferred))))
+  :diminish lsp-mode
+  :hook ((prog-mode . (lambda ()
+                        (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
+                          (lsp-deferred))))
+         (lsp-mode . (lambda ()
+                       ;; Integrate `which-key'
+                       (lsp-enable-which-key-integration)
+                       ;; Format and organize imports
+                       (add-hook 'before-save-hook #'lsp-format-buffer t t)
+                       (add-hook 'before-save-hook #'lsp-organize-imports t t))))
   :bind (:map lsp-mode-map
               ("C-c C-d" . lsp-describe-thing-at-point)
               ("C-c C-r" . lsp-ui-peek-find-references)
               ("C-c C-n" . lsp-rename)
-              ("C-c C-." . lsp-ui-peek-find-definitions))
+              ("C-c C-." . lsp-ui-peek-find-definitions)
+              ([remap xref-find-definitions] . lsp-find-definition)
+              ([remap xref-find-references] . lsp-find-references))
   :init (setq lsp-auto-guess-root t
               lsp-prefer-flymake nil
-              flymake-fringe-indicator-position 'right-fringe)
+              lsp-keep-workspace-alive nil
+              lsp-enable-symbol-highlighting nil
+              flymake-fringe-indicator-position 'right-fringe
+              lsp-file-watch-threshold 5000
+              lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
+              lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
   :config
-  (setq lsp-enable-xref t
-        lsp-enable-snippet t
-        lsp-inhibit-message t
-        lsp-enable-symbol-highlighting nil
-        lsp-enable-file-watchers t
-        lsp-file-watch-threshold 5000
-        lsp-session-file (concat kevin-cache-directory "lsp-session-v1"))
-
-  ;; Configure LSP clients
-  (use-package lsp-clients
-    :ensure nil
-    :hook (go-mode . (lambda ()
-                       "Format and add/delete imports."
-                       (add-hook 'before-save-hook #'lsp-format-buffer t t)
-                       (add-hook 'before-save-hook #'lsp-organize-imports t t)))
-    :init
-    (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
-    (unless (executable-find "rls")
-      (setq lsp-rust-rls-server-command '("rustup" "run" "stable" "rls"))))
+  (kevin/define-jump-handlers go-mode lsp-find-definition)
 
   (use-package lsp-ui
-    :functions my-lsp-ui-imenu-hide-mode-line
-    :commands lsp-ui-doc-hide
+    :hook (lsp-mode . lsp-ui-mode)
     :custom-face
-    (lsp-ui-doc-background ((t (:background ,(face-background 'tooltip)))))
     (lsp-ui-sideline-code-action ((t (:inherit warning))))
-    :bind (:map lsp-ui-mode-map
-                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-                ([remap xref-find-references] . lsp-ui-peek-find-references))
-    :init (setq lsp-ui-doc-enable nil
+    :init (setq lsp-ui-doc-enable t
                 lsp-ui-doc-use-webkit nil
                 lsp-ui-doc-delay 0.5
-                lsp-ui-doc-include-signature nil
+                lsp-ui-doc-include-signature t
                 lsp-ui-doc-position 'at-point
                 lsp-ui-doc-border (face-foreground 'default)
-                lsp-eldoc-enable-hover nil ; Disableeldoc displays in minibuffer
-                lsp-ui-sideline-enable nil)
+                lsp-eldoc-enable-hover nil ; Disable eldoc displays in minibuffer
+
+                lsp-ui-sideline-enable t
+                lsp-ui-sideline-show-hover nil
+                lsp-ui-sideline-show-diagnostics nil
+                lsp-ui-sideline-ignore-duplicate t
+
+                lsp-ui-imenu-enable t
+                lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+                                      ,(face-foreground 'font-lock-string-face)
+                                      ,(face-foreground 'font-lock-constant-face)
+                                      ,(face-foreground 'font-lock-variable-name-face)))
     :config
     (add-to-list 'lsp-ui-doc-frame-parameters '(right-fringe . 8))
 
@@ -91,27 +91,6 @@
           company-lsp-enable-snippet t
           company-lsp-cache-candidates 'auto
           company-lsp-enable-recompletion t))
-
-  ;; Debug
-  (use-package dap-mode
-    :diminish
-    :functions dap-hydra/nil
-    :bind (:map lsp-mode-map
-                ("<f5>" . dap-debug)
-                ("M-<f5>" . dap-hydra))
-    :hook ((after-init . dap-mode)
-           (dap-mode . dap-ui-mode)
-           (dap-session-created . (lambda (&_rest) (dap-hydra)))
-           (dap-terminated . (lambda (&_rest) (dap-hydra/nil)))
-
-           (python-mode . (lambda () (require 'dap-python)))
-           (ruby-mode . (lambda () (require 'dap-ruby)))
-           (go-mode . (lambda () (require 'dap-go)))
-           (java-mode . (lambda () (require 'dap-java)))
-           ((c-mode c++-mode objc-mode swift) . (lambda () (require 'dap-lldb)))
-           (php-mode . (lambda () (require 'dap-php)))
-           (elixir-mode . (lambda () (require 'dap-elixir)))
-           ((js-mode js2-mode) . (lambda () (require 'dap-chrome)))))
 
   ;; C/C++/Objective-C support
   (use-package ccls

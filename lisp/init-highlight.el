@@ -36,41 +36,6 @@
         show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t))
 
-;; Highlight show trailing whitespace
-(use-package whitespace
-  :ensure nil
-  :diminish whitespace-mode "ⓦ"
-  :preface
-  (defun kevin/turn-off-whitespace-highlight ()
-    (setq show-trailing-whitespace nil))
-  :hook (((prog-mode outline-mode conf-mode) . whitespace-mode)
-         ((minibuffer-setup eshell-mode) . kevin/turn-off-whitespace-highlight))
-  :init
-  (setq show-trailing-whitespace t
-        whitespace-style '(face trailing))
-  :config
-  (with-eval-after-load 'popup
-    ;; advice for whitespace-mode conflict with popup
-    (defvar my-prev-whitespace-mode nil)
-    (make-local-variable 'my-prev-whitespace-mode)
-    (defadvice popup-draw (before my-turn-off-whitespace activate compile)
-      "Turn off whitespace mode before showing autocomplete box."
-      (if whitespace-mode
-          (progn
-            (setq my-prev-whitespace-mode t)
-            (whitespace-mode -1))
-        (setq my-prev-whitespace-mode nil)))
-    (defadvice popup-delete (after my-restore-whitespace activate compile)
-      "Restore previous whitespace mode when deleting autocomplete box."
-      (if my-prev-whitespace-mode
-          (whitespace-mode 1)))))
-
-;; An unobtrusive way to trim spaces from end of line
-(use-package ws-butler
-  :diminish ws-butler-mode
-  :hook (prog-mode . ws-butler-mode)
-  :init (setq ws-butler-keep-whitespace-before-point nil))
-
 (defun kevin/disable-highlight-indent-guides ()
   (when highlight-indent-guides-mode
     (highlight-indent-guides-mode -1)))

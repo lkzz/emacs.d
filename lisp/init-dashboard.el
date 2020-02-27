@@ -51,7 +51,7 @@
                                   (projects  . "file-directory")
                                   (registers . "database"))
         dashboard-set-footer t
-        dashboard-footer (format "Powered by %s, %s" kevin-user-name (format-time-string "%Y"))
+        dashboard-footer-messages (list (format "Powered by %s, %s" kevin-user-name (format-time-string "%Y")))
         dashboard-footer-icon (if (display-graphic-p)
                                   (all-the-icons-faicon "heart"
                                                         :height 1.1
