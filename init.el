@@ -21,22 +21,26 @@
 ;; Adjust garbage collection thresholds during startup, Optimize loading performance
 ;;----------------------------------------------------------------------------
 (defvar default-file-name-handler-alist file-name-handler-alist)
-(setq file-name-handler-alist nil)
-(setq gc-cons-threshold 400000000)
+(defvar custom-gc-cons-threshold 100000000)
 
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            "Restore defalut values after init"
-            (setq file-name-handler-alist default-file-name-handler-alist)
-            (setq gc-cons-threshold 8000000)
+(setq file-name-handler-alist nil
+      gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.8
+      load-prefer-newer noninteractive
+      site-run-file nil)
 
-            ;; @see http://bling.github.io/blog/2016/01/18/why-are-you-changing-gc-cons-threshold/
-            (defun my-minibuffer-setup-hook ()
-              (setq gc-cons-threshold 400000000))
-            (defun my-minibuffer-exit-hook ()
-              (setq gc-cons-threshold 8000000))
-            (add-hook 'minibuffer-setup-hook #'my-minibuffer-setup-hook)
-            (add-hook 'minibuffer-exit-hook #'my-minibuffer-exit-hook)))
+;; hook run after loading init files
+(add-hook 'emacs-startup-hook #'(lambda ()
+                                  (setq file-name-handler-alist default-file-name-handler-alist
+                                        gc-cons-threshold custom-gc-cons-threshold
+                                        gc-cons-percentage 0.1)))
+
+(add-hook 'minibuffer-setup-hook #'(lambda ()
+                                     (setq gc-cons-threshold most-positive-fixnum)))
+
+(add-hook 'minibuffer-exit-hook #'(lambda ()
+                                    (garbage-collect)
+                                    (setq gc-cons-threshold custom-gc-cons-threshold)))
 
 ;;----------------------------------------------------------------------------
 ;; Add customized directories to load-path.
@@ -60,7 +64,7 @@
 ;; Load core files first.
 ;;----------------------------------------------------------------------------
 (require 'init-custom)
-(require 'init-elpa)
+(require 'init-package)
 (require 'init-const)
 (require 'init-funcs)
 
@@ -121,6 +125,6 @@
 (require 'init-windows-popup)
 
 (require 'init-keybinds)
-(require 'init-better-default)         ; better defaluts
+(require 'init-better-default)
 
 ;;; init.el ends here

@@ -24,31 +24,37 @@
             (lambda ()
               (setcdr (assq 'ns-appearance default-frame-alist)
                       (frame-parameter nil 'background-mode)))))
-;; 关闭srgb，修复modeline上的颜色显示问题
-(setq ns-use-srgb-colorspace nil)
+
 ;; 去除全屏时的黑边
 (setq frame-resize-pixelwise t)
+
 ;; 移除工具栏
 (if (fboundp 'tool-bar-mode)
     (tool-bar-mode -1))
+
 ;; 移除滚动条
 (if (fboundp 'set-scroll-bar-mode)
     (set-scroll-bar-mode nil))
+
 ;; 移除菜单栏
 (if (fboundp 'menu-bar-mode)
     (menu-bar-mode -1))
+
 ;; 禁止启动画面
-(setq inhibit-startup-screen t
-      initial-buffer-choice  nil)
-;; 设置scratch buffer message
-(setq initial-scratch-message kevin-scratch-message)
+(use-package "startup"
+  :ensure nil
+  :init
+  (setq inhibit-startup-screen t
+        initial-buffer-choice  nil
+        initial-scratch-message kevin-scratch-message
+        inhibit-startup-echo-area-message t ; 禁止echo area message
+        inhibit-default-init t              ; 禁止加载default lib
+        initial-major-mode 'fundamental-mode)) ; 设置默认的major mode
+(fset #'display-startup-echo-area-message #'ignore)
+
 ;; 禁止使用对话框
 (setq use-file-dialog nil
       use-dialog-box nil)
-(setq inhibit-startup-echo-area-message t ; 禁止echo area message
-      inhibit-default-init t              ; 禁止加载default lib
-      initial-major-mode 'fundamental-mode) ; 设置默认的major mode
-(fset #'display-startup-echo-area-message #'ignore)
 
 ;;=================== 鼠标设置 =======================================
 ;; middle-click paste at point, not at click
@@ -110,6 +116,7 @@
   :config
   (doom-themes-org-config)
   (doom-themes-neotree-config))
+
 ;; 加载主题
 (if (daemonp)
     (add-hook 'after-make-frame-functions

@@ -168,5 +168,8 @@ Including indent-buffer, which should not be called automatically on save."
 
 (add-hook 'after-init-hook #'kevin/auto-save-enable)
 
+(use-package all-the-icons-ibuffer
+  :init (all-the-icons-ibuffer-mode 1))
+
 (provide 'init-buffer)
 ;;; init-buffer.el ends here

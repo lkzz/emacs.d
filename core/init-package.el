@@ -1,4 +1,4 @@
-;;; init-elpa.el --- elpa config. -*- lexical-binding: t; -*-
+;;; init-package.el --- elpa config. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2020  Kevin Leung
 ;;
@@ -18,13 +18,11 @@
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-;;; Fire up package.el
-(setq package-enable-at-startup nil ; don't auto-initialize!
-      ;; don't add that `custom-set-variables' block to my initl!
-      package--init-file-ensured t)
-(package-initialize)
-;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
-(setq load-prefer-newer t)
+;; Initialize packages
+(unless (bound-and-true-p package--initialized) ; To avoid warnings in 27
+  (setq package-enable-at-startup nil)          ; To prevent initializing twice
+  (package-initialize))
+
 ;;-----------------------------------------------------------------------------
 
 ;;-----------------------------------------------------------------------------
@@ -114,5 +112,5 @@
   (add-to-list 'which-key-replacement-alist '((nil . "winum-select-window-[2-9]") . t))
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
-(provide 'init-elpa)
-;;; init-elpa.el ends here
+(provide 'init-package)
+;;; init-package.el ends here
