@@ -14,26 +14,14 @@
 ;;; Code:
 
 (use-package flycheck
-  :defer t
   :diminish flycheck-mode "ⓕ"
-  :hook (prog-mode . global-flycheck-mode)
-  :init
-  (kevin/set-leader-keys "e" #'flycheck-hydra/body)
-  :pretty-hydra
-  ((:color red :quit-key "q")
-   ("Flycheck"
-    (("q" nil "quit" :exit t)
-     ("v" flycheck-verify-setup "verify setup" :exit t)
-     ("m" flycheck-manual "manual" :exit t))
-    "Errors"
-    (("l" flycheck-list-errors "list" :exit t)
-     ("c" flycheck-buffer "check" :exit t)
-     ("n" flycheck-next-error "next")
-     ("p" flycheck-previous-error "previous"))
-    "Checker"
-    (("d" flycheck-disable-checker "disable" :exit t)
-     ("s" flycheck-select-checker "select" :exit t)
-     ("?" flycheck-describe-checker "describe" :exit t))))
+  :hook (after-init . global-flycheck-mode)
+  :general
+  (kevin/comma-key-define
+    "e" '(nil :which-key "Errors")
+    "e l" 'flycheck-list-errors
+    "e n" 'flycheck-next-error
+    "e p" 'flycheck-previous-error)
   :config
   (when (fboundp 'define-fringe-bitmap)
     (define-fringe-bitmap 'kevin-flycheck-error-fringe
@@ -76,8 +64,7 @@
               #b00000000
               #b00000000
               #b00000000
-              #b00000000))
-    )
+              #b00000000)))
   (flycheck-define-error-level 'error
     :severity 2
     :overlay-category 'flycheck-error-overlay
@@ -100,8 +87,8 @@
         flycheck-highlighting-mode 'symbols
         flycheck-check-syntax-automatically '(save mode-enabled))
   ;; c/c++ mode
-  (setq flycheck-gcc-language-standard "c++11")
-  (setq flycheck-clang-language-standard "c++11")
+  (setq flycheck-gcc-language-standard "c++11"
+        flycheck-clang-language-standard "c++11")
   (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
 
 (use-package flycheck-posframe

@@ -104,38 +104,41 @@ Including indent-buffer, which should not be called automatically on save."
   (cleanup-buffer-safe)
   (indent-buffer))
 
-;; buffer related keybindings
-(kevin/declare-prefix "b" "buffer")
-(kevin/set-leader-keys
-  "bb" 'ivy-switch-buffer
-  "bc" 'kevin/cleanup-buffer
-  "be" 'eval-buffer
-  "bd" 'kill-this-buffer
-  "bD" #'kevin/kill-other-buffers
-  "bi"  #'kevin/indent-region-or-buffer
-  "bk" 'kill-buffer
-  "bl" 'ibuffer-list-buffers
-  "bm" #'kevin/kill-all-buffers
-  "bp" #'kevin/switch-to-prev-buffer
-  "bn" #'kevin/switch-to-next-buffer
-  "bg" #'kevin/revert-buffer-no-confirm
-  "bs" 'save-buffer
-  "bS" #'kevin/create-scratch-buffer)
+(use-package reveal-in-osx-finder
+  :if is-mac-p
+  :commands reveal-in-osx-finder
+  :general
+  (kevin/space-key-define "b r" 'reveal-in-osx-finder))
 
 ;; Group ibuffer's list by project root
 (use-package ibuffer-projectile
   :after (projectile)
   :bind ("C-x C-b" . ibuffer)
   :init
-  (progn
-    (setq ibuffer-filter-group-name-face 'font-lock-function-name-face)
-    (add-hook 'ibuffer-hook
-              (lambda ()
-                (ibuffer-auto-mode 1)
-                (ibuffer-projectile-set-filter-groups)
-                (unless (eq ibuffer-sorting-mode 'alphabetic)
-                  (ibuffer-do-sort-by-alphabetic))))))
-
+  (setq ibuffer-filter-group-name-face 'font-lock-function-name-face)
+  (add-hook 'ibuffer-hook
+            (lambda ()
+              (ibuffer-auto-mode 1)
+              (ibuffer-projectile-set-filter-groups)
+              (unless (eq ibuffer-sorting-mode 'alphabetic)
+                (ibuffer-do-sort-by-alphabetic))))
+  :general
+  (kevin/space-key-define
+    "b" '(:ignore t :wk "Buffer")
+    "b b" 'switch-to-buffer
+    "b c" '(kevin/cleanup-buffer :wk "cleanup-buffer")
+    "b e" 'eval-buffer
+    "b d" 'kill-this-buffer
+    "b D" '(kevin/kill-other-buffers :wk "kill-other")
+    "b i" '(kevin/indent-region-or-buffer :wk "indent-buffer")
+    "b k" 'kill-buffer
+    "b l" 'ibuffer-list-buffers
+    "b m" '(kevin/kill-all-buffers :wk "kill-all-buffer")
+    "b p" '(kevin/switch-to-prev-buffer :wk "prev-buffer")
+    "b n" '(kevin/switch-to-next-buffer :wk "next-buffer")
+    "b g" '(kevin/revert-buffer-no-confirm :wk "revert-buffer")
+    "b s" 'save-buffer
+    "b S" '(kevin/create-scratch-buffer :wk "create-scratch-buffer")))
 
 (defun kevin/auto-save-buffer()
   (ignore-errors

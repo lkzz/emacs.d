@@ -4,7 +4,6 @@ autosave/
 backups/
 eshell/
 elpa/
-irony/
 auto-save-list/
 transient/
 anaconda-mode/
@@ -12,14 +11,16 @@ url/
 request/
 straight/
 
-.DS_Store
 places
 recentf
 history
 projectile-bookmarks.eld
+custom.el
+
+.DS_Store
 .emacs.desktop
 .persistent-scratch
 *.elc
 *.data
+.mc-lists.el
 *~
-custom.el

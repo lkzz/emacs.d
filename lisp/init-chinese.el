@@ -58,9 +58,18 @@
 
 (global-set-key (kbd "C-\\") 'evil-toggle-input-method)
 
+(use-package liberime
+  :straight (:host github :repo "merrickluo/liberime"
+                   :files ("CMakeLists.txt" "Makefile" "src" "liberime.el"))
+  :init
+  (add-hook 'liberime-after-start-hook
+            (lambda ()
+              (liberime-select-schema "luna_pinyin_simp"))))
+
 ;; 设置拼音输入法
 (use-package pyim
   :defer t
+  :after liberime
   :bind (("M-j" . pyim-convert-code-at-point)) ; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
   :config
   ;; 激活 basedict 拼音词库
@@ -71,7 +80,7 @@
   ;; 使用 emacs thread 来生成 dcache。
   (setq pyim-dcache-prefer-emacs-thread t)
   ;; 使用全拼
-  (setq pyim-default-scheme 'quanpin)
+  (setq pyim-default-scheme 'rime)
   ;; 显示6个候选词。
   (setq pyim-page-length 6)
   ;; 设置选词框的绘制方式
@@ -149,7 +158,7 @@
 (use-package company-english-helper
   :after company
   :commands toggle-company-english-helper
-  :load-path "vendor/company-english-helper"
+  :straight (:host github :repo "manateelazycat/company-english-helper")
   :bind ("C-c t e" . 'toggle-company-english-helper))
 
 (provide 'init-chinese)

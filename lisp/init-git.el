@@ -59,20 +59,20 @@
 
 (use-package magit
   :defer t
-  :init
-  (kevin/declare-prefix "g" "magit")
-  (kevin/set-leader-keys
-    "ga" #'kevin/git-add-current-file
-    "gb" 'magit-blame
-    "gc" #'kevin/git-checkout-current-file
-    "gd" 'magit-diff-buffer-file
-    "gl" 'magit-log-buffer-file
-    "gi" 'magit-init
-    "gL" 'magit-list-repositories
-    "gs" 'magit-status
-    "gS" 'magit-stage-file
-    "gu" 'magit-unstage-file
-    "gv" 'vc-annotate)
+  :general
+  (kevin/space-key-define
+    "g" '(:ignore t :which-key "Git")
+    "g a" '(kevin/git-add-current-file :wk "add-current-file")
+    "g b" 'magit-blame
+    "g c" '(kevin/git-checkout-current-file :wk "checkout-current-file")
+    "g d" 'magit-diff-buffer-file
+    "g i" 'magit-init
+    "g l" 'magit-log-buffer-file
+    "g L" 'magit-list-repositories
+    "g s" 'magit-status
+    "g S" 'magit-stage-file
+    "g u" 'magit-unstage-file
+    "g v" 'vc-annotate)
   :config
   ;; display buffer fullframe
   (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
@@ -88,28 +88,30 @@
 
 ;;; Pop up last commit information of current line
 (use-package git-messenger
+  :bind (("C-x v m" . git-messenger:popup-message))
   :commands (git-messenger:copy-message
-             git-messenger:popup-message)
+             git-messenger:popup-message
+             git-messenger:show-detail)
+  :general
+  (kevin/space-key-define "g m" '(git-messenger:popup-message :wk "popup-message"))
   :init
   ;; Use magit-show-commit for showing status/diff commands
-  (setq git-messenger:use-magit-popup t)
-  (setq git-messenger:show-detail t)
-  (kevin/set-leader-keys "gm" 'git-messenger:popup-message))
+  (setq git-messenger:use-magit-popup t
+        git-messenger:show-detail t))
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
-  :commands (hydra-git-timemachine/body)
   :custom-face
   (git-timemachine-minibuffer-author-face ((t (:inherit success))))
   (git-timemachine-minibuffer-detail-face ((t (:inherit warning))))
-  :preface
+  :init
   (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
                                                (call-interactively 'git-timemachine))
                                              :post (git-timemachine-quit)
                                              :color pink ;; toggle :foreign-keys run
                                              :hint nil)
     "
-[_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit\n
+[_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit
 "
     ("c" git-timemachine-show-current-revision)
     ("g" git-timemachine-show-nth-revision)
@@ -117,8 +119,7 @@
     ("n" git-timemachine-show-next-revision)
     ("Y" git-timemachine-kill-revision)
     ("q" nil exit: t))
-  :init
-  (kevin/set-leader-keys "gt" #'hydra-git-timemachine/body))
+  (kevin/space-key-define "g t" '(hydra-git-timemachine/body :wk "git-timemachine")))
 
 ;; Git modes
 (use-package gitconfig-mode
@@ -132,40 +133,31 @@
          ("/git/ignore\\'" . gitignore-mode)))
 
 (use-package smerge-mode
-  :ensure nil
+  :straight nil
   :diminish smerge-mode
-  :pretty-hydra
-  ((:title (pretty-hydra-title "Smerge" 'octicon "diff") :color pink :quit-key "q")
-   ("Move"
-    (("n" smerge-next "next")
-     ("p" smerge-prev "previous"))
-    "Keep"
-    (("b" smerge-keep-base "base")
-     ("u" smerge-keep-upper "upper")
-     ("l" smerge-keep-lower "lower")
-     ("a" smerge-keep-all "all")
-     ("RET" smerge-keep-current "current")
-     ("C-m" smerge-keep-current "current"))
-    "Diff"
-    (("<" smerge-diff-base-upper "upper/base")
-     ("=" smerge-diff-upper-lower "upper/lower")
-     (">" smerge-diff-base-lower "upper/lower")
-     ("R" smerge-refine "refine")
-     ("E" smerge-ediff "ediff"))
-    "Other"
-    (("C" smerge-combine-with-next "combine")
-     ("r" smerge-resolve "resolve")
-     ("k" smerge-kill-current "kill"))))
-  :init (kevin/set-leader-keys "gr" #'smerge-mode-hydra/body)
-  :hook ((find-file . (lambda ()
-                        (save-excursion
-                          (goto-char (point-min))
-                          (when (re-search-forward "^<<<<<<< " nil t)
-                            (smerge-mode 1)
-                            (smerge-mode-hydra/body)))))
-         (magit-diff-visit-file . (lambda ()
-                                    (when smerge-mode
-                                      (smerge-mode-hydra/body))))))
+  :init
+  (defhydra hydra-smerge-mode (:color pink :hint nil)
+    "
+^Keep^            ^Diff^            ^Move
+^^----------------------------------------------
+_b_: base         _<_: upper        _n_: next
+_u_: upper        _>_: lower        _p_: previous
+_l_: lower        _=_: all          _s_: swap
+_a_: all          _e_: ediff        _q_: quit
+"
+    ("b" smerge-keep-base)
+    ("u" smerge-keep-upper)
+    ("l" smerge-keep-lower)
+    ("a" smerge-keep-all)
+    ("<" smerge-diff-base-upper)
+    (">" smerge-diff-base-lower)
+    ("=" smerge-diff-upper-lower)
+    ("e" smerge-ediff)
+    ("n" smerge-next)
+    ("p" smerge-prev)
+    ("s" smerge-swap)
+    ("q" nil :exit t))
+  (kevin/space-key-define "g r" '(hydra-smerge-mode/body :wk "hydra-smerge-mode")))
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
@@ -179,18 +171,19 @@
   (diff-hl-margin-change ((t (:background "#3a81c3"))))
   (diff-hl-margin-delete ((t (:background "#ee6363"))))
   :hook ((after-init . global-diff-hl-mode)
-         (dired-mode . diff-hl-dired-mode))
-  :pretty-hydra
-  ((:color pink :quit-key "q")
-   ("Move"
-    (("p" diff-hl-previous-hunk)
-     ("n" diff-hl-next-hunk))
-    "Action"
-    (("m" diff-hl-mark-hunk)
-     ("=" diff-hl-diff-goto-hunk)
-     ("r" diff-hl-revert-hunk))))
+         (dired-mode . diff-hl-dired-mode)
+         (magit-post-refresh-hook . diff-hl-magit-post-refresh))
   :init
-  (kevin/set-leader-keys "gh" #'diff-hl-hydra/body)
+  (defhydra hydra-diff-hl (:color pink :hint nil)
+    "
+_p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
+    ("p" diff-hl-previous-hunk)
+    ("n" diff-hl-next-hunk)
+    ("m" diff-hl-mark-hunk)
+    ("g" diff-hl-diff-goto-hunk)
+    ("r" diff-hl-revert-hunk)
+    ("q" nil exit: t))
+  (kevin/space-key-define "g h" '(hydra-diff-hl/body :wk "hydra-diff-hl"))
   :config
   ;; Highlight on-the-fly
   (diff-hl-flydiff-mode 1)
@@ -205,10 +198,7 @@
                                          (unknown . " ")
                                          (ignored . " ")))
     ;; Display margin since the fringe is unavailable in tty
-    (diff-hl-margin-mode 1))
-  ;; Integration with magit
-  (with-eval-after-load 'magit
-    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh)))
+    (diff-hl-margin-mode 1)))
 
 (provide 'init-git)
 ;;; init-git ends here

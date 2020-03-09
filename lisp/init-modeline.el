@@ -21,9 +21,6 @@
    :inherit t icon)
   icon)
 
-(use-package hide-mode-line
-  :hook (neotree-mode . hide-mode-line-mode))
-
 ;;;###autload
 (defun kevin/maybe-alltheicon (&rest args)
   "Display octicon via `ARGS'."
@@ -84,7 +81,7 @@
   (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 
   (use-package spaceline-segments
-    :ensure nil
+    :straight nil
     :config
     (setq spaceline-window-numbers-unicode t
           spaceline-minor-modes-separator ""
@@ -123,7 +120,7 @@
          (file-relative-name buffer-file-name)))))
 
   (use-package spaceline-config
-    :ensure nil
+    :straight nil
     :config
     (spaceline-toggle-persp-name-on)
     (spaceline-toggle-workspace-number-on)

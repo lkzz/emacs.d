@@ -88,4 +88,9 @@
 (when (display-graphic-p)
   (kevin/set-pair-font kevin-english-font kevin-chinese-font kevin-fontsize-pair))
 
+(kevin/colon-key-define
+  "f" '(nil :which-key "Font")
+  "f =" 'kevin/increase-fontsize
+  "f -" 'kevin/decrease-fontsize)
+
 (provide 'init-font)

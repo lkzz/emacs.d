@@ -35,12 +35,13 @@
                                         gc-cons-threshold custom-gc-cons-threshold
                                         gc-cons-percentage 0.1)))
 
+;; Optimize emacs garbage collect.
 (add-hook 'minibuffer-setup-hook #'(lambda ()
                                      (setq gc-cons-threshold most-positive-fixnum)))
-
 (add-hook 'minibuffer-exit-hook #'(lambda ()
                                     (garbage-collect)
                                     (setq gc-cons-threshold custom-gc-cons-threshold)))
+(add-hook 'focus-out-hook #'garbage-collect)
 
 ;;----------------------------------------------------------------------------
 ;; Add customized directories to load-path.
@@ -49,8 +50,7 @@
 (defun update-load-path (&rest _)
   "Update `load-path'."
   (push (expand-file-name "core" user-emacs-directory) load-path)
-  (push (expand-file-name "lisp" user-emacs-directory) load-path)
-  (push (expand-file-name "vendor" user-emacs-directory) load-path))
+  (push (expand-file-name "lisp" user-emacs-directory) load-path))
 
 (advice-add #'package-initialize :after #'update-load-path)
 (update-load-path)
@@ -67,6 +67,7 @@
 (require 'init-package)
 (require 'init-const)
 (require 'init-funcs)
+(require 'init-keybind)
 
 ;;----------------------------------------------------------------------------
 ;; Load custom file
@@ -75,25 +76,26 @@
 (load custom-file 'no-error 'no-message)
 
 ;;----------------------------------------------------------------------------
-;; Bootstrap config
+;; basic config
 ;;----------------------------------------------------------------------------
-(require 'init-osx)                    ; set up osx
-(require 'init-evil)                   ; evil mode
+(require 'init-basic)
+(require 'init-osx)
+(require 'init-evil)
 
 ;;----------------------------------------------------------------------------
 ;; personal package config
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
 (require 'init-font)
-(require 'init-dashboard)
+;;(require 'init-dashboard)
 (require 'init-highlight)
-(require 'init-modeline)
-;; (require 'init-awesome-tab)
+;; (require 'init-modeline)
 
 ;; misc packages
 (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
+(require 'init-edit)
 
 ;; programming releated packages
 (require 'init-prog)
@@ -104,8 +106,6 @@
 (require 'init-markdown)
 (require 'init-org)
 (require 'init-elisp)
-(require 'init-imenu)
-(require 'init-persp-mode)
 (require 'init-projectile)
 (require 'init-lua)
 (require 'init-rust)
@@ -119,12 +119,7 @@
 (require 'init-eshell)
 (require 'init-dired)
 (require 'init-filetree)
-;; (require 'init-restore)
-
-(require 'init-windows)
-(require 'init-windows-popup)
-
-(require 'init-keybinds)
-(require 'init-better-default)
+(require 'init-window)
+(require 'init-shackle)
 
 ;;; init.el ends here

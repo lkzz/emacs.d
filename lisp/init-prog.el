@@ -16,16 +16,30 @@
 
 (use-package dash-at-point
   :if is-mac-p
-  :bind (("\C-cD" . dash-at-point)
-         ("\C-ce" . dash-at-point-with-docset)))
+  :config
+  (kevin/comma-key-define
+    "d" '(nil :which-key "Dash")
+    "d c" 'dash-at-point
+    "d e" 'dash-at-point-with-docset))
+
+(use-package maple-imenu
+  :straight (:host github :repo "honmaple/emacs-maple-imenu")
+  :commands (maple-imenu)
+  :general
+  (kevin/space-key-define "t i" 'maple-imenu)
+  :config
+  (setq maple-imenu-autoupdate t
+        maple-imenu-width 35
+        maple-imenu-indent 2
+        maple-imenu-display-alist '((side . right) (slot . -1))))
 
 (use-package prog-mode
-  :ensure nil
+  :straight nil
   :hook ((emacs-lisp-mode . global-prettify-symbols-mode)
          (emacs-lisp-mode . (lambda () (push '("<=" . ?≤) prettify-symbols-alist)))))
 
 (use-package nxml-mode
-  :ensure nil
+  :straight nil
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package toml-mode
@@ -52,7 +66,9 @@
   (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" kevin/protobuf-style t))))
 
 (use-package yaml-mode
-  :mode (("\\.yml\\'" . yaml-mode)))
+  :mode (("\\.yml\\'" . yaml-mode))
+  :init
+  (setq yaml-indent-offset 4))
 
 (use-package json-reformat
   :commands (json-reformat-region))
@@ -60,6 +76,9 @@
 (use-package editorconfig
   :diminish editorconfig-mode
   :hook (after-init . editorconfig-mode))
+
+(use-package dockerfile-mode
+  :mode "\\Dockerfile\\'")
 
 (provide 'init-prog)
 ;;; init-prog.el ends here

@@ -15,25 +15,21 @@
 
 (use-package counsel
   :diminish ivy-mode counsel-mode
-  :init
-  (kevin/set-leader-keys
-    "SPC" 'counsel-M-x
-    "s/" 'counsel-rg
-    "ff" 'counsel-find-file
-    "fr" 'counsel-recentf
-    "ss" 'swiper)
   :bind (("C-s" . swiper-isearch)
          ("C-S-s" . swiper-all)
          ("C-c C-r" . ivy-resume)
-         ("C-c v" . ivy-push-view)
-         ("C-c V" . ivy-pop-view)
          ("C-c t c" . ivy-toggle-calling)
          :map counsel-mode-map
-         ([remap swiper] . swiper-isearch)
-         ("C-x C-r" . counsel-recentf)
+         ([remap swiper] . counsel-grep-or-swiper)
+         ([remap swiper-backward] . counsel-grep-or-swiper-backward)
+         ([remap dired] . counsel-dired)
+         ([remap recentf-open-files] . counsel-recentf)
+         ([remap amx] . counsel-M-x)
+         ([remap find-file] . counsel-find-file)
+         ([remap switch-to-buffer] . counsel-switch-buffer)
          ("C-x j" . counsel-mark-ring)
+         ("C-c C-r" . counsel-recentf)
          ("C-c C-p" . counsel-package)
-         ("C-c c L" . counsel-find-library)
          ("C-c c a" . counsel-apropos)
          ("C-c c e" . counsel-colors-emacs)
          ("C-c c f" . counsel-fzf)
@@ -44,9 +40,7 @@
          ("C-c c l" . counsel-load-library)
          ("C-c c m" . counsel-minibuffer-history)
          ("C-c c o" . counsel-outline)
-         ("C-c c p" . counsel-pt)
          ("C-c c r" . counsel-rg)
-         ("C-c c s" . counsel-ag)
          ("C-c c u" . counsel-unicode-char)
          ("C-c c w" . counsel-colors-web)
          :map ivy-minibuffer-map
@@ -95,10 +89,8 @@
 ;; Ivy integration for Projectile
 (use-package counsel-projectile
   :after (counsel projectile)
-  :init (counsel-projectile-mode 1)
-  :config
-  ;; no highlighting visited files; slows down the filtering
-  (ivy-set-display-transformer #'counsel-projectile-find-file nil))
+  :hook (counsel-mode . counsel-projectile-mode)
+  :init (setq counsel-projectile-grep-initial-input '(ivy-thing-at-point)))
 
 ;; More friendly interface for ivy
 (use-package all-the-icons-ivy-rich
@@ -116,6 +108,29 @@
   :init
   ;; For better performance
   (setq ivy-rich-parse-remote-buffer nil))
+
+(use-package prescient
+  :init
+  (setq prescient-history-length 2000
+        prescient-save-file (concat kevin-cache-directory "prescient-items")
+        prescient-filter-method '(literal regexp))
+  :config
+  (prescient-persist-mode 1))
+
+(use-package ivy-prescient
+  :after (prescient ivy)
+  :config
+  (setq ivy-prescient-sort-commands
+        '(:not counsel-grep
+               counsel-rg
+               counsel-switch-buffer
+               ivy-switch-buffer
+               swiper
+               swiper-multi))
+  (setq ivy-prescient-retain-classic-highlighting t
+        ivy-prescient-enable-filtering nil
+        ivy-prescient-enable-sorting t)
+  (ivy-prescient-mode 1))
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

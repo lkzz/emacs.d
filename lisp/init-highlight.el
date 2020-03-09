@@ -15,7 +15,7 @@
 
 ;; Highlight the current line
 (use-package hl-line
-  :ensure nil
+  :straight nil
   :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
   :config
   ;; Not having to render the hl-line overlay in multiple buffers offers a tiny
@@ -25,7 +25,7 @@
 
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
-  :ensure nil
+  :straight nil
   :hook (after-init . show-paren-mode)
   :config
   (set-face-foreground 'show-paren-match "red")      ;定义前景色
@@ -94,9 +94,7 @@
   :bind (:map symbol-overlay-mode-map
               ("M-p" . symbol-overlay-jump-prev)
               ("M-n" . symbol-overlay-jump-next)
-              ("M-r" . symbol-overlay-rename))
-  :init
-  (kevin/set-leader-keys "ts" #'symbol-overlay-mode))
+              ("M-r" . symbol-overlay-rename)))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here

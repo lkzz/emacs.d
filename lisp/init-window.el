@@ -1,4 +1,4 @@
-;;; init-windows.el --- window config for emacs. -*- lexical-binding: t; -*-
+;;; init-window.el --- window config for emacs. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2020  Kevin Leung
 ;;
@@ -18,35 +18,6 @@
   :defer t
   :init
   (global-set-key [remap other-window] #'ace-window)
-  :pretty-hydra
-  ((:title (pretty-hydra-title "Window Management" 'faicon "windows") :foreign-keys warn :quit-key "q")
-   ("Actions"
-    (("TAB" other-window "switch")
-     ("x" ace-delete-window "delete" :exit t)
-     ("m" ace-delete-other-windows "maximize" :exit t)
-     ("s" ace-swap-window "swap" :exit t)
-     ("a" ace-select-window "select" :exit t)
-     ("f" toggle-frame-fullscreen "fullscreen" :exit t))
-    "Resize"
-    (("h" shrink-window-horizontally "←")
-     ("j" enlarge-window "↓")
-     ("k" shrink-window "↑")
-     ("l" enlarge-window-horizontally "→")
-     ("n" balance-windows "balance"))
-    "Split"
-    (("b" split-window-right "horizontally")
-     ("B" split-window-horizontally-instead "horizontally instead")
-     ("v" split-window-below "vertically")
-     ("V" split-window-vertically-instead "vertically instead")
-     ("t" toggle-window-split "toggle"))
-    "Zoom"
-    (("+" text-scale-increase "in")
-     ("=" text-scale-increase "in")
-     ("-" text-scale-decrease "out")
-     ("0" (text-scale-increase 0) "reset"))
-    "Appearance"
-    (("F" set-frame-font "font")
-     ("T" centaur-load-theme "theme"))))
   :custom-face
   (aw-leading-char-face ((t (:inherit font-lock-keyword-face :bold t :height 3.0))))
   (aw-mode-line-face ((t (:inherit mode-line-emphasis :bold t))))
@@ -82,17 +53,29 @@
   (setq window-numbering-scope 'global
         winum-auto-setup-mode-line nil
         winum-ignored-buffers '(" *which-key*")
-        winum-auto-assign-0-to-minibuffer t))
+        winum-auto-assign-0-to-minibuffer t)
+  :general
+  (kevin/space-key-define
+    "1"  'winum-select-window-1
+    "2"  'winum-select-window-2
+    "3"  'winum-select-window-3
+    "4"  'winum-select-window-4
+    "5"  'winum-select-window-5
+    "6"  'winum-select-window-6
+    "7"  'winum-select-window-7
+    "8"  'winum-select-window-8
+    "9"  'winum-select-window-9))
 
 ;; Zoom window like tmux
 (use-package zoom-window
-  :bind ("C-x C-z" . zoom-window-zoom)
-  :init (setq zoom-window-mode-line-color "DarkGreen"))
+  :init (setq zoom-window-mode-line-color "DarkGreen")
+  :general
+  (kevin/space-key-define "w z" 'zoom-window-zoom))
 
 (use-package centered-window
   :defer t
-  :init
-  (kevin/set-leader-keys "wc" #'centered-window-mode)
+  :general
+  (kevin/space-key-define "w c" 'centered-window-mode)
   :config
   (setq cwm-use-vertical-padding t
         cwm-frame-internal-border 15
@@ -115,9 +98,8 @@
 
 (use-package golden-ratio
   :diminish golden-ratio-mode "ⓖ"
-  :init
-  (kevin/set-leader-keys "tg" #'kevin/toggle-golden-ratio)
   :config
+  (kevin/space-key-define "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio"))
   ;; golden-ratio-exclude-modes
   (dolist (m '("bs-mode"
                "calc-mode"
@@ -191,19 +173,5 @@
                "*which-key*"))
     (add-to-list 'golden-ratio-exclude-buffer-names n)))
 
-(use-package centered-cursor-mode
-  :disabled
-  :commands (centered-cursor-mode global-centered-cursor-mode)
-  :diminish centered-cursor-mode "⊝"
-  :init
-  (kevin/set-leader-keys "t-" 'centered-cursor-mode)
-  (setq ccm-recenter-at-end-of-file t
-        ccm-ignored-commands '(mouse-drag-region
-                               mouse-set-point
-                               widget-button-click
-                               scroll-bar-toolkit-scroll
-                               evil-mouse-drag-region))
-  (global-centered-cursor-mode +1))
-
-(provide 'init-windows)
-;;; init-windows ends here
+(provide 'init-window)
+;;; init-window ends here

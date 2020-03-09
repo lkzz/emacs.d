@@ -17,7 +17,7 @@
   :diminish page-break-lines-mode
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
   :general
-  (general-nmap dashboard-mode-map
+  (general-nvmap dashboard-mode-map
     "TAB" 'widget-forward
     "RET" 'widget-button-press
     "g" 'dashboard-refresh-buffer
@@ -30,8 +30,8 @@
     "R" 'kevin/restore-session
     "O" 'kevin/dashboard-open-init-file
     "q" 'kevin/quit-dashboard)
-  :init (dashboard-setup-startup-hook)
-  :config
+  :init
+  (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner (expand-file-name "spacemacs.png" user-emacs-directory)
         initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
         dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name)
@@ -43,7 +43,7 @@
         dashboard-items '((recents  . 10)
                           (bookmarks . 5)
                           (projects . 5))
-        dashboard-set-file-icons t
+        ;; dashboard-set-file-icons t
         dashboard-set-heading-icons t
         dashboard-heading-icons '((recents   . "file-text")
                                   (bookmarks . "bookmark")
@@ -59,7 +59,6 @@
                                                         :face 'error)
                                 "♥")
         dashboard-set-navigator t
-
         ;; Format: "icon title help action face prefix suffix"
         dashboard-navigator-buttons
         `(((,(when (display-graphic-p)
@@ -78,8 +77,7 @@
                (all-the-icons-material "restore" :height 1.35 :v-adjust -0.24 :face 'font-lock-keyword-face))
             "Restore"
             "Restore session"
-            (lambda (&rest _) (kevin/restore-session)))
-           )))
+            (lambda (&rest _) (kevin/restore-session))))))
 
   (defvar dashboard-recover-layout-p nil
     "Wether recovers the layout.")

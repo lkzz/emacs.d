@@ -1,18 +1,15 @@
-[submodule "company-english-helper"]
-	path = vendor/company-english-helper
+[submodule "site-lisp/company-english-helper"]
+	path = site-lisp/company-english-helper
 	url = https://github.com/manateelazycat/company-english-helper.git
-[submodule "awesome-tab"]
-	path = vendor/awesome-tab
-	url = https://github.com/manateelazycat/awesome-tab.git
-[submodule "insert-translated-name"]
-	path = vendor/insert-translated-name
+[submodule "site-lisp/insert-translated-name"]
+	path = site-lisp/insert-translated-name
 	url = https://github.com/manateelazycat/insert-translated-name.git
-[submodule "aweshell"]
-	path = vendor/aweshell
+[submodule "site-lisp/aweshell"]
+	path = site-lisp/aweshell
 	url = https://github.com/manateelazycat/aweshell.git
-[submodule "maple-imenu"]
-	path = vendor/maple-imenu
+[submodule "site-lisp/liberime"]
+	path = site-lisp/liberime
+	url = https://github.com/merrickluo/liberime.git
+[submodule "site-lisp/emacs-maple-imenu"]
+	path = site-lisp/emacs-maple-imenu
 	url = https://github.com/honmaple/emacs-maple-imenu.git
-[submodule "hydra-posframe"]
-	path = vendor/hydra-posframe
-	url = https://github.com/Ladicle/hydra-posframe.git

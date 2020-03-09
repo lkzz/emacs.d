@@ -42,7 +42,7 @@
 
 ;; 禁止启动画面
 (use-package "startup"
-  :ensure nil
+  :straight nil
   :init
   (setq inhibit-startup-screen t
         initial-buffer-choice  nil
@@ -69,14 +69,18 @@
   (setq mac-redisplay-dont-reset-vscroll t
         mac-mouse-wheel-smooth-scroll nil))
 
-(setq hscroll-margin 2
-      hscroll-step 1
-      scroll-conservatively 10
-      scroll-margin 0
+(setq scroll-step 1
+      scroll-margin 1
+      scroll-conservatively 101
+      scroll-up-aggressively 0.01
+      scroll-down-aggressively 0.01
+      auto-window-vscroll nil
+      fast-but-imprecise-scrolling nil
+      mouse-wheel-scroll-amount '(1 ((shift) . 2))
+      mouse-wheel-progressive-speed nil ; don't accelerate scrolling
       scroll-preserve-screen-position t
-      ;; mouse
-      mouse-wheel-scroll-amount '(5 ((shift) . 2))
-      mouse-wheel-progressive-speed nil)  ; don't accelerate scrolling
+      hscroll-step 1
+      hscroll-margin 1)
 
 ;; Remove hscroll-margin in shells, otherwise it causes jumpiness
 (add-hook 'eshell-mode-hook (lambda() (setq hscroll-margin 0)))
@@ -230,21 +234,150 @@
 
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
-  :ensure nil
+  :straight nil
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
   (setq-default display-line-numbers-width 3)
-  (setq display-line-numbers-current-absolute t)
-  (kevin/set-leader-keys "tn" 'display-line-numbers-mode))
+  (setq display-line-numbers-current-absolute t))
 
 ;; 设置时间格式
 (use-package time
-  :ensure nil
+  :straight nil
   :unless (display-graphic-p)
   :hook (after-init . display-time-mode)
   :init
   (setq display-time-24hr-format t)
   (setq display-time-day-and-date t))
+
+;; NOTE: Must run `M-x all-the-icons-install-fonts', and install fonts manually on Windows
+(use-package all-the-icons
+  :demand
+  :if (display-graphic-p)
+  :config
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\.go$" all-the-icons-fileicon "go" :face all-the-icons-blue))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(go-mode all-the-icons-fileicon "go" :face all-the-icons-blue))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(xwidget-webkit-mode all-the-icons-faicon "chrome" :v-adjust -0.1 :face all-the-icons-blue))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(bongo-playlist-mode all-the-icons-material "playlist_play" :height 1.2 :v-adjust -0.2 :face 'all-the-icons-green))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(bongo-library-mode all-the-icons-material "library_music" :height 1.1 :v-adjust -0.2 :face 'all-the-icons-dgreen))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(gnus-group-mode all-the-icons-fileicon "gnu" :face 'all-the-icons-silver))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(gnus-summary-mode all-the-icons-octicon "inbox" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-orange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(gnus-article-mode all-the-icons-octicon "mail" :height 1.1 :v-adjust 0.0 :face 'all-the-icons-lblue))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(message-mode all-the-icons-octicon "mail" :height 1.1 :v-adjust 0.0 :face 'all-the-icons-lblue))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(diff-mode all-the-icons-octicon "git-compare" :v-adjust 0.0 :face all-the-icons-lred))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(flycheck-error-list-mode all-the-icons-octicon "checklist" :height 1.1 :v-adjust 0.0 :face all-the-icons-lred))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\.rss$" all-the-icons-octicon "rss" :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(elfeed-search-mode all-the-icons-faicon "rss-square" :v-adjust -0.1 :face all-the-icons-orange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(elfeed-show-mode all-the-icons-octicon "rss" :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(newsticker-mode all-the-icons-faicon "rss-square" :v-adjust -0.1 :face all-the-icons-orange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(newsticker-treeview-mode all-the-icons-faicon "rss-square" :v-adjust -0.1 :face all-the-icons-orange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(newsticker-treeview-list-mode all-the-icons-octicon "rss" :height 1.1 :v-adjust 0.0 :face all-the-icons-orange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(newsticker-treeview-item-mode all-the-icons-octicon "rss" :height 1.1 :v-adjust 0.0 :face all-the-icons-lorange))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\.[bB][iI][nN]$" all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-yellow))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\.c?make$" all-the-icons-fileicon "gnu" :face all-the-icons-dorange))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\.conf$" all-the-icons-octicon "settings" :v-adjust 0.0 :face all-the-icons-yellow))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\.toml$" all-the-icons-octicon "settings" :v-adjust 0.0 :face all-the-icons-yellow))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(conf-mode all-the-icons-octicon "settings" :v-adjust 0.0 :face all-the-icons-yellow))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(conf-space-mode all-the-icons-octicon "settings" :v-adjust 0.0 :face all-the-icons-yellow))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(forge-topic-mode all-the-icons-alltheicon "git" :face all-the-icons-blue))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\.xpm$" all-the-icons-octicon "file-media" :v-adjust 0.0 :face all-the-icons-dgreen))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(help-mode all-the-icons-faicon "info-circle" :height 1.1 :v-adjust -0.1 :face all-the-icons-purple))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(helpful-mode all-the-icons-faicon "info-circle" :height 1.1 :v-adjust -0.1 :face all-the-icons-purple))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(Info-mode all-the-icons-faicon "info-circle" :height 1.1 :v-adjust -0.1))
+  (add-to-list 'all-the-icons-icon-alist
+               '("NEWS$" all-the-icons-faicon "newspaper-o" :height 0.9 :v-adjust -0.2))
+  (add-to-list 'all-the-icons-icon-alist
+               '("Cask\\'" all-the-icons-fileicon "elisp" :height 1.0 :v-adjust -0.2 :face all-the-icons-blue))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(cask-mode all-the-icons-fileicon "elisp" :height 1.0 :v-adjust -0.2 :face all-the-icons-blue))
+  (add-to-list 'all-the-icons-icon-alist
+               '(".*\\.ipynb\\'" all-the-icons-fileicon "jupyter" :height 1.2 :face all-the-icons-orange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(ein:notebooklist-mode all-the-icons-faicon "book" :face all-the-icons-lorange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(ein:notebook-mode all-the-icons-fileicon "jupyter" :height 1.2 :face all-the-icons-orange))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(ein:notebook-multilang-mode all-the-icons-fileicon "jupyter" :height 1.2 :face all-the-icons-dorange))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\.epub\\'" all-the-icons-faicon "book" :height 1.0 :v-adjust -0.1 :face all-the-icons-green))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(nov-mode all-the-icons-faicon "book" :height 1.0 :v-adjust -0.1 :face all-the-icons-green))
+  (add-to-list 'all-the-icons-mode-icon-alist
+               '(gfm-mode all-the-icons-octicon "markdown" :face all-the-icons-lblue)))
+
+(use-package centaur-tabs
+  :disabled
+  :after evil
+  :config
+  (setq centaur-tabs-style "bar"
+        centaur-tabs-height 30
+        centaur-tabs-set-icons t
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-set-bar 'under
+        x-underline-at-descent-line t
+        centaur-tabs-left-edge-margin nil
+        centaur-tabs-modified-marker "*"
+        uniquify-separator "/"
+        uniquify-buffer-name-style 'forward)
+  (centaur-tabs-mode t)
+  :general
+  (kevin/colon-key-define
+    "t" '(nil :which-key "Tab")
+    "t n" 'centaur-tabs-forward-tab
+    "t N" 'centaur-tabs-forward-group
+    "t p" 'centaur-tabs-backward-tab
+    "t P" 'centaur-tabs-backward-group
+    "t a" 'centaur-tabs-select-beg-tab
+    "t e" 'centaur-tabs-select-end-tab
+    "t w" 'toggle-word-wrap)
+  :hook ((dashboard-mode . centaur-tabs-local-mode)
+         (dired-mode . centaur-tabs-local-mode)
+         (eshell-mode . centaur-tabs-local-mode)
+         (helpful-mode . centaur-tabs-local-mode)))
+
+(use-package doom-modeline
+  :hook (after-init . doom-modeline-mode)
+  :config
+  (setq doom-modeline-height 20
+        doom-modeline-bar-width 3
+        doom-modeline-icon (display-graphic-p)
+        doom-modeline-major-mode-icon t
+        doom-modeline-major-mode-color-icon t
+        doom-modeline-buffer-state-icon t
+        doom-modeline-minor-modes t
+        doom-modeline-buffer-encoding t
+        doom-modeline-indent-info nil
+        doom-modeline-enable-word-count t
+        doom-modeline-buffer-modification-icon t
+        doom-modeline-buffer-file-name-style 'auto))
 
 (provide 'init-ui)
 ;;; init-ui ends here

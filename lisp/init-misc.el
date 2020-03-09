@@ -16,20 +16,21 @@
 ;; bookmark 设置
 (use-package bookmark
   :defer t
-  :ensure nil
+  :straight nil
   :init
   (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
-  (kevin/declare-prefix "m" "bookmark")
-  (kevin/set-leader-keys
-    "ms" 'bookmark-set
-    "mr" 'bookmark-rename
-    "md" 'bookmark-delete
-    "mj" 'counsel-bookmark
-    "ml" 'bookmark-bmenu-list))
+  :general
+  (kevin/space-key-define
+    "m" '(nil :which-key "Bookmark")
+    "m s" 'bookmark-set
+    "m r" 'bookmark-rename
+    "m d" 'bookmark-delete
+    "m j" 'counsel-bookmark
+    "m l" 'bookmark-bmenu-list))
 
 ;; Elec pair
 (use-package elec-pair
-  :ensure nil
+  :straight nil
   :hook (after-init . electric-pair-mode))
 
 ;; Hungry deletion
@@ -39,10 +40,12 @@
 
 (use-package restart-emacs
   :defer t
-  :init
-  (kevin/set-leader-keys
-    ";r" 'restart-emacs
-    ";q"  'save-buffers-kill-terminal))
+  :general
+  (kevin/colon-key-define
+    "e" '(nil :which-key "Emacs")
+    "e r" 'restart-emacs
+    "e q" 'save-buffers-kill-terminal
+    "e i" '(kevin/open-init-file :wk "open-init-file")))
 
 (use-package server
   :config
@@ -51,14 +54,14 @@
 
 ;; History
 (use-package saveplace
-  :ensure nil
+  :straight nil
   :init (setq save-place-file (concat kevin-cache-directory "saveplace"))
   :hook (after-init . save-place-mode))
 
 (use-package recentf
-  :ensure nil
+  :straight nil
   :hook (after-init . recentf-mode)
-  :init (setq recentf-max-saved-items 300
+  :init (setq recentf-max-saved-items 10000
               recentf-exclude '("/tmp/"
                                 "recentf$"
                                 "\\.cask$"
@@ -77,23 +80,10 @@
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude))
 
-;; Delete selection if you insert
-(use-package delsel
-  :hook (after-init . delete-selection-mode))
-
-;; Rectangle
-(use-package rect
-  :ensure nil
-  :bind (("<C-return>" . rectangle-mark-mode)))
-
 ;; Jump to things in Emacs tree-style
 (use-package avy
   :hook (after-init . avy-setup-default)
   :init
-  (kevin/set-leader-keys
-    "jc" 'avy-goto-char-2
-    "jw" 'avy-goto-word-or-subword-1
-    "jl" 'avy-goto-line)
   (setq avy-background t))
 
 ;; Minor mode to aggressively keep your code always indented
@@ -122,35 +112,8 @@
                      (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
                                          (thing-at-point 'line))))))
 
-;; An all-in-one comment command to rule them all
-(use-package comment-dwim-2
-  :bind ("M-;" . comment-dwim-2))
-
-;; A comprehensive visual interface to diff & patch
-(use-package ediff
-  :ensure nil
-  :hook(;; show org ediffs unfolded
-        (ediff-prepare-buffer . outline-show-all)
-        ;; restore window layout when done
-        (ediff-quit . winner-undo))
-  :config
-  (setq ediff-window-setup-function 'ediff-setup-windows-plain)
-  (setq ediff-split-window-function 'split-window-horizontally)
-  (setq ediff-merge-split-window-function 'split-window-horizontally))
-
-;; Treat undo history as a tree
-(use-package undo-tree
-  :diminish undo-tree-mode
-  :commands (undo-tree-visualize)
-  :hook (after-init . global-undo-tree-mode)
-  :init
-  (setq undo-tree-auto-save-history nil
-        undo-tree-visualizer-timestamps t
-        undo-tree-visualizer-diff t
-        undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history")))))
-
 (use-package savehist
-  :ensure nil
+  :straight nil
   :hook (after-init . savehist-mode)
   :init
   (setq savehist-file (concat kevin-cache-directory "savehist")
@@ -165,7 +128,7 @@
 
 ;; Hideshow
 (use-package hideshow
-  :ensure nil
+  :straight nil
   :diminish hs-minor-mode
   :bind (:map hs-minor-mode-map
               ("C-`" . hs-toggle-hiding))
@@ -180,6 +143,7 @@
 (use-package amx
   :hook (after-init . amx-mode)
   :init
+  (kevin/space-key-define "SPC" 'amx)
   (setq amx-history-length 10
         amx-save-file (concat kevin-cache-directory "amx-items")))
 
@@ -194,6 +158,22 @@
   :init
   (setq rg-show-columns t
         rg-group-result t))
+
+(use-package helpful
+  :bind (("C-h f" . helpful-callable)
+         ("C-h v" . helpful-variable)
+         ("C-h k" . helpful-key))
+  :general
+  (kevin/space-key-define
+    "h" '(:ignore t :wk "help")
+    "h f" 'helpful-callable
+    "h v" 'helpful-variable
+    "h k" 'helpful-key))
+
+(use-package so-long
+  :if is-emacs27-p
+  :straight nil
+  :config (global-so-long-mode 1))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

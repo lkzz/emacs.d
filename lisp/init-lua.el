@@ -18,8 +18,7 @@
   :mode ("\\.lua$" . lua-mode)
   :init
   (setq lua-indent-level 2)
-  (setq lua-indent-string-contents t)
-  (kevin/define-jump-handlers lua-mode))
+  (setq lua-indent-string-contents t))
 
 (use-package company-lua
   :after (lua-mode company)
