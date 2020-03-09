@@ -29,6 +29,7 @@
               ("C-c C-r" . lsp-ui-peek-find-references)
               ("C-c C-n" . lsp-rename)
               ("C-c C-." . lsp-ui-peek-find-definitions)
+              ([remap evil-goto-definition] . lsp-find-definition)
               ([remap xref-find-definitions] . lsp-find-definition)
               ([remap xref-find-references] . lsp-find-references))
   :init (setq lsp-auto-guess-root t
@@ -40,8 +41,6 @@
               lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
               lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
   :config
-  (kevin/define-jump-handlers go-mode lsp-find-definition)
-
   (use-package lsp-ui
     :hook (lsp-mode . lsp-ui-mode)
     :custom-face
@@ -53,12 +52,10 @@
                 lsp-ui-doc-position 'at-point
                 lsp-ui-doc-border (face-foreground 'default)
                 lsp-eldoc-enable-hover nil ; Disable eldoc displays in minibuffer
-
                 lsp-ui-sideline-enable t
                 lsp-ui-sideline-show-hover nil
                 lsp-ui-sideline-show-diagnostics nil
                 lsp-ui-sideline-ignore-duplicate t
-
                 lsp-ui-imenu-enable t
                 lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
                                       ,(face-foreground 'font-lock-string-face)
@@ -97,16 +94,13 @@
     :defines projectile-project-root-files-top-down-recurring
     :hook ((c-mode c++-mode objc-mode cuda-mode) . (lambda () (require 'ccls)))
     :config
-    (kevin/define-jump-handlers c-mode lsp-find-definition)
-    (kevin/define-jump-handlers c++-mode lsp-find-definition)
     (with-eval-after-load 'projectile
       (setq projectile-project-root-files-top-down-recurring
             (append '("compile_commands.json" ".ccls")
                     projectile-project-root-files-top-down-recurring)))
     (setq ccls-executable "ccls"
           ccls-initialization-options `(:cache (:directory "/tmp/ccls-cache"),
-                                               :compilationDatabaseDirectory "build")))
-  )
+                                               :compilationDatabaseDirectory "build"))))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

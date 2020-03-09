@@ -14,9 +14,9 @@
 ;;; Code:
 
 (use-package dired
-  :ensure nil
+  :straight nil
   :init
-  (kevin/set-leader-keys "jd" 'dired-jump)
+  (kevin/space-key-define "jd" 'dired-jump)
   (setq dired-recursive-copies 'always ; always copy recursively
         dired-recursive-deletes 'top   ; always delete recursively
         dired-auto-revert-buffer t
@@ -123,7 +123,7 @@
   :hook (dired-mode . all-the-icons-dired-mode))
 
 (use-package dired-x
-  :ensure nil
+  :straight nil
   :defer t
   :diminish dired-omit-mode
   :hook (dired-mode . dired-omit-mode)

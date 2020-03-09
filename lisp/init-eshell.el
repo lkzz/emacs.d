@@ -44,11 +44,13 @@
     (kbd "TAB") 'pcomplete-std-complete))
 
 (use-package aweshell
-  :load-path "vendor/aweshell"
+  :straight (:host github :repo "manateelazycat/aweshell")
   :commands (aweshell-toggle)
   :hook ((eshell-first-time-mode . kevin/eshell-keymap)
          (eshell-exit . delete-window))
-  :init
+  :general
+  (kevin/space-key-define "t t" '(kevin/toggle-aweshell :wk "shell"))
+  :config
   (defvar eshell-window-height 35
     "Percentage for shell-buffer window height.")
   (defun kevin/calculate-window-height ()
@@ -60,7 +62,6 @@
     (split-window (frame-root-window) (kevin/calculate-window-height) 'below)
     (other-window 1)
     (aweshell-toggle))
-  :config
   (setq eshell-highlight-prompt t
         eshell-prompt-function 'epe-theme-lambda
         eshell-directory-name (concat kevin-cache-directory "eshell/")))

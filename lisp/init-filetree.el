@@ -14,15 +14,8 @@
 ;;; Code:
 
 (use-package neotree
-  :commands (neotree-show
-             neotree-hide
-             neotree-toggle
-             neotree-dir
-             neotree-find
-             neo-global--with-buffer
-             neo-global--window-exists-p)
+  :defer t
   :init
-  (kevin/set-leader-keys "tf" 'neotree-toggle)
   (setq neo-create-file-auto-open t
         neo-auto-indent-point nil
         neo-autorefresh t
@@ -50,9 +43,9 @@
           "^bazel*"
           "^#.*#$"))
   :general
+  (kevin/space-key-define "t f" 'neotree-toggle)
   (general-nmap neotree-mode-map
     "RET" 'neotree-enter
-    "TAB" 'neotree-enter
     "o" 'neotree-enter
     "q" 'neotree-hide
     "h" 'neotree-select-up-node

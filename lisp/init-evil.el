@@ -20,6 +20,7 @@
         evil-echo-state t
         evil-default-state 'normal
         evil-want-C-u-scroll t
+        evil-want-C-w-delete t
         evil-want-Y-yank-to-eol t
         evil-want-integration t
         evil-want-keybinding nil
@@ -44,33 +45,18 @@
          evil-visual-state-cursor '("red" box)
          evil-replace-state-cursor '("red" hollow)
          evil-emacs-state-cursor '("red" hbar))
-  :general
-  (general-define-key
-   :states '(insert normal visual motion)
-   "C-a" 'mwim-beginning-of-code-or-line
-   "C-e" 'mwim-end-of-code-or-line
-   "C-k" 'kill-whole-line
-   "C-p" 'evil-previous-visual-line
-   "C-n" 'evil-next-visual-line)
-  (general-nmap
-    ",w" 'evil-write
-    ",W" 'evil-write-all
-    ",q" 'evil-quit
-    ",y" 'kevin/copy-word
-    ",p" 'kevin/cover-word
-    ",d" 'kevin/delete-word
-    "j" 'evil-next-visual-line
-    "k" 'evil-previous-visual-line
-    "C-i" 'evil-jump-forward
-    "C-o" 'evil-jump-backward
-    "C-w" 'evil-delete-backward-word)
   :config
-  ;; Use evil as a default jump handler
-  (add-to-list 'kevin-default-jump-handlers 'evil-goto-definition)
+  (define-key evil-normal-state-map "Y" (kbd "y$"))
+  (evil-define-key '(insert normal visual) 'global
+    (kbd "C-n") 'evil-next-visual-line
+    (kbd "C-p") 'evil-previous-visual-line
+    (kbd "C-e") 'move-end-of-line)
+  (evil-define-key 'insert 'global
+    (kbd "C-a") 'move-beginning-of-line
+    (kbd "C-k") 'kill-line)
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
-  (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
-  (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
-  (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element))
+  (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
+  (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element))
 
 (use-package evil-escape
   :after evil
@@ -90,12 +76,13 @@
 
 (use-package evil-nerd-commenter
   :after evil
-  :init
-  (kevin/set-leader-keys
-    "ci" 'evilnc-comment-or-uncomment-lines
-    "cl" 'evilnc-quick-comment-or-uncomment-to-the-line
-    "cp" 'evilnc-comment-or-uncomment-paragraphs
-    "cy" 'evilnc-copy-and-comment-operator))
+  :general
+  (kevin/space-key-define
+    "c" '(nil :which-key "Comment")
+    "c i" '(evilnc-comment-or-uncomment-lines :wk "comment-lines")
+    "c l" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment-line")
+    "c p" '(evilnc-comment-or-uncomment-paragraphs :wk "comment paragraphs")
+    "c y" '(evilnc-copy-and-comment-operator :wk "comment-and-copy")))
 
 ;; s: 2 char forward; S: 2 char backward
 ;; f: 1 char forward; F: 1 char backward

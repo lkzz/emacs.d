@@ -16,8 +16,7 @@
 (use-package rust-mode
   :mode "\\.rs\\'"
   :config
-  (setq rust-format-on-save t)
-  (kevin/define-jump-handlers rust-mode))
+  (setq rust-format-on-save t))
 
 (use-package flycheck-rust
   :after rust-mode

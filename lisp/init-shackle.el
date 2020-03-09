@@ -1,4 +1,4 @@
-;;; init-windows-popup.el ---  popup windows config. -*- lexical-binding: t; -*-
+;;; init-shackle.el --- popup windows config. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2020  Kevin Leung
 ;;
@@ -137,5 +137,5 @@
           (profiler-report-mode :select t :size 0.5 :align 'below)
           (tabulated-list-mode :align 'below))))
 
-(provide 'init-windows-popup)
-;;; init-windows-popup ends here
+(provide 'init-shackle)
+;;; init-shackle ends here

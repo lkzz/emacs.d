@@ -36,9 +36,6 @@
 (defconst kevin-cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
-(defconst kevin-default-directory "~/.emacs.d"
-  "Default project directory.")
-
 (defconst kevin-leader-key "SPC"
   "The leader key.")
 

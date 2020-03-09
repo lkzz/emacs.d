@@ -19,19 +19,12 @@
               ("C-s" . company-filter-candidates)
               ("C-p" . company-select-previous)
               ("C-n" . company-select-next)
-              ("C-g" . company-abort)
-              ("TAB" . company-complete-common)
-              ("<tab>" . company-complete-common)
+              ("<tab>" . company-complete-common-or-cycle)
               :map company-search-map
               ("C-p" . company-select-previous)
               ("C-n" . company-select-next))
   :init
   (add-hook 'after-init-hook 'global-company-mode)
-  (add-hook 'company-completion-started-hook
-            (lambda (&rest ignore)
-              (when (and (bound-and-true-p evil-mode) (evil-insert-state-p))
-                (define-key evil-insert-state-map (kbd "C-n") nil)
-                (define-key evil-insert-state-map (kbd "C-p") nil))))
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t

@@ -18,19 +18,19 @@
   :init
   (setq exec-path-from-shell-check-startup-files nil
         exec-path-from-shell-variables '("PATH" "MANPATH")
-        exec-path-from-shell-arguments '("-l")))
+        exec-path-from-shell-arguments '("-l"))
+  (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY" "GOBIN" "GOSUMDB" "RIME_PATH")))
 
 (use-package counsel-osx-app
   :if is-mac-p
   :commands counsel-osx-app
-  :init
-  (kevin/set-leader-keys "oa" 'counsel-osx-app))
-
-(use-package reveal-in-osx-finder
-  :if is-mac-p
-  :commands reveal-in-osx-finder
-  :init
-  (kevin/set-leader-keys "br" 'reveal-in-osx-finder))
+  :general
+  (kevin/space-key-define
+    "o" '(nil :which-key "Open")
+    "o a" 'counsel-osx-app
+    "o t" '(kevin/open-iterm :wk "open-item2")
+    "o w" '(kevin/open-wechat :wk "open-wechat")
+    "o y" '(kevin/open-youdao :wk "open-youdao")))
 
 ;; Use the OS X Emoji font for Emoticons
 (when (and is-mac-p (fboundp 'set-fontset-font))

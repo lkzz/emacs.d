@@ -13,12 +13,8 @@
 ;;
 ;;; Code:
 
-(use-package ripgrep
-  :defer t)
-
-(use-package projectile-ripgrep
-  :defer t
-  :init (kevin/set-leader-keys "p/" 'projectile-ripgrep))
+(use-package ripgrep :defer t)
+(use-package projectile-ripgrep :defer t)
 
 (use-package projectile
   :diminish projectile-mode "ⓟ"
@@ -43,28 +39,29 @@
              projectile-switch-to-buffer
              projectile-vc)
   :hook (after-init . projectile-mode)
-  :init
-  (kevin/declare-prefix "p" "projectile")
-  (kevin/set-leader-keys
-    "p!" 'projectile-run-shell-command-in-root
-    "p&" 'projectile-run-async-shell-command-in-root
-    "p%" 'projectile-replace-regexp
-    "pa" 'projectile-toggle-between-implementation-and-test
-    "pb" 'projectile-switch-to-buffer
-    "pc" 'projectile-compile-project
-    "pd" 'projectile-find-dir
-    "pD" 'projectile-dired
-    "pf" 'projectile-find-file
-    "pF" 'projectile-find-file-dwim
-    "pg" 'projectile-find-tag
-    "pG" 'projectile-regenerate-tags
-    "pI" 'projectile-invalidate-cache
-    "pk" 'projectile-kill-buffers
-    "pp" 'projectile-switch-project
-    "pr" 'projectile-recentf
-    "pR" 'projectile-replace
-    "pT" 'projectile-test-project
-    "pv" 'projectile-vc)
+  :general
+  (kevin/space-key-define
+    "p" '(nil :which-key "Projectile")
+    "p !" 'projectile-run-shell-command-in-root
+    "p &" 'projectile-run-async-shell-command-in-root
+    "p %" 'projectile-replace-regexp
+    "p /" 'projectile-ripgrep
+    "p a" 'projectile-toggle-between-implementation-and-test
+    "p b" 'projectile-switch-to-buffer
+    "p c" 'projectile-compile-project
+    "p d" 'projectile-find-dir
+    "p D" 'projectile-dired
+    "p f" 'projectile-find-file
+    "p F" 'projectile-find-file-dwim
+    "p g" 'projectile-find-tag
+    "p G" 'projectile-regenerate-tags
+    "p I" 'projectile-invalidate-cache
+    "p k" 'projectile-kill-buffers
+    "p p" 'projectile-switch-project
+    "p r" 'projectile-recentf
+    "p R" 'projectile-replace
+    "p T" 'projectile-test-project
+    "p v" 'projectile-vc)
   :config
   (setq projectile-cache-file (concat kevin-cache-directory "projectile.cache")
         projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld")
