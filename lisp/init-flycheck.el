@@ -17,7 +17,7 @@
   :diminish flycheck-mode "ⓕ"
   :hook (after-init . global-flycheck-mode)
   :general
-  (kevin/comma-key-define
+  (kevin/space-key-define
     "e" '(nil :which-key "Errors")
     "e l" 'flycheck-list-errors
     "e n" 'flycheck-next-error

@@ -74,6 +74,7 @@
     :states '(normal visual motion evilified)
     :keymaps 'override
     :prefix ";")
+
   :config
   (kevin/space-key-define
     "d" '(nil :which-key "Delete")
@@ -110,7 +111,10 @@
     "f" '(nil :which-key "Find")
     "f d" 'xref-find-definitions
     "f f" 'find-file-at-point
-    "f r" 'xref-find-references))
+    "f r" 'xref-find-references
+    "d" '(kevin/delete-word :wk "delete-word")
+    "y" '(kevin/copy-word :wk "copy-word")
+    "p" '(kevin/cover-word :wk "cover-word")))
 
 (provide 'init-keybind)
 ;;; init-keybind.el ends here

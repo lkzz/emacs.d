@@ -42,7 +42,7 @@
 
 ;;;###autoload
 (defun kevin/jump-match-delimiter ()
-  "Go to the matching  if on (){}[], similar to vi style of %."
+  "Go to the matching if on (){}[], similar to vi style of %."
   (interactive)
   ;; first, check for "outside of bracket" positions expected by forward-sexp, etc
   (cond ((looking-at "[\[\(\{]") (evil-jump-item))
@@ -121,28 +121,10 @@
   (kevin/create-scratch-buffer))
 
 ;;;###autoload
-(defun kevin/bazel-update ()
-  "Bazel update in go-common."
-  (interactive)
-  (message "bazel update start!")
-  (cd (concat (getenv "GOPATH") "/src/go-common"))
-  (shell-command "make update")
-  (message "bazel update done!"))
-
-;;;###autoload
-(defun kevin/bazel-build ()
-  "Bazel build in go-common."
-  (interactive)
-  (message "bazel build start!")
-  (cd (concat (getenv "GOPATH") "/src/go-common"))
-  (shell-command "make build")
-  (message "bazel build done!"))
-
-;;;###autoload
 (defun kevin/open-init-file ()
   "Open emacs init file."
   (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (find-file user-init-file))
 
 ;;;###autoload
 (defun kevin/set-frame-transparency (value)
@@ -231,7 +213,6 @@ Argument VALUE 0 is transparent, 100 is opaque."
       (newline 1)
       (previous-line 3)
       (set-buffer-modified-p nil))))
-
 
 (defun kevin/enable-yasnippet-in-company (backend)
   (if (or (not kevin-enable-company-yasnippet)
