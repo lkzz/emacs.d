@@ -16,11 +16,8 @@
 
 (use-package dash-at-point
   :if is-mac-p
-  :config
-  (kevin/comma-key-define
-    "d" '(nil :which-key "Dash")
-    "d c" 'dash-at-point
-    "d e" 'dash-at-point-with-docset))
+  :bind (("C-c d" . dash-at-point)
+         ("C-c D" . dash-at-point-with-docset)))
 
 (use-package maple-imenu
   :straight (:host github :repo "honmaple/emacs-maple-imenu")

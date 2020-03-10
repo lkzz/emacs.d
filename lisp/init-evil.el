@@ -56,10 +56,9 @@
     (kbd "C-k") 'kill-line)
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
   (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
-  (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element))
+  (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
 
 (use-package evil-escape
-  :after evil
   :diminish evil-escape-mode
   :hook (evil-mode . evil-escape-mode)
   :config
@@ -71,11 +70,9 @@
   (add-hook 'evil-escape-inhibit-functions #'minibufferp))
 
 (use-package evil-surround
-  :after evil
   :hook (evil-mode . global-evil-surround-mode))
 
 (use-package evil-nerd-commenter
-  :after evil
   :general
   (kevin/space-key-define
     "c" '(nil :which-key "Comment")
@@ -84,24 +81,7 @@
     "c p" '(evilnc-comment-or-uncomment-paragraphs :wk "comment paragraphs")
     "c y" '(evilnc-copy-and-comment-operator :wk "comment-and-copy")))
 
-;; s: 2 char forward; S: 2 char backward
-;; f: 1 char forward; F: 1 char backward
-;; ;and, repeat search
-(use-package evil-snipe
-  :after evil
-  :hook ((evil-mode . evil-snipe-mode)
-         (evil-mode . evil-snipe-override-mode))
-  :diminish evil-snipe-local-mode
-  :init
-  (setq evil-snpe-smart-case t
-        evil-snipe-scope 'line
-        evil-snipe-repeat-scope 'visible
-        evil-snipe-char-fold t)
-  :config
-  (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq))
-
 (use-package evil-collection
-  :after evil
   :custom (evil-collection-setup-minibuffer t)
   :init
   ;; The list of supported modes is configured by evil-collection-mode-list
@@ -112,7 +92,6 @@
 
 (use-package evil-terminal-cursor-changer
   :unless (display-graphic-p)
-  :after evil
   :config
   (setq evil-motion-state-cursor 'box
         evil-visual-state-cursor 'box
@@ -120,6 +99,21 @@
         evil-insert-state-cursor 'bar
         evil-emacs-state-cursor  'hbar)
   (evil-terminal-cursor-changer-activate))
+
+;; s: 2 char forward; S: 2 char backward
+;; f: 1 char forward; F: 1 char backward
+;; ;and, repeat search
+(use-package evil-snipe
+  :hook ((evil-mode . evil-snipe-mode)
+         (evil-mode . evil-snipe-override-mode))
+  :diminish evil-snipe-local-mode
+  :init
+  (setq evil-snpe-smart-case t
+        evil-snipe-scope 'line
+        evil-snipe-repeat-scope 'visible
+        evil-snipe-char-fold t)
+  :config
+  (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq)))
 
 (provide 'init-evil)
 ;;; init-evil ends here
