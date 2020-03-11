@@ -42,7 +42,7 @@
 
 ;; 禁止启动画面
 (use-package "startup"
-  :straight nil
+  :ensure nil
   :init
   (setq inhibit-startup-screen t
         initial-buffer-choice  nil
@@ -234,7 +234,7 @@
 
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
-  :straight nil
+  :ensure nil
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
   (setq-default display-line-numbers-width 3)
@@ -242,7 +242,7 @@
 
 ;; 设置时间格式
 (use-package time
-  :straight nil
+  :ensure nil
   :unless (display-graphic-p)
   :hook (after-init . display-time-mode)
   :init

@@ -43,8 +43,9 @@
     (kbd "C-r") 'kevin/ivy-eshell-history
     (kbd "TAB") 'pcomplete-std-complete))
 
+;; https://github.com/manateelazycat/aweshell
 (use-package aweshell
-  :straight (:host github :repo "manateelazycat/aweshell")
+  :load-path "site-list/aweshell"
   :commands (aweshell-toggle)
   :hook ((eshell-first-time-mode . kevin/eshell-keymap)
          (eshell-exit . delete-window))

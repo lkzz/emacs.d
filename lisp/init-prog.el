@@ -19,8 +19,9 @@
   :bind (("C-c d" . dash-at-point)
          ("C-c D" . dash-at-point-with-docset)))
 
+;; https://github.com/honmaple/emacs-maple-imenu
 (use-package maple-imenu
-  :straight (:host github :repo "honmaple/emacs-maple-imenu")
+  :load-path "site-lisp/emacs-maple-imenu"
   :commands (maple-imenu)
   :general
   (kevin/space-key-define "t i" 'maple-imenu)
@@ -31,12 +32,12 @@
         maple-imenu-display-alist '((side . right) (slot . -1))))
 
 (use-package prog-mode
-  :straight nil
+  :ensure nil
   :hook ((emacs-lisp-mode . global-prettify-symbols-mode)
          (emacs-lisp-mode . (lambda () (push '("<=" . ?≤) prettify-symbols-alist)))))
 
 (use-package nxml-mode
-  :straight nil
+  :ensure nil
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package toml-mode

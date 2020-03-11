@@ -1,6 +1,6 @@
 [submodule "site-lisp/company-english-helper"]
 	path = site-lisp/company-english-helper
-	url = https://github.com/manateelazycat/company-english-helper.git
+	url = https://github.com/manateelazycat/company-english-helper
 [submodule "site-lisp/insert-translated-name"]
 	path = site-lisp/insert-translated-name
 	url = https://github.com/manateelazycat/insert-translated-name.git
@@ -9,7 +9,7 @@
 	url = https://github.com/manateelazycat/aweshell.git
 [submodule "site-lisp/liberime"]
 	path = site-lisp/liberime
-	url = https://github.com/merrickluo/liberime.git
+	url = https://github.com/merrickluo/liberime
 [submodule "site-lisp/emacs-maple-imenu"]
 	path = site-lisp/emacs-maple-imenu
-	url = https://github.com/honmaple/emacs-maple-imenu.git
+	url = https://github.com/honmaple/emacs-maple-imenu
