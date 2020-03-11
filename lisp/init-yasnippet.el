@@ -14,12 +14,10 @@
 
 (use-package yasnippet
   :diminish yas-minor-mode
-  :hook (after-init . yas-global-mode)
-  :bind (("M-/" . company-yasnippet)
-         :map company-active-map
-         ("C-/" . yas-expand-from-trigger-key))
-  :config
-  (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets"))
+  :hook (after-init . yas-global-mode))
+
+(use-package yasnippet-snippets
+  :after yasnippet)
 
 (provide 'init-yasnippet)
 ;;; init-yasnippet.el ends here
