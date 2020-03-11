@@ -39,7 +39,9 @@
 ;; Misc
 (setq confirm-nonexistent-file-or-buffer t
       auto-save-default nil             ; 不生成 #filename# 临时文件
+      auto-save-list-file-name (concat kevin-cache-directory "autosave")
       make-backup-files nil             ; 关闭备份功能
+      backup-directory-alist `(("." . ,(concat kevin-cache-directory "backup/")))
       create-lockfiles nil              ; 关闭lockfile,NOTE:有风险，建议开启
       delete-by-moving-to-trash t       ; 删除时移除到回收站
       inhibit-compacting-font-caches t  ; gc 忽略字体缓存

@@ -150,9 +150,14 @@
             ("\\.md\\'" ,cmd))))
   ;; Don’t ask whether to kill buffers visiting deleted files
   (setq dired-clean-confirm-killing-deleted-buffers nil)
-  (setq dired-omit-files
-        (concat dired-omit-files
-                "\\|^\\..*\\|^bazel*")))
+  (setq dired-omit-files (concat dired-omit-files
+                                 "\\|^.DS_Store\\'"
+                                 "\\|^bazel*"
+                                 "\\|^.project\\(?:ile\\)?\\'"
+                                 "\\|^.\\(svn\\|git\\)\\'"
+                                 "\\|^.ccls-cache\\'"
+                                 "\\|\\(?:\\.js\\)?\\.meta\\'"
+                                 "\\|\\.\\(?:elc\\|o\\|pyo\\|swp\\|class\\)\\'")))
 
 ;; Show git info in dired
 (use-package dired-git-info

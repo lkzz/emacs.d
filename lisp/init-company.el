@@ -36,20 +36,17 @@
         company-selection-wrap-around t     ; make previous/next selection in the popup cycle
         company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
-        company-transformers '(company-sort-by-occurrence)
-        company-global-modes '(not
-                               comint-mode
-                               erc-mode
-                               message-mode
-                               help-mode
-                               gud-mode)
-        company-backends '(company-capf))
+        company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
+        company-backends '(company-capf)
+        company-frontends '(company-tng-frontend company-pseudo-tooltip-frontend company-echo-metadata-frontend))
   (setq company-backends (mapcar #'kevin/company-backend-with-yas company-backends)))
 
 ;; Better sorting and filtering
 (use-package company-prescient
-  :after company
-  :init (company-prescient-mode 1))
+  :hook (company-mode . company-prescient-mode)
+  :config
+  (setq prescient-save-file (concat kevin-cache-directory "prescient-save.el"))
+  (prescient-persist-mode +1))
 
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box

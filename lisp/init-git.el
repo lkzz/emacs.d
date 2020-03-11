@@ -81,6 +81,12 @@
         git-commit-summary-max-length 50
         git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)))
 
+(use-package transient
+  :init
+  (setq transient-levels-file (concat kevin-cache-directory "transient-levels.el")
+        transient-values-file (concat kevin-cache-directory "transient-values.el")
+        transient-history-file (concat kevin-cache-directory "transient/history.el")))
+
 (use-package evil-magit
   :after (evil magit)
   :init (evil-magit-init)

@@ -60,9 +60,12 @@
   (c-set-offset  'namespace-close 0)
   (c-set-offset  'innamespace 0)
   ;; auto format before save by clang-format
-  (add-hook 'before-save-hook #'kevin/clang-format-region-or-buffer nil t))
+  (add-hook 'before-save-hook #'kevin/clang-format-region-or-buffer nil t)
+  ;; used by ff-find-other-file
+  (setq cc-search-directories '("." "../include" "../*/include" "/usr/include" "/usr/local/include/*")))
 
 (use-package cc-mode
+  :mode ("\\.h|\\.cpp" . c++-mode)
   :hook ((c-mode c++-mode) . kevin/cxx-mode-setup)
   :bind (:map c++-mode-map
               ("C-c C-o" . ff-find-other-file))
@@ -77,20 +80,25 @@
           ("\\.tcc\\'" (".h" ".hpp" ".hxx"))
           ("\\.h\\'"   (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".hxx" ".hpp"))
           ("\\.hpp\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))
-          ("\\.hxx\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))))
-  (setq ff-search-directories
-        '("." "../src" "../include")))
+          ("\\.hxx\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h")))))
 
-(use-package c++-mode
-  :ensure nil
-  :mode ("\\.h|\\.cpp" . c++-mode))
-
-(use-package company-c-headers
-  :after company)
 
 (use-package modern-cpp-font-lock
   :diminish modern-c++-font-lock-mode
-  :hook ((c-mode c++-mode) . modern-c++-font-lock-mode))
+  :init
+  (add-hook 'c-mode-hook 'modern-c++-font-lock-mode)
+  (add-hook 'c++-mode-hook 'modern-c++-font-lock-mode))
+
+(use-package company-c-headers
+  :after company
+  :preface
+  (defun company-c-headers-setup ()
+    (add-to-list 'company-backends 'company-c-headers))
+  :init
+  (add-hook 'c-mode-hook 'company-c-headers-setup)
+  (add-hook 'c++-mode-hook 'company-c-headers-setup))
+
+
 ;;--------------------------------common----------------------------------------
 
 ;; -----------------------------------cmake--------------------------------------
@@ -98,14 +106,13 @@
   :mode (("CMakeLists\\.txt$" . cmake-mode)
          ("\\.cmake$'" . cmake-mode))
   :config
-  (setq cmake-tab-width 4))
+  (setq cmake-tab-width 4)
+  (add-to-list 'company-backends 'company-cmake)
 
-(use-package company-cmake
-  :load-path "site-lisp"
-  :after (company cmake-mode))
+  (use-package cmake-font-lock
+    :config
+    (add-hook 'cmake-mode-hook 'font-lock-refresh-defaults)))
 
-(use-package cmake-font-lock
-  :hook (cmake-mode . font-lock-refresh-defaults))
 ;; -----------------------------------cmake--------------------------------------
 
 (provide 'init-cpp)
