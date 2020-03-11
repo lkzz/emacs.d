@@ -23,8 +23,7 @@
               :map company-search-map
               ("C-p" . company-select-previous)
               ("C-n" . company-select-next))
-  :init
-  (add-hook 'after-init-hook 'global-company-mode)
+  :hook (after-init . global-company-mode)
   :config
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t
@@ -44,7 +43,13 @@
                                message-mode
                                help-mode
                                gud-mode)
-        company-backends kevin-company-default-backends))
+        company-backends '(company-capf))
+  (setq company-backends (mapcar #'kevin/company-backend-with-yas company-backends)))
+
+;; Better sorting and filtering
+(use-package company-prescient
+  :after company
+  :init (company-prescient-mode 1))
 
 ;; This package requires emacs 26, not compatible with emacs in a tty.
 (use-package company-box

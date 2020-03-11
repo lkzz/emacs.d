@@ -214,7 +214,7 @@ Argument VALUE 0 is transparent, 100 is opaque."
       (previous-line 3)
       (set-buffer-modified-p nil))))
 
-(defun kevin/enable-yasnippet-in-company (backend)
+(defun kevin/company-backend-with-yas (backend)
   (if (or (not kevin-enable-company-yasnippet)
           (and (listp backend) (member 'company-yasnippet backend)))
       backend

@@ -21,9 +21,7 @@
   (setq lua-indent-string-contents t))
 
 (use-package company-lua
-  :after (lua-mode company)
-  :config
-  (kevin/add-company-backend :backend company-lua :mode lua-mode))
+  :after (lua-mode company))
 
 (provide 'init-lua)
 ;; init-lua.el ends here.

@@ -86,9 +86,7 @@
   :mode ("\\.h|\\.cpp" . c++-mode))
 
 (use-package company-c-headers
-  :after company
-  :config
-  (kevin/add-company-backend :backend company-c-headers :mode c++-mode))
+  :after company)
 
 (use-package modern-cpp-font-lock
   :diminish modern-c++-font-lock-mode
@@ -104,9 +102,7 @@
 
 (use-package company-cmake
   :load-path "site-lisp"
-  :after (company cmake-mode)
-  :config
-  (kevin/add-company-backend :backend company-cmake :mode cmake-mode))
+  :after (company cmake-mode))
 
 (use-package cmake-font-lock
   :hook (cmake-mode . font-lock-refresh-defaults))
