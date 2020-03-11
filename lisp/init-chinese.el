@@ -58,9 +58,9 @@
 
 (global-set-key (kbd "C-\\") 'evil-toggle-input-method)
 
+;; https://github.com/merrickluo/liberime
 (use-package liberime
-  :straight (:host github :repo "merrickluo/liberime"
-                   :files ("CMakeLists.txt" "Makefile" "src" "liberime.el"))
+  :load-path "site-lisp/liberime"
   :init
   (add-hook 'liberime-after-start-hook
             (lambda ()
@@ -156,9 +156,9 @@
 
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
+  :load-path "site-lisp/company-english-helper"
   :after company
   :commands toggle-company-english-helper
-  :straight (:host github :repo "manateelazycat/company-english-helper")
   :bind ("C-c t e" . 'toggle-company-english-helper))
 
 (provide 'init-chinese)

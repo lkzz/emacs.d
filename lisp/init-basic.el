@@ -50,7 +50,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (use-package simple
-  :straight nil
+  :ensure nil
   :hook ((after-init . size-indication-mode)
          ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace))
   :init

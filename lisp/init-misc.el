@@ -16,7 +16,7 @@
 ;; bookmark 设置
 (use-package bookmark
   :defer t
-  :straight nil
+  :ensure nil
   :init
   (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
   :general
@@ -30,7 +30,7 @@
 
 ;; Elec pair
 (use-package elec-pair
-  :straight nil
+  :ensure nil
   :hook (after-init . electric-pair-mode))
 
 ;; Hungry deletion
@@ -54,12 +54,12 @@
 
 ;; History
 (use-package saveplace
-  :straight nil
+  :ensure nil
   :init (setq save-place-file (concat kevin-cache-directory "saveplace"))
   :hook (after-init . save-place-mode))
 
 (use-package recentf
-  :straight nil
+  :ensure nil
   :hook (after-init . recentf-mode)
   :init (setq recentf-max-saved-items 10000
               recentf-exclude '("/tmp/"
@@ -113,7 +113,7 @@
                                          (thing-at-point 'line))))))
 
 (use-package savehist
-  :straight nil
+  :ensure nil
   :hook (after-init . savehist-mode)
   :init
   (setq savehist-file (concat kevin-cache-directory "savehist")
@@ -128,7 +128,7 @@
 
 ;; Hideshow
 (use-package hideshow
-  :straight nil
+  :ensure nil
   :diminish hs-minor-mode
   :bind (:map hs-minor-mode-map
               ("C-`" . hs-toggle-hiding))
@@ -172,7 +172,7 @@
 
 (use-package so-long
   :if is-emacs27-p
-  :straight nil
+  :ensure nil
   :config (global-so-long-mode 1))
 
 (provide 'init-misc)

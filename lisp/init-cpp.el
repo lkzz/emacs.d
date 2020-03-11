@@ -82,7 +82,7 @@
         '("." "../src" "../include")))
 
 (use-package c++-mode
-  :straight nil
+  :ensure nil
   :mode ("\\.h|\\.cpp" . c++-mode))
 
 (use-package company-c-headers
@@ -103,8 +103,7 @@
   (setq cmake-tab-width 4))
 
 (use-package company-cmake
-  :straight (:host github :repo "company-mode/company-mode"
-             :files ("company-cmake.el"))
+  :load-path "site-lisp"
   :after (company cmake-mode)
   :config
   (kevin/add-company-backend :backend company-cmake :mode cmake-mode))

@@ -13,40 +13,41 @@
 ;;
 ;;; Code:
 
-;;-----------------------------------------------------------------------------------
+;;-----------------------------------------------------------------------------
+;; package-initialize
 (setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
                          ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
-
-;;-----------------------------------------------------------------------------
-;;; straight
-(setq straight-repository-branch "develop"
-      straight-recipes-gnu-elpa-use-mirror t
-      straight-use-package-by-default t
-      straight-vc-git-default-clone-depth 1)
-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
+;;; Fire up package.el
+(setq package-enable-at-startup nil ; don't auto-initialize!
+      ;; don't add that `custom-set-variables' block to my initl!
+      package--init-file-ensured t)
+(package-initialize)
+;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
+(setq load-prefer-newer t)
 ;;-----------------------------------------------------------------------------
 
 ;;-----------------------------------------------------------------------------
 ;; install use-package
 ;;-----------------------------------------------------------------------------
-(straight-use-package 'use-package)
-(straight-use-package 'diminish)
-(straight-use-package 'bind-key)
-(straight-use-package 'posframe)
-(straight-use-package 'hydra)
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+;; Should set before loading `use-package'
+(eval-and-compile
+  (setq use-package-always-ensure t)
+  (setq use-package-expand-minimally t)
+  (setq use-package-enable-imenu-support t)
+  (require 'use-package))
+;;-----------------------------------------------------------------------------
+
+;;-----------------------------------------------------------------------------
+;; install use-package
+;;-----------------------------------------------------------------------------
+(use-package diminish)
+(use-package bind-key)
+(use-package posframe)
+(use-package hydra)
 
 (provide 'init-package)
 ;;; init-package.el ends here

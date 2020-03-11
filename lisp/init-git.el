@@ -133,7 +133,7 @@
          ("/git/ignore\\'" . gitignore-mode)))
 
 (use-package smerge-mode
-  :straight nil
+  :ensure nil
   :diminish smerge-mode
   :init
   (defhydra hydra-smerge-mode (:color pink :hint nil)
