@@ -6,7 +6,7 @@
 	url = https://github.com/manateelazycat/insert-translated-name.git
 [submodule "site-lisp/aweshell"]
 	path = site-lisp/aweshell
-	url = https://github.com/manateelazycat/aweshell.git
+	url = https://github.com/manateelazycat/aweshell
 [submodule "site-lisp/liberime"]
 	path = site-lisp/liberime
 	url = https://github.com/merrickluo/liberime
