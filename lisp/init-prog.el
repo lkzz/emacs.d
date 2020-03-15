@@ -22,7 +22,7 @@
 ;; https://github.com/honmaple/emacs-maple-imenu
 (use-package maple-imenu
   :load-path "site-lisp/emacs-maple-imenu"
-  :commands (maple-imenu)
+  :commands maple-imenu
   :general
   (kevin/space-key-define "t i" 'maple-imenu)
   :config

@@ -32,6 +32,8 @@
     "t f" 'go-test-current-file
     "t p" 'go-test-current-project)
   :config
+  (with-eval-after-load 'exec-path-from-shell
+    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
   (use-package go-tag
     :bind (:map go-mode-map
                 ("C-c t t" . go-tag-add)

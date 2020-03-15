@@ -29,6 +29,11 @@
       load-prefer-newer noninteractive
       site-run-file nil)
 
+;; In noninteractive sessions, prioritize non-byte-compiled source files to
+;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
+;; to skip the mtime checks on every *.elc file we load.
+(setq load-prefer-newer noninteractive)
+
 ;; hook run after loading init files
 (add-hook 'emacs-startup-hook #'(lambda ()
                                   (setq file-name-handler-alist default-file-name-handler-alist
@@ -63,7 +68,6 @@
 ;;----------------------------------------------------------------------------
 ;; Load core files first.
 ;;----------------------------------------------------------------------------
-(require 'init-custom)
 (require 'init-package)
 (require 'init-const)
 (require 'init-funcs)
@@ -87,7 +91,7 @@
 ;;----------------------------------------------------------------------------
 (require 'init-ui)
 (require 'init-font)
-;;(require 'init-dashboard)
+(require 'init-dashboard)
 (require 'init-highlight)
 ;; (require 'init-modeline)
 
@@ -96,20 +100,21 @@
 (require 'init-chinese)
 (require 'init-misc)
 (require 'init-edit)
+(require 'init-projectile)
 
 ;; programming releated packages
-(require 'init-prog)
-(require 'init-yasnippet)
 (require 'init-company)
-(require 'init-golang)
-(require 'init-python)
-(require 'init-markdown)
+(require 'init-yasnippet)
+(require 'init-lsp)
 (require 'init-org)
-(require 'init-elisp)
-(require 'init-projectile)
+(require 'init-prog)
+(require 'init-golang)
+(require 'init-markdown)
+(require 'init-python)
 (require 'init-rust)
 (require 'init-cpp)
-(require 'init-lsp)
+(require 'init-cmake)
+(require 'init-elisp)
 
 ;; tools
 (require 'init-git)

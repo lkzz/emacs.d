@@ -50,6 +50,73 @@
         org-agenda-use-tag-inheritance nil ;; 3-4x speedup
         org-pretty-entities t)
 
+  (use-package org-bullets
+    :hook (org-mode . org-bullets-mode)
+    :init
+    (setq org-bullets-bullet-list '("✡" "✽" "✲" "✱" "✻" "✼" "✽" "✾" "✿" "❀" "❁" "❂" "❃" "❄" "❅" "❆" "❇")))
+
+  ;; Presentation
+  (use-package org-tree-slide
+    :config
+    (add-hook 'org-tree-slide-play-hook (lambda ()
+                                          (text-scale-set 4)
+                                          (org-display-inline-images)
+                                          (read-only-mode 1)))
+    (add-hook 'org-tree-slide-stop-hook (lambda ()
+                                          (text-scale-set 0)
+                                          (org-remove-inline-images)
+                                          (read-only-mode -1))))
+  ;; Pomodoro
+  (use-package org-pomodoro
+    :init (with-eval-after-load 'org-agenda
+            (bind-key "P" 'org-pomodoro org-agenda-mode-map)))
+
+  ;; Visually summarize progress
+  (use-package org-dashboard)
+
+  (use-package org-archive
+    :ensure nil
+    :after org-agenda
+    :config
+    ;; 使用 org-archive-subtree 时，原来的 header 层级容易被打乱，而且容易
+    ;; 因为保存不及时而导致 archive 文件内容丢失， 所以这个命令适合每月的
+    ;; 大归档, 日常情况下，使用 ARCHIVE TAG 来隐藏已经完成的任务，安全又方便。
+    ;; (setq org-archive-default-command 'org-archive-subtree)
+    (setq org-archive-default-command 'org-archive-set-tag))
+
+  (use-package org-agenda
+    :ensure nil
+    :bind (("C-c a" . org-agenda)
+           :map org-agenda-mode-map
+           ("g" . org-agenda-redo-all)
+           ("i" . (lambda () (interactive) (org-capture nil "s")))
+           ("A" . org-agenda-archive-default-with-confirmation)
+           ("J" . counsel-org-agenda-headlines)
+           ("h" . ignore)
+           ("y" . ignore)
+           ("a" . ignore))
+    :config
+    (setq org-agenda-files '("~/Workspace/org")
+          ;; Set the agenda view to show the tasks on day/week/month/year
+          org-agenda-span 'week
+          ;; only keep agenda window,delete all other window
+          org-agenda-window-setup 'only-window
+          org-agenda-todo-ignore-scheduled t
+          org-agenda-todo-ignore-deadlines t
+          org-agenda-skip-deadline-if-done t
+          org-agenda-skip-scheduled-if-done t
+          org-agenda-todo-list-sublevels t
+          ;; format 9:30-->09:30
+          org-agenda-time-leading-zero nil
+          org-agenda-format-date "%Y-%m-%d %a----------------------------------------------------------------"
+          ;; Custom commands for the agenda -- start with a clean slate.
+          org-agenda-custom-commands nil
+          ;; Do not dim blocked tasks
+          org-agenda-dim-blocked-tasks nil
+          ;; Compact the block agenda view
+          org-agenda-compact-blocks t
+          org-agenda-scheduled-leaders '("计划任务 " "应在 %02d 天前开始 ")
+          org-agenda-deadline-leaders '("过期任务 " "将在 %02d 天后到期 " "已过期 %02d 天 ")))
 
   ;; FIXME org-agenda-execute-calendar-command uses deprecated list-calendar-holidays
   (unless (fboundp 'list-calendar-holidays)
@@ -59,79 +126,6 @@
                                  (python . t)
                                  (ruby . t)))
   )
-
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
-  :init
-  (setq org-bullets-bullet-list '("✡" "✽" "✲" "✱" "✻" "✼" "✽" "✾" "✿" "❀" "❁" "❂" "❃" "❄" "❅" "❆" "❇")))
-
-;; Presentation
-(use-package org-tree-slide
-  :after org-mode
-  :config
-  (add-hook 'org-tree-slide-play-hook (lambda ()
-                                        (text-scale-set 4)
-                                        (org-display-inline-images)
-                                        (read-only-mode 1)))
-  (add-hook 'org-tree-slide-stop-hook (lambda ()
-                                        (text-scale-set 0)
-                                        (org-remove-inline-images)
-                                        (read-only-mode -1))))
-
-;; Pomodoro
-(use-package org-pomodoro
-  :after org-mode
-  :init (with-eval-after-load 'org-agenda
-          (bind-key "P" 'org-pomodoro org-agenda-mode-map)))
-
-;; Visually summarize progress
-(use-package org-dashboard
-  :after org-mode)
-
-(use-package org-archive
-  :ensure nil
-  :after (org-mode org-agenda)
-  :config
-  ;; 使用 org-archive-subtree 时，原来的 header 层级容易被打乱，而且容易
-  ;; 因为保存不及时而导致 archive 文件内容丢失， 所以这个命令适合每月的
-  ;; 大归档, 日常情况下，使用 ARCHIVE TAG 来隐藏已经完成的任务，安全又方便。
-  ;; (setq org-archive-default-command 'org-archive-subtree)
-  (setq org-archive-default-command 'org-archive-set-tag))
-
-(use-package org-agenda
-  :ensure nil
-  :after org-mode
-  :bind (("C-c a" . org-agenda)
-         :map org-agenda-mode-map
-         ("g" . org-agenda-redo-all)
-         ("i" . (lambda () (interactive) (org-capture nil "s")))
-         ("A" . org-agenda-archive-default-with-confirmation)
-         ("J" . counsel-org-agenda-headlines)
-         ("h" . ignore)
-         ("y" . ignore)
-         ("a" . ignore))
-  :config
-  (setq org-agenda-files '("~/Workspace/org")
-        ;; Set the agenda view to show the tasks on day/week/month/year
-        org-agenda-span 'week
-        ;; only keep agenda window,delete all other window
-        org-agenda-window-setup 'only-window
-        org-agenda-todo-ignore-scheduled t
-        org-agenda-todo-ignore-deadlines t
-        org-agenda-skip-deadline-if-done t
-        org-agenda-skip-scheduled-if-done t
-        org-agenda-todo-list-sublevels t
-        ;; format 9:30-->09:30
-        org-agenda-time-leading-zero nil
-        org-agenda-format-date "%Y-%m-%d %a----------------------------------------------------------------"
-        ;; Custom commands for the agenda -- start with a clean slate.
-        org-agenda-custom-commands nil
-        ;; Do not dim blocked tasks
-        org-agenda-dim-blocked-tasks nil
-        ;; Compact the block agenda view
-        org-agenda-compact-blocks t
-        org-agenda-scheduled-leaders '("计划任务 " "应在 %02d 天前开始 ")
-        org-agenda-deadline-leaders '("过期任务 " "将在 %02d 天后到期 " "已过期 %02d 天 ")))
 
 (provide 'init-org)
 

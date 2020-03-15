@@ -36,20 +36,5 @@
 (defconst kevin-cache-directory (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
-(defconst kevin-leader-key "SPC"
-  "The leader key.")
-
-(defconst kevin-emacs-leader-key "M-m"
-  "The leader key accessible in `emacs state' and `insert state'")
-
-(defconst kevin-major-mode-leader-key ","
-  "Major mode leader key is a shortcut key which is the equivalent of
-pressing `<leader> m`. Set it to `nil` to disable it.")
-
-(defconst kevin-major-mode-emacs-leader-key "C-M-m"
-  "Major mode leader key accessible in `emacs state' and `insert state'")
-
-(defconst kevin-scratch-message (format ";; Happy Hacking, %s - Emacs ♥ You!\n" kevin-user-name))
-
 (provide 'init-const)
 ;;; init-const.el ends here

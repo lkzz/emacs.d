@@ -32,9 +32,9 @@
     "q" 'kevin/quit-dashboard)
   :init
   (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner (expand-file-name "spacemacs.png" user-emacs-directory)
+  (setq dashboard-startup-banner (expand-file-name "banner/spacemacs.png" user-emacs-directory)
         initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
-        dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" kevin-user-name)
+        dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" user-full-name)
         dashboard-center-content t
         dashboard-set-init-info t
         dashboard-init-info (format "%d packages loaded in %s"
@@ -43,7 +43,7 @@
         dashboard-items '((recents  . 10)
                           (bookmarks . 5)
                           (projects . 5))
-        ;; dashboard-set-file-icons t
+        dashboard-set-file-icons t
         dashboard-set-heading-icons t
         dashboard-heading-icons '((recents   . "file-text")
                                   (bookmarks . "bookmark")
@@ -51,7 +51,7 @@
                                   (projects  . "file-directory")
                                   (registers . "database"))
         dashboard-set-footer t
-        dashboard-footer-messages (list (format "Powered by %s, %s" kevin-user-name (format-time-string "%Y")))
+        dashboard-footer-messages (list (format "Powered by %s, %s" user-full-name (format-time-string "%Y")))
         dashboard-footer-icon (if (display-graphic-p)
                                   (all-the-icons-faicon "heart"
                                                         :height 1.1

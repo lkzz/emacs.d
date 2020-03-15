@@ -15,7 +15,7 @@
 
 (use-package flycheck
   :diminish flycheck-mode "ⓕ"
-  :hook (after-init . global-flycheck-mode)
+  :hook (prog-mode . global-flycheck-mode)
   :general
   (kevin/space-key-define
     "e" '(nil :which-key "Errors")
@@ -89,21 +89,27 @@
   ;; c/c++ mode
   (setq flycheck-gcc-language-standard "c++11"
         flycheck-clang-language-standard "c++11")
-  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc)))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
 
-(use-package flycheck-posframe
-  :defer t
-  :when (display-graphic-p)
-  :after flycheck
-  :hook (flycheck-mode . flycheck-posframe-mode)
-  :config  (add-to-list 'flycheck-posframe-inhibit-functions
-			#'(lambda () (bound-and-true-p company-backend))))
+  (if (display-graphic-p)
+      (use-package flycheck-posframe
+        :hook (flycheck-mode . flycheck-posframe-mode)
+        :config
+        (setq flycheck-posframe-warning-prefix "⚠ "
+              flycheck-posframe-info-prefix "··· "
+              flycheck-posframe-error-prefix "✕ ")
+        (after! company
+          ;; Don't display popups if company is open
+          (add-hook 'flycheck-posframe-inhibit-functions #'company--active-p))
+        (after! evil
+          ;; Don't display popups while in insert or replace mode, as it can affect
+          ;; the cursor's position or cause disruptive input delays.
+          (add-hook 'flycheck-posframe-inhibit-functions #'evil-insert-state-p)
+          (add-hook 'flycheck-posframe-inhibit-functions #'evil-replace-state-p)))
+    (use-package flycheck-popup-tip
+      :hook (flycheck-mode . flycheck-popup-tip-mode)))
 
-(use-package flycheck-popup-tip
-  :defer t
-  :unless (display-graphic-p)
-  :after flycheck
-  :hook (flycheck-mode . flycheck-popup-tip-mode))
+  )
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here

@@ -15,9 +15,10 @@
 
 ;;-----------------------------------------------------------------------------
 ;; package-initialize
-(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
+                         ("org"   . "http://elpa.emacs-china.org/org/")
+                         ("melpa" . "http://elpa.emacs-china.org/melpa/")))
+
 ;;; Fire up package.el
 (setq package-enable-at-startup nil ; don't auto-initialize!
       ;; don't add that `custom-set-variables' block to my initl!

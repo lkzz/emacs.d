@@ -73,6 +73,12 @@
         ivy-count-format "(%d/%d) "
         counsel-find-file-at-point t)
 
+  ;; An alternative M-x interface for Emacs
+  (use-package amx
+    :init (kevin/space-key-define "SPC" 'amx)
+    (setq amx-history-length 10
+            amx-save-file (concat kevin-cache-directory "amx-items")))
+
   ;; when swiper-action-recenter non-nil, frame blink in terminal
   (if (display-graphic-p)
       (setq swiper-action-recenter t)
@@ -84,53 +90,54 @@
 
   ;; Integration with `magit'
   (with-eval-after-load 'magit
-    (setq magit-completing-read-function 'ivy-completing-read)))
+    (setq magit-completing-read-function 'ivy-completing-read))
 
-;; Ivy integration for Projectile
-(use-package counsel-projectile
-  :after (counsel projectile)
-  :hook (counsel-mode . counsel-projectile-mode)
-  :init (setq counsel-projectile-grep-initial-input '(ivy-thing-at-point)))
+  ;; Ivy integration for Projectile
+  (use-package counsel-projectile
+    :hook (counsel-mode . counsel-projectile-mode)
+    :init (setq counsel-projectile-grep-initial-input '(ivy-thing-at-point)))
 
-;; More friendly interface for ivy
-(use-package all-the-icons-ivy-rich
-  :if (display-graphic-p)
-  :hook (ivy-mode . all-the-icons-ivy-rich-mode))
+    ;; More friendly interface for ivy
+  (use-package all-the-icons-ivy-rich
+    :if (display-graphic-p)
+    :init (setq all-the-icons-ivy-rich-icon-size 0.85)
+    (all-the-icons-ivy-rich-mode))
 
-;; More friendly display transformer for Ivy
-(use-package ivy-rich
-  :hook (;; Must load after `counsel-projectile'
-         (counsel-projectile-mode . ivy-rich-mode)
-         (ivy-rich-mode . (lambda ()
-                            "Use abbreviate in `ivy-rich-mode'."
-                            (setq ivy-virtual-abbreviate
-                                  (or (and ivy-rich-mode 'abbreviate) 'name)))))
-  :init
-  ;; For better performance
-  (setq ivy-rich-parse-remote-buffer nil))
+  ;; More friendly display transformer for Ivy
+  (use-package ivy-rich
+    :hook (;; Must load after `counsel-projectile'
+            (counsel-projectile-mode . ivy-rich-mode)
+            (ivy-rich-mode . (lambda ()
+                                "Use abbreviate in `ivy-rich-mode'."
+                                (setq ivy-virtual-abbreviate
+                                    (or (and ivy-rich-mode 'abbreviate) 'name)))))
+    :init
+    ;; For better performance
+    (setq ivy-rich-parse-remote-buffer nil))
 
-(use-package prescient
-  :init
-  (setq prescient-history-length 2000
-        prescient-save-file (concat kevin-cache-directory "prescient-items")
-        prescient-filter-method '(literal regexp))
-  :config
-  (prescient-persist-mode 1))
+  (use-package prescient
+    :init
+    (setq prescient-history-length 2000
+            prescient-save-file (concat kevin-cache-directory "prescient-items")
+            prescient-filter-method '(literal regexp))
+    :config
+    (prescient-persist-mode 1))
 
-(use-package ivy-prescient
-  :after (prescient ivy)
-  :config
-  (setq ivy-prescient-sort-commands
-        '(:not counsel-grep
-               counsel-rg
-               counsel-switch-buffer
-               ivy-switch-buffer
-               swiper
-               swiper-multi))
-  (setq ivy-prescient-retain-classic-highlighting t
-        ivy-prescient-enable-filtering nil
-        ivy-prescient-enable-sorting t)
-  (ivy-prescient-mode 1))
+  (use-package ivy-prescient
+    :config
+    (setq ivy-prescient-sort-commands
+            '(:not counsel-grep
+                counsel-rg
+                counsel-switch-buffer
+                ivy-switch-buffer
+                swiper
+                swiper-multi))
+    (setq ivy-prescient-retain-classic-highlighting t
+            ivy-prescient-enable-filtering nil
+            ivy-prescient-enable-sorting t)
+    (ivy-prescient-mode 1))
+
+  )
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here

@@ -16,7 +16,10 @@
 (when is-mac-p
   ;; 打开抗锯齿
   (setq mac-allow-anti-aliasing t)
-  ;; (setq ns-use-native-fullscreen nil)
+  ;; NOTE Meaningless to railwaycat's emacs-mac build
+  (setq ns-use-native-fullscreen nil)
+  ;; 打开文件时不再创建新的frame
+  (setq ns-pop-up-frames nil)
   ;; natural title bar
   (add-to-list 'default-frame-alist '(ns-appearance . dark))
   (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
@@ -46,7 +49,7 @@
   :init
   (setq inhibit-startup-screen t
         initial-buffer-choice  nil
-        initial-scratch-message kevin-scratch-message
+        initial-scratch-message (format ";; Happy Hacking, %s - Emacs ♥ You!\n" user-full-name)
         inhibit-startup-echo-area-message t ; 禁止echo area message
         inhibit-default-init t              ; 禁止加载default lib
         initial-major-mode 'fundamental-mode)) ; 设置默认的major mode
@@ -60,15 +63,11 @@
 ;; middle-click paste at point, not at click
 (setq mouse-yank-at-point t)
 
-;; Enable mouse in terminal Emacs
-(add-hook 'tty-setup-hook #'xterm-mouse-mode)
-
-;; 鼠标滚动设置
+;;================== 鼠标滚动设置 =================================
 (when is-mac-p
   ;; sane trackpad/mouse scroll settings
   (setq mac-redisplay-dont-reset-vscroll t
         mac-mouse-wheel-smooth-scroll nil))
-
 (setq scroll-step 1
       scroll-margin 1
       scroll-conservatively 101
@@ -88,8 +87,12 @@
 ;;=================== 鼠标设置 =======================================
 
 ;;=================== 光标设置 =======================================
+;; Don't stretch the cursor to fit wide characters, it is disorienting,
+;; especially for tabs.
+(setq x-stretch-cursor nil)
 ;; 禁止光标闪烁
 (blink-cursor-mode -1)
+(setq visible-cursor nil)
 ;; Don't blink the paren matching the one at point.
 (setq blink-matching-paren nil)
 ;; Don't stretch the cursor to fit wide characters, it is disorienting,
@@ -106,9 +109,6 @@
 (setq frame-title-format
       '(:eval (if (buffer-file-name)
                   (abbreviate-file-name (buffer-file-name)) "%b")))
-;; 打开文件时不再创建新的frame
-(when (boundp 'ns-pop-up-frames)
-  (setq ns-pop-up-frames nil))
 
 ;; Don't resize emacs in steps, it looks weird.
 (setq window-resize-pixelwise t
@@ -116,41 +116,11 @@
 
 ;;========================= 安装常用的主题 ===========================
 (use-package doom-themes
-  :defer t
   :config
+  (setq doom-dark+-blue-modeline t)
   (doom-themes-org-config)
-  (doom-themes-neotree-config))
-
-;; 加载主题
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (load-theme kevin-theme-selected t)))
-  (load-theme kevin-theme-selected t))
-
-;; Underline looks a bit better when drawn lower
-(setq x-underline-at-descent-line t)
-;;========================= 安装常用的主题 ===========================
-
-;; ;; 启动时全屏
-;; (when (featurep 'cocoa)
-;;   ;; 在Mac平台, Emacs不能进入Mac原生的全屏模式,否则会导致 `make-frame' 创建时也集成原生全屏属性后造成白屏和左右滑动现象.
-;;   ;; 所以先设置 `ns-use-native-fullscreen' 和 `ns-use-fullscreen-animation' 禁止Emacs使用Mac原生的全屏模式.
-;;   ;; 而是采用传统的全屏模式, 传统的全屏模式, 只会在当前工作区全屏,而不是切换到Mac那种单独的全屏工作区,
-;;   ;; 这样执行 `make-frame' 先关代码或插件时,就不会因为Mac单独工作区左右滑动产生的bug.
-;;   ;; Mac平台下,不能直接使用 `set-frame-parameter' 和 `fullboth' 来设置全屏,
-;;   ;; 那样也会导致Mac窗口管理器直接把Emacs窗口扔到单独的工作区, 从而对 `make-frame' 产生同样的Bug.
-;;   ;; 所以, 启动的时候通过 `set-frame-parameter' 和 `maximized' 先设置Emacs为最大化窗口状态, 启动5秒以后再设置成全屏状态,
-;;   ;; Mac就不会移动Emacs窗口到单独的工作区, 最终解决Mac平台下原生全屏窗口导致 `make-frame' 左右滑动闪烁的问题.
-;;   (setq ns-use-native-fullscreen nil)
-;;   (setq ns-use-fullscreen-animation nil)
-;;   (run-at-time "5sec" nil (lambda ()
-;;                             (let ((fullscreen (frame-parameter (selected-frame) 'fullscreen)))
-;;                               ;; If emacs has in fullscreen status, maximized window first, drag emacs window from Mac's single space.
-;;                               (when (memq fullscreen '(fullscreen fullboth))
-;;                                 (set-frame-parameter (selected-frame) 'fullscreen 'maximized))
-;;                               ;; Call `toggle-frame-fullscreen' to fullscreen emacs.
-;;                               (toggle-frame-fullscreen)))))
+  (doom-themes-neotree-config)
+  (load-theme 'doom-dark+ t))
 
 ;; 窗口最大化
 (add-hook 'after-init-hook 'toggle-frame-maximized)
@@ -193,9 +163,6 @@
   (fset 'define-fringe-bitmap #'ignore))
 
 ;; =========================== minbuffer =============================
-;;
-;;; Minibuffer
-
 ;; Allow for minibuffer-ception. Sometimes we need another minibuffer command
 ;; _while_ we're in the minibuffer.
 (setq enable-recursive-minibuffers t)
@@ -230,7 +197,7 @@
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 ;;======================== fringe 美化 =====================
 
-(add-hook 'after-init-hook 'turn-on-visual-line-mode)
+;; (add-hook 'after-init-hook 'turn-on-visual-line-mode)
 
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
@@ -246,12 +213,11 @@
   :unless (display-graphic-p)
   :hook (after-init . display-time-mode)
   :init
-  (setq display-time-24hr-format t)
-  (setq display-time-day-and-date t))
+  (setq display-time-24hr-format t
+        display-time-day-and-date t))
 
 ;; NOTE: Must run `M-x all-the-icons-install-fonts', and install fonts manually on Windows
 (use-package all-the-icons
-  :demand
   :if (display-graphic-p)
   :config
   (add-to-list 'all-the-icons-icon-alist
@@ -363,13 +329,23 @@
          (eshell-mode . centaur-tabs-local-mode)
          (helpful-mode . centaur-tabs-local-mode)))
 
+(use-package nyan-mode
+  :if (display-graphic-p)
+  :init
+  (setq nyan-animate-nyancat nil)
+  (nyan-mode t))
+
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
-  :config
-  (setq doom-modeline-height 20
-        doom-modeline-bar-width 3
+  :init
+  (defun my-doom-modeline--font-height ()
+    "Calculate the actual char height of the mode-line."
+    (+ (frame-char-height) 2))
+  (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
+  (setq doom-modeline-bar-width 3
         doom-modeline-icon (display-graphic-p)
         doom-modeline-major-mode-icon t
+        doom-modeline-modal-icon t
         doom-modeline-major-mode-color-icon t
         doom-modeline-buffer-state-icon t
         doom-modeline-minor-modes t

@@ -1,6 +1,8 @@
-EMACS_DIR = ~/.emacs.d
+EMACS_DIR = ${CURDIR}
 ELPA_DIR = $(EMACS_DIR)/elpa
 CORE_DIR = $(EMACS_DIR)/core
+
+default: install
 
 clean:
 	@rm -rf $(ELPA_DIR)
@@ -11,10 +13,12 @@ clean:
 	@rm -rf projectile* places recentf transient
 	@echo "make clean done."
 
-compile:
-
 install:
 	@emacs --batch -l $(EMACS_DIR)/init.el
 	@echo "make install done."
 
-.PHONY:clean compile install
+profile:
+	emacs -Q -l site-lisp/profile-dotemacs.el --eval "(setq profile-dotemacs-file \
+        (setq load-file-name \"$(abspath init.el)\"))" -f profile-dotemacs
+
+.PHONY:clean profile install

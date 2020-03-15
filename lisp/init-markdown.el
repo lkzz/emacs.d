@@ -29,13 +29,13 @@
   (dolist (regex '("\\.md\\'" "\\.markdown\\'"))
     (setq auto-mode-alist
           (cl-remove regex auto-mode-alist :test #'equal :key #'car))
-    (add-to-list 'auto-mode-alist `(,regex . markdown-mode))))
-
-(use-package markdown-preview-mode
-  :after markdown-mode
+    (add-to-list 'auto-mode-alist `(,regex . markdown-mode)))
   :config
-  (setq markdown-command "multimarkdown"
-        markdown-preview-auto-open t))
+  (use-package markdown-preview-mode
+    :config
+    (setq markdown-command "multimarkdown"
+          markdown-preview-auto-open t))
+  )
 
 (provide 'init-markdown)
 ;;; init-markdown ends here
