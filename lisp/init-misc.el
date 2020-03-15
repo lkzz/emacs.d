@@ -15,7 +15,6 @@
 
 ;; bookmark 设置
 (use-package bookmark
-  :defer t
   :ensure nil
   :init
   (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
@@ -60,8 +59,11 @@
 
 (use-package recentf
   :ensure nil
-  :hook (after-init . recentf-mode)
-  :init (setq recentf-max-saved-items 10000
+  :hook ((after-init . recentf-mode)
+         (kill-emacs-hook . recentf-cleanup))
+  :init (setq recentf-max-saved-items 500
+              recentf-save-file (concat kevin-cache-directory "recentf")
+              recentf-auto-cleanup 'never
               recentf-exclude '("/tmp/"
                                 "recentf$"
                                 "\\.cask$"
@@ -89,7 +91,7 @@
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
   :diminish aggressive-indent-mode
-  :hook ((lisp-mode lisp-interaction-mode emacs-lisp-mode clojure-mode) . aggressive-indent-mode)
+  :hook (after-init . aggressive-indent-mode)
   :config
   (setq-default aggressive-indent-comments-too t)
   ;; NOTE: Disable in big files due to the performance issues
@@ -139,14 +141,6 @@
   :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
          ([remap move-end-of-line] . mwim-end-of-code-or-line)))
 
-;; An alternative M-x interface for Emacs
-(use-package amx
-  :hook (after-init . amx-mode)
-  :init
-  (kevin/space-key-define "SPC" 'amx)
-  (setq amx-history-length 10
-        amx-save-file (concat kevin-cache-directory "amx-items")))
-
 (use-package rg
   :hook (after-init . rg-enable-default-bindings)
   :bind (:map rg-global-map
@@ -173,7 +167,14 @@
 (use-package so-long
   :if is-emacs27-p
   :ensure nil
-  :config (global-so-long-mode 1))
+  :config
+  (global-so-long-mode 1)
+  (setq so-long-threshold 400)
+  (add-to-list 'so-long-variable-overrides '(font-lock-maximum-decoration . 1))
+  ;; ...and insist that save-place not operate in large/long files
+  (add-to-list 'so-long-variable-overrides '(save-place-alist . nil))
+  ;; Text files could possibly be too long too
+  (add-to-list 'so-long-target-modes 'text-mode))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

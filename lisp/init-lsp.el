@@ -32,14 +32,23 @@
               ([remap evil-goto-definition] . lsp-find-definition)
               ([remap xref-find-definitions] . lsp-find-definition)
               ([remap xref-find-references] . lsp-find-references))
-  :init (setq lsp-auto-guess-root t
-              lsp-prefer-flymake nil
-              lsp-keep-workspace-alive nil
-              lsp-enable-symbol-highlighting nil
-              flymake-fringe-indicator-position 'right-fringe
-              lsp-file-watch-threshold 5000
-              lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
-              lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
+  :init
+  (setq lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
+        ;;prefer flycheck
+        lsp-diagnostic-package :flycheck
+        lsp-auto-guess-root t
+        ;;disable file wathcer when large file
+        lsp-enable-file-watchers nil
+        ;; enable log only for debug
+        lsp-log-io nil
+        ;; completion
+        lsp-prefer-capf  t
+        ;; turn off for better performance
+        lsp-enable-symbol-highlighting nil
+        ;; Disable eldoc displays in minibuffer
+        lsp-eldoc-enable-hover nil
+        ;; auto kill server
+        lsp-keep-workspace-alive nil)
   :config
   (use-package lsp-ui
     :hook (lsp-mode . lsp-ui-mode)

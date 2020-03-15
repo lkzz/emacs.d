@@ -16,17 +16,16 @@
 ;; Highlight the current line
 (use-package hl-line
   :ensure nil
-  :hook ((prog-mode text-mode conf-mode) . hl-line-mode)
-  :config
-  ;; Not having to render the hl-line overlay in multiple buffers offers a tiny
-  ;; performance boost. I also don't need to see it in other buffers.
-  (setq hl-line-sticky-flag nil
-        global-hl-line-sticky-flag nil))
+  :hook ((after-init . global-hl-line-mode)
+         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
+          (lambda () (setq-local global-hl-line-mode nil)))))
 
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
   :ensure nil
   :hook (after-init . show-paren-mode)
+  :init (setq show-paren-when-point-inside-paren t
+              show-paren-when-point-in-periphery t)
   :config
   (set-face-foreground 'show-paren-match "red")      ;定义前景色
   (set-face-bold-p 'show-paren-match t)              ;加粗显示括号匹配
@@ -43,26 +42,21 @@
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
   :diminish highlight-indent-guides-mode
-  :hook ((prog-mode text-mode conf-mode protobuf-mode) . highlight-indent-guides-mode)
-  :init
-  (setq highlight-indent-guides-method 'character)
+  :hook ((prog-mode conf-mode protobuf-mode) . highlight-indent-guides-mode)
   :config
-  (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
+  ;; (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
   ;; `highlight-indent-guides' breaks in these modes
-  (add-hook 'visual-line-mode-hook #'kevin/disable-highlight-indent-guides)
-  (add-hook 'org-indent-mode-hook #'kevin/disable-highlight-indent-guides)
+  ;; (add-hook 'visual-line-mode-hook #'kevin/disable-highlight-indent-guides)
+  ;; (add-hook 'org-indent-mode-hook #'kevin/disable-highlight-indent-guides)
   (setq highlight-indent-guides-delay 0.5
+        highlight-indent-guides-method 'character
+        highlight-indent-guides-responsive 'top
         highlight-indent-guides-auto-enabled nil)
   (set-face-foreground 'highlight-indent-guides-character-face "dimgray"))
 
-;; Colorize color names in buffers
-(use-package rainbow-mode
-  :diminish rainbow-mode
-  :hook ((text-mode emacs-list-mode) . rainbow-mode))
-
 ;; Highlight brackets according to their depth
 (use-package rainbow-delimiters
-  :hook (emacs-lisp-mode . rainbow-delimiters-mode)
+  :hook (prog-mode . rainbow-delimiters-mode)
   :config
   (setq rainbow-delimiters-max-face-count 3))
 

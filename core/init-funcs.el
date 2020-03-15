@@ -173,6 +173,7 @@ Argument VALUE 0 is transparent, 100 is opaque."
      (counsel-etags-find-tag-at-point)))
   (setq this-command 'kevin/goto-definition))
 
+;;;###autoload
 (defun kevin/insert-elisp-file-header ()
   "Add minimal header and footer to an elisp buffer in order to placate flycheck."
   (interactive)
@@ -197,6 +198,7 @@ Argument VALUE 0 is transparent, 100 is opaque."
       (goto-char (point-max))
       (insert ";;; " fname " ends here\n"))))
 
+;;;###autoload
 (defun kevin/insert-cc-file-header ()
   "Add ifndef header to an c/c++ header file."
   (interactive)
@@ -214,12 +216,17 @@ Argument VALUE 0 is transparent, 100 is opaque."
       (previous-line 3)
       (set-buffer-modified-p nil))))
 
-(defun kevin/company-backend-with-yas (backend)
-  (if (or (not kevin-enable-company-yasnippet)
-          (and (listp backend) (member 'company-yasnippet backend)))
-      backend
-    (append (if (consp backend) backend (list backend))
-            '(:with company-yasnippet))))
+;;;###autoload
+(defmacro after! (feature &rest forms)
+  "A smart wrapper around `with-eval-after-load'. Supresses warnings during compilation."
+  (declare (indent defun) (debug t))
+  `(,(if (or (not (bound-and-true-p byte-compile-current-file))
+             (if (symbolp feature)
+                 (require feature nil :no-error)
+               (load feature :no-message :no-error)))
+         #'progn
+       #'with-no-warnings)
+    (with-eval-after-load ',feature ,@forms)))
 
 (provide 'init-funcs)
 ;;; init-funcs.el ends here

@@ -49,8 +49,6 @@
 ;; Treat undo history as a tree
 (use-package undo-tree
   :diminish undo-tree-mode
-  :commands (undo-tree-visualize)
-  :hook (after-init . global-undo-tree-mode)
   :init
   (setq undo-tree-auto-save-history nil
         undo-tree-visualizer-timestamps t

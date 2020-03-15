@@ -24,42 +24,9 @@
   ;; Enable Chinese word segmentation support
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 
-;; make IME compatible with evil-mode
-;; https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-chinese.el#L4
-(defun evil-toggle-input-method ()
-  "When input method is on, goto `evil-insert-state'."
-  (interactive)
-  ;; load IME when needed, less memory footprint
-  (unless (featurep 'pyim)
-    (require 'pyim))
-  ;; some guy don't use evil-mode at all
-  (cond
-   ((and (boundp 'evil-mode) evil-mode)
-    ;; evil-mode
-    (cond
-     ((eq evil-state 'insert)
-      (toggle-input-method))
-     (t
-      (evil-insert-state)
-      (unless current-input-method
-        (toggle-input-method))))
-    (cond
-     (current-input-method
-      ;; evil-escape and pyim may conflict
-      ;; @see https://github.com/redguardtoo/emacs.d/issues/629
-      (evil-escape-mode -1)
-      (message "中文输入法开启!"))
-     (t
-      (evil-escape-mode 1)
-      (message "中文输入法关闭!"))))
-   (t
-    ;; NOT evil-mode
-    (toggle-input-method))))
-
-(global-set-key (kbd "C-\\") 'evil-toggle-input-method)
-
 ;; https://github.com/merrickluo/liberime
 (use-package liberime
+  :disabled
   :load-path "site-lisp/liberime"
   :init
   (add-hook 'liberime-after-start-hook
@@ -69,9 +36,41 @@
 ;; 设置拼音输入法
 (use-package pyim
   :defer t
-  :after liberime
-  :bind (("M-j" . pyim-convert-code-at-point)) ; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
+  :bind (("M-j" . pyim-convert-code-at-point) ; 使用 M-j 快捷键，强制将光标前的拼音字符串转换为中文
+         ("C-\\" . evil-toggle-input-method))
   :config
+  ;; make IME compatible with evil-mode
+  ;; https://github.com/redguardtoo/emacs.d/blob/master/lisp/init-chinese.el#L4
+  (defun evil-toggle-input-method ()
+    "When input method is on, goto `evil-insert-state'."
+    (interactive)
+    ;; load IME when needed, less memory footprint
+    (unless (featurep 'pyim)
+      (require 'pyim))
+    ;; some guy don't use evil-mode at all
+    (cond
+     ((and (boundp 'evil-mode) evil-mode)
+      ;; evil-mode
+      (cond
+       ((eq evil-state 'insert)
+        (toggle-input-method))
+       (t
+        (evil-insert-state)
+        (unless current-input-method
+          (toggle-input-method))))
+      (cond
+       (current-input-method
+        ;; evil-escape and pyim may conflict
+        ;; @see https://github.com/redguardtoo/emacs.d/issues/629
+        (evil-escape-mode -1)
+        (message "中文输入法开启!"))
+       (t
+        (evil-escape-mode 1)
+        (message "中文输入法关闭!"))))
+     (t
+      ;; NOT evil-mode
+      (toggle-input-method))))
+
   ;; 激活 basedict 拼音词库
   (use-package pyim-basedict
     :config (pyim-basedict-enable))
@@ -91,17 +90,11 @@
   (setq-default pyim-english-input-switch-functions
                 '(pyim-probe-program-mode)))
 
-(use-package pangu-spacing
-  :defer t
-  :diminish pangu-spacing-mode
-  :hook (org-mode . pangu-spacing-mode)
-  :config
-  ;; Always insert `real' space in org-mode.
-  (setq pangu-spacing-real-insert-separtor t))
-
 ;; Chinese calendar
 (use-package cal-china-x
-  :hook (after-init . cal-china-x-setup)
+  :after calendar
+  :commands cal-china-x-setup
+  :init (cal-china-x-setup)
   :config
   (setq calendar-location-name "Chengdu")
   (setq calendar-latitude 30.67)
@@ -157,9 +150,7 @@
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
   :load-path "site-lisp/company-english-helper"
-  :after company
-  :commands toggle-company-english-helper
-  :bind ("C-c t e" . 'toggle-company-english-helper))
+  :bind ("C-c t e" . toggle-company-english-helper))
 
 (provide 'init-chinese)
 ;;; init-chinese ends here

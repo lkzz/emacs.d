@@ -13,9 +13,6 @@
 ;;
 ;;; Code:
 
-(use-package ripgrep :defer t)
-(use-package projectile-ripgrep :defer t)
-
 (use-package projectile
   :diminish projectile-mode "ⓟ"
   :commands (projectile-compile-project

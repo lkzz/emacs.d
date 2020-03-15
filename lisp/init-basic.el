@@ -14,8 +14,8 @@
 ;;; Code:
 
 ;; Personal information
-(setq user-full-name kevin-user-name
-      user-mail-address kevin-mail-address)
+(setq user-full-name "lkzz"
+      user-mail-address "kevin.scnu@gmail.com")
 
 ;; UTF-8 as the default coding system
 (when (fboundp 'set-charset-priority)
@@ -36,17 +36,38 @@
               truncate-lines t
               truncate-partial-width-windows nil)
 
-;; Misc
-(setq confirm-nonexistent-file-or-buffer t
-      auto-save-default nil             ; 不生成 #filename# 临时文件
-      auto-save-list-file-name (concat kevin-cache-directory "autosave")
-      make-backup-files nil             ; 关闭备份功能
-      backup-directory-alist `(("." . ,(concat kevin-cache-directory "backup/")))
+;; Don't autosave files or create lock/history/backup files.
+(setq auto-save-default nil             ; 不生成 #filename# 临时文件
       create-lockfiles nil              ; 关闭lockfile,NOTE:有风险，建议开启
+      make-backup-files nil             ; 关闭备份功能
       delete-by-moving-to-trash t       ; 删除时移除到回收站
-      inhibit-compacting-font-caches t  ; gc 忽略字体缓存
-      find-file-visit-truename t        ; 当是链接时，显示真正的连接
+      auto-save-list-file-name (concat kevin-cache-directory "autosave")
+      backup-directory-alist `(("." . ,(concat kevin-cache-directory "backup/"))))
+
+;; Misc
+(setq confirm-nonexistent-file-or-buffer t ; Whether confirmation is requested before visiting a new file or buffer.
+      confirm-kill-processes nil           ; kill running processes without confirmation on Emacs exit
+      inhibit-compacting-font-caches t     ; gc 忽略字体缓存
+      find-file-visit-truename t           ; 当是链接时，显示真正的连接
+      url-cache-directory          (concat kevin-cache-directory "url/")
+      custom-file                  (concat kevin-cache-directory "custom.el")
       uniquify-buffer-name-style 'forward)
+
+;; Non-nil means show a cursor in non-selected windows.
+(setq-default cursor-in-non-selected-windows nil)
+
+;; Non-nil means reorder bidirectional text for display in the visual order.
+;; Disabling this gives Emacs a tiny performance boost.
+(setq-default bidi-display-reordering nil)
+
+;; Non-nil means highlight region even in nonselected windows.
+(setq highlight-nonselected-windows nil)
+
+;; Don't ping things that look like domain names.
+(setq ffap-machine-p-known 'reject)
+
+;; Template for displaying mode line for current buffer.
+(setq-default mode-line-format nil)
 
 ;; 简化yes-or-no 输入
 (defalias 'yes-or-no-p 'y-or-n-p)

@@ -28,26 +28,24 @@
     (exec-path-from-shell-copy-env "PYTHONPATH"))
   (setq python-shell-completion-native-enable nil
         py-python-command "python3"
-        python-shell-interpreter "python3"))
+        python-shell-interpreter "python3")
 
-;; Anaconda mode
-(use-package anaconda-mode
-  :after python
-  :diminish anaconda-mode
-  :hook ((python-mode . anaconda-mode)
-         (python-mode . anaconda-eldoc-mode))
-  :config
-  (setq anaconda-mode-installation-directory (concat kevin-cache-directory "anaconda-mode")))
+  ;; Anaconda mode
+  (use-package anaconda-mode
+    :diminish anaconda-mode
+    :hook ((python-mode . anaconda-mode)
+           (python-mode . anaconda-eldoc-mode))
+    :config
+    (setq anaconda-mode-installation-directory (concat kevin-cache-directory "anaconda-mode")))
 
-(use-package company-anaconda
-  :after (company python)
-  :init
-  (cl-pushnew 'company-anaconda company-backends))
+  (use-package company-anaconda
+    :init
+    (cl-pushnew 'company-anaconda company-backends))
 
-;; Autopep8
-(use-package py-autopep8
-  :after python
-  :hook (python-mode . py-autopep8-enable-on-save))
+  ;; Autopep8
+  (use-package py-autopep8
+    :hook (python-mode . py-autopep8-enable-on-save))
+  )
 
 (provide 'init-python)
 ;;; init-python.el ends here

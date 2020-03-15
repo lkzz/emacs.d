@@ -18,8 +18,7 @@
   :init
   (setq exec-path-from-shell-check-startup-files nil
         exec-path-from-shell-variables '("PATH" "MANPATH")
-        exec-path-from-shell-arguments '("-l"))
-  (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY" "GOBIN" "GOSUMDB" "RIME_PATH")))
+        exec-path-from-shell-arguments '("-l")))
 
 (use-package counsel-osx-app
   :if is-mac-p
