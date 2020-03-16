@@ -33,7 +33,6 @@
   :init
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner (expand-file-name "banner/spacemacs.png" user-emacs-directory)
-        initial-buffer-choice (lambda () (get-buffer "*dashboard*"))
         dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" user-full-name)
         dashboard-center-content t
         dashboard-set-init-info t
