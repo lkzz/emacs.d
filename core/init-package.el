@@ -15,17 +15,17 @@
 
 ;;-----------------------------------------------------------------------------
 ;; package-initialize
-(setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-                         ("org"   . "http://elpa.emacs-china.org/org/")
-                         ("melpa" . "http://elpa.emacs-china.org/melpa/")))
-
-;;; Fire up package.el
+(setq package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
+                         ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
 (setq package-enable-at-startup nil ; don't auto-initialize!
       ;; don't add that `custom-set-variables' block to my initl!
       package--init-file-ensured t)
 (package-initialize)
-;; 当el文件比elc文件新的时候,则加载el,即尽量Load最新文件文件
-(setq load-prefer-newer t)
+;; In noninteractive sessions, prioritize non-byte-compiled source files to
+;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
+;; to skip the mtime checks on every *.elc file we load.
+(setq load-prefer-newer noninteractive)
 ;;-----------------------------------------------------------------------------
 
 ;;-----------------------------------------------------------------------------

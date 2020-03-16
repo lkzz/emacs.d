@@ -29,11 +29,6 @@
       load-prefer-newer noninteractive
       site-run-file nil)
 
-;; In noninteractive sessions, prioritize non-byte-compiled source files to
-;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
-;; to skip the mtime checks on every *.elc file we load.
-(setq load-prefer-newer noninteractive)
-
 ;; hook run after loading init files
 (add-hook 'emacs-startup-hook #'(lambda ()
                                   (setq file-name-handler-alist default-file-name-handler-alist
