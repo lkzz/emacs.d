@@ -116,14 +116,22 @@
 
 ;;========================= 安装常用的主题 ===========================
 (use-package doom-themes
+  :defer t
   :config
   (setq doom-dark+-blue-modeline t)
   (doom-themes-org-config)
   (doom-themes-neotree-config)
   (load-theme 'doom-dark+ t))
 
-;; 窗口最大化
-(add-hook 'after-init-hook 'toggle-frame-maximized)
+;; 加载主题
+(defun kevin/load-theme ()
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions
+                (lambda (frame)
+                  (load-theme 'doom-dark+ t)))
+    (load-theme 'doom-dark+ t))
+  (toggle-frame-maximized))
+(add-hook 'after-init-hook 'kevin/load-theme)
 
 ;;======================== fringe 美化 =====================
 (setq indicate-buffer-boundaries nil)
