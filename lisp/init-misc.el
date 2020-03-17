@@ -17,15 +17,7 @@
 (use-package bookmark
   :ensure nil
   :init
-  (setq bookmark-default-file (concat kevin-cache-directory "bookmarks"))
-  :general
-  (kevin/space-key-define
-    "m" '(nil :which-key "Bookmark")
-    "m s" 'bookmark-set
-    "m r" 'bookmark-rename
-    "m d" 'bookmark-delete
-    "m j" 'counsel-bookmark
-    "m l" 'bookmark-bmenu-list))
+  (setq bookmark-default-file (concat kevin-cache-directory "bookmarks")))
 
 ;; Elec pair
 (use-package elec-pair
@@ -38,13 +30,7 @@
   :hook (after-init . global-hungry-delete-mode))
 
 (use-package restart-emacs
-  :defer t
-  :general
-  (kevin/colon-key-define
-    "e" '(nil :which-key "Emacs")
-    "e r" 'restart-emacs
-    "e q" 'save-buffers-kill-terminal
-    "e i" '(kevin/open-init-file :wk "open-init-file")))
+  :commands restart-emacs)
 
 (use-package server
   :config
@@ -60,25 +46,25 @@
 (use-package recentf
   :ensure nil
   :hook ((after-init . recentf-mode)
-         (kill-emacs-hook . recentf-cleanup))
+          (kill-emacs-hook . recentf-cleanup))
   :init (setq recentf-max-saved-items 500
-              recentf-save-file (concat kevin-cache-directory "recentf")
-              recentf-auto-cleanup 'never
-              recentf-exclude '("/tmp/"
-                                "recentf$"
-                                "\\.cask$"
-                                "\\.mkv$"
-                                "\\.mp[34]$"
-                                "\\.avi$"
-                                "\\.wav$"
-                                "\\.pdf$"
-                                "\\.docx?$"
-                                "\\.xlsx?$"
-                                "url"
-                                "COMMIT_EDITMSG\\'"
-                                "bookmarks"
-                                "pyim"
-                                (lambda (file) (file-in-directory-p file package-user-dir))))
+          recentf-save-file (concat kevin-cache-directory "recentf")
+          recentf-auto-cleanup 'never
+          recentf-exclude '("/tmp/"
+                             "recentf$"
+                             "\\.cask$"
+                             "\\.mkv$"
+                             "\\.mp[34]$"
+                             "\\.avi$"
+                             "\\.wav$"
+                             "\\.pdf$"
+                             "\\.docx?$"
+                             "\\.xlsx?$"
+                             "url"
+                             "COMMIT_EDITMSG\\'"
+                             "bookmarks"
+                             "pyim"
+                             (lambda (file) (file-in-directory-p file package-user-dir))))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude))
 
@@ -91,7 +77,7 @@
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
   :diminish aggressive-indent-mode
-  :hook (after-init . aggressive-indent-mode)
+  :hook (after-init . global-aggressive-indent-mode)
   :config
   (setq-default aggressive-indent-comments-too t)
   ;; NOTE: Disable in big files due to the performance issues
@@ -156,13 +142,7 @@
 (use-package helpful
   :bind (("C-h f" . helpful-callable)
          ("C-h v" . helpful-variable)
-         ("C-h k" . helpful-key))
-  :general
-  (kevin/space-key-define
-    "h" '(:ignore t :wk "help")
-    "h f" 'helpful-callable
-    "h v" 'helpful-variable
-    "h k" 'helpful-key))
+         ("C-h k" . helpful-key)))
 
 (use-package so-long
   :if is-emacs27-p

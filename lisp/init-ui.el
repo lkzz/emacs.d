@@ -307,36 +307,6 @@
   (add-to-list 'all-the-icons-mode-icon-alist
                '(gfm-mode all-the-icons-octicon "markdown" :face all-the-icons-lblue)))
 
-(use-package centaur-tabs
-  :disabled
-  :after evil
-  :config
-  (setq centaur-tabs-style "bar"
-        centaur-tabs-height 30
-        centaur-tabs-set-icons t
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-set-bar 'under
-        x-underline-at-descent-line t
-        centaur-tabs-left-edge-margin nil
-        centaur-tabs-modified-marker "*"
-        uniquify-separator "/"
-        uniquify-buffer-name-style 'forward)
-  (centaur-tabs-mode t)
-  :general
-  (kevin/colon-key-define
-    "t" '(nil :which-key "Tab")
-    "t n" 'centaur-tabs-forward-tab
-    "t N" 'centaur-tabs-forward-group
-    "t p" 'centaur-tabs-backward-tab
-    "t P" 'centaur-tabs-backward-group
-    "t a" 'centaur-tabs-select-beg-tab
-    "t e" 'centaur-tabs-select-end-tab
-    "t w" 'toggle-word-wrap)
-  :hook ((dashboard-mode . centaur-tabs-local-mode)
-         (dired-mode . centaur-tabs-local-mode)
-         (eshell-mode . centaur-tabs-local-mode)
-         (helpful-mode . centaur-tabs-local-mode)))
-
 (use-package nyan-mode
   :if (display-graphic-p)
   :init

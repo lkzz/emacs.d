@@ -16,20 +16,6 @@
 (use-package dashboard
   :diminish page-break-lines-mode
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
-  :general
-  (general-nvmap dashboard-mode-map
-    "TAB" 'widget-forward
-    "RET" 'widget-button-press
-    "g" 'dashboard-refresh-buffer
-    "}" 'dashboard-next-section
-    "{" 'dashboard-previous-section
-    "p" 'kevin/dashboard-goto-projects
-    "m" 'kevin/dashboard-goto-bookmarks
-    "r" 'kevin/dashboard-goto-recent-files
-    "H" 'kevin/browse-homepage
-    "R" 'kevin/restore-session
-    "O" 'kevin/dashboard-open-init-file
-    "q" 'kevin/quit-dashboard)
   :init
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner (expand-file-name "banner/spacemacs.png" user-emacs-directory)

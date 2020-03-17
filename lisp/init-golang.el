@@ -19,18 +19,6 @@
               ("C-c i a" . go-import-add)
               ("C-c i r" . go-remove-unused-imports)
               ("C-c r n" . go-run))
-  :general
-  (kevin/comma-key-define go-mode-map
-    "i" '(nil :which-key "Import")
-    "i a" 'go-import-add
-    "i g" 'go-goto-imports
-    "i r" 'go-remove-unused-imports
-    "t" '(nil :which-key "Test")
-    "t x" 'go-run
-    "t b" 'go-test-current-benchmark
-    "t t" 'go-test-current-test
-    "t f" 'go-test-current-file
-    "t p" 'go-test-current-project)
   :config
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))

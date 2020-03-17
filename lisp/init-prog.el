@@ -23,8 +23,6 @@
 (use-package maple-imenu
   :load-path "site-lisp/emacs-maple-imenu"
   :commands maple-imenu
-  :general
-  (kevin/space-key-define "t i" 'maple-imenu)
   :config
   (setq maple-imenu-autoupdate t
         maple-imenu-width 35

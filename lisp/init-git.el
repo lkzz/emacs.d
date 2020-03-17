@@ -15,20 +15,6 @@
 
 (use-package magit
   :commands magit-status
-  :general
-  (kevin/space-key-define
-    "g" '(:ignore t :which-key "Git")
-    "g a" '(kevin/git-add-current-file :wk "add-current-file")
-    "g b" 'magit-blame
-    "g c" '(kevin/git-checkout-current-file :wk "checkout-current-file")
-    "g d" 'magit-diff-buffer-file
-    "g i" 'magit-init
-    "g l" 'magit-log-buffer-file
-    "g L" 'magit-list-repositories
-    "g s" 'magit-status
-    "g S" 'magit-stage-file
-    "g u" 'magit-unstage-file
-    "g v" 'vc-annotate)
   :init
   (setq magit-auto-revert-mode nil
         transient-levels-file (concat kevin-cache-directory "transient-levels.el")
@@ -94,8 +80,6 @@
     :commands (git-messenger:copy-message
                git-messenger:popup-message
                git-messenger:show-detail)
-    :general
-    (kevin/space-key-define "g m" '(git-messenger:popup-message :wk "popup-message"))
     :init
     ;; Use magit-show-commit for showing status/diff commands
     (setq git-messenger:use-magit-popup t
@@ -120,8 +104,7 @@
       ("p" git-timemachine-show-previous-revision)
       ("n" git-timemachine-show-next-revision)
       ("Y" git-timemachine-kill-revision)
-      ("q" nil exit: t))
-    (kevin/space-key-define "g t" '(hydra-git-timemachine/body :wk "git-timemachine")))
+      ("q" nil exit: t)))
 
   ;; Git modes
   (use-package gitconfig-mode
@@ -174,9 +157,7 @@
       ("C" smerge-combine-with-next)
       ("r" smerge-resolve)
       ("R" smerge-kill-current)
-      ("q" nil :color blue))
-    (kevin/space-key-define "g r" '(hydra-smerge-mode/body :wk "hydra-smerge-mode")))
-  )
+      ("q" nil :color blue))))
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
@@ -202,7 +183,6 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
     ("g" diff-hl-diff-goto-hunk)
     ("r" diff-hl-revert-hunk)
     ("q" nil exit: t))
-  (kevin/space-key-define "g h" '(hydra-diff-hl/body :wk "hydra-diff-hl"))
   :config
   ;; Highlight on-the-fly
   (diff-hl-flydiff-mode 1)

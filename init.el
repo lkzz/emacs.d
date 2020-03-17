@@ -24,16 +24,16 @@
 (defvar custom-gc-cons-threshold 100000000)
 
 (setq file-name-handler-alist nil
-      gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.8
-      load-prefer-newer noninteractive
-      site-run-file nil)
+  gc-cons-threshold most-positive-fixnum
+  gc-cons-percentage 0.8
+  load-prefer-newer noninteractive
+  site-run-file nil)
 
 ;; hook run after loading init files
 (add-hook 'emacs-startup-hook #'(lambda ()
                                   (setq file-name-handler-alist default-file-name-handler-alist
-                                        gc-cons-threshold custom-gc-cons-threshold
-                                        gc-cons-percentage 0.1)))
+                                    gc-cons-threshold custom-gc-cons-threshold
+                                    gc-cons-percentage 0.1)))
 
 ;; Optimize emacs garbage collect.
 (add-hook 'minibuffer-setup-hook #'(lambda ()
@@ -66,7 +66,7 @@
 (require 'init-package)
 (require 'init-const)
 (require 'init-funcs)
-(require 'init-keybind)
+(setq lisp-indent-offset 4)
 
 ;;----------------------------------------------------------------------------
 ;; Load custom file
@@ -120,5 +120,6 @@
 (require 'init-filetree)
 (require 'init-window)
 (require 'init-shackle)
+(require 'init-keybind)
 
 ;;; init.el ends here

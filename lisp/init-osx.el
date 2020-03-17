@@ -22,20 +22,7 @@
 
 (use-package counsel-osx-app
   :if is-mac-p
-  :commands counsel-osx-app
-  :general
-  (kevin/space-key-define
-    "o" '(nil :which-key "Open")
-    "o a" 'counsel-osx-app
-    "o t" '(kevin/open-iterm :wk "open-item2")
-    "o w" '(kevin/open-wechat :wk "open-wechat")
-    "o y" '(kevin/open-youdao :wk "open-youdao")))
-
-;; Use the OS X Emoji font for Emoticons
-(when (and is-mac-p (fboundp 'set-fontset-font))
-  (set-fontset-font "fontset-default"
-                    '(#x1F600 . #x1F64F)
-                    (font-spec :name "Apple Color Emoji") nil 'prepend))
+  :commands counsel-osx-app)
 
 (provide 'init-osx)
 ;;; init-osx ends here

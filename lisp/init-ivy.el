@@ -75,7 +75,7 @@
 
   ;; An alternative M-x interface for Emacs
   (use-package amx
-    :init (kevin/space-key-define "SPC" 'amx)
+    :init
     (setq amx-history-length 10
             amx-save-file (concat kevin-cache-directory "amx-items")))
 
