@@ -15,7 +15,7 @@
 
 ;; Quickly switch windows
 (use-package ace-window
-  :defer t
+  :commands ace-window
   :init
   (global-set-key [remap other-window] #'ace-window)
   :custom-face
@@ -53,29 +53,14 @@
   (setq window-numbering-scope 'global
         winum-auto-setup-mode-line nil
         winum-ignored-buffers '(" *which-key*")
-        winum-auto-assign-0-to-minibuffer t)
-  :general
-  (kevin/space-key-define
-    "1"  'winum-select-window-1
-    "2"  'winum-select-window-2
-    "3"  'winum-select-window-3
-    "4"  'winum-select-window-4
-    "5"  'winum-select-window-5
-    "6"  'winum-select-window-6
-    "7"  'winum-select-window-7
-    "8"  'winum-select-window-8
-    "9"  'winum-select-window-9))
+        winum-auto-assign-0-to-minibuffer t))
 
 ;; Zoom window like tmux
 (use-package zoom-window
-  :init (setq zoom-window-mode-line-color "DarkGreen")
-  :general
-  (kevin/space-key-define "w z" 'zoom-window-zoom))
+  :init (setq zoom-window-mode-line-color "DarkGreen"))
 
 (use-package centered-window
-  :defer t
-  :general
-  (kevin/space-key-define "w c" 'centered-window-mode)
+  :commands centered-window-mode
   :config
   (setq cwm-use-vertical-padding t
         cwm-frame-internal-border 15
@@ -99,7 +84,6 @@
 (use-package golden-ratio
   :diminish golden-ratio-mode "ⓖ"
   :config
-  (kevin/space-key-define "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio"))
   ;; golden-ratio-exclude-modes
   (dolist (m '("bs-mode"
                "calc-mode"
