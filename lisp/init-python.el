@@ -36,7 +36,7 @@
     :hook ((python-mode . anaconda-mode)
            (python-mode . anaconda-eldoc-mode))
     :config
-    (setq anaconda-mode-installation-directory (concat kevin-cache-directory "anaconda-mode")))
+    (setq anaconda-mode-installation-directory (concat kevin-cache-dir "anaconda-mode")))
 
   (use-package company-anaconda
     :init

@@ -1,4 +1,4 @@
-;;; init-funcs.el -- functions used in emacs configurations. -*- lexical-binding: t; -*-
+;;; core-lib.el -- 一些常用的宏和函数. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2020  Kevin Leung
 ;;
@@ -10,7 +10,7 @@
 ;;; License: GPLv3
 ;;
 ;;; Commentary:
-;;    refer: https://github.com/syl20bnr/spacemacs
+;;
 ;;; Code:
 
 ;;;###autoload
@@ -216,17 +216,5 @@ Argument VALUE 0 is transparent, 100 is opaque."
       (previous-line 3)
       (set-buffer-modified-p nil))))
 
-;;;###autoload
-(defmacro after! (feature &rest forms)
-  "A smart wrapper around `with-eval-after-load'. Supresses warnings during compilation."
-  (declare (indent defun) (debug t))
-  `(,(if (or (not (bound-and-true-p byte-compile-current-file))
-             (if (symbolp feature)
-                 (require feature nil :no-error)
-               (load feature :no-message :no-error)))
-         #'progn
-       #'with-no-warnings)
-    (with-eval-after-load ',feature ,@forms)))
-
-(provide 'init-funcs)
-;;; init-funcs.el ends here
+(provide 'core-lib)
+;;; core-lib.el ends here

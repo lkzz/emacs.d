@@ -77,7 +77,7 @@
   (use-package amx
     :init
     (setq amx-history-length 10
-          amx-save-file (concat kevin-cache-directory "amx-items")))
+          amx-save-file (concat kevin-cache-dir "amx-items")))
 
   ;; when swiper-action-recenter non-nil, frame blink in terminal
   (if (display-graphic-p)
@@ -118,7 +118,7 @@
   (use-package prescient
     :init
     (setq prescient-history-length 2000
-          prescient-save-file (concat kevin-cache-directory "prescient-items")
+          prescient-save-file (concat kevin-cache-dir "prescient-items")
           prescient-filter-method '(literal regexp))
     :config
     (prescient-persist-mode 1))

@@ -1,4 +1,4 @@
-;;; init-keybind.el --- core keybinds -*- lexical-binding: t -*-
+;;; core-keybind.el --- core keybinds -*- lexical-binding: t -*-
 ;;
 ;; Copyright (C) 2017-2020  Kevin Leung
 ;;
@@ -57,7 +57,7 @@
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
 (use-package general
-  :config
+  :init
   (general-evil-setup)
   (general-create-definer kevin/space-key-define
     :states '(normal visual motion evilified)
@@ -73,8 +73,9 @@
   (general-create-definer kevin/colon-key-define
     :states '(normal visual motion evilified)
     :keymaps 'override
-    :prefix ";")
+    :prefix ";"))
 
+(defun kevin/init-default-keybinds ()
   (kevin/space-key-define
     "1"  'winum-select-window-1
     "2"  'winum-select-window-2
@@ -226,89 +227,85 @@
     "f =" 'kevin/increase-fontsize
     "f -" 'kevin/decrease-fontsize)
 
-  (after! dashboard
-    (general-nvmap dashboard-mode-map
-      "TAB" 'widget-forward
-      "RET" 'widget-button-press
-      "g" 'dashboard-refresh-buffer
-      "}" 'dashboard-next-section
-      "{" 'dashboard-previous-section
-      "p" 'kevin/dashboard-goto-projects
-      "m" 'kevin/dashboard-goto-bookmarks
-      "r" 'kevin/dashboard-goto-recent-files
-      "H" 'kevin/browse-homepage
-      "R" 'kevin/restore-session
-      "O" 'kevin/dashboard-open-init-file
-      "q" 'kevin/quit-dashboard))
+  (general-nvmap dashboard-mode-map
+    "TAB" 'widget-forward
+    "RET" 'widget-button-press
+    "g" 'dashboard-refresh-buffer
+    "}" 'dashboard-next-section
+    "{" 'dashboard-previous-section
+    "p" 'kevin/dashboard-goto-projects
+    "m" 'kevin/dashboard-goto-bookmarks
+    "r" 'kevin/dashboard-goto-recent-files
+    "H" 'kevin/browse-homepage
+    "R" 'kevin/restore-session
+    "O" 'kevin/dashboard-open-init-file
+    "q" 'kevin/quit-dashboard)
 
-  (after! dired
-    (general-nmap dired-mode-map
-      ;; Lower keys for commands not operating on all the marked files
-      "a" 'dired-find-alternate-file
-      "d" 'dired-flag-file-deletion
-      "gf" 'dired-find-file
-      "gy" 'dired-show-file-type
-      "gr" 'revert-buffer
-      "h" 'dired-up-directory
-      "i" 'dired-toggle-read-only
-      "j" 'dired-next-line
-      "k" 'dired-previous-line
-      "l" 'dired-find-file
-      "m" 'dired-mark
-      "o" 'dired-sort-toggle-or-edit
-      "q" 'quit-window
-      "r" 'dired-do-redisplay
-      "th" 'dired-omit-mode
-      "tt" 'dired-toggle-marks
-      "u" 'dired-unmark
-      "v" 'dired-git-info-mode
-      "x" 'dired-do-flagged-delete
-      "RET" 'dired-find-file
-      ;; Commands to mark or flag certain categories of files
-      "+" 'dired-create-directory
-      "^" 'dired-up-directory
-      "#" 'dired-flag-auto-save-files
-      "." 'dired-clean-directory
-      "~" 'dired-flag-backup-files
-      "!" 'dired-do-shell-command
-      "&" 'dired-do-async-shell-command
-      ;; Upper case keys (except !) for operating on the marked files
-      "A" 'dired-do-find-regexp
-      "C" 'dired-do-copy
-      "B" 'dired-do-byte-compile
-      "D" 'dired-do-delete
-      "G" 'dired-do-chgrp
-      "H" 'dired-do-hardlink
-      "I" 'dired-maybe-insert-subdir
-      "J" 'dired-goto-file
-      "K" 'dired-do-kill-lines
-      "L" 'dired-do-load
-      "M" 'dired-do-chmod
-      "O" 'dired-do-chown
-      "P" 'dired-do-print
-      "Q" 'dired-do-find-regexp-and-replace
-      "R" 'dired-do-rename
-      "S" 'dired-do-symlink
-      "T" 'dired-do-touch
-      "W" 'browse-url-of-dired-file
-      "X" 'dired-do-shell-command
-      "Y" 'dired-copy-filename-as-kill
-      "Z" 'dired-do-compress)
-    )
-  (after! neotree
-    (general-nmap neotree-mode-map
-      "RET" 'neotree-enter
-      "o" 'neotree-enter
-      "q" 'neotree-hide
-      "h" 'neotree-select-up-node
-      "l" 'neotree-change-root
-      "c" 'neotree-create-node
-      "C" 'neotree-copy-node
-      "d" 'neotree-delete-node
-      "g" 'neotree-refresh
-      "r" 'neotree-rename-node
-      "th" 'neotree-hidden-file-toggle))
-  )
+  (general-nmap dired-mode-map
+    ;; Lower keys for commands not operating on all the marked files
+    "a" 'dired-find-alternate-file
+    "d" 'dired-flag-file-deletion
+    "gf" 'dired-find-file
+    "gy" 'dired-show-file-type
+    "gr" 'revert-buffer
+    "h" 'dired-up-directory
+    "i" 'dired-toggle-read-only
+    "j" 'dired-next-line
+    "k" 'dired-previous-line
+    "l" 'dired-find-file
+    "m" 'dired-mark
+    "o" 'dired-sort-toggle-or-edit
+    "q" 'quit-window
+    "r" 'dired-do-redisplay
+    "th" 'dired-omit-mode
+    "tt" 'dired-toggle-marks
+    "u" 'dired-unmark
+    "v" 'dired-git-info-mode
+    "x" 'dired-do-flagged-delete
+    "RET" 'dired-find-file
+    ;; Commands to mark or flag certain categories of files
+    "+" 'dired-create-directory
+    "^" 'dired-up-directory
+    "#" 'dired-flag-auto-save-files
+    "." 'dired-clean-directory
+    "~" 'dired-flag-backup-files
+    "!" 'dired-do-shell-command
+    "&" 'dired-do-async-shell-command
+    ;; Upper case keys (except !) for operating on the marked files
+    "A" 'dired-do-find-regexp
+    "C" 'dired-do-copy
+    "B" 'dired-do-byte-compile
+    "D" 'dired-do-delete
+    "G" 'dired-do-chgrp
+    "H" 'dired-do-hardlink
+    "I" 'dired-maybe-insert-subdir
+    "J" 'dired-goto-file
+    "K" 'dired-do-kill-lines
+    "L" 'dired-do-load
+    "M" 'dired-do-chmod
+    "O" 'dired-do-chown
+    "P" 'dired-do-print
+    "Q" 'dired-do-find-regexp-and-replace
+    "R" 'dired-do-rename
+    "S" 'dired-do-symlink
+    "T" 'dired-do-touch
+    "W" 'browse-url-of-dired-file
+    "X" 'dired-do-shell-command
+    "Y" 'dired-copy-filename-as-kill
+    "Z" 'dired-do-compress)
 
-(provide 'init-keybind)
-;;; init-keybind.el ends here
+  (general-nmap neotree-mode-map
+    "RET" 'neotree-enter
+    "o" 'neotree-enter
+    "q" 'neotree-hide
+    "h" 'neotree-select-up-node
+    "l" 'neotree-change-root
+    "c" 'neotree-create-node
+    "C" 'neotree-copy-node
+    "d" 'neotree-delete-node
+    "g" 'neotree-refresh
+    "r" 'neotree-rename-node
+    "th" 'neotree-hidden-file-toggle))
+
+(provide 'core-keybind)
+;;; core-keybind.el ends here

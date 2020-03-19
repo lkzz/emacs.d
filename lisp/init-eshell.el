@@ -63,7 +63,7 @@
 
   (setq eshell-highlight-prompt t
         eshell-prompt-function 'epe-theme-lambda
-        eshell-directory-name (concat kevin-cache-directory "eshell/")))
+        eshell-directory-name (concat kevin-cache-dir "eshell/")))
 
 
 (provide 'init-eshell)

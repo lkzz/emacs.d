@@ -17,9 +17,9 @@
   :commands magit-status
   :init
   (setq magit-auto-revert-mode nil
-        transient-levels-file (concat kevin-cache-directory "transient-levels.el")
-        transient-values-file (concat kevin-cache-directory "transient-values.el")
-        transient-history-file (concat kevin-cache-directory "transient/history.el"))
+        transient-levels-file (concat kevin-cache-dir "transient-levels.el")
+        transient-values-file (concat kevin-cache-dir "transient-values.el")
+        transient-history-file (concat kevin-cache-dir "transient/history.el"))
   :config
   (defun git-get-current-file-relative-path ()
     "Get current file relative path."
