@@ -88,36 +88,36 @@
           spaceline-workspace-numbers-unicode t)
     ;;define version control segment
     (spaceline-define-segment version-control
-      "Version control information."
-      (when vc-mode
-        (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
-          (powerline-raw (concat (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
-                                 " "
-                                 branch)))))
+                              "Version control information."
+                              (when vc-mode
+                                (let ((branch (mapconcat 'concat (cdr (split-string vc-mode "[:-]")) "-")))
+                                  (powerline-raw (concat (kevin/maybe-alltheicon "git" :face 'warning :v-adjust -0.05)
+                                                         " "
+                                                         branch)))))
     ;;define major mode segment
     (spaceline-define-segment major-mode
-      "Return simplifyed major mode name."
-      (let* ((major-name (format-mode-line "%m"))
-             (replace-table '(
-                              Emacs-Lisp "Elisp"
-                              Shell-script ""
-                              Python ""
-                              Go ""
-                              C++//l "C++"
-                              Protocol-Buffers//l "PB"
-                              Fundamental ""))
-             (replace-name (plist-get replace-table (intern major-name))))
-        (if replace-name
-            replace-name major-name)))
+                              "Return simplifyed major mode name."
+                              (let* ((major-name (format-mode-line "%m"))
+                                     (replace-table '(
+                                                      Emacs-Lisp "Elisp"
+                                                      Shell-script ""
+                                                      Python ""
+                                                      Go ""
+                                                      C++//l "C++"
+                                                      Protocol-Buffers//l "PB"
+                                                      Fundamental ""))
+                                     (replace-name (plist-get replace-table (intern major-name))))
+                                (if replace-name
+                                    replace-name major-name)))
     ;; define buffer id segment
     (spaceline-define-segment buffer-id
-      "Shorten buufer fileanme."
-      (when (buffer-file-name)
-        (concat
-         (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
-         " "
-         (shorten-directory default-directory 6)
-         (file-relative-name buffer-file-name)))))
+                              "Shorten buufer fileanme."
+                              (when (buffer-file-name)
+                                (concat
+                                 (kevin/maybe-faicon-icon "floppy-o" :face 'warning :v-adjust -0.05)
+                                 " "
+                                 (shorten-directory default-directory 6)
+                                 (file-relative-name buffer-file-name)))))
 
   (use-package spaceline-config
     :ensure nil
@@ -142,30 +142,30 @@
       (spaceline-toggle-minor-modes-off))
     ;; custom spaceline theme
     (spaceline-compile
-      ;; define spaceline theme name: spaceline-ml-custom
-      "custom"
-      ;; left side
-      '(((((persp-name :fallback workspace-number) window-number) :separator "")
-         :fallback evil-state
-         :face highlight-face
-         :priority 100)
-        (anzu :priority 95)
-        ((buffer-id) :priority 98)
-        (process :when active)
-        ((flycheck-error flycheck-warning flycheck-info) :when active :priority 99)
-        (version-control :when active :priority 97)
-        (org-pomodoro :when active)
-        (org-clock :when active)
-        (nyan-cat :when active :priority 70)
-        (major-mode :when active :priority 79)
-        (minor-modes :when active :priority 78))
-      ;; right side
-      '((purpose :priority 94)
-        (selection-info :priority 95)
-        input-method
-        ((buffer-encoding-abbrev line-column) :separator "|" :priority 96)
-        (global :when active)
-        (hud :priority 99)))
+     ;; define spaceline theme name: spaceline-ml-custom
+     "custom"
+     ;; left side
+     '(((((persp-name :fallback workspace-number) window-number) :separator "")
+        :fallback evil-state
+        :face highlight-face
+        :priority 100)
+       (anzu :priority 95)
+       ((buffer-id) :priority 98)
+       (process :when active)
+       ((flycheck-error flycheck-warning flycheck-info) :when active :priority 99)
+       (version-control :when active :priority 97)
+       (org-pomodoro :when active)
+       (org-clock :when active)
+       (nyan-cat :when active :priority 70)
+       (major-mode :when active :priority 79)
+       (minor-modes :when active :priority 78))
+     ;; right side
+     '((purpose :priority 94)
+       (selection-info :priority 95)
+       input-method
+       ((buffer-encoding-abbrev line-column) :separator "|" :priority 96)
+       (global :when active)
+       (hud :priority 99)))
 
     (setq-default mode-line-format '("%e" (:eval (spaceline-ml-custom))))))
 

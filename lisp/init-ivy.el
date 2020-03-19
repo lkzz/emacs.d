@@ -77,7 +77,7 @@
   (use-package amx
     :init
     (setq amx-history-length 10
-            amx-save-file (concat kevin-cache-directory "amx-items")))
+          amx-save-file (concat kevin-cache-directory "amx-items")))
 
   ;; when swiper-action-recenter non-nil, frame blink in terminal
   (if (display-graphic-p)
@@ -97,7 +97,7 @@
     :hook (counsel-mode . counsel-projectile-mode)
     :init (setq counsel-projectile-grep-initial-input '(ivy-thing-at-point)))
 
-    ;; More friendly interface for ivy
+  ;; More friendly interface for ivy
   (use-package all-the-icons-ivy-rich
     :if (display-graphic-p)
     :init (setq all-the-icons-ivy-rich-icon-size 0.85)
@@ -106,10 +106,10 @@
   ;; More friendly display transformer for Ivy
   (use-package ivy-rich
     :hook (;; Must load after `counsel-projectile'
-            (counsel-projectile-mode . ivy-rich-mode)
-            (ivy-rich-mode . (lambda ()
-                                "Use abbreviate in `ivy-rich-mode'."
-                                (setq ivy-virtual-abbreviate
+           (counsel-projectile-mode . ivy-rich-mode)
+           (ivy-rich-mode . (lambda ()
+                              "Use abbreviate in `ivy-rich-mode'."
+                              (setq ivy-virtual-abbreviate
                                     (or (and ivy-rich-mode 'abbreviate) 'name)))))
     :init
     ;; For better performance
@@ -118,23 +118,23 @@
   (use-package prescient
     :init
     (setq prescient-history-length 2000
-            prescient-save-file (concat kevin-cache-directory "prescient-items")
-            prescient-filter-method '(literal regexp))
+          prescient-save-file (concat kevin-cache-directory "prescient-items")
+          prescient-filter-method '(literal regexp))
     :config
     (prescient-persist-mode 1))
 
   (use-package ivy-prescient
     :config
     (setq ivy-prescient-sort-commands
-            '(:not counsel-grep
-                counsel-rg
-                counsel-switch-buffer
-                ivy-switch-buffer
-                swiper
-                swiper-multi))
+          '(:not counsel-grep
+                 counsel-rg
+                 counsel-switch-buffer
+                 ivy-switch-buffer
+                 swiper
+                 swiper-multi))
     (setq ivy-prescient-retain-classic-highlighting t
-            ivy-prescient-enable-filtering nil
-            ivy-prescient-enable-sorting t)
+          ivy-prescient-enable-filtering nil
+          ivy-prescient-enable-sorting t)
     (ivy-prescient-mode 1))
 
   )
