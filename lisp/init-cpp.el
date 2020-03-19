@@ -17,19 +17,19 @@
   :mode ("\\.h|\\.cpp" . c++-mode)
   :hook ((c-mode c++-mode) . kevin/cxx-mode-setup)
   :bind (:map c++-mode-map
-          ("C-c C-o" . ff-find-other-file))
+              ("C-c C-o" . ff-find-other-file))
   :init
   (setq cc-other-file-alist
-    '(("\\.c\\'"   (".h"))
-       ("\\.C\\'"   (".h" ".hpp" ".hxx"))
-       ("\\.cc\\'"  (".h" ".hpp" ".hxx"))
-       ("\\.cpp\\'" (".h" ".hpp" ".hxx"))
-       ("\\.cxx\\'" (".h" ".hpp" ".hxx"))
-       ("\\.tpp\\'" (".h" ".hpp" ".hxx"))
-       ("\\.tcc\\'" (".h" ".hpp" ".hxx"))
-       ("\\.h\\'"   (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".hxx" ".hpp"))
-       ("\\.hpp\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))
-       ("\\.hxx\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))))
+        '(("\\.c\\'"   (".h"))
+          ("\\.C\\'"   (".h" ".hpp" ".hxx"))
+          ("\\.cc\\'"  (".h" ".hpp" ".hxx"))
+          ("\\.cpp\\'" (".h" ".hpp" ".hxx"))
+          ("\\.cxx\\'" (".h" ".hpp" ".hxx"))
+          ("\\.tpp\\'" (".h" ".hpp" ".hxx"))
+          ("\\.tcc\\'" (".h" ".hpp" ".hxx"))
+          ("\\.h\\'"   (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".hxx" ".hpp"))
+          ("\\.hpp\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))
+          ("\\.hxx\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))))
   :config
   (use-package modern-cpp-font-lock
     :diminish modern-c++-font-lock-mode
@@ -47,7 +47,7 @@
       (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))
         (setq clang-format-style-option "file"))
       (if (region-active-p)
-        (clang-format-region (region-beginning) (region-end))
+          (clang-format-region (region-beginning) (region-end))
         (clang-format-buffer))))
 
   ;; c/c++ code format
@@ -60,9 +60,9 @@
     (setq c-default-style "horstmann")
     ;; add horstmann style - copy bsd style
     (c-add-style "horstmann"
-      '("bsd"
-         (c-offsets-alist
-           (case-label . +))))
+                 '("bsd"
+                   (c-offsets-alist
+                    (case-label . +))))
     (setq c-basic-offset 4)
     ;; don't mix tab and space indents
     (setq indent-tabs-mode nil)

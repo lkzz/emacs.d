@@ -44,5 +44,5 @@
         projectile-completion-system 'ivy)
   (add-to-list 'projectile-globally-ignored-directories "build"))
 
-  (provide 'init-projectile)
+(provide 'init-projectile)
 ;;; init-projectile ends here

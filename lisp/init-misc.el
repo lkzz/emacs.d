@@ -46,25 +46,25 @@
 (use-package recentf
   :ensure nil
   :hook ((after-init . recentf-mode)
-          (kill-emacs-hook . recentf-cleanup))
+         (kill-emacs-hook . recentf-cleanup))
   :init (setq recentf-max-saved-items 500
-          recentf-save-file (concat kevin-cache-directory "recentf")
-          recentf-auto-cleanup 'never
-          recentf-exclude '("/tmp/"
-                             "recentf$"
-                             "\\.cask$"
-                             "\\.mkv$"
-                             "\\.mp[34]$"
-                             "\\.avi$"
-                             "\\.wav$"
-                             "\\.pdf$"
-                             "\\.docx?$"
-                             "\\.xlsx?$"
-                             "url"
-                             "COMMIT_EDITMSG\\'"
-                             "bookmarks"
-                             "pyim"
-                             (lambda (file) (file-in-directory-p file package-user-dir))))
+              recentf-save-file (concat kevin-cache-directory "recentf")
+              recentf-auto-cleanup 'never
+              recentf-exclude '("/tmp/"
+                                "recentf$"
+                                "\\.cask$"
+                                "\\.mkv$"
+                                "\\.mp[34]$"
+                                "\\.avi$"
+                                "\\.wav$"
+                                "\\.pdf$"
+                                "\\.docx?$"
+                                "\\.xlsx?$"
+                                "url"
+                                "COMMIT_EDITMSG\\'"
+                                "bookmarks"
+                                "pyim"
+                                (lambda (file) (file-in-directory-p file package-user-dir))))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude))
 
@@ -77,7 +77,7 @@
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
   :diminish aggressive-indent-mode
-  :hook (after-init . global-aggressive-indent-mode)
+  :hook (after-init . aggressive-indent-mode)
   :config
   (setq-default aggressive-indent-comments-too t)
   ;; NOTE: Disable in big files due to the performance issues
