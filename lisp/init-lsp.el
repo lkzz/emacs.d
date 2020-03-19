@@ -33,7 +33,7 @@
               ([remap xref-find-definitions] . lsp-find-definition)
               ([remap xref-find-references] . lsp-find-references))
   :init
-  (setq lsp-session-file (concat kevin-cache-directory "lsp-session-v1")
+  (setq lsp-session-file (concat kevin-cache-dir "lsp-session-v1")
         ;;prefer flycheck
         lsp-diagnostic-package :flycheck
         lsp-auto-guess-root t

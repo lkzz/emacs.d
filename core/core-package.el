@@ -1,4 +1,4 @@
-;;; init-package.el --- elpa config. -*- lexical-binding: t; -*-
+;;; core-package.el --- package install config. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2020  Kevin Leung
 ;;
@@ -55,5 +55,5 @@
 (use-package posframe)
 (use-package hydra)
 
-(provide 'init-package)
-;;; init-package.el ends here
+(provide 'core-package)
+;;; core-package.el ends here

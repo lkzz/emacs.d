@@ -92,18 +92,16 @@
         (setq flycheck-posframe-warning-prefix "⚠ "
               flycheck-posframe-info-prefix "··· "
               flycheck-posframe-error-prefix "✕ ")
-        (after! company
+        (with-eval-after-load 'company
           ;; Don't display popups if company is open
           (add-hook 'flycheck-posframe-inhibit-functions #'company--active-p))
-        (after! evil
+        (with-eval-after-load 'evil
           ;; Don't display popups while in insert or replace mode, as it can affect
           ;; the cursor's position or cause disruptive input delays.
           (add-hook 'flycheck-posframe-inhibit-functions #'evil-insert-state-p)
           (add-hook 'flycheck-posframe-inhibit-functions #'evil-replace-state-p)))
     (use-package flycheck-popup-tip
-      :hook (flycheck-mode . flycheck-popup-tip-mode)))
-
-  )
+      :hook (flycheck-mode . flycheck-popup-tip-mode))))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here

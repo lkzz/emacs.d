@@ -74,7 +74,7 @@
   ;; Better sorting and filtering
   (use-package company-prescient
     :init
-    (setq prescient-save-file (concat kevin-cache-directory "prescient-save.el")))
+    (setq prescient-save-file (concat kevin-cache-dir "prescient-save.el")))
 
   ;; This package requires emacs 26, not compatible with emacs in a tty.
   (use-package company-box

@@ -53,7 +53,7 @@
   (setq undo-tree-auto-save-history nil
         undo-tree-visualizer-timestamps t
         undo-tree-visualizer-diff t
-        undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-directory "undo-tree-history"))))
+        undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-dir "undo-tree-history"))))
   ;; `C-g'to close doc
   (advice-add #'keyboard-quit :before #'(lambda ()
                                           (if (eq major-mode 'undo-tree-visualizer-mode)

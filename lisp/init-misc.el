@@ -17,7 +17,7 @@
 (use-package bookmark
   :ensure nil
   :init
-  (setq bookmark-default-file (concat kevin-cache-directory "bookmarks")))
+  (setq bookmark-default-file (concat kevin-cache-dir "bookmarks")))
 
 ;; Elec pair
 (use-package elec-pair
@@ -40,7 +40,7 @@
 ;; History
 (use-package saveplace
   :ensure nil
-  :init (setq save-place-file (concat kevin-cache-directory "saveplace"))
+  :init (setq save-place-file (concat kevin-cache-dir "saveplace"))
   :hook (after-init . save-place-mode))
 
 (use-package recentf
@@ -48,7 +48,7 @@
   :hook ((after-init . recentf-mode)
          (kill-emacs-hook . recentf-cleanup))
   :init (setq recentf-max-saved-items 500
-              recentf-save-file (concat kevin-cache-directory "recentf")
+              recentf-save-file (concat kevin-cache-dir "recentf")
               recentf-auto-cleanup 'never
               recentf-exclude '("/tmp/"
                                 "recentf$"
@@ -104,8 +104,7 @@
   :ensure nil
   :hook (after-init . savehist-mode)
   :init
-  (setq savehist-file (concat kevin-cache-directory "savehist")
-        enable-recursive-minibuffers t
+  (setq savehist-file (concat kevin-cache-dir "savehist")
         history-length 1000
         savehist-additional-variables '(mark-ring
                                         global-mark-ring

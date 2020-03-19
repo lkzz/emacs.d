@@ -37,8 +37,8 @@
              projectile-vc)
   :hook (after-init . projectile-mode)
   :config
-  (setq projectile-cache-file (concat kevin-cache-directory "projectile.cache")
-        projectile-known-projects-file (concat kevin-cache-directory "projectile-bookmarks.eld")
+  (setq projectile-cache-file (concat kevin-cache-dir "projectile.cache")
+        projectile-known-projects-file (concat kevin-cache-dir "projectile-bookmarks.eld")
         projectile-enable-caching t
         projectile-sort-order 'recentf
         projectile-completion-system 'ivy)

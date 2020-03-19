@@ -20,7 +20,7 @@
   ;; Enable Cache
   (setq url-automatic-caching t)
   ;; Set file path for saving search history
-  (setq youdao-dictionary-search-history-file (expand-file-name "youdao" kevin-cache-directory))
+  (setq youdao-dictionary-search-history-file (expand-file-name "youdao" kevin-cache-dir))
   ;; Enable Chinese word segmentation support
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 
@@ -74,7 +74,7 @@
   ;; 激活 basedict 拼音词库
   (use-package pyim-basedict
     :config (pyim-basedict-enable))
-  (setq pyim-dcache-directory (expand-file-name "pyim" kevin-cache-directory))
+  (setq pyim-dcache-directory (expand-file-name "pyim" kevin-cache-dir))
   (setq default-input-method "pyim")
   ;; 使用 emacs thread 来生成 dcache。
   (setq pyim-dcache-prefer-emacs-thread t)

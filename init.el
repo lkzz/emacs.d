@@ -44,45 +44,21 @@
 (add-hook 'focus-out-hook #'garbage-collect)
 
 ;;----------------------------------------------------------------------------
-;; Add customized directories to load-path.
+;; Load the heart of Doom Emacs
 ;;----------------------------------------------------------------------------
-;; Optimize: Force "lisp"" and "site-lisp" at the head to reduce the startup time.
-(defun update-load-path (&rest _)
-  "Update `load-path'."
-  (push (expand-file-name "core" user-emacs-directory) load-path)
-  (push (expand-file-name "lisp" user-emacs-directory) load-path))
-
-(advice-add #'package-initialize :after #'update-load-path)
-(update-load-path)
+(load (concat user-emacs-directory "core/core") nil 'nomessage)
+(kevin/initialize-core)
 
 ;;----------------------------------------------------------------------------
-;; be quiet at startup; don't load or display anything unnecessary
+;; Be quiet at startup; don't load or display anything unnecessary
 ;;----------------------------------------------------------------------------
 (advice-add #'display-startup-echo-area-message :override #'ignore)
 
 ;;----------------------------------------------------------------------------
-;; Load core files first.
-;;----------------------------------------------------------------------------
-(require 'init-package)
-(require 'init-const)
-(require 'init-funcs)
-
-;;----------------------------------------------------------------------------
-;; Load custom file
-;;----------------------------------------------------------------------------
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file 'no-error 'no-message)
-
-;;----------------------------------------------------------------------------
-;; basic config
-;;----------------------------------------------------------------------------
-(require 'init-basic)
-(require 'init-osx)
-(require 'init-evil)
-
-;;----------------------------------------------------------------------------
 ;; personal package config
 ;;----------------------------------------------------------------------------
+(require 'init-osx)
+(require 'init-evil)
 (require 'init-ui)
 (require 'init-font)
 (require 'init-dashboard)
@@ -119,6 +95,5 @@
 (require 'init-filetree)
 (require 'init-window)
 (require 'init-shackle)
-(require 'init-keybind)
 
 ;;; init.el ends here
