@@ -21,46 +21,6 @@
         transient-values-file (concat kevin-cache-dir "transient-values.el")
         transient-history-file (concat kevin-cache-dir "transient/history.el"))
   :config
-  (defun git-get-current-file-relative-path ()
-    "Get current file relative path."
-    (replace-regexp-in-string (concat "^" (file-name-as-directory default-directory))
-                              ""
-                              buffer-file-name))
-
-  (defun kevin/git-checkout-current-file ()
-    "Git checkout current file."
-    (interactive)
-    (when (and (buffer-file-name)
-               (yes-or-no-p (format "git checkout %s?"
-                                    (file-name-nondirectory (buffer-file-name)))))
-      (let* ((filename (git-get-current-file-relative-path)))
-        (shell-command (concat "git checkout " filename))
-        (kevin/revert-buffer-no-confirm)
-        (message "DONE! git checkout %s" filename))))
-
-  (defun kevin/git-add-current-file ()
-    "Git add file of current buffer."
-    (interactive)
-    (let ((filename))
-      (when buffer-file-name
-        (setq filename (git-get-current-file-relative-path))
-        (shell-command (concat "git add " filename))
-        (message "DONE! git add %s" filename))))
-
-  (defun kevin/magit-display-buffer-function (buffer)
-    (if magit-display-buffer-noselect
-        ;; the code that called `magit-display-buffer-function'
-        ;; expects the original window to stay alive, we can't go
-        ;; fullscreen
-        (magit-display-buffer-traditional buffer)
-      (delete-other-windows)
-      ;; make sure the window isn't dedicated, otherwise
-      ;; `set-window-buffer' throws an error
-      (set-window-dedicated-p nil nil)
-      (set-window-buffer nil buffer)
-      ;; return buffer's window
-      (get-buffer-window buffer)))
-
   ;; display buffer fullframe
   (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
   ;; see https://chris.beams.io/posts/git-commit/
@@ -73,38 +33,6 @@
     :after evil
     :init (evil-magit-init)
     :hook (git-commit-mode . evil-insert-state))
-
-  ;; Pop up last commit information of current line
-  (use-package git-messenger
-    :bind (("C-x v m" . git-messenger:popup-message))
-    :commands (git-messenger:copy-message
-               git-messenger:popup-message
-               git-messenger:show-detail)
-    :init
-    ;; Use magit-show-commit for showing status/diff commands
-    (setq git-messenger:use-magit-popup t
-          git-messenger:show-detail t))
-
-  ;; Walk through git revisions of a file
-  (use-package git-timemachine
-    :custom-face
-    (git-timemachine-minibuffer-author-face ((t (:inherit success))))
-    (git-timemachine-minibuffer-detail-face ((t (:inherit warning))))
-    :init
-    (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
-                                                 (call-interactively 'git-timemachine))
-                                               :post (git-timemachine-quit)
-                                               :color pink ;; toggle :foreign-keys run
-                                               :hint nil)
-      "
-[_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit
-"
-      ("c" git-timemachine-show-current-revision)
-      ("g" git-timemachine-show-nth-revision)
-      ("p" git-timemachine-show-previous-revision)
-      ("n" git-timemachine-show-next-revision)
-      ("Y" git-timemachine-kill-revision)
-      ("q" nil exit: t)))
 
   ;; Git modes
   (use-package gitconfig-mode
@@ -199,6 +127,38 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
     ;; Display margin since the fringe is unavailable in tty
     (diff-hl-margin-mode 1)))
 
+;; Walk through git revisions of a file
+(use-package git-timemachine
+  :commands (git-timemachine
+             git-timemachine-quit)
+  :custom-face
+  (git-timemachine-minibuffer-author-face ((t (:inherit success))))
+  (git-timemachine-minibuffer-detail-face ((t (:inherit warning))))
+  :init
+  (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
+                                               (call-interactively 'git-timemachine))
+                                             :post (git-timemachine-quit)
+                                             :color pink ;; toggle :foreign-keys run
+                                             :hint nil)
+    "
+[_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit
+"
+    ("c" git-timemachine-show-current-revision)
+    ("g" git-timemachine-show-nth-revision)
+    ("p" git-timemachine-show-previous-revision)
+    ("n" git-timemachine-show-next-revision)
+    ("Y" git-timemachine-kill-revision)
+    ("q" nil exit: t)))
+
+;; Pop up last commit information of current line
+(use-package git-messenger
+  :commands (git-messenger:popup-message
+             git-messenger:show-detail)
+  :bind (("C-x v m" . git-messenger:popup-message))
+  :init
+  ;; Use magit-show-commit for showing status/diff commands
+  (setq git-messenger:use-magit-popup t
+        git-messenger:show-detail t))
 
 (provide 'init-git)
 ;;; init-git ends here

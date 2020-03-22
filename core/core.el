@@ -40,6 +40,12 @@
 (defconst kevin-cache-dir (expand-file-name "cache/" user-emacs-directory)
   "Emacs cache directory.")
 
+(defconst kevin-autoload-file (concat kevin-cache-dir "loaddefs.el")
+  "This file is responsible for informing emacs where to find all autoload function in core/autoload/*.el")
+
+(defvar kevin-eshell-height 35
+  "Percentage for shell-buffer window height.")
+
 ;; Ensure core dir is in `load-path'
 (add-to-list 'load-path (file-name-directory load-file-name))
 

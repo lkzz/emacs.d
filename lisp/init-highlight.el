@@ -35,10 +35,6 @@
         show-paren-when-point-inside-paren t
         show-paren-when-point-in-periphery t))
 
-(defun kevin/disable-highlight-indent-guides ()
-  (when highlight-indent-guides-mode
-    (highlight-indent-guides-mode -1)))
-
 ;; Highlight indent guide.
 (use-package highlight-indent-guides
   :diminish highlight-indent-guides-mode

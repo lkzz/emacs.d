@@ -13,40 +13,6 @@
 ;;
 ;;; Code:
 
-;; fix icon background color
-;; https://github.com/domtronn/all-the-icons.el/issues/131
-(defun kevin/propertize-icon (icon)
-  (add-face-text-property
-   0 (length icon)
-   :inherit t icon)
-  icon)
-
-;;;###autload
-(defun kevin/maybe-alltheicon (&rest args)
-  "Display octicon via `ARGS'."
-  (when (display-graphic-p)
-    (kevin/propertize-icon (apply 'all-the-icons-alltheicon args))))
-
-;;;###autload
-(defun kevin/maybe-faicon-icon (&rest args)
-  "Display font awesome icon via `ARGS'."
-  (when (display-graphic-p)
-    (kevin/propertize-icon (apply 'all-the-icons-faicon args))))
-
-;;;###
-(defun shorten-directory (dir max-length)
-  "Setup a directory(`DIR') `MAX-LENGTH' characters."
-  (let ((path (reverse (split-string (abbreviate-file-name dir) "/")))
-        (output ""))
-    (when (and path (equal "" (car path)))
-      (setq path (cdr path)))
-    (while (and path (< (length output) (- max-length 4)))
-      (setq output (concat (car path) "/" output))
-      (setq path (cdr path)))
-    (when path
-      (setq output (concat ".../" output)))
-    output))
-
 (use-package nyan-mode
   :if (display-graphic-p)
   :init

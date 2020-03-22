@@ -27,6 +27,7 @@
          ([remap amx] . counsel-M-x)
          ([remap find-file] . counsel-find-file)
          ([remap switch-to-buffer] . counsel-switch-buffer)
+         ([remap load-theme] . counsel-load-theme)
          ("C-x j" . counsel-mark-ring)
          ("C-c C-r" . counsel-recentf)
          ("C-c C-p" . counsel-package)
