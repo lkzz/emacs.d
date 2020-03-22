@@ -16,10 +16,7 @@
 (use-package magit
   :commands magit-status
   :init
-  (setq magit-auto-revert-mode nil
-        transient-levels-file (concat kevin-cache-dir "transient-levels.el")
-        transient-values-file (concat kevin-cache-dir "transient-values.el")
-        transient-history-file (concat kevin-cache-dir "transient/history.el"))
+  (setq magit-auto-revert-mode nil)
   :config
   ;; display buffer fullframe
   (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
@@ -33,17 +30,6 @@
     :after evil
     :init (evil-magit-init)
     :hook (git-commit-mode . evil-insert-state))
-
-  ;; Git modes
-  (use-package gitconfig-mode
-    :mode (("/\\.?git/?config\\'" . gitconfig-mode)
-           ("/\\.gitmodules\\'" . gitconfig-mode)
-           ("/_gitconfig\\'" . gitconfig-mode)))
-
-  (use-package gitignore-mode
-    :mode (("/\\.gitignore\\'" . gitignore-mode)
-           ("/\\.git/info/exclude\\'" . gitignore-mode)
-           ("/git/ignore\\'" . gitignore-mode)))
 
   (use-package smerge-mode
     :ensure nil
@@ -86,6 +72,17 @@
       ("r" smerge-resolve)
       ("R" smerge-kill-current)
       ("q" nil :color blue))))
+
+;; Git modes
+(use-package gitconfig-mode
+  :mode (("/\\.?git/?config\\'" . gitconfig-mode)
+         ("/\\.gitmodules\\'" . gitconfig-mode)
+         ("/_gitconfig\\'" . gitconfig-mode)))
+
+(use-package gitignore-mode
+  :mode (("/\\.gitignore\\'" . gitignore-mode)
+         ("/\\.git/info/exclude\\'" . gitignore-mode)
+         ("/git/ignore\\'" . gitignore-mode)))
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
