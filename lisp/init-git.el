@@ -29,18 +29,18 @@
   (use-package evil-magit
     :after evil
     :init (evil-magit-init)
-    :hook (git-commit-mode . evil-insert-state))
+    :hook (git-commit-mode . evil-insert-state)))
 
-  (use-package smerge-mode
-    :ensure nil
-    :diminish smerge-mode
-    :init
-    (defhydra hydra-smerge-mode (:hint nil
-                                       :pre (if (not smerge-mode) (smerge-mode 1))
-                                       ;; Disable `smerge-mode' when quitting hydra if
-                                       ;; no merge conflicts remain.
-                                       :post (smerge-auto-leave))
-      "
+(use-package smerge-mode
+  :ensure nil
+  :diminish smerge-mode
+  :init
+  (defhydra hydra-smerge-mode (:hint nil
+                                     :pre (if (not smerge-mode) (smerge-mode 1))
+                                     ;; Disable `smerge-mode' when quitting hydra if
+                                     ;; no merge conflicts remain.
+                                     :post (smerge-auto-leave))
+    "
                                                          [smerge]
   Movement   Keep           Diff              Other
   ╭─────────────────────────────────────────────────────────╯
@@ -51,27 +51,28 @@
      ^_C-j_^     [_RET_] current  [_E_] ediff                 ╭──────────
      ^_G_^                                                │ [_q_] quit
 "
-      ("g" (progn (goto-char (point-min)) (smerge-next)))
-      ("G" (progn (goto-char (point-max)) (smerge-prev)))
-      ("C-j" smerge-next)
-      ("C-k" smerge-prev)
-      ("j" next-line)
-      ("k" previous-line)
-      ("b" smerge-keep-base)
-      ("u" smerge-keep-upper)
-      ("l" smerge-keep-lower)
-      ("a" smerge-keep-all)
-      ("RET" smerge-keep-current)
-      ("\C-m" smerge-keep-current)
-      ("<" smerge-diff-base-upper)
-      ("=" smerge-diff-upper-lower)
-      (">" smerge-diff-base-lower)
-      ("H" smerge-refine)
-      ("E" smerge-ediff)
-      ("C" smerge-combine-with-next)
-      ("r" smerge-resolve)
-      ("R" smerge-kill-current)
-      ("q" nil :color blue))))
+    ("g" (progn (goto-char (point-min)) (smerge-next)))
+    ("G" (progn (goto-char (point-max)) (smerge-prev)))
+    ("C-j" smerge-next)
+    ("C-k" smerge-prev)
+    ("j" next-line)
+    ("k" previous-line)
+    ("b" smerge-keep-base)
+    ("u" smerge-keep-upper)
+    ("l" smerge-keep-lower)
+    ("a" smerge-keep-all)
+    ("RET" smerge-keep-current)
+    ("\C-m" smerge-keep-current)
+    ("<" smerge-diff-base-upper)
+    ("=" smerge-diff-upper-lower)
+    (">" smerge-diff-base-lower)
+    ("H" smerge-refine)
+    ("E" smerge-ediff)
+    ("C" smerge-combine-with-next)
+    ("r" smerge-resolve)
+    ("R" smerge-kill-current)
+    ("q" nil :color blue)))
+
 
 ;; Git modes
 (use-package gitconfig-mode
