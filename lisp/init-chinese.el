@@ -25,7 +25,6 @@
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 
 (use-package rime
-  :defer t
   :load-path "site-lisp/emacs-rime"
   :init
   (setq module-file-suffix ".so")

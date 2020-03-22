@@ -13,7 +13,12 @@ clean:
 	@rm -rf projectile* places recentf transient
 	@echo "make clean done."
 
-install:
+install_rime:
+	@wget https://github.com/rime/librime/releases/download/1.5.3/rime-1.5.3-osx.zip
+	@unzip rime-1.5.3-osx.zip -d ~/.emacs.d/librime
+	@rm -rf rime-1.5.3-osx.zip
+
+install: install_rime
 	@emacs --batch -l $(EMACS_DIR)/init.el
 	@echo "make install done."
 
