@@ -155,5 +155,12 @@
   ;; Text files could possibly be too long too
   (add-to-list 'so-long-target-modes 'text-mode))
 
+(use-package transient
+  :ensure nil
+  :init
+  (setq transient-levels-file (concat kevin-cache-dir "transient-levels.el")
+        transient-values-file (concat kevin-cache-dir "transient-values.el")
+        transient-history-file (concat kevin-cache-dir "transient/history.el")))
+
 (provide 'init-misc)
 ;;; init-misc.el ends here

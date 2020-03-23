@@ -7,9 +7,12 @@
 [submodule "site-lisp/aweshell"]
 	path = site-lisp/aweshell
 	url = https://github.com/manateelazycat/aweshell
-[submodule "site-lisp/liberime"]
-	path = site-lisp/liberime
-	url = https://github.com/merrickluo/liberime
 [submodule "site-lisp/emacs-maple-imenu"]
 	path = site-lisp/emacs-maple-imenu
 	url = https://github.com/honmaple/emacs-maple-imenu
+[submodule "site-lisp/awesome-tab"]
+	path = site-lisp/awesome-tab
+	url = https://github.com/manateelazycat/awesome-tab.git
+[submodule "site-lisp/emacs-rime"]
+	path = site-lisp/emacs-rime
+	url = https://github.com/DogLooksGood/emacs-rime.git

@@ -26,6 +26,7 @@
         aw-scope 'frame
         aw-background t))
 
+<<<<<<< HEAD
 ;;;###autoload
 (defun kevin/split-window-below-and-focus ()
   "Split the window vertically and focus the new window."
@@ -46,6 +47,8 @@
              (symbol-value golden-ratio-mode))
     (golden-ratio)))
 
+=======
+>>>>>>> 86a35645baa30e62aa55af45db39977c6302b667
 ;; Numbered window shortcuts
 (use-package winum
   :hook (after-init . winum-mode)
@@ -67,6 +70,7 @@
         cwm-incremental-padding t
         cwm-left-fringe-ratio 0))
 
+<<<<<<< HEAD
 ;;;###autoload
 (defun kevin/toggle-golden-ratio ()
   "Golden ratio mode toggle function."
@@ -81,6 +85,8 @@
       (message "golden ratio enabled")
       (golden-ratio))))
 
+=======
+>>>>>>> 86a35645baa30e62aa55af45db39977c6302b667
 (use-package golden-ratio
   :diminish golden-ratio-mode "ⓖ"
   :config

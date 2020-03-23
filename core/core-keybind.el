@@ -143,6 +143,7 @@
     "j c" 'avy-goto-char-2
     "j d" 'dired-jump
     "j f" 'beginning-of-defun
+    "j j" 'awesome-tab-ace-jump
     "j l" 'avy-goto-line
     "j m" '(kevin/jump-match-delimiter :wk "goto-match-delimiter")
     "j w" 'avy-goto-word-or-subword-1
@@ -188,7 +189,8 @@
     "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio")
     "t i" 'maple-imenu
     "t s" 'symbol-overlay-mode
-    "t t" '(kevin/toggle-aweshell :wk "shell")
+    "t t" '(hydra-awesome-tab/body :wk "switch tab")
+    "t '" '(kevin/toggle-aweshell :wk "shell")
     "w" '(nil :which-key "Window")
     "w c" 'centered-window-mode
     "w d" 'delete-window
