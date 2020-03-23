@@ -27,11 +27,7 @@
       (add-hook 'after-make-frame-functions
                 (lambda (frame)
                   (load-theme 'doom-dark+ t)))
-<<<<<<< HEAD
     (load-theme 'doom-dark+ t))
-=======
-    (load-theme 'doom-gruvbox t))
->>>>>>> 86a35645baa30e62aa55af45db39977c6302b667
   (toggle-frame-maximized))
 (add-hook 'after-init-hook 'kevin/load-theme)
 
@@ -166,8 +162,6 @@
         doom-modeline-buffer-modification-icon t
         doom-modeline-buffer-file-name-style 'auto))
 
-<<<<<<< HEAD
-=======
 (use-package awesome-tab
   :load-path "site-lisp/awesome-tab"
   :init
@@ -196,6 +190,5 @@
   :config
   (awesome-tab-mode t))
 
->>>>>>> 86a35645baa30e62aa55af45db39977c6302b667
 (provide 'init-ui)
 ;;; init-ui ends here
