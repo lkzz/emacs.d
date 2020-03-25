@@ -65,9 +65,13 @@
   ;; Shows icons
   (use-package all-the-icons-dired
     :diminish
-    :after all-the-icons
-    :custom-face (all-the-icons-dired-dir-face ((t (:foreground nil))))
-    :hook (dired-mode . all-the-icons-dired-mode))
+    :hook (dired-mode . all-the-icons-dired-mode)
+    :config
+    ;; FIXME: Refresh after creating or renaming the files/directories.
+    ;; @see https://github.com/jtbm37/all-the-icons-dired/issues/34.
+    (advice-add 'dired-do-create-files :around #'all-the-icons-dired--refresh-advice)
+    (advice-add 'dired-create-directory :around #'all-the-icons-dired--refresh-advice)
+    (advice-add #'all-the-icons-dired--refresh :override #'my-all-the-icons-dired--refresh))
 
   (use-package dired-x
     :ensure nil
