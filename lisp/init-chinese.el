@@ -26,8 +26,6 @@
 
 (use-package rime
   :load-path "site-lisp/emacs-rime"
-  :init
-  (setq module-file-suffix ".so")
   :custom
   (rime-librime-root "~/.emacs.d/librime/dist")
   (rime-user-data-dir "~/Dropbox/RimeSync")
