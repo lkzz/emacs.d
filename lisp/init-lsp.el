@@ -42,7 +42,7 @@
         ;; enable log only for debug
         lsp-log-io nil
         ;; completion
-        lsp-prefer-capf  nil
+        lsp-prefer-capf t
         ;; turn off for better performance
         lsp-enable-symbol-highlighting nil
         ;; Disable eldoc displays in minibuffer

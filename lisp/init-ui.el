@@ -61,6 +61,10 @@
                '("\\.go$" all-the-icons-fileicon "go" :face all-the-icons-blue))
   (add-to-list 'all-the-icons-mode-icon-alist
                '(go-mode all-the-icons-fileicon "go" :face all-the-icons-blue))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\go.mod$" all-the-icons-fileicon "go" :face all-the-icons-dblue))
+  (add-to-list 'all-the-icons-icon-alist
+               '("\\go.sum$" all-the-icons-fileicon "go" :face all-the-icons-dpurple))
   (add-to-list 'all-the-icons-mode-icon-alist
                '(xwidget-webkit-mode all-the-icons-faicon "chrome" :v-adjust -0.1 :face all-the-icons-blue))
   (add-to-list 'all-the-icons-mode-icon-alist
@@ -150,6 +154,7 @@
     (+ (frame-char-height) 2))
   (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
   (setq doom-modeline-bar-width 3
+        doom-modeline-env-version nil
         doom-modeline-icon (display-graphic-p)
         doom-modeline-major-mode-icon t
         doom-modeline-modal-icon t
