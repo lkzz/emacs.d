@@ -15,7 +15,9 @@
 
 (use-package dashboard
   :diminish page-break-lines-mode
-  :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
+  :hook (dashboard-mode . (lambda ()
+                            (setq-local frame-title-format "")
+                            (setq-local mode-line-format nil)))
   :init
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner (expand-file-name "banner/spacemacs.png" user-emacs-directory)

@@ -13,13 +13,22 @@
 ;;
 ;;; Code:
 
+;; Must before loading the theme
+(use-package solaire-mode
+  :functions persp-load-state-from-file
+  :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+         (minibuffer-setup . solaire-mode-in-minibuffer)
+         (after-load-theme . solaire-mode-swap-bg))
+  :init
+  (solaire-global-mode 1)
+  (advice-add #'persp-load-state-from-file :after #'solaire-mode-restore-persp-mode-buffers))
+
 (use-package doom-themes
   :defer t
   :config
   (setq doom-dark+-blue-modeline t)
   (doom-themes-org-config)
-  (doom-themes-neotree-config)
-  (load-theme 'doom-dark+ t))
+  (doom-themes-neotree-config))
 
 ;; 加载主题
 (defun kevin/load-theme ()
@@ -147,23 +156,25 @@
   (nyan-mode t))
 
 (use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
+  :hook ((prog-mode text-mode conf-mode) . doom-modeline-mode)
   :init
   (defun my-doom-modeline--font-height ()
     "Calculate the actual char height of the mode-line."
     (+ (frame-char-height) 2))
   (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
   (setq doom-modeline-bar-width 3
-        doom-modeline-env-version nil
+        doom-modeline-env-enable-python t
         doom-modeline-icon (display-graphic-p)
-        doom-modeline-major-mode-icon t
-        doom-modeline-modal-icon t
-        doom-modeline-major-mode-color-icon t
-        doom-modeline-buffer-state-icon t
         doom-modeline-minor-modes t
-        doom-modeline-buffer-encoding t
+        doom-modeline-major-mode-icon t
+        doom-modeline-major-mode-color-icon t
+        doom-modeline-modal-icon t
         doom-modeline-indent-info nil
+        doom-modeline-unicode-fallback t
         doom-modeline-enable-word-count t
+        doom-modeline-vcs-max-length 20
+        doom-modeline-buffer-encoding nil
+        doom-modeline-buffer-state-icon t
         doom-modeline-buffer-modification-icon t
         doom-modeline-buffer-file-name-style 'auto))
 
