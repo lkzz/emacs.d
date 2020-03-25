@@ -29,11 +29,11 @@
                             (all-the-icons-icon-for-dir
                              file
                              :face 'all-the-icons-dired-dir-face
-                             :height 0.85
+                             :height 1.0
                              :v-adjust all-the-icons-dired-v-adjust)
                           (all-the-icons-icon-for-file
                            file
-                           :height 0.85
+                           :height 1.0
                            :v-adjust all-the-icons-dired-v-adjust))))
               (if (member file '("." ".."))
                   (all-the-icons-dired--add-overlay (point) "  \t")

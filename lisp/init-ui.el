@@ -66,6 +66,7 @@
 (use-package all-the-icons
   :if (display-graphic-p)
   :config
+  (setq all-the-icons-scale-factor 0.86)
   (add-to-list 'all-the-icons-icon-alist
                '("\\.go$" all-the-icons-fileicon "go" :face all-the-icons-blue))
   (add-to-list 'all-the-icons-mode-icon-alist
