@@ -1,0 +1,163 @@
+# emacs.d
+
+* 简介
+参考 spacemacs 配置定制的个人在使用的 emacs 配置文件，主要适配 go 语言开发环境，采用 evil 模拟 vim 按键。
+[[file:screenshot.png]]
+* 安装
+#+BEGIN_SRC shell
+1. git clone https://github.com/lkzz/emacs.d ~/.emacs.d
+#+END_SRC
+
+#+BEGIN_SRC shell
+2. git submodule update --init --recursive
+#+END_SRC
+
+* 特性
+** 支持语言
+- golang,elisp,rust,lua
+- json,yaml,toml,markdown
+- bazel,protobu
+** 自动补全
+- company
+- company-box
+- company-english-helper
+** 错误检查
+- flycheck
+- avy-flycheck
+- flycheck-posframe
+** 版本控制
+- maigt
+- smerge
+- diff-hl
+- git-timemachine
+** 中文支持
+- cnfont
+- youdao dictionary
+- pyim
+- cal-china-x
+** 文件管理
+- dired
+- ranger
+- neotree
+** 窗口管理
+- ace-window
+- golden-ratio
+- resize-window
+- centered-window
+- window-numbering
+* 按键绑定
+主要参考 spacemacs 的按键绑定方式，详细快捷键如下：
+  * evil
+    | Key Binding    | Description                      |
+    |----------------+----------------------------------|
+    | ~leader-key a~ | ~mwim-beginning-of-code-or-line~ |
+    | ~leader-key w~ | ~evil-write~                     |
+    | ~leader-key W~ | ~evil-write-all~                 |
+    | ~leader-key q~ | ~evil-quit~                      |
+    | ~leader-key d~ | ~kill word~                      |
+    | ~leader-key y~ | ~copy word~                      |
+    | ~leader-key p~ | ~paste word~                     |
+    | ~C-w~          | ~evil-delete-backward-word~      |
+
+  * tab
+    | Key Binding     | Description                             |
+    |-----------------+-----------------------------------------|
+    | ~leader-key tt~ | ~awesome-tab-switch-group~              |
+    | ~leader-key ta~ | ~awesome-tab-select-beg-tab~            |
+    | ~leader-key te~ | ~awesome-tab-select-end-tab~            |
+    | ~leader-key th~ | ~awesome-tab-move-current-tab-to-left~  |
+    | ~leader-key tl~ | ~awesome-tab-move-current-tab-to-right~ |
+    | ~leader-key tn~ | ~awesome-tab-forward~                   |
+    | ~leader-key tp~ | ~awesome-tab-backward~                  |
+
+  * window
+    | Key Binding | Description                    |
+    |-------------+--------------------------------|
+    | ~SPC wo~    | ~switch other window~          |
+    | ~SPC wr~    | ~resize window~                |
+    | ~SPC wd~    | ~delete window~                |
+    | ~SPC wD~    | ~delete other window~          |
+    | ~SPC w/~    | ~split window right and focus~ |
+    | ~SPC w-~    | ~split window below and focus~ |
+    | ~SPC w1~    | ~select window 1~              |
+    | ~SPC w2~    | ~select window 2~              |
+    | ~SPC w3~    | ~select window 3~              |
+    | ~SPC w4~    | ~select window 4~              |
+
+  * toggle
+    | Key Binding | Description                       |
+    |-------------+-----------------------------------|
+    | ~SPC tb~    | ~toggle scroll bar~               |
+    | ~C-c te~    | ~toggle english helper~           |
+    | ~SPC tf~    | ~toggle neotree~                  |
+    | ~SPC tg~    | ~toggle golden ratio mode~        |
+    | ~SPC ti~    | ~toggle imenu~                    |
+    | ~SPC tn~    | ~toggle dispaly line number mode~ |
+    | ~SPC tw~    | ~toggle word wrap~                |
+    | ~SPC ts~    | ~toggle symbol overlay mode~      |
+    | ~SPC tt~    | ~toggle truncate line~            |
+    | ~SPC t-~    | ~toggle center mode~              |
+    | ~SPC t;~    | ~toggle fullscreen~               |
+    | ~SPC t'~    | ~toggle eshell~                   |
+    | ~SPC tm~    | ~toggle evil mc mode~             |
+
+  * bookmark
+    | Key Binding | Description               |
+    |-------------+---------------------------|
+    | ~SPC ms~    | ~bookmark-set~            |
+    | ~SPC mr~    | ~bookmark-rename~         |
+    | ~SPC md~    | ~bookmark-delete~         |
+    | ~SPC mj~    | ~helm-filtered-bookmarks~ |
+    | ~SPC ml~    | ~bookmark-bmenu-list~     |
+
+  * buffer
+    | Key Binding | Description             |
+    |-------------+-------------------------|
+    | ~SPC bb~    | ~ivy switch buffer~     |
+    | ~SPC bc~    | ~clent buffer~          |
+    | ~SPC be~    | ~eval buffer~           |
+    | ~SPC bd~    | ~kill this buffer~      |
+    | ~SPC bD~    | ~kill other buffer~     |
+    | ~SPC bk~    | ~kill buffer~           |
+    | ~SPC bl~    | ~ibuffer list buffer~   |
+    | ~SPC bm~    | ~kill all buffer~       |
+    | ~SPC bn~    | ~switch to next buffer~ |
+    | ~SPC bp~    | ~switch to prev buffer~ |
+    | ~SPC bs~    | ~save buffer~           |
+    | ~SPC bg~    | ~revert buffer~         |
+
+  * cursor move
+    | Key Binding | Description                  |
+    |-------------+------------------------------|
+    | ~C-a~       | ~mwim-beginning-of-line~     |
+    | ~C-e~       | ~mwim-end-of-code-or-line~   |
+    | ~SPC jc~    | ~ivy goto char~              |
+    | ~SPC jd~    | ~dired jump~                 |
+    | ~SPC jf~    | ~jump beginning of function~ |
+    | ~SPC jl~    | ~avy goto line~              |
+    | ~SPC jm~    | ~jump match delimiter~       |
+    | ~SPC jp~    | ~goto-match-parent~          |
+    | ~SPC jw~    | ~ivy goto word~              |
+
+  * application open
+    | Key Binding | Description               |
+    |-------------+---------------------------|
+    | ~SPC oa~    | ~counsel osx application~ |
+    | ~SPC oi~    | ~open init config file~   |
+    | ~SPC ot~    | ~open iterm~              |
+    | ~SPC ow~    | ~open wechat~             |
+    | ~SPC oy~    | ~open youdao directory~   |
+
+  * other
+    | Key Binding | Description               |
+    |-------------+---------------------------|
+    | ~C-c y~     | ~youdao directory search~ |
+    | ~C-\~       | ~pyim~                    |
+    | ~SPC s/~    | ~counsel rg search~       |
+    | ~SPC ss~    | ~swiper isearch~          |
+
+
+
+
+
+

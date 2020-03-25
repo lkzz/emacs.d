@@ -1,0 +1,18 @@
+[submodule "site-lisp/company-english-helper"]
+	path = site-lisp/company-english-helper
+	url = https://github.com/manateelazycat/company-english-helper.git
+[submodule "site-lisp/insert-translated-name"]
+	path = site-lisp/insert-translated-name
+	url = https://github.com/manateelazycat/insert-translated-name.git
+[submodule "site-lisp/aweshell"]
+	path = site-lisp/aweshell
+	url = https://github.com/manateelazycat/aweshell.git
+[submodule "site-lisp/emacs-maple-imenu"]
+	path = site-lisp/emacs-maple-imenu
+	url = https://github.com/honmaple/emacs-maple-imenu.git
+[submodule "site-lisp/awesome-tab"]
+	path = site-lisp/awesome-tab
+	url = https://github.com/manateelazycat/awesome-tab.git
+[submodule "site-lisp/emacs-rime"]
+	path = site-lisp/emacs-rime
+	url = https://github.com/DogLooksGood/emacs-rime.git
