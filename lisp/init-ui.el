@@ -27,7 +27,7 @@
       (add-hook 'after-make-frame-functions
                 (lambda (frame)
                   (load-theme 'doom-dark+ t)))
-    (load-theme 'doom-dark+ t))
+    (load-theme 'doom-one t))
   (toggle-frame-maximized))
 (add-hook 'after-init-hook 'kevin/load-theme)
 
