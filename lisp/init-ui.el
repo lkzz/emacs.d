@@ -66,7 +66,7 @@
 (use-package all-the-icons
   :if (display-graphic-p)
   :config
-  (setq all-the-icons-scale-factor 0.86)
+  (setq all-the-icons-scale-factor 0.9)
   (add-to-list 'all-the-icons-icon-alist
                '("\\.go$" all-the-icons-fileicon "go" :face all-the-icons-blue))
   (add-to-list 'all-the-icons-mode-icon-alist
@@ -157,7 +157,7 @@
   (nyan-mode t))
 
 (use-package doom-modeline
-  :hook ((prog-mode text-mode conf-mode) . doom-modeline-mode)
+  :hook (after-init . doom-modeline-mode)
   :init
   (defun my-doom-modeline--font-height ()
     "Calculate the actual char height of the mode-line."
@@ -178,6 +178,11 @@
         doom-modeline-buffer-state-icon t
         doom-modeline-buffer-modification-icon t
         doom-modeline-buffer-file-name-style 'auto))
+
+(use-package hide-mode-line
+  :hook ((neotree-mode . hide-mode-line-mode)
+         (dashboard-mode . hide-mode-line-mode)
+         (dired-mode . hide-mode-line-mode)))
 
 (use-package awesome-tab
   :disabled
