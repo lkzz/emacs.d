@@ -34,6 +34,7 @@
               ([remap xref-find-references] . lsp-find-references))
   :init
   (setq lsp-session-file (concat kevin-cache-dir "lsp-session-v1")
+        lsp-keymap-prefix "C-c l"
         ;;prefer flycheck
         lsp-diagnostic-package :flycheck
         lsp-auto-guess-root t
@@ -42,7 +43,7 @@
         ;; enable log only for debug
         lsp-log-io nil
         ;; completion
-        lsp-prefer-capf t
+        lsp-prefer-capf nil
         ;; turn off for better performance
         lsp-enable-symbol-highlighting nil
         ;; Disable eldoc displays in minibuffer
