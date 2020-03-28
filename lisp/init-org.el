@@ -96,7 +96,7 @@
            ("y" . ignore)
            ("a" . ignore))
     :config
-    (setq org-agenda-files '("~/Workspace/org")
+    (setq org-agenda-files '("~/Dropbox/Org/")
           ;; Set the agenda view to show the tasks on day/week/month/year
           org-agenda-span 'week
           ;; only keep agenda window,delete all other window

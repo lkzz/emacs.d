@@ -25,12 +25,18 @@
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 
 (use-package rime
-  :load-path "site-lisp/emacs-rime"
   :custom
-  (rime-librime-root "~/.emacs.d/librime/dist")
+  (rime-librime-root "~/Dropbox/librime/dist")
   (rime-user-data-dir "~/Dropbox/RimeSync")
   (default-input-method "rime")
-  (rime-show-candidate 'posframe))
+  (rime-show-candidate 'posframe)
+  :custom-face
+  (rime-code-face ((t (:foreground "#ee6363"))))
+  (rime-candidate-num-face ((t (:foreground "#ee6363"))))
+  :config
+  (setq rime-posframe-properties
+        (list :font "STKaiti-16"
+              :internal-border-width 10)))
 
 ;; Chinese calendar
 (use-package cal-china-x
