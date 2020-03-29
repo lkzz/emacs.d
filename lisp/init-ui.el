@@ -166,7 +166,7 @@
   (setq doom-modeline-bar-width 3
         doom-modeline-env-enable-python t
         doom-modeline-icon (display-graphic-p)
-        doom-modeline-minor-modes t
+        doom-modeline-minor-modes nil
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t
         doom-modeline-modal-icon t
