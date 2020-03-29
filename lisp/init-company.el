@@ -59,7 +59,7 @@
   (kevin/enable-company-backends-yas)
 
   ;; Enable yasnippet in backend: company-lsp
-  (advice-add #'lsp--auto-configure :after #'kevin/enable-company-backends-yas)
+  ;; (advice-add #'lsp--auto-configure :after #'kevin/enable-company-backends-yas)
 
   (defun my-company-yasnippet-disable-inline (fun command &optional arg &rest _ignore)
     "Enable yasnippet but disable it inline."
@@ -146,8 +146,8 @@ https://github.com/sebastiencs/company-box/issues/44"
                 (t . nil)))))
     (advice-add #'company-box-icons--elisp :override #'my-company-box-icons--elisp)
 
-      (when (and (display-graphic-p)
-              (require 'all-the-icons nil t))
+    (when (and (display-graphic-p)
+               (require 'all-the-icons nil t))
       (declare-function all-the-icons-faicon 'all-the-icons)
       (declare-function all-the-icons-material 'all-the-icons)
       (declare-function all-the-icons-octicon 'all-the-icons)

@@ -77,28 +77,9 @@
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
   :diminish aggressive-indent-mode
-  :hook (after-init . aggressive-indent-mode)
+  :hook (emacs-lisp-mode . aggressive-indent-mode)
   :config
-  (setq-default aggressive-indent-comments-too t)
-  ;; NOTE: Disable in big files due to the performance issues
-  ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
-  (add-hook 'find-file-hook
-            (lambda ()
-              (if (> (buffer-size) (* 3000 80))
-                  (aggressive-indent-mode -1))))
-  ;; Disable in some modes
-  (dolist (mode '(go-mode asm-mode web-mode html-mode css-mode robot-mode))
-    (push mode aggressive-indent-excluded-modes))
-  ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
-  (add-to-list 'aggressive-indent-dont-indent-if
-               '(and (or (derived-mode-p 'c-mode)
-                         (derived-mode-p 'c++-mode)
-                         (derived-mode-p 'csharp-mode)
-                         (derived-mode-p 'java-mode)
-                         ;; (derived-mode-p 'go-mode)
-                         (derived-mode-p 'swift-mode))
-                     (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                                         (thing-at-point 'line))))))
+  (setq-default aggressive-indent-comments-too t))
 
 (use-package savehist
   :ensure nil

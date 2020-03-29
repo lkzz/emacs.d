@@ -173,5 +173,8 @@
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 ;;============================ minibuffer end ======================================
 
+(add-hook 'window-setup-hook #'kevin/enable-menu-bar-in-gui)
+(add-hook 'after-make-frame-functions #'kevin/enable-menu-bar-in-gui)
+
 (provide 'core-ui)
 ;;; core-ui.el ends here

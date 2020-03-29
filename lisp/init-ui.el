@@ -31,14 +31,14 @@
   (doom-themes-neotree-config))
 
 ;; 加载主题
-(defun kevin/load-theme ()
-  (if (daemonp)
-      (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (load-theme 'doom-dark+ t)))
-    (load-theme 'doom-one t))
-  (toggle-frame-maximized))
-(add-hook 'after-init-hook 'kevin/load-theme)
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (load-theme 'doom-dark+ t)))
+  (load-theme 'doom-one t))
+
+;; 启动时默认最大化
+(toggle-frame-maximized)
 
 (use-package vi-tilde-fringe
   :if (fboundp 'set-fringe-mode)
@@ -184,34 +184,34 @@
          (dashboard-mode . hide-mode-line-mode)
          (dired-mode . hide-mode-line-mode)))
 
-(use-package awesome-tab
-  :disabled
-  :load-path "site-lisp/awesome-tab"
+
+(use-package centaur-tabs
+  :commands centaur-tabs-select-visible-tab
+  :hook ((dashboard-mode . centaur-tabs-local-mode)
+         (term-mode . centaur-tabs-local-mode)
+         (calendar-mode . centaur-tabs-local-mode)
+         (org-agenda-mode . centaur-tabs-local-mode)
+         (helpful-mode . centaur-tabs-local-mode))
   :init
-  (defhydra hydra-awesome-tab (:hint nil)
-    "
- ^^^^Fast Move             ^^^^Tab                      ^^Search            ^^Misc
--^^^^--------------------+-^^^^---------------------- -+^^-----------------+^^---------------------------
-   ^_k_^    prev group   | _C-a_/_C-e_   first/last    | _b_ search buffer | _C-k_   kill buffer
- _h_   _l_  switch tab   | _C-j_^^       ace jump      | _g_ search group  | _C-S-k_ kill others in group
-   ^_j_^    next group   | _C-h_/_C-l_   move current  | ^^                | _q_     quit
-"
-    ("h" awesome-tab-backward-tab)
-    ("j" awesome-tab-forward-group)
-    ("k" awesome-tab-backward-group)
-    ("l" awesome-tab-forward-tab)
-    ("C-a" awesome-tab-select-beg-tab :exit t)
-    ("C-e" awesome-tab-select-end-tab :exit t)
-    ("C-j" awesome-tab-ace-jump :exit t)
-    ("C-h" awesome-tab-move-current-tab-to-left)
-    ("C-l" awesome-tab-move-current-tab-to-right)
-    ("b" ivy-switch-buffer)
-    ("g" awesome-tab-counsel-switch-group)
-    ("C-k" kill-current-buffer)
-    ("C-S-k" awesome-tab-kill-other-buffers-in-current-group)
-    ("q" nil :color blue))
+  (global-set-key (kbd "s-1") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-2") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-3") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-4") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-5") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-6") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-7") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-8") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-9") 'centaur-tabs-select-visible-tab)
+  (global-set-key (kbd "s-0") 'centaur-tabs-select-visible-tab)
   :config
-  (awesome-tab-mode t))
+  (setq centaur-tabs-height 25
+        centaur-tabs-set-icons t
+        centaur-tabs-set-modified-marker t
+        centaur-tabs-style "bar"
+        centaur-tabs-set-bar 'under
+        x-underline-at-descent-line t)
+  (centaur-tabs-headline-match)
+  (centaur-tabs-mode t))
 
 (provide 'init-ui)
 ;;; init-ui ends here

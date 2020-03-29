@@ -15,15 +15,9 @@
 
 (use-package lsp-mode
   :diminish lsp-mode
-  :hook ((prog-mode . (lambda ()
-                        (unless (derived-mode-p 'emacs-lisp-mode 'lisp-mode)
-                          (lsp-deferred))))
-         (lsp-mode . (lambda ()
-                       ;; Integrate `which-key'
-                       (lsp-enable-which-key-integration)
-                       ;; Format and organize imports
-                       (add-hook 'before-save-hook #'lsp-format-buffer t t)
-                       (add-hook 'before-save-hook #'lsp-organize-imports t t))))
+  :commands lsp lsp-deferred
+  :hook ((go-mode . lsp-deferred)
+         (c++-mode . lsp-deferred))
   :bind (:map lsp-mode-map
               ("C-c C-d" . lsp-describe-thing-at-point)
               ("C-c C-r" . lsp-ui-peek-find-references)
@@ -33,8 +27,11 @@
               ([remap xref-find-definitions] . lsp-find-definition)
               ([remap xref-find-references] . lsp-find-references))
   :init
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
   (setq lsp-session-file (concat kevin-cache-dir "lsp-session-v1")
-        lsp-keymap-prefix "C-c l"
         ;;prefer flycheck
         lsp-diagnostic-package :flycheck
         lsp-auto-guess-root t
@@ -52,20 +49,16 @@
         lsp-keep-workspace-alive nil)
   :config
   (use-package lsp-ui
-    :hook (lsp-mode . lsp-ui-mode)
     :custom-face
     (lsp-ui-sideline-code-action ((t (:inherit warning))))
     :init (setq lsp-ui-doc-enable t
                 lsp-ui-doc-use-webkit nil
-                lsp-ui-doc-delay 0.5
+                lsp-ui-doc-delay 0.2
                 lsp-ui-doc-include-signature t
                 lsp-ui-doc-position 'at-point
                 lsp-ui-doc-border (face-foreground 'default)
                 lsp-eldoc-enable-hover nil ; Disable eldoc displays in minibuffer
-                lsp-ui-sideline-enable t
-                lsp-ui-sideline-show-hover nil
-                lsp-ui-sideline-show-diagnostics nil
-                lsp-ui-sideline-ignore-duplicate t
+                lsp-ui-sideline-enable nil
                 lsp-ui-imenu-enable t
                 lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
                                       ,(face-foreground 'font-lock-string-face)

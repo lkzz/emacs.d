@@ -189,7 +189,6 @@
     "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio")
     "t i" 'maple-imenu
     "t s" 'symbol-overlay-mode
-    "t t" '(hydra-awesome-tab/body :wk "switch tab")
     "t '" '(kevin/toggle-aweshell :wk "shell")
     "w" '(nil :which-key "Window")
     "w c" 'centered-window-mode
