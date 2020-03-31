@@ -186,6 +186,7 @@
 
 
 (use-package centaur-tabs
+  :if (display-graphic-p)
   :commands centaur-tabs-select-visible-tab
   :hook ((dashboard-mode . centaur-tabs-local-mode)
          (term-mode . centaur-tabs-local-mode)
