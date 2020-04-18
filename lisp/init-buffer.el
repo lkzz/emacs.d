@@ -31,31 +31,41 @@
                 (ibuffer-do-sort-by-alphabetic)))))
 
 (defun kevin/auto-save-buffer()
-  (ignore-errors
-    (save-excursion
-      (when (and
-             ;; filename is not empty
-             (buffer-file-name)
-             ;; buffer is modified
-             (buffer-modified-p)
-             ;; smerge mode is not active
-             (not smerge-mode)
-             ;; yassnippet is not active
-             (or (not (boundp 'yas--active-snippets))
-                 (not yas--active-snippets))
-             ;; company is not active
-             (or (not (boundp 'company-candidates))
-                 (not company-candidates))
-             ;; evil normal state
-             (evil-normal-state-p)
-             )
-        (basic-save-buffer)
-        (message "# saved %s" buffer-file-name))
+  (interactive)
+  (let ((autosave-buffer-list))
+    (ignore-errors
+      (save-excursion
+        (dolist (buf (buffer-list))
+          (set-buffer buf)
+          (when (and
+                 ;; filename is not empty
+                 (buffer-file-name)
+                 ;; buffer is modified
+                 (buffer-modified-p)
+                 ;; smerge mode is not active
+                 (not smerge-mode)
+                 ;; yassnippet is not active
+                 (or (not (boundp 'yas--active-snippets))
+                     (not yas--active-snippets))
+                 ;; company is not active
+                 (or (not (boundp 'company-candidates))
+                     (not company-candidates))
+                 ;; evil normal state
+                 (evil-normal-state-p))
+            (push (buffer-name) autosave-buffer-list)
+            (basic-save-buffer))))
+      (cond
+       ((= (length autosave-buffer-list) 1)
+        (message "# Auto saved %s" (car autosave-buffer-list)))
+       ((> (length autosave-buffer-list) 1)
+        (message "# Auto saved %d files: %s"
+                 (length autosave-buffer-list)
+                 (mapconcat 'identity autosave-buffer-list ", "))))
       )))
 
 (defun kevin/auto-save-enable ()
   (interactive)
-  (run-with-idle-timer 3 t #'kevin/auto-save-buffer)
+  (run-with-idle-timer 1 t #'kevin/auto-save-buffer)
   (add-hook 'before-save-hook 'font-lock-flush))
 
 (add-hook 'after-init-hook #'kevin/auto-save-enable)
