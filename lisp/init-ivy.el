@@ -15,8 +15,8 @@
 
 (use-package counsel
   :diminish ivy-mode counsel-mode
-  :bind (("C-s" . swiper-isearch)
-         ("C-S-s" . swiper-all)
+  :bind (("C-s"     . swiper)
+         ("C-S-s"   . swiper-all)
          ("C-c C-r" . ivy-resume)
          ("C-c t c" . ivy-toggle-calling)
          :map counsel-mode-map
@@ -28,21 +28,14 @@
          ([remap find-file] . counsel-find-file)
          ([remap switch-to-buffer] . counsel-switch-buffer)
          ("C-x j" . counsel-mark-ring)
-         ("C-c C-r" . counsel-recentf)
-         ("C-c C-p" . counsel-package)
-         ("C-c c a" . counsel-apropos)
-         ("C-c c e" . counsel-colors-emacs)
-         ("C-c c f" . counsel-fzf)
-         ("C-c c g" . counsel-grep)
-         ("C-c c h" . counsel-command-history)
-         ("C-c c i" . counsel-git)
-         ("C-c c j" . counsel-git-grep)
-         ("C-c c l" . counsel-load-library)
-         ("C-c c m" . counsel-minibuffer-history)
-         ("C-c c o" . counsel-outline)
-         ("C-c c r" . counsel-rg)
-         ("C-c c u" . counsel-unicode-char)
-         ("C-c c w" . counsel-colors-web)
+         ("C-c B" . counsel-bookmarked-directory)
+         ("C-c L" . counsel-load-library)
+         ("C-c O" . counsel-find-file-extern)
+         ("C-c P" . counsel-package)
+         ("C-c g" . counsel-grep)
+         ("C-c h" . counsel-command-history)
+         ("C-c r" . counsel-rg)
+         ("C-c z" . counsel-fzf)
          :map ivy-minibuffer-map
          ("C-w" . ivy-yank-word)
          ([escape] . minibuffer-keyboard-quit)
@@ -72,6 +65,73 @@
         ivy-format-function #'ivy-format-function-arrow
         ivy-count-format "(%d/%d) "
         counsel-find-file-at-point t)
+  ;; Use the faster search tool: ripgrep (`rg')
+  (when (executable-find "rg")
+    (setq counsel-grep-base-command "rg -S --no-heading --line-number --color never %s %s")
+    (when (and is-mac-p (executable-find "gls"))
+      (setq counsel-find-file-occur-use-find nil
+            counsel-find-file-occur-cmd
+            "gls -a | grep -i -E '%s' | tr '\\n' '\\0' | xargs -0 gls -d --group-directories-first")))
+  ;; Pre-fill search keywords
+  ;; @see https://www.reddit.com/r/emacs/comments/b7g1px/withemacs_execute_commands_like_marty_mcfly/
+  (defvar my-ivy-fly-commands
+    '(query-replace-regexp
+      flush-lines keep-lines ivy-read
+      swiper swiper-backward swiper-all
+      swiper-isearch swiper-isearch-backward
+      lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol
+      counsel-grep-or-swiper counsel-grep-or-swiper-backward
+      counsel-grep counsel-ack counsel-ag counsel-rg counsel-pt))
+  (defvar-local my-ivy-fly--travel nil)
+
+  (defun my-ivy-fly-back-to-present ()
+    (cond ((and (memq last-command my-ivy-fly-commands)
+                (equal (this-command-keys-vector) (kbd "M-p")))
+           ;; repeat one time to get straight to the first history item
+           (setq unread-command-events
+                 (append unread-command-events
+                         (listify-key-sequence (kbd "M-p")))))
+          ((or (memq this-command '(self-insert-command
+                                    ivy-forward-char
+                                    ivy-delete-char delete-forward-char
+                                    end-of-line mwim-end-of-line
+                                    mwim-end-of-code-or-line mwim-end-of-line-or-code
+                                    yank ivy-yank-word counsel-yank-pop))
+               (equal (this-command-keys-vector) (kbd "M-n")))
+           (unless my-ivy-fly--travel
+             (delete-region (point) (point-max))
+             (when (memq this-command '(ivy-forward-char
+                                        ivy-delete-char delete-forward-char
+                                        end-of-line mwim-end-of-line
+                                        mwim-end-of-code-or-line
+                                        mwim-end-of-line-or-code))
+               (insert (ivy-cleanup-string ivy-text))
+               (when (memq this-command '(ivy-delete-char delete-forward-char))
+                 (beginning-of-line)))
+             (setq my-ivy-fly--travel t)))))
+
+  (defun my-ivy-fly-time-travel ()
+    (when (memq this-command my-ivy-fly-commands)
+      (let* ((kbd (kbd "M-n"))
+             (cmd (key-binding kbd))
+             (future (and cmd
+                          (with-temp-buffer
+                            (when (ignore-errors
+                                    (call-interactively cmd) t)
+                              (buffer-string))))))
+        (when future
+          (save-excursion
+            (insert (propertize (replace-regexp-in-string
+                                 "\\\\_<" ""
+                                 (replace-regexp-in-string
+                                  "\\\\_>" ""
+                                  future))
+                                'face 'shadow)))
+          (add-hook 'pre-command-hook 'my-ivy-fly-back-to-present nil t)))))
+
+  (add-hook 'minibuffer-setup-hook #'my-ivy-fly-time-travel)
+  (add-hook 'minibuffer-exit-hook (lambda ()
+                                    (remove-hook 'pre-command-hook 'my-ivy-fly-back-to-present t)))
 
   ;; An alternative M-x interface for Emacs
   (use-package amx
