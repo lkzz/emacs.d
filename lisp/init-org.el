@@ -14,7 +14,8 @@
 ;;; Code:
 
 (use-package org
-  :bind (("C-c b" . org-switchb)
+  :bind (("C-c a" . org-agenda)
+         ("C-c b" . org-switchb)
          :map org-mode-map
          ("C-c l" . org-store-link))
   :config
@@ -25,6 +26,7 @@
                                  ("HANGUP" . (:foreground "red" :weight bold))
                                  ("DONE" . (:foreground "#7ccd7c" :weight bold))
                                  ("CANCEL"  . (:foreground "yellow" :weight bold)))
+        org-ellipsis " ▼ "
         org-log-done 'time
         org-src-fontify-natively t
         org-clock-string "计时:"
