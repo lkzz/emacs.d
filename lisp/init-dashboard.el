@@ -16,6 +16,7 @@
 (use-package dashboard
   :diminish page-break-lines-mode
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
+  :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
   :init
   (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner (expand-file-name "banner/spacemacs.png" user-emacs-directory)
@@ -25,9 +26,9 @@
         dashboard-init-info (format "%d packages loaded in %s"
                                     (length package-activated-list) (emacs-init-time))
         dashboard-show-shortcuts nil
-        dashboard-items '((recents  . 10)
+        dashboard-items '((recents   . 5)
                           (bookmarks . 5)
-                          (projects . 5))
+                          (projects  . 5))
         dashboard-set-file-icons t
         dashboard-set-heading-icons t
         dashboard-heading-icons '((recents   . "file-text")

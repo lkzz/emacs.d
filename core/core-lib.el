@@ -34,14 +34,11 @@
   (load kevin-autoload-file nil 'nomessage)
   (message "reload core autoload file: %s done." kevin-autoload-file))
 
-(defun kevin/load-core-autoload ()
-  (when (not  (file-exists-p kevin-autoload-file))
-    (kevin/generate-autoload-define kevin-autoload-file (concat user-emacs-directory "core/autoload/"))
-    (byte-compile-file kevin-autoload-file)
-    (message "generate autoload file: %s done." kevin-autoload-file))
-  (load kevin-autoload-file nil 'nomessage))
-
-(add-hook 'after-init-hook #'kevin/load-core-autoload)
+(when (not (file-exists-p kevin-autoload-file))
+  (kevin/generate-autoload-define kevin-autoload-file (concat user-emacs-directory "core/autoload/"))
+  (byte-compile-file kevin-autoload-file)
+  (message "generate autoload file: %s done." kevin-autoload-file))
+(load kevin-autoload-file nil 'nomessage)
 
 (provide 'core-lib)
 ;;; core-lib.el ends here
