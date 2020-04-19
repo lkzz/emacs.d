@@ -43,6 +43,9 @@
 (defconst kevin-autoload-file (concat kevin-cache-dir "core-autoloads.el")
   "This file is responsible for informing emacs where to find all autoload function in core/autoload/*.el")
 
+(defconst kevin-http-proxy "127.0.0.1:1235"
+  "Set http/https proxy.")
+
 (defvar kevin-eshell-height 35
   "Percentage for shell-buffer window height.")
 
