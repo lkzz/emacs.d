@@ -22,7 +22,13 @@
 
 (use-package counsel-osx-app
   :if is-mac-p
-  :commands counsel-osx-app)
+  :general
+  (kevin/space-key-define
+    "o" '(nil :which-key "Open")
+    "o a" 'counsel-osx-app
+    "o t" '(kevin/open-iterm :wk "open-item2")
+    "o w" '(kevin/open-wechat :wk "open-wechat")
+    "o y" '(kevin/open-youdao :wk "open-youdao")))
 
 (provide 'init-osx)
 ;;; init-osx ends here

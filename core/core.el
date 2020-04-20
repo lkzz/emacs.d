@@ -114,8 +114,7 @@
   (require 'core-lib)
   (require 'core-ui)
   (require 'core-package)
-  (require 'core-keybind)
-  (run-at-time "2sec" nil #'kevin/init-default-keybinds))
+  (require 'core-keybind))
 
 ;; Optimize: Force "lisp"" and "site-lisp" at the head to reduce the startup time.
 (defun kevin/load-custom-path (&rest _)

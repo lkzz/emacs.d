@@ -15,35 +15,35 @@
 
 (use-package counsel
   :diminish ivy-mode counsel-mode
-  :bind (("C-s"     . swiper)
-         ("C-S-s"   . swiper-all)
-         ("C-c C-r" . ivy-resume)
-         ("C-c t c" . ivy-toggle-calling)
-         :map counsel-mode-map
-         ([remap swiper] . counsel-grep-or-swiper)
-         ([remap swiper-backward] . counsel-grep-or-swiper-backward)
-         ([remap dired] . counsel-dired)
-         ([remap recentf-open-files] . counsel-recentf)
-         ([remap amx] . counsel-M-x)
-         ([remap find-file] . counsel-find-file)
-         ([remap switch-to-buffer] . counsel-switch-buffer)
-         ("C-x j" . counsel-mark-ring)
-         ("C-c B" . counsel-bookmarked-directory)
-         ("C-c L" . counsel-load-library)
-         ("C-c O" . counsel-find-file-extern)
-         ("C-c P" . counsel-package)
-         ("C-c g" . counsel-grep)
-         ("C-c h" . counsel-command-history)
-         ("C-c r" . counsel-rg)
-         ("C-c z" . counsel-fzf)
-         :map ivy-minibuffer-map
-         ("C-w" . ivy-yank-word)
-         ([escape] . minibuffer-keyboard-quit)
-         :map counsel-find-file-map
-         ("C-h" . counsel-up-directory)
-         ("C-l" . counsel-down-directory)
-         :map swiper-map
-         ("M-%" . swiper-query-replace))
+  :general
+  (kevin/space-key-define
+    "f f" 'counsel-find-file
+    "f r" 'counsel-recentf
+    "s /" 'counsel-rg
+    "s s" 'swiper-all)
+  ("C-s"     'swiper
+   "C-S-s"   'swiper-all
+   "C-c C-r" 'ivy-resume
+   "C-c t c" 'ivy-toggle-calling)
+  (counsel-mode-map [remap swiper] 'counsel-grep-or-swiper
+                    [remap swiper-backward] 'counsel-grep-or-swiper-backward
+                    [remap dired] 'counsel-dired
+                    [remap amx] 'counsel-M-x
+                    [remap switch-to-buffer] 'counsel-switch-buffer
+                    "C-x j" 'counsel-mark-ring
+                    "C-c B" 'counsel-bookmarked-directory
+                    "C-c L" 'counsel-load-library
+                    "C-c O" 'counsel-find-file-extern
+                    "C-c P" 'counsel-package
+                    "C-c g" 'counsel-grep
+                    "C-c h" 'counsel-command-history
+                    "C-c r" 'counsel-rg
+                    "C-c z" 'counsel-fzf)
+  (ivy-minibuffer-map "C-w" 'ivy-yank-word
+                      [escape] 'minibuffer-keyboard-quit)
+  (counsel-find-file-map "C-h" 'counsel-up-directory
+                         "C-l" 'counsel-down-directory)
+  (swiper-map "M-%" 'swiper-query-replace)
   :hook ((after-init . ivy-mode)
          (ivy-mode . counsel-mode))
   :config
@@ -137,7 +137,8 @@
   (use-package amx
     :init
     (setq amx-history-length 10
-          amx-save-file (concat kevin-cache-dir "amx-items")))
+          amx-save-file (concat kevin-cache-dir "amx-items"))
+    :general (kevin/space-key-define "SPC" 'amx))
 
   ;; when swiper-action-recenter non-nil, frame blink in terminal
   (if (display-graphic-p)

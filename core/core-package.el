@@ -51,7 +51,6 @@
 ;; install use-package
 ;;-----------------------------------------------------------------------------
 (use-package diminish)
-(use-package bind-key)
 (use-package posframe)
 (use-package hydra)
 

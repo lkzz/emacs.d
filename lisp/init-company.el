@@ -15,16 +15,15 @@
 
 (use-package company
   :diminish company-mode "ⓒ"
-  :bind (:map company-active-map
-              ("C-s" . company-filter-candidates)
-              ("C-p" . company-select-previous)
-              ("C-n" . company-select-next)
-              ("C-u" . company-previous-page)
-              ("C-d" . company-next-page)
-              ("<tab>" . company-complete-common-or-cycle)
-              :map company-search-map
-              ("C-p" . company-select-previous)
-              ("C-n" . company-select-next))
+  :general
+  (company-active-map "C-s" 'company-filter-candidates
+                      "C-p" 'company-select-previous
+                      "C-n" 'company-select-next
+                      "C-u" 'company-previous-page
+                      "C-d" 'company-next-page
+                      "<tab>" 'company-complete-common-or-cycle)
+  (company-search-map "C-p" 'company-select-previous
+                      "C-n" 'company-select-next)
   :hook (after-init . global-company-mode)
   :config
   ;; aligns annotation to the right hand side

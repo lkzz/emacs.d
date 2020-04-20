@@ -20,7 +20,25 @@
 ;; Group ibuffer's list by project root
 (use-package ibuffer-projectile
   :after projectile
-  :bind ("C-x C-b" . ibuffer)
+  :general
+  ("C-x C-b" 'ibuffer)
+  (kevin/space-key-define
+    "b" '(:ignore t :wk "Buffer")
+    "b b" 'switch-to-buffer
+    "b c" '(kevin/cleanup-buffer :wk "cleanup-buffer")
+    "b e" 'eval-buffer
+    "b d" 'kill-this-buffer
+    "b D" '(kevin/kill-other-buffers :wk "kill-other")
+    "b i" '(kevin/indent-region-or-buffer :wk "indent-buffer")
+    "b k" 'kill-buffer
+    "b l" 'ibuffer-list-buffers
+    "b m" '(kevin/kill-all-buffers :wk "kill-all-buffer")
+    "b p" '(kevin/switch-to-prev-buffer :wk "prev-buffer")
+    "b n" '(kevin/switch-to-next-buffer :wk "next-buffer")
+    "b r" 'reveal-in-osx-finder
+    "b g" '(kevin/revert-buffer-no-confirm :wk "revert-buffer")
+    "b s" 'save-buffer
+    "b S" '(kevin/create-scratch-buffer :wk "create-scratch-buffer"))
   :init
   (setq ibuffer-filter-group-name-face 'font-lock-function-name-face)
   (add-hook 'ibuffer-hook

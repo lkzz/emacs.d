@@ -14,10 +14,7 @@
 ;;; Code:
 
 (use-package org
-  :bind (("C-c a" . org-agenda)
-         ("C-c b" . org-switchb)
-         :map org-mode-map
-         ("C-c l" . org-store-link))
+  :general (org-mode-map "C-c l" 'org-store-link)
   :config
   (add-to-list 'org-export-backends 'md)
   (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)"))
@@ -88,15 +85,14 @@
 
   (use-package org-agenda
     :ensure nil
-    :bind (("C-c a" . org-agenda)
-           :map org-agenda-mode-map
-           ("g" . org-agenda-redo-all)
-           ("i" . (lambda () (interactive) (org-capture nil "s")))
-           ("A" . org-agenda-archive-default-with-confirmation)
-           ("J" . counsel-org-agenda-headlines)
-           ("h" . ignore)
-           ("y" . ignore)
-           ("a" . ignore))
+    :general ("C-c a" 'org-agenda)
+    (org-agenda-mode-map "g" 'org-agenda-redo-all
+                         "i" '(lambda () (interactive) (org-capture nil "s"))
+                         "A" 'org-agenda-archive-default-with-confirmation
+                         "J" 'counsel-org-agenda-headlines
+                         "h" 'ignore
+                         "y" 'ignore
+                         "a" 'ignore)
     :config
     (setq org-agenda-files '("~/Dropbox/Org/")
           ;; Set the agenda view to show the tasks on day/week/month/year

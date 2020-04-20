@@ -24,15 +24,15 @@
 
 ;; An all-in-one comment command to rule them all
 (use-package comment-dwim-2
-  :bind ("M-;" . comment-dwim-2))
+  :general ("M-;" 'comment-dwim-2))
 
 ;; Rectangle
 (use-package rect
   :ensure nil
-  :bind (("<C-return>" . rectangle-mark-mode)))
+  :general ("<C-return>" 'rectangle-mark-mode))
 
 (use-package expand-region
-  :bind (("C-=" . er/expand-region)))
+  :general ("C-=" 'er/expand-region))
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
@@ -60,15 +60,15 @@
                                               (undo-tree-visualizer-quit)))))
 
 (use-package multiple-cursors
-  :bind (("C-c m t" . mc/mark-all-like-this)
-         ("C-c m m" . mc/mark-all-like-this-dwim)
-         ("C-c m l" . mc/edit-lines)
-         ("C-c m e" . mc/edit-ends-of-lines)
-         ("C-c m a" . mc/edit-beginnings-of-lines)
-         ("C-c m n" . mc/mark-next-like-this)
-         ("C-c m p" . mc/mark-previous-like-this)
-         ("C-c m s" . mc/mark-sgml-tag-pair)
-         ("C-c m d" . mc/mark-all-like-this-in-defun)))
+  :general ("C-c m t" 'mc/mark-all-like-this
+            "C-c m m" 'mc/mark-all-like-this-dwim
+            "C-c m l" 'mc/edit-lines
+            "C-c m e" 'mc/edit-ends-of-lines
+            "C-c m a" 'mc/edit-beginnings-of-lines
+            "C-c m n" 'mc/mark-next-like-this
+            "C-c m p" 'mc/mark-previous-like-this
+            "C-c m s" 'mc/mark-sgml-tag-pair
+            "C-c m d" 'mc/mark-all-like-this-in-defun))
 
 (provide 'init-edit)
 ;;; init-edit.el ends here

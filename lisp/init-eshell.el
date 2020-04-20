@@ -18,7 +18,7 @@
   :load-path "site-lisp/aweshell"
   :hook ((eshell-first-time-mode . kevin/eshell-keymap)
          (eshell-exit . delete-window))
-  :init
+  :general (kevin/space-key-define "t '" '(kevin/toggle-aweshell :wk "shell"))
   :config
   (setq eshell-highlight-prompt t
         eshell-prompt-function 'epe-theme-lambda

@@ -17,7 +17,15 @@
 (use-package bookmark
   :ensure nil
   :init
-  (setq bookmark-default-file (concat kevin-cache-dir "bookmarks")))
+  (setq bookmark-default-file (concat kevin-cache-dir "bookmarks"))
+  :general
+  (kevin/space-key-define
+    "m" '(nil :which-key "Bookmark")
+    "m s" 'bookmark-set
+    "m r" 'bookmark-rename
+    "m d" 'bookmark-delete
+    "m j" 'counsel-bookmark
+    "m l" 'bookmark-bmenu-list))
 
 ;; Elec pair
 (use-package elec-pair
@@ -30,7 +38,8 @@
   :hook (after-init . global-hungry-delete-mode))
 
 (use-package restart-emacs
-  :commands restart-emacs)
+  :commands restart-emacs
+  :general (kevin/colon-key-define "e r" 'restart-emacs))
 
 (use-package server
   :config
@@ -72,7 +81,14 @@
 (use-package avy
   :hook (after-init . avy-setup-default)
   :init
-  (setq avy-background t))
+  (setq avy-background t)
+  :general
+  (kevin/space-key-define
+    "j c" 'avy-goto-char-2
+    "j f" 'beginning-of-defun
+    "j l" 'avy-goto-line
+    "j m" '(kevin/jump-match-delimiter :wk "goto-match-delimiter")
+    "j w" 'avy-goto-word-or-subword-1))
 
 ;; Minor mode to aggressively keep your code always indented
 (use-package aggressive-indent
@@ -98,19 +114,19 @@
 (use-package hideshow
   :ensure nil
   :diminish hs-minor-mode
-  :bind (:map hs-minor-mode-map
-              ("C-`" . hs-toggle-hiding))
+  :general (hs-minor-mode-map "C-`" 'hs-toggle-hiding)
   :hook (prog-mode . hs-minor-mode))
 
 ;; Move to the beginning/end of line or code
 (use-package mwim
-  :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
-         ([remap move-end-of-line] . mwim-end-of-code-or-line)))
+  :general ([remap move-beginning-of-line] 'mwim-beginning-of-code-or-line
+            [remap move-end-of-line] 'mwim-end-of-code-or-line))
 
 (use-package helpful
-  :bind (("C-h f" . helpful-callable)
-         ("C-h v" . helpful-variable)
-         ("C-h k" . helpful-key)))
+  :general
+  ("C-h f" 'helpful-callable
+   "C-h v" 'helpful-variable
+   "C-h k" 'helpful-key))
 
 (use-package so-long
   :if is-emacs27-p

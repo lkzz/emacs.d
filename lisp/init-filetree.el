@@ -15,6 +15,20 @@
 
 (use-package neotree
   :commands neotree-toggle
+  :general
+  (kevin/space-key-define "t f" 'neotree-toggle)
+  (general-nmap neotree-mode-map
+    "RET" 'neotree-enter
+    "o" 'neotree-enter
+    "q" 'neotree-hide
+    "h" 'neotree-select-up-node
+    "l" 'neotree-change-root
+    "c" 'neotree-create-node
+    "C" 'neotree-copy-node
+    "d" 'neotree-delete-node
+    "g" 'neotree-refresh
+    "r" 'neotree-rename-node
+    "th" 'neotree-hidden-file-toggle)
   :init
   (setq neo-create-file-auto-open t
         neo-auto-indent-point nil

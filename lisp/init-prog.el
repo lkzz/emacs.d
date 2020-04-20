@@ -16,13 +16,14 @@
 
 (use-package dash-at-point
   :if is-mac-p
-  :bind (("C-c d" . dash-at-point)
-         ("C-c D" . dash-at-point-with-docset)))
+  :general ("C-c d" 'dash-at-point
+            "C-c D" 'dash-at-point-with-docset))
 
 ;; https://github.com/honmaple/emacs-maple-imenu
 (use-package maple-imenu
   :load-path "site-lisp/emacs-maple-imenu"
   :commands maple-imenu
+  :general (kevin/space-key-define "t i" 'maple-imenu)
   :config
   (setq maple-imenu-autoupdate t
         maple-imenu-width 35

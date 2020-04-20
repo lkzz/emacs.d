@@ -73,10 +73,13 @@
     :hook (evil-mode . global-evil-surround-mode))
 
   (use-package evil-nerd-commenter
-    :commands (evilnc-comment-or-uncomment-lines
-               evilnc-quick-comment-or-uncomment-to-the-line
-               evilnc-comment-or-uncomment-paragraphs
-               evilnc-copy-and-comment-operator))
+    :general
+    (kevin/space-key-define
+      "c" '(nil :which-key "Comment")
+      "c i" '(evilnc-comment-or-uncomment-lines :wk "comment-lines")
+      "c l" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment-line")
+      "c p" '(evilnc-comment-or-uncomment-paragraphs :wk "comment paragraphs")
+      "c y" '(evilnc-copy-and-comment-operator :wk "comment-and-copy")))
 
   (use-package evil-collection
     :custom (evil-collection-setup-minibuffer t)

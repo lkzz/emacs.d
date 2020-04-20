@@ -29,6 +29,26 @@
 ;; Numbered window shortcuts
 (use-package winum
   :hook (after-init . winum-mode)
+  :general
+  (kevin/space-key-define
+    "1"  'winum-select-window-1
+    "2"  'winum-select-window-2
+    "3"  'winum-select-window-3
+    "4"  'winum-select-window-4
+    "5"  'winum-select-window-5
+    "6"  'winum-select-window-6
+    "7"  'winum-select-window-7
+    "8"  'winum-select-window-8
+    "9"  'winum-select-window-9
+    "w" '(nil :which-key "Window")
+    "w c" 'centered-window-mode
+    "w d" 'delete-window
+    "w o" 'other-window
+    "w d" 'delete-window
+    "w z" 'zoom-window-zoom
+    "w /" '(kevin/split-window-right-and-focus :wk "split-window-right")
+    "w -" '(kevin/split-window-below-and-focus :wk "split-window-below")
+    "w D" 'delete-other-windows)
   :init
   (setq window-numbering-scope 'global
         winum-auto-setup-mode-line nil
@@ -49,6 +69,8 @@
 
 (use-package golden-ratio
   :diminish golden-ratio-mode "ⓖ"
+  :general
+  (kevin/space-key-define "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio"))
   :config
   ;; golden-ratio-exclude-modes
   (dolist (m '("bs-mode"

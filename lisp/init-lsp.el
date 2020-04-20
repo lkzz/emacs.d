@@ -18,14 +18,13 @@
   :commands lsp lsp-deferred
   :hook ((go-mode . lsp-deferred)
          (c++-mode . lsp-deferred))
-  :bind (:map lsp-mode-map
-              ("C-c C-d" . lsp-describe-thing-at-point)
-              ("C-c C-r" . lsp-ui-peek-find-references)
-              ("C-c C-n" . lsp-rename)
-              ("C-c C-." . lsp-ui-peek-find-definitions)
-              ([remap evil-goto-definition] . lsp-find-definition)
-              ([remap xref-find-definitions] . lsp-find-definition)
-              ([remap xref-find-references] . lsp-find-references))
+  :general (lsp-mode-map "C-c C-d" 'lsp-describe-thing-at-point
+                         "C-c C-r" 'lsp-ui-peek-find-references
+                         "C-c C-n" 'lsp-rename
+                         "C-c C-." 'lsp-ui-peek-find-definitions
+                         [remap evil-goto-definition] 'lsp-find-definition
+                         [remap xref-find-definitions] 'lsp-find-definition
+                         [remap xref-find-references] 'lsp-find-references)
   :init
   (defun lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)

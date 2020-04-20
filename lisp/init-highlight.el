@@ -81,10 +81,11 @@
 
 (use-package symbol-overlay
   :diminish symbol-overlay-mode "ⓢ"
-  :bind (:map symbol-overlay-mode-map
-              ("M-p" . symbol-overlay-jump-prev)
-              ("M-n" . symbol-overlay-jump-next)
-              ("M-r" . symbol-overlay-rename)))
+  :general
+  (kevin/space-key-define "t s" 'symbol-overlay-mode)
+  (symbol-overlay-mode-map "M-p" 'symbol-overlay-jump-prev
+                           "M-n" 'symbol-overlay-jump-next
+                           "M-r" 'symbol-overlay-rename))
 
 (provide 'init-highlight)
 ;;; init-highlight.el ends here

@@ -16,6 +16,12 @@
 (use-package flycheck
   :diminish flycheck-mode "ⓕ"
   :hook (prog-mode . global-flycheck-mode)
+  :general
+  (kevin/space-key-define
+    "e" '(nil :which-key "Errors")
+    "e l" 'flycheck-list-errors
+    "e n" 'flycheck-next-error
+    "e p" 'flycheck-previous-error)
   :config
   (when (fboundp 'define-fringe-bitmap)
     (define-fringe-bitmap 'kevin-flycheck-error-fringe

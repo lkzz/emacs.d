@@ -15,6 +15,24 @@
 
 (use-package magit
   :commands magit-status
+  :general
+  (kevin/space-key-define
+    "g" '(:ignore t :which-key "Git")
+    "g a" '(kevin/git-add-current-file :wk "add-current-file")
+    "g b" 'magit-blame
+    "g c" '(kevin/git-checkout-current-file :wk "checkout-current-file")
+    "g d" 'magit-diff-buffer-file
+    "g h" '(hydra-diff-hl/body :wk "hydra-diff-hl")
+    "g i" 'magit-init
+    "g l" 'magit-log-buffer-file
+    "g L" 'magit-list-repositories
+    "g m" '(git-messenger:popup-message :wk "popup-message")
+    "g r" '(hydra-smerge-mode/body :wk "hydra-smerge-mode")
+    "g s" 'magit-status
+    "g S" 'magit-stage-file
+    "g t" '(hydra-git-timemachine/body :wk "git-timemachine")
+    "g u" 'magit-unstage-file
+    "g v" 'vc-annotate)
   :init
   (setq magit-auto-revert-mode nil)
   :config
@@ -152,7 +170,7 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
 (use-package git-messenger
   :commands (git-messenger:popup-message
              git-messenger:show-detail)
-  :bind (("C-x v m" . git-messenger:popup-message))
+  :general ("C-x v m" 'git-messenger:popup-message)
   :init
   ;; Use magit-show-commit for showing status/diff commands
   (setq git-messenger:use-magit-popup t

@@ -15,7 +15,7 @@
 
 (use-package youdao-dictionary
   :commands youdao-dictionary-search-at-point+
-  :bind ("C-c y" . 'youdao-dictionary-search-at-point+)
+  :general ("C-c y" 'youdao-dictionary-search-at-point+)
   :config
   ;; Enable Cache
   (setq url-automatic-caching t)
@@ -98,7 +98,7 @@
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
   :load-path "site-lisp/company-english-helper"
-  :bind ("C-c t e" . toggle-company-english-helper))
+  :general ("C-c t e" 'toggle-company-english-helper))
 
 (provide 'init-chinese)
 ;;; init-chinese ends here

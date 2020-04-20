@@ -21,6 +21,60 @@
         dired-recursive-deletes 'top   ; always delete recursively
         dired-auto-revert-buffer t
         dired-hide-details-hide-symlink-targets nil)
+  :general
+  (kevin/space-key-define "j d" 'dired-jump)
+  (general-nmap dired-mode-map
+    ;; Lower keys for commands not operating on all the marked files
+    "a" 'dired-find-alternate-file
+    "d" 'dired-flag-file-deletion
+    "gf" 'dired-find-file
+    "gy" 'dired-show-file-type
+    "gr" 'revert-buffer
+    "h" 'dired-up-directory
+    "i" 'dired-toggle-read-only
+    "j" 'dired-next-line
+    "k" 'dired-previous-line
+    "l" 'dired-find-file
+    "m" 'dired-mark
+    "o" 'dired-sort-toggle-or-edit
+    "q" 'quit-window
+    "r" 'dired-do-redisplay
+    "th" 'dired-omit-mode
+    "tt" 'dired-toggle-marks
+    "u" 'dired-unmark
+    "v" 'dired-git-info-mode
+    "x" 'dired-do-flagged-delete
+    "RET" 'dired-find-file
+    ;; Commands to mark or flag certain categories of files
+    "+" 'dired-create-directory
+    "^" 'dired-up-directory
+    "#" 'dired-flag-auto-save-files
+    "." 'dired-clean-directory
+    "~" 'dired-flag-backup-files
+    "!" 'dired-do-shell-command
+    "&" 'dired-do-async-shell-command
+    ;; Upper case keys (except !) for operating on the marked files
+    "A" 'dired-do-find-regexp
+    "C" 'dired-do-copy
+    "B" 'dired-do-byte-compile
+    "D" 'dired-do-delete
+    "G" 'dired-do-chgrp
+    "H" 'dired-do-hardlink
+    "I" 'dired-maybe-insert-subdir
+    "J" 'dired-goto-file
+    "K" 'dired-do-kill-lines
+    "L" 'dired-do-load
+    "M" 'dired-do-chmod
+    "O" 'dired-do-chown
+    "P" 'dired-do-print
+    "Q" 'dired-do-find-regexp-and-replace
+    "R" 'dired-do-rename
+    "S" 'dired-do-symlink
+    "T" 'dired-do-touch
+    "W" 'browse-url-of-dired-file
+    "X" 'dired-do-shell-command
+    "Y" 'dired-copy-filename-as-kill
+    "Z" 'dired-do-compress)
   :config
   ;; Search file name only when focus is over file
   (setq dired-isearch-filenames 'dwim)
