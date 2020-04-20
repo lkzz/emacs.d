@@ -18,7 +18,6 @@
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
   :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))
   :init
-  (dashboard-setup-startup-hook)
   (setq dashboard-startup-banner (expand-file-name "banner/spacemacs.png" user-emacs-directory)
         dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" user-full-name)
         dashboard-center-content t
@@ -64,7 +63,7 @@
             "Restore"
             "Restore session"
             (lambda (&rest _) (kevin/restore-session))))))
-  )
+  (dashboard-setup-startup-hook))
 
 (provide 'init-dashboard)
 

@@ -34,7 +34,7 @@
 (if (daemonp)
     (add-hook 'after-make-frame-functions
               (lambda (frame)
-                (load-theme 'doom-dark+ t)))
+                (load-theme 'doom-one t)))
   (load-theme 'doom-one t))
 
 ;; 启动时默认最大化
@@ -186,6 +186,7 @@
 
 
 (use-package centaur-tabs
+  :if (display-graphic-p)
   :commands centaur-tabs-select-visible-tab
   :hook ((dashboard-mode . centaur-tabs-local-mode)
          (term-mode . centaur-tabs-local-mode)

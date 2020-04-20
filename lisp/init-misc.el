@@ -107,18 +107,6 @@
   :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
          ([remap move-end-of-line] . mwim-end-of-code-or-line)))
 
-(use-package rg
-  :hook (after-init . rg-enable-default-bindings)
-  :bind (:map rg-global-map
-              ("c" . rg-dwim-current-dir)
-              ("f" . rg-dwim-current-file)
-              ("m" . rg-menu)
-              :map rg-mode-map
-              ("m" . rg-menu))
-  :init
-  (setq rg-show-columns t
-        rg-group-result t))
-
 (use-package helpful
   :bind (("C-h f" . helpful-callable)
          ("C-h v" . helpful-variable)
