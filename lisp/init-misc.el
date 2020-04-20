@@ -141,7 +141,6 @@
   (add-to-list 'so-long-target-modes 'text-mode))
 
 (use-package transient
-  :ensure nil
   :init
   (setq transient-levels-file (concat kevin-cache-dir "transient-levels.el")
         transient-values-file (concat kevin-cache-dir "transient-values.el")
