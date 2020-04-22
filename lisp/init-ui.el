@@ -13,22 +13,23 @@
 ;;
 ;;; Code:
 
-;; Must before loading the theme
-(use-package solaire-mode
-  :functions persp-load-state-from-file
-  :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-         (minibuffer-setup . solaire-mode-in-minibuffer)
-         (after-load-theme . solaire-mode-swap-bg))
-  :init
-  (solaire-global-mode 1)
-  (advice-add #'persp-load-state-from-file :after #'solaire-mode-restore-persp-mode-buffers))
-
 (use-package doom-themes
   :defer t
   :config
   (setq doom-dark+-blue-modeline t)
   (doom-themes-org-config)
-  (doom-themes-neotree-config))
+  (doom-themes-neotree-config)
+  ;; Must before loading the theme
+  (use-package solaire-mode
+    :functions persp-load-state-from-file
+    :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
+           (minibuffer-setup . solaire-mode-in-minibuffer)
+           (after-load-theme . solaire-mode-swap-bg))
+    :custom-face
+    (solaire-hl-line-face ((t (:inherit hl-line :background "#272a27"))))
+    :init
+    (solaire-global-mode 1)
+    (advice-add #'persp-load-state-from-file :after #'solaire-mode-restore-persp-mode-buffers)))
 
 ;; 加载主题
 (if (daemonp)
