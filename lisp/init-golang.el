@@ -47,7 +47,7 @@
     (setq go-test-verbose t))
 
   (use-package go-gen-test
-    :general (go-mode-map ("C-c t g" 'go-gen-test-dwim))))
+    :general (go-mode-map "C-c t g" 'go-gen-test-dwim)))
 
 (provide 'init-golang)
 ;;; init-golang ends here
