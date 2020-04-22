@@ -44,6 +44,7 @@
         lsp-enable-symbol-highlighting nil
         ;; Disable eldoc displays in minibuffer
         lsp-eldoc-enable-hover nil
+        lsp-flycheck-live-reporting nil
         ;; auto kill server
         lsp-keep-workspace-alive nil)
   :config
