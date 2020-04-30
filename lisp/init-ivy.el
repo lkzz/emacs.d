@@ -84,6 +84,28 @@
       counsel-grep counsel-ack counsel-ag counsel-rg counsel-pt))
   (defvar-local my-ivy-fly--travel nil)
 
+  ;; Display an arrow with the selected item
+  (defun my-ivy-format-function-arrow (cands)
+    "Transform CANDS into a string for minibuffer."
+    (ivy--format-function-generic
+     (lambda (str)
+       (concat (if (and (bound-and-true-p all-the-icons-ivy-rich-mode)
+                        (>= (length str) 1)
+                        (string= " " (substring str 0 1)))
+                   ">"
+                 "> ")
+               (ivy--add-face str 'ivy-current-match)))
+     (lambda (str)
+       (concat (if (and (bound-and-true-p all-the-icons-ivy-rich-mode)
+                        (>= (length str) 1)
+                        (string= " " (substring str 0 1)))
+                   " "
+                 "  ")
+               str))
+     cands
+     "\n"))
+  (setf (alist-get 't ivy-format-functions-alist) #'my-ivy-format-function-arrow)
+
   (defun my-ivy-fly-back-to-present ()
     (cond ((and (memq last-command my-ivy-fly-commands)
                 (equal (this-command-keys-vector) (kbd "M-p")))
