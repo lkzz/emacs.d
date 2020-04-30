@@ -39,7 +39,6 @@
     "o" 'dired-sort-toggle-or-edit
     "q" 'quit-window
     "r" 'dired-do-redisplay
-    "th" 'dired-omit-mode
     "tt" 'dired-toggle-marks
     "u" 'dired-unmark
     "v" 'dired-git-info-mode
@@ -131,6 +130,7 @@
     :ensure nil
     :diminish dired-omit-mode
     :hook (dired-mode . dired-omit-mode)
+    :general (general-nmap dired-mode-map "t h" 'dired-omit-mode)
     :config
     (let ((cmd (cond
                 (is-mac-p "open")
