@@ -234,5 +234,74 @@
   (centaur-tabs-headline-match)
   (centaur-tabs-mode t))
 
+(add-hook 'prog-mode-hook
+          (lambda ()
+            (push '("+=" . ?⩲) prettify-symbols-alist)
+            (push '("*=" . ?⩮) prettify-symbols-alist)
+            (push '("==" . ?≡) prettify-symbols-alist)
+            (push '("<=" . ?≤) prettify-symbols-alist)
+            (push '(">=" . ?≥) prettify-symbols-alist)
+            (push '("!=" . ?≠) prettify-symbols-alist)))
+
+(add-hook 'emacs-lisp-mode-hook
+          (lambda ()
+            (push '("defun"  . ?ƒ) prettify-symbols-alist)
+            (push '("lambda" . ?λ) prettify-symbols-alist)
+            (push '("/="     . ?≠) prettify-symbols-alist)
+            (push '("sqrt"   . ?√) prettify-symbols-alist)
+            (push '("not"    . ?¬) prettify-symbols-alist)
+            (push '("and"    . ?∧) prettify-symbols-alist)
+            (push '("or"     . ?∨) prettify-symbols-alist)))
+
+(add-hook 'go-mode-hook
+          (lambda ()
+            (push '("->" . ?→) prettify-symbols-alist)
+            (push '("<-" . ?←) prettify-symbols-alist)))
+
+(mapc
+ (lambda (hook)
+   (add-hook hook (lambda ()
+                    (push '("&&" . ?∧) prettify-symbols-alist)
+                    (push '("||" . ?∨) prettify-symbols-alist)
+                    (push '(">>" . ?») prettify-symbols-alist)
+                    (push '("<<" . ?«) prettify-symbols-alist)
+                    )))
+ '(c-mode-hook c++-mode-hook))
+
+(add-hook 'python-mode-hook
+          (lambda ()
+            (push '("def"     . ?ƒ) prettify-symbols-alist)
+            (push '("sum"     . ?Σ) prettify-symbols-alist)
+            (push '("**2"     . ?²) prettify-symbols-alist)
+            (push '("**3"     . ?³) prettify-symbols-alist)
+            (push '("None"    . ?∅) prettify-symbols-alist)
+            (push '("in"      . ?∈) prettify-symbols-alist)
+            (push '("not in"  . ?∉) prettify-symbols-alist)
+            (push '("or"      . ?∨) prettify-symbols-alist)
+            (push '("and"     . ?∧) prettify-symbols-alist)
+            (push '("not"     . ?¬) prettify-symbols-alist)
+            (push '("math.pi" . ?π) prettify-symbols-alist)))
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (push '("[ ]"             . ?☐) prettify-symbols-alist)
+            (push '("[X]"             . ?☑) prettify-symbols-alist)
+            (push '("[-]"             . ?❍) prettify-symbols-alist)
+            (push '("#+BEGIN_SRC"     . ?↦) prettify-symbols-alist)
+            (push '("#+END_SRC"       . ?⇤) prettify-symbols-alist)
+            (push '("#+BEGIN_EXAMPLE" . ?↦) prettify-symbols-alist)
+            (push '("#+END_EXAMPLE"   . ?⇤) prettify-symbols-alist)
+            (push '("#+BEGIN_QUOTE"   . ?↦) prettify-symbols-alist)
+            (push '("#+END_QUOTE"     . ?⇤) prettify-symbols-alist)
+            (push '("#+begin_quote"   . ?↦) prettify-symbols-alist)
+            (push '("#+end_quote"     . ?⇤) prettify-symbols-alist)
+            (push '("#+begin_example" . ?↦) prettify-symbols-alist)
+            (push '("#+end_example"   . ?⇤) prettify-symbols-alist)
+            (push '("#+begin_src"     . ?↦) prettify-symbols-alist)
+            (push '("#+end_src"       . ?⇤) prettify-symbols-alist)))
+;; When you get to the right edge, it goes back to how it normally prints
+(setq prettify-symbols-unprettify-at-point 'right-edge)
+(global-prettify-symbols-mode t)
+
 (provide 'init-ui)
 ;;; init-ui ends here

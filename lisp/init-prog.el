@@ -30,11 +30,6 @@
         maple-imenu-indent 2
         maple-imenu-display-alist '((side . right) (slot . -1))))
 
-(use-package prog-mode
-  :ensure nil
-  :hook ((emacs-lisp-mode . global-prettify-symbols-mode)
-         (emacs-lisp-mode . (lambda () (push '("<=" . ?≤) prettify-symbols-alist)))))
-
 (use-package nxml-mode
   :ensure nil
   :mode (("\\.xaml$" . xml-mode)))
