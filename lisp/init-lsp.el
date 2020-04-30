@@ -31,22 +31,22 @@
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
   (setq lsp-session-file (concat kevin-cache-dir "lsp-session-v1")
-        ;;prefer flycheck
         lsp-diagnostic-package :flycheck
         lsp-auto-guess-root t
-        ;;disable file wathcer when large file
-        lsp-enable-file-watchers nil
         ;; enable log only for debug
         lsp-log-io nil
-        ;; completion
-        lsp-prefer-capf nil
-        ;; turn off for better performance
-        lsp-enable-symbol-highlighting nil
-        ;; Disable eldoc displays in minibuffer
-        lsp-eldoc-enable-hover nil
+        lsp-prefer-capf t
         lsp-flycheck-live-reporting nil
         ;; auto kill server
-        lsp-keep-workspace-alive nil)
+        lsp-keep-workspace-alive nil
+        lsp-signature-auto-activate nil
+        ;; Disable eldoc displays in minibuffer
+        lsp-eldoc-enable-hover nil
+        lsp-enable-folding nil
+        lsp-enable-indentation nil
+        lsp-enable-file-watchers nil
+        lsp-enable-on-type-formatting nil
+        lsp-enable-symbol-highlighting nil)
   :config
   (use-package lsp-ui
     :custom-face
