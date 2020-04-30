@@ -30,6 +30,7 @@
         evil-ex-substitute-global t
         evil-ex-visual-char-range t  ; column range for ex commands
         evil-insert-skip-empty-lines t
+        evil-disable-insert-state-bindings t ; enable default emacs keybinding in insert state
         ;; more vim-like behavior
         evil-symbol-word-search t
         ;; don't activate mark on shift-click
@@ -46,14 +47,8 @@
          evil-replace-state-cursor '("red" hollow)
          evil-emacs-state-cursor '("red" hbar))
   :config
-  (define-key evil-normal-state-map "Y" (kbd "y$"))
-  (evil-define-key '(insert normal visual) 'global
-    (kbd "C-n") 'evil-next-visual-line
-    (kbd "C-p") 'evil-previous-visual-line
-    (kbd "C-e") 'move-end-of-line)
-  (evil-define-key 'insert 'global
-    (kbd "C-a") 'move-beginning-of-line
-    (kbd "C-k") 'kill-line)
+  (general-nvmap "C-e" 'move-end-of-line)
+  (general-nmap "Y" (kbd "y$"))
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
   (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
   (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
