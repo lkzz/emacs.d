@@ -13,6 +13,14 @@
 ;;
 ;;; Code:
 
+(defvar kevin-load-theme-hook nil
+  "Hook run after the theme is loaded with `load-theme'.")
+
+(defun kevin/run-load-theme-hooks (&rest _)
+  (run-hooks 'kevin-load-theme-hook))
+
+(advice-add #'load-theme :after #'kevin/run-load-theme-hooks)
+
 (setq inhibit-startup-screen t            ; 禁止启动画面
       inhibit-startup-echo-area-message t ; 禁止echo area message
       inhibit-default-init t              ; 禁止加载default lib
@@ -158,7 +166,7 @@
 (setq window-divider-default-places t
       window-divider-default-bottom-width 1
       window-divider-default-right-width 1)
-(add-hook 'after-load-theme-hook #'window-divider-mode)
+(add-hook 'kevin-load-theme-hook #'window-divider-mode)
 ;;============================ window end ==========================================
 
 ;;============================ minibuffer start ====================================

@@ -15,21 +15,39 @@
 
 (use-package doom-themes
   :defer t
+  :init
+  (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
+  (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
+  (setq doom-dark+-blue-modeline t
+        doom-themes-neotree-file-icons 'simple
+        doom-themes-neotree-line-spacing 2))
+
+(use-package solaire-mode
+  :defer t
+  :when (or (daemonp) (display-graphic-p))
+  :custom-face
+  (solaire-hl-line-face ((t (:inherit hl-line :background "#272a27"))))
+  :init
+  (add-hook 'kevin-load-theme-hook '(lambda ()
+                                      (require 'solaire-mode)
+                                      (solaire-mode-swap-bg)))
   :config
-  (setq doom-dark+-blue-modeline t)
-  (doom-themes-org-config)
-  (doom-themes-neotree-config)
-  ;; Must before loading the theme
-  (use-package solaire-mode
-    :functions persp-load-state-from-file
-    :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-           (minibuffer-setup . solaire-mode-in-minibuffer)
-           (after-load-theme . solaire-mode-swap-bg))
-    :custom-face
-    (solaire-hl-line-face ((t (:inherit hl-line :background "#272a27"))))
-    :init
-    (solaire-global-mode 1)
-    (advice-add #'persp-load-state-from-file :after #'solaire-mode-restore-persp-mode-buffers)))
+  ;; fringe can become unstyled when deleting or focusing frames
+  (add-hook 'focus-in-hook #'solaire-mode-reset)
+  ;; org-capture takes an org buffer and narrows it. The result is erroneously
+  ;; considered an unreal buffer, so solaire-mode must be restored.
+  (add-hook 'org-capture-mode-hook #'turn-on-solaire-mode)
+  ;; Because fringes can't be given a buffer-local face, they can look odd, so
+  ;; we remove them in the minibuffer and which-key popups (they serve no
+  ;; purpose there anyway).
+  (defun kevin/disable-fringes-in-minibuffer-h (&rest _)
+    (set-window-fringes (minibuffer-window) 0 0 nil))
+
+  (add-hook 'solaire-mode-hook #'kevin/disable-fringes-in-minibuffer-h)
+  (add-hook 'minibuffer-setup-hook #'kevin/disable-fringes-in-minibuffer-h)
+  (add-hook 'window-configuration-change-hook #'kevin/disable-fringes-in-minibuffer-h)
+
+  (solaire-global-mode +1))
 
 ;; 加载主题
 (if (daemonp)
@@ -164,6 +182,7 @@
     "Calculate the actual char height of the mode-line."
     (+ (frame-char-height) 2))
   (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
+  (add-hook #'kevin-load-theme-hook #'doom-modeline-refresh-bars)
   (setq doom-modeline-bar-width 3
         doom-modeline-env-enable-python t
         doom-modeline-icon (display-graphic-p)
