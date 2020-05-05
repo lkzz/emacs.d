@@ -245,7 +245,6 @@
 
 (add-hook 'emacs-lisp-mode-hook
           (lambda ()
-            (push '("defun"  . ?ƒ) prettify-symbols-alist)
             (push '("lambda" . ?λ) prettify-symbols-alist)
             (push '("/="     . ?≠) prettify-symbols-alist)
             (push '("sqrt"   . ?√) prettify-symbols-alist)

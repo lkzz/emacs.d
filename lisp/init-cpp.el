@@ -57,7 +57,6 @@
       :init
       (setq clang-format-style-option "google"))
 
-    (message "load cxx-mode-setup")
     (setq c-default-style "horstmann")
     ;; add horstmann style - copy bsd style
     (c-add-style "horstmann"
@@ -90,7 +89,18 @@
     ;; auto format before save by clang-format
     (add-hook 'before-save-hook #'kevin/clang-format-region-or-buffer nil t)
     ;; used by ff-find-other-file
-    (setq cc-search-directories '("." "../include" "../*/include" "/usr/include" "/usr/local/include/*"))))
+    (setq cc-search-directories '("."
+                                  "../include"
+                                  "../*/include"
+                                  "/usr/include"
+                                  "/usr/local/include/*"
+                                  "../src"
+                                  "../src/*"
+                                  "../../src/*"
+                                  "../../../src/*"
+                                  "../../src/*/*"
+                                  "../../../src/*/*/*"
+                                  ))))
 
 (provide 'init-cpp)
 ;;; init-cpp.el ends here
