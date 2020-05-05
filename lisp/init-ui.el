@@ -204,7 +204,6 @@
          (dashboard-mode . hide-mode-line-mode)
          (dired-mode . hide-mode-line-mode)))
 
-
 (use-package centaur-tabs
   :if (display-graphic-p)
   :commands centaur-tabs-select-visible-tab

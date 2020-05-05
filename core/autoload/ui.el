@@ -21,13 +21,14 @@
   (list
    (cond
 	((or (string-equal "*" (substring (buffer-name) 0 1))
-	     (memq major-mode '(magit-process-mode
-				            magit-status-mode
-				            magit-diff-mode
-				            magit-log-mode
-				            magit-file-mode
-				            magit-blob-mode
-				            magit-blame-mode)))
+	    (memq major-mode '(magit-process-mode
+				           magit-status-mode
+				           magit-diff-mode
+				           magit-log-mode
+				           magit-file-mode
+				           magit-blob-mode
+				           magit-blame-mode
+                           emacs-lisp-mode)))
 	 "Emacs")
 	((derived-mode-p 'prog-mode)
 	 "Coding")
@@ -46,7 +47,7 @@
 			            org-cdlatex-mode
 			            org-agenda-log-mode
 			            diary-mode))
-	 "OrgMode")
+	 "Org")
 	(t
 	 (centaur-tabs-get-group-name (current-buffer))))))
 
