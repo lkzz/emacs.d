@@ -303,5 +303,9 @@
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 (global-prettify-symbols-mode t)
 
+(use-package rainbow-mode
+  :diminish rainbow-mode
+  :hook (emacs-lisp-mode . rainbow-mode))
+
 (provide 'init-ui)
 ;;; init-ui ends here
