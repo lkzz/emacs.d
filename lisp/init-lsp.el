@@ -17,6 +17,7 @@
   :diminish lsp-mode
   :commands lsp lsp-deferred
   :hook ((go-mode . lsp-deferred)
+         (python-mode . lsp-deferred)
          (c++-mode . lsp-deferred))
   :general (lsp-mode-map "C-c C-d" 'lsp-describe-thing-at-point
                          "C-c C-r" 'lsp-ui-peek-find-references

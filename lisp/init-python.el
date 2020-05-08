@@ -19,32 +19,29 @@
 (use-package python
   :ensure nil
   :mode ("\\.py\\'" . python-mode)
+  :hook (inferior-python-mode . (lambda ()
+                                  (process-query-on-exit-flag
+                                   (get-process "Python"))))
   :init
   (setq python-indent-offset 4
-        python-indent-guess-indent-offset nil)
+        python-indent-guess-indent-offset nil
+        python-shell-completion-native-enable nil)
   :config
+  ;; Default to Python 3. Prefer the versioned Python binaries since some
+  ;; systems stupidly make the unversioned one point at Python 2.
+  (when (and (executable-find "python3")
+           (string= python-shell-interpreter "python"))
+    (setq python-shell-interpreter "python3"))
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH"))
-  (setq python-shell-completion-native-enable nil
-        py-python-command "python3"
-        python-shell-interpreter "python3")
 
-  ;; Anaconda mode
-  (use-package anaconda-mode
-    :diminish anaconda-mode
-    :hook ((python-mode . anaconda-mode)
-           (python-mode . anaconda-eldoc-mode))
-    :config
-    (setq anaconda-mode-installation-directory (concat kevin-cache-dir "anaconda-mode")))
+  ;; Live Coding in Python
+  (use-package live-py-mode)
 
-  (use-package company-anaconda
-    :init
-    (cl-pushnew 'company-anaconda company-backends))
+  ;; Microsoft python-language-server support
+  (use-package lsp-python-ms)
 
-  ;; Autopep8
-  (use-package py-autopep8
-    :hook (python-mode . py-autopep8-enable-on-save))
   )
 
 (provide 'init-python)
