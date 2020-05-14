@@ -204,35 +204,6 @@
          (dashboard-mode . hide-mode-line-mode)
          (dired-mode . hide-mode-line-mode)))
 
-(use-package centaur-tabs
-  :if (display-graphic-p)
-  :commands centaur-tabs-select-visible-tab
-  :hook ((dashboard-mode . centaur-tabs-local-mode)
-         (term-mode . centaur-tabs-local-mode)
-         (calendar-mode . centaur-tabs-local-mode)
-         (org-agenda-mode . centaur-tabs-local-mode)
-         (helpful-mode . centaur-tabs-local-mode))
-  :init
-  (global-set-key (kbd "s-1") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-2") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-3") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-4") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-5") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-6") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-7") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-8") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-9") 'centaur-tabs-select-visible-tab)
-  (global-set-key (kbd "s-0") 'centaur-tabs-select-visible-tab)
-  :config
-  (setq centaur-tabs-height 25
-        centaur-tabs-set-icons t
-        centaur-tabs-set-modified-marker t
-        centaur-tabs-style "bar"
-        centaur-tabs-set-bar 'under
-        x-underline-at-descent-line t)
-  (centaur-tabs-headline-match)
-  (centaur-tabs-mode t))
-
 (add-hook 'prog-mode-hook
           (lambda ()
             (push '("+=" . ?⩲) prettify-symbols-alist)
