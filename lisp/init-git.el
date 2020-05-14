@@ -33,13 +33,12 @@
     "g t" '(hydra-git-timemachine/body :wk "git-timemachine")
     "g u" 'magit-unstage-file
     "g v" 'vc-annotate)
-  :init
-  (setq magit-auto-revert-mode nil)
   :config
   ;; display buffer fullframe
   (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
   ;; see https://chris.beams.io/posts/git-commit/
   (setq fill-column 72
+        magit-auto-revert-mode t
         git-commit-summary-max-length 50
         magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
         git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line))
