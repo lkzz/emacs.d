@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package evil
+  :demand t ; https://github.com/noctuid/general.el/issues/180
   :hook (after-init . evil-mode)
   :init
   (setq evil-magic t
