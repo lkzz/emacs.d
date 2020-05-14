@@ -183,6 +183,9 @@
     (+ (frame-char-height) 2))
   (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
   (add-hook #'kevin-load-theme-hook #'doom-modeline-refresh-bars)
+  (unless after-init-time
+    ;; prevent flash of unstyled modeline at startup
+    (setq-default mode-line-format nil))
   (setq doom-modeline-bar-width 3
         doom-modeline-env-enable-python t
         doom-modeline-icon (display-graphic-p)
