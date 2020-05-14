@@ -115,7 +115,7 @@
   (diff-hl-margin-delete ((t (:background "#ee6363"))))
   :hook ((after-init . global-diff-hl-mode)
          (dired-mode . diff-hl-dired-mode)
-         (magit-post-refresh-hook . diff-hl-magit-post-refresh))
+         (magit-post-refresh . diff-hl-magit-post-refresh))
   :init
   (defhydra hydra-diff-hl (:color pink :hint nil)
     "
