@@ -44,12 +44,10 @@
       "Close current popup window via `C-g'."
       (setq shackle--popup-window-list
             (cl-loop for (window . buffer) in shackle--popup-window-list
-                     if (and (window-live-p window)
-                             (equal (window-buffer window) buffer))
+                     if (and (window-live-p window) (equal (window-buffer window) buffer))
                      collect (cons window buffer)))
       ;; `C-g' can deactivate region
-      (when (and (called-interactively-p 'interactive)
-                 (not (region-active-p)))
+      (when (and (called-interactively-p 'interactive) (not (region-active-p)))
         (let (window buffer)
           (if (one-window-p)
               (progn
@@ -60,10 +58,8 @@
                   (winner-undo)))
             (setq window (caar shackle--popup-window-list))
             (setq buffer (cdar shackle--popup-window-list))
-            (when (and (window-live-p window)
-                       (equal (window-buffer window) buffer))
+            (when (and (window-live-p window) (equal (window-buffer window) buffer))
               (delete-window window)
-
               (pop shackle--popup-window-list))))))
 
     (advice-add #'keyboard-quit :before #'shackle-close-popup-window-hack)
@@ -77,8 +73,7 @@
         shackle-default-alignment 'below
         shackle-default-rule nil
         shackle-rules
-        '(
-          ("*Help*" :select t :size 0.3 :align 'below :autoclose t)
+        '(("*Help*" :select t :size 0.3 :align 'below :autoclose t)
           ("*Apropos*" :select t :size 0.3 :align 'below :autoclose t)
           ("*compilation*" :select t :size 0.3 :align 'below :autoclose t)
           ("*Compile-Log*" :select t :size 0.3 :align 'below :autoclose t)
@@ -113,6 +108,7 @@
           ("*Go Test*" :select t :size 0.3 :align 'below :autoclose t)
           ("*How Do You*" :select t :size 0.5 :align 'below :autoclose t)
           ("*esup*" :select t :size 0.5 :align 'below :autoclose t)
+          ("*xref*" :select t :size 0.5 :align 'below :autoclose t)
 
           (ag-mode :select t :align 'below)
           (grep-mode :select t :align 'below)
