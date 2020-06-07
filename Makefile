@@ -24,8 +24,4 @@ install: install_rime
 	@emacs --batch -l $(EMACS_DIR)/init.el
 	@echo "make install done."
 
-profile:
-	emacs -Q -l site-lisp/profile-dotemacs.el --eval "(setq profile-dotemacs-file \
-        (setq load-file-name \"$(abspath init.el)\"))" -f profile-dotemacs
-
-.PHONY:clean profile install
+.PHONY:clean install
