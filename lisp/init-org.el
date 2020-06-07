@@ -14,10 +14,13 @@
 ;;; Code:
 
 (use-package org
+  :straight (:type built-in)
   :general (org-mode-map "C-c l" 'org-store-link)
   :config
   (add-to-list 'org-export-backends 'md)
-  (setq org-todo-keywords '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)"))
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "DOING(i)" "HANGUP(h)" "|" "DONE(d)" "CANCEL(c)")
+          (sequence "⚑(T)" "🏴(I)" "❓(H)" "|" "✔(D)" "✘(C)"))
         org-todo-keyword-faces '(("TODO" . (:foreground "#ee6363" :weight bold))
                                  ("DOING" . (:foreground "#3a81c3" :weight bold))
                                  ("HANGUP" . (:foreground "red" :weight bold))
@@ -49,6 +52,14 @@
         org-agenda-use-tag-inheritance nil ;; 3-4x speedup
         org-pretty-entities t)
 
+  (use-package evil-org
+    :config
+    (add-hook 'org-mode-hook 'evil-org-mode)
+    (add-hook 'evil-org-mode-hook (lambda ()
+                                    (evil-org-set-key-theme)))
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys))
+
   (use-package org-bullets
     :hook (org-mode . org-bullets-mode)
     :init
@@ -74,7 +85,7 @@
   (use-package org-dashboard)
 
   (use-package org-archive
-    :ensure nil
+    :straight (:type built-in)
     :after org-agenda
     :config
     ;; 使用 org-archive-subtree 时，原来的 header 层级容易被打乱，而且容易
@@ -84,7 +95,7 @@
     (setq org-archive-default-command 'org-archive-set-tag))
 
   (use-package org-agenda
-    :ensure nil
+    :straight (:type built-in)
     :general ("C-c a" 'org-agenda)
     (org-agenda-mode-map "g" 'org-agenda-redo-all
                          "i" '(lambda () (interactive) (org-capture nil "s"))
@@ -123,6 +134,26 @@
                                '((emacs-lisp . t)
                                  (python . t)
                                  (ruby . t)))
+
+  ;; This package provides visual alignment for Org tables on GUI Emacs.
+  ;; https://github.com/casouri/valign
+  (use-package valign
+    :straight ((valign :type git :host github :repo "casouri/valign"))
+    :config
+    (valign-mode)
+    (advice-add 'text-scale-increase
+                :after (lambda (inc)
+                         (when (or (bound-and-true-p valign-mode)
+                                  (derived-mode-p 'org-mode)
+                                  (derived-mode-p 'markdown-mode))
+                           (valign--force-align-buffer))))
+    (advice-add 'text-scale-decrease
+                :after (lambda (dec)
+                         (when (or (bound-and-true-p valign-mode)
+                                  (derived-mode-p 'org-mode)
+                                  (derived-mode-p 'markdown-mode))
+                           (valign--force-align-buffer)))))
+
   )
 
 (provide 'init-org)

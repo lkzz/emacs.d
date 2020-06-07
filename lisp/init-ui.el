@@ -66,7 +66,7 @@
 
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
-  :ensure nil
+  :straight (:type built-in)
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
   (setq-default display-line-numbers-width 3)
@@ -74,7 +74,7 @@
 
 ;; 设置时间格式
 (use-package time
-  :ensure nil
+  :straight (:type built-in)
   :unless (display-graphic-p)
   :hook (after-init . display-time-mode)
   :init

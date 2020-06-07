@@ -36,8 +36,6 @@
         dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" user-full-name)
         dashboard-center-content t
         dashboard-set-init-info t
-        dashboard-init-info (format "%d packages loaded in %s"
-                                    (length package-activated-list) (emacs-init-time))
         dashboard-show-shortcuts nil
         dashboard-items '((recents   . 5)
                           (bookmarks . 5)
