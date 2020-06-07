@@ -49,7 +49,9 @@
          evil-emacs-state-cursor '("red" hbar))
   :config
   (general-nvmap "C-e" 'move-end-of-line)
-  (general-nmap "Y" (kbd "y$"))
+  (general-nmap
+    "Y" (kbd "y$")
+    "gr" 'xref-find-references)
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
   (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
   (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
