@@ -214,6 +214,7 @@
             (push '("==" . ?≡) prettify-symbols-alist)
             (push '("<=" . ?≤) prettify-symbols-alist)
             (push '(">=" . ?≥) prettify-symbols-alist)
+            (push '("=>" . ?⇒) prettify-symbols-alist)
             (push '("!=" . ?≠) prettify-symbols-alist)))
 
 (add-hook 'emacs-lisp-mode-hook

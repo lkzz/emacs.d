@@ -24,7 +24,7 @@ install: install_rime
 	@emacs --batch -l $(EMACS_DIR)/init.el
 	@echo "make install done."
 
-go_tools:
+install_go_tools:
 	@go get -u golang.org/x/tools/...
 	@go get -u golang.org/x/tools/gopls
 	@go get -u github.com/gogo/protobuf/gogoproto

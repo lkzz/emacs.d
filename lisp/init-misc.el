@@ -146,5 +146,11 @@
         transient-values-file (concat kevin-cache-dir "transient-values.el")
         transient-history-file (concat kevin-cache-dir "transient/history.el")))
 
+;; Writable `grep' buffer
+(use-package wgrep
+  :init
+  (setq wgrep-auto-save-buffer t
+        wgrep-change-readonly-file t))
+
 (provide 'init-misc)
 ;;; init-misc.el ends here
