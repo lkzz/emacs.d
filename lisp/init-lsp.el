@@ -43,6 +43,7 @@
         lsp-signature-auto-activate nil
         ;; Disable eldoc displays in minibuffer
         lsp-eldoc-enable-hover nil
+        lsp-modeline-diagnostics-enable nil
         lsp-enable-folding nil
         lsp-enable-indentation nil
         lsp-enable-file-watchers nil
