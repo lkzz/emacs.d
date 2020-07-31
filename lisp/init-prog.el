@@ -22,7 +22,7 @@
 ;; https://github.com/honmaple/emacs-maple-imenu
 (use-package maple-imenu
   :commands maple-imenu
-  :straight ((maple-imenu :type git :host github :repo "honmaple/emacs-maple-imenu"))
+  :quelpa ((maple-imenu :fetcher github :repo "honmaple/emacs-maple-imenu"))
   :general (kevin/space-key-define "t i" 'maple-imenu)
   :config
   (setq maple-imenu-autoupdate t
@@ -31,7 +31,7 @@
         maple-imenu-display-alist '((side . right) (slot . -1))))
 
 (use-package nxml-mode
-  :straight (:type built-in)
+  :ensure nil
   :mode (("\\.xaml$" . xml-mode)))
 
 (use-package toml-mode

@@ -74,7 +74,7 @@
 
 ;; programming releated packages
 (require 'init-company)
-(require 'init-yasnippet)
+;; (require 'init-yasnippet)
 (require 'init-lsp)
 (require 'init-org)
 (require 'init-prog)

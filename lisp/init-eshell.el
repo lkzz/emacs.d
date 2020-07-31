@@ -15,7 +15,7 @@
 
 ;; https://github.com/manateelazycat/aweshell
 (use-package aweshell
-  :straight ((aweshell :type git :host github :repo "manateelazycat/aweshell"))
+  :quelpa ((aweshell :fetcher github :repo "manateelazycat/aweshell"))
   :hook ((eshell-first-time-mode . kevin/eshell-keymap)
          (eshell-exit . delete-window))
   :general (kevin/space-key-define "t '" '(kevin/toggle-aweshell :wk "shell"))

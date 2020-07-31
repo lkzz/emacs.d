@@ -14,7 +14,7 @@
 ;;; Code:
 
 (use-package org
-  :straight (:type built-in)
+  :ensure nil
   :general (org-mode-map "C-c l" 'org-store-link)
   :config
   (add-to-list 'org-export-backends 'md)
@@ -85,7 +85,7 @@
   (use-package org-dashboard)
 
   (use-package org-archive
-    :straight (:type built-in)
+    :ensure nil
     :after org-agenda
     :config
     ;; 使用 org-archive-subtree 时，原来的 header 层级容易被打乱，而且容易
@@ -95,7 +95,7 @@
     (setq org-archive-default-command 'org-archive-set-tag))
 
   (use-package org-agenda
-    :straight (:type built-in)
+    :ensure nil
     :general ("C-c a" 'org-agenda)
     (org-agenda-mode-map "g" 'org-agenda-redo-all
                          "i" '(lambda () (interactive) (org-capture nil "s"))
@@ -138,7 +138,7 @@
   ;; This package provides visual alignment for Org tables on GUI Emacs.
   ;; https://github.com/casouri/valign
   (use-package valign
-    :straight ((valign :type git :host github :repo "casouri/valign"))
+    :quelpa ((valign :fetcher github :repo "casouri/valign"))
     :config
     (valign-mode)
     (advice-add 'text-scale-increase

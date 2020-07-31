@@ -17,7 +17,7 @@
 
 ;; Python Mode
 (use-package python
-  :straight (:type built-in)
+  :ensure nil
   :mode ("\\.py\\'" . python-mode)
   :hook (inferior-python-mode . (lambda ()
                                   (process-query-on-exit-flag

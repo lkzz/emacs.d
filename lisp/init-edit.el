@@ -14,7 +14,7 @@
 
 ;; 自动刷新文件
 (use-package autorevert
-  :straight (:type built-in)
+  :ensure nil
   :diminish auto-revert-mode
   :hook (after-init . global-auto-revert-mode))
 
@@ -28,7 +28,7 @@
 
 ;; Rectangle
 (use-package rect
-  :straight (:type built-in)
+  :ensure nil
   :general ("<C-return>" 'rectangle-mark-mode))
 
 (use-package expand-region
@@ -36,7 +36,7 @@
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff
-  :straight (:type built-in)
+  :ensure nil
   :hook(;; show org ediffs unfolded
         (ediff-prepare-buffer . outline-show-all)
         ;; restore window layout when done

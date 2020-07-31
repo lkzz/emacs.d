@@ -2,11 +2,15 @@ EMACS_DIR = ${CURDIR}
 ELPA_DIR = $(EMACS_DIR)/elpa
 CORE_DIR = $(EMACS_DIR)/core
 CACHE_DIR = $(EMACS_DIR)/cache
+STRAIGHT_DIR =$(EMACS_DIR)/straight
+QUELPA_DIR=$(EMACS_DIR)/quelpa
 
 default: install
 
 clean:
 	@rm -rf $(ELPA_DIR)
+	@rm -rf $(STRAIGHT_DIR)
+	@rm -rf $(QUELPA_DIR)
 	@rm -rf $(CORE_DIR)/*.elc
 	@rm -rf $(CACHE_DIR)/*.el*
 	@rm -rf $(EMACS_DIR)/custom.el $(EMACS_DIR)/.emacs.desktop $(EMACS_DIR)/auto-save-list

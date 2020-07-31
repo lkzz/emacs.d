@@ -49,7 +49,7 @@
     :hook (git-commit-mode . evil-insert-state)))
 
 (use-package smerge-mode
-  :straight (:type built-in)
+  :ensure nil
   :diminish smerge-mode
   :init
   (defhydra hydra-smerge-mode (:hint nil
