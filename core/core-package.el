@@ -45,6 +45,8 @@
 ;; straight bootstrap
 ;;-----------------------------------------------------------------------------
 (defun kevin-ensure-straight ()
+  ;; enable http proxy: 127.0.0.1:1235
+  (kevin/enable-http-proxy)
   (setq straight-repository-branch "develop"
         straight-use-package-by-default t
         straight-check-for-modifications nil
