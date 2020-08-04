@@ -143,19 +143,12 @@
                   (abbreviate-file-name (buffer-file-name)) "%b")))
 
 (when is-mac-p
-  ;; 打开抗锯齿
-  (setq mac-allow-anti-aliasing t)
   ;; NOTE Meaningless to railwaycat's emacs-mac build
   (setq ns-use-native-fullscreen nil)
+  ;; Render thinner fonts
+  (setq ns-use-thin-smoothing t)
   ;; 打开文件时不再创建新的frame
-  (setq ns-pop-up-frames nil)
-  ;; natural title bar
-  (add-to-list 'default-frame-alist '(ns-appearance . dark))
-  (add-to-list 'default-frame-alist '(ns-transparent-titlebar . t))
-  (add-hook 'after-load-theme-hook
-            (lambda ()
-              (setcdr (assq 'ns-appearance default-frame-alist)
-                      (frame-parameter nil 'background-mode)))))
+  (setq ns-pop-up-frames nil))
 
 ;; Don't resize emacs in steps, it looks weird.
 (setq window-resize-pixelwise t

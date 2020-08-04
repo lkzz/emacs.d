@@ -58,16 +58,13 @@
 
 ;; Highlight TODO/FIXME/NOTE...
 (use-package hl-todo
-  :hook (prog-mode . hl-todo-mode)
+  :hook (after-init . global-hl-todo-mode)
   :config
-  (setq hl-todo-highlight-punctuation ":"
-        hl-todo-keyword-faces
-        `(("TODO"       . ,(face-foreground 'warning))
-          ("FIXME"      . ,(face-foreground 'error))
-          ("HACK"       . ,(face-foreground 'font-lock-constant-face))
-          ("REVIEW"     . ,(face-foreground 'font-lock-keyword-face))
-          ("NOTE"       . ,(face-foreground 'success))
-          ("DEPRECATED" . ,(face-foreground 'font-lock-doc-face)))))
+  (setq hl-todo-highlight-punctuation ":")
+  (dolist (keyword '("BUG" "DEFECT" "ISSUE" "REVIEW"))
+    (cl-pushnew `(,keyword . ,(face-foreground 'error)) hl-todo-keyword-faces))
+  (dolist (keyword '("WORKAROUND" "HACK" "TRICK" "DEPRECATED"))
+    (cl-pushnew `(,keyword . ,(face-foreground 'warning)) hl-todo-keyword-faces)))
 
 ;; Beacon flashes the cursor whenever you adjust position.
 (use-package beacon

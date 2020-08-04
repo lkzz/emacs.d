@@ -32,22 +32,24 @@
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
   (setq lsp-session-file (concat kevin-cache-dir "lsp-session-v1")
-        lsp-diagnostic-package :flycheck
         lsp-auto-guess-root t
-        ;; enable log only for debug
-        lsp-log-io nil
-        lsp-prefer-capf t
-        lsp-flycheck-live-reporting nil
-        ;; auto kill server
+        ;; lsp-prefer-capf t
         lsp-keep-workspace-alive nil
         lsp-signature-auto-activate nil
+
         ;; Disable eldoc displays in minibuffer
-        lsp-eldoc-enable-hover nil
+        ;; lsp-eldoc-enable-hover t
+
         lsp-modeline-diagnostics-enable nil
-        lsp-enable-folding nil
+        lsp-modeline-code-actions-enable nil
+
         lsp-enable-indentation nil
-        lsp-enable-file-watchers nil
         lsp-enable-on-type-formatting nil
+
+        lsp-enable-folding nil
+        lsp-enable-file-watchers nil
+        lsp-enable-text-document-color nil
+        lsp-enable-semantic-highlighting nil
         lsp-enable-symbol-highlighting nil)
   :config
   (use-package lsp-ui
@@ -59,8 +61,13 @@
                 lsp-ui-doc-include-signature t
                 lsp-ui-doc-position 'at-point
                 lsp-ui-doc-border (face-foreground 'default)
-                lsp-eldoc-enable-hover nil ; Disable eldoc displays in minibuffer
-                lsp-ui-sideline-enable nil
+                ;; lsp-eldoc-enable-hover nil ; Disable eldoc displays in minibuffer
+                lsp-ui-sideline-enable t
+                lsp-ui-sideline-show-hover nil
+                lsp-ui-sideline-show-diagnostics nil
+                lsp-ui-sideline-show-code-actions t
+                lsp-ui-sideline-ignore-duplicate t
+
                 lsp-ui-imenu-enable t
                 lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
                                       ,(face-foreground 'font-lock-string-face)
