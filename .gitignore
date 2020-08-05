@@ -10,7 +10,11 @@ transient/
 anaconda-mode/
 url/
 request/
-straight/
+straight/build/
+straight/modified/
+straight/repos/
+straight/build-cache.el
+
 librime/
 
 places
