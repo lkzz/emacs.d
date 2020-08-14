@@ -14,7 +14,7 @@
 ;;; Code:
 
 (use-package elisp-mode
-  :straight (:type built-in)
+  :ensure nil
   :config
   ;; Show function arglist or variable docstring
   (use-package eldoc

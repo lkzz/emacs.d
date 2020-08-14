@@ -16,6 +16,7 @@ straight/repos/
 straight/build-cache.el
 
 librime/
+quelpa/
 
 places
 recentf

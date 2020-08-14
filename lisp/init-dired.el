@@ -14,7 +14,7 @@
 ;;; Code:
 
 (use-package dired
-  :straight (:type built-in)
+  :ensure nil
   :commands dired-jump
   :init
   (setq dired-recursive-copies 'always ; always copy recursively
@@ -127,7 +127,7 @@
     (advice-add #'all-the-icons-dired--refresh :override #'my-all-the-icons-dired--refresh))
 
   (use-package dired-x
-    :straight (:type built-in)
+    :ensure nil
     :diminish dired-omit-mode
     :hook (dired-mode . dired-omit-mode)
     :general (general-nmap dired-mode-map "t h" 'dired-omit-mode)
