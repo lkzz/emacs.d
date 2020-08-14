@@ -22,7 +22,7 @@
 ;; https://github.com/honmaple/emacs-maple-imenu
 (use-package maple-imenu
   :commands maple-imenu
-  :quelpa ((maple-imenu :fetcher github :repo "honmaple/emacs-maple-imenu"))
+  :quelpa (maple-imenu :fetcher github :repo "honmaple/emacs-maple-imenu")
   :general (kevin/space-key-define "t i" 'maple-imenu)
   :config
   (setq maple-imenu-autoupdate t

@@ -41,13 +41,12 @@
   (setq use-package-enable-imenu-support t)
   (require 'use-package))
 
-(unless (package-installed-p 'quelpa)
-  (with-temp-buffer
-    (url-insert-file-contents "https://github.com/quelpa/quelpa/raw/master/quelpa.el")
-    (eval-buffer)
-    (quelpa-self-upgrade)))
-;; only use quelpa install package not in melpa
-(setq quelpa-checkout-melpa-p nil)
+;; use quelpa package manager
+(require 'quelpa)
+(setq quelpa-checkout-melpa-p nil       ; only use quelpa install package not in melpa
+      quelpa-update-melpa-p nil         ; disable auto upgrade
+      quelpa-melpa-recipe-stores nil    ; diable stores default recipes for package
+      quelpa-self-upgrade-p nil)        ; diable self upgrade
 
 (quelpa
  '(quelpa-use-package
