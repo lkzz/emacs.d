@@ -93,13 +93,7 @@
       (setq mode-line-format nil))
     (advice-add #'lsp-ui-imenu :after #'my-lsp-ui-imenu-hide-mode-line))
 
-  ;; Complete
-  (use-package company-lsp
-    :init
-    (setq company-lsp-async t
-          company-lsp-enable-snippet t
-          company-lsp-cache-candidates 'auto
-          company-lsp-enable-recompletion t)))
+  )
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here
