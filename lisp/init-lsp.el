@@ -20,25 +20,18 @@
          (python-mode . lsp-deferred)
          (c++-mode . lsp-deferred))
   :general (lsp-mode-map "C-c C-d" 'lsp-describe-thing-at-point
-                         "C-c C-r" 'lsp-ui-peek-find-references
-                         "C-c C-n" 'lsp-rename
-                         "C-c C-." 'lsp-ui-peek-find-definitions
-                         [remap evil-goto-definition] 'lsp-find-definition
-                         [remap xref-find-definitions] 'lsp-find-definition
-                         [remap xref-find-references] 'lsp-find-references)
+                         "C-c C-n" 'lsp-rename)
   :init
   (defun lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
   (setq lsp-session-file (concat kevin-cache-dir "lsp-session-v1")
-        lsp-auto-guess-root t
-        ;; lsp-prefer-capf t
         lsp-keep-workspace-alive nil
         lsp-signature-auto-activate nil
 
         ;; Disable eldoc displays in minibuffer
-        ;; lsp-eldoc-enable-hover t
+        lsp-eldoc-enable-hover nil
 
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-code-actions-enable nil
@@ -55,18 +48,18 @@
   (use-package lsp-ui
     :custom-face
     (lsp-ui-sideline-code-action ((t (:inherit warning))))
+    :general (lsp-ui-mode-map [remap evil-goto-definition] 'lsp-ui-peek-find-definitions
+                              [remap xref-find-definitions] 'lsp-ui-peek-find-definitions
+                              [remap xref-find-references] 'lsp-ui-peek-find-references)
     :init (setq lsp-ui-doc-enable t
+                lsp-ui-doc-header nil
                 lsp-ui-doc-use-webkit nil
-                lsp-ui-doc-delay 0.2
-                lsp-ui-doc-include-signature t
+                lsp-ui-doc-delay 0.5
+                lsp-ui-doc-include-signature nil
                 lsp-ui-doc-position 'at-point
-                lsp-ui-doc-border (face-foreground 'default)
-                ;; lsp-eldoc-enable-hover nil ; Disable eldoc displays in minibuffer
-                lsp-ui-sideline-enable t
-                lsp-ui-sideline-show-hover nil
-                lsp-ui-sideline-show-diagnostics nil
-                lsp-ui-sideline-show-code-actions t
-                lsp-ui-sideline-ignore-duplicate t
+                lsp-ui-doc-border (face-foreground 'font-lock-comment-face)
+
+                lsp-ui-sideline-enable nil
 
                 lsp-ui-imenu-enable t
                 lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
@@ -74,11 +67,6 @@
                                       ,(face-foreground 'font-lock-constant-face)
                                       ,(face-foreground 'font-lock-variable-name-face)))
     :config
-    (add-to-list 'lsp-ui-doc-frame-parameters '(right-fringe . 8))
-
-    ;; `C-g'to close doc
-    (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide)
-
     ;; Reset `lsp-ui-doc-background' after loading theme
     (add-hook 'after-load-theme-hook
               (lambda ()
@@ -86,12 +74,15 @@
                 (set-face-background 'lsp-ui-doc-background
                                      (face-background 'tooltip))))
 
-    ;; WORKAROUND Hide mode-line of the lsp-ui-imenu buffer
-    ;; @see https://github.com/emacs-lsp/lsp-ui/issues/243
-    (defun my-lsp-ui-imenu-hide-mode-line ()
-      "Hide the mode-line in lsp-ui-imenu."
-      (setq mode-line-format nil))
-    (advice-add #'lsp-ui-imenu :after #'my-lsp-ui-imenu-hide-mode-line))
+    ;; `C-g'to close doc
+    (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))
+
+  ;; Ivy integration
+  (use-package lsp-ivy
+    :after lsp-mode
+    :bind (:map lsp-mode-map
+                ([remap xref-find-apropos] . lsp-ivy-workspace-symbol)
+                ("C-s-." . lsp-ivy-global-workspace-symbol)))
 
   )
 

@@ -66,15 +66,58 @@
   (dolist (keyword '("WORKAROUND" "HACK" "TRICK" "DEPRECATED"))
     (cl-pushnew `(,keyword . ,(face-foreground 'warning)) hl-todo-keyword-faces)))
 
-;; Beacon flashes the cursor whenever you adjust position.
-(use-package beacon
-  :if (display-graphic-p)
-  :diminish beacon-mode
-  :config
-  (beacon-mode t)
-  (setq beacon-size 40
-        beacon-color "red")
-  (add-to-list 'beacon-dont-blink-major-modes 'eshell-mode))
+;; Pulse current line
+(use-package pulse
+  :ensure nil
+  :custom-face
+  (pulse-highlight-start-face ((t (:inherit region))))
+  (pulse-highlight-face ((t (:inherit region))))
+  :hook (((dumb-jump-after-jump imenu-after-jump) . my-recenter-and-pulse)
+         ((bookmark-after-jump magit-diff-visit-file next-error) . my-recenter-and-pulse-line))
+  :init
+  (defun my-pulse-momentary-line (&rest _)
+    "Pulse the current line."
+    (pulse-momentary-highlight-one-line (point)))
+
+  (defun my-pulse-momentary (&rest _)
+    "Pulse the region or the current line."
+    (if (fboundp 'xref-pulse-momentarily)
+        (xref-pulse-momentarily)
+      (my-pulse-momentary-line)))
+
+  (defun my-recenter-and-pulse(&rest _)
+    "Recenter and pulse the region or the current line."
+    (recenter)
+    (my-pulse-momentary))
+
+  (defun my-recenter-and-pulse-line (&rest _)
+    "Recenter and pulse the current line."
+    (recenter)
+    (my-pulse-momentary-line))
+
+  (dolist (cmd '(recenter-top-bottom
+                 other-window windmove-do-window-select
+                 ace-window
+                 winum-select-window-1
+                 winum-select-window-2
+                 winum-select-window-3
+                 winum-select-window-4
+                 winum-select-window-5
+                 winum-select-window-6
+                 winum-select-window-7
+                 winum-select-window-8
+                 winum-select-window-9
+                 winum-select-window-0-or-10
+                 pager-page-down pager-page-up
+                 symbol-overlay-basic-jump))
+    (advice-add cmd :after #'my-pulse-momentary-line))
+
+  (dolist (cmd '(pop-to-mark-command
+                 pop-global-mark
+                 neotree-enter
+                 dired-find-file
+                 goto-last-change))
+    (advice-add cmd :after #'my-recenter-and-pulse)))
 
 (use-package symbol-overlay
   :diminish symbol-overlay-mode "ⓢ"
