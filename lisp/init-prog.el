@@ -37,10 +37,6 @@
 (use-package toml-mode
   :mode (("\\.toml$" . toml-mode)))
 
-(use-package fish-mode
-  :init
-  (add-hook 'fish-mode-hook (lambda () (add-hook 'before-save-hook #'fish_indent-before-save))))
-
 (use-package bazel-mode
   :mode (("/BUILD\\(\\..*\\)?\\'" . bazel-mode)
          ("/WORKSPACE\\'" . bazel-mode)
