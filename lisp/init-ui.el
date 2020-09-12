@@ -157,7 +157,7 @@
   (nyan-mode t))
 
 (use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
+  :hook (window-setup . doom-modeline-mode)
   :init
   (defun my-doom-modeline--font-height ()
     "Calculate the actual char height of the mode-line."
@@ -258,7 +258,7 @@
 
 (use-package rainbow-mode
   :diminish rainbow-mode
-  :hook (emacs-lisp-mode . rainbow-mode))
+  :hook ((emacs-lisp-mode conf-space-mode) . rainbow-mode))
 
 (provide 'init-ui)
 ;;; init-ui ends here
