@@ -42,7 +42,7 @@
                            company-keywords     ; 当前文件所属编程语言的语法关键词
                            company-dabbrev      ; 主要用来补全当前 buffer 中出现的 word
                            company-files)       ; 补全文件系统的路径后端
-        company-frontends '(company-tng-frontend company-pseudo-tooltip-frontend company-echo-metadata-frontend))
+        company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend))
 
   (with-eval-after-load 'yasnippet
     (defun company-backend-with-yas (backend)
@@ -90,6 +90,7 @@
     :init (setq company-box-backends-colors nil
                 company-box-show-single-candidate t
                 company-box-max-candidates 50
+                company-box-highlight-prefix t
                 company-box-doc-delay 0.5)
     :config
     (defun company-remove-scrollbar-a (orig-fn &rest args)
