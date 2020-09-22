@@ -88,7 +88,12 @@
     ("C" smerge-combine-with-next)
     ("r" smerge-resolve)
     ("R" smerge-kill-current)
-    ("q" nil :color blue)))
+    ("q" nil :color blue))
+  :hook (find-file . (lambda ()
+                       (save-excursion
+                         (goto-char (point-min))
+                         (when (re-search-forward "^<<<<<<< " nil t)
+                           (hydra-smerge-mode/body))))))
 
 
 ;; Git modes
