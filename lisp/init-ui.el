@@ -38,7 +38,8 @@
   (load-theme 'doom-one t))
 
 ;; 启动时默认最大化
-(toggle-frame-maximized)
+(when (display-graphic-p)
+  (toggle-frame-maximized))
 
 (use-package vi-tilde-fringe
   :if (fboundp 'set-fringe-mode)
@@ -51,6 +52,7 @@
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
   (setq-default display-line-numbers-width 3)
+  (setq-default display-line-numbers-widen t)
   (setq display-line-numbers-current-absolute t))
 
 ;; 设置时间格式
@@ -259,6 +261,10 @@
 (use-package rainbow-mode
   :diminish rainbow-mode
   :hook ((emacs-lisp-mode conf-space-mode) . rainbow-mode))
+
+(use-package highlight-numbers
+  :hook ((prog-mode conf-mode) . highlight-numbers-mode)
+  :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
 
 (provide 'init-ui)
 ;;; init-ui ends here

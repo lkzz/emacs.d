@@ -43,10 +43,8 @@
   (flycheck-redefine-standard-error-levels "⏴" 'flycheck-fringe-bitmap-arrow)
   (if (display-graphic-p)
       (use-package flycheck-posframe
-        :custom-face (flycheck-posframe-border-face ((t (:inherit font-lock-comment-face))))
         :hook (flycheck-mode . flycheck-posframe-mode)
-        :init (setq flycheck-posframe-border-width 1
-                    flycheck-posframe-warning-prefix "⚠ "
+        :init (setq flycheck-posframe-warning-prefix "⚠ "
                     flycheck-posframe-error-prefix "✕ "
                     flycheck-posframe-inhibit-functions '((lambda (&rest _) (bound-and-true-p company-backend))))
         (with-eval-after-load 'evil

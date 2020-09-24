@@ -70,9 +70,8 @@
     ;; Reset `lsp-ui-doc-background' after loading theme
     (add-hook 'after-load-theme-hook
               (lambda ()
-                (setq lsp-ui-doc-border (face-foreground 'default))
-                (set-face-background 'lsp-ui-doc-background
-                                     (face-background 'tooltip))))
+                (setq lsp-ui-doc-border (face-foreground 'font-lock-comment-face))
+                (set-face-background 'lsp-ui-doc-background (face-background 'tooltip))))
 
     ;; `C-g'to close doc
     (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))
