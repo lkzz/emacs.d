@@ -169,5 +169,9 @@
   (setq wgrep-auto-save-buffer t
         wgrep-change-readonly-file t))
 
+(use-package direnv
+  :hook
+  (after-init . direnv-mode))
+
 (provide 'init-misc)
 ;;; init-misc.el ends here

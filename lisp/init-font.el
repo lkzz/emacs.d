@@ -13,7 +13,7 @@
 ;;
 ;;; Code:
 
-(defvar kevin-english-font "Fira Code"
+(defvar kevin-english-font "SF Mono"
   "The font name of English.")
 
 (defvar kevin-chinese-font "STKaiti"
