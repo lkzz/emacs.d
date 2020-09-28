@@ -83,13 +83,6 @@
               show-trailing-whitespace nil ; Don't show trailing whitespace by default
               truncate-partial-width-windows nil)
 
-;; Visualize TAB, (HARD) SPACE, NEWLINE
-(defun enable-trailing-whitespace ()
-  "Show trailing spaces and delete on saving."
-  (setq show-trailing-whitespace t)
-  (add-hook 'before-save-hook #'delete-trailing-whitespace nil t))
-(add-hook 'prog-mode-hook 'enable-trailing-whitespace) ; Only enable trailing whitespace in prog mode
-
 ;;============================ fringe start ==========================================
 (setq indicate-buffer-boundaries nil    ; Reduce the clutter in the fringes
       indicate-empty-lines nil)         ; 不显示buffer末尾空行fringe

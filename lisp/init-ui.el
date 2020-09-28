@@ -51,9 +51,9 @@
   :ensure nil
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
-  (setq-default display-line-numbers-width 3)
-  (setq-default display-line-numbers-widen t)
-  (setq display-line-numbers-current-absolute t))
+  (setq display-line-numbers-width 2
+        display-line-numbers-widen t
+        display-line-numbers-current-absolute t))
 
 ;; 设置时间格式
 (use-package time
@@ -265,6 +265,13 @@
 (use-package highlight-numbers
   :hook ((prog-mode conf-mode) . highlight-numbers-mode)
   :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
+
+;; A less intrusive `delete-trailing-whitespaces' on save
+(use-package ws-butler
+  :quelpa (ws-butler :fetcher github :repo "hlissner/ws-butler")
+  :hook (window-setup . ws-butler-global-mode)
+  :config
+  (add-hook 'prog-mode-hook '(lambda () (setq show-trailing-whitespace t))))
 
 (provide 'init-ui)
 ;;; init-ui ends here
