@@ -83,7 +83,8 @@
     "s" '(nil :which-key "Search")
     "t" '(nil :which-key "Toggle")
     "t ;" 'toggle-frame-fullscreen
-    "t b" 'toggle-scroll-bar)
+    "t b" 'toggle-scroll-bar
+    "t t" 'toggle-truncate-lines)
 
   (kevin/colon-key-define
     "e" '(nil :which-key "Emacs")
