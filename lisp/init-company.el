@@ -44,6 +44,9 @@
                            company-files)       ; 补全文件系统的路径后端
         company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend))
 
+  (add-hook 'evil-normal-state-entry-hook
+            '(lambda () (when company-candidates (company-abort))))
+
   (with-eval-after-load 'yasnippet
     (defun company-backend-with-yas (backend)
       "Add `yasnippet' to company backend."
@@ -83,7 +86,7 @@
     :init
     (setq prescient-save-file (concat kevin-cache-dir "prescient-save.el")))
 
-  ;; This package requires emacs 26, not compatible with emacs in a tty.
+  ;; This package requires emacs 26+, not compatible with emacs in a tty.
   (use-package company-box
     :diminish
     :hook (company-mode . company-box-mode)
