@@ -1,4 +1,4 @@
-;;; init-cpp.el --- cpp config. -*- lexical-binding: t; -*-
+;;; init-cxx.el --- cpp config. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2020  Kevin Leung
 ;;
@@ -102,5 +102,17 @@
                                   "../../../src/*/*/*"
                                   ))))
 
-(provide 'init-cpp)
-;;; init-cpp.el ends here
+(use-package cmake-mode
+  :mode (("CMakeLists\\.txt$" . cmake-mode)
+         ("\\.cmake$'" . cmake-mode))
+  :config
+  (setq cmake-tab-width 4)
+  (add-to-list 'company-backends 'company-cmake)
+
+  (use-package cmake-font-lock
+    :config
+    (add-hook 'cmake-mode-hook 'font-lock-refresh-defaults)))
+
+
+(provide 'init-cxx)
+;;; init-cxx.el ends here

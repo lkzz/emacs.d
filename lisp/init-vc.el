@@ -1,4 +1,4 @@
-;;; init-git.el --- version contral setup. -*- lexical-binding: t; -*-
+;;; init-vc.el --- version control setup. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2020  Kevin Leung
 ;;
@@ -180,5 +180,5 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
   (setq git-messenger:use-magit-popup t
         git-messenger:show-detail t))
 
-(provide 'init-git)
-;;; init-git ends here
+(provide 'init-vc)
+;;; init-vc ends here
