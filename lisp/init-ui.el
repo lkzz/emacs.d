@@ -219,7 +219,7 @@
   :hook ((emacs-lisp-mode conf-space-mode) . rainbow-mode))
 
 (use-package highlight-numbers
-  :hook ((prog-mode conf-mode) . highlight-numbers-mode)
+  :hook ((prog-mode conf-mode protobuf-mode) . highlight-numbers-mode)
   :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
 
 ;; A less intrusive `delete-trailing-whitespaces' on save
