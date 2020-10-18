@@ -30,7 +30,7 @@
   ;; Default to Python 3. Prefer the versioned Python binaries since some
   ;; systems stupidly make the unversioned one point at Python 2.
   (when (and (executable-find "python3")
-           (string= python-shell-interpreter "python"))
+             (string= python-shell-interpreter "python"))
     (setq python-shell-interpreter "python3"))
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
@@ -40,9 +40,7 @@
   (use-package live-py-mode)
 
   ;; Microsoft python-language-server support
-  (use-package lsp-python-ms)
-
-  )
+  (use-package lsp-python-ms))
 
 (provide 'init-python)
 ;;; init-python.el ends here

@@ -22,8 +22,7 @@
   :general (kevin/space-key-define "t '" '(kevin/toggle-aweshell :wk "shell"))
   :config
   (setq eshell-highlight-prompt t
-        eshell-prompt-function 'epe-theme-lambda
-        eshell-directory-name (concat kevin-cache-dir "eshell/")))
+        eshell-prompt-function 'epe-theme-lambda))
 
 (provide 'init-eshell)
 ;;; init-eshell.el ends here

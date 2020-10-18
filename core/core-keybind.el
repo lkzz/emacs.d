@@ -46,14 +46,21 @@
         which-key-side-window-max-height 0.25
         which-key-sort-order #'which-key-prefix-then-key-order)
   (which-key-setup-side-window-bottom)
-  (add-to-list 'which-key-replacement-alist '(("TAB" . nil) . ("↹" . nil)))
-  (add-to-list 'which-key-replacement-alist '(("RET" . nil) . ("⏎" . nil)))
-  (add-to-list 'which-key-replacement-alist '(("DEL" . nil) . ("⇤" . nil)))
-  (add-to-list 'which-key-replacement-alist '(("SPC" . nil) . ("␣" . nil)))
-  ;; rename winum-select-window-1 entry to 1..9
-  (add-to-list 'which-key-replacement-alist '(("\\(.*\\)1" . "winum-select-window-1") . ("\\11..9" . "window 1..9")))
-  ;; hide winum-select-window-[2-9] entries
-  (add-to-list 'which-key-replacement-alist '((nil . "winum-select-window-[2-9]") . t))
+  (dolist (item '((("SPC" . nil) . ("␣" . nil))
+                  (("TAB" . nil) . ("↹" . nil))
+                  (("RET" . nil) . ("⏎" . nil))
+                  (("DEL" . nil) . ("⌫" . nil))
+                  (("<up>" . nil) . ("↑" . nil))
+                  (("<down>" . nil) . ("↓" . nil))
+                  (("<left>" . nil) . ("←" . nil))
+                  (("<right>" . nil) . ("→" . nil))
+                  (("deletechar" . nil) . ("⌦" . nil))
+                  ;; rename winum-select-window-1 entry to 1..9
+                  (("\\(.*\\)1" . "winum-select-window-1") . ("\\11..9" . "window 1..9"))
+                  ;; hide winum-select-window-[2-9] entries
+                  ((nil . "winum-select-window-[2-9]") . t)))
+    (cl-pushnew item which-key-replacement-alist :test #'equal))
+
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
 (use-package general

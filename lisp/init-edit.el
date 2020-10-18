@@ -52,12 +52,11 @@
   :init
   (setq undo-tree-auto-save-history nil
         undo-tree-visualizer-timestamps t
-        undo-tree-visualizer-diff t
-        undo-tree-history-directory-alist `(("." . ,(concat kevin-cache-dir "undo-tree-history"))))
+        undo-tree-visualizer-diff t)
   ;; `C-g'to close doc
-  (advice-add #'keyboard-quit :before #'(lambda ()
-                                          (if (eq major-mode 'undo-tree-visualizer-mode)
-                                              (undo-tree-visualizer-quit)))))
+  (advice-add #'keyboard-quit :before (lambda ()
+                                        (if (eq major-mode 'undo-tree-visualizer-mode)
+                                            (undo-tree-visualizer-quit)))))
 
 (use-package multiple-cursors
   :general ("C-c m t" 'mc/mark-all-like-this

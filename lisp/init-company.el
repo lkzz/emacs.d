@@ -45,7 +45,7 @@
         company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend))
 
   (add-hook 'evil-normal-state-entry-hook
-            '(lambda () (when company-candidates (company-abort))))
+            (lambda () (when company-candidates (company-abort))))
 
   (with-eval-after-load 'yasnippet
     (defun company-backend-with-yas (backend)
@@ -72,7 +72,7 @@
               prefix))
         (progn
           (when (and (bound-and-true-p lsp-mode)
-                   arg (not (get-text-property 0 'yas-annotation-patch arg)))
+                     arg (not (get-text-property 0 'yas-annotation-patch arg)))
             (let* ((name (get-text-property 0 'yas-annotation arg))
                    (snip (format "%s (Snippet)" name))
                    (len (length arg)))
@@ -80,11 +80,6 @@
               (put-text-property 0 len 'yas-annotation-patch t arg)))
           (funcall fun command arg))))
     (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline))
-
-  ;; Better sorting and filtering
-  (use-package company-prescient
-    :init
-    (setq prescient-save-file (concat kevin-cache-dir "prescient-save.el")))
 
   ;; This package requires emacs 26+, not compatible with emacs in a tty.
   (use-package company-box
@@ -149,9 +144,7 @@ https://github.com/sebastiencs/company-box/issues/44"
               (Operator . ,(all-the-icons-material "control_point" :height 0.8 :v-adjust -0.15))
               (TypeParameter . ,(all-the-icons-faicon "arrows" :height 0.8 :v-adjust -0.02))
               (Template . ,(all-the-icons-material "format_align_left" :height 0.8 :v-adjust -0.15)))
-            company-box-icons-alist 'company-box-icons-all-the-icons)))
-
-  )
+            company-box-icons-alist 'company-box-icons-all-the-icons))))
 
 (provide 'init-company)
 ;;; init-company.el ends here

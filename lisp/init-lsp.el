@@ -16,9 +16,7 @@
 (use-package lsp-mode
   :diminish lsp-mode
   :commands lsp lsp-deferred
-  :hook ((go-mode . lsp-deferred)
-         (python-mode . lsp-deferred)
-         (c++-mode . lsp-deferred))
+  :hook ((go-mode python-mode c++-mode) . lsp-deferred)
   :general (lsp-mode-map "C-c C-d" 'lsp-describe-thing-at-point
                          "C-c C-n" 'lsp-rename)
   :init
@@ -26,8 +24,7 @@
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-  (setq lsp-session-file (concat kevin-cache-dir "lsp-session-v1")
-        lsp-keep-workspace-alive nil
+  (setq lsp-keep-workspace-alive nil
         lsp-signature-auto-activate nil
 
         ;; Disable eldoc displays in minibuffer

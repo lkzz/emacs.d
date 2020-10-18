@@ -44,23 +44,13 @@
   (revert-buffer t t))
 
 ;;;###autoload
-(defun indent-buffer()
-  "Indent buffer."
-  (interactive)
-  (indent-region (point-min) (point-max)))
-
-;;;###autoload
 (defun kevin/indent-region-or-buffer()
   "Indent regex or buffer."
   (interactive)
   (save-excursion
     (if (region-active-p)
-        (progn
-          (Indent-region (region-beginning) (region-end))
-          (message "Indent selected region."))
-      (progn
-        (indent-buffer)
-        (message "Indent buffer.")))))
+        (indent-region (region-beginning) (region-end))
+      (indent-region (point-min) (point-max)))))
 
 ;; Kill all buffers except scratch buffer
 ;;;###autoload

@@ -159,7 +159,7 @@
   (nyan-mode t))
 
 (use-package doom-modeline
-  :hook (window-setup . doom-modeline-mode)
+  :hook (after-init . doom-modeline-mode)
   :init
   (defun my-doom-modeline--font-height ()
     "Calculate the actual char height of the mode-line."
@@ -172,7 +172,7 @@
   (setq doom-modeline-bar-width 3
         doom-modeline-env-enable-python t
         doom-modeline-icon (display-graphic-p)
-        doom-modeline-minor-modes nil
+        doom-modeline-minor-modes t
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t
         doom-modeline-modal-icon t
@@ -185,78 +185,34 @@
         doom-modeline-buffer-modification-icon t
         doom-modeline-buffer-file-name-style 'auto))
 
+(use-package minions
+  :config (minions-mode 1))
+
 (use-package hide-mode-line
   :hook ((neotree-mode . hide-mode-line-mode)
          (dashboard-mode . hide-mode-line-mode)
          (dired-mode . hide-mode-line-mode)))
 
-(add-hook 'prog-mode-hook
-          (lambda ()
-            (push '("+=" . ?⩲) prettify-symbols-alist)
-            (push '("*=" . ?⩮) prettify-symbols-alist)
-            (push '("==" . ?≡) prettify-symbols-alist)
-            (push '("<=" . ?≤) prettify-symbols-alist)
-            (push '(">=" . ?≥) prettify-symbols-alist)
-            (push '("=>" . ?⇒) prettify-symbols-alist)
-            (push '("!=" . ?≠) prettify-symbols-alist)))
-
-(add-hook 'emacs-lisp-mode-hook
-          (lambda ()
-            (push '("lambda" . ?λ) prettify-symbols-alist)
-            (push '("/="     . ?≠) prettify-symbols-alist)
-            (push '("sqrt"   . ?√) prettify-symbols-alist)
-            (push '("not"    . ?¬) prettify-symbols-alist)
-            (push '("and"    . ?∧) prettify-symbols-alist)
-            (push '("or"     . ?∨) prettify-symbols-alist)))
-
-(add-hook 'go-mode-hook
-          (lambda ()
-            (push '("->" . ?→) prettify-symbols-alist)
-            (push '("<-" . ?←) prettify-symbols-alist)))
-
-(mapc
- (lambda (hook)
-   (add-hook hook (lambda ()
-                    (push '("&&" . ?∧) prettify-symbols-alist)
-                    (push '("||" . ?∨) prettify-symbols-alist)
-                    (push '(">>" . ?») prettify-symbols-alist)
-                    (push '("<<" . ?«) prettify-symbols-alist)
-                    )))
- '(c-mode-hook c++-mode-hook))
-
-(add-hook 'python-mode-hook
-          (lambda ()
-            (push '("sum"     . ?Σ) prettify-symbols-alist)
-            (push '("**2"     . ?²) prettify-symbols-alist)
-            (push '("**3"     . ?³) prettify-symbols-alist)
-            (push '("None"    . ?∅) prettify-symbols-alist)
-            (push '("in"      . ?∈) prettify-symbols-alist)
-            (push '("not in"  . ?∉) prettify-symbols-alist)
-            (push '("or"      . ?∨) prettify-symbols-alist)
-            (push '("and"     . ?∧) prettify-symbols-alist)
-            (push '("not"     . ?¬) prettify-symbols-alist)
-            (push '("math.pi" . ?π) prettify-symbols-alist)))
-
-(add-hook 'org-mode-hook
-          (lambda ()
-            (push '("[ ]"             . ?☐) prettify-symbols-alist)
-            (push '("[X]"             . ?☑) prettify-symbols-alist)
-            (push '("[-]"             . ?❍) prettify-symbols-alist)
-            (push '("#+BEGIN_SRC"     . ?↦) prettify-symbols-alist)
-            (push '("#+END_SRC"       . ?⇤) prettify-symbols-alist)
-            (push '("#+BEGIN_EXAMPLE" . ?↦) prettify-symbols-alist)
-            (push '("#+END_EXAMPLE"   . ?⇤) prettify-symbols-alist)
-            (push '("#+BEGIN_QUOTE"   . ?↦) prettify-symbols-alist)
-            (push '("#+END_QUOTE"     . ?⇤) prettify-symbols-alist)
-            (push '("#+begin_quote"   . ?↦) prettify-symbols-alist)
-            (push '("#+end_quote"     . ?⇤) prettify-symbols-alist)
-            (push '("#+begin_example" . ?↦) prettify-symbols-alist)
-            (push '("#+end_example"   . ?⇤) prettify-symbols-alist)
-            (push '("#+begin_src"     . ?↦) prettify-symbols-alist)
-            (push '("#+end_src"       . ?⇤) prettify-symbols-alist)))
-;; When you get to the right edge, it goes back to how it normally prints
-(setq prettify-symbols-unprettify-at-point 'right-edge)
-(global-prettify-symbols-mode t)
+;; Must install Fira Code font
+(use-package ligature
+  :quelpa (ligature :fetcher github :repo "mickeynp/ligature.el")
+  :config
+  ;; Enable the www ligature in every possible major mode
+  (ligature-set-ligatures 't '("www"))
+  ;; Enable ligatures for nxml mode which doesn't derive from prog-mode:
+  (ligature-set-ligatures 'nxml-mode '("<!--" "-->" "</"))
+  ;; Enable all Fira Code ligatures in programming modes
+  (ligature-set-ligatures 'prog-mode '("www" "**" "***" "**/" "*>" "*/" "\\\\" "\\\\\\" "{-" "::"
+                                       ":::" ":=" "!!" "!=" "!==" "-}" "----" "-->" "->" "->>"
+                                       "-<" "-<<" "-~" "#{" "#[" "##" "###" "####" "#(" "#?" "#_"
+                                       "#_(" ".-" ".=" ".." "..<" "..." "?=" "??" ";;" "/*" "/**"
+                                       "/=" "/==" "/>" "//" "///" "&&" "||" "||=" "|=" "|>" "^=" "$>"
+                                       "++" "+++" "+>" "=:=" "==" "===" "==>" "=>" "=>>" "<="
+                                       "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
+                                       "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
+                                       "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
+                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
+  (global-ligature-mode 't))
 
 (use-package rainbow-mode
   :diminish rainbow-mode
@@ -271,7 +227,7 @@
   :quelpa (ws-butler :fetcher github :repo "hlissner/ws-butler")
   :hook (window-setup . ws-butler-global-mode)
   :config
-  (add-hook 'prog-mode-hook '(lambda () (setq show-trailing-whitespace t))))
+  (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t))))
 
 (provide 'init-ui)
 ;;; init-ui ends here

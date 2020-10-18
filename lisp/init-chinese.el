@@ -19,8 +19,6 @@
   :config
   ;; Enable Cache
   (setq url-automatic-caching t)
-  ;; Set file path for saving search history
-  (setq youdao-dictionary-search-history-file (expand-file-name "youdao" kevin-cache-dir))
   ;; Enable Chinese word segmentation support
   (setq youdao-dictionary-use-chinese-word-segmentation t))
 

@@ -68,21 +68,14 @@
 (setq auto-save-default nil             ; 不生成 #filename# 临时文件
       create-lockfiles nil              ; 关闭lockfile,NOTE:有风险，建议开启
       make-backup-files nil             ; 关闭备份功能
-      delete-by-moving-to-trash t       ; 删除时移除到回收站
-      auto-save-list-file-name (concat kevin-cache-dir "autosave")
-      backup-directory-alist `(("." . ,(concat kevin-cache-dir "backup/"))))
+      delete-by-moving-to-trash t)      ; 删除时移除到回收站
 
 ;; Misc
 (setq confirm-nonexistent-file-or-buffer t ; Whether confirmation is requested before visiting a new file or buffer.
       confirm-kill-processes nil           ; kill running processes without confirmation on Emacs exit
       inhibit-compacting-font-caches t     ; gc 忽略字体缓存
       find-file-visit-truename t           ; 当是链接时，显示真正的连接
-      url-cache-directory          (concat kevin-cache-dir "url/")
-      custom-file                  (concat kevin-cache-dir "custom.el")
       uniquify-buffer-name-style 'forward)
-
-;;
-;;; Optimizations
 
 ;; Emacs "updates" its ui more often than it needs to, so we slow it down slightly.
 (setq idle-update-delay 1)

@@ -1,9 +1,9 @@
 EMACS_DIR = ${CURDIR}
-ELPA_DIR = $(EMACS_DIR)/elpa
 CORE_DIR = $(EMACS_DIR)/core
 CACHE_DIR = $(EMACS_DIR)/cache
 STRAIGHT_DIR =$(EMACS_DIR)/straight
-QUELPA_DIR=$(EMACS_DIR)/quelpa
+QUELPA_DIR=$(CACHE_DIR)/quelpa
+ELPA_DIR = $(CACHE_DIR)/elpa
 
 default: install
 
@@ -35,6 +35,7 @@ install_lsp_server:
 
 install_tools:
 	@brew install coreutils direnv ripgrep
+	@brew install prettier # formatter
 	@echo "install tools done."
 
 install_go_tools:

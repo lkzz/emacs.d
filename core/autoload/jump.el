@@ -34,6 +34,5 @@
                          ((string= c "<") ">")
                          ((string= c "'") "'")
                          ((string= c "\"") "\"")
-                         (t nil)
-                         ))
+                         (t nil)))
 (defvar empty-enclose 0)

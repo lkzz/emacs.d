@@ -78,8 +78,7 @@
        ((> (length autosave-buffer-list) 1)
         (message "# Auto saved %d files: %s"
                  (length autosave-buffer-list)
-                 (mapconcat 'identity autosave-buffer-list ", "))))
-      )))
+                 (mapconcat 'identity autosave-buffer-list ", ")))))))
 
 (defun kevin/auto-save-enable ()
   (interactive)

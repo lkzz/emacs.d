@@ -23,7 +23,13 @@
   ;; This library adds all of the familiar highlighting to cl-lib macros
   (use-package cl-lib-highlight
     :config
-    (cl-lib-highlight-initialize)))
+    (cl-lib-highlight-initialize))
+
+  (add-hook #'before-save-hook
+            (lambda ()
+              (when (and (fboundp 'emacs-lisp-mode)
+                         (buffer-modified-p))
+                (indent-region (point-min) (point-max))))))
 
 (provide 'init-elisp)
 ;;; init-elisp.el ends here

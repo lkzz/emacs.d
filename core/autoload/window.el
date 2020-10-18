@@ -42,7 +42,6 @@
         (golden-ratio-mode -1)
         (message "golden ratio disabled")
         (balance-windows))
-    (progn
-      (golden-ratio-mode 1)
-      (message "golden ratio enabled")
-      (golden-ratio))))
+    (golden-ratio-mode 1)
+    (message "golden ratio enabled")
+    (golden-ratio)))

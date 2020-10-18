@@ -37,9 +37,9 @@
         dashboard-center-content t
         dashboard-set-init-info t
         dashboard-show-shortcuts nil
-        dashboard-items '((recents   . 5)
-                          (bookmarks . 5)
-                          (projects  . 5))
+        dashboard-items '((recents   . 8)
+                          (bookmarks . 4)
+                          (projects  . 4))
         dashboard-set-file-icons t
         dashboard-set-heading-icons t
         dashboard-heading-icons '((recents   . "file-text")

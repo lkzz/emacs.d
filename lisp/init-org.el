@@ -98,7 +98,7 @@
     :ensure nil
     :general ("C-c a" 'org-agenda)
     (org-agenda-mode-map "g" 'org-agenda-redo-all
-                         "i" '(lambda () (interactive) (org-capture nil "s"))
+                         "i" (lambda () (interactive) (org-capture nil "s"))
                          "A" 'org-agenda-archive-default-with-confirmation
                          "J" 'counsel-org-agenda-headlines
                          "h" 'ignore
@@ -144,14 +144,14 @@
     (advice-add 'text-scale-increase
                 :after (lambda (inc)
                          (when (or (bound-and-true-p valign-mode)
-                                  (derived-mode-p 'org-mode)
-                                  (derived-mode-p 'markdown-mode))
+                                   (derived-mode-p 'org-mode)
+                                   (derived-mode-p 'markdown-mode))
                            (valign--force-align-buffer))))
     (advice-add 'text-scale-decrease
                 :after (lambda (dec)
                          (when (or (bound-and-true-p valign-mode)
-                                  (derived-mode-p 'org-mode)
-                                  (derived-mode-p 'markdown-mode))
+                                   (derived-mode-p 'org-mode)
+                                   (derived-mode-p 'markdown-mode))
                            (valign--force-align-buffer)))))
 
   )

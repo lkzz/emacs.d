@@ -58,9 +58,6 @@
   :init
   (setq yaml-indent-offset 4))
 
-(use-package json-reformat
-  :commands (json-reformat-region))
-
 (use-package editorconfig
   :diminish editorconfig-mode
   :hook (after-init . editorconfig-mode))

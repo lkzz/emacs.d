@@ -99,8 +99,7 @@
                                   "../../src/*"
                                   "../../../src/*"
                                   "../../src/*/*"
-                                  "../../../src/*/*/*"
-                                  ))))
+                                  "../../../src/*/*/*"))))
 
 (use-package cmake-mode
   :mode (("CMakeLists\\.txt$" . cmake-mode)
@@ -112,7 +111,6 @@
   (use-package cmake-font-lock
     :config
     (add-hook 'cmake-mode-hook 'font-lock-refresh-defaults)))
-
 
 (provide 'init-cxx)
 ;;; init-cxx.el ends here

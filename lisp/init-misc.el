@@ -16,8 +16,6 @@
 ;; bookmark 设置
 (use-package bookmark
   :ensure nil
-  :init
-  (setq bookmark-default-file (concat kevin-cache-dir "bookmarks"))
   :general
   (kevin/space-key-define
     "m" '(nil :which-key "Bookmark")
@@ -49,7 +47,6 @@
 ;; History
 (use-package saveplace
   :ensure nil
-  :init (setq save-place-file (concat kevin-cache-dir "saveplace"))
   :hook (after-init . save-place-mode))
 
 (use-package recentf
@@ -57,7 +54,6 @@
   :hook ((after-init . recentf-mode)
          (kill-emacs-hook . recentf-cleanup))
   :init (setq recentf-max-saved-items 500
-              recentf-save-file (concat kevin-cache-dir "recentf")
               recentf-auto-cleanup 'never
               recentf-exclude '("/tmp/"
                                 "recentf$"
@@ -73,7 +69,7 @@
                                 "COMMIT_EDITMSG\\'"
                                 "bookmarks"
                                 "pyim"
-                                (lambda (file) (file-in-directory-p file package-user-dir))))
+                                (concat "^" kevin-cache-dir ".+$")))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude))
 
@@ -90,42 +86,17 @@
     "j m" '(kevin/jump-match-delimiter :wk "goto-match-delimiter")
     "j w" 'avy-goto-word-or-subword-1))
 
-;; Minor mode to aggressively keep your code always indented
-(use-package aggressive-indent
-  :diminish
-  :hook ((after-init . global-aggressive-indent-mode)
-         ;; FIXME: Disable in big files due to the performance issues
-         ;; https://github.com/Malabarba/aggressive-indent-mode/issues/73
-         (find-file . (lambda ()
-                        (if (> (buffer-size) (* 3000 80))
-                            (aggressive-indent-mode -1)))))
-  :config
-  ;; Disable in some modes
-  (dolist (mode '(asm-mode web-mode html-mode css-mode go-mode scala-mode prolog-inferior-mode))
-    (push mode aggressive-indent-excluded-modes))
-
-  ;; Disable in some commands
-  (add-to-list 'aggressive-indent-protected-commands #'delete-trailing-whitespace t)
-
-  ;; Be slightly less aggressive in C/C++/C#/Java/Go/Swift
-  (add-to-list 'aggressive-indent-dont-indent-if
-               '(and (derived-mode-p 'c-mode 'c++-mode 'csharp-mode
-                                   'java-mode 'go-mode 'swift-mode)
-                   (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
-                                       (thing-at-point 'line))))))
-
 (use-package savehist
   :ensure nil
   :hook (after-init . savehist-mode)
   :init
-  (setq savehist-file (concat kevin-cache-dir "savehist")
-        history-length 1000
+  (setq history-length 1000
+        savehist-autosave-interval 300
         savehist-additional-variables '(mark-ring
                                         global-mark-ring
                                         search-ring
                                         regexp-search-ring
-                                        extended-command-history)
-        savehist-autosave-interval 300))
+                                        extended-command-history)))
 
 ;; Hideshow
 (use-package hideshow
@@ -169,21 +140,13 @@
   (add-to-list 'so-long-minor-modes 'highlight-indent-guide-mode)
   (add-to-list 'so-long-minor-modes 'hl-fill-column-mode))
 
-(use-package transient
-  :init
-  (setq transient-levels-file (concat kevin-cache-dir "transient-levels.el")
-        transient-values-file (concat kevin-cache-dir "transient-values.el")
-        transient-history-file (concat kevin-cache-dir "transient/history.el")))
-
 ;; Writable `grep' buffer
 (use-package wgrep
-  :init
-  (setq wgrep-auto-save-buffer t
-        wgrep-change-readonly-file t))
+  :commands wgrep-change-to-wgrep-mode
+  :config (setq wgrep-auto-save-buffer t))
 
 (use-package direnv
-  :hook
-  (after-init . direnv-mode))
+  :hook (after-init . direnv-mode))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

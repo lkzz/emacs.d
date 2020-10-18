@@ -1891,9 +1891,9 @@ nil."
   (run-hooks 'quelpa-before-hook)
   (when (quelpa-setup-p) ;if init fails we do nothing
     (let* ((arg (or arg
-                   (let ((quelpa-melpa-recipe-stores
-                          `(,@quelpa-melpa-recipe-stores ,quelpa-cache)))
-                     (quelpa-interactive-candidate))))
+                    (let ((quelpa-melpa-recipe-stores
+                           `(,@quelpa-melpa-recipe-stores ,quelpa-cache)))
+                      (quelpa-interactive-candidate))))
            (quelpa-upgrade-p (if current-prefix-arg t quelpa-upgrade-p)) ;shadow `quelpa-upgrade-p'
            (quelpa-stable-p quelpa-stable-p) ;shadow `quelpa-stable-p'
            (quelpa-autoremove-p (if current-prefix-arg quelpa-autoremove-p nil))
@@ -1915,9 +1915,9 @@ With prefix FORCE, packages will all be upgraded discarding local changes."
   (when quelpa-upgrade-interval
     (let ((timestamp (expand-file-name "last_upgrade" quelpa-dir)))
       (when (or (not (file-exists-p timestamp))
-               (> (- (time-to-seconds) ; Current time - modification time.
-                     (time-to-seconds (nth 5 (file-attributes timestamp))))
-                  (* 60 60 24 quelpa-upgrade-interval)))
+                (> (- (time-to-seconds) ; Current time - modification time.
+                      (time-to-seconds (nth 5 (file-attributes timestamp))))
+                   (* 60 60 24 quelpa-upgrade-interval)))
         (quelpa-upgrade-all force)
         (write-region "" nil timestamp)))))
 

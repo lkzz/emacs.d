@@ -19,7 +19,6 @@
   (interactive)
   (browse-url "https://github.com/lkzz/emacs.d"))
 
-
 (defvar dashboard-recover-layout-p nil
   "Wether recovers the layout.")
 

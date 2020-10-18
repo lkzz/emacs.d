@@ -130,7 +130,7 @@
 (setq use-file-dialog nil
       use-dialog-box nil)
 
-; 标题栏格式设置
+;; 标题栏格式设置
 (setq frame-title-format
       '(:eval (if (buffer-file-name)
                   (abbreviate-file-name (buffer-file-name)) "%b")))

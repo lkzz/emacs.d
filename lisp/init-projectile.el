@@ -40,9 +40,7 @@
     "p T" 'projectile-test-project
     "p v" 'projectile-vc)
   :config
-  (setq projectile-cache-file (concat kevin-cache-dir "projectile.cache")
-        projectile-known-projects-file (concat kevin-cache-dir "projectile-bookmarks.eld")
-        projectile-enable-caching t
+  (setq projectile-enable-caching t
         projectile-sort-order 'recentf
         projectile-completion-system 'ivy)
   (add-to-list 'projectile-globally-ignored-directories "build"))
