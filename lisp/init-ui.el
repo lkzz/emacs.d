@@ -195,6 +195,7 @@
 
 ;; Must install Fira Code font
 (use-package ligature
+  :if (display-graphic-p)
   :quelpa (ligature :fetcher github :repo "mickeynp/ligature.el")
   :config
   ;; Enable the www ligature in every possible major mode
