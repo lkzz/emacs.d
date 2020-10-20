@@ -27,7 +27,7 @@
 
   (add-hook #'before-save-hook
             (lambda ()
-              (when (and (fboundp 'emacs-lisp-mode)
+              (when (and (eq major-mode 'emacs-lisp-mode)
                          (buffer-modified-p))
                 (indent-region (point-min) (point-max))))))
 
