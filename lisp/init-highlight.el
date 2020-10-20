@@ -40,11 +40,7 @@
   :diminish highlight-indent-guides-mode
   :hook ((prog-mode conf-mode protobuf-mode) . highlight-indent-guides-mode)
   :config
-  ;; (add-hook 'focus-in-hook #'highlight-indent-guides-auto-set-faces)
-  ;; `highlight-indent-guides' breaks in these modes
-  ;; (add-hook 'visual-line-mode-hook #'kevin/disable-highlight-indent-guides)
-  ;; (add-hook 'org-indent-mode-hook #'kevin/disable-highlight-indent-guides)
-  (setq highlight-indent-guides-delay 0.5
+  (setq highlight-indent-guides-delay 0.3
         highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'top
         highlight-indent-guides-auto-enabled nil)

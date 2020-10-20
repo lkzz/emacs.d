@@ -39,8 +39,11 @@
   ;; Live Coding in Python
   (use-package live-py-mode)
 
-  ;; Microsoft python-language-server support
-  (use-package lsp-python-ms))
+  ;; Pyright: https://github.com/emacs-lsp/lsp-pyright
+  (use-package lsp-pyright
+    :hook (python-mode . (lambda () (require 'lsp-pyright)))
+    :init (when (executable-find "python3")
+            (setq lsp-pyright-python-executable-cmd "python3"))))
 
 (provide 'init-python)
 ;;; init-python.el ends here
