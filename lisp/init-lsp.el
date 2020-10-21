@@ -27,11 +27,9 @@
   (setq lsp-keep-workspace-alive nil
         lsp-signature-auto-activate nil
 
-        ;; Disable eldoc displays in minibuffer
-        lsp-eldoc-enable-hover nil
-
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-code-actions-enable nil
+        lsp-modeline-workspace-status-enable nil
 
         lsp-enable-indentation nil
         lsp-enable-on-type-formatting nil
@@ -39,8 +37,8 @@
         lsp-enable-folding nil
         lsp-enable-file-watchers nil
         lsp-enable-text-document-color nil
-        lsp-enable-semantic-highlighting nil
-        lsp-enable-symbol-highlighting nil)
+        lsp-enable-symbol-highlighting nil
+        lsp-enable-semantic-highlighting nil)
   :config
   (use-package lsp-ui
     :custom-face
@@ -48,15 +46,18 @@
     :general (lsp-ui-mode-map [remap evil-goto-definition] 'lsp-ui-peek-find-definitions
                               [remap xref-find-definitions] 'lsp-ui-peek-find-definitions
                               [remap xref-find-references] 'lsp-ui-peek-find-references)
-    :init (setq lsp-ui-doc-enable t
+    :init (setq lsp-ui-doc-enable nil
                 lsp-ui-doc-header nil
                 lsp-ui-doc-use-webkit nil
                 lsp-ui-doc-delay 0.5
                 lsp-ui-doc-include-signature nil
                 lsp-ui-doc-position 'at-point
+                lsp-ui-doc-show-with-mouse nil
                 lsp-ui-doc-border (face-foreground 'font-lock-comment-face)
 
-                lsp-ui-sideline-enable nil
+                lsp-ui-sideline-enable t
+                lsp-ui-sideline-show-hover nil
+                lsp-ui-sideline-ignore-duplicate t
 
                 lsp-ui-imenu-enable t
                 lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
