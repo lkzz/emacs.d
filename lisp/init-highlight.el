@@ -28,7 +28,7 @@
               show-paren-when-point-in-periphery t)
   :config
   (set-face-foreground 'show-paren-match "red")      ;定义前景色
-  (set-face-bold-p 'show-paren-match t)              ;加粗显示括号匹配
+  (set-face-bold 'show-paren-match t)                ;加粗显示括号匹配
   (set-face-background 'show-paren-match nil)        ;定义背景色
   (set-face-underline 'show-paren-match t)           ;显示下划线
   (setq show-paren-delay 0.1
