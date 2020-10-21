@@ -24,36 +24,37 @@
     "e n" 'flycheck-next-error
     "e p" 'flycheck-previous-error)
   :init
-  (setq flycheck-emacs-lisp-load-path 'inherit
+  (setq flycheck-global-modes '(not text-mode outline-mode fundamental-mode lisp-interaction-mode
+                                    org-mode diff-mode shell-mode eshell-mode term-mode vterm-mode)
+        flycheck-emacs-lisp-load-path 'inherit
         flycheck-display-errors-delay 0.25
         flycheck-highlighting-mode 'symbols
-        flycheck-indication-mode (if (display-graphic-p)
-                                     'right-fringe
-                                   'right-margin)
+        flycheck-indication-mode (if (display-graphic-p) 'right-fringe 'right-margin)
         ;; Only check while saving and opening files
-        flycheck-check-syntax-automatically '(save mode-enabled)
-        flycheck-gcc-language-standard "c++11"
-        flycheck-clang-language-standard "c++11")
-  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
+        flycheck-check-syntax-automatically '(save mode-enabled))
   :config
   ;; Prettify indication styles
   (when (fboundp 'define-fringe-bitmap)
     (define-fringe-bitmap 'flycheck-fringe-bitmap-arrow
       [16 48 112 240 112 48 16] nil nil 'center))
   (flycheck-redefine-standard-error-levels "⏴" 'flycheck-fringe-bitmap-arrow)
-  (if (display-graphic-p)
-      (use-package flycheck-posframe
-        :hook (flycheck-mode . flycheck-posframe-mode)
-        :init (setq flycheck-posframe-warning-prefix "⚠ "
-                    flycheck-posframe-error-prefix "✕ "
-                    flycheck-posframe-inhibit-functions '((lambda (&rest _) (bound-and-true-p company-backend))))
-        (with-eval-after-load 'evil
-          ;; Don't display popups while in insert or replace mode, as it can affect
-          ;; the cursor's position or cause disruptive input delays.
-          (add-hook 'flycheck-posframe-inhibit-functions #'evil-insert-state-p)
-          (add-hook 'flycheck-posframe-inhibit-functions #'evil-replace-state-p)))
-    (use-package flycheck-popup-tip
-      :hook (flycheck-mode . flycheck-popup-tip-mode))))
+
+  (use-package flycheck-posframe
+    :if (display-graphic-p)
+    :hook (flycheck-mode . kevin/enable-flycheck-popup)
+    :config
+    (setq flycheck-posframe-warning-prefix "! "
+          flycheck-posframe-info-prefix "··· "
+          flycheck-posframe-error-prefix "X ")
+    (with-eval-after-load 'company
+      (add-hook 'flycheck-posframe-inhibit-functions #'company--active-p))
+    (with-eval-after-load 'evil-mode
+      (add-hook 'flycheck-posframe-inhibit-functions #'evil-insert-state-p)
+      (add-hook 'flycheck-posframe-inhibit-functions #'evil-replace-state-p)))
+
+  (use-package flycheck-popup-tip
+    :unless (display-graphic-p)
+    :hook (flycheck-mode . kevin/enable-flycheck-popup)))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here
