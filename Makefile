@@ -36,6 +36,7 @@ install_lsp_server:
 install_tools:
 	@brew install coreutils direnv ripgrep
 	@brew install prettier # formatter
+	@brew install golangci/tap/golangci-lint
 	@echo "install tools done."
 
 install_go_tools:
