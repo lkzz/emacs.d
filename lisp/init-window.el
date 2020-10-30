@@ -41,10 +41,10 @@
     "8"  'winum-select-window-8
     "9"  'winum-select-window-9
     "w" '(nil :which-key "Window")
-    "w c" 'centered-window-mode
     "w d" 'delete-window
     "w o" 'other-window
     "w d" 'delete-window
+    "w t" '(kevin/toggle-two-split-window :wk "toggle-two-split-window")
     "w z" 'zoom-window-zoom
     "w /" '(kevin/split-window-right-and-focus :wk "split-window-right")
     "w -" '(kevin/split-window-below-and-focus :wk "split-window-below")
@@ -58,14 +58,6 @@
 ;; Zoom window like tmux
 (use-package zoom-window
   :init (setq zoom-window-mode-line-color "DarkGreen"))
-
-(use-package centered-window
-  :commands centered-window-mode
-  :config
-  (setq cwm-use-vertical-padding t
-        cwm-frame-internal-border 15
-        cwm-incremental-padding t
-        cwm-left-fringe-ratio 0))
 
 (use-package golden-ratio
   :diminish golden-ratio-mode "ⓖ"
