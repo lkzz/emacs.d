@@ -13,9 +13,8 @@
 ;;
 ;;; Code:
 
-(let ((minver "26.1"))
-  (when (version< emacs-version minver)
-    (error "Your Emacs is too old -- this config requires %s or higher" minver)))
+(when (version< emacs-version "27.1")
+  (error "Your Emacs is too old -- this config requires 27.1 or higher"))
 
 ;; Adjust garbage collection thresholds during startup, Optimize loading performance
 (defvar default-file-name-handler-alist file-name-handler-alist)
@@ -39,7 +38,9 @@
 (add-hook 'minibuffer-exit-hook (lambda ()
                                   (garbage-collect)
                                   (setq gc-cons-threshold custom-gc-cons-threshold)))
-(add-hook 'focus-out-hook #'garbage-collect)
+(add-function :after after-focus-change-function (lambda ()
+                                                   (unless (frame-focus-state)
+                                                     (garbage-collect))))
 
 ;; Load the heart of emacs
 (load (concat user-emacs-directory "core/core") nil 'nomessage)

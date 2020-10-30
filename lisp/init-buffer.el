@@ -49,7 +49,6 @@
                 (ibuffer-do-sort-by-alphabetic)))))
 
 (defun kevin/auto-save-buffer()
-  (interactive)
   (let ((autosave-buffer-list))
     (ignore-errors
       (save-excursion
@@ -80,12 +79,9 @@
                  (length autosave-buffer-list)
                  (mapconcat 'identity autosave-buffer-list ", ")))))))
 
-(defun kevin/auto-save-enable ()
-  (interactive)
-  (run-with-idle-timer 1 t #'kevin/auto-save-buffer)
-  (add-hook 'before-save-hook 'font-lock-flush))
-
-(add-hook 'after-init-hook #'kevin/auto-save-enable)
+(add-hook 'after-init-hook (lambda ()
+                             (run-with-idle-timer 1 t #'kevin/auto-save-buffer)
+                             (add-hook 'before-save-hook 'font-lock-flush)))
 
 (use-package all-the-icons-ibuffer
   :init (all-the-icons-ibuffer-mode 1))
