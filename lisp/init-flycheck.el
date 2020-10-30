@@ -41,7 +41,7 @@
 
   (use-package flycheck-posframe
     :if (display-graphic-p)
-    :hook (flycheck-mode . kevin/enable-flycheck-popup)
+    :hook (flycheck-mode . kevin/maybe-flycheck-posframe-mode)
     :config
     (setq flycheck-posframe-warning-prefix "! "
           flycheck-posframe-info-prefix "··· "
@@ -54,7 +54,7 @@
 
   (use-package flycheck-popup-tip
     :unless (display-graphic-p)
-    :hook (flycheck-mode . kevin/enable-flycheck-popup)))
+    :hook (flycheck-mode . kevin/maybe-flycheck-posframe-mode)))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here
