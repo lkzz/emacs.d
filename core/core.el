@@ -100,14 +100,11 @@
 ;; fonts that are larger than the system default (which would resize the frame).
 (setq frame-inhibit-implied-resize t)
 
-;; Don't ping things that look like domain names.
-(setq ffap-machine-p-known 'reject)
-
 (defun kevin/initialize-core ()
-  "Load core config file for emacs."
+  "Load core config file for Emacs."
   (require 'core-lib)
-  (require 'core-ui)
   (require 'core-package)
+  (require 'core-ui)
   (require 'core-keybind))
 
 ;; Optimize: Force "lisp"" and "site-lisp" at the head to reduce the startup time.

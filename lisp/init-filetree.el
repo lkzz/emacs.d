@@ -16,7 +16,7 @@
 (use-package neotree
   :commands neotree-toggle
   :general
-  (kevin/space-key-define "t f" 'neotree-toggle)
+  (kevin/space-key-define "t n" 'neotree-toggle)
   (general-nmap neotree-mode-map
     "RET" 'neotree-enter
     "o" 'neotree-enter

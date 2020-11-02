@@ -32,7 +32,7 @@
     "O" 'kevin/dashboard-open-init-file
     "q" 'kevin/quit-dashboard)
   :init
-  (setq dashboard-startup-banner (expand-file-name "banner/spacemacs.png" user-emacs-directory)
+  (setq dashboard-startup-banner (expand-file-name (if (display-graphic-p) "image/logo.png" "image/logo.txt") user-emacs-directory)
         dashboard-banner-logo-title (format "Happy Hacking, %s - Emacs ♥ You!" user-full-name)
         dashboard-center-content t
         dashboard-set-init-info t

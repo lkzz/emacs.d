@@ -54,8 +54,7 @@
 ;; Enable mouse in terminal Emacs
 (add-hook 'tty-setup-hook #'xterm-mouse-mode)
 
-;; 禁止光标闪烁
-(blink-cursor-mode -1)
+(blink-cursor-mode -1)                  ; 禁止光标闪烁
 (setq x-stretch-cursor nil
       visible-cursor nil
       blink-matching-paren nil)
@@ -63,13 +62,52 @@
 (setq visible-bell nil                  ; 禁止显示警告提示
       ring-bell-function 'ignore)       ; 关闭警告提示音
 
-(setq line-number-mode t              ; 打开行号显示
-      column-number-mode t            ; 打开列号显示
-      size-indication-mode t          ; 显示百分比进度
-      kill-whole-line t               ; Kill line including '\n'
-      line-move-visual nil            ; Move line by visual line
-      track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
-      set-mark-command-repeat-pop t)  ; Repeating C-SPC after popping mark pops it again
+(use-package simple
+  :ensure nil
+  :hook ((after-init . size-indication-mode) ; 显示百分比进度
+         (text-mode . visual-line-mode)
+         ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace))
+  :init
+  (setq line-number-mode t              ; 打开行号显示
+        column-number-mode t            ; 打开列号显示
+        kill-whole-line t               ; Kill line including '\n'
+        line-move-visual nil            ; Move line by visual line
+        track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
+        set-mark-command-repeat-pop t)  ; Repeating C-SPC after popping mark pops it again
+  (setq-default show-trailing-whitespace nil) ; Don't show trailing whitespace by default
+  (defun enable-trailing-whitespace ()
+    "Show trailing spaces and delete on saving."
+    (setq show-trailing-whitespace t)
+    (add-hook 'before-save-hook #'delete-trailing-whitespace nil t)))
+
+;; 设置时间格式
+(use-package time
+  :ensure nil
+  :unless (display-graphic-p)
+  :hook (after-init . display-time-mode)
+  :init
+  (setq display-time-24hr-format t
+        display-time-day-and-date t))
+
+(use-package so-long
+  :ensure nil
+  :hook (after-init . global-so-long-mode)
+  :config
+  (setq so-long-threshold 400)
+  (add-to-list 'so-long-variable-overrides '(font-lock-maximum-decoration . 1))
+  ;; ...and insist that save-place not operate in large/long files
+  (add-to-list 'so-long-variable-overrides '(save-place-alist . nil))
+  ;; Text files could possibly be too long too
+  (add-to-list 'so-long-target-modes 'text-mode)
+  ;; disable some mode that may be unnecessary/expensive for large buffer
+  (add-to-list 'so-long-minor-modes 'rainbow-mode)
+  (add-to-list 'so-long-minor-modes 'flycheck-mode)
+  (add-to-list 'so-long-minor-modes 'eldoc-mode)
+  (add-to-list 'so-long-minor-modes 'ws-butler-mode)
+  (add-to-list 'so-long-minor-modes 'undo-tree-mode)
+  (add-to-list 'so-long-minor-modes 'highlight-numbers-mode)
+  (add-to-list 'so-long-minor-modes 'rainbow-delimiters-mode)
+  (add-to-list 'so-long-minor-modes 'highlight-indent-guides-mode))
 
 ;; Indentation
 (setq-default tab-width 4
@@ -166,9 +204,6 @@
 (setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 ;;============================ minibuffer end ======================================
-
-(add-hook 'window-setup-hook #'kevin/enable-menu-bar-in-gui)
-(add-hook 'after-make-frame-functions #'kevin/enable-menu-bar-in-gui)
 
 (provide 'core-ui)
 ;;; core-ui.el ends here

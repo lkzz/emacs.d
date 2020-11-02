@@ -98,13 +98,6 @@
                                         regexp-search-ring
                                         extended-command-history)))
 
-;; Hideshow
-(use-package hideshow
-  :ensure nil
-  :diminish hs-minor-mode
-  :general (hs-minor-mode-map "C-`" 'hs-toggle-hiding)
-  :hook (prog-mode . hs-minor-mode))
-
 ;; Move to the beginning/end of line or code
 (use-package mwim
   :general ([remap move-beginning-of-line] 'mwim-beginning-of-code-or-line
@@ -115,30 +108,6 @@
   ("C-h f" 'helpful-callable
    "C-h v" 'helpful-variable
    "C-h k" 'helpful-key))
-
-(use-package so-long
-  :if is-emacs27-p
-  :ensure nil
-  :config
-  (global-so-long-mode 1)
-  (setq so-long-threshold 400)
-  (add-to-list 'so-long-variable-overrides '(font-lock-maximum-decoration . 1))
-  ;; ...and insist that save-place not operate in large/long files
-  (add-to-list 'so-long-variable-overrides '(save-place-alist . nil))
-  ;; Text files could possibly be too long too
-  (add-to-list 'so-long-target-modes 'text-mode)
-  ;; disable some mode that may be unnecessary/expensive for large buffer
-  (add-to-list 'so-long-minor-modes 'rainbow-delimiters-mode)
-  (add-to-list 'so-long-minor-modes 'rainbow-identifiers-mode)
-  (add-to-list 'so-long-minor-modes 'rainbow-mode)
-  (add-to-list 'so-long-minor-modes 'flycheck-mode)
-  (add-to-list 'so-long-minor-modes 'eldoc-mode)
-  (add-to-list 'so-long-minor-modes 'smartparens-mode)
-  (add-to-list 'so-long-minor-modes 'highlight-numbers-mode)
-  (add-to-list 'so-long-minor-modes 'ws-butler-mode)
-  (add-to-list 'so-long-minor-modes 'undo-tree-mode)
-  (add-to-list 'so-long-minor-modes 'highlight-indent-guide-mode)
-  (add-to-list 'so-long-minor-modes 'hl-fill-column-mode))
 
 ;; Writable `grep' buffer
 (use-package wgrep
