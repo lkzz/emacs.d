@@ -19,12 +19,7 @@ clean:
 	@rm -rf projectile* places recentf transient
 	@echo "make clean done."
 
-install_rime:
-	@wget https://github.com/rime/librime/releases/download/1.5.3/rime-1.5.3-osx.zip
-	@unzip rime-1.5.3-osx.zip -d ~/.emacs.d/librime
-	@rm -rf rime-1.5.3-osx.zip
-
-install: install_rime
+install:
 	@emacs --batch -l $(EMACS_DIR)/init.el
 	@echo "make install done."
 
@@ -52,4 +47,4 @@ install_go_tools:
 	@go get -u github.com/smartystreets/goconvey
 	@go get -u github.com/golang/mock/mockgen@v1.4.4
 
-.PHONY:clean install install_rime install_tools install_lsp_server
+.PHONY:clean install install_tools install_lsp_server
