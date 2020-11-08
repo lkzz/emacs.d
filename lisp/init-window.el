@@ -45,7 +45,7 @@
     "w o" 'other-window
     "w d" 'delete-window
     "w t" '(kevin/toggle-two-split-window :wk "toggle-two-split-window")
-    "w z" 'zoom-window-zoom
+    "w z" '(zoom-window-zoom :wk "zoom-window")
     "w /" '(kevin/split-window-right-and-focus :wk "split-window-right")
     "w -" '(kevin/split-window-below-and-focus :wk "split-window-below")
     "w D" 'delete-other-windows)

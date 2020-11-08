@@ -2,21 +2,21 @@
 
 * 简介
 参考 spacemacs 配置定制的个人在使用的 emacs 配置文件，主要适配 go 语言开发环境，采用 evil 模拟 vim 按键。
-[[file:screenshot.png]]
+[[file:image/screenshot.png]]
 * 安装
 #+BEGIN_SRC shell
 1. git clone https://github.com/lkzz/emacs.d ~/.emacs.d
 #+END_SRC
 
 #+BEGIN_SRC shell
-2. git submodule update --init --recursive
+2. make install
 #+END_SRC
 
 * 特性
 ** 支持语言
-- golang,elisp,rust,lua
+- golang,c++,elisp,rust,lua
 - json,yaml,toml,markdown
-- bazel,protobu
+- bazel,protobuf
 ** 自动补全
 - company
 - company-box
@@ -31,13 +31,11 @@
 - diff-hl
 - git-timemachine
 ** 中文支持
-- cnfont
 - youdao dictionary
 - pyim
 - cal-china-x
 ** 文件管理
 - dired
-- ranger
 - neotree
 ** 窗口管理
 - ace-window
@@ -74,7 +72,9 @@
     | Key Binding | Description                    |
     |-------------+--------------------------------|
     | ~SPC wo~    | ~switch other window~          |
+    | ~SPC wz~    | ~zone window~                  |
     | ~SPC wr~    | ~resize window~                |
+    | ~SPC wt~    | ~toggle two split window~      |
     | ~SPC wd~    | ~delete window~                |
     | ~SPC wD~    | ~delete other window~          |
     | ~SPC w/~    | ~split window right and focus~ |
@@ -88,18 +88,12 @@
     | Key Binding | Description                       |
     |-------------+-----------------------------------|
     | ~SPC tb~    | ~toggle scroll bar~               |
-    | ~C-c te~    | ~toggle english helper~           |
-    | ~SPC tf~    | ~toggle neotree~                  |
+    | ~SPC tn~    | ~toggle neotree~                  |
     | ~SPC tg~    | ~toggle golden ratio mode~        |
     | ~SPC ti~    | ~toggle imenu~                    |
-    | ~SPC tn~    | ~toggle dispaly line number mode~ |
-    | ~SPC tw~    | ~toggle word wrap~                |
     | ~SPC ts~    | ~toggle symbol overlay mode~      |
     | ~SPC tt~    | ~toggle truncate line~            |
-    | ~SPC t-~    | ~toggle center mode~              |
-    | ~SPC t;~    | ~toggle fullscreen~               |
     | ~SPC t'~    | ~toggle eshell~                   |
-    | ~SPC tm~    | ~toggle evil mc mode~             |
 
   * bookmark
     | Key Binding | Description               |
@@ -148,6 +142,17 @@
     | ~SPC ow~    | ~open wechat~             |
     | ~SPC oy~    | ~open youdao directory~   |
 
+  * comma keybindings
+    | Key Binding | Description             |
+    |-------------+-------------------------|
+    | ~, d~       | ~delete word~           |
+    | ~, y~       | ~copy word~             |
+    | ~, p~       | ~cover word~            |
+    | ~, fd~      | ~xref find definitions~ |
+    | ~, fr~      | ~xref find reference~   |
+    | ~, ff~      | ~find file at point~    |
+    | ~, fs~      | ~xref find apropos~     |
+
   * other
     | Key Binding | Description               |
     |-------------+---------------------------|
@@ -155,6 +160,10 @@
     | ~C-\~       | ~pyim~                    |
     | ~SPC s/~    | ~counsel rg search~       |
     | ~SPC ss~    | ~swiper isearch~          |
+    | ~; ei~      | ~open emacs init.el~      |
+    | ~; er~      | ~restart emacs~           |
+    | ~; f-~      | ~increase font size~      |
+    | ~; f=~      | ~decrease font size~      |
 
 
 
