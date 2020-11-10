@@ -40,21 +40,26 @@
         evil-move-cursor-back t ;; move back the cursor one position when exiting insert mode
         evil-esc-delay 0.01
         evil-mode-line-format 'after)
-  ;; ;; evil cursor color
-  (setq  evil-default-cursor '("red" box)
-         evil-normal-state-cursor '("red" box)
-         evil-insert-state-cursor '("red" (bar . 2))
-         evil-visual-state-cursor '("red" box)
-         evil-replace-state-cursor '("red" hollow)
-         evil-emacs-state-cursor '("red" hbar))
+  ;; cursor appearance
+  (setq evil-default-cursor '(box (lambda () (evil-set-cursor-color my-default-cursor-color)))
+        evil-normal-state-cursor 'box
+        evil-emacs-state-cursor  '(hbar (lambda () (evil-set-cursor-color my-emacs-cursor-color)))
+        evil-insert-state-cursor '(bar . 2)
+        evil-visual-state-cursor 'hollow)
   :config
   (general-nvmap "C-e" 'move-end-of-line)
-  (general-nmap
-    "Y" (kbd "y$")
-    "gr" 'xref-find-references)
+  (general-nmap "Y" (kbd "y$"))
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
   (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
   (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
+  ;; Change the cursor color in emacs state. We do it this roundabout way
+  ;; instead of changing `evil-default-cursor' (or `evil-emacs-state-cursor') so
+  ;; it won't interfere with users who have changed these variables.
+  (defvar my-default-cursor-color "#ffffff")
+  (defvar my-emacs-cursor-color "#ff9999")
+  (add-hook 'kevin-load-theme-hook (lambda ()
+                                     (setq my-default-cursor-color (face-background 'cursor)
+                                           my-emacs-cursor-color (face-foreground 'warning))))
 
   (use-package evil-escape
     :diminish evil-escape-mode
@@ -91,11 +96,12 @@
   (use-package evil-terminal-cursor-changer
     :unless (display-graphic-p)
     :config
-    (setq evil-motion-state-cursor 'box
-          evil-visual-state-cursor 'box
+    ;; cursor appearance in terminal
+    (setq evil-default-cursor '(box (lambda () (evil-set-cursor-color my-default-cursor-color)))
           evil-normal-state-cursor 'box
-          evil-insert-state-cursor 'bar
-          evil-emacs-state-cursor  'hbar)
+          evil-emacs-state-cursor  '(hbar (lambda () (evil-set-cursor-color my-emacs-cursor-color)))
+          evil-insert-state-cursor '(bar . 2)
+          evil-visual-state-cursor 'hollow)
     (evil-terminal-cursor-changer-activate))
 
   ;; s: 2 char forward; S: 2 char backward
@@ -106,7 +112,7 @@
            (evil-mode . evil-snipe-override-mode))
     :diminish evil-snipe-local-mode
     :init
-    (setq evil-snpe-smart-case t
+    (setq evil-snipe-smart-case t
           evil-snipe-scope 'line
           evil-snipe-repeat-scope 'visible
           evil-snipe-char-fold t)
