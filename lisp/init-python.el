@@ -19,9 +19,6 @@
 (use-package python
   :ensure nil
   :mode ("\\.py\\'" . python-mode)
-  :hook (inferior-python-mode . (lambda ()
-                                  (process-query-on-exit-flag
-                                   (get-process "Python"))))
   :init
   (setq python-indent-offset 4
         python-indent-guess-indent-offset nil
@@ -36,14 +33,16 @@
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-env "PYTHONPATH"))
 
-  ;; Live Coding in Python
-  (use-package live-py-mode)
-
   ;; Pyright: https://github.com/emacs-lsp/lsp-pyright
   (use-package lsp-pyright
     :hook (python-mode . (lambda () (require 'lsp-pyright)))
     :init (when (executable-find "python3")
-            (setq lsp-pyright-python-executable-cmd "python3"))))
+            (setq lsp-pyright-python-executable-cmd "python3")))
+
+  ;; Format buffer
+  (use-package yapfify
+    :config
+    (add-hook 'python-mode-hook 'yapf-mode)))
 
 (provide 'init-python)
 ;;; init-python.el ends here
