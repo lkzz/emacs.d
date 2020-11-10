@@ -41,6 +41,7 @@
 
     ;; C/C++/Objective-C support
     (use-package ccls
+      :disable
       :defines projectile-project-root-files-top-down-recurring
       :config
       (with-eval-after-load 'projectile
