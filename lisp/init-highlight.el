@@ -16,9 +16,23 @@
 ;; Highlight the current line
 (use-package hl-line
   :ensure nil
-  :hook ((after-init . global-hl-line-mode)
-         ((dashboard-mode eshell-mode shell-mode term-mode vterm-mode) .
-          (lambda () (setq-local global-hl-line-mode nil)))))
+  :hook (((evil-visual-state-entry activate-mark) . my-disable-hl-line)
+         ((evil-visual-state-exit deactivate-mark) . my-enable-hl-line)
+         ((prog-mode text-mode conf-mode special-mode) . hl-line-mode))
+  :config
+  ;; Not having to render the hl-line overlay in multiple buffers offers a tiny
+  ;; performance boost. I also don't need to see it in other buffers.
+  (setq hl-line-sticky-flag nil
+        global-hl-line-sticky-flag nil)
+  ;; Temporarily disable `hl-line' when selection is active
+  (defvar my--hl-line-mode nil)
+  (defun my-disable-hl-line ()
+    (when hl-line-mode
+      (hl-line-mode -1)
+      (setq-local my--hl-line-mode t)))
+  (defun my-enable-hl-line ()
+    (when my--hl-line-mode
+      (hl-line-mode +1))))
 
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
