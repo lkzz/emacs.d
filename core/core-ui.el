@@ -87,7 +87,8 @@
   :hook (after-init . display-time-mode)
   :init
   (setq display-time-24hr-format t
-        display-time-day-and-date t))
+        display-time-day-and-date t
+        display-time-default-load-average nil))
 
 (use-package so-long
   :ensure nil
