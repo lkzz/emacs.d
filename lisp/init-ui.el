@@ -13,16 +13,27 @@
 ;;
 ;;; Code:
 
-
 (use-package solaire-mode
-  :when (or (daemonp) (display-graphic-p))
-  :hook (((change-major-mode after-revert ediff-prepare-buffer) . turn-on-solaire-mode)
-         (minibuffer-setup . solaire-mode-in-minibuffer))
-  :init
-  (solaire-global-mode 1))
+  ;; Ensure solaire-mode is running in all solaire-mode buffers
+  :hook (change-major-mode . turn-on-solaire-mode)
+  ;; ...if you use auto-revert-mode, this prevents solaire-mode from turning
+  ;; itself off every time Emacs reverts the file
+  :hook (after-revert . turn-on-solaire-mode)
+  ;; To enable solaire-mode unconditionally for certain modes:
+  :hook (ediff-prepare-buffer . solaire-mode)
+  ;; Highlight the minibuffer when it is activated:
+  :hook (minibuffer-setup . solaire-mode-in-minibuffer)
+  :config
+  ;; The bright and dark background colors are automatically swapped the first
+  ;; time solaire-mode is activated. Namely, the backgrounds of the `default` and
+  ;; `solaire-default-face` faces are swapped. This is done because the colors
+  ;; are usually the wrong way around. If you don't want this, you can disable it:
+  (setq solaire-mode-auto-swap-bg nil)
+  (solaire-global-mode +1))
 
 (use-package doom-themes
-  :defer t
+  :custom
+  (doom-gruvbox-dark-variant "dark")
   :init
   (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
@@ -32,9 +43,7 @@
 
 ;; 加载主题
 (if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (load-theme 'doom-one t)))
+    (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
   (load-theme 'doom-gruvbox t))
 
 ;; 启动时默认最大化
