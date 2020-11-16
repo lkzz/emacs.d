@@ -27,6 +27,7 @@ install_lsp_server:
 	@go get -u golang.org/x/tools/gopls # golang
 	@pip install cmake-language-server	# cmake
 	@npm install vue-language-server -g # vue
+	@npm install -g pyright             # python
 
 install_tools:
 	@brew install coreutils direnv ripgrep
