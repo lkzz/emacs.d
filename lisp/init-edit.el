@@ -58,16 +58,27 @@
                                         (if (eq major-mode 'undo-tree-visualizer-mode)
                                             (undo-tree-visualizer-quit)))))
 
-(use-package multiple-cursors
-  :general ("C-c m t" 'mc/mark-all-like-this
-            "C-c m m" 'mc/mark-all-like-this-dwim
-            "C-c m l" 'mc/edit-lines
-            "C-c m e" 'mc/edit-ends-of-lines
-            "C-c m a" 'mc/edit-beginnings-of-lines
-            "C-c m n" 'mc/mark-next-like-this
-            "C-c m p" 'mc/mark-previous-like-this
-            "C-c m s" 'mc/mark-sgml-tag-pair
-            "C-c m d" 'mc/mark-all-like-this-in-defun))
+(use-package evil-multiedit
+  :config
+  ;; Highlights all matches of the selection in the buffer.
+  (define-key evil-visual-state-map "R" 'evil-multiedit-match-all)
+  ;; Match the word under cursor (i.e. make it an edit region). Consecutive presses will
+  ;; incrementally add the next unmatched match.
+  (define-key evil-normal-state-map (kbd "s-d") 'evil-multiedit-match-and-next)
+  ;; Match selected region.
+  (define-key evil-visual-state-map (kbd "s-d") 'evil-multiedit-match-and-next)
+  ;; Same as M-d but in reverse.
+  (define-key evil-normal-state-map (kbd "s-D") 'evil-multiedit-match-and-prev)
+  (define-key evil-visual-state-map (kbd "s-D") 'evil-multiedit-match-and-prev)
+  ;; RET will toggle the region under the cursor
+  (define-key evil-multiedit-state-map (kbd "RET") 'evil-multiedit-toggle-or-restrict-region)
+  ;; ...and in visual mode, RET will disable all fields outside the selected region
+  (define-key evil-motion-state-map (kbd "RET") 'evil-multiedit-toggle-or-restrict-region)
+  ;; For moving between edit regions
+  (define-key evil-multiedit-state-map (kbd "C-n") 'evil-multiedit-next)
+  (define-key evil-multiedit-state-map (kbd "C-p") 'evil-multiedit-prev)
+  (define-key evil-multiedit-insert-state-map (kbd "C-n") 'evil-multiedit-next)
+  (define-key evil-multiedit-insert-state-map (kbd "C-p") 'evil-multiedit-prev))
 
 (provide 'init-edit)
 ;;; init-edit.el ends here

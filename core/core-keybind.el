@@ -13,24 +13,25 @@
 ;;; Code:
 
 (when is-mac-p
-  (setq mac-command-modifier 'super) ; make Super key do command
-  (setq mac-option-modifier 'meta)  ; make Option key do meta
-  (setq mac-right-option-modifier 'none) ;; disable right Option key
-  (setq mac-control-modifer 'control)
+  (setq mac-option-modifier 'meta
+        mac-command-modifier 'super
+        mac-right-option-modifier 'nil
+        mac-right-option-modifier 'super)
   (global-set-key [(super a)] 'mark-whole-buffer)
   (global-set-key [(super v)] 'yank)
   (global-set-key [(super c)] 'kill-ring-save)
   (global-set-key [(super s)] 'save-buffer)
-  (global-set-key [(super w)]
-                  (lambda () (interactive) (delete-window)))
+  (global-set-key [(super w)] (lambda () (interactive) (delete-window)))
   (global-set-key [(super z)] 'undo))
 
 ;; used as tmux prefix key
 (global-unset-key (kbd "C-q"))
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
-(global-set-key   [mouse-4] '(lambda () (interactive) (scroll-down 1)))
-(global-set-key   [mouse-5] '(lambda () (interactive) (scroll-up   1)))
+(global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1)))
+(global-set-key [mouse-5] (lambda () (interactive) (scroll-up   1)))
+;; Use ESC as universal get me out of here command
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
 (use-package which-key
   :diminish which-key-mode "Ⓚ"
