@@ -47,6 +47,7 @@
         evil-insert-state-cursor '(bar . 2)
         evil-visual-state-cursor 'hollow)
   :config
+  (evil-set-undo-system 'undo-tree)
   (general-nvmap "C-e" 'move-end-of-line)
   (general-nmap "Y" (kbd "y$"))
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
