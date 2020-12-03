@@ -25,11 +25,12 @@
     :config
     (cl-lib-highlight-initialize))
 
-  (add-hook #'before-save-hook
-            (lambda ()
-              (when (and (eq major-mode 'emacs-lisp-mode)
-                         (buffer-modified-p))
-                (indent-region (point-min) (point-max))))))
+  (defun my-elisp-format-buffer ()
+    (when (and (eq major-mode 'emacs-lisp-mode)
+               (buffer-modified-p))
+      (indent-region (point-min) (point-max))))
+
+  (add-hook #'before-save-hook #'my-elisp-format-buffer))
 
 (provide 'init-elisp)
 ;;; init-elisp.el ends here

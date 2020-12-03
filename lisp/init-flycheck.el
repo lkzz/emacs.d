@@ -32,6 +32,7 @@
         flycheck-indication-mode (if (display-graphic-p) 'right-fringe 'right-margin)
         ;; Only check while saving and opening files
         flycheck-check-syntax-automatically '(save mode-enabled))
+  (setq-default flycheck-disabled-checkers '(emacs-lisp emacs-lisp-checkdoc))
   :config
   ;; Prettify indication styles
   (when (fboundp 'define-fringe-bitmap)

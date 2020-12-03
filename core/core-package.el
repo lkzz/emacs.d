@@ -66,5 +66,18 @@
   (require 'no-littering)
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
+(use-package better-jumper
+  :hook (prog-mode . turn-on-better-jumper-mode)
+  :init
+  (global-set-key [remap evil-jump-forward] #'better-jumper-jump-forward)
+  (global-set-key [remap evil-jump-backward] #'better-jumper-jump-backward)
+  (global-set-key [remap xref-pop-marker-stack] #'better-jumper-jump-backward)
+  :config
+  (setq better-jumper-context 'window
+        better-jumper-new-window-behavior 'copy
+        better-jumper-add-jump-behavior 'replace
+        better-jumper-max-length 100
+        better-jumper-use-evil-jump-advice t))
+
 (provide 'core-package)
 ;;; core-package.el ends here
