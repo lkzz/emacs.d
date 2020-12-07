@@ -43,8 +43,8 @@
 
 ;; 加载主题
 (if (daemonp)
-    (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
-  (load-theme 'doom-gruvbox t))
+    (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-one t)))
+  (load-theme 'doom-one t))
 
 ;; 启动时默认最大化
 (when (display-graphic-p)

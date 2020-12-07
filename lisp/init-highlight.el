@@ -125,6 +125,8 @@
   (dolist (cmd '(pop-to-mark-command
                  pop-global-mark
                  neotree-enter
+                 evil-jump-backward evil-jump-forward
+                 better-jumper-jump-forward better-jumper-jump-backward
                  dired-find-file
                  goto-last-change))
     (advice-add cmd :after #'my-recenter-and-pulse)))
