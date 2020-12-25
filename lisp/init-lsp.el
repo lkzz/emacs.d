@@ -34,6 +34,8 @@
         lsp-enable-indentation nil
         lsp-enable-on-type-formatting nil
 
+        lsp-headerline-breadcrumb-enable nil
+
         lsp-enable-folding nil
         lsp-enable-file-watchers nil
         lsp-enable-text-document-color nil
