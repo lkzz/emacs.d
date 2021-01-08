@@ -38,7 +38,6 @@
   (when (fboundp 'define-fringe-bitmap)
     (define-fringe-bitmap 'flycheck-fringe-bitmap-arrow
       [16 48 112 240 112 48 16] nil nil 'center))
-  (flycheck-redefine-standard-error-levels "⏴" 'flycheck-fringe-bitmap-arrow)
 
   (use-package flycheck-posframe
     :if (display-graphic-p)

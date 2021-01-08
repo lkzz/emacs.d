@@ -117,18 +117,14 @@
               fill-column 80)
 
 ;; Word wrapping
-(setq-default word-wrap t
-              truncate-lines t
+(setq-default word-wrap nil
+              truncate-lines nil
               show-trailing-whitespace nil ; Don't show trailing whitespace by default
               truncate-partial-width-windows nil)
 
 ;;============================ fringe start ==========================================
-(setq indicate-buffer-boundaries nil    ; Reduce the clutter in the fringes
-      indicate-empty-lines nil)         ; 不显示buffer末尾空行fringe
-(delq 'continuation fringe-indicator-alist) ; Remove continuation arrow on right fringe
-(setq indicate-buffer-boundaries nil)
-(when (fboundp 'set-fringe-mode)
-  (set-fringe-mode '(4 . 8)))
+(setq-default indicate-buffer-boundaries nil    ; Reduce the clutter in the fringes
+              indicate-empty-lines nil)         ; 不显示buffer末尾空行fringe
 ;; 设置visual line fringe bitmap
 (when (and (fboundp 'define-fringe-bitmap) (display-graphic-p))
   (define-fringe-bitmap 'right-curly-arrow
@@ -150,9 +146,6 @@
   (set-fringe-bitmap-face 'right-curly-arrow 'warning)
   (set-fringe-bitmap-face 'left-curly-arrow 'warning)
   (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)))
-
-(unless (display-graphic-p)
-  (setq overflow-newline-into-fringe nil))
 
 ;; doesn't exist in terminal Emacs; we define it to prevent errors
 (unless (fboundp 'define-fringe-bitmap)
