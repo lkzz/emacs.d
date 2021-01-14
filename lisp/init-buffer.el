@@ -13,10 +13,6 @@
 ;;
 ;;; Code:
 
-(use-package reveal-in-osx-finder
-  :if is-mac-p
-  :commands reveal-in-osx-finder)
-
 ;; Group ibuffer's list by project root
 (use-package ibuffer-projectile
   :after projectile
@@ -35,7 +31,6 @@
     "b m" '(kevin/kill-all-buffers :wk "kill-all-buffer")
     "b p" '(kevin/switch-to-prev-buffer :wk "prev-buffer")
     "b n" '(kevin/switch-to-next-buffer :wk "next-buffer")
-    "b r" 'reveal-in-osx-finder
     "b g" '(kevin/revert-buffer-no-confirm :wk "revert-buffer")
     "b s" 'save-buffer
     "b S" '(kevin/create-scratch-buffer :wk "create-scratch-buffer"))

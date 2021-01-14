@@ -18,9 +18,9 @@
   :general ("C-c y" 'youdao-dictionary-search-at-point+)
   :config
   ;; Enable Cache
-  (setq url-automatic-caching t)
-  ;; Enable Chinese word segmentation support
-  (setq youdao-dictionary-use-chinese-word-segmentation t))
+  (setq url-automatic-caching t
+        ;; Enable Chinese word segmentation support
+        youdao-dictionary-use-chinese-word-segmentation t))
 
 (use-package rime
   :custom
@@ -42,12 +42,11 @@
   :commands cal-china-x-setup
   :init (cal-china-x-setup)
   :config
-  (setq calendar-location-name "Chengdu")
-  (setq calendar-latitude 30.67)
-  (setq calendar-longitude 104.06)
-  ;; Holidays
-  (setq calendar-mark-holidays-flag t)
-  (setq cal-china-x-important-holidays cal-china-x-chinese-holidays)
+  (setq calendar-location-name "Chengdu"
+        calendar-latitude 30.67
+        calendar-longitude 104.06
+        calendar-mark-holidays-flag t
+        cal-china-x-important-holidays cal-china-x-chinese-holidays)
   (setq cal-china-x-general-holidays
         '((holiday-lunar 1 15 "元宵节")
           (holiday-lunar 7 7 "七夕节")

@@ -25,7 +25,7 @@
   (company-search-map "C-p" 'company-select-previous
                       "C-n" 'company-select-next)
   :hook (after-init . global-company-mode)
-  :config
+  :init
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t
         company-echo-delay 0            ; remove annoying blinking
@@ -38,37 +38,25 @@
         company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
-        company-backends '(company-dabbrev-code ; 当前文件所属编程语言的语法关键词
-                           company-keywords     ; 当前文件所属编程语言的语法关键词
-                           company-dabbrev      ; 主要用来补全当前 buffer 中出现的 word
-                           company-files)       ; 补全文件系统的路径后端
-        company-frontends '(company-pseudo-tooltip-frontend company-echo-metadata-frontend))
-
+        company-backends '((company-capf :with company-yasnippet)
+                           (company-dabbrev-code company-keywords company-files)
+                           company-dabbrev))
   (add-hook 'evil-normal-state-entry-hook
             (lambda () (when company-candidates (company-abort))))
-
+  :config
   (with-eval-after-load 'yasnippet
-    (defun company-backend-with-yas (backend)
-      "Add `yasnippet' to company backend."
-      (if (and (listp backend) (member 'company-yasnippet backend))
-          backend
-        (append (if (consp backend) backend (list backend))
-                '(:with company-yasnippet))))
-
-    (defun my-company-enbale-yas (&rest _)
-      "Enable `yasnippet' in `company'."
-      (setq company-backends (mapcar #'company-backend-with-yas company-backends)))
-    ;; Enable in current backends
-    (my-company-enbale-yas)
-    ;; Enable in `lsp-mode'
-    (advice-add #'lsp--auto-configure :after #'my-company-enbale-yas)
+    (defun my-lsp-fix-company-capf ()
+      "Remove redundant `company-capf'."
+      (setq company-backends
+            (remove 'company-backends (remq 'company-capf company-backends))))
+    (advice-add #'lsp-completion--enable :after #'my-lsp-fix-company-capf)
 
     (defun my-company-yasnippet-disable-inline (fun command &optional arg &rest _ignore)
       "Enable yasnippet but disable it inline."
       (if (eq command 'prefix)
           (when-let ((prefix (funcall fun 'prefix)))
             (unless (memq (char-before (- (point) (length prefix)))
-                          '(?. ?< ?> ?\( ?\) ?\[ ?{ ?} ?\" ?' ?` ?:))
+                          '(?. ?< ?> ?\( ?\) ?\[ ?{ ?} ?\" ?' ?`))
               prefix))
         (progn
           (when (and (bound-and-true-p lsp-mode)
@@ -91,15 +79,6 @@
                 company-box-highlight-prefix t
                 company-box-doc-delay 0.5)
     :config
-    (defun company-remove-scrollbar-a (orig-fn &rest args)
-      "This disables the company-box scrollbar, because:
-https://github.com/sebastiencs/company-box/issues/44"
-      :around #'company-box--update-scrollbar
-      (cl-letf (((symbol-function #'display-buffer-in-side-window)
-                 (symbol-function #'ignore)))
-        (apply orig-fn args)))
-    (advice-add #'company-box--update-scrollbar :around #'company-remove-scrollbar-a)
-
     ;; Prettify icons
     (defun my-company-box-icons--elisp (candidate)
       (when (derived-mode-p 'emacs-lisp-mode)

@@ -45,7 +45,7 @@
         evil-normal-state-cursor 'box
         evil-emacs-state-cursor  '(hbar (lambda () (evil-set-cursor-color my-emacs-cursor-color)))
         evil-insert-state-cursor '(bar . 2)
-        evil-visual-state-cursor 'hollow)
+        evil-visual-state-cursor 'box)
   :config
   (evil-set-undo-system 'undo-tree)
   (general-nvmap "C-e" 'move-end-of-line)
