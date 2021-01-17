@@ -36,6 +36,8 @@
   :config
   ;; display buffer fullframe
   (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
+  ;; bury or kill the current magit buffer
+  (setq magit-bury-buffer-function #'kevin/magit-bury-buffer-function)
   ;; see https://chris.beams.io/posts/git-commit/
   (setq fill-column 72
         magit-auto-revert-mode t

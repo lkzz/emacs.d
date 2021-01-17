@@ -55,3 +55,18 @@
     (set-window-buffer nil buffer)
     ;; return buffer's window
     (get-buffer-window buffer)))
+
+;;;###autload
+(defun kevin/magit-bury-buffer-function (&rest _)
+  "Restore window configuration and kill all Magit buffers."
+  (interactive)
+  (magit-restore-window-configuration)
+  (let ((buffers (magit-mode-get-buffers)))
+    (when (eq major-mode 'magit-status-mode)
+      (mapc (lambda (buf)
+              (with-current-buffer buf
+                (if (and magit-this-process
+                         (eq (process-status magit-this-process) 'run))
+                    (bury-buffer buf)
+                  (kill-buffer buf))))
+            buffers))))
