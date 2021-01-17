@@ -42,7 +42,9 @@
   :config
   (setq projectile-enable-caching t
         projectile-sort-order 'recentf
-        projectile-completion-system 'ivy)
+        projectile-completion-system 'ivy
+        projectile-globally-ignored-file-suffixes
+        '(".dir" ".cmake" ".make" ".o" ".includecache" ".elc" ".internal"))
   (add-to-list 'projectile-globally-ignored-directories "build"))
 
 (provide 'init-projectile)

@@ -69,7 +69,7 @@
                                 "COMMIT_EDITMSG\\'"
                                 "bookmarks"
                                 "pyim"
-                                (concat "^" kevin-cache-dir ".+$")))
+                                (lambda (file) (file-in-directory-p file package-user-dir))))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude))
 
