@@ -53,7 +53,6 @@
 (require 'init-osx)
 (require 'init-evil)
 (require 'init-ui)
-(require 'init-font)
 (require 'init-dashboard)
 (require 'init-highlight)
 

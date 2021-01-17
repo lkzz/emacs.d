@@ -32,12 +32,11 @@
   (solaire-global-mode +1))
 
 (use-package doom-themes
-  :custom
-  (doom-gruvbox-dark-variant "dark")
   :init
   (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
   (setq doom-dark+-blue-modeline t
+        doom-gruvbox-dark-variant "dark"
         doom-themes-neotree-file-icons 'simple
         doom-themes-neotree-line-spacing 2))
 
@@ -214,6 +213,23 @@
                                        "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode 't))
+
+;; 设置默认字体
+(set-face-attribute 'default nil :font "Fira Code" :height 140)
+;; 设置中文字体
+(set-fontset-font t '(#x4e00 . #x9fff) "STKaiti")
+;; 设置unicode字体
+(if is-mac-p
+    (set-fontset-font t 'unicode (font-spec :family "Apple Color Emoji") nil 'prepend)
+  (set-fontset-font t 'unicode (font-spec :family "Symbola") nil 'prepend))
+;; 调整字体大小
+(use-package default-text-scale
+  :hook (after-init . default-text-scale-mode)
+  :general
+  (general-nmap default-text-scale-mode-map
+    "s-0" 'default-text-scale-reset
+    "s-=" 'default-text-scale-increase
+    "s--" 'default-text-scale-decrease))
 
 (use-package rainbow-mode
   :diminish rainbow-mode
