@@ -219,9 +219,11 @@
   :diminish rainbow-mode
   :hook ((emacs-lisp-mode conf-space-mode) . rainbow-mode))
 
-(use-package highlight-numbers
-  :hook ((prog-mode conf-mode protobuf-mode) . highlight-numbers-mode)
-  :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
+(use-package display-fill-column-indicator
+  :ensure nil
+  :hook (prog-mode . display-fill-column-indicator-mode)
+  :init
+  (setq-default display-fill-column-indicator-character ?\|))
 
 (provide 'init-ui)
 ;;; init-ui ends here

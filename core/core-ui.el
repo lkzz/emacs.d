@@ -114,7 +114,7 @@
 (setq-default tab-width 4
               tab-always-indent t
               indent-tabs-mode nil
-              fill-column 80)
+              fill-column 100)
 
 ;; Word wrapping
 (setq-default word-wrap nil
