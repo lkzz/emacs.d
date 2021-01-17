@@ -37,8 +37,11 @@
   (> emacs-major-version 26)
   "Emacs is 27 or above.")
 
-(defconst kevin-cache-dir (expand-file-name "cache/" user-emacs-directory)
+(defconst kevin-cache-dir (concat user-emacs-directory "cache/")
   "Emacs cache directory.")
+
+(unless (file-exists-p kevin-cache-dir)
+  (make-directory kevin-cache-dir))
 
 (defconst kevin-autoload-file (concat kevin-cache-dir "core-autoloads.el")
   "This file is responsible for informing emacs where to find all autoload function in core/autoload/*.el")
