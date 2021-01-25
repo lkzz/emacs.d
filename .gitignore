@@ -14,9 +14,9 @@ straight/build/
 straight/modified/
 straight/repos/
 straight/build-cache.el
-
 librime/
 quelpa/
+eln-cache/
 
 places
 recentf

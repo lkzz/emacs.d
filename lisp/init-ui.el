@@ -35,15 +35,16 @@
   :init
   (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
+  (add-hook 'kevin-load-theme-hook #'doom-themes-visual-bell-config)
   (setq doom-dark+-blue-modeline t
         doom-gruvbox-dark-variant "dark"
-        doom-themes-neotree-file-icons 'simple
+        doom-themes-neotree-file-icons 't
         doom-themes-neotree-line-spacing 2))
 
 ;; 加载主题
 (if (daemonp)
     (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-one t)))
-  (load-theme 'doom-one t))
+  (load-theme 'doom-tomorrow-night t))
 
 ;; 启动时默认最大化
 (when (display-graphic-p)
@@ -169,6 +170,7 @@
     ;; prevent flash of unstyled modeline at startup
     (setq-default mode-line-format nil))
   (setq doom-modeline-bar-width 3
+        doom-modeline-env-version nil
         doom-modeline-env-enable-python t
         doom-modeline-icon (display-graphic-p)
         doom-modeline-minor-modes t
@@ -234,12 +236,6 @@
 (use-package rainbow-mode
   :diminish rainbow-mode
   :hook ((emacs-lisp-mode conf-space-mode) . rainbow-mode))
-
-(use-package display-fill-column-indicator
-  :ensure nil
-  :hook (prog-mode . display-fill-column-indicator-mode)
-  :init
-  (setq-default display-fill-column-indicator-character ?\|))
 
 (provide 'init-ui)
 ;;; init-ui ends here
