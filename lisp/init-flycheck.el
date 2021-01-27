@@ -19,7 +19,7 @@
   :hook (prog-mode . global-flycheck-mode)
   :general
   (kevin/space-key-define
-    "e" '(nil :which-key "Errors")
+    "e" '(nil :wk "Error")
     "e l" 'flycheck-list-errors
     "e n" 'flycheck-next-error
     "e p" 'flycheck-previous-error)

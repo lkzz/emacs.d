@@ -57,3 +57,12 @@
   (when-let (frame (or frame (selected-frame)))
     (when (display-graphic-p frame)
       (set-frame-parameter frame 'menu-bar-lines 1))))
+
+;;;###autoload
+(defun kevin/toggle-darkroom-mode ()
+  (interactive)
+  (darkroom-tentative-mode (if darkroom-tentative-mode 0 1))
+  (if darkroom-tentative-mode
+      (add-hook 'after-change-major-mode-hook 'darkroom-tentative-mode)
+    (remove-hook 'after-change-major-mode-hook 'darkroom-tentative-mode))
+  (doom-modeline-init))

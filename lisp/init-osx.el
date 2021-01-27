@@ -24,7 +24,7 @@
   :if is-mac-p
   :general
   (kevin/space-key-define
-    "o" '(nil :which-key "Open")
+    "o" '(nil :wk "Open")
     "o a" 'counsel-osx-app
     "o t" '(kevin/open-iterm :wk "open-item2")
     "o w" '(kevin/open-wechat :wk "open-wechat")

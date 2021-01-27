@@ -17,7 +17,7 @@
   :commands magit-status
   :general
   (kevin/space-key-define
-    "g" '(:ignore t :which-key "Git")
+    "g" '(:ignore t :wk "Git")
     "g a" '(kevin/git-add-current-file :wk "add-current-file")
     "g b" 'magit-blame
     "g c" '(kevin/git-checkout-current-file :wk "checkout-current-file")

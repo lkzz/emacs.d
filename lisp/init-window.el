@@ -40,7 +40,7 @@
     "7"  'winum-select-window-7
     "8"  'winum-select-window-8
     "9"  'winum-select-window-9
-    "w" '(nil :which-key "Window")
+    "w" '(nil :wk "Window")
     "w d" 'delete-window
     "w o" 'other-window
     "w d" 'delete-window

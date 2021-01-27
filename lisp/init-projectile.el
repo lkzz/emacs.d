@@ -18,7 +18,7 @@
   :hook (after-init . projectile-mode)
   :general
   (kevin/space-key-define
-    "p" '(nil :which-key "Projectile")
+    "p" '(nil :wk "Projectile")
     "p !" 'projectile-run-shell-command-in-root
     "p &" 'projectile-run-async-shell-command-in-root
     "p %" 'projectile-replace-regexp

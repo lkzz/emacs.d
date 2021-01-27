@@ -18,7 +18,7 @@
   :ensure nil
   :general
   (kevin/space-key-define
-    "m" '(nil :which-key "Bookmark")
+    "m" '(nil :wk "Bookmark")
     "m s" 'bookmark-set
     "m r" 'bookmark-rename
     "m d" 'bookmark-delete

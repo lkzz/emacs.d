@@ -237,5 +237,14 @@
   :diminish rainbow-mode
   :hook ((emacs-lisp-mode conf-space-mode) . rainbow-mode))
 
+(use-package darkroom
+  :commands (darkroom-mode darkroom-tentative-mode)
+  :general
+  (kevin/space-key-define "t d" '(kevin/toggle-darkroom-mode :wk "darkroom"))
+  :init
+  (setq darkroom-margins 0.15
+        darkroom-text-scale-increase 0
+        darkroom-fringes-outside-margins nil))
+
 (provide 'init-ui)
 ;;; init-ui ends here

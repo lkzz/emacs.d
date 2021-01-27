@@ -82,28 +82,28 @@
     :prefix ";")
   :config
   (kevin/space-key-define
-    "d" '(nil :which-key "Delete")
+    "d" '(nil :wk "Delete")
     "d d" '(kevin/delete-delimiter-enclosed-text :wk "delete-enclosed-text")
     "d f" 'delete-frame
     "d w" '(kevin/delete-word :wk "delete-word")
-    "f" '(nil :which-key "File")
-    "j" '(nil :which-key "Jump")
-    "s" '(nil :which-key "Search")
-    "t" '(nil :which-key "Toggle")
-    "t f" 'toggle-frame-fullscreen
-    "t b" 'toggle-scroll-bar
-    "t t" 'toggle-truncate-lines)
+    "f" '(nil :wk "File")
+    "j" '(nil :wk "Jump")
+    "s" '(nil :wk "Search")
+    "t" '(nil :wk "Toggle")
+    "t f" '(toggle-frame-fullscreen :wk "fullscreen")
+    "t b" '(toggle-scroll-bar :wk "scroll-bar")
+    "t t" '(toggle-truncate-lines :wk "truncate-line"))
 
   (kevin/colon-key-define
-    "e" '(nil :which-key "Emacs")
+    "e" '(nil :wk "Emacs")
     "e q" 'save-buffers-kill-terminal
     "e i" '(kevin/open-init-file :wk "open-init-file")
-    "f" '(nil :which-key "Font")
+    "f" '(nil :wk "Font")
     "f =" 'kevin/increase-fontsize
     "f -" 'kevin/decrease-fontsize)
 
   (kevin/comma-key-define
-    "f" '(nil :which-key "Find")
+    "f" '(nil :wk "Find")
     "f d" 'xref-find-definitions
     "f f" 'find-file-at-point
     "f r" 'xref-find-references

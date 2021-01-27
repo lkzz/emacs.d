@@ -19,7 +19,7 @@
   :quelpa (aweshell :fetcher github :repo "manateelazycat/aweshell")
   :hook ((eshell-first-time-mode . kevin/eshell-keymap)
          (eshell-exit . delete-window))
-  :general (kevin/space-key-define "t '" '(kevin/toggle-aweshell :wk "shell"))
+  :general (kevin/space-key-define "t '" '(kevin/toggle-aweshell :wk "aweshell"))
   :config
   (setq eshell-highlight-prompt t
         eshell-prompt-function 'epe-theme-lambda))

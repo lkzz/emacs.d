@@ -17,11 +17,11 @@
   :mode ("\\.go\\'" . go-mode)
   :general
   (kevin/comma-key-define go-mode-map
-    "i" '(nil :which-key "Import")
+    "i" '(nil :wk "Import")
     "i a" 'go-import-add
     "i g" 'go-goto-imports
     "i r" 'go-remove-unused-imports
-    "t" '(nil :which-key "Test")
+    "t" '(nil :wk "Test")
     "t x" 'go-run
     "t b" 'go-test-current-benchmark
     "t t" 'go-test-current-test
