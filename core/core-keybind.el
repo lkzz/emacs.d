@@ -1,6 +1,6 @@
 ;;; core-keybind.el --- core keybinds -*- lexical-binding: t -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -76,34 +76,25 @@
     :states '(normal visual motion evilified)
     :keymaps 'override
     :prefix ",")
-  (general-create-definer kevin/colon-key-define
-    :states '(normal visual motion evilified)
-    :keymaps 'override
-    :prefix ";")
   :config
   (kevin/space-key-define
-    "d" '(nil :wk "Delete")
+    "d" '(nil :wk "delete")
     "d d" '(kevin/delete-delimiter-enclosed-text :wk "delete-enclosed-text")
     "d f" 'delete-frame
     "d w" '(kevin/delete-word :wk "delete-word")
-    "f" '(nil :wk "File")
-    "j" '(nil :wk "Jump")
-    "s" '(nil :wk "Search")
-    "t" '(nil :wk "Toggle")
+    "f" '(nil :wk "file")
+    "f f" 'find-file
+    "f i" '(kevin/open-init-file :wk "open-init-file")
+    "f r" 'recentf
+    "j" '(nil :wk "jump")
+    "s" '(nil :wk "search")
+    "t" '(nil :wk "toggle")
     "t f" '(toggle-frame-fullscreen :wk "fullscreen")
     "t b" '(toggle-scroll-bar :wk "scroll-bar")
     "t t" '(toggle-truncate-lines :wk "truncate-line"))
 
-  (kevin/colon-key-define
-    "e" '(nil :wk "Emacs")
-    "e q" 'save-buffers-kill-terminal
-    "e i" '(kevin/open-init-file :wk "open-init-file")
-    "f" '(nil :wk "Font")
-    "f =" 'kevin/increase-fontsize
-    "f -" 'kevin/decrease-fontsize)
-
   (kevin/comma-key-define
-    "f" '(nil :wk "Find")
+    "f" '(nil :wk "find")
     "f d" 'xref-find-definitions
     "f f" 'find-file-at-point
     "f r" 'xref-find-references

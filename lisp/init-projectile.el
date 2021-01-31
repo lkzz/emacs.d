@@ -1,6 +1,6 @@
 ;;; init-projectile.el --- projectile config. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -18,7 +18,7 @@
   :hook (after-init . projectile-mode)
   :general
   (kevin/space-key-define
-    "p" '(nil :wk "Projectile")
+    "p" '(nil :wk "projectile")
     "p !" 'projectile-run-shell-command-in-root
     "p &" 'projectile-run-async-shell-command-in-root
     "p %" 'projectile-replace-regexp

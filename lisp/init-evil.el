@@ -1,6 +1,6 @@
 ;;; init-evil.el --- setup emacs use evil keybinds. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -79,10 +79,10 @@
   (use-package evil-nerd-commenter
     :general
     (kevin/space-key-define
-      "c" '(nil :wk "Comment")
+      "c" '(nil :wk "comment")
       "c i" '(evilnc-comment-or-uncomment-lines :wk "comment-lines")
       "c l" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment-line")
-      "c p" '(evilnc-comment-or-uncomment-paragraphs :wk "comment paragraphs")
+      "c p" '(evilnc-comment-or-uncomment-paragraphs :wk "comment-paragraphs")
       "c y" '(evilnc-copy-and-comment-operator :wk "comment-and-copy")))
 
   (use-package evil-collection

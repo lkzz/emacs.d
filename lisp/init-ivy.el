@@ -1,6 +1,6 @@
 ;;; init-ivy.el --- ivy config. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -17,8 +17,6 @@
   :diminish ivy-mode counsel-mode
   :general
   (kevin/space-key-define
-    "f f" 'counsel-find-file
-    "f r" 'counsel-recentf
     "s /" 'counsel-rg
     "s s" 'swiper-all)
   ("C-s"     'swiper
@@ -28,6 +26,8 @@
   (counsel-mode-map [remap swiper] 'counsel-grep-or-swiper
                     [remap swiper-backward] 'counsel-grep-or-swiper-backward
                     [remap dired] 'counsel-dired
+                    [remap find-file] 'counsel-find-file
+                    [remap recentf] 'counsel-recentf
                     [remap amx] 'counsel-M-x
                     [remap switch-to-buffer] 'counsel-switch-buffer
                     "C-x j" 'counsel-mark-ring

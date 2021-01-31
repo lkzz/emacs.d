@@ -1,7 +1,20 @@
 ;;; early-init.el -*- lexical-binding: t; -*-
-
+;;
+;; Copyright (C) 2017-2021  Kevin Leung
+;;
+;; Author: Kevin Leung <kevin.scnu@gmail.com>
+;; URL: https://github.com/lkzz/emacs.d
+;;
+;; This file is not part of GNU Emacs.
+;;
+;;; License: GPLv3
+;;
+;;; Commentary:
+;;
 ;; Emacs HEAD (27+) introduces early-init.el, which is run before init.el,
 ;; before package and UI initialization happens.
+
+;;; Code:
 
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)

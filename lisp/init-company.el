@@ -1,6 +1,6 @@
 ;;; init-company.el --- auto complate use company. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -41,8 +41,8 @@
         company-backends '((company-capf :with company-yasnippet)
                            (company-dabbrev-code company-keywords company-files)
                            company-dabbrev))
-  (add-hook 'evil-normal-state-entry-hook
-            (lambda () (when company-candidates (company-abort))))
+  (add-hook 'evil-normal-state-entry-hook (lambda ()
+                                            (when company-candidates (company-abort))))
   :config
   (with-eval-after-load 'yasnippet
     (defun my-lsp-fix-company-capf ()

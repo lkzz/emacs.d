@@ -1,6 +1,6 @@
 ;;; init-misc.el --- misc config files. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -13,12 +13,12 @@
 ;;
 ;;; Code:
 
-;; bookmark 设置
+;; Bookmark 设置
 (use-package bookmark
   :ensure nil
   :general
   (kevin/space-key-define
-    "m" '(nil :wk "Bookmark")
+    "m" '(nil :wk "bookmark")
     "m s" 'bookmark-set
     "m r" 'bookmark-rename
     "m d" 'bookmark-delete
@@ -28,7 +28,10 @@
 ;; Elec pair
 (use-package elec-pair
   :ensure nil
-  :hook (after-init . electric-pair-mode))
+  :hook (after-init . electric-pair-mode)
+  :config
+  ;; minibuffer 中禁止匹配
+  (setq electric-pair-inhibit-predicate 'minibufferp))
 
 ;; Hungry deletion
 (use-package hungry-delete
@@ -36,8 +39,7 @@
   :hook (after-init . global-hungry-delete-mode))
 
 (use-package restart-emacs
-  :commands restart-emacs
-  :general (kevin/colon-key-define "e r" 'restart-emacs))
+  :commands restart-emacs)
 
 (use-package server
   :config
@@ -53,31 +55,31 @@
   :ensure nil
   :hook ((after-init . recentf-mode)
          (kill-emacs-hook . recentf-cleanup))
-  :init (setq recentf-max-saved-items 500
-              recentf-auto-cleanup 'never
-              recentf-exclude '("/tmp/"
-                                "recentf$"
-                                "\\.cask$"
-                                "\\.mkv$"
-                                "\\.mp[34]$"
-                                "\\.avi$"
-                                "\\.wav$"
-                                "\\.pdf$"
-                                "\\.docx?$"
-                                "\\.xlsx?$"
-                                "url"
-                                "COMMIT_EDITMSG\\'"
-                                "bookmarks"
-                                "pyim"
-                                (lambda (file) (file-in-directory-p file package-user-dir))))
+  :init
+  (setq recentf-max-saved-items 500
+        recentf-auto-cleanup 'never
+        recentf-exclude '("/tmp/"
+                          "recentf$"
+                          "\\.cask$"
+                          "\\.mkv$"
+                          "\\.mp[34]$"
+                          "\\.avi$"
+                          "\\.wav$"
+                          "\\.pdf$"
+                          "\\.docx?$"
+                          "\\.xlsx?$"
+                          "url"
+                          "COMMIT_EDITMSG\\'"
+                          "bookmarks"
+                          "pyim"
+                          (lambda (file) (file-in-directory-p file package-user-dir))))
   :config
   (push (expand-file-name recentf-save-file) recentf-exclude))
 
 ;; Jump to things in Emacs tree-style
 (use-package avy
   :hook (after-init . avy-setup-default)
-  :init
-  (setq avy-background t)
+  :init (setq avy-background t)
   :general
   (kevin/space-key-define
     "j c" 'avy-goto-char-2

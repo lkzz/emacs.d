@@ -1,6 +1,6 @@
 ;;; init-buffer.el -- Initialization buffer. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -19,7 +19,7 @@
   :general
   ("C-x C-b" 'ibuffer)
   (kevin/space-key-define
-    "b" '(:ignore t :wk "Buffer")
+    "b" '(:ignore t :wk "buffer")
     "b b" 'switch-to-buffer
     "b c" '(kevin/cleanup-buffer :wk "cleanup-buffer")
     "b e" 'eval-buffer

@@ -1,6 +1,6 @@
 ;;; init-ui.el ---  setup ui. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -43,8 +43,8 @@
 
 ;; 加载主题
 (if (daemonp)
-    (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-one t)))
-  (load-theme 'doom-tomorrow-night t))
+    (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-tomorrow-night t)))
+  (load-theme 'doom-one-light t))
 
 ;; 启动时默认最大化
 (when (display-graphic-p)

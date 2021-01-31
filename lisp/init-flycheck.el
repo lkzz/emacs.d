@@ -1,6 +1,6 @@
 ;;; init-flycheck.el --- initialize flycheck configurations. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -19,7 +19,7 @@
   :hook (prog-mode . global-flycheck-mode)
   :general
   (kevin/space-key-define
-    "e" '(nil :wk "Error")
+    "e" '(nil :wk "error")
     "e l" 'flycheck-list-errors
     "e n" 'flycheck-next-error
     "e p" 'flycheck-previous-error)

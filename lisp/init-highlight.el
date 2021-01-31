@@ -1,6 +1,6 @@
 ;; init-highlight.el --- Initialize highlight configurations. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -129,6 +129,7 @@
   (dolist (cmd '(pop-to-mark-command
                  pop-global-mark
                  neotree-enter
+                 ;; ivy-done
                  evil-jump-backward evil-jump-forward
                  better-jumper-jump-forward better-jumper-jump-backward
                  dired-find-file

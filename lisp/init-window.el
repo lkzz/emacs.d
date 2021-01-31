@@ -1,6 +1,6 @@
 ;;; init-window.el --- window config for emacs. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -40,10 +40,9 @@
     "7"  'winum-select-window-7
     "8"  'winum-select-window-8
     "9"  'winum-select-window-9
-    "w" '(nil :wk "Window")
+    "w" '(nil :wk "window")
     "w d" 'delete-window
     "w o" 'other-window
-    "w d" 'delete-window
     "w t" '(kevin/toggle-two-split-window :wk "toggle-two-split-window")
     "w z" '(zoom-window-zoom :wk "zoom-window")
     "w /" '(kevin/split-window-right-and-focus :wk "split-window-right")

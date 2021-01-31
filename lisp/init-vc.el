@@ -1,6 +1,6 @@
 ;;; init-vc.el --- version control setup. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -17,7 +17,7 @@
   :commands magit-status
   :general
   (kevin/space-key-define
-    "g" '(:ignore t :wk "Git")
+    "g" '(:ignore t :wk "git")
     "g a" '(kevin/git-add-current-file :wk "add-current-file")
     "g b" 'magit-blame
     "g c" '(kevin/git-checkout-current-file :wk "checkout-current-file")

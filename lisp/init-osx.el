@@ -1,6 +1,6 @@
 ;;; init-osx.el --- special config for mac osx. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -19,16 +19,6 @@
   (setq exec-path-from-shell-check-startup-files nil
         exec-path-from-shell-variables '("PATH" "MANPATH")
         exec-path-from-shell-arguments '("-l")))
-
-(use-package counsel-osx-app
-  :if is-mac-p
-  :general
-  (kevin/space-key-define
-    "o" '(nil :wk "Open")
-    "o a" 'counsel-osx-app
-    "o t" '(kevin/open-iterm :wk "open-item2")
-    "o w" '(kevin/open-wechat :wk "open-wechat")
-    "o y" '(kevin/open-youdao :wk "open-youdao")))
 
 (provide 'init-osx)
 ;;; init-osx ends here

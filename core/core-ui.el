@@ -1,6 +1,6 @@
 ;;; core-ui.el --- 优化Emacs默认UI -*- lexical-binding: t -*-
 ;;
-;; Copyright (C) 2017-2020  Kevin Leung
+;; Copyright (C) 2017-2021  Kevin Leung
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -34,18 +34,21 @@
   ;; sane trackpad/mouse scroll settings
   (setq mac-redisplay-dont-reset-vscroll t
         mac-mouse-wheel-smooth-scroll nil))
+
 (setq scroll-step 1
-      scroll-margin 1
-      scroll-conservatively 101
+      scroll-margin 0
+      hscroll-step 1
+      hscroll-margin 0
+      scroll-conservatively 100000
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01
       auto-window-vscroll nil
       fast-but-imprecise-scrolling nil
-      mouse-wheel-scroll-amount '(1 ((shift) . 2))
-      mouse-wheel-progressive-speed nil ; don't accelerate scrolling
-      scroll-preserve-screen-position t
-      hscroll-step 1
-      hscroll-margin 1)
+      scroll-preserve-screen-position t)
+
+(when (display-graphic-p)
+  (setq mouse-wheel-scroll-amount '(1 ((shift) . 1))
+        mouse-wheel-progressive-speed nil))
 
 ;; Remove hscroll-margin in shells, otherwise it causes jumpiness
 (add-hook 'eshell-mode-hook (lambda() (setq hscroll-margin 0)))
@@ -123,8 +126,18 @@
               truncate-partial-width-windows nil)
 
 ;;============================ fringe start ==========================================
-(setq-default indicate-buffer-boundaries nil    ; Reduce the clutter in the fringes
-              indicate-empty-lines nil)         ; 不显示buffer末尾空行fringe
+(when (fboundp 'set-fringe-mode)
+  (set-fringe-mode '(4 . 8)))
+
+(setq-default fringes-outside-margins nil
+              indicate-buffer-boundaries nil    ; 不显示buffer界限fringe
+              fringe-indicator-alist (assq-delete-all
+                                      'truncation
+                                      (assq-delete-all
+                                       'continuation
+                                       fringe-indicator-alist))
+              indicate-empty-lines nil)         ; 不显示空行fringe
+
 ;; 设置visual line fringe bitmap
 (when (and (fboundp 'define-fringe-bitmap) (display-graphic-p))
   (define-fringe-bitmap 'right-curly-arrow
