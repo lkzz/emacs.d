@@ -30,8 +30,8 @@
   :ensure nil
   :hook (after-init . electric-pair-mode)
   :config
-  ;; minibuffer 中禁止匹配
-  (setq electric-pair-inhibit-predicate 'minibufferp))
+  ;; 在minibuffer中禁止补全
+  (setq electric-pair-inhibit-predicate (lambda (char) (minibufferp))))
 
 ;; Hungry deletion
 (use-package hungry-delete
