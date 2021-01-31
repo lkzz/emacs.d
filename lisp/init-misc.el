@@ -38,9 +38,6 @@
   :diminish hungry-delete-mode "ⓗ"
   :hook (after-init . global-hungry-delete-mode))
 
-(use-package restart-emacs
-  :commands restart-emacs)
-
 (use-package server
   :config
   (unless (server-running-p)

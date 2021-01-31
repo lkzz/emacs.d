@@ -14,10 +14,11 @@
 
 * 特性
 ** 支持语言
-- golang,c++,elisp,rust,lua
+- golang,c++,elisp,rust,lua,python
 - json,yaml,toml,markdown
 - bazel,protobuf
 ** 自动补全
+- lsp-mode
 - company
 - company-box
 - company-english-helper
@@ -85,15 +86,17 @@
     | ~SPC w4~    | ~select window 4~              |
 
   * toggle
-    | Key Binding | Description                       |
-    |-------------+-----------------------------------|
-    | ~SPC tb~    | ~toggle scroll bar~               |
-    | ~SPC tn~    | ~toggle neotree~                  |
-    | ~SPC tg~    | ~toggle golden ratio mode~        |
-    | ~SPC ti~    | ~toggle imenu~                    |
-    | ~SPC ts~    | ~toggle symbol overlay mode~      |
-    | ~SPC tt~    | ~toggle truncate line~            |
-    | ~SPC t'~    | ~toggle eshell~                   |
+    | Key Binding | Description                  |
+    |-------------+------------------------------|
+    | ~SPC tb~    | ~toggle scroll bar~          |
+    | ~SPC td~    | ~toggle darkroom~            |
+    | ~SPC tf~    | ~toggle fullscreen~          |
+    | ~SPC tg~    | ~toggle golden ratio mode~   |
+    | ~SPC ti~    | ~toggle imenu~               |
+    | ~SPC tn~    | ~toggle neotree~             |
+    | ~SPC ts~    | ~toggle symbol overlay mode~ |
+    | ~SPC tt~    | ~toggle truncate line~       |
+    | ~SPC t'~    | ~toggle eshell~              |
 
   * bookmark
     | Key Binding | Description               |
@@ -133,15 +136,6 @@
     | ~SPC jp~    | ~goto-match-parent~          |
     | ~SPC jw~    | ~ivy goto word~              |
 
-  * application open
-    | Key Binding | Description               |
-    |-------------+---------------------------|
-    | ~SPC oa~    | ~counsel osx application~ |
-    | ~SPC oi~    | ~open init config file~   |
-    | ~SPC ot~    | ~open iterm~              |
-    | ~SPC ow~    | ~open wechat~             |
-    | ~SPC oy~    | ~open youdao directory~   |
-
   * comma keybindings
     | Key Binding | Description             |
     |-------------+-------------------------|
@@ -160,10 +154,12 @@
     | ~C-\~       | ~pyim~                    |
     | ~SPC s/~    | ~counsel rg search~       |
     | ~SPC ss~    | ~swiper isearch~          |
-    | ~; ei~      | ~open emacs init.el~      |
-    | ~; er~      | ~restart emacs~           |
-    | ~; f-~      | ~increase font size~      |
-    | ~; f=~      | ~decrease font size~      |
+    | ~SPC fi~    | ~counsel recentf~         |
+    | ~SPC ff~    | ~counsel open file~       |
+    | ~SPC fi~    | ~open emacs init.el~      |
+    | ~s-0~       | ~text scale reset~        |
+    | ~s-=-~      | ~text scale increase~     |
+    | ~s--~       | ~text scale decrease~     |
 
 
 

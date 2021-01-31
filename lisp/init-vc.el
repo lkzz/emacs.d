@@ -34,21 +34,14 @@
     "g u" 'magit-unstage-file
     "g v" 'vc-annotate)
   :config
-  ;; display buffer fullframe
-  (setq magit-display-buffer-function #'kevin/magit-display-buffer-function)
-  ;; bury or kill the current magit buffer
-  (setq magit-bury-buffer-function #'kevin/magit-bury-buffer-function)
   ;; see https://chris.beams.io/posts/git-commit/
   (setq fill-column 72
         magit-auto-revert-mode t
         git-commit-summary-max-length 50
         magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
-        git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line))
-
-  (use-package evil-magit
-    :after evil
-    :init (evil-magit-init)
-    :hook (git-commit-mode . evil-insert-state)))
+        git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)
+        magit-display-buffer-function #'kevin/magit-display-buffer-function ; display buffer fullframe
+        magit-bury-buffer-function #'kevin/magit-bury-buffer-function))     ; bury or kill the current magit buffer
 
 (use-package smerge-mode
   :ensure nil
