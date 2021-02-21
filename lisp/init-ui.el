@@ -44,7 +44,7 @@
 ;; 加载主题
 (if (daemonp)
     (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-tomorrow-night t)))
-  (load-theme 'doom-one-light t))
+  (load-theme 'doom-tomorrow-night t))
 
 ;; 启动时默认最大化
 (when (display-graphic-p)
@@ -57,7 +57,7 @@
 
 ;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
-  :ensure nil
+  :straight (:type built-in)
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
   (setq display-line-numbers-width 2
@@ -197,7 +197,7 @@
 ;; Must install Fira Code font
 (use-package ligature
   :if (display-graphic-p)
-  :quelpa (ligature :fetcher github :repo "mickeynp/ligature.el")
+  :straight (ligature :host github :repo "mickeynp/ligature.el")
   :config
   ;; Enable the www ligature in every possible major mode
   (ligature-set-ligatures 't '("www"))

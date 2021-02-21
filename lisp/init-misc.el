@@ -15,7 +15,7 @@
 
 ;; Bookmark 设置
 (use-package bookmark
-  :ensure nil
+  :straight (:type built-in)
   :general
   (kevin/space-key-define
     "m" '(nil :wk "bookmark")
@@ -27,7 +27,7 @@
 
 ;; Elec pair
 (use-package elec-pair
-  :ensure nil
+  :straight (:type built-in)
   :hook (after-init . electric-pair-mode)
   :config
   ;; 在minibuffer中禁止补全
@@ -45,11 +45,11 @@
 
 ;; History
 (use-package saveplace
-  :ensure nil
+  :straight (:type built-in)
   :hook (after-init . save-place-mode))
 
 (use-package recentf
-  :ensure nil
+  :straight (:type built-in)
   :hook ((after-init . recentf-mode)
          (kill-emacs-hook . recentf-cleanup))
   :init
@@ -86,7 +86,7 @@
     "j w" 'avy-goto-word-or-subword-1))
 
 (use-package savehist
-  :ensure nil
+  :straight (:type built-in)
   :hook (after-init . savehist-mode)
   :init
   (setq history-length 1000

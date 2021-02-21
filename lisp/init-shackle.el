@@ -19,6 +19,7 @@
 (put 'shackle--current-popup-window 'permanent-local t)
 
 (use-package shackle
+  :straight (:host github :repo "emacsmirror/shackle")
   :functions org-switch-to-buffer-other-window
   :commands shackle-display-buffer
   :hook (after-init . shackle-mode)

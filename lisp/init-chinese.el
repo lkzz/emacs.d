@@ -94,7 +94,7 @@
 
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
-  :quelpa (company-english-helper :fetcher github :repo "manateelazycat/company-english-helper")
+  :straight (company-english-helper :host github :repo "manateelazycat/company-english-helper")
   :general ("C-c t e" 'toggle-company-english-helper))
 
 (provide 'init-chinese)

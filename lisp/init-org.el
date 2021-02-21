@@ -29,7 +29,7 @@
   "The org idea file.")
 
 (use-package org
-  :ensure nil
+  :straight (:type built-in)
   :general
   ("C-c a" 'org-agenda)
   ("C-c c" 'org-capture)
@@ -89,7 +89,7 @@
   (use-package org-dashboard)
 
   (use-package org-capture
-    :ensure nil
+    :straight (:type built-in)
     :config
     (setq org-default-notes-file (expand-file-name "notes.org" org-directory)
           org-capture-templates
@@ -107,7 +107,7 @@
              :empty-lines 1))))
 
   (use-package org-agenda
-    :ensure nil
+    :straight (:type built-in)
     :general
     (org-agenda-mode-map "g" 'org-agenda-redo-all
                          "i" (lambda () (interactive) (org-capture nil "s"))
@@ -140,7 +140,7 @@
           org-agenda-deadline-leaders '("过期任务 " "将在 %02d 天后到期 " "已过期 %02d 天 "))
 
     (use-package org-archive
-      :ensure nil
+      :straight (:type built-in)
       :config
       ;; 使用 org-archive-subtree 时，原来的 header 层级容易被打乱，而且容易
       ;; 因为保存不及时而导致 archive 文件内容丢失， 所以这个命令适合每月的
@@ -159,7 +159,7 @@
   ;; This package provides visual alignment for Org tables on GUI Emacs.
   ;; https://github.com/casouri/valign
   (use-package valign
-    :quelpa (valign :fetcher github :repo "casouri/valign")
+    :straight (valign :host github :repo "casouri/valign")
     :config
     (valign-mode)
     (advice-add 'text-scale-increase

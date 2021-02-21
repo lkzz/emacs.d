@@ -66,7 +66,7 @@
       ring-bell-function 'ignore)       ; 关闭警告提示音
 
 (use-package simple
-  :ensure nil
+  :straight (:type built-in)
   :hook ((after-init . size-indication-mode) ; 显示百分比进度
          (text-mode . visual-line-mode)
          ((prog-mode markdown-mode conf-mode) . enable-trailing-whitespace))
@@ -85,7 +85,7 @@
 
 ;; 设置时间格式
 (use-package time
-  :ensure nil
+  :straight (:type built-in)
   :unless (display-graphic-p)
   :hook (after-init . display-time-mode)
   :init
@@ -94,7 +94,7 @@
         display-time-default-load-average nil))
 
 (use-package so-long
-  :ensure nil
+  :straight (:type built-in)
   :hook (after-init . global-so-long-mode)
   :config
   (setq so-long-threshold 400)

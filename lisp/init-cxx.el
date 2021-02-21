@@ -39,19 +39,6 @@
       :config
       (add-to-list 'company-backends 'company-c-headers))
 
-    ;; C/C++/Objective-C support
-    (use-package ccls
-      :disabled
-      :defines projectile-project-root-files-top-down-recurring
-      :config
-      (with-eval-after-load 'projectile
-        (setq projectile-project-root-files-top-down-recurring
-              (append '("compile_commands.json" ".ccls")
-                      projectile-project-root-files-top-down-recurring)))
-      (setq ccls-executable "ccls"
-            ccls-initialization-options `(:cache (:directory "/tmp/ccls-cache"),
-                                                 :compilationDatabaseDirectory "build")))
-
     ;; c/c++ code format
     (use-package clang-format
       :commands (clang-format-buffer clang-format-region)
@@ -103,6 +90,7 @@
                                   "../../../src/*/*/*"))))
 
 (use-package cmake-mode
+  :straight (:host github :repo "emacsmirror/cmake-mode" :files (:defaults "*"))
   :mode (("CMakeLists\\.txt$" . cmake-mode)
          ("\\.cmake$'" . cmake-mode))
   :config

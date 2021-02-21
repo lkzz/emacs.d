@@ -14,43 +14,32 @@
 ;;; Code:
 
 ;;------------------------------------------------------------------------------
-;; Package bootstrap
+;; use straight as package manager
 ;;------------------------------------------------------------------------------
-(setq  package-user-dir (concat kevin-cache-dir "elpa/")
-       package-archives '(("gnu"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                          ("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
-                          ("org"   . "http://mirrors.tuna.tsinghua.edu.cn/elpa/org/")))
+;; init before load straight
+(setq straight-base-dir kevin-cache-dir
+      straight-cache-autoloads t
+      straight-repository-branch "develop"
+      straight-check-for-modifications '(check-on-save find-when-checking)
+      straight-enable-package-integration nil
+      straight-vc-git-default-clone-depth 1
+      straight-use-package-by-default t
+      use-package-always-ensure nil)
+;; load straight bootstrap file
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-;; Fire up package.el
-(unless (bound-and-true-p package--initialized) ; To avoid warnings in 27
-  (setq package-enable-at-startup nil)          ; To prevent initializing twice
-  (package-initialize))
-
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-;; Should set before loading `use-package'
-(eval-and-compile
-  (setq use-package-always-ensure t)
-  (setq use-package-expand-minimally t)
-  (setq use-package-enable-imenu-support t)
-  (require 'use-package))
-
-;; Use quelpa package manager
-(setq quelpa-dir (concat kevin-cache-dir "quelpa/")
-      quelpa-checkout-melpa-p nil       ; only use quelpa install package not in melpa
-      quelpa-update-melpa-p nil         ; disable auto upgrade
-      quelpa-melpa-recipe-stores nil    ; diable stores default recipes for package
-      quelpa-self-upgrade-p nil)        ; diable self upgrade
-(require 'quelpa)
-
-(quelpa
- '(quelpa-use-package
-   :fetcher git
-   :url "https://github.com/quelpa/quelpa-use-package.git"))
-(require 'quelpa-use-package)
-(quelpa-use-package-activate-advice)
+(straight-use-package 'use-package)
 
 (use-package diminish)
 (use-package posframe)

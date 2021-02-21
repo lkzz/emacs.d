@@ -44,7 +44,7 @@
         magit-bury-buffer-function #'kevin/magit-bury-buffer-function))     ; bury or kill the current magit buffer
 
 (use-package smerge-mode
-  :ensure nil
+  :straight (:type built-in)
   :diminish smerge-mode
   :init
   (defhydra hydra-smerge-mode (:hint nil

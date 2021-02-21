@@ -15,7 +15,7 @@
 
 (use-package lsp-mode
   :diminish lsp-mode
-  :commands lsp lsp-deferred
+  :commands (lsp lsp-deferred)
   :hook ((go-mode python-mode c++-mode) . lsp-deferred)
   :general (lsp-mode-map "C-c C-d" 'lsp-describe-thing-at-point
                          "C-c C-n" 'lsp-rename)
@@ -48,24 +48,25 @@
     :general (lsp-ui-mode-map [remap evil-goto-definition] 'lsp-ui-peek-find-definitions
                               [remap xref-find-definitions] 'lsp-ui-peek-find-definitions
                               [remap xref-find-references] 'lsp-ui-peek-find-references)
-    :init (setq lsp-ui-doc-enable nil
-                lsp-ui-doc-header nil
-                lsp-ui-doc-use-webkit nil
-                lsp-ui-doc-delay 0.5
-                lsp-ui-doc-include-signature nil
-                lsp-ui-doc-position 'at-point
-                lsp-ui-doc-show-with-mouse nil
-                lsp-ui-doc-border (face-foreground 'font-lock-comment-face)
+    :init
+    (setq lsp-ui-doc-enable nil
+          lsp-ui-doc-header nil
+          lsp-ui-doc-use-webkit nil
+          lsp-ui-doc-delay 0.5
+          lsp-ui-doc-include-signature nil
+          lsp-ui-doc-position 'at-point
+          lsp-ui-doc-show-with-mouse nil
+          lsp-ui-doc-border (face-foreground 'font-lock-comment-face)
 
-                lsp-ui-sideline-enable t
-                lsp-ui-sideline-show-hover nil
-                lsp-ui-sideline-ignore-duplicate t
+          lsp-ui-sideline-enable t
+          lsp-ui-sideline-show-hover nil
+          lsp-ui-sideline-ignore-duplicate t
 
-                lsp-ui-imenu-enable t
-                lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
-                                      ,(face-foreground 'font-lock-string-face)
-                                      ,(face-foreground 'font-lock-constant-face)
-                                      ,(face-foreground 'font-lock-variable-name-face)))
+          lsp-ui-imenu-enable t
+          lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+                                ,(face-foreground 'font-lock-string-face)
+                                ,(face-foreground 'font-lock-constant-face)
+                                ,(face-foreground 'font-lock-variable-name-face)))
     :config
     ;; Reset `lsp-ui-doc-background' after loading theme
     (add-hook 'after-load-theme-hook
@@ -79,11 +80,9 @@
   ;; Ivy integration
   (use-package lsp-ivy
     :after lsp-mode
-    :bind (:map lsp-mode-map
-                ([remap xref-find-apropos] . lsp-ivy-workspace-symbol)
-                ("C-s-." . lsp-ivy-global-workspace-symbol)))
-
-  )
+    :general (lsp-mode-map
+              ([remap xref-find-apropos] . lsp-ivy-workspace-symbol)
+              ("C-s-." . lsp-ivy-global-workspace-symbol))))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

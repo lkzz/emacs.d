@@ -15,7 +15,7 @@
 
 ;; Highlight the current line
 (use-package hl-line
-  :ensure nil
+  :straight (:type built-in)
   :hook (((evil-visual-state-entry activate-mark) . my-disable-hl-line)
          ((evil-visual-state-exit deactivate-mark) . my-enable-hl-line)
          ((prog-mode text-mode conf-mode special-mode) . hl-line-mode))
@@ -36,7 +36,7 @@
 
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
 (use-package paren
-  :ensure nil
+  :straight (:type built-in)
   :hook (after-init . show-paren-mode)
   :init (setq show-paren-when-point-inside-paren t
               show-paren-when-point-in-periphery t)
@@ -82,7 +82,7 @@
 
 ;; Pulse current line
 (use-package pulse
-  :ensure nil
+  :straight (:type built-in)
   :custom-face
   (pulse-highlight-start-face ((t (:inherit region))))
   (pulse-highlight-face ((t (:inherit region))))
