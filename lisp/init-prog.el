@@ -45,9 +45,8 @@
   (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t))))
 
 (use-package protobuf-mode
-  :straight (:host github :repo "emacsmirror/protobuf-mode")
-  :diminish abbrev-mode ;; required in protobuf-mode
-  :mode (("\\.proto$" . protobuf-mode))
+  :mode "\\.proto\\'"
+  :straight (:host github :repo "emacsmirror/protobuf-mode" :files (:defaults "*"))
   :init
   (defconst kevin/protobuf-style
     '((c-basic-offset . 4)
@@ -55,7 +54,7 @@
   (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" kevin/protobuf-style t))))
 
 (use-package yaml-mode
-  :mode (("\\.yml\\'" . yaml-mode))
+  :mode "\\.yml\\'"
   :init
   (setq yaml-indent-offset 4))
 

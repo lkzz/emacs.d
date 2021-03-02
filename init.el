@@ -75,6 +75,7 @@
 (require 'init-rust)
 (require 'init-cxx)
 (require 'init-elisp)
+(require 'init-web)
 
 ;; Tools
 (require 'init-vc)
