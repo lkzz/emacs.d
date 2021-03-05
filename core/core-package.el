@@ -44,6 +44,9 @@
 (use-package diminish)
 (use-package posframe)
 (use-package hydra)
+(use-package s
+  :straight (:host github :repo "emacsmirror/s" :files (:defaults "*")))
+
 
 ;; Don't litter emacs directory
 (use-package no-littering
