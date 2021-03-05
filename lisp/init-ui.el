@@ -41,10 +41,19 @@
         doom-themes-neotree-file-icons 't
         doom-themes-neotree-line-spacing 2))
 
+
+;; 根据系统外观自动加载主题
+(defun kevin/load-theme-by-appearance (appearance)
+  "Load theme, taking current system APPEARANCE into consideration."
+  (mapc #'disable-theme custom-enabled-themes)
+  (pcase appearance
+    ('light (load-theme 'doom-one-light t))
+    ('dark (load-theme 'doom-one t))))
+
 ;; 加载主题
 (if (daemonp)
     (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-tomorrow-night t)))
-  (load-theme 'doom-tomorrow-night t))
+  (add-hook 'ns-system-appearance-change-functions #'kevin/load-theme-by-appearance))
 
 ;; 启动时默认最大化
 (when (display-graphic-p)

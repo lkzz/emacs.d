@@ -12,13 +12,14 @@
 ;;; Commentary:
 ;;
 ;;; Code:
+
 (use-package exec-path-from-shell
   :if is-mac-p
-  :hook (after-init . exec-path-from-shell-initialize)
   :init
   (setq exec-path-from-shell-check-startup-files nil
         exec-path-from-shell-variables '("PATH" "MANPATH")
-        exec-path-from-shell-arguments '("-l")))
+        exec-path-from-shell-arguments '("-l"))
+  (exec-path-from-shell-initialize))
 
 (provide 'init-osx)
 ;;; init-osx ends here
