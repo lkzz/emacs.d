@@ -31,7 +31,7 @@
           "\\(?:[^z-a]*-autoloads\\.el$\\)"
           "\\(?:[^z-a]*-pkg\\.el$\\)"))
 
-  (let ((eln-cache-dir (expand-file-name "cache/eln-cache/"
+  (let ((eln-cache-dir (expand-file-name "cache/eln/"
                                          user-emacs-directory))
         (find-exec (executable-find "find")))
     (setcar comp-eln-load-path eln-cache-dir)

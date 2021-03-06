@@ -1,7 +1,8 @@
 EMACS_DIR = ${CURDIR}
 CORE_DIR = $(EMACS_DIR)/core
 CACHE_DIR = $(EMACS_DIR)/cache
-STRAIGHT_DIR =$(EMACS_DIR)/straight
+STRAIGHT_DIR =$(CACHE_DIR)/straight
+ELN_CACHE_DIR=$(CACHE_DIR)/eln
 QUELPA_DIR=$(CACHE_DIR)/quelpa
 ELPA_DIR = $(CACHE_DIR)/elpa
 
@@ -10,6 +11,7 @@ default: install
 clean:
 	@rm -rf $(ELPA_DIR)
 	@rm -rf $(STRAIGHT_DIR)
+	@rm -rf $(ELN_CACHE_DIR)
 	@rm -rf $(QUELPA_DIR)
 	@rm -rf $(CORE_DIR)/*.elc
 	@rm -rf $(CACHE_DIR)/*.el*
