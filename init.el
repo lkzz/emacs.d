@@ -1,4 +1,4 @@
-;; init.el -- emacs bootstrap file. -*- lexical-binding: t; -*-
+;; init.el -- emacs bootstrap file. -*- lexical-binding: t no-byte-compile: t -*-
 ;;
 ;; Copyright (C) 2017-2021  Kevin Leung
 ;;
@@ -23,6 +23,7 @@
 (setq file-name-handler-alist nil
       gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.8
+      load-prefer-newer t               ; always load newest byte code
       load-prefer-newer noninteractive
       site-run-file nil)
 
@@ -38,11 +39,8 @@
 (add-hook 'minibuffer-exit-hook (lambda ()
                                   (garbage-collect)
                                   (setq gc-cons-threshold custom-gc-cons-threshold)))
-(add-function :after after-focus-change-function (lambda ()
-                                                   (unless (frame-focus-state)
-                                                     (garbage-collect))))
 
-;; Load the heart of emacs
+;; Load core config of emacs
 (load (concat user-emacs-directory "core/core") nil 'nomessage)
 (kevin/initialize-core)
 
