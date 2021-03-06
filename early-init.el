@@ -21,8 +21,8 @@
   ;; native compile elisp files as they are loaded
   (setq comp-deferred-compilation t)
 
-  ;; fix libjit invoke gcc error
-  ;; (setenv "LIBRARY_PATH" "/usr/local/opt/gcc/lib/gcc/10:/usr/local/opt/gcc/lib/gcc/10/gcc/x86_64-apple-darwin20/10.2.0")
+  ;; fix libgccjit.so invoke gcc driver error
+  (setenv "LIBRARY_PATH" "/usr/local/opt/gcc/lib/gcc/10:/usr/local/opt/gcc/lib/gcc/10/gcc/x86_64-apple-darwin20/10.2.0")
 
   (setq comp-deferred-compilation-deny-list
         '("\\(?:[/\\\\]\\.dir-locals\\.el$\\)"
