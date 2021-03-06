@@ -105,17 +105,10 @@
 
 (defun kevin/initialize-core ()
   "Load core config file for Emacs."
-  (require 'core-lib)
+  (require 'core-autoload)
   (require 'core-package)
   (require 'core-ui)
   (require 'core-keybind))
-
-;; Optimize: Force "lisp"" and "site-lisp" at the head to reduce the startup time.
-(defun kevin/load-custom-path (&rest _)
-  "Add custom path to `load-path'."
-  (push (expand-file-name "lisp" user-emacs-directory) load-path)
-  (push (expand-file-name "site-lisp" user-emacs-directory) load-path))
-(advice-add #'package-initialize :after #'kevin/load-custom-path)
 
 (provide 'core)
 ;;; core.el ends here
