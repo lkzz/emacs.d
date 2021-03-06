@@ -1,4 +1,4 @@
-;;; core-lib.el -- 一些常用的宏和函数. -*- lexical-binding: t; -*-
+;;; core-autoload.el -- 一些常用的宏和函数. -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2017-2021  Kevin Leung
 ;;
@@ -40,5 +40,5 @@
   (message "generate autoload file: %s done." kevin-autoload-file))
 (load kevin-autoload-file nil 'nomessage)
 
-(provide 'core-lib)
-;;; core-lib.el ends here
+(provide 'core-autoload)
+;;; core-autoload.el ends here
