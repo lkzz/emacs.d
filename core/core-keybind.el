@@ -12,18 +12,6 @@
 ;;; Commentary:
 ;;; Code:
 
-(when is-mac-p
-  (setq mac-option-modifier 'meta
-        mac-command-modifier 'super
-        mac-right-option-modifier 'nil
-        mac-right-option-modifier 'super)
-  (global-set-key [(super a)] 'mark-whole-buffer)
-  (global-set-key [(super v)] 'yank)
-  (global-set-key [(super c)] 'kill-ring-save)
-  (global-set-key [(super s)] 'save-buffer)
-  (global-set-key [(super w)] (lambda () (interactive) (delete-window)))
-  (global-set-key [(super z)] 'undo))
-
 ;; used as tmux prefix key
 (global-unset-key (kbd "C-q"))
 (define-key global-map (kbd "RET") 'newline-and-indent)
