@@ -38,7 +38,7 @@
         company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
-        company-backends '((company-capf :with company-yasnippet)
+        company-backends '((company-capf :with company-yasnippet :with company-tabnine :separate)
                            (company-dabbrev-code company-keywords company-files)
                            company-dabbrev))
   (add-hook 'evil-normal-state-entry-hook (lambda ()
@@ -68,6 +68,8 @@
               (put-text-property 0 len 'yas-annotation-patch t arg)))
           (funcall fun command arg))))
     (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline))
+
+  (use-package company-tabnine)
 
   ;; This package requires emacs 26+, not compatible with emacs in a tty.
   (use-package company-box

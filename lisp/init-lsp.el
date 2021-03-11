@@ -58,7 +58,7 @@
           lsp-ui-doc-show-with-mouse nil
           lsp-ui-doc-border (face-foreground 'font-lock-comment-face)
 
-          lsp-ui-sideline-enable t
+          lsp-ui-sideline-enable nil
           lsp-ui-sideline-show-hover nil
           lsp-ui-sideline-ignore-duplicate t
 
