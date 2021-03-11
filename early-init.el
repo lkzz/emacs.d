@@ -17,19 +17,9 @@
 ;;; Code:
 
 ;; native comp
-(when (boundp 'comp-eln-load-path)
-  ;; native compile elisp files as they are loaded
-  (setq comp-deferred-compilation t)
-
+(when (and (fboundp 'native-comp-available-p) (native-comp-available-p) (fboundp 'json-serialize))
   ;; fix libgccjit.so invoke gcc driver error
   (setenv "LIBRARY_PATH" "/usr/local/opt/gcc/lib/gcc/10:/usr/local/opt/gcc/lib/gcc/10/gcc/x86_64-apple-darwin20/10.2.0")
-
-  (setq comp-deferred-compilation-deny-list
-        '("\\(?:[/\\\\]\\.dir-locals\\.el$\\)"
-          ;; Don't native-compile *-authloads.el and *-pkg.el files as they
-          ;; seem to produce errors during native-compile.
-          "\\(?:[^z-a]*-autoloads\\.el$\\)"
-          "\\(?:[^z-a]*-pkg\\.el$\\)"))
 
   (let ((eln-cache-dir (expand-file-name "cache/eln/"
                                          user-emacs-directory))
@@ -40,7 +30,20 @@
     (when find-exec
       (call-process find-exec nil nil nil eln-cache-dir
                     "-name" "*.eln" "-size" "0" "-delete" "-or"
-                    "-name" "*.eln.tmp" "-size" "0" "-delete"))))
+                    "-name" "*.eln.tmp" "-size" "0" "-delete")))
+
+  (setq comp-deferred-compilation t
+        package-native-compile t
+        comp-speed 2
+	    comp-verbose 0
+	    comp-async-report-warnings-errors nil
+	    comp-async-jobs-number 2
+        comp-deferred-compilation-deny-list
+        '("\\(?:[/\\\\]\\.dir-locals\\.el$\\)"
+          ;; Don't native-compile *-authloads.el and *-pkg.el files as they
+          ;; seem to produce errors during native-compile.
+          "\\(?:[^z-a]*-autoloads\\.el$\\)"
+          "\\(?:[^z-a]*-pkg\\.el$\\)")))
 
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
