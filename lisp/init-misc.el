@@ -36,7 +36,12 @@
 ;; Hungry deletion
 (use-package hungry-delete
   :diminish hungry-delete-mode "ⓗ"
-  :hook (after-init . global-hungry-delete-mode))
+  :hook (after-init . global-hungry-delete-mode)
+  :config
+  (defun my/turn-off-hungry-delete-mode ()
+    "Turn off hungry delete mode."
+    (hungry-delete-mode -1))
+  (add-hook 'minibuffer-setup-hook #'my/turn-off-hungry-delete-mode))
 
 (use-package server
   :config
