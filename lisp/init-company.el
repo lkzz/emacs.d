@@ -28,6 +28,7 @@
   :init
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t
+        company-tooltip-flip-when-above t
         company-echo-delay 0            ; remove annoying blinking
         company-idle-delay 0.0          ; set the completion menu pop-up delay
         company-minimum-prefix-length 2 ; pop up a completion menu by tapping a character
@@ -37,6 +38,7 @@
         company-selection-wrap-around t     ; make previous/next selection in the popup cycle
         company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
+        company-dabbrev-other-buffers t ; search buffers with the same major mode
         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
         company-backends '((company-capf :with company-yasnippet :with company-tabnine :separate)
                            (company-dabbrev-code company-keywords company-files)
@@ -70,6 +72,11 @@
     (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline))
 
   (use-package company-tabnine)
+
+  ;; Simple but effective sorting and filtering for Emacs.
+  (use-package company-prescient
+    :hook (company-mode . company-prescient-mode)
+    :config (prescient-persist-mode +1))
 
   ;; This package requires emacs 26+, not compatible with emacs in a tty.
   (use-package company-box
