@@ -38,7 +38,6 @@
         company-selection-wrap-around t     ; make previous/next selection in the popup cycle
         company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
-        company-dabbrev-other-buffers t ; search buffers with the same major mode
         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
         company-backends '((company-capf :with company-yasnippet :with company-tabnine :separate)
                            (company-dabbrev-code company-keywords company-files)

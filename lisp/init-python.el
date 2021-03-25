@@ -19,6 +19,7 @@
 (use-package python
   :straight (:type built-in)
   :mode ("\\.py\\'" . python-mode)
+  :hook (python-mode . lsp-deferred)
   :init
   (setq python-indent-offset 4
         python-indent-guess-indent-offset nil

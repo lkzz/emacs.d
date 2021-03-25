@@ -16,14 +16,10 @@
 (use-package lsp-mode
   :diminish lsp-mode
   :commands (lsp lsp-deferred)
-  :hook ((go-mode python-mode c++-mode) . lsp-deferred)
+  :hook (lsp-mode . lsp-enable-which-key-integration)
   :general (lsp-mode-map "C-c C-d" 'lsp-describe-thing-at-point
                          "C-c C-n" 'lsp-rename)
   :init
-  (defun lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
   (setq lsp-keymap-prefix "C-c l"
         lsp-keep-workspace-alive nil
         lsp-signature-auto-activate nil

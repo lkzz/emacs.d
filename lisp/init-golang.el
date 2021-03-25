@@ -15,6 +15,7 @@
 
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode)
+  :hook (go-mode . lsp-deferred)
   :general
   (kevin/comma-key-define go-mode-map
     "i" '(nil :wk "Import")
@@ -32,6 +33,11 @@
                "C-c i r" 'go-remove-unused-imports
                "C-c r n" 'go-run)
   :config
+  (defun lsp-go-install-save-hooks ()
+    (add-hook 'before-save-hook #'lsp-format-buffer t t)
+    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
   (use-package go-tag

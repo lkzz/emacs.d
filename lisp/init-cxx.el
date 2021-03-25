@@ -15,7 +15,8 @@
 
 (use-package cc-mode
   :mode ("\\.h|\\.cpp" . c++-mode)
-  :hook ((c-mode c++-mode) . kevin/cxx-mode-setup)
+  :hook (((c-mode c++-mode) . kevin/cxx-mode-setup)
+         ((c-mode c++-mode) . lsp-deferred))
   :general (c++-mode-map "C-c C-o" 'ff-find-other-file)
   :init
   (setq cc-other-file-alist
