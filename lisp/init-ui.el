@@ -39,25 +39,46 @@
   (setq doom-dark+-blue-modeline t
         doom-gruvbox-dark-variant "dark"
         doom-themes-neotree-file-icons 't
-        doom-themes-neotree-line-spacing 2))
-
-
-;; 根据系统外观自动加载主题
-(defun kevin/load-theme-by-appearance (appearance)
-  "Load theme, taking current system APPEARANCE into consideration."
-  (mapc #'disable-theme custom-enabled-themes)
-  (pcase appearance
-    ('light (load-theme 'doom-one-light t))
-    ('dark (load-theme 'doom-one t))))
-
-;; 加载主题
-(if (daemonp)
-    (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-tomorrow-night t)))
-  (add-hook 'ns-system-appearance-change-functions #'kevin/load-theme-by-appearance))
+        doom-themes-neotree-line-spacing 2)
+  ;; 加载主题
+  (if (daemonp)
+      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-tomorrow-night t)))
+    (load-theme 'doom-one t)))
 
 ;; 启动时默认最大化
 (when (display-graphic-p)
-  (toggle-frame-maximized))
+  (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
+
+;; 设置字体
+(when (display-graphic-p)
+  ;; Set default font
+  (cl-loop for font in '("Fira Code" "SF Mono" "Monaco")
+           when (font-installed-p font)
+           return (set-face-attribute 'default nil
+                                      :font font
+                                      :height 140))
+  ;; Specify font for all unicode characters
+  (cl-loop for font in '("Apple Color Emoji" "Symbola")
+           when (font-installed-p font)
+           return(set-fontset-font t 'unicode font nil 'prepend))
+  ;; Specify font for Chinese characters
+  (cl-loop for font in '("STKaiti" "WenQuanYi Micro Hei" "Microsoft Yahei")
+           when (font-installed-p font)
+           return (set-fontset-font t '(#x4e00 . #x9fff) font))
+  ;; 调整字体大小
+  (use-package default-text-scale
+    :hook (after-init . default-text-scale-mode)
+    :general
+    (general-nmap default-text-scale-mode-map
+      "s-0" 'default-text-scale-reset
+      "s-=" 'default-text-scale-increase
+      "s--" 'default-text-scale-decrease)))
+
+;; ;; 设置窗口透明度
+;; (when (display-graphic-p)
+;;   (set-frame-parameter (selected-frame) 'alpha '(95 . 50))
+;;   (add-to-list 'default-frame-alist '(alpha . (95 . 50))))
 
 (use-package vi-tilde-fringe
   :if (fboundp 'set-fringe-mode)
@@ -224,23 +245,6 @@
                                        "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode 't))
-
-;; 设置默认字体
-(set-face-attribute 'default nil :font "Fira Code" :height 140)
-;; 设置中文字体
-(set-fontset-font t '(#x4e00 . #x9fff) "STKaiti")
-;; 设置unicode字体
-(if is-mac-p
-    (set-fontset-font t 'unicode (font-spec :family "Apple Color Emoji") nil 'prepend)
-  (set-fontset-font t 'unicode (font-spec :family "Symbola") nil 'prepend))
-;; 调整字体大小
-(use-package default-text-scale
-  :hook (after-init . default-text-scale-mode)
-  :general
-  (general-nmap default-text-scale-mode-map
-    "s-0" 'default-text-scale-reset
-    "s-=" 'default-text-scale-increase
-    "s--" 'default-text-scale-decrease))
 
 (use-package rainbow-mode
   :diminish rainbow-mode

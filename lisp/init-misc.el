@@ -121,5 +121,8 @@
 (use-package direnv
   :hook (after-init . direnv-mode))
 
+(use-package restart-emacs
+  :commands restart-emacs)
+
 (provide 'init-misc)
 ;;; init-misc.el ends here

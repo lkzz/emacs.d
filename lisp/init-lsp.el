@@ -24,8 +24,10 @@
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
     (add-hook 'before-save-hook #'lsp-organize-imports t t))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
-  (setq lsp-keep-workspace-alive nil
+  (setq lsp-keymap-prefix "C-c l"
+        lsp-keep-workspace-alive nil
         lsp-signature-auto-activate nil
+        lsp-diagnostics-provider 'flycheck
 
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-code-actions-enable nil

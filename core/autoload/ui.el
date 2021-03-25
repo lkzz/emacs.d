@@ -67,3 +67,8 @@
         (add-hook 'window-configuration-change-hook 'darkroom-tentative-mode)
         (doom-modeline-init))
     (remove-hook 'window-configuration-change-hook 'darkroom-tentative-mode)))
+
+;;;###autoload
+(defun font-installed-p (font-name)
+  "Check if font with FONT-NAME is available."
+  (find-font (font-spec :name font-name)))
