@@ -45,7 +45,7 @@
 ;; 设置字体
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Hack Nerd Font" "Fira Code" "SF Mono" "Monaco")
+  (cl-loop for font in '("JetBrainsMono Nerd Font Mono" "Fira Code" "SF Mono" "Monaco")
            when (font-installed-p font)
            return (set-face-attribute 'default nil
                                       :font font
