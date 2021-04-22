@@ -115,6 +115,7 @@
 
   ;; Shows icons
   (use-package all-the-icons-dired
+    :if (display-graphic-p)
     :diminish
     :hook (dired-mode . all-the-icons-dired-mode)
     :config

@@ -79,6 +79,7 @@
                              (add-hook 'before-save-hook 'font-lock-flush)))
 
 (use-package all-the-icons-ibuffer
+  :if (display-graphic-p)
   :init (all-the-icons-ibuffer-mode 1))
 
 (provide 'init-buffer)
