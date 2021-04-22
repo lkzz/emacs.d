@@ -32,7 +32,7 @@
         doom-themes-neotree-line-spacing 2)
   ;; 加载主题
   (if (daemonp)
-      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-dark+ t)))
+      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
     (load-theme 'doom-gruvbox t))
   :config
   (setq rainbow-delimiters-max-face-count 3))
