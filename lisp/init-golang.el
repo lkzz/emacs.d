@@ -35,7 +35,8 @@
   :config
   (defun lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t))
+    (add-hook 'before-save-hook #'lsp-organize-imports t t)
+    (setq-local lsp-diagnostics-provider 'flycheck))
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
   (with-eval-after-load 'exec-path-from-shell

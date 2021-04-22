@@ -16,8 +16,8 @@ clean:
 	@rm -rf $(CORE_DIR)/*.elc
 	@rm -rf $(CACHE_DIR)/*.el*
 	@rm -rf $(EMACS_DIR)/custom.el $(EMACS_DIR)/.emacs.desktop $(EMACS_DIR)/auto-save-list
-	@find . -maxdepth 1 -type f -name "*~" | xargs rm
-	@find . -maxdepth 1 -type f -name ".?*" | grep -v .DS_Store  | grep -v .gitignore | grep -v .gitmodules | xargs rm
+	@find . -maxdepth 1 -type f -name "*~" | xargs rm -rf
+	@find . -maxdepth 1 -type f -name ".?*" | grep -v .DS_Store  | grep -v .gitignore | grep -v .gitmodules | xargs rm -rf
 	@rm -rf projectile* places recentf transient
 	@echo "make clean done."
 
@@ -39,6 +39,7 @@ install_tools:
 
 install_go_tools:
 	@go get -u golang.org/x/tools/...
+	@go get golang.org/x/tools/gopls@latest
 	@go get -u github.com/gogo/protobuf/gogoproto
 	@go get -u github.com/golang/protobuf/proto
 	@go get -u github.com/gogo/protobuf/protoc-gen-gofast

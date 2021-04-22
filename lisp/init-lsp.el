@@ -23,7 +23,6 @@
   (setq lsp-keymap-prefix "C-c l"
         lsp-keep-workspace-alive nil
         lsp-signature-auto-activate nil
-        lsp-diagnostics-provider 'flycheck
 
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-code-actions-enable nil
@@ -33,6 +32,8 @@
         lsp-enable-on-type-formatting nil
 
         lsp-headerline-breadcrumb-enable nil
+
+        read-process-output-max (* 1024 1024)
 
         lsp-enable-folding nil
         lsp-enable-file-watchers nil
