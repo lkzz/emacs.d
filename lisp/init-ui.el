@@ -32,6 +32,11 @@
   (solaire-global-mode +1))
 
 (use-package doom-themes
+  :custom-face
+  ;; colors taken grom doom-gruvbox-theme.el
+  (rainbow-delimiters-depth-1-face ((t (:foreground "#fb4934"))))
+  (rainbow-delimiters-depth-2-face ((t (:foreground "#fabd2f"))))
+  (rainbow-delimiters-depth-3-face ((t (:foreground "#8ec07c"))))
   :init
   (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
@@ -43,7 +48,9 @@
   ;; 加载主题
   (if (daemonp)
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-dark+ t)))
-    (load-theme 'doom-one t)))
+    (load-theme 'doom-gruvbox t))
+  :config
+  (setq rainbow-delimiters-max-face-count 3))
 
 ;; 启动时默认最大化
 (when (display-graphic-p)
@@ -53,11 +60,11 @@
 ;; 设置字体
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("Fira Code" "SF Mono" "Monaco")
+  (cl-loop for font in '("Hack Nerd Font" "Fira Code" "SF Mono" "Monaco")
            when (font-installed-p font)
            return (set-face-attribute 'default nil
                                       :font font
-                                      :height 140))
+                                      :height 150))
   ;; Specify font for all unicode characters
   (cl-loop for font in '("Apple Color Emoji" "Symbola")
            when (font-installed-p font)
