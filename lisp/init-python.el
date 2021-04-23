@@ -19,7 +19,6 @@
 (use-package python
   :straight (:type built-in)
   :mode ("\\.py\\'" . python-mode)
-  :hook (python-mode . lsp-deferred)
   :init
   (setq python-indent-offset 4
         python-indent-guess-indent-offset nil
@@ -32,18 +31,7 @@
     (setq python-shell-interpreter "python3"))
   ;; Env vars
   (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-env "PYTHONPATH"))
-
-  ;; Pyright: https://github.com/emacs-lsp/lsp-pyright
-  (use-package lsp-pyright
-    :hook (python-mode . (lambda () (require 'lsp-pyright)))
-    :init (when (executable-find "python3")
-            (setq lsp-pyright-python-executable-cmd "python3")))
-
-  ;; Format buffer
-  (use-package yapfify
-    :config
-    (add-hook 'python-mode-hook 'yapf-mode)))
+    (exec-path-from-shell-copy-env "PYTHONPATH")))
 
 (provide 'init-python)
 ;;; init-python.el ends here
