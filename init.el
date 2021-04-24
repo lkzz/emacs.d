@@ -48,7 +48,6 @@
 (advice-add #'display-startup-echo-area-message :override #'ignore)
 
 ;; Personal package config
-(require 'init-osx)
 (require 'init-evil)
 (require 'init-ui)
 (require 'init-dashboard)

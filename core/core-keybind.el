@@ -21,6 +21,18 @@
 ;; Use ESC as universal get me out of here command
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
+(when is-mac-p
+  (setq mac-option-modifier 'meta
+        mac-command-modifier 'super
+        mac-right-option-modifier 'nil
+        mac-right-option-modifier 'super)
+  (global-set-key [(super a)] 'mark-whole-buffer)
+  (global-set-key [(super v)] 'yank)
+  (global-set-key [(super c)] 'kill-ring-save)
+  (global-set-key [(super s)] 'save-buffer)
+  (global-set-key [(super w)] (lambda () (interactive) (delete-window)))
+  (global-set-key [(super z)] 'undo))
+
 (use-package which-key
   :diminish which-key-mode "Ⓚ"
   :hook (after-init . which-key-mode)

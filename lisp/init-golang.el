@@ -40,7 +40,7 @@
   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
 
   (with-eval-after-load 'exec-path-from-shell
-    (exec-path-from-shell-copy-envs '("GOPATH" "GO111MODULE" "GOPROXY")))
+    (exec-path-from-shell-copy-envs '("GOPATH" "GOBIN" "GO111MODULE" "GOPROXY")))
   (use-package go-tag
     :general (go-mode-map "C-c t t" 'go-tag-add
                           "C-c t T" 'go-tag-remove)
