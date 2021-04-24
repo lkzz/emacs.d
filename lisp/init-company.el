@@ -28,7 +28,7 @@
   :init
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t
-        company-tooltip-flip-when-above t
+        company-tooltip-flip-when-above nil
         company-echo-delay 0            ; remove annoying blinking
         company-idle-delay 0.0          ; set the completion menu pop-up delay
         company-minimum-prefix-length 2 ; pop up a completion menu by tapping a character
