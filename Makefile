@@ -38,17 +38,18 @@ install_tools:
 	@echo "install tools done."
 
 install_go_tools:
-	@go get -u golang.org/x/tools/...
+	@go get golang.org/x/tools/...
 	@go get golang.org/x/tools/gopls@latest
-	@go get -u github.com/gogo/protobuf/gogoproto
-	@go get -u github.com/golang/protobuf/proto
-	@go get -u github.com/gogo/protobuf/protoc-gen-gofast
-	@go get -u github.com/gogo/protobuf/protoc-gen-gogo
-	@go get -u github.com/golang/protobuf/protoc-gen-go
-	@go get -u github.com/godoctor/godoctor
-	@go get -u github.com/ramya-rao-a/go-outline
-	@go get -u github.com/cweill/gotests/...
-	@go get -u github.com/smartystreets/goconvey
-	@go get -u github.com/golang/mock/mockgen@v1.4.4
+	@go get github.com/gogo/protobuf/gogoproto
+	@go get github.com/golang/protobuf/proto
+	@go get github.com/gogo/protobuf/protoc-gen-gofast
+	@go get github.com/gogo/protobuf/protoc-gen-gogo
+	@go get github.com/golang/protobuf/protoc-gen-go
+	@go get github.com/godoctor/godoctor
+	@go get github.com/ramya-rao-a/go-outline
+	@go get github.com/cweill/gotests/...
+	@go get github.com/smartystreets/goconvey
+	@go get github.com/golang/mock/mockgen@v1.5.0
+	@go get github.com/yoshiotu/2fa
 
 .PHONY:clean install install_tools install_lsp_server
