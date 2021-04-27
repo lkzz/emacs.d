@@ -50,6 +50,6 @@ install_go_tools:
 	@go get github.com/cweill/gotests/...
 	@go get github.com/smartystreets/goconvey
 	@go get github.com/golang/mock/mockgen@v1.5.0
-	@go get github.com/yoshiotu/2fa
+	@go get rsc.io/2fa
 
 .PHONY:clean install install_tools install_lsp_server
