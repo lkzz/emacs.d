@@ -251,5 +251,29 @@
         darkroom-text-scale-increase 0
         darkroom-fringes-outside-margins nil))
 
+;; Display ugly ^L page breaks as tidy horizontal lines
+(use-package page-break-lines
+  :diminish
+  :hook (after-init . global-page-break-lines-mode))
+
+(use-package tree-sitter
+  :when (bound-and-true-p module-file-suffix)
+  :hook (prog-mode . tree-sitter-mode)
+  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+  :config
+  (use-package tree-sitter-langs)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  "Don't break with errors when current major mode lacks tree-sitter support."
+  (advice-add 'tree-sitter-mode :around (lambda (orig-fn &rest args)
+                                          (condition-case e
+                                              (apply orig-fn args)
+                                            (error
+                                             (unless (string-match-p (concat "^Cannot find shared library\\|"
+                                                                             "^No language registered\\|"
+                                                                             "cannot open shared object file")
+                                                                     (error-message-string e))
+                                               (signal (car e) (cadr e)))))))
+  )
+
 (provide 'init-ui)
 ;;; init-ui ends here
