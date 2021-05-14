@@ -260,6 +260,8 @@
   :when (bound-and-true-p module-file-suffix)
   :hook (prog-mode . tree-sitter-mode)
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
+  :custom-face
+  (tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face))))
   :config
   (use-package tree-sitter-langs)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
