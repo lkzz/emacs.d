@@ -125,6 +125,10 @@
               show-trailing-whitespace nil ; Don't show trailing whitespace by default
               truncate-partial-width-windows nil)
 
+;; Enable truncate lines in minibuffer
+(add-hook 'minibuffer-setup-hook
+          (lambda () (setq truncate-lines t)))
+
 ;;============================ fringe start ==========================================
 (when (fboundp 'set-fringe-mode)
   (set-fringe-mode '(4 . 8)))
