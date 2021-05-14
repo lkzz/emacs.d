@@ -24,7 +24,7 @@
   (let ((eln-cache-dir (expand-file-name "cache/eln/"
                                          user-emacs-directory))
         (find-exec (executable-find "find")))
-    (setcar comp-eln-load-path eln-cache-dir)
+    (setcar native-comp-eln-load-path eln-cache-dir)
     ;; Quitting emacs while native compilation in progress can leave zero byte
     ;; sized *.eln files behind. Hence delete such files during startup.
     (when find-exec
@@ -32,12 +32,11 @@
                     "-name" "*.eln" "-size" "0" "-delete" "-or"
                     "-name" "*.eln.tmp" "-size" "0" "-delete")))
 
-  (setq comp-deferred-compilation t
-        package-native-compile t
-        comp-speed 2
-	    comp-verbose 0
-	    comp-async-report-warnings-errors nil
-	    comp-async-jobs-number 2
+  (setq package-native-compile t
+        native-comp-speed 2
+        native-comp-verbose 0
+        native-comp-async-report-warnings-errors nil
+        native-comp-async-jobs-number 2
         comp-deferred-compilation-deny-list
         '("\\(?:[/\\\\]\\.dir-locals\\.el$\\)"
           ;; Don't native-compile *-authloads.el and *-pkg.el files as they
