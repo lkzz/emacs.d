@@ -41,6 +41,7 @@
   :mode (("/BUILD\\(\\..*\\)?\\'" . bazel-mode)
          ("/WORKSPACE\\'" . bazel-mode)
          ("\\.bzl\\'" . bazel-mode))
+  :straight (:host github :repo "emacsmirror/bazel" :files (:defaults "*"))
   :init
   (add-hook 'bazel-mode-hook (lambda () (add-hook 'before-save-hook #'bazel-format nil t))))
 
