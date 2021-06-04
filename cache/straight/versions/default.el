@@ -86,7 +86,7 @@
  ("let-alist" . "6708ec0b2e6dff80ff5b64698aa009d9070a2ed2")
  ("ligature.el" . "5d758491ee3a505267eba87cdbff47cc8c4ab005")
  ("lsp-ivy" . "4dcb63533558a83de4a1b830835687e69474cd88")
- ("lsp-mode" . "6eb8d760d96d84e4c850e94766028f5901ed1735")
+ ("lsp-mode" . "f58e8dbbc98505b416bcace6a5450490b9412d5f")
  ("lsp-pyright" . "3fd23f17ddff8d22115f7b0b9d3f4ed8fb90add3")
  ("lsp-ui" . "efae00eb6a733d5271cb33e9d92c3d8c2fa98dde")
  ("lua-mode" . "2d9a468b94acd8480299d47449b53136060b7b23")
