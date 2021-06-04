@@ -33,6 +33,9 @@
     "g t" '(hydra-git-timemachine/body :wk "git-timemachine")
     "g u" 'magit-unstage-file
     "g v" 'vc-annotate)
+  :init
+  ;; Suppress the message we get about "Turning on magit-auto-revert-mode" when loading Magit.
+  (setq magit-no-message '("Turning on magit-auto-revert-mode..."))
   :config
   ;; see https://chris.beams.io/posts/git-commit/
   (setq fill-column 72
@@ -43,15 +46,23 @@
         magit-display-buffer-function #'kevin/magit-display-buffer-function ; display buffer fullframe
         magit-bury-buffer-function #'kevin/magit-bury-buffer-function))     ; bury or kill the current magit buffer
 
+;; Package `transient' is the interface used by Magit to display popups.
+(use-package transient
+  :config
+  ;; Allow using `q' to quit out of popups, in addition to `C-g'. See
+  ;; <https://magit.vc/manual/transient.html#Why-does-q-not-quit-popups-anymore_003f>
+  ;; for discussion.
+  (transient-bind-q-to-quit))
+
 (use-package smerge-mode
   :straight (:type built-in)
   :diminish smerge-mode
   :init
   (defhydra hydra-smerge-mode (:hint nil
-                                     :pre (if (not smerge-mode) (smerge-mode 1))
-                                     ;; Disable `smerge-mode' when quitting hydra if
-                                     ;; no merge conflicts remain.
-                                     :post (smerge-auto-leave))
+                               :pre (if (not smerge-mode) (smerge-mode 1))
+                               ;; Disable `smerge-mode' when quitting hydra if
+                               ;; no merge conflicts remain.
+                               :post (smerge-auto-leave))
     "
                                                          [smerge]
   Movement   Keep           Diff              Other
@@ -152,9 +163,9 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
   :init
   (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
                                                (call-interactively 'git-timemachine))
-                                             :post (git-timemachine-quit)
-                                             :color pink ;; toggle :foreign-keys run
-                                             :hint nil)
+                                   :post (git-timemachine-quit)
+                                   :color pink ;; toggle :foreign-keys run
+                                   :hint nil)
     "
 [_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit
 "
