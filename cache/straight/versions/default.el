@@ -43,6 +43,7 @@
  ("emacs-neotree" . "98fe21334affaffe2334bf7c987edaf1980d2d0b")
  ("emacs-rime" . "519e6eb3b5e8e668c2835d27f54fcf5776242576")
  ("emacs-solaire-mode" . "9d143db85428c5a7798e429f3b8abd2bf3f80747")
+ ("emacs-tree-sitter" . "7f5d0938002092ec08830a73f64961021303e1e9")
  ("emacs-web-server" . "3aa5084bcb733aa77997b9210b4437903f6f29ce")
  ("emacs-websocket" . "34e11124fdd9d73e431499ba8a6b6a8023519664")
  ("emacs-which-key" . "5fb30301cb3b4fca5a0e1ce8ec1ef59290b79199")
