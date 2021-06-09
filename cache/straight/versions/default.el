@@ -6,7 +6,6 @@
  ("all-the-icons.el" . "ed4e07fd3ab1fd44f21bb4295df6ec4230373698")
  ("amx" . "37f9c7ae55eb0331b27200fb745206fc58ceffc0")
  ("annalist.el" . "134fa3f0fb91a636a1c005c483516d4b64905a6d")
- ("apheleia" . "f865c165dac606187a66b2b25a57d5099b452120")
  ("avy" . "e92cb37457b43336b765630dbfbea8ba4be601fa")
  ("aweshell" . "31004ddfdf5b6f9dae0708e799a54ec592298840")
  ("bazel" . "abf4d23ab0c0348df9919fb3cf38ce22a063e23c")

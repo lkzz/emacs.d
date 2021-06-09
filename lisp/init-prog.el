@@ -66,12 +66,6 @@
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'")
 
-;; Package `apheleia` use Black or Prettier to automatically format code.
-(use-package apheleia
-  :straight (:host github :repo "raxod502/apheleia")
-  :init
-  (apheleia-global-mode +1))
-
 ;; Package `lua-mode' provides a major mode for Lua code.
 (use-package lua-mode)
 
