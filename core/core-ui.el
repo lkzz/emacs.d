@@ -58,12 +58,7 @@
 (add-hook 'tty-setup-hook #'xterm-mouse-mode)
 
 (blink-cursor-mode -1)                  ; 禁止光标闪烁
-(setq x-stretch-cursor nil
-      visible-cursor nil
-      blink-matching-paren nil)
-
-(setq visible-bell nil                  ; 禁止显示警告提示
-      ring-bell-function 'ignore)       ; 关闭警告提示音
+(setq ring-bell-function 'ignore)       ; 关闭警告提示音
 
 (use-package simple
   :straight (:type built-in)
@@ -170,11 +165,12 @@
 ;;============================ fringe end ==========================================
 
 ;;============================ window start ========================================
-(unless (assq 'menu-bar-lines default-frame-alist)
-  (add-to-list 'default-frame-alist '(menu-bar-lines . 0)) ; 移除菜单栏
-  (add-to-list 'default-frame-alist '(tool-bar-lines . 0)) ; 移除工具栏
-  (add-to-list 'default-frame-alist '(vertical-scroll-bars))) ; 移除滚动条
-
+;; 移除工具栏
+(tool-bar-mode -1)
+;; 移除菜单栏
+(menu-bar-mode -1)
+;; 移除滚动条
+(scroll-bar-mode -1)
 ;;; 禁止使用对话框
 (setq use-file-dialog nil
       use-dialog-box nil)
