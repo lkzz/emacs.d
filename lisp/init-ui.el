@@ -45,7 +45,7 @@
 ;; 设置字体
 (when (display-graphic-p)
   ;; Set default font
-  (cl-loop for font in '("JetBrainsMono Nerd Font Mono" "Fira Code" "SF Mono" "Monaco")
+  (cl-loop for font in '("JetBrains Mono" "Fira Code" "SF Mono" "Monaco")
            when (font-installed-p font)
            return (set-face-attribute 'default nil
                                       :font font
@@ -57,20 +57,7 @@
   ;; Specify font for Chinese characters
   (cl-loop for font in '("STKaiti" "WenQuanYi Micro Hei" "Microsoft Yahei")
            when (font-installed-p font)
-           return (set-fontset-font t '(#x4e00 . #x9fff) font))
-  ;; 调整字体大小
-  (use-package default-text-scale
-    :hook (after-init . default-text-scale-mode)
-    :general
-    (general-nmap default-text-scale-mode-map
-      "s-0" 'default-text-scale-reset
-      "s-=" 'default-text-scale-increase
-      "s--" 'default-text-scale-decrease)))
-
-;; ;; 设置窗口透明度
-;; (when (display-graphic-p)
-;;   (set-frame-parameter (selected-frame) 'alpha '(95 . 50))
-;;   (add-to-list 'default-frame-alist '(alpha . (95 . 50))))
+           return (set-fontset-font t '(#x4e00 . #x9fff) font)))
 
 (use-package vi-tilde-fringe
   :if (fboundp 'set-fringe-mode)
