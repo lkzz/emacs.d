@@ -166,6 +166,7 @@
   (use-package ivy-rich
     :hook (;; Must load after `counsel-projectile'
            (counsel-projectile-mode . ivy-rich-mode)
+           (ivy-rich-mode . ivy-rich-project-root-cache-mode)
            (ivy-rich-mode . (lambda ()
                               "Use abbreviate in `ivy-rich-mode'."
                               (setq ivy-virtual-abbreviate
