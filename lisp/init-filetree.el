@@ -41,7 +41,7 @@
         neo-banner-message nil
         neo-confirm-create-file #'off-p
         neo-confirm-create-directory #'off-p
-        neo-show-hidden-files nil
+        neo-show-hidden-files t
         neo-keymap-style 'concise
         neo-hidden-regexp-list
         '(;; vcs folders
