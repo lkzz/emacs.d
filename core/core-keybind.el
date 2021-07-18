@@ -99,6 +99,7 @@
     "f f" 'find-file-at-point
     "f r" 'xref-find-references
     "f s" 'xref-find-apropos
+    "f i" 'lsp-find-implementation
     "d" '(kevin/delete-word :wk "delete-word")
     "y" '(kevin/copy-word :wk "copy-word")
     "p" '(kevin/cover-word :wk "cover-word")))

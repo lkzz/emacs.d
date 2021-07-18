@@ -76,6 +76,10 @@
   (use-package evil-surround
     :hook (evil-mode . global-evil-surround-mode))
 
+  (use-package evil-better-visual-line
+    :config
+    (evil-better-visual-line-on))
+
   (use-package evil-nerd-commenter
     :general
     (kevin/space-key-define
