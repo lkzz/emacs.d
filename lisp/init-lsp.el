@@ -18,28 +18,36 @@
   :commands (lsp lsp-deferred)
   :hook (lsp-mode . lsp-enable-which-key-integration)
   :general (lsp-mode-map "C-c C-d" 'lsp-describe-thing-at-point
-                         "C-c C-n" 'lsp-rename)
+                         "C-c C-n" 'lsp-rename
+                         [remap xref-find-definitions] 'lsp-find-definition
+                         [remap xref-find-references] 'lsp-find-references)
   :init
+  ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance
+  (setq read-process-output-max (* 1024 1024)) ;; 1MB
   (setq lsp-keymap-prefix "C-c l"
         lsp-keep-workspace-alive nil
+        lsp-response-timeout 5
+
+        lsp-go-links-in-hover nil
+
+        lsp-headerline-breadcrumb-enable nil
+
+        lsp-eldoc-render-all nil
+        lsp-eldoc-enable-hover nil
+
         lsp-signature-auto-activate nil
+        lsp-signature-render-documentation nil
 
         lsp-modeline-diagnostics-enable nil
         lsp-modeline-code-actions-enable nil
         lsp-modeline-workspace-status-enable nil
 
-        lsp-enable-indentation nil
-        lsp-enable-on-type-formatting nil
-
-        lsp-headerline-breadcrumb-enable nil
-
-        read-process-output-max (* 1024 1024)
-
         lsp-enable-folding nil
+        lsp-enable-indentation nil
         lsp-enable-file-watchers nil
-        lsp-enable-text-document-color nil
-        lsp-enable-symbol-highlighting nil
-        lsp-enable-semantic-highlighting nil)
+        lsp-enable-on-type-formatting nil
+        lsp-enable-text-document-color nil)
+
   ;; For `lsp-clients'
   (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
   :config
@@ -58,18 +66,16 @@
                             [remap xref-find-references] 'lsp-ui-peek-find-references)
   :hook (lsp-mode . lsp-ui-mode)
   :init
-  (setq lsp-ui-doc-enable nil
-        lsp-ui-doc-header nil
-        lsp-ui-doc-use-webkit nil
-        lsp-ui-doc-delay 0.5
+  (setq lsp-ui-doc-delay 0.5
         lsp-ui-doc-include-signature nil
         lsp-ui-doc-position 'at-point
-        lsp-ui-doc-show-with-mouse nil
-        lsp-ui-doc-border (face-foreground 'font-lock-comment-face)
+        lsp-ui-doc-border (face-foreground 'font-lock-comment-face nil t)
+        lsp-ui-doc-use-webkit nil
 
-        lsp-ui-sideline-enable nil
         lsp-ui-sideline-show-hover nil
+        lsp-ui-sideline-show-diagnostics t
         lsp-ui-sideline-ignore-duplicate t
+        lsp-ui-sideline-show-code-actions nil
 
         lsp-ui-imenu-enable t
         lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
@@ -77,11 +83,12 @@
                               ,(face-foreground 'font-lock-constant-face)
                               ,(face-foreground 'font-lock-variable-name-face)))
   :config
-  ;; Reset `lsp-ui-doc-background' after loading theme
+  ;; HACK: lsp-ui-doc frame background color when use doom-gruvbox(dark, medium)
+  (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#313131"))
+  ;; Reset `lsp-ui-doc' after loading theme
   (add-hook 'after-load-theme-hook
             (lambda ()
-              (setq lsp-ui-doc-border (face-foreground 'font-lock-comment-face))
-              (set-face-background 'lsp-ui-doc-background (face-background 'tooltip))))
+              (setq lsp-ui-doc-border (face-foreground 'font-lock-comment-face nil t))))
 
   ;; `C-g'to close doc
   (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))

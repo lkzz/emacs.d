@@ -22,20 +22,21 @@
   (rainbow-delimiters-depth-1-face ((t (:foreground "#fb4934"))))
   (rainbow-delimiters-depth-2-face ((t (:foreground "#fabd2f"))))
   (rainbow-delimiters-depth-3-face ((t (:foreground "#8ec07c"))))
+  (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
   :init
   (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-visual-bell-config)
   (setq doom-dark+-blue-modeline t
-        doom-gruvbox-dark-variant "dark"
+        doom-gruvbox-dark-variant "hard"
         doom-themes-neotree-file-icons 't
         doom-themes-neotree-line-spacing 2)
+  :config
+  (setq rainbow-delimiters-max-face-count 3)
   ;; 加载主题
   (if (daemonp)
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
-    (load-theme 'doom-gruvbox t))
-  :config
-  (setq rainbow-delimiters-max-face-count 3))
+    (load-theme 'doom-gruvbox t)))
 
 ;; 启动时默认最大化
 (when (display-graphic-p)
@@ -86,12 +87,6 @@
                '("\\.gitignore$" all-the-icons-alltheicon "git" :face all-the-icons-red))
   (add-to-list 'all-the-icons-regexp-icon-alist
                '("\\.gitmodules$" all-the-icons-alltheicon "git" :face all-the-icons-red)))
-
-(use-package nyan-mode
-  :if (display-graphic-p)
-  :init
-  (setq nyan-animate-nyancat nil)
-  (nyan-mode t))
 
 (use-package doom-modeline
   :hook (after-init . doom-modeline-mode)
