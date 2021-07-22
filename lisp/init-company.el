@@ -31,7 +31,7 @@
         company-tooltip-flip-when-above nil
         company-echo-delay 0            ; remove annoying blinking
         company-idle-delay 0.0          ; set the completion menu pop-up delay
-        company-minimum-prefix-length 2 ; pop up a completion menu by tapping a character
+        company-minimum-prefix-length 1 ; pop up a completion menu by tapping a character
         company-show-numbers t          ; display numbers on the left
         company-tooltip-limit 10
         company-require-match nil
@@ -40,37 +40,55 @@
         company-dabbrev-downcase nil
         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
         company-backends '((company-capf :with company-yasnippet :with company-tabnine :separate)
-                           (company-dabbrev-code company-keywords company-files)
-                           company-dabbrev))
+                           (company-dabbrev company-keywords company-files)))
+  :config
   (add-hook 'evil-normal-state-entry-hook (lambda ()
                                             (when company-candidates (company-abort))))
-  :config
-  (with-eval-after-load 'yasnippet
-    (defun my-lsp-fix-company-capf ()
-      "Remove redundant `company-capf'."
-      (setq company-backends
-            (remove 'company-backends (remq 'company-capf company-backends))))
-    (advice-add #'lsp-completion--enable :after #'my-lsp-fix-company-capf)
+  ;; Remove duplicate candidate.
+  (add-to-list 'company-transformers #'delete-dups)
 
-    (defun my-company-yasnippet-disable-inline (fun command &optional arg &rest _ignore)
-      "Enable yasnippet but disable it inline."
-      (if (eq command 'prefix)
-          (when-let ((prefix (funcall fun 'prefix)))
-            (unless (memq (char-before (- (point) (length prefix)))
-                          '(?. ?< ?> ?\( ?\) ?\[ ?{ ?} ?\" ?' ?`))
-              prefix))
-        (progn
-          (when (and (bound-and-true-p lsp-mode)
-                     arg (not (get-text-property 0 'yas-annotation-patch arg)))
-            (let* ((name (get-text-property 0 'yas-annotation arg))
-                   (snip (format "%s (Snippet)" name))
-                   (len (length arg)))
-              (put-text-property 0 len 'yas-annotation snip arg)
-              (put-text-property 0 len 'yas-annotation-patch t arg)))
-          (funcall fun command arg))))
-    (advice-add #'company-yasnippet :around #'my-company-yasnippet-disable-inline))
+  (defun my-lsp-fix-company-capf ()
+    "Remove redundant `company-capf'."
+    (setq company-backends
+          (remove 'company-backends (remq 'company-capf company-backends))))
+  (advice-add #'lsp-completion--enable :after #'my-lsp-fix-company-capf)
 
-  (use-package company-tabnine)
+  ;; Uses machine learning to provide suggestions.
+  (use-package company-tabnine
+    :config
+    (setq company-tabnine-max-num-results 3)
+    ;; The free version of TabNine is good enough,
+    ;; and below code is recommended that TabNine not always
+    ;; prompt me to purchase a paid version in a large project.
+    (defadvice company-echo-show (around disable-tabnine-upgrade-message activate)
+      (let ((company-message-func (ad-get-arg 0)))
+        (when (and company-message-func
+                   (stringp (funcall company-message-func)))
+          (unless (string-match "The free version of TabNine only indexes up to" (funcall company-message-func))
+            ad-do-it))))
+
+    (defun company//sort-by-tabnine (candidates)
+      "实现前2个候选项是company-capf的,接着的2个是TabNine的."
+      (if (or (functionp company-backend)
+              (not (and (listp company-backend) (memq 'company-tabnine company-backend))))
+          candidates
+        (let ((candidates-table (make-hash-table :test #'equal))
+              candidates-1
+              candidates-2)
+          (dolist (candidate candidates)
+            (if (eq (get-text-property 0 'company-backend candidate)
+                    'company-tabnine)
+                (unless (gethash candidate candidates-table)
+                  (push candidate candidates-2))
+              (push candidate candidates-1)
+              (puthash candidate t candidates-table)))
+          (setq candidates-1 (nreverse candidates-1))
+          (setq candidates-2 (nreverse candidates-2))
+          (nconc (seq-take candidates-1 2)
+                 (seq-take candidates-2 2)
+                 (seq-drop candidates-1 2)
+                 (seq-drop candidates-2 2)))))
+    (add-to-list 'company-transformers 'company//sort-by-tabnine t))
 
   ;; Simple but effective sorting and filtering for Emacs.
   (use-package company-prescient
@@ -85,7 +103,7 @@
                 company-box-show-single-candidate t
                 company-box-max-candidates 50
                 company-box-highlight-prefix t
-                company-box-doc-delay 0.5)
+                company-box-doc-delay 0.3)
     :config
     ;; Prettify icons
     (defun my-company-box-icons--elisp (candidate)
