@@ -15,8 +15,7 @@
 
 (use-package cc-mode
   :mode ("\\.h|\\.cpp" . c++-mode)
-  :hook (((c-mode c++-mode) . kevin/cxx-mode-setup)
-         ((c-mode c++-mode) . lsp-deferred))
+  :hook ((c-mode c++-mode) . kevin/cxx-mode-setup)
   :general (c++-mode-map "C-c C-o" 'ff-find-other-file)
   :init
   (setq cc-other-file-alist
@@ -31,6 +30,10 @@
           ("\\.hpp\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))
           ("\\.hxx\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))))
   (defun kevin/cxx-mode-setup ()
+    ;; enable lsp
+    (setq lsp-idle-delay 0.1)
+    (lsp-deferred)
+
     (use-package modern-cpp-font-lock
       :diminish modern-c++-font-lock-mode
       :config
