@@ -120,9 +120,9 @@
   (diff-hl-insert ((t (:inherit diff-added :background nil))))
   (diff-hl-delete ((t (:inherit diff-removed :background nil))))
   (diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil))))
-  (diff-hl-margin-insert ((t (:inherit diff-added :background nil))))
-  (diff-hl-margin-delete ((t (:inherit diff-removed :background nil))))
-  (diff-hl-margin-change ((t (:foreground ,(face-background 'highlight) :background nil))))
+  (diff-hl-margin-insert ((t (:background "#7ccd7c"))))
+  (diff-hl-margin-change ((t (:background "#3a81c3"))))
+  (diff-hl-margin-delete ((t (:background "#ee6363"))))
   :hook ((after-init . global-diff-hl-mode)
          (dired-mode . diff-hl-dired-mode)
          (magit-post-refresh . diff-hl-magit-post-refresh))
@@ -149,10 +149,7 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
               (custom-set-faces
                '(diff-hl-insert ((t (:inherit diff-added :background nil))))
                '(diff-hl-delete ((t (:inherit diff-removed :background nil))))
-               `(diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil))))
-               '(diff-hl-margin-insert ((t (:inherit diff-added :background nil))))
-               '(diff-hl-margin-delete ((t (:inherit diff-removed :background nil))))
-               '(diff-hl-margin-change ((t (:foreground ,(face-background 'highlight) :background nil)))))))
+               `(diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil)))))))
 
   (defun my-diff-hl-fringe-bmp-function (_type _pos)
     "Fringe bitmap function for use as `diff-hl-fringe-bmp-function'."
@@ -246,7 +243,7 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
             git-messenger:last-message msg
             git-messenger:last-commit-id commit-id)
       (run-hook-with-args 'git-messenger:before-popup-hook popuped-message)
-      ;; (git-messenger-hydra/body)
+      (git-messenger-hydra/body)
       (cond ((and (fboundp 'posframe-workable-p) (posframe-workable-p))
              (let ((buffer-name "*git-messenger*"))
                (posframe-show buffer-name
@@ -262,8 +259,8 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
                (unwind-protect
                    (push (read-event) unread-command-events)
                  (posframe-hide buffer-name))))
-            ((and (fboundp 'pos-tip-show) (display-graphic-p))
-             (pos-tip-show popuped-message))
+            ((fboundp 'popup-tip)
+             (popup-tip popuped-message))
             ((fboundp 'lv-message)
              (lv-message popuped-message)
              (unwind-protect

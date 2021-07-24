@@ -38,14 +38,11 @@
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
     (load-theme 'doom-gruvbox t)))
 
-;; 启动时默认最大化
 (when (display-graphic-p)
+  ;; Frame maximized
   (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
-
-;; 设置字体
-(when (display-graphic-p)
-  ;; Set default font
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+  ;; Specify default font
   (cl-loop for font in '("JetBrains Mono" "Fira Code" "SF Mono" "Monaco")
            when (font-installed-p font)
            return (set-face-attribute 'default nil

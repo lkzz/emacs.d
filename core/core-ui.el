@@ -78,16 +78,6 @@
     (setq show-trailing-whitespace t)
     (add-hook 'before-save-hook #'delete-trailing-whitespace nil t)))
 
-;; 设置时间格式
-(use-package time
-  :straight (:type built-in)
-  :unless (display-graphic-p)
-  :hook (after-init . display-time-mode)
-  :init
-  (setq display-time-24hr-format t
-        display-time-day-and-date t
-        display-time-default-load-average nil))
-
 (use-package so-long
   :straight (:type built-in)
   :hook (after-init . global-so-long-mode)
