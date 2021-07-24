@@ -32,7 +32,7 @@
         company-echo-delay 0            ; remove annoying blinking
         company-idle-delay 0.0          ; set the completion menu pop-up delay
         company-minimum-prefix-length 1 ; pop up a completion menu by tapping a character
-        company-show-numbers t          ; display numbers on the left
+        company-show-quick-access t     ; display numbers on the left
         company-tooltip-limit 10
         company-require-match nil
         company-selection-wrap-around t     ; make previous/next selection in the popup cycle
