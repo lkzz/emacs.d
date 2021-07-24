@@ -14,13 +14,15 @@
 ;;; Code:
 
 (use-package youdao-dictionary
-  :commands youdao-dictionary-search-at-point+
-  :general ("C-c y" 'youdao-dictionary-search-at-point+)
-  :config
-  ;; Enable Cache
-  (setq url-automatic-caching t
-        ;; Enable Chinese word segmentation support
-        youdao-dictionary-use-chinese-word-segmentation t))
+  :general ("C-c y" 'kevin/youdao-dictionary-search-at-point)
+  :init (setq url-automatic-caching t
+              youdao-dictionary-use-chinese-word-segmentation t) ; 中文分词
+  (defun kevin/youdao-dictionary-search-at-point ()
+    "Search word at point and display result with `posframe' or `popup'"
+    (interactive)
+    (if (display-graphic-p)
+        (youdao-dictionary-search-at-point-posframe)
+      (youdao-dictionary-search-at-point+))))
 
 (use-package rime
   :custom
