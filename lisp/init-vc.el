@@ -115,19 +115,19 @@
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
-  :commands (diff-hl-next-hunk
-             diff-hl-previous-hunk)
+  :commands (diff-hl-next-hunk diff-hl-previous-hunk)
   :custom-face
-  (diff-hl-insert ((t (:background "#7ccd7c"))))
-  (diff-hl-change ((t (:background "#3a81c3"))))
-  (diff-hl-delete ((t (:background "#ee6363"))))
-  (diff-hl-margin-insert ((t (:background "#7ccd7c"))))
-  (diff-hl-margin-change ((t (:background "#3a81c3"))))
-  (diff-hl-margin-delete ((t (:background "#ee6363"))))
+  (diff-hl-insert ((t (:inherit diff-added :background nil))))
+  (diff-hl-delete ((t (:inherit diff-removed :background nil))))
+  (diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil))))
+  (diff-hl-margin-insert ((t (:inherit diff-added :background nil))))
+  (diff-hl-margin-delete ((t (:inherit diff-removed :background nil))))
+  (diff-hl-margin-change ((t (:foreground ,(face-background 'highlight) :background nil))))
   :hook ((after-init . global-diff-hl-mode)
          (dired-mode . diff-hl-dired-mode)
          (magit-post-refresh . diff-hl-magit-post-refresh))
   :init
+  (setq diff-hl-draw-borders nil)
   (defhydra hydra-diff-hl (:color pink :hint nil)
     "
 _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
@@ -142,7 +142,30 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
   (diff-hl-flydiff-mode 1)
   ;; Set fringe style
   (setq-default fringes-outside-margins nil)
-  (setq diff-hl-draw-borders nil)
+
+  ;; Reset faces after changing the color theme
+  (add-hook 'after-load-theme-hook
+            (lambda ()
+              (custom-set-faces
+               '(diff-hl-insert ((t (:inherit diff-added :background nil))))
+               '(diff-hl-delete ((t (:inherit diff-removed :background nil))))
+               `(diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil))))
+               '(diff-hl-margin-insert ((t (:inherit diff-added :background nil))))
+               '(diff-hl-margin-delete ((t (:inherit diff-removed :background nil))))
+               '(diff-hl-margin-change ((t (:foreground ,(face-background 'highlight) :background nil)))))))
+
+  (defun my-diff-hl-fringe-bmp-function (_type _pos)
+    "Fringe bitmap function for use as `diff-hl-fringe-bmp-function'."
+    (define-fringe-bitmap 'my-diff-hl-bmp
+      (vector (if is-mac-p #b11100000 #b11111100))
+      1 8
+      '(center t)))
+  (setq diff-hl-fringe-bmp-function #'my-diff-hl-fringe-bmp-function)
+
+  (with-eval-after-load 'magit
+    (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
+    (add-hook 'magit-post-refresh-hook #'diff-hl-magit-post-refresh))
+
   ;; Set diff-hl-margin-mode
   (unless (display-graphic-p)
     (setq diff-hl-margin-symbols-alist '((insert . " ")
@@ -155,8 +178,6 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
-  :commands (git-timemachine
-             git-timemachine-quit)
   :custom-face
   (git-timemachine-minibuffer-author-face ((t (:inherit success))))
   (git-timemachine-minibuffer-detail-face ((t (:inherit warning))))
@@ -178,13 +199,80 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
 
 ;; Pop up last commit information of current line
 (use-package git-messenger
-  :commands (git-messenger:popup-message
-             git-messenger:show-detail)
-  :general ("C-x v m" 'git-messenger:popup-message)
   :init
-  ;; Use magit-show-commit for showing status/diff commands
-  (setq git-messenger:use-magit-popup t
-        git-messenger:show-detail t))
+  (setq git-messenger:show-detail t
+        git-messenger:use-magit-popup t)
+  :config
+  (defhydra git-messenger-hydra (:color blue)
+    ("s" git-messenger:popup-show "show")
+    ("c" git-messenger:copy-commit-id "copy hash")
+    ("m" git-messenger:copy-message "copy message")
+    ("q" git-messenger:popup-close "quit"))
+  (defun my-git-messenger:format-detail (vcs commit-id author message)
+    (if (eq vcs 'git)
+        (let ((date (git-messenger:commit-date commit-id))
+              (colon (propertize ":" 'face 'font-lock-comment-face)))
+          (concat
+           (format "%s%s %s \n%s%s %s\n%s  %s %s \n"
+                   (propertize "Commit" 'face 'font-lock-keyword-face) colon
+                   (propertize (substring commit-id 0 8) 'face 'font-lock-string-face)
+                   (propertize "Author" 'face 'font-lock-keyword-face) colon
+                   (propertize author 'face 'font-lock-string-face)
+                   (propertize "Date" 'face 'font-lock-keyword-face) colon
+                   (propertize date 'face 'font-lock-string-face))
+           (propertize (make-string 38 ?─) 'face 'font-lock-comment-face)
+           message))
+      (git-messenger:format-detail vcs commit-id author message)))
+  (defun my-git-messenger:popup-message ()
+    "Popup message with `posframe', `pos-tip', `lv' or `message', and dispatch actions with `hydra'."
+    (interactive)
+    (let* ((hydra-hint-display-type 'message)
+           (vcs (git-messenger:find-vcs))
+           (file (buffer-file-name (buffer-base-buffer)))
+           (line (line-number-at-pos))
+           (commit-info (git-messenger:commit-info-at-line vcs file line))
+           (commit-id (car commit-info))
+           (author (cdr commit-info))
+           (msg (git-messenger:commit-message vcs commit-id))
+           (popuped-message (if (git-messenger:show-detail-p commit-id)
+                                (my-git-messenger:format-detail vcs commit-id author msg)
+                              (cl-case vcs
+                                (git msg)
+                                (svn (if (string= commit-id "-")
+                                         msg
+                                       (git-messenger:svn-message msg)))
+                                (hg msg)))))
+      (setq git-messenger:vcs vcs
+            git-messenger:last-message msg
+            git-messenger:last-commit-id commit-id)
+      (run-hook-with-args 'git-messenger:before-popup-hook popuped-message)
+      ;; (git-messenger-hydra/body)
+      (cond ((and (fboundp 'posframe-workable-p) (posframe-workable-p))
+             (let ((buffer-name "*git-messenger*"))
+               (posframe-show buffer-name
+                              :string (concat (propertize "\n" 'face '(:height 0.3))
+                                              popuped-message
+                                              "\n"
+                                              (propertize "\n" 'face '(:height 0.3)))
+                              :left-fringe 8
+                              :right-fringe 8
+                              :internal-border-width 1
+                              :internal-border-color (face-foreground 'font-lock-comment-face nil t)
+                              :background-color (face-background 'tooltip nil t))
+               (unwind-protect
+                   (push (read-event) unread-command-events)
+                 (posframe-hide buffer-name))))
+            ((and (fboundp 'pos-tip-show) (display-graphic-p))
+             (pos-tip-show popuped-message))
+            ((fboundp 'lv-message)
+             (lv-message popuped-message)
+             (unwind-protect
+                 (push (read-event) unread-command-events)
+               (lv-delete-window)))
+            (t (message "%s" popuped-message)))
+      (run-hook-with-args 'git-messenger:after-popup-hook popuped-message)))
+  (advice-add #'git-messenger:popup-close :override #'ignore)
+  (advice-add #'git-messenger:popup-message :override #'my-git-messenger:popup-message))
 
 (provide 'init-vc)
 ;;; init-vc ends here
