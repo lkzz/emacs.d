@@ -28,7 +28,7 @@
   (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-visual-bell-config)
   (setq doom-dark+-blue-modeline t
-        doom-gruvbox-dark-variant "hard"
+        doom-gruvbox-dark-variant "medium"
         doom-themes-neotree-file-icons 't
         doom-themes-neotree-line-spacing 2)
   :config
@@ -146,14 +146,9 @@
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode 't))
 
-(use-package darkroom
-  :commands (darkroom-mode darkroom-tentative-mode)
+(use-package centered-window-mode
   :general
-  (kevin/space-key-define "t d" '(kevin/toggle-darkroom-mode :wk "darkroom"))
-  :init
-  (setq darkroom-margins 0.15
-        darkroom-text-scale-increase 0
-        darkroom-fringes-outside-margins nil))
+  (kevin/space-key-define "t d" '(centered-window-mode :wk "center-window")))
 
 ;; Display ugly ^L page breaks as tidy horizontal lines
 (use-package page-break-lines
@@ -169,8 +164,7 @@
   (tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face))))
   :config
   (use-package tree-sitter-langs
-    :straight (:host github :repo "emacsmirror/tree-sitter-langs" :files (:defaults "*"))
-    )
+    :straight (:host github :repo "emacsmirror/tree-sitter-langs" :files (:defaults "*")))
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
   "Don't break with errors when current major mode lacks tree-sitter support."
   (advice-add 'tree-sitter-mode :around (lambda (orig-fn &rest args)
@@ -181,8 +175,7 @@
                                                                              "^No language registered\\|"
                                                                              "cannot open shared object file")
                                                                      (error-message-string e))
-                                               (signal (car e) (cadr e)))))))
-  )
+                                               (signal (car e) (cadr e))))))))
 
 (provide 'init-ui)
 ;;; init-ui ends here

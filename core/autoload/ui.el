@@ -59,16 +59,6 @@
       (set-frame-parameter frame 'menu-bar-lines 1))))
 
 ;;;###autoload
-(defun kevin/toggle-darkroom-mode ()
-  (interactive)
-  (darkroom-tentative-mode (if darkroom-tentative-mode 0 1))
-  (if darkroom-tentative-mode
-      (progn
-        (add-hook 'window-configuration-change-hook 'darkroom-tentative-mode)
-        (doom-modeline-init))
-    (remove-hook 'window-configuration-change-hook 'darkroom-tentative-mode)))
-
-;;;###autoload
 (defun font-installed-p (font-name)
   "Check if font with FONT-NAME is available."
   (find-font (font-spec :name font-name)))
