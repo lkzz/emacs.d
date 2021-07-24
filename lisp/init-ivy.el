@@ -194,9 +194,7 @@
     (setq ivy-prescient-retain-classic-highlighting t
           ivy-prescient-enable-filtering nil
           ivy-prescient-enable-sorting t)
-    (ivy-prescient-mode 1))
-
-  )
+    (ivy-prescient-mode 1)))
 
 (provide 'init-ivy)
 ;;; init-ivy.el ends here
