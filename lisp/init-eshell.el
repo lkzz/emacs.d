@@ -19,7 +19,7 @@
   :straight (aweshell :host github :repo "manateelazycat/aweshell")
   :hook ((eshell-first-time-mode . kevin/eshell-keymap)
          (eshell-exit . delete-window))
-  :general (kevin/space-key-define "t '" '(kevin/toggle-aweshell :wk "aweshell"))
+  :general (my-space-leader-def "t '" '(kevin/toggle-aweshell :wk "aweshell"))
   :config
   (setq eshell-highlight-prompt t
         eshell-prompt-function 'epe-theme-lambda))

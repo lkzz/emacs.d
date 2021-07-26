@@ -165,7 +165,7 @@
 (use-package symbol-overlay
   :diminish symbol-overlay-mode "ⓢ"
   :general
-  (kevin/space-key-define "t s" 'symbol-overlay-mode)
+  (my-space-leader-def "t s" 'symbol-overlay-mode)
   (symbol-overlay-mode-map "M-p" 'symbol-overlay-jump-prev
                            "M-n" 'symbol-overlay-jump-next
                            "M-r" 'symbol-overlay-rename)

@@ -30,7 +30,7 @@
 (use-package winum
   :hook (after-init . winum-mode)
   :general
-  (kevin/space-key-define
+  (my-space-leader-def
     "1"  'winum-select-window-1
     "2"  'winum-select-window-2
     "3"  'winum-select-window-3
@@ -61,7 +61,7 @@
 (use-package golden-ratio
   :diminish golden-ratio-mode "ⓖ"
   :general
-  (kevin/space-key-define "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio"))
+  (my-space-leader-def "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio"))
   :config
   ;; golden-ratio-exclude-modes
   (dolist (mode '("bs-mode"

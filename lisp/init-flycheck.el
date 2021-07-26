@@ -18,7 +18,7 @@
   :commands flycheck-redefine-standard-error-levels
   :hook (prog-mode . global-flycheck-mode)
   :general
-  (kevin/space-key-define
+  (my-space-leader-def
     "e" '(nil :wk "error")
     "e l" 'flycheck-list-errors
     "e n" 'flycheck-next-error

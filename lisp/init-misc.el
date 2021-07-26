@@ -17,7 +17,7 @@
 (use-package bookmark
   :straight (:type built-in)
   :general
-  (kevin/space-key-define
+  (my-space-leader-def
     "m" '(nil :wk "bookmark")
     "m s" 'bookmark-set
     "m r" 'bookmark-rename
@@ -83,7 +83,7 @@
   :hook (after-init . avy-setup-default)
   :init (setq avy-background t)
   :general
-  (kevin/space-key-define
+  (my-space-leader-def
     "j c" 'avy-goto-char-2
     "j f" 'beginning-of-defun
     "j l" 'avy-goto-line

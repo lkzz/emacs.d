@@ -14,16 +14,11 @@
 ;;; Code:
 ;;; Code:
 
-(use-package dash-at-point
-  :if is-mac-p
-  :general ("C-c d" 'dash-at-point
-            "C-c D" 'dash-at-point-with-docset))
-
 ;; https://github.com/honmaple/emacs-maple-imenu
 (use-package maple-imenu
   :commands maple-imenu
   :straight (maple-imenu :host github :repo "honmaple/emacs-maple-imenu")
-  :general (kevin/space-key-define "t i" 'maple-imenu)
+  :general (my-space-leader-def "t i" 'maple-imenu)
   :config
   (setq maple-imenu-autoupdate t
         maple-imenu-width 35
@@ -59,15 +54,16 @@
   :init
   (setq yaml-indent-offset 4))
 
-(use-package editorconfig
-  :diminish editorconfig-mode
-  :hook (after-init . editorconfig-mode))
-
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'")
 
-;; Package `lua-mode' provides a major mode for Lua code.
-(use-package lua-mode)
+(use-package lua-mode
+  :mode "\\.lua$")
+
+;; vimrc mode
+(use-package vimrc-mode
+  :mode ("/\\.?g?vimrc$"
+         "\\.vim$"))
 
 (provide 'init-prog)
 ;;; init-prog.el ends here

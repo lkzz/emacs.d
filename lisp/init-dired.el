@@ -24,7 +24,7 @@
         dired-auto-revert-buffer t
         dired-hide-details-hide-symlink-targets nil)
   :general
-  (kevin/space-key-define "j d" 'dired-jump)
+  (my-space-leader-def "j d" 'dired-jump)
   (general-nmap dired-mode-map
     ;; Lower keys for commands not operating on all the marked files
     "a" 'dired-find-alternate-file

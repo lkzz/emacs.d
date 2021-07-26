@@ -67,17 +67,21 @@
 (use-package general
   :init
   (general-evil-setup)
-  (general-create-definer kevin/space-key-define
+  (general-create-definer my-space-leader-def
     :states '(normal visual motion evilified)
     :keymaps 'override
     :prefix "SPC"
     :non-normal-prefix "M-SPC")
-  (general-create-definer kevin/comma-key-define
+  (general-create-definer my-comma-leader-def
     :states '(normal visual motion evilified)
     :keymaps 'override
     :prefix ",")
+  (general-create-definer my-semicolon-leader-def
+    :states '(normal)
+    :keymaps 'override
+    :prefix ";")
   :config
-  (kevin/space-key-define
+  (my-space-leader-def
     "d" '(nil :wk "delete")
     "d d" '(kevin/delete-delimiter-enclosed-text :wk "delete-enclosed-text")
     "d f" 'delete-frame
@@ -87,19 +91,23 @@
     "f i" '(kevin/open-init-file :wk "open-init-file")
     "f r" 'recentf
     "j" '(nil :wk "jump")
+    "j j" 'scroll-other-window-down
+    "k k" '(scroll-other-window :wk "scroll-other-window-up")
     "s" '(nil :wk "search")
     "t" '(nil :wk "toggle")
     "t f" '(toggle-frame-fullscreen :wk "fullscreen")
     "t b" '(toggle-scroll-bar :wk "scroll-bar")
     "t t" '(toggle-truncate-lines :wk "truncate-line"))
 
-  (kevin/comma-key-define
+  (my-comma-leader-def
     "f" '(nil :wk "find")
     "f d" 'xref-find-definitions
     "f f" 'find-file-at-point
     "f r" 'xref-find-references
     "f s" 'xref-find-apropos
-    "f i" 'lsp-find-implementation
+    "f i" 'lsp-find-implementation)
+
+  (my-semicolon-leader-def
     "d" '(kevin/delete-word :wk "delete-word")
     "y" '(kevin/copy-word :wk "copy-word")
     "p" '(kevin/cover-word :wk "cover-word")))

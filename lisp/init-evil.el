@@ -49,7 +49,7 @@
   :config
   (evil-set-undo-system 'undo-tree)
   (general-nvmap "C-e" 'move-end-of-line)
-  (general-nmap "Y" (kbd "y$"))
+  (define-key evil-normal-state-map "Y" (kbd "y$"))
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
   (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
   (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
@@ -82,7 +82,7 @@
 
   (use-package evil-nerd-commenter
     :general
-    (kevin/space-key-define
+    (my-space-leader-def
       "c" '(nil :wk "comment")
       "c i" '(evilnc-comment-or-uncomment-lines :wk "comment-lines")
       "c l" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment-line")

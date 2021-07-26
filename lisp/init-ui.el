@@ -145,7 +145,7 @@
 
 (use-package centered-window-mode
   :general
-  (kevin/space-key-define "t d" '(centered-window-mode :wk "center-window")))
+  (my-space-leader-def "t d" '(centered-window-mode :wk "center-window")))
 
 ;; Display ugly ^L page breaks as tidy horizontal lines
 (use-package page-break-lines

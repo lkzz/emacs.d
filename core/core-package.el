@@ -44,13 +44,12 @@
   (require 'use-package))
 
 (use-package diminish)
-(use-package posframe)
 (use-package hydra)
+(if (not (display-graphic-p))
+    (use-package popup)
+  (use-package posframe))
 (use-package s
   :straight (:host github :repo "emacsmirror/s" :files (:defaults "*")))
-
-(if (not (display-graphic-p))
-    (require 'popup))
 
 ;; Don't litter emacs directory
 (use-package no-littering

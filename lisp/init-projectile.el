@@ -17,7 +17,7 @@
   :diminish projectile-mode "ⓟ"
   :hook (after-init . projectile-mode)
   :general
-  (kevin/space-key-define
+  (my-space-leader-def
     "p" '(nil :wk "projectile")
     "p !" 'projectile-run-shell-command-in-root
     "p &" 'projectile-run-async-shell-command-in-root

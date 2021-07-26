@@ -16,7 +16,7 @@
 (use-package counsel
   :diminish ivy-mode counsel-mode
   :general
-  (kevin/space-key-define
+  (my-space-leader-def
     "s /" 'counsel-rg
     "s s" 'swiper-all)
   ("C-s"     'swiper
@@ -136,7 +136,7 @@
   ;; An alternative M-x interface for Emacs
   (use-package amx
     :init (setq amx-history-length 10)
-    :general (kevin/space-key-define "SPC" 'amx))
+    :general (my-space-leader-def "SPC" 'amx))
 
   ;; when swiper-action-recenter non-nil, frame blink in terminal
   (if (display-graphic-p)

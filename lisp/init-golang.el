@@ -17,21 +17,22 @@
   :mode ("\\.go\\'" . go-mode)
   :hook (go-mode . lsp-deferred)
   :general
-  (kevin/comma-key-define go-mode-map
-    "i" '(nil :wk "Import")
+  (my-comma-leader-def go-mode-map
+    "i" '(nil :wk "import")
     "i a" 'go-import-add
     "i g" 'go-goto-imports
     "i r" 'go-remove-unused-imports
-    "t" '(nil :wk "Test")
-    "t x" 'go-run
+    "t" '(nil :wk "test")
     "t b" 'go-test-current-benchmark
+    "t g" 'go-gen-test-dwim
     "t t" 'go-test-current-test
     "t f" 'go-test-current-file
-    "t p" 'go-test-current-project)
-  (go-mode-map "C-c i a" 'go-import-add
-               "C-c i g" 'go-goto-imports
-               "C-c i r" 'go-remove-unused-imports
-               "C-c r n" 'go-run)
+    "t p" 'go-test-current-project
+    "T" '(nil :wk "tag")
+    "T a" 'go-tag-add
+    "T r" 'go-tag-remove
+    "x" '(nil :wk "run")
+    "x x" 'go-run)
   :config
   (defun lsp-go-install-save-hooks ()
     (add-hook 'before-save-hook #'lsp-format-buffer t t)
@@ -42,8 +43,6 @@
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GOBIN" "GO111MODULE" "GOPROXY")))
   (use-package go-tag
-    :general (go-mode-map "C-c t t" 'go-tag-add
-                          "C-c t T" 'go-tag-remove)
     :init (setq go-tag-args (list "-transform" "camelcase")))
 
   ;; Install: See https://github.com/golangci/golangci-lint#install
@@ -74,13 +73,8 @@
                        (cond ((flycheck-may-use-checker 'go-test) (flycheck-select-checker 'go-test))
                              ((flycheck-may-use-checker 'go-build) (flycheck-select-checker 'go-build))))))
 
-  (use-package go-gen-test
-    :general (go-mode-map "C-c t g" 'go-gen-test-dwim))
-
+  (use-package go-gen-test)
   (use-package gotest
-    :general (go-mode-map "C-c t v" 'go-test-current-test
-                          "C-c t f" 'go-test-current-file
-                          "C-c t p" 'go-test-current-project)
     :init (setq go-test-verbose t)))
 
 (provide 'init-golang)

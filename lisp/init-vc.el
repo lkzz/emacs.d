@@ -16,7 +16,7 @@
 (use-package magit
   :commands magit-status
   :general
-  (kevin/space-key-define
+  (my-space-leader-def
     "g" '(:ignore t :wk "git")
     "g a" '(kevin/git-add-current-file :wk "add-current-file")
     "g b" 'magit-blame

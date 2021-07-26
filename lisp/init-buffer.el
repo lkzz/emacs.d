@@ -18,7 +18,7 @@
   :after projectile
   :general
   ("C-x C-b" 'ibuffer)
-  (kevin/space-key-define
+  (my-space-leader-def
     "b" '(:ignore t :wk "buffer")
     "b b" 'switch-to-buffer
     "b c" '(kevin/cleanup-buffer :wk "cleanup-buffer")
