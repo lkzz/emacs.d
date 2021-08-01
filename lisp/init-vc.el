@@ -131,8 +131,8 @@
   (defhydra hydra-diff-hl (:color pink :hint nil)
     "
 _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
-    ("p" diff-hl-previous-hunk)
-    ("n" diff-hl-next-hunk)
+    ("p" (progn (diff-hl-previous-hunk) (recenter)))
+    ("n" (progn (diff-hl-next-hunk) (recenter)))
     ("m" diff-hl-mark-hunk)
     ("g" diff-hl-diff-goto-hunk)
     ("r" diff-hl-revert-hunk)
