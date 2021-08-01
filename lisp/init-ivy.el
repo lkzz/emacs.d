@@ -64,7 +64,13 @@
         ivy-use-selectable-prompt t
         ivy-format-function #'ivy-format-function-arrow
         ivy-count-format "(%d/%d) "
-        counsel-find-file-at-point t)
+        counsel-find-file-at-point t
+        counsel-yank-pop-separator "\n────────\n"
+        counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
+
+  ;; Record in jumplist when opening files via counsel-{ag,rg,pt,git-grep}
+  (add-hook 'counsel-grep-post-action-hook #'better-jumper-set-jump)
+  (add-hook 'counsel-grep-post-action-hook #'recenter)
   ;; Use the faster search tool: ripgrep (`rg')
   (when (executable-find "rg")
     (setq counsel-grep-base-command "rg -S --no-heading --line-number --color never %s %s")
