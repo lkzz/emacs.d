@@ -16,6 +16,7 @@
 ;;------------------------------------------------------------------------------
 ;; use straight as package manager
 ;;------------------------------------------------------------------------------
+(setq load-prefer-newer noninteractive)
 ;; init before load straight
 (setq straight-base-dir kevin-cache-dir
       straight-cache-autoloads t
@@ -80,6 +81,13 @@
         exec-path-from-shell-variables '("PATH" "MANPATH")
         exec-path-from-shell-arguments '("-l"))
   (exec-path-from-shell-initialize))
+
+(use-package gcmh
+  :diminish
+  :init
+  (setq gcmh-idle-delay 5
+        gcmh-high-cons-threshold #x1000000) ; 16MB
+  (gcmh-mode 1))
 
 (provide 'core-package)
 ;;; core-package.el ends here

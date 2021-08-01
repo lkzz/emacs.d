@@ -18,27 +18,20 @@
 
 ;; Adjust garbage collection thresholds during startup, Optimize loading performance
 (defvar default-file-name-handler-alist file-name-handler-alist)
-(defvar custom-gc-cons-threshold 100000000)
 
 (setq file-name-handler-alist nil
-      gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.8
-      load-prefer-newer t               ; always load newest byte code
-      load-prefer-newer noninteractive
       site-run-file nil)
 
-;; Hook run after loading init files
-(add-hook 'emacs-startup-hook (lambda ()
-                                (setq file-name-handler-alist default-file-name-handler-alist
-                                      gc-cons-threshold custom-gc-cons-threshold
-                                      gc-cons-percentage 0.1)))
-
 ;; Optimize emacs garbage collect.
-(add-hook 'minibuffer-setup-hook (lambda ()
-                                   (setq gc-cons-threshold most-positive-fixnum)))
-(add-hook 'minibuffer-exit-hook (lambda ()
-                                  (garbage-collect)
-                                  (setq gc-cons-threshold custom-gc-cons-threshold)))
+(setq gc-cons-threshold most-positive-fixnum
+      gc-cons-percentage 0.5)
+
+;; Hook run after loading init files
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq file-name-handler-alist default-file-name-handler-alist
+                  gc-cons-threshold 800000
+                  gc-cons-percentage 0.1)))
 
 ;; Load core config of emacs
 (load (concat user-emacs-directory "core/core") nil 'nomessage)

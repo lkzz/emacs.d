@@ -58,9 +58,9 @@
 
 ;; UTF-8 as the default coding system
 (when (fboundp 'set-charset-priority)
-  (set-charset-priority 'unicode))       ; pretty
-(prefer-coding-system 'utf-8)            ; pretty
-(setq locale-coding-system 'utf-8)       ; please
+  (set-charset-priority 'unicode))
+(prefer-coding-system 'utf-8)
+(setq locale-coding-system 'utf-8)
 (unless is-windows-p
   (setq selection-coding-system 'utf-8)) ; with sugar on top
 
@@ -97,6 +97,8 @@
 ;; More performant rapid scrolling over unfontified regions. May cause brief
 ;; spells of inaccurate fontification immediately after scrolling.
 (setq fast-but-imprecise-scrolling t)
+;; Make scrolling smoother by avoiding unnecessary fontification
+(setq redisplay-skip-fontification-on-input t)
 
 ;; Resizing the Emacs frame can be a terribly expensive part of changing the
 ;; font. By inhibiting this, we halve startup times, particularly when we use
