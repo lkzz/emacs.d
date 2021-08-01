@@ -100,11 +100,14 @@
 (use-package hl-todo
   :hook (after-init . global-hl-todo-mode)
   :config
-  (setq hl-todo-highlight-punctuation ":")
-  (dolist (keyword '("BUG" "DEFECT" "ISSUE" "REVIEW"))
-    (cl-pushnew `(,keyword . ,(face-foreground 'error)) hl-todo-keyword-faces))
-  (dolist (keyword '("WORKAROUND" "HACK" "TRICK" "DEPRECATED"))
-    (cl-pushnew `(,keyword . ,(face-foreground 'warning)) hl-todo-keyword-faces)))
+  (setq hl-todo-highlight-punctuation ":"
+        hl-todo-keyword-faces `(("BUG" error bold)
+                                ("FIXME" error bold)
+                                ("TODO" warning bold)
+                                ("NOTE" success bold)
+                                ("HACK" font-lock-constant-face bold)
+                                ("REVIEW" font-lock-keyword-face bold)
+                                ("DEPRECATED" font-lock-doc-face bold))))
 
 ;; Pulse current line
 (use-package pulse
