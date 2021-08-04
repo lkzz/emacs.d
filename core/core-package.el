@@ -16,7 +16,6 @@
 ;;------------------------------------------------------------------------------
 ;; use straight as package manager
 ;;------------------------------------------------------------------------------
-(setq load-prefer-newer noninteractive)
 ;; init before load straight
 (setq straight-base-dir kevin-cache-dir
       straight-cache-autoloads t

@@ -39,7 +39,7 @@
         company-dabbrev-ignore-case t
         company-dabbrev-downcase nil
         company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
-        company-backends '((company-capf :with company-yasnippet :with company-tabnine :separate)
+        company-backends '((company-capf :with company-tabnine :separate)
                            (company-dabbrev company-keywords company-files)))
   :config
   (add-hook 'evil-normal-state-entry-hook (lambda ()
