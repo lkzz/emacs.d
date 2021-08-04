@@ -105,7 +105,7 @@
           ("*package update results*" :size 0.2 :align 'below :autoclose t)
           ("*Package-Lint*" :align 'below :autoclose t)
           ("*Gofmt Errors*" :select t :size 0.3 :align 'below :autoclose t)
-          ("*Go Test*" :select t :size 0.3 :align 'below :autoclose t)
+          ("*Go Test*" :select t :size 0.5 :align 'below :autoclose t)
           ("*How Do You*" :select t :size 0.5 :align 'below :autoclose t)
           ("*esup*" :select t :size 0.5 :align 'below :autoclose t)
           ("*xref*" :select t :size 0.5 :align 'below :autoclose t)
