@@ -108,10 +108,14 @@
             [remap move-end-of-line] 'mwim-end-of-code-or-line))
 
 (use-package helpful
-  :general
-  ("C-h f" 'helpful-callable
-   "C-h v" 'helpful-variable
-   "C-h k" 'helpful-key))
+  :defines (counsel-describe-function-function
+            counsel-describe-variable-function)
+  :general ([remap describe-key] 'helpful-key
+            [remap describe-symbol] 'helpful-symbol)
+  :init
+  (with-eval-after-load 'counsel
+    (setq counsel-describe-function-function #'helpful-callable
+          counsel-describe-variable-function #'helpful-variable)))
 
 ;; Writable `grep' buffer
 (use-package wgrep
