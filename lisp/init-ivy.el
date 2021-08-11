@@ -66,6 +66,7 @@
         ivy-count-format "(%d/%d) "
         counsel-find-file-at-point t
         counsel-yank-pop-separator "\n────────\n"
+        ivy-ignore-buffers '("\\` " "\\`\\*tramp/" "\\`\\*xref" "\\`\\*helpful " "\\`\\*.+-posframe-buffer\\*")
         counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
 
   ;; Record in jumplist when opening files via counsel-{ag,rg,pt,git-grep}
