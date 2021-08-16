@@ -143,9 +143,12 @@
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
   (global-ligature-mode 't))
 
-(use-package centered-window-mode
-  :general
-  (my-space-leader-def "t d" '(centered-window-mode :wk "center-window")))
+(use-package darkroom
+  :general (my-space-leader-def "t d" '(kevin/toggle-darkroom-mode :wk "darkroom"))
+  :init
+  (setq darkroom-margins 0.15
+        darkroom-text-scale-increase 0
+        darkroom-fringes-outside-margins nil))
 
 ;; Display ugly ^L page breaks as tidy horizontal lines
 (use-package page-break-lines
