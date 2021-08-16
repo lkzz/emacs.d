@@ -114,7 +114,7 @@
                 ((symbolp sym) 'Text)
                 (t . nil)))))
     (advice-add #'company-box-icons--elisp :override #'my-company-box-icons--elisp)
-    ;; Display borders
+    ;; Display borders and optimize performance
     (defun my-company-box--display (string on-update)
       "Display the completions."
       (company-box--render-buffer string on-update)
@@ -137,8 +137,9 @@
     (advice-add #'company-box--display :override #'my-company-box--display)
 
     (setq company-box-doc-frame-parameters '((internal-border-width . 1)
-                                             (left-fringe . 10)
-                                             (right-fringe . 10)))
+                                             (left-fringe . 8)
+                                             (right-fringe . 8)))
+
     (defun my-company-box-doc--make-buffer (object)
       (let* ((buffer-list-update-hook nil)
              (inhibit-modification-hooks t)
