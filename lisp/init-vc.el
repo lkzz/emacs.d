@@ -46,6 +46,17 @@
         magit-display-buffer-function #'kevin/magit-display-buffer-function ; display buffer fullframe
         magit-bury-buffer-function #'kevin/magit-bury-buffer-function))     ; bury or kill the current magit buffer
 
+;; Show TODOs in magit
+(use-package magit-todos
+  :bind ("C-c C-t" . ivy-magit-todos)
+  :init
+  (setq magit-todos-nice (if (executable-find "nice") t nil))
+  (let ((inhibit-message t))
+    (magit-todos-mode 1))
+  :config
+  (transient-append-suffix 'magit-status-jump '(0 0 -1)
+    '("T " "Todos" magit-todos-jump-to-todos)))
+
 ;; Package `transient' is the interface used by Magit to display popups.
 (use-package transient
   :config
