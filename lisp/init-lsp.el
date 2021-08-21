@@ -66,7 +66,8 @@
                             [remap xref-find-references] 'lsp-ui-peek-find-references)
   :hook (lsp-mode . lsp-ui-mode)
   :init
-  (setq lsp-ui-doc-delay 0.5
+  (setq lsp-ui-doc-enable (display-graphic-p)
+        lsp-ui-doc-delay 0.5
         lsp-ui-doc-include-signature nil
         lsp-ui-doc-position 'at-point
         lsp-ui-doc-border (face-foreground 'font-lock-comment-face nil t)
