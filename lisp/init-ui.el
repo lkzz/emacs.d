@@ -18,10 +18,6 @@
 
 (use-package doom-themes
   :custom-face
-  ;; colors taken grom doom-gruvbox-theme.el
-  (rainbow-delimiters-depth-1-face ((t (:foreground "#fb4934"))))
-  (rainbow-delimiters-depth-2-face ((t (:foreground "#fabd2f"))))
-  (rainbow-delimiters-depth-3-face ((t (:foreground "#8ec07c"))))
   (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
   :init
   (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
@@ -35,12 +31,8 @@
   (setq rainbow-delimiters-max-face-count 3)
   ;; 加载主题
   (if (daemonp)
-      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (with-selected-frame (or frame (selected-frame))
-                  (load-theme 'doom-gruvbox t))))
-    (load-theme 'doom-gruvbox t)))
+      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-one t)))
+    (load-theme 'doom-one t)))
 
 (when (display-graphic-p)
   ;; Frame maximized
