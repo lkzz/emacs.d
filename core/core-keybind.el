@@ -90,6 +90,7 @@
     "f f" 'find-file
     "f i" '(kevin/open-init-file :wk "open-init-file")
     "f r" 'recentf
+    "f z" 'counsel-fzf
     "j" '(nil :wk "jump")
     "j j" 'scroll-other-window-down
     "k k" '(scroll-other-window :wk "scroll-other-window-up")

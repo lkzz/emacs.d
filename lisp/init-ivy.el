@@ -46,7 +46,7 @@
   (swiper-map "M-%" 'swiper-query-replace)
   :hook ((after-init . ivy-mode)
          (ivy-mode . counsel-mode))
-  :config
+  :init
   (setq ivy-height 15
         ivy-wrap t
         ivy-fixed-height-minibuffer t
@@ -68,17 +68,32 @@
         counsel-yank-pop-separator "\n────────\n"
         ivy-ignore-buffers '("\\` " "\\`\\*tramp/" "\\`\\*xref" "\\`\\*helpful " "\\`\\*.+-posframe-buffer\\*")
         counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
-
   ;; Record in jumplist when opening files via counsel-{ag,rg,pt,git-grep}
   (add-hook 'counsel-grep-post-action-hook #'better-jumper-set-jump)
   (add-hook 'counsel-grep-post-action-hook #'recenter)
+
+  ;; when swiper-action-recenter non-nil, frame blink in terminal
+  (when (display-graphic-p)
+    (setq swiper-action-recenter nil))
+
   ;; Use the faster search tool: ripgrep (`rg')
   (when (executable-find "rg")
-    (setq counsel-grep-base-command "rg -S --no-heading --line-number --color never %s %s")
-    (when (and is-mac-p (executable-find "gls"))
-      (setq counsel-find-file-occur-use-find nil
-            counsel-find-file-occur-cmd
-            "gls -a | grep -i -E '%s' | tr '\\n' '\\0' | xargs -0 gls -d --group-directories-first")))
+    (setq counsel-grep-base-command "rg -S --no-heading --line-number --color never '%s' '%s'"))
+  (when (executable-find "fd")
+    (setq counsel-fzf-cmd "fd --type f --hidden --follow --exclude .git --color never '%s'"))
+  ;; Be compatible with `gls'
+  (when (and is-mac-p (executable-find "gls"))
+    (setq counsel-find-file-occur-use-find nil
+          counsel-find-file-occur-cmd "gls -a | grep -i -E '%s' | tr '\\n' '\\0' | xargs -0 gls -d --group-directories-first"))
+  :config
+  ;; Highlight the selected item
+  (defun my-ivy-format-function (cands)
+    "Transform CANDS into a string for minibuffer."
+    (if (display-graphic-p)
+        (ivy-format-function-line cands)
+      (ivy-format-function-arrow cands)))
+  (setf (alist-get 't ivy-format-functions-alist) #'my-ivy-format-function)
+
   ;; Pre-fill search keywords
   ;; @see https://www.reddit.com/r/emacs/comments/b7g1px/withemacs_execute_commands_like_marty_mcfly/
   (defvar my-ivy-fly-commands
@@ -145,11 +160,6 @@
     :init (setq amx-history-length 10)
     :general (my-space-leader-def "SPC" 'amx))
 
-  ;; when swiper-action-recenter non-nil, frame blink in terminal
-  (if (display-graphic-p)
-      (setq swiper-action-recenter t)
-    (setq swiper-action-recenter nil))
-
   ;; Integration with `projectile'
   (with-eval-after-load 'projectile
     (setq projectile-completion-system 'ivy))
@@ -166,7 +176,8 @@
   ;; More friendly interface for ivy
   (use-package all-the-icons-ivy-rich
     :if (display-graphic-p)
-    :init (setq all-the-icons-ivy-rich-icon-size 0.85)
+    :init
+    (setq all-the-icons-ivy-rich-icon-size 0.85)
     (all-the-icons-ivy-rich-mode))
 
   ;; More friendly display transformer for Ivy
@@ -189,18 +200,42 @@
     (prescient-persist-mode 1))
 
   (use-package ivy-prescient
-    :config
-    (setq ivy-prescient-sort-commands
-          '(:not
-            counsel-grep
-            counsel-rg
-            counsel-switch-buffer
-            ivy-switch-buffer
-            swiper
-            swiper-multi))
+    :commands ivy-prescient-re-builder
+    :custom-face
+    (ivy-minibuffer-match-face-1 ((t (:foreground ,(face-foreground 'font-lock-doc-face nil t)))))
+    :init
+    (defun ivy-prescient-non-fuzzy (str)
+      "Generate an Ivy-formatted non-fuzzy regexp list for the given STR.
+This is for use in `ivy-re-builders-alist'."
+      (let ((prescient-filter-method '(literal regexp)))
+        (ivy-prescient-re-builder str)))
+
     (setq ivy-prescient-retain-classic-highlighting t
-          ivy-prescient-enable-filtering nil
-          ivy-prescient-enable-sorting t)
+          ivy-re-builders-alist
+          '((counsel-ag . ivy-prescient-non-fuzzy)
+            (counsel-rg . ivy-prescient-non-fuzzy)
+            (counsel-pt . ivy-prescient-non-fuzzy)
+            (counsel-grep . ivy-prescient-non-fuzzy)
+            (counsel-fzf . ivy-prescient-non-fuzzy)
+            (counsel-imenu . ivy-prescient-non-fuzzy)
+            (counsel-yank-pop . ivy-prescient-non-fuzzy)
+            (swiper . ivy-prescient-non-fuzzy)
+            (swiper-isearch . ivy-prescient-non-fuzzy)
+            (swiper-all . ivy-prescient-non-fuzzy)
+            (lsp-ivy-workspace-symbol . ivy-prescient-non-fuzzy)
+            (lsp-ivy-global-workspace-symbol . ivy-prescient-non-fuzzy)
+            (insert-char . ivy-prescient-non-fuzzy)
+            (counsel-unicode-char . ivy-prescient-non-fuzzy)
+            (t . ivy-prescient-re-builder))
+          ivy-prescient-sort-commands
+          '(:not swiper swiper-isearch ivy-switch-buffer
+            lsp-ivy-workspace-symbol ivy-resume ivy--restore-session
+            counsel-grep counsel-git-grep counsel-rg counsel-ag
+            counsel-ack counsel-fzf counsel-pt counsel-imenu
+            counsel-org-capture counsel-outline counsel-org-goto
+            counsel-load-theme counsel-yank-pop
+            counsel-recentf counsel-buffer-or-recentf))
+
     (ivy-prescient-mode 1)))
 
 (provide 'init-ivy)
