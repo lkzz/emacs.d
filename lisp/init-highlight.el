@@ -82,7 +82,7 @@
 
 (use-package highlight-numbers
   :if (display-graphic-p)
-  :hook ((prog-mode conf-mode protobuf-mode) . highlight-numbers-mode)
+  :hook ((prog-mode conf-mode protobuf-mode yaml-mode) . highlight-numbers-mode)
   :config (setq highlight-numbers-generic-regexp "\\_<[[:digit:]]+\\(?:\\.[0-9]*\\)?\\_>"))
 
 ;; Colorize color names in buffers

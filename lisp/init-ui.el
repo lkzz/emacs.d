@@ -173,5 +173,25 @@
                                                                      (error-message-string e))
                                                (signal (car e) (cadr e))))))))
 
+(use-package awesome-tab
+  :straight (awesome-tab :repo "manateelazycat/awesome-tab")
+  :hook (after-init . awesome-tab-mode)
+  :general
+  (my-comma-leader-def
+    "t" '(nil :wk "tab")
+    "tj" 'awesome-tab-ace-jump
+    "ta" 'awesome-tab-select-beg-tab
+    "te" 'awesome-tab-select-end-tab
+    "th" 'awesome-tab-move-current-tab-to-left
+    "tl" 'awesome-tab-move-current-tab-to-right
+    "tn" 'awesome-tab-forward
+    "tp" 'awesome-tab-backward
+    "tt" 'awesome-tab-switch-group)
+  :config
+  (setq awesome-tab-height 150
+        awesome-tab-active-bar-width 3
+        awesome-tab-active-bar-height 24
+        awesome-tab-cycle-scope 'tabs)) ; Navigate through visible tabs only.
+
 (provide 'init-ui)
 ;;; init-ui ends here

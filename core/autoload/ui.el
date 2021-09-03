@@ -68,7 +68,5 @@
   (interactive)
   (darkroom-tentative-mode (if darkroom-tentative-mode 0 1))
   (if darkroom-tentative-mode
-      (progn
-        (add-hook 'window-configuration-change-hook 'darkroom-tentative-mode)
-        (add-hook 'window-configuration-change-hook 'doom-modeline-mode))
+      (add-hook 'window-configuration-change-hook 'darkroom-tentative-mode)
     (remove-hook 'window-configuration-change-hook 'darkroom-tentative-mode)))

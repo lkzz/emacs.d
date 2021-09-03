@@ -84,8 +84,8 @@
                               ,(face-foreground 'font-lock-constant-face)
                               ,(face-foreground 'font-lock-variable-name-face)))
   :config
-  ;; HACK: lsp-ui-doc frame background color when use doom-gruvbox(dark, medium)
-  (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#313131"))
+  ;; HACK: lsp-ui-doc frame background color when use doom-one theme
+  (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#2e3138"))
   ;; Reset `lsp-ui-doc' after loading theme
   (add-hook 'after-load-theme-hook
             (lambda ()
