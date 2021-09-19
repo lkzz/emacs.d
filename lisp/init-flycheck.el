@@ -41,7 +41,14 @@
 
   (use-package flycheck-posframe
     :if (display-graphic-p)
+    :custom-face
+    (flycheck-posframe-face ((t (:foreground ,(face-foreground 'success)))))
+    (flycheck-posframe-info-face ((t (:foreground ,(face-foreground 'success)))))
+    (flycheck-posframe-background-face ((t (:inherit tooltip))))
+    (flycheck-posframe-border-face ((t (:inherit font-lock-comment-face))))
     :hook (flycheck-mode . kevin/maybe-flycheck-posframe-mode)
+    :init
+    (setq flycheck-posframe-border-width 1)
     :config
     (setq flycheck-posframe-warning-prefix "! "
           flycheck-posframe-info-prefix "··· "
