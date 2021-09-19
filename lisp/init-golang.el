@@ -50,14 +50,18 @@
     :if (executable-find "golangci-lint")
     :after flycheck
     :defines flycheck-disabled-checkers
+    :init
+    (setq flycheck-golangci-lint-tests t
+          flycheck-golangci-lint-disable-linters '("unused" "staticcheck" "misspell" "errcheck"))
     :hook (go-mode . (lambda ()
-                       "Enable golangci-lint."
+                       ;; Remove default go flycheck-checkers except:go-build and go-test
                        (setq flycheck-disabled-checkers '(go-gofmt
                                                           go-golint
                                                           go-vet
                                                           go-errcheck
-                                                          go-staticcheck
-                                                          go-unconvert))
+                                                          go-unconvert
+                                                          go-staticcheck))
+                       "Enable golangci-lint."
                        (flycheck-golangci-lint-setup)
 
                        ;; Make sure to only run golangci after go-build
