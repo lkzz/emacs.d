@@ -26,7 +26,7 @@ install:
 	@echo "make install done."
 
 install_lsp_server:
-	@go get -u golang.org/x/tools/gopls # golang
+	@go install golang.org/x/tools/gopls@latest # golang
 	@pip install cmake-language-server	# cmake
 	@npm install vue-language-server -g # vue
 	@npm install -g pyright             # python
@@ -38,18 +38,21 @@ install_tools:
 	@echo "install tools done."
 
 install_go_tools:
-	@go get golang.org/x/tools/...
-	@go get golang.org/x/tools/gopls@latest
-	@go get github.com/gogo/protobuf/gogoproto
-	@go get github.com/golang/protobuf/proto
-	@go get github.com/gogo/protobuf/protoc-gen-gofast
-	@go get github.com/gogo/protobuf/protoc-gen-gogo
-	@go get github.com/golang/protobuf/protoc-gen-go
-	@go get github.com/godoctor/godoctor
-	@go get github.com/ramya-rao-a/go-outline
-	@go get github.com/cweill/gotests/...
-	@go get github.com/smartystreets/goconvey
-	@go get github.com/golang/mock/mockgen@v1.5.0
-	@go get rsc.io/2fa
+	@go install golang.org/x/tools/gopls@latest
+	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+	@go install github.com/godoctor/godoctor@latest
+	@go install github.com/ramya-rao-a/go-outline@latest
+	@go install github.com/smartystreets/goconvey@latest
+	@go install github.com/golang/mock/mockgen@v1.5.0
+	@go install rsc.io/2fa@latest
+	@go install github.com/cweill/gotests/...@latest
+	@go install honnef.co/go/tools/cmd/staticcheck@latest
+	@go install github.com/go-delve/delve/cmd/dlv@latest
+	@go install github.com/zmb3/gogetdoc@latest
+	@go install github.com/josharian/impl@latest
+	@go install github.com/fatih/gomodifytags@latest
+	@go install github.com/davidrjenni/reftools/cmd/fillstruct@latest
+	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
 
 .PHONY:clean install install_tools install_lsp_server
