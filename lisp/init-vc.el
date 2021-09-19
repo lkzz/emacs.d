@@ -189,6 +189,12 @@ _p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
   :custom-face
   (git-timemachine-minibuffer-author-face ((t (:inherit success))))
   (git-timemachine-minibuffer-detail-face ((t (:inherit warning))))
+  :hook ((git-timemachine-mode . (lambda ()
+                                   "Display different colors in mode-line."
+                                   (face-remap-add-relative 'mode-line 'custom-saved)))
+         (before-revert . (lambda ()
+                            (when (bound-and-true-p git-timemachine-mode)
+                              (user-error "Cannot revert the timemachine buffer")))))
   :init
   (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
                                                (call-interactively 'git-timemachine))
