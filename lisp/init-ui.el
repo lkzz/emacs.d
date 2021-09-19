@@ -152,7 +152,7 @@
   :hook (after-init . global-page-break-lines-mode))
 
 (use-package tree-sitter
-  :straight (:host github :repo "emacsmirror/tree-sitter" :files (:defaults "*"))
+  :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
   :if (bound-and-true-p module-file-suffix)
   :hook (prog-mode . tree-sitter-mode)
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
@@ -160,8 +160,7 @@
   (tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face))))
   :config
   (use-package tree-sitter-langs
-    :straight (:host github :repo "emacsmirror/tree-sitter-langs" :files (:defaults "*")))
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+    :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("langs/*.el" "langs/queries")))
   "Don't break with errors when current major mode lacks tree-sitter support."
   (advice-add 'tree-sitter-mode :around (lambda (orig-fn &rest args)
                                           (condition-case e
@@ -174,6 +173,7 @@
                                                (signal (car e) (cadr e))))))))
 
 (use-package awesome-tab
+  :disabled
   :straight (awesome-tab :repo "manateelazycat/awesome-tab")
   :hook (after-init . awesome-tab-mode)
   :general
