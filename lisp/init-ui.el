@@ -31,8 +31,8 @@
   (setq rainbow-delimiters-max-face-count 3)
   ;; 加载主题
   (if (daemonp)
-      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-one t)))
-    (load-theme 'doom-one t)))
+      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
+    (load-theme 'doom-gruvbox t)))
 
 (when (display-graphic-p)
   ;; Frame maximized
