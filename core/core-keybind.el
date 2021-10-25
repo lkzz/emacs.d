@@ -98,7 +98,7 @@
     "t" '(nil :wk "toggle")
     "t f" '(toggle-frame-fullscreen :wk "fullscreen")
     "t b" '(toggle-scroll-bar :wk "scroll-bar")
-    "t t" '(toggle-truncate-lines :wk "truncate-line"))
+    "t l" '(toggle-truncate-lines :wk "truncate-line"))
 
   (my-comma-leader-def
     "f" '(nil :wk "find")
