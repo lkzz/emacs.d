@@ -114,15 +114,7 @@
 
 
 ;; Git modes
-(use-package gitconfig-mode
-  :mode (("/\\.?git/?config\\'" . gitconfig-mode)
-         ("/\\.gitmodules\\'" . gitconfig-mode)
-         ("/_gitconfig\\'" . gitconfig-mode)))
-
-(use-package gitignore-mode
-  :mode (("/\\.gitignore\\'" . gitignore-mode)
-         ("/\\.git/info/exclude\\'" . gitignore-mode)
-         ("/git/ignore\\'" . gitignore-mode)))
+(use-package git-modes)
 
 ;; Highlight uncommitted changes
 (use-package diff-hl
