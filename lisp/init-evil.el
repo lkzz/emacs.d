@@ -32,6 +32,7 @@
         evil-ex-visual-char-range t  ; column range for ex commands
         evil-insert-skip-empty-lines t
         evil-disable-insert-state-bindings t ; enable default emacs keybinding in insert state
+        evil-undo-system (if (>= emacs-major-version 28) 'undo-redo 'undo-fu)
         ;; more vim-like behavior
         evil-symbol-word-search t
         ;; don't activate mark on shift-click
