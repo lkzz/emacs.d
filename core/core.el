@@ -30,12 +30,16 @@
   "Are we running on a Mac system?")
 
 (defconst is-emacs26-p
-  (> emacs-major-version 25)
+  (>= emacs-major-version 26)
   "Emacs is 26 or above.")
 
 (defconst is-emacs27-p
-  (> emacs-major-version 26)
+  (>= emacs-major-version 27)
   "Emacs is 27 or above.")
+
+(defconst is-emacs28-p
+  (>= emacs-major-version 28)
+  "Emacs is 28 or above.")
 
 (defconst kevin-cache-dir (concat user-emacs-directory "cache/")
   "Emacs cache directory.")
@@ -86,6 +90,9 @@
 ;; Non-nil means reorder bidirectional text for display in the visual order.
 ;; Disabling this gives Emacs a tiny performance boost.
 (setq-default bidi-display-reordering nil)
+;; Optimize for very long lines
+(setq bidi-paragraph-direction 'left-to-right
+      bidi-inhibit-bpa t)
 
 ;; Reduce rendering/line scan work for Emacs by not rendering cursors or regions
 ;; in non-focused windows.
