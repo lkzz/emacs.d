@@ -71,7 +71,31 @@
         kill-whole-line t               ; Kill line including '\n'
         line-move-visual nil            ; Move line by visual line
         track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
+        column-number-indicator-zero-based nil ; column starts from 1
+        kill-do-not-save-duplicates t ; eliminate duplicates
         set-mark-command-repeat-pop t)  ; Repeating C-SPC after popping mark pops it again
+  ;; 设置visual line fringe bitmap
+  (when (and (fboundp 'define-fringe-bitmap) (display-graphic-p))
+    (define-fringe-bitmap 'right-curly-arrow
+      [#b00000000
+       #b01111100
+       #b01111100
+       #b00001100
+       #b00001100
+       #b00000000
+       #b00000000])
+    (define-fringe-bitmap 'left-curly-arrow
+      [#b00000000
+       #b00110000
+       #b00110000
+       #b00111110
+       #b00111110
+       #b00000000
+       #b00000000])
+    (set-fringe-bitmap-face 'right-curly-arrow 'warning)
+    (set-fringe-bitmap-face 'left-curly-arrow 'warning)
+    (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)))
+
   (setq-default show-trailing-whitespace nil) ; Don't show trailing whitespace by default
   (defun enable-trailing-whitespace ()
     "Show trailing spaces and delete on saving."
@@ -127,28 +151,6 @@
                                        fringe-indicator-alist))
               indicate-empty-lines nil)         ; 不显示空行fringe
 
-;; 设置visual line fringe bitmap
-(when (and (fboundp 'define-fringe-bitmap) (display-graphic-p))
-  (define-fringe-bitmap 'right-curly-arrow
-    [#b00000000
-     #b01111100
-     #b01111100
-     #b00001100
-     #b00001100
-     #b00000000
-     #b00000000])
-  (define-fringe-bitmap 'left-curly-arrow
-    [#b00000000
-     #b00110000
-     #b00110000
-     #b00111110
-     #b00111110
-     #b00000000
-     #b00000000])
-  (set-fringe-bitmap-face 'right-curly-arrow 'warning)
-  (set-fringe-bitmap-face 'left-curly-arrow 'warning)
-  (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)))
-
 ;; doesn't exist in terminal Emacs; we define it to prevent errors
 (unless (fboundp 'define-fringe-bitmap)
   (fset 'define-fringe-bitmap #'ignore))
@@ -191,6 +193,42 @@
 ;;============================ window end ==========================================
 
 ;;============================ minibuffer start ====================================
+
+;; Completion engine
+(use-package minibuffer
+  :straight (:type built-in)
+  :bind (:map minibuffer-local-map
+         ([escape] . abort-recursive-edit)
+         :map minibuffer-local-ns-map
+         ([escape] . abort-recursive-edit)
+         :map minibuffer-local-completion-map
+         ([escape] . abort-recursive-edit)
+         :map minibuffer-local-must-match-map
+         ([escape] . abort-recursive-edit)
+         :map minibuffer-local-isearch-map
+         ([escape] . abort-recursive-edit))
+  :custom
+  (completion-auto-help t)
+  (completion-show-help nil)
+  ;; Cycle completions regardless of the count
+  (completion-cycle-threshold t)
+  (enable-recursive-minibuffers t)
+  (minibuffer-depth-indicate-mode t)
+  (minibuffer-eldef-shorten-default t)
+  (minibuffer-electric-default-mode t)
+  ;; One frame one minibuffer.
+  (minibuffer-follows-selected-frame nil)
+  ;; Ignore cases when complete
+  (completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (read-file-name-completion-ignore-case t)
+  ;; `selectrum', `vertico' and `icomplete' will honoring
+  (completion-styles '(basic partial-completion substring flex))
+  (completion-category-overrides '((buffer (styles . (flex)))))
+  ;; vertical view
+  (completions-format 'one-column)
+  (completions-detailed t))
+
 (setq echo-keystrokes 0.02
       enable-recursive-minibuffers t
       resize-mini-windows 'grow-only
@@ -201,6 +239,14 @@
 (setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
 (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 ;;============================ minibuffer end ======================================
+
+;; Improve display
+(setq display-raw-bytes-as-hex t)
+
+;; Treats the `_' as a word constituent
+(add-hook 'after-change-major-mode-hook
+          (lambda ()
+            (modify-syntax-entry ?_ "w")))
 
 (provide 'core-ui)
 ;;; core-ui.el ends here
