@@ -27,7 +27,12 @@
 
 (use-package nxml-mode
   :straight (:type built-in)
-  :mode (("\\.xaml$" . xml-mode)))
+  :mode (("\\.xml\\'" . nxml-mode)
+         ("\\.rss\\'" . nxml-mode))
+  :custom
+  (nxml-slash-auto-complete-flag t)
+  (nxml-auto-insert-xml-declaration-flag t))
+
 
 (use-package toml-mode
   :mode (("\\.toml$" . toml-mode)))
@@ -64,6 +69,29 @@
 (use-package vimrc-mode
   :mode ("/\\.?g?vimrc$"
          "\\.vim$"))
+
+;; Cross-referencing commands
+(use-package xref
+  :ensure nil
+  :init
+  (when (and (boundp 'xref-search-program) (executable-find "rg"))
+    (setq xref-search-program 'ripgrep))
+  (when is-emacs28-p
+    (setq xref-show-xrefs-function #'xref-show-definitions-completing-read
+          xref-show-definitions-function #'xref-show-definitions-completing-read))
+  :hook ((xref-after-return xref-after-jump) . recenter))
+
+
+;; Jump to definition, used as a fallback of lsp-find-definition
+(use-package dumb-jump
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate t)
+  :bind (("M-g j" . dumb-jump-go)
+         ("M-g J" . dumb-jump-go-other-window))
+  :custom
+  (dumb-jump-quiet t)
+  (dumb-jump-aggressive t)
+  (dumb-jump-selector 'completing-read))
 
 (provide 'init-prog)
 ;;; init-prog.el ends here
