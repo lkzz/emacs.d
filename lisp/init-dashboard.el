@@ -40,8 +40,8 @@
         dashboard-items '((recents   . 8)
                           (bookmarks . 4)
                           (projects  . 4))
-        dashboard-set-file-icons t
-        dashboard-set-heading-icons t
+        dashboard-set-file-icons (display-graphic-p)
+        dashboard-set-heading-icons (display-graphic-p)
         dashboard-heading-icons '((recents   . "file-text")
                                   (bookmarks . "bookmark")
                                   (agenda    . "calendar")
