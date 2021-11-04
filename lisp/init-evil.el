@@ -124,7 +124,12 @@
           evil-snipe-repeat-scope 'visible
           evil-snipe-char-fold t)
     :config
-    (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq)))
+    (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq))
+
+
+  (use-package evil-multiedit
+    :config
+    (evil-multiedit-default-keybinds)))
 
 (provide 'init-evil)
 ;;; init-evil ends here
