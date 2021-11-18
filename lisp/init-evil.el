@@ -84,7 +84,7 @@
   (use-package evil-nerd-commenter
     :general
     (my-space-leader-def
-      "c" '(nil :wk "comment")
+      "c" '(:ignore t :wk "comment")
       "c i" '(evilnc-comment-or-uncomment-lines :wk "comment-lines")
       "c l" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment-line")
       "c p" '(evilnc-comment-or-uncomment-paragraphs :wk "comment-paragraphs")

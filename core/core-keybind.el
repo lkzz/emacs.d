@@ -82,31 +82,23 @@
     :prefix ";")
   :config
   (my-space-leader-def
-    "d" '(nil :wk "delete")
+    "d" '(:ignore t :wk "delete")
     "d d" '(kevin/delete-delimiter-enclosed-text :wk "delete-enclosed-text")
     "d f" 'delete-frame
     "d w" '(kevin/delete-word :wk "delete-word")
-    "f" '(nil :wk "file")
+    "f" '(:ignore t :wk "file")
     "f f" 'find-file
     "f i" '(kevin/open-init-file :wk "open-init-file")
     "f r" 'recentf
     "f z" 'counsel-fzf
-    "j" '(nil :wk "jump")
+    "j" '(:ignore t :wk "jump")
     "j j" 'scroll-other-window-down
     "k k" '(scroll-other-window :wk "scroll-other-window-up")
-    "s" '(nil :wk "search")
-    "t" '(nil :wk "toggle")
+    "s" '(:ignore t :wk "search")
+    "t" '(:ignore t :wk "toggle")
     "t f" '(toggle-frame-fullscreen :wk "fullscreen")
     "t b" '(toggle-scroll-bar :wk "scroll-bar")
     "t l" '(toggle-truncate-lines :wk "truncate-line"))
-
-  (my-comma-leader-def
-    "f" '(nil :wk "find")
-    "f d" 'xref-find-definitions
-    "f f" 'find-file-at-point
-    "f r" 'xref-find-references
-    "f s" 'xref-find-apropos
-    "f i" 'lsp-find-implementation)
 
   (my-semicolon-leader-def
     "d" '(kevin/delete-word :wk "delete-word")

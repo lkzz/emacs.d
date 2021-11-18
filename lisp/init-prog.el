@@ -63,7 +63,10 @@
   :mode "\\Dockerfile\\'")
 
 (use-package lua-mode
-  :mode "\\.lua$")
+  :mode "\\.lua$"
+  :hook (lua-mode . lsp-deferred)
+  :init
+  (setq lua-indent-level 2))
 
 ;; vimrc mode
 (use-package vimrc-mode
@@ -73,6 +76,9 @@
 ;; Cross-referencing commands
 (use-package xref
   :ensure nil
+  :general
+  ('normal "g d" 'xref-find-definitions
+           "g r" 'xref-find-references)
   :init
   (when (and (boundp 'xref-search-program) (executable-find "rg"))
     (setq xref-search-program 'ripgrep))

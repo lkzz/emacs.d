@@ -51,6 +51,50 @@
   ;; For `lsp-clients'
   (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
   :config
+  (my-comma-leader-def
+    "="  '(:ignore t :wk "formatting")
+    "=b" 'lsp-format-buffer
+    "=r" 'lsp-format-region
+    "a"  '(:ignore t :wk "code")
+    "aa" 'lsp-execute-code-action
+    "ah" 'lsp-document-highlight
+    "al" 'lsp-avy-lens
+    "g"  '(:ignore t :wk "goto")
+    "ga" 'xref-find-apropos
+    "gd" 'lsp-find-definition
+    "gD" 'lsp-find-declaration
+    "ge" 'lsp-treemacs-errors-list
+    "gh" 'lsp-treemacs-call-hierarchy
+    "gi" 'lsp-find-implementation
+    "gr" 'lsp-find-references
+    "gt" 'lsp-find-type-definition
+    "G"  '(:ignore t :wk "peek")
+    "Gg" 'lsp-ui-peek-find-definitions
+    "Gi" 'lsp-ui-peek-find-implementation
+    "Gr" 'lsp-ui-peek-find-references
+    "Gs" 'lsp-ui-peek-find-workspace-symbol
+    "h"  '(:ignore t :wk "help")
+    "hg" 'lsp-ui-doc-glance
+    "hh" 'lsp-describe-thing-at-point
+    "hs" 'lsp-signature-activate
+    "i"  '(:ignore t :wk "import")
+    "r"  '(:ignore t :wk "refactor")
+    "rr" 'lsp-rename
+    "t"  '(:ignore t :wk "toggle")
+    "w"  '(:ignore t :wk "workspace")
+    "wa" 'lsp-workspace-folders-add
+    "wd" 'lsp-describe-session
+    "wq" 'lsp-workspace-shutdown
+    "wr" 'lsp-workspace-restart)
+  (general-nmap lsp-mode-map
+    "ga" 'xref-find-apropos
+    "gd" 'lsp-find-definition
+    "gD" 'lsp-find-declaration
+    "ge" 'lsp-treemacs-errors-list
+    "gh" 'lsp-treemacs-call-hierarchy
+    "gi" 'lsp-find-implementation
+    "gr" 'lsp-find-references
+    "gt" 'lsp-find-type-definition)
   (with-no-warnings
     (defun my-lsp--init-if-visible (func &rest args)
       "Not enabling lsp in `git-timemachine-mode'."
@@ -85,7 +129,8 @@
                               ,(face-foreground 'font-lock-variable-name-face)))
   :config
   ;; HACK: lsp-ui-doc frame background color when use doom-one theme
-  (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#313131"))
+  (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#2e3138"))
+  ;; (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#313131"))
   ;; Reset `lsp-ui-doc' after loading theme
   (add-hook 'after-load-theme-hook
             (lambda ()
