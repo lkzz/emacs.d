@@ -164,6 +164,7 @@
         doom-modeline-buffer-file-name-style 'auto))
 
 (use-package minions
+  :defer t
   :hook (doom-modeline-mode . minions-mode))
 
 (use-package hide-mode-line
