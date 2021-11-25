@@ -48,6 +48,7 @@
 
 ;; Show TODOs in magit
 (use-package magit-todos
+  :disabled
   :bind ("C-c C-t" . ivy-magit-todos)
   :init
   (setq magit-todos-nice (if (executable-find "nice") t nil))
@@ -56,6 +57,18 @@
   :config
   (transient-append-suffix 'magit-status-jump '(0 0 -1)
     '("T " "Todos" magit-todos-jump-to-todos)))
+
+(use-package blamer
+  :defer t
+  :hook (prog-mode . blamer-mode)
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                   :background nil
+                   :height 140
+                   :italic t))))
 
 ;; Package `transient' is the interface used by Magit to display popups.
 (use-package transient
