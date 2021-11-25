@@ -37,8 +37,10 @@
 (use-package hungry-delete
   :diminish hungry-delete-mode "ⓗ"
   :hook (after-init . global-hungry-delete-mode)
-  :config
-  (add-to-list 'hungry-delete-except-modes 'minibuffer-mode))
+  :init (setq hungry-delete-chars-to-skip " \t\f\v"
+              hungry-delete-except-modes
+              '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
+
 
 (use-package server
   :config
