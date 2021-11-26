@@ -71,7 +71,7 @@
 (require 'init-vc)
 (require 'init-buffer)
 (require 'init-flycheck)
-(require 'init-eshell)
+(require 'init-shell)
 (require 'init-dired)
 (require 'init-filetree)
 (require 'init-window)

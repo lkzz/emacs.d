@@ -87,17 +87,14 @@
           xref-show-definitions-function #'xref-show-definitions-completing-read))
   :hook ((xref-after-return xref-after-jump) . recenter))
 
-
 ;; Jump to definition, used as a fallback of lsp-find-definition
 (use-package dumb-jump
   :init
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate t)
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
+  (setq dumb-jump-prefer-searcher 'rg
+        dumb-jump-selector 'ivy)
   :bind (("M-g j" . dumb-jump-go)
-         ("M-g J" . dumb-jump-go-other-window))
-  :custom
-  (dumb-jump-quiet t)
-  (dumb-jump-aggressive t)
-  (dumb-jump-selector 'completing-read))
+         ("M-g J" . dumb-jump-go-other-window)))
 
 (provide 'init-prog)
 ;;; init-prog.el ends here
