@@ -39,16 +39,14 @@
         shift-select-mode nil
         evil-cross-lines t
         evil-move-cursor-back t ;; move back the cursor one position when exiting insert mode
-        evil-esc-delay 0.01
-        evil-mode-line-format 'after)
+        evil-esc-delay 0.01)
   ;; cursor appearance
   (setq evil-default-cursor '(box (lambda () (evil-set-cursor-color my-default-cursor-color)))
         evil-normal-state-cursor 'box
-        evil-emacs-state-cursor  '(hbar (lambda () (evil-set-cursor-color my-emacs-cursor-color)))
+        evil-emacs-state-cursor  '(bar (lambda () (evil-set-cursor-color my-emacs-cursor-color)))
         evil-insert-state-cursor '(bar . 2)
         evil-visual-state-cursor 'box)
   :config
-  (evil-set-undo-system 'undo-tree)
   (general-nvmap "C-e" 'move-end-of-line)
   (define-key evil-normal-state-map "Y" (kbd "y$"))
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
@@ -76,10 +74,6 @@
 
   (use-package evil-surround
     :hook (evil-mode . global-evil-surround-mode))
-
-  (use-package evil-better-visual-line
-    :config
-    (evil-better-visual-line-on))
 
   (use-package evil-nerd-commenter
     :general
