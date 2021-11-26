@@ -13,17 +13,15 @@
 ;;
 ;;; Code:
 
-;; https://github.com/manateelazycat/aweshell
-(use-package aweshell
-  :commands aweshell-toggle
-  :straight (aweshell :host github :repo "manateelazycat/aweshell")
-  :hook ((eshell-first-time-mode . kevin/eshell-keymap)
-         (eshell-exit . delete-window))
-  :general (my-space-leader-def "t '" '(kevin/toggle-aweshell :wk "aweshell"))
+(use-package vterm
   :config
-  (setq eshell-highlight-prompt t
-        eshell-prompt-function 'epe-theme-lambda))
+  (add-hook 'vterm-mode-hook (lambda ()
+                               (evil-set-initial-state 'vterm-mode 'emacs)
+                               (advice-add #'vterm--redraw :after (lambda (&rest args)
+                                                                    (evil-refresh-cursor evil-state))))))
 
-(use-package vterm)
+(use-package vterm-toggle
+  :general (my-space-leader-def "t '" 'vterm-toggle)
+  :after vterm)
 
 (provide 'init-shell)
