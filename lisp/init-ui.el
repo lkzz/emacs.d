@@ -146,6 +146,9 @@
   (unless after-init-time
     ;; prevent flash of unstyled modeline at startup
     (setq-default mode-line-format nil))
+  ;; refer: https://emacs-china.org/t/doom-modeline-2-1-0/9251/127
+  (set-face-attribute 'mode-line nil :font "JetBrains Mono-13")
+  (set-face-attribute 'mode-line-inactive nil :font "JetBrains Mono-13")
   (setq doom-modeline-bar-width 3
         doom-modeline-env-version nil
         doom-modeline-env-enable-python t
