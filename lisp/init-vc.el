@@ -58,17 +58,15 @@
   (transient-append-suffix 'magit-status-jump '(0 0 -1)
     '("T " "Todos" magit-todos-jump-to-todos)))
 
+;; Show git blame info
 (use-package blamer
-  :defer t
+  :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
   :hook (prog-mode . blamer-mode)
-  :custom
-  (blamer-idle-time 0.3)
-  (blamer-min-offset 70)
-  :custom-face
-  (blamer-face ((t :foreground "#7a88cf"
-                   :background nil
-                   :height 140
-                   :italic t))))
+  :init (setq blamer-idle-time 0.5
+              blamer-min-offset 50
+              blamer-author-formatter "%s "
+              blamer-datetime-formatter "[%s] "
+              blamer-commit-formatter "- %s"))
 
 ;; Package `transient' is the interface used by Magit to display popups.
 (use-package transient
