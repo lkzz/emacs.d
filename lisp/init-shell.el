@@ -15,6 +15,7 @@
 
 (use-package vterm
   :config
+  (setq vterm-always-compile-module t)
   (add-hook 'vterm-mode-hook (lambda ()
                                (evil-set-initial-state 'vterm-mode 'emacs)
                                (advice-add #'vterm--redraw :after (lambda (&rest args)
