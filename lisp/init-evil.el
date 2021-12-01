@@ -92,7 +92,8 @@
     (evil-collection-init 'magit)
     (evil-collection-init 'custom)
     (evil-collection-init 'ibuffer)
-    (evil-collection-init 'calendar))
+    (evil-collection-init 'calendar)
+    (evil-collection-init 'flycheck))
 
   (use-package evil-terminal-cursor-changer
     :unless (display-graphic-p)
