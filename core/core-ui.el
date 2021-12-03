@@ -106,7 +106,7 @@
   :straight (:type built-in)
   :hook (after-init . global-so-long-mode)
   :config
-  (setq so-long-threshold 400)
+  (setq so-long-threshold 1000)
   (add-to-list 'so-long-variable-overrides '(font-lock-maximum-decoration . 1))
   ;; ...and insist that save-place not operate in large/long files
   (add-to-list 'so-long-variable-overrides '(save-place-alist . nil))
