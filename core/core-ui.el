@@ -1,6 +1,6 @@
 ;;; core-ui.el --- 优化Emacs默认UI -*- lexical-binding: t -*-
 ;;
-;; Copyright (C) 2017-2021  Kevin Leung
+;; Copyright (C) 2017-2022 kevin.scnu@gmail.com
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -130,13 +130,9 @@
 
 ;; Word wrapping
 (setq-default word-wrap nil
-              truncate-lines nil
+              truncate-lines t
               show-trailing-whitespace nil ; Don't show trailing whitespace by default
               truncate-partial-width-windows nil)
-
-;; Enable truncate lines in minibuffer
-(add-hook 'minibuffer-setup-hook
-          (lambda () (setq truncate-lines t)))
 
 ;;============================ fringe start ==========================================
 (when (fboundp 'set-fringe-mode)

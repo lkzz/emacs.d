@@ -1,6 +1,6 @@
 ;;; init-vc.el --- version control setup. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2021  Kevin Leung
+;; Copyright (C) 2017-2022 kevin.scnu@gmail.com
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -62,11 +62,15 @@
 (use-package blamer
   :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
   :hook (prog-mode . blamer-mode)
-  :init (setq blamer-idle-time 0.5
-              blamer-min-offset 50
-              blamer-author-formatter "%s "
-              blamer-datetime-formatter "[%s] "
-              blamer-commit-formatter "- %s"))
+  :init
+  (setq blamer-idle-time 0.5
+        blamer-min-offset 50
+        blamer-type 'visual
+        blamer-view 'overlay
+        blamer-max-commit-message-length 50
+        blamer-author-formatter "%s "
+        blamer-datetime-formatter "[%s] "
+        blamer-commit-formatter "- %s"))
 
 ;; Package `transient' is the interface used by Magit to display popups.
 (use-package transient

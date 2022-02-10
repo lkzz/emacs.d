@@ -1,6 +1,6 @@
 ;;; prog.el --- autoload functions used in prog mode. -*- lexical-binding: t -*-
 ;;
-;; Copyright (C) 2017-2021  Kevin Leung
+;; Copyright (C) 2017-2022 kevin.scnu@gmail.com
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -41,7 +41,7 @@
       (goto-char (point-min))
       (insert ";;; " fname " --- insert description here -*- lexical-binding: t -*-\n"
               ";;\n"
-              ";; Copyright (C) 2017-2021  Kevin Leung\n"
+              ";; Copyright (C) 2017-2022 kevin.scnu@gmail.com\n"
               ";;\n"
               ";; Author: Kevin Leung <kevin.scnu@gmail.com>\n"
               ";; URL: https://github.com/lkzz/emacs.d\n"

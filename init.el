@@ -1,6 +1,6 @@
 ;; init.el -- emacs bootstrap file. -*- lexical-binding: t no-byte-compile: t -*-
 ;;
-;; Copyright (C) 2017-2021  Kevin Leung
+;; Copyright (C) 2017-2022 kevin.scnu@gmail.com
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d

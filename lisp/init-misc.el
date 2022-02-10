@@ -1,6 +1,6 @@
 ;;; init-misc.el --- misc config files. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2021  Kevin Leung
+;; Copyright (C) 2017-2022 kevin.scnu@gmail.com
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -110,11 +110,10 @@
   :defines (counsel-describe-function-function
             counsel-describe-variable-function)
   :general ([remap describe-key] 'helpful-key
-            [remap describe-symbol] 'helpful-symbol)
-  :init
-  (with-eval-after-load 'counsel
-    (setq counsel-describe-function-function #'helpful-callable
-          counsel-describe-variable-function #'helpful-variable)))
+            [remap describe-symbol] 'helpful-symbol
+            [remap describe-command] 'helpful-command
+            [remap describe-function] 'helpful-callable
+            [remap describe-variable] 'helpful-variable))
 
 ;; Writable `grep' buffer
 (use-package wgrep

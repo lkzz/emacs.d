@@ -1,6 +1,6 @@
 ;; init-lsp.el --- Initialize lsp (Language Server Protocol) configurations. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2021  Kevin Leung
+;; Copyright (C) 2017-2022 kevin.scnu@gmail.com
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -46,7 +46,8 @@
         lsp-enable-indentation nil
         lsp-enable-file-watchers nil
         lsp-enable-on-type-formatting nil
-        lsp-enable-text-document-color nil)
+        lsp-enable-text-document-color nil
+        lsp-enable-symbol-highlighting nil)
 
   ;; For `lsp-clients'
   (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))

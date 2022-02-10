@@ -1,6 +1,6 @@
 ;; init-prog.el --- Initialize prog configurations. -*- lexical-binding: t; -*-
 ;;
-;; Copyright (C) 2017-2021  Kevin Leung
+;; Copyright (C) 2017-2022 kevin.scnu@gmail.com
 ;;
 ;; Author: Kevin Leung <kevin.scnu@gmail.com>
 ;; URL: https://github.com/lkzz/emacs.d
@@ -50,14 +50,14 @@
   :straight (:host github :repo "emacsmirror/protobuf-mode" :files (:defaults "*"))
   :init
   (defconst kevin/protobuf-style
-    '((c-basic-offset . 4)
+    '((c-basic-offset . 2)
       (indent-tabs-mode . nil)))
   (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" kevin/protobuf-style t))))
 
 (use-package yaml-mode
   :mode "\\.yml\\'"
   :init
-  (setq yaml-indent-offset 4))
+  (setq yaml-indent-offset 2))
 
 (use-package dockerfile-mode
   :mode "\\Dockerfile\\'")
