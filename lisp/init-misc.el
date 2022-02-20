@@ -121,7 +121,9 @@
   :config (setq wgrep-auto-save-buffer t))
 
 (use-package direnv
-  :hook (after-init . direnv-mode))
+  :hook (after-init . direnv-mode)
+  :config
+  (setq direnv-always-show-summary nil))
 
 (use-package restart-emacs
   :commands restart-emacs)
