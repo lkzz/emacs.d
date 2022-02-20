@@ -119,7 +119,7 @@
         lsp-ui-doc-use-webkit nil
 
         lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-show-diagnostics t
+        lsp-ui-sideline-show-diagnostics nil
         lsp-ui-sideline-ignore-duplicate t
         lsp-ui-sideline-show-code-actions nil
 
