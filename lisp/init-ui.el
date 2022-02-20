@@ -160,7 +160,7 @@
         doom-modeline-indent-info nil
         doom-modeline-unicode-fallback t
         doom-modeline-enable-word-count t
-        doom-modeline-vcs-max-length 20
+        doom-modeline-vcs-max-length 30
         doom-modeline-buffer-encoding t
         doom-modeline-buffer-state-icon t
         doom-modeline-buffer-modification-icon t
