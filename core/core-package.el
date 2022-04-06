@@ -13,6 +13,9 @@
 ;;
 ;;; Code:
 
+;; Load newer version of .el and .elc if both are available
+(setq load-prefer-newer t)
+
 ;;------------------------------------------------------------------------------
 ;; use straight as package manager
 ;;------------------------------------------------------------------------------
@@ -42,6 +45,8 @@
 (straight-use-package 'use-package)
 (eval-when-compile
   (require 'use-package))
+
+(setq use-package-always-defer t)
 
 (use-package diminish)
 (use-package hydra)
@@ -88,6 +93,13 @@
   (setq gcmh-idle-delay 5
         gcmh-high-cons-threshold #x1000000) ; 16MB
   (gcmh-mode 1))
+
+(cl-letf (((symbol-function 'define-obsolete-function-alias) #'defalias))
+  (use-package benchmark-init
+    :demand t
+    :config
+    (require 'benchmark-init-modes)
+    (add-hook 'after-init-hook #'benchmark-init/deactivate)))
 
 (provide 'core-package)
 ;;; core-package.el ends here

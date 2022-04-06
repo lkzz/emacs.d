@@ -60,6 +60,7 @@
 
 ;; Show git blame info
 (use-package blamer
+  :disabled
   :custom-face (blamer-face ((t (:inherit completions-annotations :height 0.9))))
   :init
   (setq blamer-idle-time 0.5

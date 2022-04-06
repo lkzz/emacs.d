@@ -13,8 +13,7 @@
 ;;
 ;;; Code:
 
-(use-package solaire-mode
-  :hook (after-init . solaire-global-mode))
+(use-package solaire-mode)
 
 (use-package doom-themes
   :custom-face
@@ -22,35 +21,40 @@
   :init
   (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
-  (add-hook 'kevin-load-theme-hook #'doom-themes-visual-bell-config)
+  ;; (add-hook 'kevin-load-theme-hook #'doom-themes-visual-bell-config)
   (setq doom-dark+-blue-modeline t
         doom-gruvbox-dark-variant "medium"
         doom-themes-neotree-file-icons 't
-        doom-themes-neotree-line-spacing 2)
-  :config
+        doom-themes-neotree-line-spacing 2))
+
+;; 延迟部分ui设置
+(defun my-ui-setup ()
+  ;; 加载doom主题依赖
+  (solaire-global-mode)
   ;; 加载主题
   (if (daemonp)
-      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-one t)))
-    (load-theme 'doom-one t)))
+      (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
+    (load-theme 'doom-gruvbox t))
+  (when (display-graphic-p)
+    ;; Frame maximized
+    (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
+    (add-to-list 'default-frame-alist '(fullscreen . maximized))
+    ;; Specify default font
+    (cl-loop for font in '("JetBrains Mono" "Fira Code" "SF Mono" "Monaco")
+             when (font-installed-p font)
+             return (set-face-attribute 'default nil
+                                        :font font
+                                        :height 150))
+    ;; Specify font for all unicode characters
+    (cl-loop for font in '("Apple Color Emoji" "Symbola")
+             when (font-installed-p font)
+             return(set-fontset-font t 'unicode font nil 'prepend))
+    ;; Specify font for Chinese characters
+    (cl-loop for font in '("STKaiti" "WenQuanYi Micro Hei" "Microsoft Yahei")
+             when (font-installed-p font)
+             return (set-fontset-font t '(#x4e00 . #x9fff) font))))
 
-(when (display-graphic-p)
-  ;; Frame maximized
-  (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
-  ;; Specify default font
-  (cl-loop for font in '("JetBrains Mono" "Fira Code" "SF Mono" "Monaco")
-           when (font-installed-p font)
-           return (set-face-attribute 'default nil
-                                      :font font
-                                      :height 150))
-  ;; Specify font for all unicode characters
-  (cl-loop for font in '("Apple Color Emoji" "Symbola")
-           when (font-installed-p font)
-           return(set-fontset-font t 'unicode font nil 'prepend))
-  ;; Specify font for Chinese characters
-  (cl-loop for font in '("STKaiti" "WenQuanYi Micro Hei" "Microsoft Yahei")
-           when (font-installed-p font)
-           return (set-fontset-font t '(#x4e00 . #x9fff) font)))
+(add-hook 'after-init-hook #'my-ui-setup)
 
 (use-package vi-tilde-fringe
   :if (fboundp 'set-fringe-mode)
@@ -136,24 +140,20 @@
       (add-to-list 'all-the-icons-mode-icon-alist icon))))
 
 (use-package doom-modeline
-  :hook (after-init . doom-modeline-mode)
+  :hook (kevin-load-theme . doom-modeline-mode)
   :init
   (defun my-doom-modeline--font-height ()
     "Calculate the actual char height of the mode-line."
     (+ (frame-char-height) 2))
   (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
-  (add-hook #'kevin-load-theme-hook #'doom-modeline-refresh-bars)
   (unless after-init-time
     ;; prevent flash of unstyled modeline at startup
     (setq-default mode-line-format nil))
-  ;; refer: https://emacs-china.org/t/doom-modeline-2-1-0/9251/127
-  (set-face-attribute 'mode-line nil :font "JetBrains Mono-13")
-  (set-face-attribute 'mode-line-inactive nil :font "JetBrains Mono-13")
   (setq doom-modeline-bar-width 3
         doom-modeline-env-version nil
         doom-modeline-env-enable-python t
         doom-modeline-icon (display-graphic-p)
-        doom-modeline-minor-modes t
+        doom-modeline-minor-modes nil
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t
         doom-modeline-modal-icon t
@@ -165,10 +165,6 @@
         doom-modeline-buffer-state-icon t
         doom-modeline-buffer-modification-icon t
         doom-modeline-buffer-file-name-style 'auto))
-
-(use-package minions
-  :defer t
-  :hook (doom-modeline-mode . minions-mode))
 
 (use-package hide-mode-line
   :hook (((neotree-mode
@@ -182,6 +178,7 @@
 ;; Must install Fira Code font
 (use-package ligature
   :if (display-graphic-p)
+  :hook (after-init . global-ligature-mode)
   :straight (ligature :host github :repo "mickeynp/ligature.el")
   :config
   ;; Enable the www ligature in every possible major mode
@@ -198,8 +195,7 @@
                                        "=<<" "=/=" ">-" ">=" ">=>" ">>" ">>-" ">>=" ">>>" "<*"
                                        "<*>" "<|" "<|>" "<$" "<$>" "<!--" "<-" "<--" "<->" "<+"
                                        "<+>" "<=" "<==" "<=>" "<=<" "<>" "<<" "<<-" "<<=" "<<<"
-                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%"))
-  (global-ligature-mode 't))
+                                       "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%")))
 
 (use-package darkroom
   :general (my-space-leader-def "t d" '(kevin/toggle-darkroom-mode :wk "darkroom"))
@@ -208,15 +204,10 @@
         darkroom-text-scale-increase 0
         darkroom-fringes-outside-margins nil))
 
-;; Display ugly ^L page breaks as tidy horizontal lines
-(use-package page-break-lines
-  :diminish
-  :hook (after-init . global-page-break-lines-mode))
-
 (use-package tree-sitter
   :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
   :if (bound-and-true-p module-file-suffix)
-  :hook (prog-mode . tree-sitter-mode)
+  :hook (go-mode . tree-sitter-mode)
   :hook (tree-sitter-after-on . tree-sitter-hl-mode)
   :custom-face
   (tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face))))
@@ -233,27 +224,6 @@
                                                                              "cannot open shared object file")
                                                                      (error-message-string e))
                                                (signal (car e) (cadr e))))))))
-
-(use-package awesome-tab
-  :disabled
-  :straight (awesome-tab :repo "manateelazycat/awesome-tab")
-  :hook (after-init . awesome-tab-mode)
-  :general
-  (my-comma-leader-def
-    "t" '(nil :wk "tab")
-    "tj" 'awesome-tab-ace-jump
-    "ta" 'awesome-tab-select-beg-tab
-    "te" 'awesome-tab-select-end-tab
-    "th" 'awesome-tab-move-current-tab-to-left
-    "tl" 'awesome-tab-move-current-tab-to-right
-    "tn" 'awesome-tab-forward
-    "tp" 'awesome-tab-backward
-    "tt" 'awesome-tab-switch-group)
-  :config
-  (setq awesome-tab-height 150
-        awesome-tab-active-bar-width 3
-        awesome-tab-active-bar-height 24
-        awesome-tab-cycle-scope 'tabs)) ; Navigate through visible tabs only.
 
 (provide 'init-ui)
 ;;; init-ui ends here

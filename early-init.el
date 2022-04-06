@@ -36,7 +36,7 @@
         native-comp-speed 2
         native-comp-verbose 0
         native-comp-async-report-warnings-errors nil
-        native-comp-async-jobs-number 2
+        native-comp-async-jobs-number 4
         comp-deferred-compilation-deny-list
         '("\\(?:[/\\\\]\\.dir-locals\\.el$\\)"
           ;; Don't native-compile *-authloads.el and *-pkg.el files as they

@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package dashboard
+  :after all-the-icons
   :diminish page-break-lines-mode
   :hook (dashboard-mode . (lambda () (setq-local frame-title-format "")))
   :custom-face (dashboard-heading ((t (:inherit (font-lock-string-face bold)))))

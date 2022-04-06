@@ -121,7 +121,6 @@
     :config
     (add-to-list 'evil-snipe-disabled-modes 'Info-mode nil #'eq))
 
-
   (use-package evil-multiedit
     :config
     (evil-multiedit-default-keybinds)))

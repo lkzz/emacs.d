@@ -13,9 +13,8 @@
 ;;
 ;;; Code:
 
-;; Group ibuffer's list by project root
-(use-package ibuffer-projectile
-  :after projectile
+(use-package ibuffer
+  :straight (:type built-in)
   :general
   ("C-x C-b" 'ibuffer)
   (my-space-leader-def
@@ -34,14 +33,7 @@
     "b g" '(kevin/revert-buffer-no-confirm :wk "revert-buffer")
     "b s" 'save-buffer
     "b S" '(kevin/create-scratch-buffer :wk "create-scratch-buffer"))
-  :init
-  (setq ibuffer-filter-group-name-face 'font-lock-function-name-face)
-  (add-hook 'ibuffer-hook
-            (lambda ()
-              (ibuffer-auto-mode 1)
-              (ibuffer-projectile-set-filter-groups)
-              (unless (eq ibuffer-sorting-mode 'alphabetic)
-                (ibuffer-do-sort-by-alphabetic)))))
+  :init (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
 (defun kevin/auto-save-buffer()
   (let ((autosave-buffer-list))
@@ -50,20 +42,21 @@
         (dolist (buf (buffer-list))
           (set-buffer buf)
           (when (and
+                 ;; evil normal state
+                 (evil-normal-state-p)
                  ;; filename is not empty
                  (buffer-file-name)
                  ;; buffer is modified
                  (buffer-modified-p)
                  ;; smerge mode is not active
-                 (not smerge-mode)
+                 (not (bound-and-true-p smerge-mode))
                  ;; yassnippet is not active
                  (or (not (boundp 'yas--active-snippets))
                      (not yas--active-snippets))
                  ;; company is not active
                  (or (not (boundp 'company-candidates))
                      (not company-candidates))
-                 ;; evil normal state
-                 (evil-normal-state-p))
+                 )
             (push (buffer-name) autosave-buffer-list)
             (basic-save-buffer))))
       (cond
@@ -76,11 +69,9 @@
 
 (add-hook 'after-init-hook (lambda ()
                              (run-with-idle-timer 1 t #'kevin/auto-save-buffer)
-                             (add-hook 'before-save-hook 'font-lock-flush)))
-
-(use-package all-the-icons-ibuffer
-  :if (display-graphic-p)
-  :init (all-the-icons-ibuffer-mode 1))
+                             ;; TODO 测试这里是否可以移除
+                             ;; (add-hook 'before-save-hook 'font-lock-flush)
+                             ))
 
 (provide 'init-buffer)
 ;;; init-buffer.el ends here

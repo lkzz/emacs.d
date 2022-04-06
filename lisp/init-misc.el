@@ -57,7 +57,7 @@
   :hook ((after-init . recentf-mode)
          (kill-emacs-hook . recentf-cleanup))
   :init
-  (setq recentf-max-saved-items 500
+  (setq recentf-max-saved-items 200
         recentf-auto-cleanup 'never
         recentf-exclude '("/tmp/"
                           "recentf$"

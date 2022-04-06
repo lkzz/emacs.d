@@ -16,7 +16,7 @@
 (use-package neotree
   :commands neotree-toggle
   :general
-  (my-space-leader-def "t n" '(neotree-toggle :wk "neotree"))
+  (my-space-leader-def "t f" '(neotree-toggle :wk "neotree"))
   (general-nmap neotree-mode-map
     "RET" 'neotree-enter
     "o" 'neotree-enter

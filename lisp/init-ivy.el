@@ -176,14 +176,15 @@
   ;; More friendly interface for ivy
   (use-package all-the-icons-ivy-rich
     :if (display-graphic-p)
+    :hook (ivy-mode . all-the-icons-ivy-rich-mode)
     :init
     (setq all-the-icons-ivy-rich-icon-size 0.85)
     (all-the-icons-ivy-rich-mode))
 
   ;; More friendly display transformer for Ivy
+  ;; Must load after `counsel-projectile'
   (use-package ivy-rich
-    :hook (;; Must load after `counsel-projectile'
-           (counsel-projectile-mode . ivy-rich-mode)
+    :hook ((counsel-projectile-mode . ivy-rich-mode)
            (ivy-rich-mode . ivy-rich-project-root-cache-mode)
            (ivy-rich-mode . (lambda ()
                               "Use abbreviate in `ivy-rich-mode'."
