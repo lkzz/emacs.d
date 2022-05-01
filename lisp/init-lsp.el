@@ -17,10 +17,11 @@
   :diminish lsp-mode
   :commands (lsp lsp-deferred)
   :hook (lsp-mode . lsp-enable-which-key-integration)
-  :general (lsp-mode-map "C-c C-d" 'lsp-describe-thing-at-point
-                         "C-c C-n" 'lsp-rename
-                         [remap xref-find-definitions] 'lsp-find-definition
-                         [remap xref-find-references] 'lsp-find-references)
+  :bind(:map lisp-mode-map
+        ("C-c C-d" . lsp-describe-thing-at-point)
+        ("C-c C-n" . lsp-rename)
+        ([remap xref-find-definitions] . lsp-find-definition)
+        ([remap xref-find-references] . lsp-find-references))
   :init
   ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance
   (setq read-process-output-max (* 1024 1024) ;; 1MB
@@ -52,14 +53,23 @@
   ;; For `lsp-clients'
   (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
   :config
+  (general-def 'normal lsp-mode-map
+    "ga" 'xref-find-apropos
+    "gd" 'lsp-find-definition
+    "gD" 'lsp-find-declaration
+    "ge" 'lsp-treemacs-errors-list
+    "gh" 'lsp-treemacs-call-hierarchy
+    "gi" 'lsp-find-implementation
+    "gr" 'lsp-find-references
+    "gt" 'lsp-find-type-definition)
   (my-comma-leader-def
     "="  '(:ignore t :wk "formatting")
     "=b" 'lsp-format-buffer
     "=r" 'lsp-format-region
-    "a"  '(:ignore t :wk "code")
-    "aa" 'lsp-execute-code-action
-    "ah" 'lsp-document-highlight
-    "al" 'lsp-avy-lens
+    "c"  '(:ignore t :wk "code")
+    "ca" 'lsp-execute-code-action
+    "ch" 'lsp-document-highlight
+    "cl" 'lsp-avy-lens
     "g"  '(:ignore t :wk "goto")
     "ga" 'xref-find-apropos
     "gd" 'lsp-find-definition
@@ -69,11 +79,11 @@
     "gi" 'lsp-find-implementation
     "gr" 'lsp-find-references
     "gt" 'lsp-find-type-definition
-    "G"  '(:ignore t :wk "peek")
-    "Gg" 'lsp-ui-peek-find-definitions
-    "Gi" 'lsp-ui-peek-find-implementation
-    "Gr" 'lsp-ui-peek-find-references
-    "Gs" 'lsp-ui-peek-find-workspace-symbol
+    "p"  '(:ignore t :wk "peek")
+    "pg" 'lsp-ui-peek-find-definitions
+    "pi" 'lsp-ui-peek-find-implementation
+    "pr" 'lsp-ui-peek-find-references
+    "ps" 'lsp-ui-peek-find-workspace-symbol
     "h"  '(:ignore t :wk "help")
     "hg" 'lsp-ui-doc-glance
     "hh" 'lsp-describe-thing-at-point
@@ -87,15 +97,6 @@
     "wd" 'lsp-describe-session
     "wq" 'lsp-workspace-shutdown
     "wr" 'lsp-workspace-restart)
-  (general-nmap lsp-mode-map
-    "ga" 'xref-find-apropos
-    "gd" 'lsp-find-definition
-    "gD" 'lsp-find-declaration
-    "ge" 'lsp-treemacs-errors-list
-    "gh" 'lsp-treemacs-call-hierarchy
-    "gi" 'lsp-find-implementation
-    "gr" 'lsp-find-references
-    "gt" 'lsp-find-type-definition)
   (with-no-warnings
     (defun my-lsp--init-if-visible (func &rest args)
       "Not enabling lsp in `git-timemachine-mode'."
@@ -106,16 +107,17 @@
 (use-package lsp-ui
   :custom-face
   (lsp-ui-sideline-code-action ((t (:inherit warning))))
-  :general (lsp-ui-mode-map [remap evil-goto-definition] 'lsp-ui-peek-find-definitions
-                            [remap xref-find-definitions] 'lsp-ui-peek-find-definitions
-                            [remap xref-find-references] 'lsp-ui-peek-find-references)
+  :bind (:map lsp-ui-mode-map
+         ([remap evil-goto-definition] . lsp-ui-peek-find-definitions)
+         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+         ([remap xref-find-references] . lsp-ui-peek-find-references))
   :hook (lsp-mode . lsp-ui-mode)
   :init
   (setq lsp-ui-doc-enable (display-graphic-p)
         lsp-ui-doc-delay 0.5
         lsp-ui-doc-include-signature nil
         lsp-ui-doc-position 'at-point
-        lsp-ui-doc-border (face-foreground 'font-lock-comment-face nil t)
+        lsp-ui-doc-border (face-background 'posframe-border nil t)
         lsp-ui-doc-use-webkit nil
 
         lsp-ui-sideline-show-hover nil
@@ -135,7 +137,7 @@
   ;; Reset `lsp-ui-doc' after loading theme
   (add-hook 'after-load-theme-hook
             (lambda ()
-              (setq lsp-ui-doc-border (face-foreground 'font-lock-comment-face nil t))))
+              (setq lsp-ui-doc-border (face-background 'posframe-border nil t))))
 
   ;; `C-g'to close doc
   (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))
