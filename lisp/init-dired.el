@@ -15,7 +15,6 @@
 
 (use-package dired
   :straight (:type built-in)
-  :commands dired-jump
   :init
   (setq dired-dwim-target t            ; select another buffer as target when this is two dired buffer
         dired-isearch-filenames 'dwim  ; Search file name only when focus is over file
@@ -23,10 +22,8 @@
         dired-recursive-deletes 'top   ; always delete recursively
         dired-auto-revert-buffer t
         dired-hide-details-hide-symlink-targets nil)
-  :general
-  (my-space-leader-def "j d" 'dired-jump)
-  (general-nmap dired-mode-map
-    ;; Lower keys for commands not operating on all the marked files
+  :config
+  (general-def 'normal dired-mode-map
     "a" 'dired-find-alternate-file
     "d" 'dired-flag-file-deletion
     "gf" 'dired-find-file
@@ -41,6 +38,7 @@
     "o" 'dired-sort-toggle-or-edit
     "q" 'quit-window
     "r" 'dired-do-redisplay
+    "th" 'dired-omit-mode
     "tt" 'dired-toggle-marks
     "u" 'dired-unmark
     "v" 'dired-git-info-mode
@@ -76,7 +74,6 @@
     "X" 'dired-do-shell-command
     "Y" 'dired-copy-filename-as-kill
     "Z" 'dired-do-compress)
-  :config
   (when is-mac-p
     ;; Suppress the warning: `ls does not support --dired'.
     (setq dired-use-ls-dired nil)
@@ -129,7 +126,6 @@
     :straight (:type built-in)
     :diminish dired-omit-mode
     :hook (dired-mode . dired-omit-mode)
-    :general (general-nmap dired-mode-map "t h" 'dired-omit-mode)
     :config
     (let ((cmd (cond
                 (is-mac-p "open")

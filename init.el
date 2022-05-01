@@ -13,8 +13,8 @@
 ;;
 ;;; Code:
 
-(when (version< emacs-version "27.1")
-  (error "Your Emacs is too old -- this config requires 27.1 or higher"))
+(when (version< emacs-version "28.1")
+  (error "Your Emacs is too old -- this config requires 28.1 or higher"))
 
 ;; Adjust garbage collection thresholds during startup, Optimize loading performance
 (defvar default-file-name-handler-alist file-name-handler-alist)
@@ -75,6 +75,7 @@
 (require 'init-dired)
 (require 'init-filetree)
 (require 'init-window)
-(require 'init-shackle)
+;;(require 'init-shackle)
+(require 'init-keybindings.el)
 
 ;;; init.el ends here

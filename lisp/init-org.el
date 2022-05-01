@@ -30,10 +30,10 @@
 
 (use-package org
   :straight (:type built-in)
-  :general
-  ("C-c a" 'org-agenda)
-  ("C-c c" 'org-capture)
-  (org-mode-map "C-c l" 'org-store-link)
+  :bind (("C-c a" . org-agenda)
+         ("C-c c" . org-capture)
+         :map org-mode-map
+         ("C-c l" . org-store-link))
   :config
   (add-to-list 'org-export-backends 'md)
   (setq org-todo-keywords
@@ -88,8 +88,8 @@
 
   ;; Pomodoro
   (use-package org-pomodoro
-    :general
-    (org-agenda-mode-map "P" 'org-pomodoro))
+    :bind (:map org-agenda-mode-map
+           ("P" . org-pomodoro)))
 
   ;; Visually summarize progress
   (use-package org-dashboard)
@@ -114,14 +114,6 @@
 
   (use-package org-agenda
     :straight (:type built-in)
-    :general
-    (org-agenda-mode-map "g" 'org-agenda-redo-all
-                         "i" (lambda () (interactive) (org-capture nil "s"))
-                         "A" 'org-agenda-archive-default-with-confirmation
-                         "J" 'counsel-org-agenda-headlines
-                         "h" 'ignore
-                         "y" 'ignore
-                         "a" 'ignore)
     :config
     (setq org-agenda-files kevin-org-dir
           ;; Set the agenda view to show the tasks on day/week/month/year

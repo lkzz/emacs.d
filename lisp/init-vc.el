@@ -14,28 +14,10 @@
 ;;; Code:
 
 (use-package magit
-  :commands magit-status
-  :general
-  (my-space-leader-def
-    "g" '(:ignore t :wk "git")
-    "g a" '(kevin/git-add-current-file :wk "add-current-file")
-    "g b" 'magit-blame
-    "g c" '(kevin/git-checkout-current-file :wk "checkout-current-file")
-    "g d" 'magit-diff-buffer-file
-    "g h" '(hydra-diff-hl/body :wk "hydra-diff-hl")
-    "g i" 'magit-init
-    "g l" 'magit-log-buffer-file
-    "g L" 'magit-list-repositories
-    "g m" '(git-messenger:popup-message :wk "popup-message")
-    "g r" '(hydra-smerge-mode/body :wk "hydra-smerge-mode")
-    "g s" 'magit-status
-    "g S" 'magit-stage-file
-    "g t" '(hydra-git-timemachine/body :wk "git-timemachine")
-    "g u" 'magit-unstage-file
-    "g v" 'vc-annotate)
   :init
   ;; Suppress the message we get about "Turning on magit-auto-revert-mode" when loading Magit.
-  (setq magit-no-message '("Turning on magit-auto-revert-mode..."))
+  (setq magit-no-message '("Turning on magit-auto-revert-mode...")
+        magit-diff-refine-hunk t)
   :config
   ;; see https://chris.beams.io/posts/git-commit/
   (setq fill-column 72

@@ -15,16 +15,19 @@
 
 (use-package company
   :diminish company-mode "ⓒ"
-  :general
-  (company-active-map "C-s" 'company-filter-candidates
-                      "C-p" 'company-select-previous
-                      "C-n" 'company-select-next
-                      "C-u" 'company-previous-page
-                      "C-d" 'company-next-page
-                      "<tab>" 'company-complete-common-or-cycle)
-  (company-search-map "C-p" 'company-select-previous
-                      "C-n" 'company-select-next)
-  :hook (after-init . global-company-mode)
+  :hook (prog-mode . global-company-mode)
+  :bind (:map company-mode-map
+         ("<backtab>" . company-yasnippet)
+         :map company-active-map
+         ("C-s". company-filter-candidates)
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next)
+         ("C-u" . company-previous-page)
+         ("C-d" . company-next-page)
+         ("<tab>" . company-complete-common-or-cycle)
+         :map company-search-map
+         ("C-p" . company-select-previous)
+         ("C-n" . company-select-next))
   :init
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t

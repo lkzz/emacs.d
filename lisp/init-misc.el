@@ -15,15 +15,7 @@
 
 ;; Bookmark 设置
 (use-package bookmark
-  :straight (:type built-in)
-  :general
-  (my-space-leader-def
-    "m" '(nil :wk "bookmark")
-    "m s" 'bookmark-set
-    "m r" 'bookmark-rename
-    "m d" 'bookmark-delete
-    "m j" 'counsel-bookmark
-    "m l" 'bookmark-bmenu-list))
+  :straight (:type built-in))
 
 ;; Elec pair
 (use-package elec-pair
@@ -80,14 +72,7 @@
 ;; Jump to things in Emacs tree-style
 (use-package avy
   :hook (after-init . avy-setup-default)
-  :init (setq avy-background t)
-  :general
-  (my-space-leader-def
-    "j c" 'avy-goto-char-2
-    "j f" 'beginning-of-defun
-    "j l" 'avy-goto-line
-    "j m" '(kevin/jump-match-delimiter :wk "goto-match-delimiter")
-    "j w" 'avy-goto-word-or-subword-1))
+  :init (setq avy-background t))
 
 (use-package savehist
   :straight (:type built-in)
@@ -103,17 +88,50 @@
 
 ;; Move to the beginning/end of line or code
 (use-package mwim
-  :general ([remap move-beginning-of-line] 'mwim-beginning-of-code-or-line
-            [remap move-end-of-line] 'mwim-end-of-code-or-line))
+  :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
+         ([remap move-end-of-line] . mwim-end-of-code-or-line)))
 
+;; A better *Help* buffer, from centaur emacs
 (use-package helpful
-  :defines (counsel-describe-function-function
-            counsel-describe-variable-function)
-  :general ([remap describe-key] 'helpful-key
-            [remap describe-symbol] 'helpful-symbol
-            [remap describe-command] 'helpful-command
-            [remap describe-function] 'helpful-callable
-            [remap describe-variable] 'helpful-variable))
+  :commands helpful--buffer
+  :bind (("C-c C-d" . helpful-at-point)
+         ([remap describe-function] . helpful-callable)
+         ([remap describe-command] . helpful-command)
+         ([remap describe-variable] . helpful-variable)
+         ([remap describe-key] . helpful-key)
+         ([remap describe-symbol] . helpful-symbol))
+  :hook (helpful-mode . cursor-sensor-mode) ; for remove-advice button
+  :init
+  (with-no-warnings
+    (with-eval-after-load 'counsel
+      (setq counsel-describe-function-function #'helpful-callable
+            counsel-describe-variable-function #'helpful-variable
+            counsel-describe-symbol-function #'helpful-symbol
+            counsel-descbinds-function #'helpful-callable))
+
+    (with-eval-after-load 'apropos
+      ;; patch apropos buttons to call helpful instead of help
+      (dolist (fun-bt '(apropos-function apropos-macro apropos-command))
+        (button-type-put
+         fun-bt 'action
+         (lambda (button)
+           (helpful-callable (button-get button 'apropos-symbol)))))
+      (dolist (var-bt '(apropos-variable apropos-user-option))
+        (button-type-put
+         var-bt 'action
+         (lambda (button)
+           (helpful-variable (button-get button 'apropos-symbol)))))))
+  :config
+  ;; Open the buffer in other window
+  (defun my-helpful--navigate (button)
+    "Navigate to the path this BUTTON represents."
+    (find-file-other-window (substring-no-properties (button-get button 'path)))
+    ;; We use `get-text-property' to work around an Emacs 25 bug:
+    ;; http://git.savannah.gnu.org/cgit/emacs.git/commit/?id=f7c4bad17d83297ee9a1b57552b1944020f23aea
+    (-when-let (pos (get-text-property button 'position
+                                       (marker-buffer button)))
+      (helpful--goto-char-widen pos)))
+  (advice-add #'helpful--navigate :override #'my-helpful--navigate))
 
 ;; Writable `grep' buffer
 (use-package wgrep
@@ -125,8 +143,7 @@
   :config
   (setq direnv-always-show-summary nil))
 
-(use-package restart-emacs
-  :commands restart-emacs)
+(use-package restart-emacs)
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

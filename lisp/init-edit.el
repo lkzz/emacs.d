@@ -22,17 +22,13 @@
 (use-package delsel
   :hook (after-init . delete-selection-mode))
 
-;; An all-in-one comment command to rule them all
-(use-package comment-dwim-2
-  :general ("M-;" 'comment-dwim-2))
-
 ;; Rectangle
 (use-package rect
   :straight (:type built-in)
-  :general ("<C-return>" 'rectangle-mark-mode))
+  :bind ("<C-return>" . rectangle-mark-mode))
 
 (use-package expand-region
-  :general ("C-=" 'er/expand-region))
+  :bind ("C-=" . er/expand-region))
 
 ;; A comprehensive visual interface to diff & patch
 (use-package ediff

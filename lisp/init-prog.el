@@ -18,7 +18,6 @@
 (use-package maple-imenu
   :commands maple-imenu
   :straight (maple-imenu :host github :repo "honmaple/emacs-maple-imenu")
-  :general (my-space-leader-def "t i" 'maple-imenu)
   :config
   (setq maple-imenu-autoupdate t
         maple-imenu-width 35
@@ -73,28 +72,21 @@
   :mode ("/\\.?g?vimrc$"
          "\\.vim$"))
 
-;; Cross-referencing commands
 (use-package xref
   :ensure nil
-  :general
-  ('normal "g d" 'xref-find-definitions
-           "g r" 'xref-find-references)
   :init
   (when (and (boundp 'xref-search-program) (executable-find "rg"))
     (setq xref-search-program 'ripgrep))
-  (when is-emacs28-p
-    (setq xref-show-xrefs-function #'xref-show-definitions-completing-read
-          xref-show-definitions-function #'xref-show-definitions-completing-read))
-  :hook ((xref-after-return xref-after-jump) . recenter))
-
-;; Jump to definition, used as a fallback of lsp-find-definition
-(use-package dumb-jump
-  :init
-  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate)
-  (setq dumb-jump-prefer-searcher 'rg
-        dumb-jump-selector 'ivy)
-  :bind (("M-g j" . dumb-jump-go)
-         ("M-g J" . dumb-jump-go-other-window)))
+  (setq xref-show-xrefs-function #'xref-show-definitions-completing-read
+        xref-show-definitions-function #'xref-show-definitions-completing-read)
+  (add-hook #'xref-after-jump-hook #'recenter)
+  (add-hook #'xref-after-jump-hook #'better-jumper-set-jump)
+  (add-hook #'xref-after-return-hook #'recenter)
+  (add-hook #'xref-after-return-hook #'better-jumper-set-jump)
+  :config
+  (general-def 'normal
+    "gr" #'xref-find-references
+    "gd" #'xref-find-definitions))
 
 (provide 'init-prog)
 ;;; init-prog.el ends here

@@ -15,16 +15,15 @@
 (use-package web-mode
   :mode ("\\.html\\'" "\\.vue\\'")
   :config
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-enable-current-element-highlight t)
-  (setq web-mode-enable-css-colorization t)
+  (setq web-mode-markup-indent-offset 2
+        web-mode-css-indent-offset 2
+        web-mode-code-indent-offset 2
+        web-mode-enable-current-element-highlight t
+        web-mode-enable-css-colorization t
+        web-mode-content-types-alist '(("vue" . "\\.vue\\'")))
   (set-face-attribute 'web-mode-html-tag-face nil :foreground "royalblue")
   (set-face-attribute 'web-mode-html-attr-name-face nil :foreground "powderblue")
   (set-face-attribute 'web-mode-doctype-face nil :foreground "lightskyblue")
-  (setq web-mode-content-types-alist
-        '(("vue" . "\\.vue\\'")))
 
   (use-package company-web)
 
@@ -33,8 +32,7 @@
                                     (my/web-html-setup))
                                    ((member web-mode-content-type '("vue"))
                                     (my/web-vue-setup))
-                                   )))
-  )
+                                   ))))
 
 (provide 'init-web)
 

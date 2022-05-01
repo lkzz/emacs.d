@@ -22,6 +22,7 @@
         evil-default-state 'normal
         evil-want-C-u-scroll t
         evil-want-C-w-delete t
+        evil-want-C-i-jump t
         evil-want-Y-yank-to-eol t
         evil-want-integration t
         evil-want-keybinding nil
@@ -47,11 +48,24 @@
         evil-insert-state-cursor '(bar . 2)
         evil-visual-state-cursor 'box)
   :config
-  (general-nvmap "C-e" 'move-end-of-line)
-  (define-key evil-normal-state-map "Y" (kbd "y$"))
+  ;; completion state map
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
+  (define-key evil-ex-completion-map (kbd "C-b") 'backward-char)
+  (define-key evil-ex-completion-map (kbd "C-f") 'forward-char)
   (define-key evil-ex-completion-map (kbd "M-n") 'next-complete-history-element)
   (define-key evil-ex-completion-map (kbd "M-p") 'previous-complete-history-element)
+  ;; normal state map
+  (define-key evil-normal-state-map "Y" (kbd "y$"))
+  (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
+  (define-key evil-normal-state-map ";d" #'kevin/delete-word)
+  (define-key evil-normal-state-map ";y" #'kevin/copy-word)
+  (define-key evil-normal-state-map ";p" #'kevin/cover-word)
+  ;; insert state map
+  (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
+  (define-key evil-insert-state-map (kbd "M-j") 'yas-expand)
+  ;; visual state map
+  (define-key evil-visual-state-map (kbd "C-e") 'move-end-of-line)
+
   ;; Change the cursor color in emacs state. We do it this roundabout way
   ;; instead of changing `evil-default-cursor' (or `evil-emacs-state-cursor') so
   ;; it won't interfere with users who have changed these variables.
@@ -76,13 +90,10 @@
     :hook (evil-mode . global-evil-surround-mode))
 
   (use-package evil-nerd-commenter
-    :general
-    (my-space-leader-def
-      "c" '(:ignore t :wk "comment")
-      "c i" '(evilnc-comment-or-uncomment-lines :wk "comment-lines")
-      "c l" '(evilnc-quick-comment-or-uncomment-to-the-line :wk "comment-line")
-      "c p" '(evilnc-comment-or-uncomment-paragraphs :wk "comment-paragraphs")
-      "c y" '(evilnc-copy-and-comment-operator :wk "comment-and-copy")))
+    :init
+    (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
+    (define-key evil-normal-state-map "gc" 'evilnc-comment-or-uncomment-lines)
+    (define-key evil-motion-state-map "gc" 'evilnc-comment-operator))
 
   (use-package evil-collection
     :custom (evil-collection-setup-minibuffer t)

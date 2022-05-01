@@ -14,7 +14,7 @@
 ;;; Code:
 
 (use-package youdao-dictionary
-  :general ("C-c y" 'kevin/youdao-dictionary-search-at-point)
+  :bind (("C-c y" . kevin/youdao-dictionary-search-at-point))
   :init (setq url-automatic-caching t
               youdao-dictionary-use-chinese-word-segmentation t) ; 中文分词
   (defun kevin/youdao-dictionary-search-at-point ()
@@ -97,7 +97,7 @@
 ;; https://github.com/manateelazycat/company-english-helper
 (use-package company-english-helper
   :straight (company-english-helper :host github :repo "manateelazycat/company-english-helper")
-  :general ("C-c t e" 'toggle-company-english-helper))
+  :bind (("C-c t e" . toggle-company-english-helper)))
 
 (provide 'init-chinese)
 ;;; init-chinese ends here

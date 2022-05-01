@@ -176,9 +176,13 @@
   ;; 打开文件时不再创建新的frame
   (setq ns-pop-up-frames nil))
 
-;; Don't resize emacs in steps, it looks weird.
-(setq window-resize-pixelwise t
-      frame-resize-pixelwise t)
+;; Don't resize the frames in steps; it looks weird, especially in tiling window
+;; managers, where it can leave unseemly gaps.
+(setq frame-resize-pixelwise t)
+
+;; But do not resize windows pixelwise, this can cause crashes in some cases
+;; when resizing too many windows at once or rapidly.
+(setq window-resize-pixelwise nil)
 
 ;; The native border "consumes" a pixel of the fringe on righter-most splits,
 ;; `window-divider' does not. Available since Emacs 25.1.
@@ -208,6 +212,7 @@
   (completion-show-help nil)
   ;; Cycle completions regardless of the count
   (completion-cycle-threshold t)
+  ;; Allow commands in minibuffers
   (enable-recursive-minibuffers t)
   (minibuffer-depth-indicate-mode t)
   (minibuffer-eldef-shorten-default t)
@@ -226,7 +231,6 @@
   (completions-detailed t))
 
 (setq echo-keystrokes 0.02
-      enable-recursive-minibuffers t
       resize-mini-windows 'grow-only
       max-mini-window-height 0.15)
 
@@ -243,6 +247,9 @@
 (add-hook 'after-change-major-mode-hook
           (lambda ()
             (modify-syntax-entry ?_ "w")))
+
+;;;###package imenu
+(add-hook 'imenu-after-jump-hook #'recenter)
 
 (provide 'core-ui)
 ;;; core-ui.el ends here

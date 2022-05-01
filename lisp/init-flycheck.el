@@ -17,12 +17,6 @@
   :diminish flycheck-mode "ⓕ"
   :commands flycheck-redefine-standard-error-levels
   :hook (prog-mode . global-flycheck-mode)
-  :general
-  (my-space-leader-def
-    "e" '(nil :wk "error")
-    "e l" 'flycheck-list-errors
-    "e n" 'flycheck-next-error
-    "e p" 'flycheck-previous-error)
   :init
   (setq flycheck-global-modes '(not text-mode outline-mode fundamental-mode lisp-interaction-mode
                                     org-mode diff-mode shell-mode eshell-mode term-mode vterm-mode)

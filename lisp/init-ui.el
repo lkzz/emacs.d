@@ -198,7 +198,6 @@
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%")))
 
 (use-package darkroom
-  :general (my-space-leader-def "t d" '(kevin/toggle-darkroom-mode :wk "darkroom"))
   :init
   (setq darkroom-margins 0.15
         darkroom-text-scale-increase 0

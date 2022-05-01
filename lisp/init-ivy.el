@@ -15,35 +15,34 @@
 
 (use-package counsel
   :diminish ivy-mode counsel-mode
-  :general
-  (my-space-leader-def
-    "s /" 'counsel-rg
-    "s s" 'swiper-all)
-  ("C-s"     'swiper
-   "C-S-s"   'swiper-all
-   "C-c C-r" 'ivy-resume
-   "C-c t c" 'ivy-toggle-calling)
-  (counsel-mode-map [remap swiper] 'counsel-grep-or-swiper
-                    [remap swiper-backward] 'counsel-grep-or-swiper-backward
-                    [remap dired] 'counsel-dired
-                    [remap find-file] 'counsel-find-file
-                    [remap recentf] 'counsel-recentf
-                    [remap amx] 'counsel-M-x
-                    [remap switch-to-buffer] 'counsel-switch-buffer
-                    "C-x j" 'counsel-mark-ring
-                    "C-c B" 'counsel-bookmarked-directory
-                    "C-c L" 'counsel-load-library
-                    "C-c O" 'counsel-find-file-extern
-                    "C-c P" 'counsel-package
-                    "C-c g" 'counsel-grep
-                    "C-c h" 'counsel-command-history
-                    "C-c r" 'counsel-rg
-                    "C-c z" 'counsel-fzf)
-  (ivy-minibuffer-map "C-w" 'ivy-yank-word
-                      [escape] 'minibuffer-keyboard-quit)
-  (counsel-find-file-map "C-h" 'counsel-up-directory
-                         "C-l" 'counsel-down-directory)
-  (swiper-map "M-%" 'swiper-query-replace)
+  :bind (("C-s" . swiper)
+         ("C-c C-r" . ivy-resume)
+         ("C-c v p" . ivy-push-view)
+         ("C-c v o" . ivy-pop-view)
+         ("C-c v ." . ivy-switch-view)
+         :map counsel-mode-map
+         ([remap swiper] . counsel-grep-or-swiper)
+         ([remap swiper-backward] . counsel-grep-or-swiper-backward)
+         ([remap dired] . counsel-dired)
+         ([remap set-variable] . counsel-set-variable)
+         ([remap insert-char] . counsel-unicode-char)
+         ([remap recentf] . counsel-recentf)
+         ([remap recentf-open-files] . counsel-recentf)
+         ([remap org-capture] . counsel-org-capture)
+         ([remap find-file] . counsel-find-file)
+         ([remap amx] . counsel-M-x)
+         ([remap switch-to-buffer] . counsel-switch-buffer)
+         :map ivy-minibuffer-map
+         ("C-w" . ivy-yank-word)
+         ([escape] . minibuffer-keyboard-quit)
+         :map counsel-find-file-map
+         ("C-h" . counsel-up-directory)
+         ("C-l" . counsel-down-directory)
+         :map swiper-map
+         ("M-s" . swiper-isearch-toggle)
+         ("M-%" . swiper-query-replace)
+         :map isearch-mode-map
+         ("M-s" . swiper-isearch-toggle))
   :hook ((after-init . ivy-mode)
          (ivy-mode . counsel-mode))
   :init
@@ -69,8 +68,8 @@
         ivy-ignore-buffers '("\\` " "\\`\\*tramp/" "\\`\\*xref" "\\`\\*helpful " "\\`\\*.+-posframe-buffer\\*")
         counsel-find-file-ignore-regexp "\\(?:^[#.]\\)\\|\\(?:[#~]$\\)\\|\\(?:^Icon?\\)")
   ;; Record in jumplist when opening files via counsel-{ag,rg,pt,git-grep}
-  (add-hook 'counsel-grep-post-action-hook #'better-jumper-set-jump)
   (add-hook 'counsel-grep-post-action-hook #'recenter)
+  (add-hook 'counsel-grep-post-action-hook #'better-jumper-set-jump)
 
   ;; when swiper-action-recenter non-nil, frame blink in terminal
   (when (display-graphic-p)
@@ -157,8 +156,7 @@
 
   ;; An alternative M-x interface for Emacs
   (use-package amx
-    :init (setq amx-history-length 10)
-    :general (my-space-leader-def "SPC" 'amx))
+    :init (setq amx-history-length 10))
 
   ;; Integration with `projectile'
   (with-eval-after-load 'projectile

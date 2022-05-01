@@ -22,7 +22,6 @@
                                                                     (evil-refresh-cursor evil-state))))))
 
 (use-package vterm-toggle
-  :general (my-space-leader-def "t '" 'vterm-toggle)
   :after vterm)
 
 (provide 'init-shell)

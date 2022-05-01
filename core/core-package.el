@@ -66,10 +66,25 @@
   (require 'no-littering)
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
+(use-package general
+  :config
+  (general-create-definer my-space-leader-def
+    :states '(normal visual motion evilified)
+    :keymaps 'override
+    :prefix "SPC"
+    :non-normal-prefix "M-SPC")
+  (general-create-definer my-comma-leader-def
+    :states '(normal visual motion evilified)
+    :keymaps 'override
+    :prefix ","))
+
 (use-package better-jumper
   :init
   (global-set-key [remap evil-jump-forward] #'better-jumper-jump-forward)
   (global-set-key [remap evil-jump-backward] #'better-jumper-jump-backward)
+  ;; xref jump
+  (global-set-key [remap xref-go-back] #'better-jumper-jump-backward)
+  (global-set-key [remap xref-go-forward] #'better-jumper-jump-forward)
   (global-set-key [remap xref-pop-marker-stack] #'better-jumper-jump-backward)
   :config
   (better-jumper-mode +1)
@@ -100,6 +115,36 @@
     :config
     (require 'benchmark-init-modes)
     (add-hook 'after-init-hook #'benchmark-init/deactivate)))
+
+(use-package which-key
+  :diminish which-key-mode "Ⓚ"
+  :hook (after-init . which-key-mode)
+  :config
+  (setq which-key-idle-delay 0.3
+        which-key-compute-remaps t
+        which-key-min-display-lines 1
+        which-key-add-column-padding 1
+        which-key-max-display-columns nil
+        which-key-sort-uppercase-first nil
+        which-key-side-window-max-width 0.33
+        which-key-side-window-max-height 0.25
+        which-key-sort-order #'which-key-prefix-then-key-order)
+  (which-key-setup-side-window-bottom)
+  (dolist (item '((("SPC" . nil) . ("␣" . nil))
+                  (("TAB" . nil) . ("↹" . nil))
+                  (("RET" . nil) . ("⏎" . nil))
+                  (("DEL" . nil) . ("⌫" . nil))
+                  (("<up>" . nil) . ("↑" . nil))
+                  (("<down>" . nil) . ("↓" . nil))
+                  (("<left>" . nil) . ("←" . nil))
+                  (("<right>" . nil) . ("→" . nil))
+                  (("deletechar" . nil) . ("⌦" . nil))
+                  ;; rename winum-select-window-1 entry to 1..9
+                  (("\\(.*\\)1" . "winum-select-window-1") . ("\\11..9" . "window 1..9"))
+                  ;; hide winum-select-window-[2-9] entries
+                  ((nil . "winum-select-window-[2-9]") . t)))
+    (cl-pushnew item which-key-replacement-alist :test #'equal))
+  (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
 (provide 'core-package)
 ;;; core-package.el ends here

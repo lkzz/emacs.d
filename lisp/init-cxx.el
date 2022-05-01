@@ -13,10 +13,15 @@
 ;;
 ;;; Code:
 
+;; (use-package helm
+;;   :bind (:map helm-command-map
+;;          ("C-c h" . helm-execute-persistent-action)))
+
 (use-package cc-mode
   :mode ("\\.h|\\.cpp" . c++-mode)
   :hook ((c-mode c++-mode) . kevin/cxx-mode-setup)
-  :general (c++-mode-map "C-c C-o" 'ff-find-other-file)
+  :bind (:map c++-mode-map
+         ("C-c C-o" . ff-find-other-file))
   :init
   (setq cc-other-file-alist
         '(("\\.c\\'"   (".h"))

@@ -15,9 +15,7 @@
 
 ;; Quickly switch windows
 (use-package ace-window
-  :commands ace-window
-  :init
-  (global-set-key [remap other-window] #'ace-window)
+  :bind ([remap other-window] . ace-window)
   :custom-face
   (aw-leading-char-face ((t (:inherit font-lock-keyword-face :bold t :height 3.0))))
   (aw-mode-line-face ((t (:inherit mode-line-emphasis :bold t))))
@@ -29,25 +27,6 @@
 ;; Numbered window shortcuts
 (use-package winum
   :hook (after-init . winum-mode)
-  :general
-  (my-space-leader-def
-    "1"  'winum-select-window-1
-    "2"  'winum-select-window-2
-    "3"  'winum-select-window-3
-    "4"  'winum-select-window-4
-    "5"  'winum-select-window-5
-    "6"  'winum-select-window-6
-    "7"  'winum-select-window-7
-    "8"  'winum-select-window-8
-    "9"  'winum-select-window-9
-    "w" '(nil :wk "window")
-    "w d" 'delete-window
-    "w o" 'other-window
-    "w t" '(kevin/toggle-two-split-window :wk "toggle-two-split-window")
-    "w z" '(zoom-window-zoom :wk "zoom-window")
-    "w /" '(kevin/split-window-right-and-focus :wk "split-window-right")
-    "w -" '(kevin/split-window-below-and-focus :wk "split-window-below")
-    "w D" 'delete-other-windows)
   :init
   (setq window-numbering-scope 'global
         winum-auto-setup-mode-line nil
@@ -60,8 +39,6 @@
 
 (use-package golden-ratio
   :diminish golden-ratio-mode "ⓖ"
-  :general
-  (my-space-leader-def "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio"))
   :config
   ;; golden-ratio-exclude-modes
   (dolist (mode '("bs-mode"
@@ -135,6 +112,99 @@
                   "*LV*"
                   "*which-key*"))
     (add-to-list 'golden-ratio-exclude-buffer-names name)))
+
+;; popup rules from centaur emacs
+(use-package popper
+  :defines popper-echo-dispatch-actions
+  :commands popper-group-by-projectile
+  :bind (:map popper-mode-map
+         ("C-h z" . popper-toggle-latest)
+         ("C-<tab>"   . popper-cycle)
+         ("C-M-<tab>" . popper-toggle-type))
+  :hook (after-init . popper-mode)
+  :init
+  (setq popper-reference-buffers
+        '("\\*Messages\\*"
+          "Output\\*$" "\\*Pp Eval Output\\*$"
+          "\\*Compile-Log\\*"
+          "\\*Completions\\*"
+          "\\*Warnings\\*"
+          "\\*Async Shell Command\\*"
+          "\\*Apropos\\*"
+          "\\*Backtrace\\*"
+          "\\*Calendar\\*"
+          "\\*Finder\\*"
+          "\\*Embark Actions\\*"
+
+          bookmark-bmenu-mode
+          comint-mode
+          compilation-mode
+          help-mode helpful-mode
+          tabulated-list-mode
+          Buffer-menu-mode
+
+          gnus-article-mode devdocs-mode
+          grep-mode occur-mode rg-mode deadgrep-mode ag-mode pt-mode
+          ivy-occur-mode ivy-occur-grep-mode
+          process-menu-mode list-environment-mode cargo-process-mode
+          youdao-dictionary-mode osx-dictionary-mode fanyi-mode
+
+          "^\\*eshell.*\\*$" eshell-mode
+          "^\\*shell.*\\*$"  shell-mode
+          "^\\*term.*\\*$"   term-mode
+          "^\\*vterm.*\\*$"  vterm-mode
+
+          "\\*DAP Templates\\*$" dap-server-log-mode
+          "\\*ELP Profiling Restuls\\*" profiler-report-mode
+          "\\*Flycheck errors\\*$" " \\*Flycheck checker\\*$"
+          "\\*Paradox Report\\*$" "\\*package update results\\*$" "\\*Package-Lint\\*$"
+          "\\*[Wo]*Man.*\\*$"
+          "\\*ert\\*$" overseer-buffer-mode
+          "\\*gud-debug\\*$"
+          "\\*lsp-help\\*$" "\\*lsp session\\*$"
+          "\\*quickrun\\*$"
+          "\\*tldr\\*$"
+          "\\*vc-.*\\*$"
+          "^\\*elfeed-entry\\*$"
+          "^\\*macro expansion\\**"
+
+          "\\*Org Select\\*" "\\*Capture\\*" "^CAPTURE-.*\\.org*"
+          "\\*Gofmt Errors\\*$" "\\*Go Test\\*$" godoc-mode
+          "\\*docker-containers\\*" "\\*docker-images\\*" "\\*docker-networks\\*" "\\*docker-volumes\\*"
+          "\\*prolog\\*" inferior-python-mode inf-ruby-mode swift-repl-mode
+          "\\*rustfmt\\*$" rustic-compilation-mode rustic-cargo-clippy-mode
+          rustic-cargo-outdated-mode rustic-cargo-test-moed))
+
+  (with-eval-after-load 'projectile
+    (setq popper-group-function #'popper-group-by-projectile))
+
+  (when (display-grayscale-p)
+    (setq popper-mode-line
+          '(:eval
+            (format " %s " (all-the-icons-octicon "pin" :height 0.9 :v-adjust 0.0 :face 'mode-line-emphasis)))))
+
+  (setq popper-echo-dispatch-actions t)
+  :config
+  (popper-echo-mode 1)
+
+  (defun my-popper-fit-window-height (win)
+    "Determine the height of popup window WIN by fitting it to the buffer's content."
+    (fit-window-to-buffer
+     win
+     (floor (frame-height) 3)
+     (floor (frame-height) 3)))
+  (setq popper-window-height #'my-popper-fit-window-height)
+
+  (defun popper-close-window-hack (&rest _)
+    "Close popper window via `C-g'."
+    ;; `C-g' can deactivate region
+    (when (and (called-interactively-p 'interactive)
+               (not (region-active-p))
+               popper-open-popup-alist)
+      (let ((window (caar popper-open-popup-alist)))
+        (when (window-live-p window)
+          (delete-window window)))))
+  (advice-add #'keyboard-quit :before #'popper-close-window-hack))
 
 (provide 'init-window)
 ;;; init-window ends here

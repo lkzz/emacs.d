@@ -116,8 +116,7 @@
   "Load core config file for Emacs."
   (require 'core-autoload)
   (require 'core-package)
-  (require 'core-ui)
-  (require 'core-keybind))
+  (require 'core-ui))
 
 (provide 'core)
 ;;; core.el ends here
