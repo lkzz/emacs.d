@@ -63,7 +63,6 @@
 
 (use-package lua-mode
   :mode "\\.lua$"
-  :hook (lua-mode . lsp-deferred)
   :init
   (setq lua-indent-level 2))
 
@@ -82,11 +81,20 @@
   (add-hook #'xref-after-jump-hook #'recenter)
   (add-hook #'xref-after-jump-hook #'better-jumper-set-jump)
   (add-hook #'xref-after-return-hook #'recenter)
-  (add-hook #'xref-after-return-hook #'better-jumper-set-jump)
+  (add-hook #'xref-after-return-hook #'better-jumper-set-jump))
+
+
+(use-package tree-sitter
+  :if (bound-and-true-p module-file-suffix)
+  :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
+  :custom-face
+  (tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face))))
+  :hook ((python-mode go-mode) . tree-sitter-hl-mode)
   :config
-  (general-def 'normal
-    "gr" #'xref-find-references
-    "gd" #'xref-find-definitions))
+  (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust)))
+
+(use-package tree-sitter-langs
+  :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("langs/*.el" "langs/queries")))
 
 (provide 'init-prog)
 ;;; init-prog.el ends here

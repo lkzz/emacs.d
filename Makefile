@@ -54,5 +54,11 @@ install_go_tools:
 	@go install github.com/fatih/gomodifytags@latest
 	@go install github.com/davidrjenni/reftools/cmd/fillstruct@latest
 	@go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	@go install github.com/google/wire/cmd/wire@latest
+	@go install git.bilibili.co/golang-lint/bilibodyclose@latest
+	@go install git.bilibili.co/golang-lint/bilidurationcheck/cmd/durationcheck@latest
+	@go install git.bilibili.co/golang-lint/bilisqlclosecheck@latest
+	# @go install git.bilibili.co/golang-lint/bililoopclosure@latest
+	@go install git.bilibili.co/golang-lint/biliautomaxprocs@latest
 
 .PHONY:clean install install_tools install_lsp_server

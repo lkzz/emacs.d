@@ -15,7 +15,6 @@
 
 (use-package lsp-mode
   :diminish lsp-mode
-  :commands (lsp lsp-deferred)
   :hook (lsp-mode . lsp-enable-which-key-integration)
   :bind(:map lisp-mode-map
         ("C-c C-d" . lsp-describe-thing-at-point)
@@ -23,9 +22,18 @@
         ([remap xref-find-definitions] . lsp-find-definition)
         ([remap xref-find-references] . lsp-find-references))
   :init
-  ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance
-  (setq read-process-output-max (* 1024 1024) ;; 1MB
-        lsp-keymap-prefix "C-c l"
+  (dolist (hook (list
+                 'c-mode-hook
+                 'c++-mode-hook
+                 'python-mode-hook
+                 'rust-mode-hook
+                 'go-mode-hook))
+    (add-hook hook 'lsp-deferred))
+  ;; Performace tuning
+  ;; @see https://emacs-lsp.github.io/lsp-mode/page/performance/
+  (setq read-process-output-max (* 1024 1024)) ;; 1MB
+  (setenv "LSP_USE_PLISTS" "true")
+  (setq lsp-keymap-prefix "C-c l"
         lsp-keep-workspace-alive nil
         lsp-response-timeout 5
 
@@ -102,54 +110,54 @@
       "Not enabling lsp in `git-timemachine-mode'."
       (unless (bound-and-true-p git-timemachine-mode)
         (apply func args)))
-    (advice-add #'lsp--init-if-visible :around #'my-lsp--init-if-visible)))
+    (advice-add #'lsp--init-if-visible :around #'my-lsp--init-if-visible))
 
-(use-package lsp-ui
-  :custom-face
-  (lsp-ui-sideline-code-action ((t (:inherit warning))))
-  :bind (:map lsp-ui-mode-map
-         ([remap evil-goto-definition] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-         ([remap xref-find-references] . lsp-ui-peek-find-references))
-  :hook (lsp-mode . lsp-ui-mode)
-  :init
-  (setq lsp-ui-doc-enable (display-graphic-p)
-        lsp-ui-doc-delay 0.5
-        lsp-ui-doc-include-signature nil
-        lsp-ui-doc-position 'at-point
-        lsp-ui-doc-border (face-background 'posframe-border nil t)
-        lsp-ui-doc-use-webkit nil
+  (use-package lsp-ui
+    :custom-face
+    (lsp-ui-sideline-code-action ((t (:inherit warning))))
+    :bind (:map lsp-ui-mode-map
+           ([remap evil-goto-definition] . lsp-ui-peek-find-definitions)
+           ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+           ([remap xref-find-references] . lsp-ui-peek-find-references))
+    :hook (lsp-mode . lsp-ui-mode)
+    :init
+    (setq lsp-ui-doc-enable (display-graphic-p)
+          lsp-ui-doc-delay 0.5
+          lsp-ui-doc-include-signature nil
+          lsp-ui-doc-position 'at-point
+          lsp-ui-doc-border (face-foreground 'font-lock-comment-face nil t)
+          lsp-ui-doc-use-webkit nil
 
-        lsp-ui-sideline-show-hover nil
-        lsp-ui-sideline-show-diagnostics nil
-        lsp-ui-sideline-ignore-duplicate t
-        lsp-ui-sideline-show-code-actions nil
+          lsp-ui-sideline-show-hover nil
+          lsp-ui-sideline-show-diagnostics nil
+          lsp-ui-sideline-ignore-duplicate t
+          lsp-ui-sideline-show-code-actions nil
 
-        lsp-ui-imenu-enable t
-        lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
-                              ,(face-foreground 'font-lock-string-face)
-                              ,(face-foreground 'font-lock-constant-face)
-                              ,(face-foreground 'font-lock-variable-name-face)))
-  :config
-  ;; HACK: lsp-ui-doc frame background color when use doom-one theme
-  (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#2e3138"))
-  ;; (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#313131"))
-  ;; Reset `lsp-ui-doc' after loading theme
-  (add-hook 'after-load-theme-hook
-            (lambda ()
-              (setq lsp-ui-doc-border (face-background 'posframe-border nil t))))
+          lsp-ui-imenu-enable t
+          lsp-ui-imenu-colors `(,(face-foreground 'font-lock-keyword-face)
+                                ,(face-foreground 'font-lock-string-face)
+                                ,(face-foreground 'font-lock-constant-face)
+                                ,(face-foreground 'font-lock-variable-name-face)))
+    :config
+    ;; HACK: lsp-ui-doc frame background color when use doom-one theme
+    (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#2e3138"))
+    ;; (add-to-list 'lsp-ui-doc-frame-parameters '(background-color . "#313131"))
+    ;; Reset `lsp-ui-doc' after loading theme
+    (add-hook 'after-load-theme-hook
+              (lambda ()
+                (setq lsp-ui-doc-border (face-background 'posframe-border nil t))))
 
-  ;; `C-g'to close doc
-  (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))
+    ;; `C-g'to close doc
+    (advice-add #'keyboard-quit :before #'lsp-ui-doc-hide))
 
-;; Python: pyright
-(use-package lsp-pyright
-  :hook (python-mode . (lambda ()
-                         (require 'lsp-pyright)
-                         (lsp-deferred)))
-  :init
-  (when (executable-find "python3")
-    (setq lsp-pyright-python-executable-cmd "python3")))
+  ;; Python: pyright
+  (use-package lsp-pyright
+    :hook (python-mode . (lambda ()
+                           (require 'lsp-pyright)
+                           (lsp-deferred)))
+    :init
+    (when (executable-find "python3")
+      (setq lsp-pyright-python-executable-cmd "python3"))))
 
 (provide 'init-lsp)
 ;;; init-lsp.el ends here

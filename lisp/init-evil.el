@@ -33,20 +33,21 @@
         evil-ex-visual-char-range t  ; column range for ex commands
         evil-insert-skip-empty-lines t
         evil-disable-insert-state-bindings t ; enable default emacs keybinding in insert state
-        evil-undo-system (if (>= emacs-major-version 28) 'undo-redo 'undo-fu)
+        evil-undo-system 'undo-redo
         ;; more vim-like behavior
         evil-symbol-word-search t
         ;; don't activate mark on shift-click
         shift-select-mode nil
         evil-cross-lines t
         evil-move-cursor-back t ;; move back the cursor one position when exiting insert mode
+        evil-ex-interactive-search-highlight 'selected-window ;; Only do highlighting in selected window so that Emacs has less work to do highlighting them all.
         evil-esc-delay 0.01)
   ;; cursor appearance
   (setq evil-default-cursor '(box (lambda () (evil-set-cursor-color my-default-cursor-color)))
         evil-normal-state-cursor 'box
         evil-emacs-state-cursor  '(bar (lambda () (evil-set-cursor-color my-emacs-cursor-color)))
         evil-insert-state-cursor '(bar . 2)
-        evil-visual-state-cursor 'box)
+        evil-visual-state-cursor 'hollow)
   :config
   ;; completion state map
   (define-key evil-ex-completion-map (kbd "C-a") 'move-beginning-of-line)
@@ -59,6 +60,7 @@
   (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
   (define-key evil-normal-state-map ";d" #'kevin/delete-word)
   (define-key evil-normal-state-map ";y" #'kevin/copy-word)
+  (define-key evil-normal-state-map ";w" #'save-buffer)
   (define-key evil-normal-state-map ";p" #'kevin/cover-word)
   ;; insert state map
   (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
@@ -91,9 +93,8 @@
 
   (use-package evil-nerd-commenter
     :init
-    (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
-    (define-key evil-normal-state-map "gc" 'evilnc-comment-or-uncomment-lines)
-    (define-key evil-motion-state-map "gc" 'evilnc-comment-operator))
+    (evil-define-key '(normal visual) 'global (kbd "gcc")   #'evilnc-comment-or-uncomment-lines)
+    (evil-define-key '(normal visual) 'global (kbd "gcp")   #'evilnc-comment-or-uncomment-paragraphs))
 
   (use-package evil-collection
     :custom (evil-collection-setup-minibuffer t)
@@ -134,7 +135,15 @@
 
   (use-package evil-multiedit
     :config
-    (evil-multiedit-default-keybinds)))
+    (evil-define-key 'normal 'global
+      (kbd "M-d")   #'evil-multiedit-match-symbol-and-next
+      (kbd "M-D")   #'evil-multiedit-match-symbol-and-prev)
+    (evil-define-key 'visual 'global
+      "R"           #'evil-multiedit-match-all
+      (kbd "M-d")   #'evil-multiedit-match-and-next
+      (kbd "M-D")   #'evil-multiedit-match-and-prev)
+    (evil-define-key '(visual normal) 'global
+      (kbd "C-M-d") #'evil-multiedit-restore)))
 
 (provide 'init-evil)
 ;;; init-evil ends here

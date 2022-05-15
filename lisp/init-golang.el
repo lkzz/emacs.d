@@ -15,7 +15,6 @@
 
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode)
-  :hook (go-mode . lsp-deferred)
   :config
   (my-comma-leader-def go-mode-map
     "i" '(nil :wk "import")

@@ -54,18 +54,21 @@
 (require 'init-projectile)
 
 ;; Programming releated packages
-(require 'init-company)
-(require 'init-yasnippet)
-(require 'init-lsp)
 (require 'init-org)
 (require 'init-prog)
 (require 'init-golang)
-(require 'init-markdown)
 (require 'init-python)
 (require 'init-rust)
 (require 'init-cxx)
 (require 'init-elisp)
 (require 'init-web)
+(require 'init-markdown)
+(require 'init-yasnippet)
+;; complete and lsp
+(require 'init-corfu)
+;; (require 'init-lsp-bridge)
+;; (require 'init-company)
+;; (require 'init-lsp)
 
 ;; Tools
 (require 'init-vc)
@@ -75,7 +78,6 @@
 (require 'init-dired)
 (require 'init-filetree)
 (require 'init-window)
-;;(require 'init-shackle)
 (require 'init-keybindings.el)
 
 ;;; init.el ends here

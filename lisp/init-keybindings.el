@@ -73,7 +73,7 @@
   "g L" 'magit-list-repositories
   "g m" '(git-messenger:popup-message :wk "popup-message")
   "g r" '(hydra-smerge-mode/body :wk "hydra-smerge-mode")
-  "g s" 'magit-status
+  "g g" 'magit-status
   "g S" 'magit-stage-file
   "g t" '(hydra-git-timemachine/body :wk "git-timemachine")
   "g u" 'magit-unstage-file

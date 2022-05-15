@@ -35,10 +35,6 @@
           ("\\.hpp\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))
           ("\\.hxx\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))))
   (defun kevin/cxx-mode-setup ()
-    ;; enable lsp
-    (setq lsp-idle-delay 0.1)
-    (lsp-deferred)
-
     (use-package modern-cpp-font-lock
       :diminish modern-c++-font-lock-mode
       :config

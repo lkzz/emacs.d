@@ -46,8 +46,6 @@
 (eval-when-compile
   (require 'use-package))
 
-(setq use-package-always-defer t)
-
 (use-package diminish)
 (use-package hydra)
 (if (not (display-graphic-p))

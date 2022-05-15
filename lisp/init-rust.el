@@ -15,7 +15,6 @@
 
 (use-package rust-mode
   :mode "\\.rs\\'"
-  :hook (rust-mode . lsp-deferred)
   :config
   (setq rust-format-on-save t)
   (use-package flycheck-rust

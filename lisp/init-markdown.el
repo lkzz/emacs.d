@@ -34,8 +34,7 @@
   (use-package markdown-preview-mode
     :config
     (setq markdown-command "multimarkdown"
-          markdown-preview-auto-open t))
-  )
+          markdown-preview-auto-open t)))
 
 (provide 'init-markdown)
 ;;; init-markdown ends here

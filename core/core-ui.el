@@ -210,8 +210,8 @@
   :custom
   (completion-auto-help t)
   (completion-show-help nil)
-  ;; Cycle completions regardless of the count
-  (completion-cycle-threshold t)
+  ;; TAB cycle if there are only few candidates
+  (completion-cycle-threshold 3)
   ;; Allow commands in minibuffers
   (enable-recursive-minibuffers t)
   (minibuffer-depth-indicate-mode t)

@@ -16,12 +16,10 @@
 (use-package solaire-mode)
 
 (use-package doom-themes
-  :custom-face
-  (doom-modeline-buffer-file ((t (:inherit (mode-line bold)))))
   :init
   (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
   (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
-  ;; (add-hook 'kevin-load-theme-hook #'doom-themes-visual-bell-config)
+  (add-hook 'kevin-load-theme-hook #'doom-themes-visual-bell-config)
   (setq doom-dark+-blue-modeline t
         doom-gruvbox-dark-variant "medium"
         doom-themes-neotree-file-icons 't
@@ -35,16 +33,18 @@
   (if (daemonp)
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
     (load-theme 'doom-gruvbox t))
+
   (when (display-graphic-p)
     ;; Frame maximized
     (set-frame-parameter (selected-frame) 'fullscreen 'maximized)
     (add-to-list 'default-frame-alist '(fullscreen . maximized))
+
     ;; Specify default font
     (cl-loop for font in '("JetBrains Mono" "Fira Code" "SF Mono" "Monaco")
              when (font-installed-p font)
              return (set-face-attribute 'default nil
                                         :font font
-                                        :height 150))
+                                        :height 130))
     ;; Specify font for all unicode characters
     (cl-loop for font in '("Apple Color Emoji" "Symbola")
              when (font-installed-p font)
@@ -170,8 +170,6 @@
   :hook (((neotree-mode
            dashboard-mode
            dired-mode
-           completion-list-mode
-           completion-in-region-mode
            pdf-annot-list-mode
            flycheck-error-list-mode) . hide-mode-line-mode)))
 
@@ -179,7 +177,7 @@
 (use-package ligature
   :if (display-graphic-p)
   :hook (after-init . global-ligature-mode)
-  :straight (ligature :host github :repo "mickeynp/ligature.el")
+  :straight (:host github :repo "mickeynp/ligature.el")
   :config
   ;; Enable the www ligature in every possible major mode
   (ligature-set-ligatures 't '("www"))
@@ -202,27 +200,6 @@
   (setq darkroom-margins 0.15
         darkroom-text-scale-increase 0
         darkroom-fringes-outside-margins nil))
-
-(use-package tree-sitter
-  :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
-  :if (bound-and-true-p module-file-suffix)
-  :hook (go-mode . tree-sitter-mode)
-  :hook (tree-sitter-after-on . tree-sitter-hl-mode)
-  :custom-face
-  (tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face))))
-  :config
-  (use-package tree-sitter-langs
-    :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("langs/*.el" "langs/queries")))
-  "Don't break with errors when current major mode lacks tree-sitter support."
-  (advice-add 'tree-sitter-mode :around (lambda (orig-fn &rest args)
-                                          (condition-case e
-                                              (apply orig-fn args)
-                                            (error
-                                             (unless (string-match-p (concat "^Cannot find shared library\\|"
-                                                                             "^No language registered\\|"
-                                                                             "cannot open shared object file")
-                                                                     (error-message-string e))
-                                               (signal (car e) (cadr e))))))))
 
 (provide 'init-ui)
 ;;; init-ui ends here

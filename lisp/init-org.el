@@ -157,7 +157,7 @@
   ;; This package provides visual alignment for Org tables on GUI Emacs.
   ;; https://github.com/casouri/valign
   (use-package valign
-    :straight (valign :host github :repo "casouri/valign")
+    :straight (:host github :repo "casouri/valign")
     :config
     (valign-mode)
     (advice-add 'text-scale-increase
