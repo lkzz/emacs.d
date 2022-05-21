@@ -148,6 +148,7 @@
           ivy-occur-mode ivy-occur-grep-mode
           process-menu-mode list-environment-mode cargo-process-mode
           youdao-dictionary-mode osx-dictionary-mode fanyi-mode
+          lsp-bridge-ref-mode
 
           "^\\*eshell.*\\*$" eshell-mode
           "^\\*shell.*\\*$"  shell-mode

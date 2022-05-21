@@ -52,7 +52,7 @@
 	 (centaur-tabs-get-group-name (current-buffer))))))
 
 ;;;###autoload
-(defun kevin/enable-menu-bar-in-gui (&optional frame)
+(defun my-enable-menu-bar-in-gui (&optional frame)
   "Re-enable menu-bar-lines in GUI frames."
   (when-let (frame (or frame (selected-frame)))
     (when (display-graphic-p frame)
@@ -64,7 +64,7 @@
   (find-font (font-spec :name font-name)))
 
 ;;;###autoload
-(defun kevin/toggle-darkroom-mode ()
+(defun my-toggle-darkroom-mode ()
   (interactive)
   (darkroom-tentative-mode (if darkroom-tentative-mode 0 1))
   (if darkroom-tentative-mode

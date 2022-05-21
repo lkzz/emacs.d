@@ -14,7 +14,7 @@
 
 
 ;;;###autoload
-(defun kevin/split-window-below-and-focus ()
+(defun my-split-window-below-and-focus ()
   "Split the window vertically and focus the new window."
   (interactive)
   (split-window-below)
@@ -24,7 +24,7 @@
     (golden-ratio)))
 
 ;;;###autoload
-(defun kevin/split-window-right-and-focus ()
+(defun my-split-window-right-and-focus ()
   "Split the window horizontally and focus the new window."
   (interactive)
   (split-window-right)
@@ -34,7 +34,7 @@
     (golden-ratio)))
 
 ;;;###autoload
-(defun kevin/toggle-golden-ratio ()
+(defun my-toggle-golden-ratio ()
   "Golden ratio mode toggle function."
   (interactive)
   (if golden-ratio-mode
@@ -48,7 +48,7 @@
 
 ;;;###autoload
 ;; https://github.com/redguardtoo/emacs.d/blob/ff06a775ef694970136fb8d26d06a339fb410d9c/lisp/init-windows.el#L29
-(defun kevin/toggle-two-split-window ()
+(defun my-toggle-two-split-window ()
   "Toggle two window layout vertically or horizontally."
   (interactive)
   (when (= (count-windows) 2)

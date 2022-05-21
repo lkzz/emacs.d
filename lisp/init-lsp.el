@@ -61,7 +61,7 @@
   ;; For `lsp-clients'
   (setq lsp-clients-python-library-directories '("/usr/local/" "/usr/"))
   :config
-  (general-def 'normal lsp-mode-map
+  (general-evil-define-key 'normal lsp-mode-map
     "ga" 'xref-find-apropos
     "gd" 'lsp-find-definition
     "gD" 'lsp-find-declaration
@@ -70,7 +70,7 @@
     "gi" 'lsp-find-implementation
     "gr" 'lsp-find-references
     "gt" 'lsp-find-type-definition)
-  (my-comma-leader-def
+  (my-local-leader-define
     "="  '(:ignore t :wk "formatting")
     "=b" 'lsp-format-buffer
     "=r" 'lsp-format-region
@@ -105,12 +105,12 @@
     "wd" 'lsp-describe-session
     "wq" 'lsp-workspace-shutdown
     "wr" 'lsp-workspace-restart)
-  (with-no-warnings
-    (defun my-lsp--init-if-visible (func &rest args)
-      "Not enabling lsp in `git-timemachine-mode'."
-      (unless (bound-and-true-p git-timemachine-mode)
-        (apply func args)))
-    (advice-add #'lsp--init-if-visible :around #'my-lsp--init-if-visible))
+
+  (defun my-lsp--init-if-visible (func &rest args)
+    "Not enabling lsp in `git-timemachine-mode'."
+    (unless (bound-and-true-p git-timemachine-mode)
+      (apply func args)))
+  (advice-add #'lsp--init-if-visible :around #'my-lsp--init-if-visible)
 
   (use-package lsp-ui
     :custom-face

@@ -33,118 +33,136 @@
   (global-set-key [(super w)] (lambda () (interactive) (delete-window)))
   (global-set-key [(super z)] 'undo))
 
-
-(my-space-leader-def
-  "SPC" 'amx
-  "b" '(:ignore t :wk "buffer")
-  "b b" 'switch-to-buffer
-  "b c" '(kevin/cleanup-buffer :wk "cleanup-buffer")
-  "b e" 'eval-buffer
-  "b d" 'kill-this-buffer
-  "b D" '(kevin/kill-other-buffers :wk "kill-other")
-  "b i" '(kevin/indent-region-or-buffer :wk "indent-buffer")
-  "b k" 'kill-buffer
-  "b l" 'ibuffer-list-buffers
-  "b m" '(kevin/kill-all-buffers :wk "kill-all-buffer")
-  "b p" '(kevin/switch-to-prev-buffer :wk "prev-buffer")
-  "b n" '(kevin/switch-to-next-buffer :wk "next-buffer")
-  "b g" '(kevin/revert-buffer-no-confirm :wk "revert-buffer")
-  "b s" 'save-buffer
-  "b S" '(kevin/create-scratch-buffer :wk "create-scratch-buffer")
-  "e"   '(:ignore t :wk "error")
-  "e l" 'flycheck-list-errors
-  "e n" 'flycheck-next-error
-  "e p" 'flycheck-previous-error
-  "d"   '(:ignore t :wk "delete")
-  "d d" '(kevin/delete-delimiter-enclosed-text :wk "delete-enclosed-text")
-  "f"   '(:ignore t :wk "file")
-  "f f" 'find-file
-  "f i" '(kevin/open-init-file :wk "open-init-file")
-  "f r" 'recentf
-  "f z" 'counsel-fzf
-  "g"   '(:ignore t :wk "git")
-  "g a" '(kevin/git-add-current-file :wk "add-current-file")
-  "g b" 'magit-blame
-  "g c" '(kevin/git-checkout-current-file :wk "checkout-current-file")
-  "g d" 'magit-diff-buffer-file
-  "g h" '(hydra-diff-hl/body :wk "hydra-diff-hl")
-  "g i" 'magit-init
-  "g l" 'magit-log-buffer-file
-  "g L" 'magit-list-repositories
-  "g m" '(git-messenger:popup-message :wk "popup-message")
-  "g r" '(hydra-smerge-mode/body :wk "hydra-smerge-mode")
-  "g g" 'magit-status
-  "g S" 'magit-stage-file
-  "g t" '(hydra-git-timemachine/body :wk "git-timemachine")
-  "g u" 'magit-unstage-file
-  "g v" 'vc-annotate
-  "j"   '(:ignore t :wk "jump")
-  "j c" 'avy-goto-char-2
-  "j d" 'dired-jump
-  "j f" 'beginning-of-defun
-  "j j" 'scroll-other-window-down
-  "j l" 'avy-goto-line
-  "j m" '(kevin/jump-match-delimiter :wk "goto-match-delimiter")
-  "j w" 'avy-goto-word-or-subword-1
-  "k k" '(scroll-other-window :wk "scroll-other-window-up")
-  "m"   '(:ignore t :wk "bookmark")
-  "m s" 'bookmark-set
-  "m r" 'bookmark-rename
-  "m d" 'bookmark-delete
-  "m j" 'counsel-bookmark
-  "m l" 'bookmark-bmenu-list
-  "p"   '(:ignore t :wk "projectile")
-  "p !" 'projectile-run-shell-command-in-root
-  "p &" 'projectile-run-async-shell-command-in-root
-  "p %" 'projectile-replace-regexp
-  "p /" 'projectile-ripgrep
-  "p a" 'projectile-toggle-between-implementation-and-test
-  "p b" 'projectile-switch-to-buffer
-  "p c" 'projectile-compile-project
-  "p d" 'projectile-find-dir
-  "p D" 'projectile-dired
-  "p f" 'projectile-find-file
-  "p F" 'projectile-find-file-dwim
-  "p g" 'projectile-find-tag
-  "p G" 'projectile-regenerate-tags
-  "p I" 'projectile-invalidate-cache
-  "p k" 'projectile-kill-buffers
-  "p p" 'projectile-switch-project
-  "p r" 'projectile-recentf
-  "p R" 'projectile-replace
-  "p T" 'projectile-test-project
-  "p v" 'projectile-vc
-  "s"   '(:ignore t :wk "search")
-  "s /" 'counsel-rg
-  "s s" 'swiper-all
-  "t"   '(:ignore t :wk "toggle")
-  "t b" '(toggle-scroll-bar :wk "scroll-bar")
-  "t d" '(kevin/toggle-darkroom-mode :wk "darkroom")
-  "t f" '(neotree-toggle :wk "neotree")
-  "t F" '(toggle-frame-fullscreen :wk "fullscreen")
-  "t g" '(kevin/toggle-golden-ratio :wk "golden-ratio")
-  "t i" 'maple-imenu
-  "t l" '(toggle-truncate-lines :wk "truncate-line")
-  "t s" 'symbol-overlay-mode
-  "t t" 'vterm-toggle
-  "1"  'winum-select-window-1
-  "2"  'winum-select-window-2
-  "3"  'winum-select-window-3
-  "4"  'winum-select-window-4
-  "5"  'winum-select-window-5
-  "6"  'winum-select-window-6
-  "7"  'winum-select-window-7
-  "8"  'winum-select-window-8
-  "9"  'winum-select-window-9
-  "w"  '(nil :wk "window")
-  "w d" 'delete-window
-  "w o" 'other-window
-  "w t" '(kevin/toggle-two-split-window :wk "toggle-two-split-window")
-  "w z" '(zoom-window-zoom :wk "zoom-window")
-  "w /" '(kevin/split-window-right-and-focus :wk "split-window-right")
-  "w -" '(kevin/split-window-below-and-focus :wk "split-window-below")
-  "w D" 'delete-other-windows)
+(use-package general
+  :config
+  (general-create-definer my-leader-define
+    :states '(normal visual motion evilified)
+    :keymaps 'override
+    :prefix my-leader-key-prefix)
+  (general-create-definer my-local-leader-define
+    :states '(normal visual motion evilified)
+    :keymaps 'override
+    :prefix my-local-leader-key-prefix)
+  (my-leader-define
+    "SPC" '(execute-extended-command :wk "M-x")
+    "b" '(:ignore t :wk "Buffer")
+    "bb" '(counsel-switch-buffer :wk "Switch buffer")
+    "bc" '(my-create-scratch-buffer :wk "Create buffer")
+    "bi" '(my-indent-region-or-buffer :wk "Indent buffer")
+    "bk" '(kill-current-buffer :wk "Kill buffer")
+    "bK" '(my-kill-other-buffers :wk "Kill other buffer")
+    "bA" '(my-kill-all-buffers :wk "Kill all buffer")
+    "bp" '(my-switch-to-prev-buffer :wk "Prev buffer")
+    "bn" '(my-switch-to-next-buffer :wk "Next buffer")
+    "bg" '(my-revert-buffer-no-confirm :wk "Revert buffer")
+    "bs" '(basic-save-buffer :wk "Save buffer")
+    "bS" '(evil-write-all :wk "Save all buffer")
+    "c" '(:wk "Code")
+    "cf" '(format-all-buffer :wk "Format buffer")
+    "cr" '(lsp-bridge-rename :wk "Rename")
+    "cm" '(symbol-overlay-put :wk "Symbol Mark")
+    "e"   '(:ignore t :wk "Error")
+    "eb" '(flycheck-buffer :wk "Check current buffer")
+    "el" '(counsel-flycheck :wk "List errors")
+    "en" '(flycheck-next-error :wk "Next error")
+    "ep" '(flycheck-previous-error :wk "Previous error")
+    "ev" '(flycheck-verify-setup :wk "Verify setup")
+    "es" '(flycheck-select-checker :wk "Select checker")
+    "f"   '(:ignore t :wk "File")
+    "fc" '(my-copy-file :wk "Copy file")
+    "fd" '(my-delete-file :wk "Delete file")
+    "ff" '(counsel-fzf :wk "Fuzzy find file")
+    "fh" '(counsel-find-file :wk "Find file here")
+    "fi" '(my-open-init-file :wk "Open init.el")
+    "fr" '(counsel-recentf :wk "Recent file")
+    "fs" '(my-save-file :wk "Save file")
+    "fR" '(my-rename-file :wk "Rename file")
+    "g"   '(:ignore t :wk "Git")
+    "ga" '(my-git-add-current-file :wk "add-current-file")
+    "gb" '(magit-branch-checkout :wk "Checkout branch")
+    "gB" '(magit-blame :wk "Magit blame")
+    "gc" '(my-git-checkout-current-file :wk "Checkout current file")
+    "gd" '(magit-diff-buffer-file :wk "Diff current file")
+    "gh" '(hydra-diff-hl/body :wk "hydra-diff-hl")
+    "gl" '(magit-log-buffer-file :wk "Magit buffer log")
+    "gL" '(magit-log :wk "Magit log")
+    "gm" '(git-messenger:popup-message :wk "Popup message")
+    "gr" '(hydra-smerge-mode/body :wk "hydra-smerge-mode")
+    "gg" '(magit-status :wk "Status")
+    "gs" '(magit-stage-file :wk "Stage file")
+    "gt" '(hydra-git-timemachine/body :wk "Git timemachine")
+    "gu" 'magit-unstage-file
+    "gv" 'vc-annotate
+    "j"   '(:ignore t :wk "Jump")
+    "jc" 'avy-goto-char-2
+    "jd" 'dired-jump
+    "jf" 'beginning-of-defun
+    "jj" 'scroll-other-window-down
+    "jl" 'avy-goto-line
+    "jm" '(my-jump-match-delimiter :wk "goto-match-delimiter")
+    "jw" 'avy-goto-word-or-subword-1
+    "m"   '(:ignore t :wk "Bookmark")
+    "ms" 'bookmark-set
+    "mr" 'bookmark-rename
+    "md" 'bookmark-delete
+    "mj" 'counsel-bookmark
+    "ml" 'bookmark-bmenu-list
+    "p"   '(:ignore t :wk "Project")
+    "p!" 'projectile-run-shell-command-in-root
+    "p&" 'projectile-run-async-shell-command-in-root
+    "p%" 'projectile-replace-regexp
+    "p/" 'projectile-ripgrep
+    "pa" 'projectile-toggle-between-implementation-and-test
+    "pb" 'projectile-switch-to-buffer
+    "pc" 'projectile-compile-project
+    "pd" 'projectile-find-dir
+    "pD" 'projectile-dired
+    "pf" 'projectile-find-file
+    "pF" 'projectile-find-file-dwim
+    "pg" 'projectile-find-tag
+    "pG" 'projectile-regenerate-tags
+    "pI" 'projectile-invalidate-cache
+    "pk" 'projectile-kill-buffers
+    "pp" 'projectile-switch-project
+    "pr" 'projectile-recentf
+    "pR" 'projectile-replace
+    "pT" 'projectile-test-project
+    "pv" 'projectile-vc
+    "s"   '(:ignore t :wk "Search")
+    "sh" '((lambda() (interactive) (counsel-rg nil default-directory)) :wk "Search current directory")
+    "s/" '(counsel-rg :wk "Search ripgrep")
+    "st" '(counsel-load-theme :wk "Search theme")
+    "t"   '(:ignore t :wk "Toggle")
+    "tb" '(toggle-scroll-bar :wk "scroll-bar")
+    "td" '(my-toggle-darkroom-mode :wk "darkroom")
+    "tf" '(neotree-toggle :wk "neotree")
+    "tF" '(toggle-frame-fullscreen :wk "fullscreen")
+    "tg" '(my-toggle-golden-ratio :wk "golden-ratio")
+    "ti" 'maple-imenu
+    "tl" '(toggle-truncate-lines :wk "truncate-line")
+    "ts" 'symbol-overlay-mode
+    "tt" 'vterm-toggle
+    "1"  'winum-select-window-1
+    "2"  'winum-select-window-2
+    "3"  'winum-select-window-3
+    "4"  'winum-select-window-4
+    "5"  'winum-select-window-5
+    "6"  'winum-select-window-6
+    "7"  'winum-select-window-7
+    "8"  'winum-select-window-8
+    "9"  'winum-select-window-9
+    "w"  '(nil :wk "Window")
+    "wd" '(delete-window :wk "Delete window")
+    "wD" '(delete-other-windows :wk "Delete other Window")
+    "wo" '(other-window :wk "Other window")
+    "wt" '(my-toggle-two-split-window :wk "toggle-two-split-window")
+    "wz" '(zoom-window-zoom :wk "Zoom window")
+    "w/" '(my-split-window-right-and-focus :wk "Split window right")
+    "w-" '(my-split-window-below-and-focus :wk "Split window below")
+    "w=" '(balance-windows :wk "Balance window")
+    "q" '(:wk "Quit")
+    "qq" '(save-buffers-kill-terminal :wk "Quit")
+    "qr" '(restart-emacs :wk "Restart")))
 
 (provide 'init-keybindings.el)
-
 ;;; init-keybindings.el ends here

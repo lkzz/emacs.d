@@ -19,7 +19,6 @@
   :straight (:host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*"))
   :init
   (dolist (hook (list
-                 'emacs-lisp-mode-hook
                  'c-mode-hook
                  'c++-mode-hook
                  'java-mode-hook
@@ -51,15 +50,18 @@
                  'sh-mode-hook
                  'web-mode-hook))
     (add-hook hook (lambda ()
+                     (setq-local corfu-auto nil) ;; let lsp-bridge control when popup completion frame
                      (lsp-bridge-mode 1))))
   :config
+  (setq lsp-bridge-enable-log t)
   (require 'lsp-bridge-orderless) ;; make lsp-bridge support fuzzy match, optional
   (require 'lsp-bridge-icon) ;; show icon for completion items, optional
-  (general-def 'normal lsp-bridge-mode-map
+
+  (general-evil-define-key 'normal lsp-bridge-mode-map
     "ga" 'xref-find-apropos
-    "gd" 'lsp-bridge-find-define
-    "gh" 'lsp-bridge-lookup-documentation
-    "gi" 'lsp-bridge-find-implementation
+    "gd" 'lsp-bridge-find-def
+    "K"  'lsp-bridge-lookup-documentation
+    "gi" 'lsp-bridge-find-impl
     "gr" 'lsp-bridge-find-references))
 
 (provide 'init-lsp-bridge)

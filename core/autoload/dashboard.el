@@ -14,7 +14,7 @@
 
 
 ;;;###autoload
-(defun kevin/browse-homepage ()
+(defun my-browse-homepage ()
   "Browse the github page of Emacs."
   (interactive)
   (browse-url "https://github.com/lkzz/emacs.d"))
@@ -23,7 +23,7 @@
   "Wether recovers the layout.")
 
 ;;;###autoload
-(defun kevin/quit-dashboard ()
+(defun my-quit-dashboard ()
   "Quit dashboard window."
   (interactive)
   (quit-window t)
@@ -33,14 +33,14 @@
     (setq dashboard-recover-layout-p nil)))
 
 ;;;###autoload
-(defun kevin/dashboard-open-init-file ()
+(defun my-dashboard-open-init-file ()
   "Open init config file."
   (interactive)
-  (kevin/quit-dashboard)
-  (kevin/open-init-file))
+  (my-quit-dashboard)
+  (my-open-init-file))
 
 ;;;###autoload
-(defun kevin/restore-session ()
+(defun my-restore-session ()
   "Restore last session."
   (interactive)
   (when (bound-and-true-p persp-mode)
@@ -53,19 +53,19 @@
       (persp-switch-to-buffer persp-special-last-buffer))))
 
 ;;;###autoload
-(defun kevin/dashboard-goto-recent-files ()
+(defun my-dashboard-goto-recent-files ()
   "Go to recent files."
   (interactive)
   (funcall (local-key-binding "r")))
 
 ;;;###autoload
-(defun kevin/dashboard-goto-projects ()
+(defun my-dashboard-goto-projects ()
   "Go to projects."
   (interactive)
   (funcall (local-key-binding "p")))
 
 ;;;###autoload
-(defun kevin/dashboard-goto-bookmarks ()
+(defun my-dashboard-goto-bookmarks ()
   "Go to bookmarks."
   (interactive)
   (funcall (local-key-binding "m")))

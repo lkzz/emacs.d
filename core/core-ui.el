@@ -13,19 +13,19 @@
 ;;
 ;;; Code:
 
-(defvar kevin-load-theme-hook nil
+(defvar my-load-theme-hook nil
   "Hook run after the theme is loaded with `load-theme'.")
 
-(defun kevin/run-load-theme-hooks (&rest _)
-  (run-hooks 'kevin-load-theme-hook))
+(defun my-run-load-theme-hooks (&rest _)
+  (run-hooks 'my-load-theme-hook))
 
-(advice-add #'load-theme :after #'kevin/run-load-theme-hooks)
+(advice-add #'load-theme :after #'my-run-load-theme-hooks)
 
 (setq inhibit-startup-screen t            ; 禁止启动画面
       inhibit-startup-echo-area-message t ; 禁止echo area message
       inhibit-default-init t              ; 禁止加载default lib
       mouse-yank-at-point t
-      initial-buffer-choice  nil
+      initial-buffer-choice nil
       initial-scratch-message (format ";; Happy Hacking, %s - Emacs ♥ You!\n" user-full-name)
       initial-major-mode 'fundamental-mode) ; 设置默认的major mode
 (fset #'display-startup-echo-area-message #'ignore)
@@ -43,7 +43,6 @@
       scroll-up-aggressively 0.01
       scroll-down-aggressively 0.01
       auto-window-vscroll nil
-      fast-but-imprecise-scrolling nil
       scroll-preserve-screen-position t)
 
 (when (display-graphic-p)
@@ -189,7 +188,7 @@
 (setq window-divider-default-places t
       window-divider-default-bottom-width 1
       window-divider-default-right-width 1)
-(add-hook 'kevin-load-theme-hook #'window-divider-mode)
+(add-hook 'my-load-theme-hook #'window-divider-mode)
 ;;============================ window end ==========================================
 
 ;;============================ minibuffer start ====================================

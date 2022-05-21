@@ -20,7 +20,7 @@
                             buffer-file-name))
 
 ;;;###autoload
-(defun kevin/git-checkout-current-file ()
+(defun my-git-checkout-current-file ()
   "Git checkout current file."
   (interactive)
   (when (and (buffer-file-name)
@@ -28,11 +28,11 @@
                                   (file-name-nondirectory (buffer-file-name)))))
     (let* ((filename (git-get-current-file-relative-path)))
       (shell-command (concat "git checkout " filename))
-      (kevin/revert-buffer-no-confirm)
+      (my-revert-buffer-no-confirm)
       (message "DONE! git checkout %s" filename))))
 
 ;;;###autoload
-(defun kevin/git-add-current-file ()
+(defun my-git-add-current-file ()
   "Git add file of current buffer."
   (interactive)
   (let ((filename))
@@ -42,7 +42,7 @@
       (message "DONE! git add %s" filename))))
 
 ;;;###autoload
-(defun kevin/magit-display-buffer-function (buffer)
+(defun my-magit-display-buffer-function (buffer)
   (if magit-display-buffer-noselect
       ;; the code that called `magit-display-buffer-function'
       ;; expects the original window to stay alive, we can't go
@@ -57,7 +57,7 @@
     (get-buffer-window buffer)))
 
 ;;;###autload
-(defun kevin/magit-bury-buffer-function (&rest _)
+(defun my-magit-bury-buffer-function (&rest _)
   "Restore window configuration and kill all Magit buffers."
   (interactive)
   (magit-restore-window-configuration)

@@ -41,20 +41,23 @@
   (>= emacs-major-version 28)
   "Emacs is 28 or above.")
 
-(defconst kevin-cache-dir (concat user-emacs-directory "cache/")
+(defconst my-cache-dir (concat user-emacs-directory "cache/")
   "Emacs cache directory.")
 
-(unless (file-exists-p kevin-cache-dir)
-  (make-directory kevin-cache-dir))
+(unless (file-exists-p my-cache-dir)
+  (make-directory my-cache-dir))
 
-(defconst kevin-autoload-file (concat kevin-cache-dir "core-autoloads.el")
+(defconst my-autoload-file (concat my-cache-dir "core-autoloads.el")
   "This file is responsible for informing emacs where to find all autoload function in core/autoload/*.el")
 
-(defconst kevin-http-proxy "127.0.0.1:1235"
+(defconst my-http-proxy "127.0.0.1:1235"
   "Set http/https proxy.")
 
-(defvar kevin-eshell-height 35
-  "Percentage for shell-buffer window height.")
+(defvar my-leader-key-prefix "SPC"
+  "Global leader key prefix.")
+
+(defvar my-local-leader-key-prefix ","
+  "Local leader key prefix.")
 
 ;; Ensure core dir is in `load-path'
 (add-to-list 'load-path (file-name-directory load-file-name))
@@ -112,7 +115,7 @@
 ;; fonts that are larger than the system default (which would resize the frame).
 (setq frame-inhibit-implied-resize t)
 
-(defun kevin/initialize-core ()
+(defun my-initialize-core ()
   "Load core config file for Emacs."
   (require 'core-autoload)
   (require 'core-package)

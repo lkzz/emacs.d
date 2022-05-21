@@ -17,9 +17,9 @@
 
 (use-package doom-themes
   :init
-  (add-hook 'kevin-load-theme-hook #'doom-themes-org-config)
-  (add-hook 'kevin-load-theme-hook #'doom-themes-neotree-config)
-  (add-hook 'kevin-load-theme-hook #'doom-themes-visual-bell-config)
+  (add-hook 'my-load-theme-hook #'doom-themes-org-config)
+  (add-hook 'my-load-theme-hook #'doom-themes-neotree-config)
+  (add-hook 'my-load-theme-hook #'doom-themes-visual-bell-config)
   (setq doom-dark+-blue-modeline t
         doom-gruvbox-dark-variant "medium"
         doom-themes-neotree-file-icons 't
@@ -32,7 +32,7 @@
   ;; 加载主题
   (if (daemonp)
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
-    (load-theme 'doom-gruvbox t))
+    (load-theme 'doom-one t))
 
   (when (display-graphic-p)
     ;; Frame maximized
@@ -44,7 +44,7 @@
              when (font-installed-p font)
              return (set-face-attribute 'default nil
                                         :font font
-                                        :height 130))
+                                        :height 150))
     ;; Specify font for all unicode characters
     (cl-loop for font in '("Apple Color Emoji" "Symbola")
              when (font-installed-p font)
@@ -61,13 +61,14 @@
   :diminish vi-tilde-fringe-mode
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
-;; config built-in "display-line-numbers-mode" (require Emacs >= 26)
 (use-package display-line-numbers
+  :defer t
   :straight (:type built-in)
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
   (setq display-line-numbers-width 2
         display-line-numbers-widen t
+        ;; display-line-numbers-type 'relative
         display-line-numbers-current-absolute t))
 
 ;; NOTE: Must run `M-x all-the-icons-install-fonts', and install fonts manually on Windows
@@ -140,7 +141,7 @@
       (add-to-list 'all-the-icons-mode-icon-alist icon))))
 
 (use-package doom-modeline
-  :hook (kevin-load-theme . doom-modeline-mode)
+  :hook (my-load-theme . doom-modeline-mode)
   :init
   (defun my-doom-modeline--font-height ()
     "Calculate the actual char height of the mode-line."

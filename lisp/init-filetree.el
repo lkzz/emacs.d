@@ -42,13 +42,13 @@
           "^bazel*"
           "^#.*#$"))
   :config
-  (general-def 'normal neotree-mode-map
+  (general-evil-define-key 'normal neotree-mode-map
     "RET" 'neotree-enter
-    "o" 'neotree-enter
+    "TAB" 'neotree-enter
     "q" 'neotree-hide
     "h" 'neotree-select-up-node
     "l" 'neotree-change-root
-    "c" 'neotree-create-node
+    "a" 'neotree-create-node
     "C" 'neotree-copy-node
     "d" 'neotree-delete-node
     "g" 'neotree-refresh

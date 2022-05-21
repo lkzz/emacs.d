@@ -52,6 +52,7 @@
   (setq recentf-max-saved-items 200
         recentf-auto-cleanup 'never
         recentf-exclude '("/tmp/"
+                          "/usr/local/Cellar/"
                           "recentf$"
                           "\\.cask$"
                           "\\.mkv$"
@@ -65,9 +66,13 @@
                           "COMMIT_EDITMSG\\'"
                           "bookmarks"
                           "pyim"
-                          (lambda (file) (file-in-directory-p file package-user-dir))))
+                          my-cache-dir
+                          (lambda (file) (file-in-directory-p file package-user-dir))
+                          (lambda (file) (file-in-directory-p file my-cache-dir))))
   :config
-  (push (expand-file-name recentf-save-file) recentf-exclude))
+  (push (expand-file-name recentf-save-file) recentf-exclude)
+  (setq recentf-filename-handlers
+        (append '(abbreviate-file-name) recentf-filename-handlers)))
 
 ;; Jump to things in Emacs tree-style
 (use-package avy
@@ -143,7 +148,17 @@
   :config
   (setq direnv-always-show-summary nil))
 
-(use-package restart-emacs)
+(use-package restart-emacs
+  :defer t
+  :commands restart-emacs)
 
+;; An alternative M-x interface for Emacs
+(use-package amx
+  :defer t
+  :init (setq amx-history-length 10))
+
+(use-package popup-kill-ring
+  :defer t
+  :bind ("M-y" . popup-kill-ring))
 (provide 'init-misc)
 ;;; init-misc.el ends here

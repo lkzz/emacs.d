@@ -40,7 +40,7 @@
     (flycheck-posframe-info-face ((t (:foreground ,(face-foreground 'success)))))
     (flycheck-posframe-background-face ((t (:inherit tooltip))))
     (flycheck-posframe-border-face ((t (:inherit font-lock-comment-face))))
-    :hook (flycheck-mode . kevin/maybe-flycheck-posframe-mode)
+    :hook (flycheck-mode . my-maybe-flycheck-posframe-mode)
     :init
     (setq flycheck-posframe-border-width 1)
     :config
@@ -55,7 +55,7 @@
 
   (use-package flycheck-popup-tip
     :unless (display-graphic-p)
-    :hook (flycheck-mode . kevin/maybe-flycheck-posframe-mode)))
+    :hook (flycheck-mode . my-maybe-flycheck-posframe-mode)))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here

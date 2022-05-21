@@ -14,10 +14,9 @@
 ;;; Code:
 
 (use-package vterm
-  :config
+  :init
   (setq vterm-always-compile-module t)
   (add-hook 'vterm-mode-hook (lambda ()
-                               (evil-set-initial-state 'vterm-mode 'emacs)
                                (advice-add #'vterm--redraw :after (lambda (&rest args)
                                                                     (evil-refresh-cursor evil-state))))))
 

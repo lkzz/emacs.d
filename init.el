@@ -35,7 +35,7 @@
 
 ;; Load core config of emacs
 (load (concat user-emacs-directory "core/core") nil 'nomessage)
-(kevin/initialize-core)
+(my-initialize-core)
 
 ;; Be quiet at startup; don't load or display anything unnecessary
 (advice-add #'display-startup-echo-area-message :override #'ignore)
@@ -64,9 +64,8 @@
 (require 'init-web)
 (require 'init-markdown)
 (require 'init-yasnippet)
-;; complete and lsp
 (require 'init-corfu)
-;; (require 'init-lsp-bridge)
+(require 'init-lsp-bridge)
 ;; (require 'init-company)
 ;; (require 'init-lsp)
 

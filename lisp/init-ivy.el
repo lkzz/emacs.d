@@ -23,15 +23,9 @@
          :map counsel-mode-map
          ([remap swiper] . counsel-grep-or-swiper)
          ([remap swiper-backward] . counsel-grep-or-swiper-backward)
-         ([remap dired] . counsel-dired)
-         ([remap set-variable] . counsel-set-variable)
          ([remap insert-char] . counsel-unicode-char)
-         ([remap recentf] . counsel-recentf)
          ([remap recentf-open-files] . counsel-recentf)
          ([remap org-capture] . counsel-org-capture)
-         ([remap find-file] . counsel-find-file)
-         ([remap amx] . counsel-M-x)
-         ([remap switch-to-buffer] . counsel-switch-buffer)
          :map ivy-minibuffer-map
          ("C-w" . ivy-yank-word)
          ([escape] . minibuffer-keyboard-quit)
@@ -46,7 +40,7 @@
   :hook ((after-init . ivy-mode)
          (ivy-mode . counsel-mode))
   :init
-  (setq ivy-height 15
+  (setq ivy-height 12
         ivy-wrap t
         ivy-fixed-height-minibuffer t
         ;; Don't use ^ as initial input
@@ -56,7 +50,7 @@
         ;; don't show recent files in switch-buffer
         ivy-use-virtual-buffers nil
         ;; ...but if that ever changes, show their full path
-        ivy-virtual-abbreviate 'full
+        ivy-virtual-abbreviate 'abbreviate
         ;; don't quit minibuffer on delete-error
         ivy-on-del-error-function nil
         ;; enable ability to select prompt (alternative to `ivy-immediate-done')
@@ -154,10 +148,6 @@
   (add-hook 'minibuffer-exit-hook (lambda ()
                                     (remove-hook 'pre-command-hook 'my-ivy-fly-back-to-present t)))
 
-  ;; An alternative M-x interface for Emacs
-  (use-package amx
-    :init (setq amx-history-length 10))
-
   ;; Integration with `projectile'
   (with-eval-after-load 'projectile
     (setq projectile-completion-system 'ivy))
@@ -174,21 +164,40 @@
   ;; More friendly interface for ivy
   (use-package all-the-icons-ivy-rich
     :if (display-graphic-p)
-    :hook (ivy-mode . all-the-icons-ivy-rich-mode)
     :init
     (setq all-the-icons-ivy-rich-icon-size 0.85)
-    (all-the-icons-ivy-rich-mode))
+    (all-the-icons-ivy-rich-mode)
+    :config
+    (let ((my-recentf-transformer '(:columns ; TODO trancate long path string into one line
+                                    ((all-the-icons-ivy-rich-file-icon)
+                                     (all-the-icons-ivy-rich-file-name (:width 0.70))
+                                     (all-the-icons-ivy-rich-file-modes (:width 10))
+                                     (ivy-rich-file-last-modified-time (:witdh 0.15 :face all-the-icons-ivy-rich-time-face)))
+                                    :delimiter "\t"))
+          (my-bookmark-transformer '(:columns
+                                     ((all-the-icons-ivy-rich-bookmark-icon)
+                                      (all-the-icons-ivy-rich-bookmark-name (:width 0.15))
+                                      (ivy-rich-bookmark-type (:width 10))
+                                      (all-the-icons-ivy-rich-bookmark-filename (:width 0.50 :face all-the-icons-ivy-rich-bookmark-face))
+                                      (all-the-icons-ivy-rich-bookmark-context (:face all-the-icons-ivy-rich-doc-face)))
+                                     :delimiter "\t")))
+      ;; counsel-recentf
+      (plist-put all-the-icons-ivy-rich-display-transformers-list
+                 'counsel-recentf my-recentf-transformer)
+      ;; counsel-bookmark
+      (plist-put all-the-icons-ivy-rich-display-transformers-list
+                 'counsel-bookmark my-bookmark-transformer))
+    ;; reload ivy-rich-mode to apply configuration
+    (ivy-rich-mode -1)
+    (ivy-rich-mode +1))
 
   ;; More friendly display transformer for Ivy
   ;; Must load after `counsel-projectile'
   (use-package ivy-rich
     :hook ((counsel-projectile-mode . ivy-rich-mode)
-           (ivy-rich-mode . ivy-rich-project-root-cache-mode)
-           (ivy-rich-mode . (lambda ()
-                              "Use abbreviate in `ivy-rich-mode'."
-                              (setq ivy-virtual-abbreviate
-                                    (or (and ivy-rich-mode 'abbreviate) 'name)))))
+           (ivy-rich-mode . ivy-rich-project-root-cache-mode))
     :init
+    (setq ivy-rich-path-style 'abbreviate)
     ;; For better performance
     (setq ivy-rich-parse-remote-buffer nil))
 
@@ -234,7 +243,6 @@ This is for use in `ivy-re-builders-alist'."
             counsel-org-capture counsel-outline counsel-org-goto
             counsel-load-theme counsel-yank-pop
             counsel-recentf counsel-buffer-or-recentf))
-
     (ivy-prescient-mode 1)))
 
 (provide 'init-ivy)

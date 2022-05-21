@@ -19,7 +19,7 @@
   (point))
 
 ;;;###autoload
-(defun kevin/delete-delimiter-enclosed-text ()
+(defun my-delete-delimiter-enclosed-text ()
   "Delete texts between any pair of delimiters."
   (interactive)
   (setq empty-enclose 0)
@@ -61,19 +61,19 @@
       (backward-char 1)))
 
 ;;;###autoload
-(defun kevin/buffer-too-big-p ()
+(defun my-buffer-too-big-p ()
   "Check if buffer size is larger than 1M or has more than 5000 lines."
   (or (> (buffer-size) (* 1024 1024))
       (> (line-number-at-pos (point-max)) 5000)))
 
 ;;;###autoload
-(defun kevin/open-init-file ()
+(defun my-open-init-file ()
   "Open emacs init file."
   (interactive)
   (find-file user-init-file))
 
 ;;;###autoload
-(defun kevin/delete-word ()
+(defun my-delete-word ()
   "Delete word under cursor."
   (interactive)
   (let ((end (get-point 'forward-word 1))
@@ -81,14 +81,14 @@
     (delete-region beg end)))
 
 ;;;###autoload
-(defun kevin/copy-word ()
+(defun my-copy-word ()
   "print current word."
   (interactive)
   (kill-new (thing-at-point 'word)))
 
 ;;;###autoload
-(defun kevin/cover-word ()
+(defun my-cover-word ()
   "cover word before point"
   (interactive)
-  (kevin/delete-word)
+  (my-delete-word)
   (evil-paste-before 1))

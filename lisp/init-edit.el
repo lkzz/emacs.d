@@ -44,6 +44,7 @@
 
 ;; Treat undo history as a tree
 (use-package undo-tree
+  :defer t
   :diminish undo-tree-mode
   :hook (after-init . global-undo-tree-mode)
   :init

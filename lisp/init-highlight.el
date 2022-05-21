@@ -158,11 +158,10 @@
   (dolist (cmd '(pop-to-mark-command
                  pop-global-mark
                  neotree-enter
-                 ;; ivy-done
                  xref-go-back xref-go-forward
                  evil-jump-backward evil-jump-forward
                  better-jumper-jump-forward better-jumper-jump-backward
-                 dired-find-file
+                 diff-hl-previous-hunk diff-hl-next-hunk
                  goto-last-change))
     (advice-add cmd :after #'my-recenter-and-pulse)))
 

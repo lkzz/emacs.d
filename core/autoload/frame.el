@@ -13,14 +13,14 @@
 ;;; Code:
 
 ;;;###autoload
-(defun kevin/make-frame ()
+(defun my-make-frame ()
   "New a frame,and erase buffer."
   (interactive)
   (make-frame)
-  (kevin/create-scratch-buffer))
+  (my-create-scratch-buffer))
 
 ;;;###autoload
-(defun kevin/set-frame-transparency (value)
+(defun my-set-frame-transparency (value)
   "Set the transparency of the frame window.
 Argument VALUE 0 is transparent, 100 is opaque."
   (interactive "nTransparency Value (0 - 100): ")

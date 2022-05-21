@@ -58,22 +58,35 @@
   ;; normal state map
   (define-key evil-normal-state-map "Y" (kbd "y$"))
   (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
-  (define-key evil-normal-state-map ";d" #'kevin/delete-word)
-  (define-key evil-normal-state-map ";y" #'kevin/copy-word)
+  (define-key evil-normal-state-map ";d" #'my-delete-word)
+  (define-key evil-normal-state-map ";y" #'my-copy-word)
   (define-key evil-normal-state-map ";w" #'save-buffer)
-  (define-key evil-normal-state-map ";p" #'kevin/cover-word)
+  (define-key evil-normal-state-map ";p" #'my-cover-word)
   ;; insert state map
   (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
   (define-key evil-insert-state-map (kbd "M-j") 'yas-expand)
   ;; visual state map
   (define-key evil-visual-state-map (kbd "C-e") 'move-end-of-line)
 
+  ;; Specify major mode uses EMACS original state.
+  (dolist (p '((minibuffer-inactive-mode . emacs)
+               (calendar-mode . emacs)
+               (term-mode . emacs)
+               (anaconda-nav-mode . emacs)
+               (log-edit-mode . emacs)
+               (vc-log-edit-mode . emacs)
+               (magit-log-edit-mode . emacs)
+               (vterm-mode . emacs)
+               (lsp-bridge-ref-mode . emacs)
+               (profiler-report-mode . emacs)))
+    (evil-set-initial-state (car p) (cdr p)))
+
   ;; Change the cursor color in emacs state. We do it this roundabout way
   ;; instead of changing `evil-default-cursor' (or `evil-emacs-state-cursor') so
   ;; it won't interfere with users who have changed these variables.
   (defvar my-default-cursor-color "#ffffff")
   (defvar my-emacs-cursor-color "#ff9999")
-  (add-hook 'kevin-load-theme-hook (lambda ()
+  (add-hook 'my-load-theme-hook (lambda ()
                                      (setq my-default-cursor-color (face-background 'cursor)
                                            my-emacs-cursor-color (face-foreground 'warning))))
 
@@ -81,10 +94,10 @@
     :diminish evil-escape-mode
     :hook (evil-mode . evil-escape-mode)
     :config
-    (setq  evil-escape-delay 0.25
-           evil-escape-key-sequence "jk"
-           evil-escape-excluded-major-modes '(neotree-mode)
-           evil-escape-excluded-states '(normal visual multiedit emacs motion))
+    (setq evil-escape-delay 0.25
+          evil-escape-key-sequence "jk"
+          evil-escape-excluded-major-modes '(neotree-mode)
+          evil-escape-excluded-states '(normal visual multiedit emacs motion))
     ;; no `evil-escape' in minibuffer
     (add-hook 'evil-escape-inhibit-functions #'minibufferp))
 
@@ -93,11 +106,11 @@
 
   (use-package evil-nerd-commenter
     :init
-    (evil-define-key '(normal visual) 'global (kbd "gcc")   #'evilnc-comment-or-uncomment-lines)
-    (evil-define-key '(normal visual) 'global (kbd "gcp")   #'evilnc-comment-or-uncomment-paragraphs))
+    (evil-define-key '(normal visual) global-map
+      (kbd "gcc") 'evilnc-comment-or-uncomment-lines
+      (kbd "gcp") 'evilnc-comment-or-uncomment-paragraphs))
 
   (use-package evil-collection
-    :custom (evil-collection-setup-minibuffer t)
     :init
     ;; The list of supported modes is configured by evil-collection-mode-list
     (evil-collection-init 'view)
@@ -135,15 +148,14 @@
 
   (use-package evil-multiedit
     :config
-    (evil-define-key 'normal 'global
-      (kbd "M-d")   #'evil-multiedit-match-symbol-and-next
-      (kbd "M-D")   #'evil-multiedit-match-symbol-and-prev)
-    (evil-define-key 'visual 'global
-      "R"           #'evil-multiedit-match-all
-      (kbd "M-d")   #'evil-multiedit-match-and-next
-      (kbd "M-D")   #'evil-multiedit-match-and-prev)
-    (evil-define-key '(visual normal) 'global
-      (kbd "C-M-d") #'evil-multiedit-restore)))
+    (evil-multiedit-default-keybinds))
+
+  (use-package evil-org
+    :after org
+    :hook (org-mode . (lambda () evil-org-mode))
+    :config
+    (require 'evil-org-agenda)
+    (evil-org-agenda-set-keys)))
 
 (provide 'init-evil)
 ;;; init-evil ends here

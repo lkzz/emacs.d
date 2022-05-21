@@ -25,8 +25,8 @@
         git-commit-summary-max-length 50
         magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
         git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)
-        magit-display-buffer-function #'kevin/magit-display-buffer-function ; display buffer fullframe
-        magit-bury-buffer-function #'kevin/magit-bury-buffer-function))     ; bury or kill the current magit buffer
+        magit-display-buffer-function #'my-magit-display-buffer-function ; display buffer fullframe
+        magit-bury-buffer-function #'my-magit-bury-buffer-function))     ; bury or kill the current magit buffer
 
 ;; Show TODOs in magit
 (use-package magit-todos
@@ -120,9 +120,9 @@
   (diff-hl-insert ((t (:inherit diff-added :background nil))))
   (diff-hl-delete ((t (:inherit diff-removed :background nil))))
   (diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil))))
-  (diff-hl-margin-insert ((t (:background "#7ccd7c"))))
-  (diff-hl-margin-change ((t (:background "#3a81c3"))))
-  (diff-hl-margin-delete ((t (:background "#ee6363"))))
+  (diff-hl-margin-insert ((t (:inherit diff-added :background nil))))
+  (diff-hl-margin-delete ((t (:inherit diff-removed :background nil))))
+  (diff-hl-margin-change ((t (:foreground ,(face-background 'highlight) :background nil))))
   :hook ((after-init . global-diff-hl-mode)
          (dired-mode . diff-hl-dired-mode)
          (magit-post-refresh . diff-hl-magit-post-refresh))
@@ -130,9 +130,9 @@
   (setq diff-hl-draw-borders nil)
   (defhydra hydra-diff-hl (:color pink :hint nil)
     "
-_p_: previous _n_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
-    ("p" (progn (diff-hl-previous-hunk) (recenter)))
-    ("n" (progn (diff-hl-next-hunk) (recenter)))
+_k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
+    ("j" diff-hl-next-hunk)
+    ("k" diff-hl-previous-hunk)
     ("m" diff-hl-mark-hunk)
     ("g" diff-hl-diff-goto-hunk)
     ("r" diff-hl-revert-hunk)

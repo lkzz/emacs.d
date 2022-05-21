@@ -13,23 +13,23 @@
 ;;
 ;;; Code:
 
-(defvar kevin-org-dir "~/Dropbox/org/"
+(defvar my-org-dir "~/Dropbox/org/"
   "The directory where org files are kept.")
 
-(defvar kevin-org-notes-file (concat kevin-org-dir "notes.org")
+(defvar my-org-notes-file (concat my-org-dir "notes.org")
   "The org notes file.")
 
-(defvar kevin-org-task-file (concat kevin-org-dir "tasks.org")
+(defvar my-org-task-file (concat my-org-dir "tasks.org")
   "The org task file.")
 
-(defvar kevin-org-idea-file (concat kevin-org-dir "ideas.org")
+(defvar my-org-idea-file (concat my-org-dir "ideas.org")
   "The org idea file.")
 
-(defvar kevin-org-reading-file (concat kevin-org-dir "books.org")
+(defvar my-org-reading-file (concat my-org-dir "books.org")
   "The org idea file.")
 
 (use-package org
-  :straight (:type built-in)
+  ;; :straight (:type built-in)
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          :map org-mode-map
@@ -70,19 +70,6 @@
         org-agenda-use-tag-inheritance nil ;; 3-4x speedup
         org-pretty-entities t)
 
-
-  ;; issue: https://github.com/Somelauw/evil-org-mode/issues/93
-  (fset 'evil-redirect-digit-argument 'ignore)
-  (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
-  (evil-define-key 'motion 'evil-org-mode
-    (kbd "0") 'evil-org-beginning-of-line)
-  (use-package evil-org
-    :config
-    (add-hook 'org-mode-hook 'evil-org-mode)
-    (add-hook 'evil-org-mode-hook (lambda () (evil-org-set-key-theme)))
-    (require 'evil-org-agenda)
-    (evil-org-agenda-set-keys))
-
   (use-package org-bullets
     :hook (org-mode . org-bullets-mode))
 
@@ -99,23 +86,23 @@
     :config
     (setq org-default-notes-file (expand-file-name "notes.org" org-directory)
           org-capture-templates
-          '(("t" "tasks" entry (file+headline kevin-org-task-file "Work")
+          '(("t" "tasks" entry (file+headline my-org-task-file "Work")
              "* %^{Scope of task||TODO [#A]|STUDY [#A]|MEET with} %^{Title} %^g\n DEADLINE: %^t\n :PROPERTIES:\n :CONTEXT: %a\n:CAPTURED: %U\n :END:\n\n %i %?"
              :empty-lines 1)
-            ("n" "notes" entry (file+headline kevin-org-notes-file "Notes")
+            ("n" "notes" entry (file+headline my-org-notes-file "Notes")
              "* %?\n  %i\n %U"
              :empty-lines 1)
-            ("i" "ideas" entry (file+headline kevin-org-idea-file "Ideas")
+            ("i" "ideas" entry (file+headline my-org-idea-file "Ideas")
              "* %?\n  %i\n %U"
              :empty-lines 1)
-            ("r" "reading" entry (file+olp kevin-org-reading-file "阅读书目" "2020")
+            ("r" "reading" entry (file+olp my-org-reading-file "阅读书目" "2020")
              "* TODO %^{The book's name} %^g\n%^{STYLE}p"
              :empty-lines 1))))
 
   (use-package org-agenda
     :straight (:type built-in)
     :config
-    (setq org-agenda-files kevin-org-dir
+    (setq org-agenda-files my-org-dir
           ;; Set the agenda view to show the tasks on day/week/month/year
           org-agenda-span 'week
           ;; only keep agenda window,delete all other window

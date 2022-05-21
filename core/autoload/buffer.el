@@ -13,38 +13,38 @@
 ;;; Code:
 
 ;;;###autoload
-(defun kevin/normal-buffer ()
+(defun my-normal-buffer ()
   (or (not buffer-read-only)
       (buffer-file-name)))
 
 ;;;###autoload
-(defun kevin/switch-to-next-buffer ()
+(defun my-switch-to-next-buffer ()
   (interactive)
   (unless (minibufferp)
     (let ((p t) (bn (buffer-name)))
       (switch-to-next-buffer)
-      (while (and p (not (kevin/normal-buffer)))
+      (while (and p (not (my-normal-buffer)))
 	    (switch-to-next-buffer)
 	    (when (string= bn (buffer-name)) (setq p nil))))))
 
 ;;;###autoload
-(defun kevin/switch-to-prev-buffer ()
+(defun my-switch-to-prev-buffer ()
   (interactive)
   (unless (minibufferp)
     (let ((p t) (bn (buffer-name)))
       (switch-to-prev-buffer)
-      (while (and p (not (kevin/normal-buffer)))
+      (while (and p (not (my-normal-buffer)))
 	    (switch-to-prev-buffer)
 	    (when (string= bn (buffer-name)) (setq p nil))))))
 
 ;;;###autoload
-(defun kevin/revert-buffer-no-confirm ()
+(defun my-revert-buffer-no-confirm ()
   "Revert buffer without confirm."
   (interactive)
   (revert-buffer t t))
 
 ;;;###autoload
-(defun kevin/indent-region-or-buffer()
+(defun my-indent-region-or-buffer()
   "Indent regex or buffer."
   (interactive)
   (save-excursion
@@ -54,7 +54,7 @@
 
 ;; Kill all buffers except scratch buffer
 ;;;###autoload
-(defun kevin/kill-all-buffers ()
+(defun my-kill-all-buffers ()
   "Kill all buffers."
   (interactive)
   (mapc (lambda (x) (kill-buffer x)) (buffer-list))
@@ -62,13 +62,13 @@
 
 ;; Kill all buffers except the current one.
 ;;;###autoload
-(defun kevin/kill-other-buffers ()
+(defun my-kill-other-buffers ()
   "Kill all other buffers."
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
 ;;;###autoload
-(defun kevin/create-scratch-buffer nil
+(defun my-create-scratch-buffer nil
   "Create a scratch buffer."
   (interactive)
   (switch-to-buffer (get-buffer-create "*scratch*"))
@@ -76,19 +76,32 @@
   (lisp-interaction-mode))
 
 ;;;###autoload
-(defun cleanup-buffer-safe ()
-  "Perform a bunch of safe operations on the whitespace content of a buffer.
-Does not indent buffer, because it is used for a 'before-save-hook, and that
-might be bad."
+(defun my-rename-file()
+  "Rename file while using current file as default."
   (interactive)
-  (untabify (point-min) (point-max))
-  (delete-trailing-whitespace)
-  (set-buffer-file-coding-system 'utf-8))
+  (let ((file-from (read-file-name "Move from: " default-directory buffer-file-name))
+        (file-to (read-file-name "Move to:" default-directory)))
+    (rename-file file-from file-to)
+    (when (string= (file-truename file-from) (file-truename (buffer-file-name)))
+      (kill-buffer)
+      (find-file file-to))))
 
 ;;;###autoload
-(defun kevin/cleanup-buffer ()
-  "Perform a bunch of operations on the whitespace content of a buffer.
-Including indent-buffer, which should not be called automatically on save."
+(defun my-copy-file()
+  "Copy file while using current file as default."
   (interactive)
-  (cleanup-buffer-safe)
-  (indent-buffer))
+  (copy-file
+   (read-file-name "Copy from: " default-directory buffer-file-name)
+   (read-file-name "Copy to:" default-directory)))
+
+;;;###autoload
+(defun my-delete-file()
+  "Delete file while using current file as default."
+  (interactive)
+  (let ((file-name (read-file-name "Delete: " default-directory (buffer-file-name))))
+    (cond
+     ((file-directory-p file-name) (delete-directory file-name t))
+     ((file-exists-p file-name) (delete-file file-name))
+     (t (message "Not found!")))
+    (unless (file-exists-p (buffer-file-name))
+      (kill-current-buffer))))

@@ -18,7 +18,7 @@
   :init
   (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
-(defun kevin/auto-save-buffer()
+(defun my-auto-save-buffer()
   (let ((autosave-buffer-list))
     (ignore-errors
       (save-excursion
@@ -44,14 +44,14 @@
             (basic-save-buffer))))
       (cond
        ((= (length autosave-buffer-list) 1)
-        (message "# Auto saved %s" (car autosave-buffer-list)))
+        (message "# Auto saved %s at %s" (car autosave-buffer-list) (format-time-string "%Y-%m-%d %H:%M:%S" (current-time))))
        ((> (length autosave-buffer-list) 1)
         (message "# Auto saved %d files: %s"
                  (length autosave-buffer-list)
-                 (mapconcat 'identity autosave-buffer-list ", ")))))))
+                 (mapconcat 'identity autosave-buffer-list "|")))))))
 
 (add-hook 'after-init-hook (lambda ()
-                             (run-with-idle-timer 1 t #'kevin/auto-save-buffer)
+                             (run-with-idle-timer 1 t #'my-auto-save-buffer)
                              ;; TODO 测试这里是否可以移除
                              ;; (add-hook 'before-save-hook 'font-lock-flush)
                              ))

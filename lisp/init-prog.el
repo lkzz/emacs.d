@@ -48,10 +48,10 @@
   :mode "\\.proto\\'"
   :straight (:host github :repo "emacsmirror/protobuf-mode" :files (:defaults "*"))
   :init
-  (defconst kevin/protobuf-style
+  (defconst my-protobuf-style
     '((c-basic-offset . 2)
       (indent-tabs-mode . nil)))
-  (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" kevin/protobuf-style t))))
+  (add-hook 'protobuf-mode-hook (lambda () (c-add-style "my-style" my-protobuf-style t))))
 
 (use-package yaml-mode
   :mode "\\.yml\\'"
@@ -83,18 +83,16 @@
   (add-hook #'xref-after-return-hook #'recenter)
   (add-hook #'xref-after-return-hook #'better-jumper-set-jump))
 
-
 (use-package tree-sitter
-  :if (bound-and-true-p module-file-suffix)
-  :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("lisp/*.el"))
+  :defer t
+  :commands tree-sitter-hl-mode
   :custom-face
   (tree-sitter-hl-face:property ((t (:inherit font-lock-constant-face))))
-  :hook ((python-mode go-mode) . tree-sitter-hl-mode)
-  :config
-  (add-to-list 'tree-sitter-major-mode-language-alist '(rustic-mode . rust)))
+  :hook ((python-mode go-mode) . tree-sitter-hl-mode))
 
 (use-package tree-sitter-langs
-  :straight (:host github :repo "ubolonton/emacs-tree-sitter" :files ("langs/*.el" "langs/queries")))
+  :defer t
+  :after tree-sitter)
 
 (provide 'init-prog)
 ;;; init-prog.el ends here

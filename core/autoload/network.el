@@ -13,36 +13,36 @@
 ;;; Code:
 
 ;;;###autoload
-(defun kevin/show-http-proxy ()
+(defun my-show-http-proxy ()
   "Show HTTP/HTTPS proxy."
   (interactive)
   (if url-proxy-services
-      (message "Current HTTP proxy is `%s'" kevin-http-proxy)
+      (message "Current HTTP proxy is `%s'" my-http-proxy)
     (message "No HTTP proxy")))
 
 ;;;###autoload
-(defun kevin/enable-http-proxy ()
+(defun my-enable-http-proxy ()
   "Enable HTTP/HTTPS proxy."
   (interactive)
   (setq url-proxy-services
-        `(("http" . ,kevin-http-proxy)
-          ("https" . ,kevin-http-proxy)
+        `(("http" . ,my-http-proxy)
+          ("https" . ,my-http-proxy)
           ("no_proxy" . "^\\(localhost\\|192.168.*\\|10.*\\)")))
-  (kevin/show-http-proxy))
+  (my-show-http-proxy))
 
 ;;;###autoload
-(defun kevin/disable-http-proxy ()
+(defun my-disable-http-proxy ()
   "Disable HTTP/HTTPS proxy."
   (interactive)
   (setq url-proxy-services nil)
-  (kevin/show-http-proxy))
+  (my-show-http-proxy))
 
 ;;;###autoload
-(defun kevin/toggle-http-proxy ()
+(defun my-toggle-http-proxy ()
   "Toggle HTTP/HTTPS proxy."
   (interactive)
   (if url-proxy-services
-      (kevin/disable-http-proxy)
-    (kevin/enable-http-proxy)))
+      (my-disable-http-proxy)
+    (my-enable-http-proxy)))
 
 ;;; network.el ends here

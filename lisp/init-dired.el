@@ -23,7 +23,7 @@
         dired-auto-revert-buffer t
         dired-hide-details-hide-symlink-targets nil)
   :config
-  (general-def 'normal dired-mode-map
+  (general-evil-define-key 'normal dired-mode-map
     "a" 'dired-find-alternate-file
     "d" 'dired-flag-file-deletion
     "gf" 'dired-find-file
@@ -130,7 +130,7 @@
     (let ((cmd (cond
                 (is-mac-p "open")
                 (is-linux-p "xdg-open")
-                (kevin-window-p "start")
+                (my-window-p "start")
                 (t ""))))
       (setq dired-guess-shell-alist-user
             `(("\\.pdf\\'" ,cmd)

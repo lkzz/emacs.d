@@ -16,7 +16,7 @@
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode)
   :config
-  (my-comma-leader-def go-mode-map
+  (my-local-leader-define go-mode-map
     "i" '(nil :wk "import")
     "i a" 'go-import-add
     "i g" 'go-goto-imports
@@ -32,11 +32,16 @@
     "T r" 'go-tag-remove
     "x" '(nil :wk "run")
     "x x" 'go-run)
-  (defun lsp-go-install-save-hooks ()
-    (add-hook 'before-save-hook #'lsp-format-buffer t t)
-    (add-hook 'before-save-hook #'lsp-organize-imports t t)
-    (setq-local lsp-diagnostics-provider 'flycheck))
-  (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)
+
+  (if (executable-find "goimports")
+      (setq gofmt-command "goimports") ;; go install golang.org/x/tools/cmd/goimports@latest
+    (message "command goimports not found"))
+
+  ;; (if (executable-find "gofumpt")
+  ;;     (setq gofmt-command "gofumpt") ;; go install mvdan.cc/gofumpt@latest
+  ;;   (message "command gofumpt not found"))
+
+  (add-hook 'before-save-hook #'gofmt-before-save)
 
   (with-eval-after-load 'exec-path-from-shell
     (exec-path-from-shell-copy-envs '("GOPATH" "GOBIN" "GO111MODULE" "GOPROXY")))
