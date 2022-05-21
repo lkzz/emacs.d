@@ -128,7 +128,7 @@
            (helpful-variable (button-get button 'apropos-symbol)))))))
   :config
   ;; Open the buffer in other window
-  (defun my-helpful--navigate (button)
+  (defun my/helpful--navigate (button)
     "Navigate to the path this BUTTON represents."
     (find-file-other-window (substring-no-properties (button-get button 'path)))
     ;; We use `get-text-property' to work around an Emacs 25 bug:
@@ -136,7 +136,7 @@
     (-when-let (pos (get-text-property button 'position
                                        (marker-buffer button)))
       (helpful--goto-char-widen pos)))
-  (advice-add #'helpful--navigate :override #'my-helpful--navigate))
+  (advice-add #'helpful--navigate :override #'my/helpful--navigate))
 
 ;; Writable `grep' buffer
 (use-package wgrep
@@ -160,5 +160,26 @@
 (use-package popup-kill-ring
   :defer t
   :bind ("M-y" . popup-kill-ring))
+
+
+(use-package color-rg
+  :commands (color-rg-search-input color-rg-search-project color-rg-search-symbol-in-project)
+  :when (executable-find "rg")
+  :straight (:host github :repo "manateelazycat/color-rg")
+  :bind
+  (:map color-rg-mode-map
+        ("q" . my/quit-color-rg))
+  :init
+  (setq color-rg-mac-load-path-from-shell nil)
+  :config
+  (fset 'color-rg-project-root-dir #'my/project-root)
+  (evil-make-overriding-map color-rg-mode-map 'normal)
+  ;; force update evil keymaps after git-timemachine-mode loaded
+  (add-hook 'color-rg-mode-hook #'evil-normalize-keymaps)
+  (defun my/quit-color-rg ()
+    (interactive)
+    (kill-current-buffer)
+    (evil-quit)))
+
 (provide 'init-misc)
 ;;; init-misc.el ends here

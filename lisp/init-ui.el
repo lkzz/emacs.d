@@ -17,16 +17,16 @@
 
 (use-package doom-themes
   :init
-  (add-hook 'my-load-theme-hook #'doom-themes-org-config)
-  (add-hook 'my-load-theme-hook #'doom-themes-neotree-config)
-  (add-hook 'my-load-theme-hook #'doom-themes-visual-bell-config)
+  (add-hook 'my/load-theme-hook #'doom-themes-org-config)
+  (add-hook 'my/load-theme-hook #'doom-themes-neotree-config)
+  (add-hook 'my/load-theme-hook #'doom-themes-visual-bell-config)
   (setq doom-dark+-blue-modeline t
         doom-gruvbox-dark-variant "medium"
         doom-themes-neotree-file-icons 't
         doom-themes-neotree-line-spacing 2))
 
 ;; 延迟部分ui设置
-(defun my-ui-setup ()
+(defun my/ui-setup ()
   ;; 加载doom主题依赖
   (solaire-global-mode)
   ;; 加载主题
@@ -54,7 +54,7 @@
              when (font-installed-p font)
              return (set-fontset-font t '(#x4e00 . #x9fff) font))))
 
-(add-hook 'after-init-hook #'my-ui-setup)
+(add-hook 'after-init-hook #'my/ui-setup)
 
 (use-package vi-tilde-fringe
   :if (fboundp 'set-fringe-mode)
@@ -141,12 +141,12 @@
       (add-to-list 'all-the-icons-mode-icon-alist icon))))
 
 (use-package doom-modeline
-  :hook (my-load-theme . doom-modeline-mode)
+  :hook (my/load-theme . doom-modeline-mode)
   :init
-  (defun my-doom-modeline--font-height ()
+  (defun my/doom-modeline--font-height ()
     "Calculate the actual char height of the mode-line."
     (+ (frame-char-height) 2))
-  (advice-add #'doom-modeline--font-height :override #'my-doom-modeline--font-height)
+  (advice-add #'doom-modeline--font-height :override #'my/doom-modeline--font-height)
   (unless after-init-time
     ;; prevent flash of unstyled modeline at startup
     (setq-default mode-line-format nil))

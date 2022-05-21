@@ -13,7 +13,7 @@
 ;;; Code:
 
 ;;;###autoload
-(defun my-show-http-proxy ()
+(defun my/show-http-proxy ()
   "Show HTTP/HTTPS proxy."
   (interactive)
   (if url-proxy-services
@@ -21,28 +21,28 @@
     (message "No HTTP proxy")))
 
 ;;;###autoload
-(defun my-enable-http-proxy ()
+(defun my/enable-http-proxy ()
   "Enable HTTP/HTTPS proxy."
   (interactive)
   (setq url-proxy-services
         `(("http" . ,my-http-proxy)
           ("https" . ,my-http-proxy)
           ("no_proxy" . "^\\(localhost\\|192.168.*\\|10.*\\)")))
-  (my-show-http-proxy))
+  (my/show-http-proxy))
 
 ;;;###autoload
-(defun my-disable-http-proxy ()
+(defun my/disable-http-proxy ()
   "Disable HTTP/HTTPS proxy."
   (interactive)
   (setq url-proxy-services nil)
-  (my-show-http-proxy))
+  (my/show-http-proxy))
 
 ;;;###autoload
-(defun my-toggle-http-proxy ()
+(defun my/toggle-http-proxy ()
   "Toggle HTTP/HTTPS proxy."
   (interactive)
   (if url-proxy-services
-      (my-disable-http-proxy)
-    (my-enable-http-proxy)))
+      (my/disable-http-proxy)
+    (my/enable-http-proxy)))
 
 ;;; network.el ends here

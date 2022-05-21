@@ -21,6 +21,8 @@
          ("C-c v o" . ivy-pop-view)
          ("C-c v ." . ivy-switch-view)
          :map counsel-mode-map
+         ([remap switch-to-buffer] . counsel-switch-buffer)
+         ([remap find-file] . counsel-find-file)
          ([remap swiper] . counsel-grep-or-swiper)
          ([remap swiper-backward] . counsel-grep-or-swiper-backward)
          ([remap insert-char] . counsel-unicode-char)
@@ -80,16 +82,16 @@
           counsel-find-file-occur-cmd "gls -a | grep -i -E '%s' | tr '\\n' '\\0' | xargs -0 gls -d --group-directories-first"))
   :config
   ;; Highlight the selected item
-  (defun my-ivy-format-function (cands)
+  (defun my/ivy-format-function (cands)
     "Transform CANDS into a string for minibuffer."
     (if (display-graphic-p)
         (ivy-format-function-line cands)
       (ivy-format-function-arrow cands)))
-  (setf (alist-get 't ivy-format-functions-alist) #'my-ivy-format-function)
+  (setf (alist-get 't ivy-format-functions-alist) #'my/ivy-format-function)
 
   ;; Pre-fill search keywords
   ;; @see https://www.reddit.com/r/emacs/comments/b7g1px/withemacs_execute_commands_like_marty_mcfly/
-  (defvar my-ivy-fly-commands
+  (defvar my/ivy-fly-commands
     '(query-replace-regexp
       flush-lines keep-lines ivy-read
       swiper swiper-backward swiper-all
@@ -97,10 +99,10 @@
       lsp-ivy-workspace-symbol lsp-ivy-global-workspace-symbol
       counsel-grep-or-swiper counsel-grep-or-swiper-backward
       counsel-grep counsel-ack counsel-ag counsel-rg counsel-pt))
-  (defvar-local my-ivy-fly--travel nil)
+  (defvar-local my/ivy-fly--travel nil)
 
-  (defun my-ivy-fly-back-to-present ()
-    (cond ((and (memq last-command my-ivy-fly-commands)
+  (defun my/ivy-fly-back-to-present ()
+    (cond ((and (memq last-command my/ivy-fly-commands)
                 (equal (this-command-keys-vector) (kbd "M-p")))
            ;; repeat one time to get straight to the first history item
            (setq unread-command-events
@@ -113,7 +115,7 @@
                                     mwim-end-of-code-or-line mwim-end-of-line-or-code
                                     yank ivy-yank-word counsel-yank-pop))
                (equal (this-command-keys-vector) (kbd "M-n")))
-           (unless my-ivy-fly--travel
+           (unless my/ivy-fly--travel
              (delete-region (point) (point-max))
              (when (memq this-command '(ivy-forward-char
                                         ivy-delete-char delete-forward-char
@@ -123,10 +125,10 @@
                (insert (ivy-cleanup-string ivy-text))
                (when (memq this-command '(ivy-delete-char delete-forward-char))
                  (beginning-of-line)))
-             (setq my-ivy-fly--travel t)))))
+             (setq my/ivy-fly--travel t)))))
 
-  (defun my-ivy-fly-time-travel ()
-    (when (memq this-command my-ivy-fly-commands)
+  (defun my/ivy-fly-time-travel ()
+    (when (memq this-command my/ivy-fly-commands)
       (let* ((kbd (kbd "M-n"))
              (cmd (key-binding kbd))
              (future (and cmd
@@ -142,11 +144,11 @@
                                   "\\\\_>" ""
                                   future))
                                 'face 'shadow)))
-          (add-hook 'pre-command-hook 'my-ivy-fly-back-to-present nil t)))))
+          (add-hook 'pre-command-hook 'my/ivy-fly-back-to-present nil t)))))
 
-  (add-hook 'minibuffer-setup-hook #'my-ivy-fly-time-travel)
+  (add-hook 'minibuffer-setup-hook #'my/ivy-fly-time-travel)
   (add-hook 'minibuffer-exit-hook (lambda ()
-                                    (remove-hook 'pre-command-hook 'my-ivy-fly-back-to-present t)))
+                                    (remove-hook 'pre-command-hook 'my/ivy-fly-back-to-present t)))
 
   ;; Integration with `projectile'
   (with-eval-after-load 'projectile
@@ -168,13 +170,13 @@
     (setq all-the-icons-ivy-rich-icon-size 0.85)
     (all-the-icons-ivy-rich-mode)
     :config
-    (let ((my-recentf-transformer '(:columns ; TODO trancate long path string into one line
+    (let ((my/recentf-transformer '(:columns ; TODO trancate long path string into one line
                                     ((all-the-icons-ivy-rich-file-icon)
                                      (all-the-icons-ivy-rich-file-name (:width 0.70))
                                      (all-the-icons-ivy-rich-file-modes (:width 10))
                                      (ivy-rich-file-last-modified-time (:witdh 0.15 :face all-the-icons-ivy-rich-time-face)))
                                     :delimiter "\t"))
-          (my-bookmark-transformer '(:columns
+          (my/bookmark-transformer '(:columns
                                      ((all-the-icons-ivy-rich-bookmark-icon)
                                       (all-the-icons-ivy-rich-bookmark-name (:width 0.15))
                                       (ivy-rich-bookmark-type (:width 10))
@@ -183,10 +185,10 @@
                                      :delimiter "\t")))
       ;; counsel-recentf
       (plist-put all-the-icons-ivy-rich-display-transformers-list
-                 'counsel-recentf my-recentf-transformer)
+                 'counsel-recentf my/recentf-transformer)
       ;; counsel-bookmark
       (plist-put all-the-icons-ivy-rich-display-transformers-list
-                 'counsel-bookmark my-bookmark-transformer))
+                 'counsel-bookmark my/bookmark-transformer))
     ;; reload ivy-rich-mode to apply configuration
     (ivy-rich-mode -1)
     (ivy-rich-mode +1))

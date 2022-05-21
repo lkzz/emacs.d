@@ -63,14 +63,14 @@
 
 (use-package general
   :config
-  (general-create-definer my-leader-define
+  (general-create-definer my/global-leader-define
     :states '(normal visual motion evilified)
     :keymaps 'override
-    :prefix my-leader-key-prefix)
-  (general-create-definer my-local-leader-define
+    :prefix my-global-leader-prefix)
+  (general-create-definer my/local-leader-define
     :states '(normal visual motion evilified)
     :keymaps 'override
-    :prefix my-local-leader-key-prefix))
+    :prefix my-local-leader-prefix))
 
 (use-package better-jumper
   :init

@@ -13,7 +13,7 @@
 ;;; Code:
 
 ;;;###autoload
-(defun my-jump-match-delimiter ()
+(defun my/jump-match-delimiter ()
   "Go to the matching if on (){}[], similar to vi style of %."
   (interactive)
   ;; first, check for "outside of bracket" positions expected by forward-sexp, etc

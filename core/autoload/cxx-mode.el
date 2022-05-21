@@ -13,8 +13,10 @@
 ;;; Code:
 
 ;;;###autoload
-(defun my-clang-format-region-or-buffer ()
-  "Format the current region or buffer with clang-format.if .clang-format exists in the projectile root, Otherwise, use google style by default"
+(defun my/clang-format-region-or-buffer ()
+  "Format the current region or buffer with clang-format.
+if .clang-format exists in the projectile root, Otherwise,
+use google style by default"
   (interactive)
   (save-excursion
     (when (f-exists? (expand-file-name ".clang-format" (projectile-project-root)))

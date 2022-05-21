@@ -16,6 +16,9 @@
 (when (version< emacs-version "28.1")
   (error "Your Emacs is too old -- this config requires 28.1 or higher"))
 
+;; Speed up startup
+(setq auto-mode-case-fold nil)
+
 ;; Adjust garbage collection thresholds during startup, Optimize loading performance
 (defvar default-file-name-handler-alist file-name-handler-alist)
 
@@ -35,7 +38,7 @@
 
 ;; Load core config of emacs
 (load (concat user-emacs-directory "core/core") nil 'nomessage)
-(my-initialize-core)
+(my/initialize-core)
 
 ;; Be quiet at startup; don't load or display anything unnecessary
 (advice-add #'display-startup-echo-area-message :override #'ignore)
@@ -47,7 +50,7 @@
 (require 'init-highlight)
 
 ;; Misc packages
-(require 'init-ivy)
+;; (require 'init-ivy)
 (require 'init-chinese)
 (require 'init-misc)
 (require 'init-edit)

@@ -16,7 +16,7 @@
 (use-package go-mode
   :mode ("\\.go\\'" . go-mode)
   :config
-  (my-local-leader-define go-mode-map
+  (my/local-leader-define go-mode-map
     "i" '(nil :wk "import")
     "i a" 'go-import-add
     "i g" 'go-goto-imports

@@ -49,19 +49,19 @@
                (all-the-icons-octicon "mark-github" :height 1.1 :v-adjust 0.0))
             "Homepage"
             "Browse homepage"
-            (lambda (&rest _) (my-browse-homepage)))
+            (lambda (&rest _) (my/browse-homepage)))
 
            (,(when (display-graphic-p)
                (all-the-icons-faicon "floppy-o" :height 1.2 :v-adjust -0.1 :face 'font-lock-keyword-face))
             "Open Config"
             "Open init config"
-            (lambda (&rest _) (my-open-init-file)))
+            (lambda (&rest _) (my/open-init-file)))
 
            (,(when (display-graphic-p)
                (all-the-icons-material "restore" :height 1.35 :v-adjust -0.24 :face 'font-lock-keyword-face))
             "Restore"
             "Restore session"
-            (lambda (&rest _) (my-restore-session))))))
+            (lambda (&rest _) (my/restore-session))))))
   (dashboard-setup-startup-hook)
   :config
   (general-evil-define-key 'normal dashboard-mode-map
@@ -70,13 +70,13 @@
     "g" 'dashboard-refresh-buffer
     "}" 'dashboard-next-section
     "{" 'dashboard-previous-section
-    "p" 'my-dashboard-goto-projects
-    "m" 'my-dashboard-goto-bookmarks
-    "r" 'my-dashboard-goto-recent-files
-    "H" 'my-browse-homepage
-    "R" 'my-restore-session
-    "O" 'my-dashboard-open-init-file
-    "q" 'my-quit-dashboard))
+    "p" 'my/dashboard-goto-projects
+    "m" 'my/dashboard-goto-bookmarks
+    "r" 'my/dashboard-goto-recent-files
+    "H" 'my/browse-homepage
+    "R" 'my/restore-session
+    "O" 'my/dashboard-open-init-file
+    "q" 'my/quit-dashboard))
 
 (provide 'init-dashboard)
 

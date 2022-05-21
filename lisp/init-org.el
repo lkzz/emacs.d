@@ -13,19 +13,19 @@
 ;;
 ;;; Code:
 
-(defvar my-org-dir "~/Dropbox/org/"
+(defvar my/org-dir "~/Dropbox/org/"
   "The directory where org files are kept.")
 
-(defvar my-org-notes-file (concat my-org-dir "notes.org")
+(defvar my/org-notes-file (concat my/org-dir "notes.org")
   "The org notes file.")
 
-(defvar my-org-task-file (concat my-org-dir "tasks.org")
+(defvar my/org-task-file (concat my/org-dir "tasks.org")
   "The org task file.")
 
-(defvar my-org-idea-file (concat my-org-dir "ideas.org")
+(defvar my/org-idea-file (concat my/org-dir "ideas.org")
   "The org idea file.")
 
-(defvar my-org-reading-file (concat my-org-dir "books.org")
+(defvar my/org-reading-file (concat my/org-dir "books.org")
   "The org idea file.")
 
 (use-package org
@@ -86,23 +86,23 @@
     :config
     (setq org-default-notes-file (expand-file-name "notes.org" org-directory)
           org-capture-templates
-          '(("t" "tasks" entry (file+headline my-org-task-file "Work")
+          '(("t" "tasks" entry (file+headline my/org-task-file "Work")
              "* %^{Scope of task||TODO [#A]|STUDY [#A]|MEET with} %^{Title} %^g\n DEADLINE: %^t\n :PROPERTIES:\n :CONTEXT: %a\n:CAPTURED: %U\n :END:\n\n %i %?"
              :empty-lines 1)
-            ("n" "notes" entry (file+headline my-org-notes-file "Notes")
+            ("n" "notes" entry (file+headline my/org-notes-file "Notes")
              "* %?\n  %i\n %U"
              :empty-lines 1)
-            ("i" "ideas" entry (file+headline my-org-idea-file "Ideas")
+            ("i" "ideas" entry (file+headline my/org-idea-file "Ideas")
              "* %?\n  %i\n %U"
              :empty-lines 1)
-            ("r" "reading" entry (file+olp my-org-reading-file "阅读书目" "2020")
+            ("r" "reading" entry (file+olp my/org-reading-file "阅读书目" "2020")
              "* TODO %^{The book's name} %^g\n%^{STYLE}p"
              :empty-lines 1))))
 
   (use-package org-agenda
     :straight (:type built-in)
     :config
-    (setq org-agenda-files my-org-dir
+    (setq org-agenda-files my/org-dir
           ;; Set the agenda view to show the tasks on day/week/month/year
           org-agenda-span 'week
           ;; only keep agenda window,delete all other window

@@ -25,8 +25,8 @@
         git-commit-summary-max-length 50
         magit-revision-show-gravatars '("^Author:     " . "^Commit:     ")
         git-commit-style-convention-checks '(overlong-summary-line non-empty-second-line)
-        magit-display-buffer-function #'my-magit-display-buffer-function ; display buffer fullframe
-        magit-bury-buffer-function #'my-magit-bury-buffer-function))     ; bury or kill the current magit buffer
+        magit-display-buffer-function #'my/magit-display-buffer-function ; display buffer fullframe
+        magit-bury-buffer-function #'my/magit-bury-buffer-function))     ; bury or kill the current magit buffer
 
 ;; Show TODOs in magit
 (use-package magit-todos
@@ -151,13 +151,13 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
                '(diff-hl-delete ((t (:inherit diff-removed :background nil))))
                `(diff-hl-change ((t (:foreground ,(face-background 'highlight) :background nil)))))))
 
-  (defun my-diff-hl-fringe-bmp-function (_type _pos)
+  (defun my/diff-hl-fringe-bmp-function (_type _pos)
     "Fringe bitmap function for use as `diff-hl-fringe-bmp-function'."
-    (define-fringe-bitmap 'my-diff-hl-bmp
+    (define-fringe-bitmap 'my/diff-hl-bmp
       (vector (if is-mac-p #b11100000 #b11111100))
       1 8
       '(center t)))
-  (setq diff-hl-fringe-bmp-function #'my-diff-hl-fringe-bmp-function)
+  (setq diff-hl-fringe-bmp-function #'my/diff-hl-fringe-bmp-function)
 
   (with-eval-after-load 'magit
     (add-hook 'magit-pre-refresh-hook #'diff-hl-magit-pre-refresh)
@@ -211,7 +211,7 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
     ("c" git-messenger:copy-commit-id "copy hash")
     ("m" git-messenger:copy-message "copy message")
     ("q" git-messenger:popup-close "quit"))
-  (defun my-git-messenger:format-detail (vcs commit-id author message)
+  (defun my/git-messenger:format-detail (vcs commit-id author message)
     (if (eq vcs 'git)
         (let ((date (git-messenger:commit-date commit-id))
               (colon (propertize ":" 'face 'font-lock-comment-face)))
@@ -226,7 +226,7 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
            (propertize (make-string 38 ?─) 'face 'font-lock-comment-face)
            message))
       (git-messenger:format-detail vcs commit-id author message)))
-  (defun my-git-messenger:popup-message ()
+  (defun my/git-messenger:popup-message ()
     "Popup message with `posframe', `pos-tip', `lv' or `message', and dispatch actions with `hydra'."
     (interactive)
     (let* ((hydra-hint-display-type 'message)
@@ -238,7 +238,7 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
            (author (cdr commit-info))
            (msg (git-messenger:commit-message vcs commit-id))
            (popuped-message (if (git-messenger:show-detail-p commit-id)
-                                (my-git-messenger:format-detail vcs commit-id author msg)
+                                (my/git-messenger:format-detail vcs commit-id author msg)
                               (cl-case vcs
                                 (git msg)
                                 (svn (if (string= commit-id "-")
@@ -275,7 +275,7 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
             (t (message "%s" popuped-message)))
       (run-hook-with-args 'git-messenger:after-popup-hook popuped-message)))
   (advice-add #'git-messenger:popup-close :override #'ignore)
-  (advice-add #'git-messenger:popup-message :override #'my-git-messenger:popup-message))
+  (advice-add #'git-messenger:popup-message :override #'my/git-messenger:popup-message))
 
 (provide 'init-vc)
 ;;; init-vc ends here

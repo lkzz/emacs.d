@@ -53,11 +53,14 @@
 (defconst my-http-proxy "127.0.0.1:1235"
   "Set http/https proxy.")
 
-(defvar my-leader-key-prefix "SPC"
+(defconst my-global-leader-prefix "SPC"
   "Global leader key prefix.")
 
-(defvar my-local-leader-key-prefix ","
+(defconst my-local-leader-prefix ","
   "Local leader key prefix.")
+
+(defconst my-lsp-backend 'eglot
+  "Which language server to use, eglot, lsp-mode or lsp-bridge")
 
 ;; Ensure core dir is in `load-path'
 (add-to-list 'load-path (file-name-directory load-file-name))
@@ -110,12 +113,7 @@
 ;; Make scrolling smoother by avoiding unnecessary fontification
 (setq redisplay-skip-fontification-on-input t)
 
-;; Resizing the Emacs frame can be a terribly expensive part of changing the
-;; font. By inhibiting this, we halve startup times, particularly when we use
-;; fonts that are larger than the system default (which would resize the frame).
-(setq frame-inhibit-implied-resize t)
-
-(defun my-initialize-core ()
+(defun my/initialize-core ()
   "Load core config file for Emacs."
   (require 'core-autoload)
   (require 'core-package)

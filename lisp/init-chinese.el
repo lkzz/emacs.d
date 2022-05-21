@@ -14,10 +14,10 @@
 ;;; Code:
 
 (use-package youdao-dictionary
-  :bind (("C-c y" . my-youdao-dictionary-search-at-point))
+  :bind (("C-c y" . my/youdao-dictionary-search-at-point))
   :init (setq url-automatic-caching t
               youdao-dictionary-use-chinese-word-segmentation t) ; 中文分词
-  (defun my-youdao-dictionary-search-at-point ()
+  (defun my/youdao-dictionary-search-at-point ()
     "Search word at point and display result with `posframe' or `popup'"
     (interactive)
     (if (display-graphic-p)

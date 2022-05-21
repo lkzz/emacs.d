@@ -18,7 +18,7 @@
   :init
   (setq ibuffer-filter-group-name-face '(:inherit (font-lock-string-face bold))))
 
-(defun my-auto-save-buffer()
+(defun my/auto-save-buffer()
   (let ((autosave-buffer-list))
     (ignore-errors
       (save-excursion
@@ -51,7 +51,7 @@
                  (mapconcat 'identity autosave-buffer-list "|")))))))
 
 (add-hook 'after-init-hook (lambda ()
-                             (run-with-idle-timer 1 t #'my-auto-save-buffer)
+                             (run-with-idle-timer 1 t #'my/auto-save-buffer)
                              ;; TODO 测试这里是否可以移除
                              ;; (add-hook 'before-save-hook 'font-lock-flush)
                              ))

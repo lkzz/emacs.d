@@ -19,7 +19,7 @@
 
 (use-package cc-mode
   :mode ("\\.h|\\.cpp" . c++-mode)
-  :hook ((c-mode c++-mode) . my-cxx-mode-setup)
+  :hook ((c-mode c++-mode) . my/cxx-mode-setup)
   :bind (:map c++-mode-map
               ("C-c C-o" . ff-find-other-file))
   :init
@@ -34,7 +34,7 @@
           ("\\.h\\'"   (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".hxx" ".hpp"))
           ("\\.hpp\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))
           ("\\.hxx\\'" (".tpp" ".cpp" ".cxx" ".tcc" ".cc" ".C" ".c" ".h"))))
-  (defun my-cxx-mode-setup ()
+  (defun my/cxx-mode-setup ()
     (use-package modern-cpp-font-lock
       :diminish modern-c++-font-lock-mode
       :config
@@ -80,7 +80,7 @@
     (c-set-offset  'namespace-close 0)
     (c-set-offset  'innamespace 0)
     ;; auto format before save by clang-format
-    (add-hook 'before-save-hook #'my-clang-format-region-or-buffer nil t)
+    (add-hook 'before-save-hook #'my/clang-format-region-or-buffer nil t)
     ;; used by ff-find-other-file
     (setq cc-search-directories '("."
                                   "../include"

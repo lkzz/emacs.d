@@ -123,7 +123,7 @@
     "gi" 'lsp-find-implementation
     "gr" 'lsp-find-references
     "gt" 'lsp-find-type-definition)
-  (my-local-leader-define
+  (my/local-leader-define
     "="  '(:ignore t :wk "formatting")
     "=b" 'lsp-format-buffer
     "=r" 'lsp-format-region
@@ -159,11 +159,11 @@
     "wq" 'lsp-workspace-shutdown
     "wr" 'lsp-workspace-restart)
 
-  (defun my-lsp--init-if-visible (func &rest args)
+  (defun my/lsp--init-if-visible (func &rest args)
     "Not enabling lsp in `git-timemachine-mode'."
     (unless (bound-and-true-p git-timemachine-mode)
       (apply func args)))
-  (advice-add #'lsp--init-if-visible :around #'my-lsp--init-if-visible)
+  (advice-add #'lsp--init-if-visible :around #'my/lsp--init-if-visible)
 
   (use-package lsp-ui
     :custom-face

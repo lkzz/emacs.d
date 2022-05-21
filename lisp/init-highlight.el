@@ -16,8 +16,8 @@
 ;; Highlight the current line
 (use-package hl-line
   :straight (:type built-in)
-  :hook (((evil-visual-state-entry activate-mark) . my-disable-hl-line)
-         ((evil-visual-state-exit deactivate-mark) . my-enable-hl-line)
+  :hook (((evil-visual-state-entry activate-mark) . my/disable-hl-line)
+         ((evil-visual-state-exit deactivate-mark) . my/enable-hl-line)
          ((prog-mode text-mode conf-mode special-mode) . hl-line-mode))
   :config
   ;; Not having to render the hl-line overlay in multiple buffers offers a tiny
@@ -25,13 +25,13 @@
   (setq hl-line-sticky-flag nil
         global-hl-line-sticky-flag nil)
   ;; Temporarily disable `hl-line' when selection is active
-  (defvar my--hl-line-mode nil)
-  (defun my-disable-hl-line ()
+  (defvar my/-hl-line-mode nil)
+  (defun my/disable-hl-line ()
     (when hl-line-mode
       (hl-line-mode -1)
-      (setq-local my--hl-line-mode t)))
-  (defun my-enable-hl-line ()
-    (when my--hl-line-mode
+      (setq-local my/-hl-line-mode t)))
+  (defun my/enable-hl-line ()
+    (when my/-hl-line-mode
       (hl-line-mode +1))))
 
 ;; Show-paren-mode: subtle blinking of matching paren (defaults are ugly)
@@ -61,15 +61,15 @@
         highlight-indent-guides-auto-enabled nil)
   (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
   ;; Don't display first level of indentation
-  (defun my-indent-guides-for-all-but-first-column (level responsive display)
+  (defun my/indent-guides-for-all-but-first-column (level responsive display)
     (unless (< level 1)
       (highlight-indent-guides--highlighter-default level responsive display)))
   (setq highlight-indent-guides-highlighter-function
-        #'my-indent-guides-for-all-but-first-column)
+        #'my/indent-guides-for-all-but-first-column)
   ;; Don't display indentations in `swiper'
   ;; https://github.com/DarthFennec/highlight-indent-guides/issues/40
   (with-eval-after-load 'ivy
-    (defun my-ivy-cleanup-indentation (str)
+    (defun my/ivy-cleanup-indentation (str)
       "Clean up indentation highlighting in ivy minibuffer."
       (let ((pos 0) (next 0) (limit (length str)) (prop 'highlight-indent-guides-prop))
         (while (and pos next)
@@ -78,7 +78,7 @@
             (setq pos (text-property-any next limit prop nil str))
             (ignore-errors
               (remove-text-properties next pos '(display nil face nil) str))))))
-    (advice-add #'ivy-cleanup-string :after #'my-ivy-cleanup-indentation)))
+    (advice-add #'ivy-cleanup-string :after #'my/ivy-cleanup-indentation)))
 
 (use-package highlight-numbers
   :if (display-graphic-p)
@@ -115,28 +115,28 @@
   :custom-face
   (pulse-highlight-start-face ((t (:inherit region))))
   (pulse-highlight-face ((t (:inherit region))))
-  :hook (((dumb-jump-after-jump imenu-after-jump) . my-recenter-and-pulse)
-         ((bookmark-after-jump magit-diff-visit-file next-error) . my-recenter-and-pulse-line))
+  :hook (((dumb-jump-after-jump imenu-after-jump) . my/recenter-and-pulse)
+         ((bookmark-after-jump magit-diff-visit-file next-error) . my/recenter-and-pulse-line))
   :init
-  (defun my-pulse-momentary-line (&rest _)
+  (defun my/pulse-momentary-line (&rest _)
     "Pulse the current line."
     (pulse-momentary-highlight-one-line (point)))
 
-  (defun my-pulse-momentary (&rest _)
+  (defun my/pulse-momentary (&rest _)
     "Pulse the region or the current line."
     (if (fboundp 'xref-pulse-momentarily)
         (xref-pulse-momentarily)
-      (my-pulse-momentary-line)))
+      (my/pulse-momentary-line)))
 
-  (defun my-recenter-and-pulse(&rest _)
+  (defun my/recenter-and-pulse(&rest _)
     "Recenter and pulse the region or the current line."
     (recenter)
-    (my-pulse-momentary))
+    (my/pulse-momentary))
 
-  (defun my-recenter-and-pulse-line (&rest _)
+  (defun my/recenter-and-pulse-line (&rest _)
     "Recenter and pulse the current line."
     (recenter)
-    (my-pulse-momentary-line))
+    (my/pulse-momentary-line))
 
   (dolist (cmd '(recenter-top-bottom
                  other-window windmove-do-window-select
@@ -153,7 +153,7 @@
                  winum-select-window-0-or-10
                  pager-page-down pager-page-up
                  symbol-overlay-basic-jump))
-    (advice-add cmd :after #'my-pulse-momentary-line))
+    (advice-add cmd :after #'my/pulse-momentary-line))
 
   (dolist (cmd '(pop-to-mark-command
                  pop-global-mark
@@ -163,7 +163,7 @@
                  better-jumper-jump-forward better-jumper-jump-backward
                  diff-hl-previous-hunk diff-hl-next-hunk
                  goto-last-change))
-    (advice-add cmd :after #'my-recenter-and-pulse)))
+    (advice-add cmd :after #'my/recenter-and-pulse)))
 
 ;; Highlight symbols, copy from centaur emacs
 (use-package symbol-overlay

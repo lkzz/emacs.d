@@ -20,6 +20,7 @@
   (setq evil-magic t
         evil-echo-state t
         evil-default-state 'normal
+        evil-mode-line-format nil
         evil-want-C-u-scroll t
         evil-want-C-w-delete t
         evil-want-C-i-jump t
@@ -43,9 +44,9 @@
         evil-ex-interactive-search-highlight 'selected-window ;; Only do highlighting in selected window so that Emacs has less work to do highlighting them all.
         evil-esc-delay 0.01)
   ;; cursor appearance
-  (setq evil-default-cursor '(box (lambda () (evil-set-cursor-color my-default-cursor-color)))
+  (setq evil-default-cursor '(box (lambda () (evil-set-cursor-color my/default-cursor-color)))
         evil-normal-state-cursor 'box
-        evil-emacs-state-cursor  '(bar (lambda () (evil-set-cursor-color my-emacs-cursor-color)))
+        evil-emacs-state-cursor  '(bar (lambda () (evil-set-cursor-color my/emacs-cursor-color)))
         evil-insert-state-cursor '(bar . 2)
         evil-visual-state-cursor 'hollow)
   :config
@@ -58,10 +59,10 @@
   ;; normal state map
   (define-key evil-normal-state-map "Y" (kbd "y$"))
   (define-key evil-normal-state-map (kbd "C-e") 'move-end-of-line)
-  (define-key evil-normal-state-map ";d" #'my-delete-word)
-  (define-key evil-normal-state-map ";y" #'my-copy-word)
+  (define-key evil-normal-state-map ";d" #'my/delete-word)
+  (define-key evil-normal-state-map ";y" #'my/copy-word)
   (define-key evil-normal-state-map ";w" #'save-buffer)
-  (define-key evil-normal-state-map ";p" #'my-cover-word)
+  (define-key evil-normal-state-map ";p" #'my/cover-word)
   ;; insert state map
   (define-key evil-insert-state-map (kbd "C-e") 'move-end-of-line)
   (define-key evil-insert-state-map (kbd "M-j") 'yas-expand)
@@ -84,11 +85,11 @@
   ;; Change the cursor color in emacs state. We do it this roundabout way
   ;; instead of changing `evil-default-cursor' (or `evil-emacs-state-cursor') so
   ;; it won't interfere with users who have changed these variables.
-  (defvar my-default-cursor-color "#ffffff")
-  (defvar my-emacs-cursor-color "#ff9999")
-  (add-hook 'my-load-theme-hook (lambda ()
-                                  (setq my-default-cursor-color (face-background 'cursor)
-                                        my-emacs-cursor-color (face-foreground 'warning))))
+  (defvar my/default-cursor-color "#ffffff")
+  (defvar my/emacs-cursor-color "#ff9999")
+  (add-hook 'my/load-theme-hook (lambda ()
+                                  (setq my/default-cursor-color (face-background 'cursor)
+                                        my/emacs-cursor-color (face-foreground 'warning))))
 
   (use-package evil-escape
     :diminish evil-escape-mode
@@ -124,9 +125,9 @@
     :unless (display-graphic-p)
     :config
     ;; cursor appearance in terminal
-    (setq evil-default-cursor '(box (lambda () (evil-set-cursor-color my-default-cursor-color)))
+    (setq evil-default-cursor '(box (lambda () (evil-set-cursor-color my/default-cursor-color)))
           evil-normal-state-cursor 'box
-          evil-emacs-state-cursor  '(hbar (lambda () (evil-set-cursor-color my-emacs-cursor-color)))
+          evil-emacs-state-cursor  '(hbar (lambda () (evil-set-cursor-color my/emacs-cursor-color)))
           evil-insert-state-cursor '(bar . 2)
           evil-visual-state-cursor 'hollow)
     (evil-terminal-cursor-changer-activate))

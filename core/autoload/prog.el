@@ -13,7 +13,7 @@
 ;;; Code:
 
 ;;;###autoload
-(defun my-insert-cc-file-header ()
+(defun my/insert-cc-file-header ()
   "Add ifndef header to an c/c++ header file."
   (interactive)
   (when (string= ".h" (substring (buffer-file-name (current-buffer)) -2))
@@ -31,7 +31,7 @@
       (set-buffer-modified-p nil))))
 
 ;;;###autoload
-(defun my-insert-elisp-file-header ()
+(defun my/insert-elisp-file-header ()
   "Add minimal header and footer to an elisp buffer in order to placate flycheck."
   (interactive)
   (let ((fname (if (buffer-file-name)
@@ -56,7 +56,7 @@
       (insert ";;; " fname " ends here\n"))))
 
 ;;;###autoload
-(defun my-goto-definition (&optional arg)
+(defun my/goto-definition (&optional arg)
   "Goto definition and add bookmark at line."
   (interactive "P")
   (cl-case major-mode
@@ -66,4 +66,4 @@
     (python-mode (call-interactively 'jedi:goto-definition))
     (otherwise
      (counsel-etags-find-tag-at-point)))
-  (setq this-command 'my-goto-definition))
+  (setq this-command 'my/goto-definition))

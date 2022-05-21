@@ -13,7 +13,7 @@
 ;;; Code:
 
 ;;;###autoload
-(defun my-all-the-icons-dired--refresh ()
+(defun my/all-the-icons-dired--refresh ()
   "Display the icons of files in a dired buffer."
   (all-the-icons-dired--remove-all-overlays)
   ;; NOTE: don't display icons it too many items
