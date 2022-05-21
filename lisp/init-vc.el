@@ -67,10 +67,10 @@
   :diminish smerge-mode
   :init
   (defhydra hydra-smerge-mode (:hint nil
-                               :pre (if (not smerge-mode) (smerge-mode 1))
-                               ;; Disable `smerge-mode' when quitting hydra if
-                               ;; no merge conflicts remain.
-                               :post (smerge-auto-leave))
+                                     :pre (if (not smerge-mode) (smerge-mode 1))
+                                     ;; Disable `smerge-mode' when quitting hydra if
+                                     ;; no merge conflicts remain.
+                                     :post (smerge-auto-leave))
     "
                                                          [smerge]
   Movement   Keep           Diff              Other
@@ -187,9 +187,9 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
   :init
   (defhydra hydra-git-timemachine (:body-pre (unless (bound-and-true-p git-timemachine-mode)
                                                (call-interactively 'git-timemachine))
-                                   :post (git-timemachine-quit)
-                                   :color pink ;; toggle :foreign-keys run
-                                   :hint nil)
+                                             :post (git-timemachine-quit)
+                                             :color pink ;; toggle :foreign-keys run
+                                             :hint nil)
     "
 [_p_] previous [_n_] next [_c_] current [_g_] goto nth rev [_Y_] copy hash [_q_] quit
 "

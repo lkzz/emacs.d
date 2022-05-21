@@ -1,4 +1,4 @@
-;;; init-company.el --- auto complate use company. -*- lexical-binding: t; -*-
+;;; init-completion.el --- completion config. -*- lexical-binding: t -*-
 ;;
 ;; Copyright (C) 2017-2022 kevin.scnu@gmail.com
 ;;
@@ -10,24 +10,73 @@
 ;;; License: GPLv3
 ;;
 ;;; Commentary:
-;;
 ;;; Code:
 
+
+;; Completion style.
+(use-package orderless
+  :init
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles . (partial-completion))))))
+
+;; Enhance completion at point.
+(use-package corfu
+  :straight (:host github :files (:defaults "extensions/*") :includes (corfu-indexed
+                                                                       corfu-quick
+                                                                       corfu-info
+                                                                       corfu-history))
+  :custom
+  (corfu-auto t)
+  (corfu-cycle t)
+  (corfu-count 15)
+  (corfu-bar-width 0.5)
+  (corfu-bar-width 0.5)
+  (corfu-quit-at-boundary t)
+  (corfu-quit-no-match t)
+  (corfu-min-width 60)
+  (corfu-max-width 100)
+  (corfu-auto-delay 0.1)
+  (corfu-auto-prefix 1)
+  :bind (:map corfu-map
+              ("C-n" . corfu-next)
+              ("C-p" . corfu-previous)
+              ("C-g" . corfu-quit)
+              ("TAB" . corfu-next)
+              ("S-TAB" . corfu-previous))
+  :hook (eshell-mode . (lambda () (setq-local corfu-auto nil)))
+  :init (global-corfu-mode)
+  :config
+  (use-package corfu-doc
+    :init
+    (add-hook 'corfu-mode-hook #'corfu-doc-mode))
+
+  ;; A bunch of completion at point extensions which can be used in corfu
+  (use-package cape
+    :init
+    (add-to-list 'completion-at-point-functions #'cape-file)
+    (add-to-list 'completion-at-point-functions #'cape-tex)
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
+    (setq cape-dabbrev-check-other-buffers nil)
+    (add-to-list 'completion-at-point-functions #'cape-keyword)))
+
+;; Completion framework
 (use-package company
+  :disabled
   :diminish company-mode "ⓒ"
   :hook (prog-mode . global-company-mode)
   :bind (:map company-mode-map
-         ("<backtab>" . company-yasnippet)
-         :map company-active-map
-         ("C-s". company-filter-candidates)
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next)
-         ("C-u" . company-previous-page)
-         ("C-d" . company-next-page)
-         ("<tab>" . company-complete-common-or-cycle)
-         :map company-search-map
-         ("C-p" . company-select-previous)
-         ("C-n" . company-select-next))
+              ("<backtab>" . company-yasnippet)
+              :map company-active-map
+              ("C-s". company-filter-candidates)
+              ("C-p" . company-select-previous)
+              ("C-n" . company-select-next)
+              ("C-u" . company-previous-page)
+              ("C-d" . company-next-page)
+              ("<tab>" . company-complete-common-or-cycle)
+              :map company-search-map
+              ("C-p" . company-select-previous)
+              ("C-n" . company-select-next))
   :init
   ;; aligns annotation to the right hand side
   (setq company-tooltip-align-annotations t
@@ -265,10 +314,10 @@
     :unless (display-graphic-p)
     :defines company-quickhelp-delay
     :bind (:map company-active-map
-           ([remap company-show-doc-buffer] . company-quickhelp-manual-begin))
+                ([remap company-show-doc-buffer] . company-quickhelp-manual-begin))
     :hook ((global-company-mode . company-quickhelp-mode)
            (company-quickhelp-mode  . company-quickhelp-terminal-mode))
     :init (setq company-quickhelp-delay 0.3)))
 
-(provide 'init-company)
-;;; init-company.el ends here
+(provide 'init-completion)
+;;; init-completion.el ends here

@@ -13,14 +13,67 @@
 ;;
 ;;; Code:
 
+(when is-mac-p
+  (setq lsp-bridge-python-command "/usr/local/bin/python3"))
+
+(use-package lsp-bridge
+  :straight (:host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*"))
+  :init
+  (dolist (hook (list
+                 'c-mode-hook
+                 'c++-mode-hook
+                 'java-mode-hook
+                 'python-mode-hook
+                 'ruby-mode-hook
+                 'rust-mode-hook
+                 'elixir-mode-hook
+                 'go-mode-hook
+                 'haskell-mode-hook
+                 'haskell-literate-mode-hook
+                 'dart-mode-hook
+                 'scala-mode-hook
+                 'typescript-mode-hook
+                 'typescript-tsx-mode-hook
+                 'js2-mode-hook
+                 'js-mode-hook
+                 'rjsx-mode-hook
+                 'tuareg-mode-hook
+                 'latex-mode-hook
+                 'Tex-latex-mode-hook
+                 'texmode-hook
+                 'context-mode-hook
+                 'texinfo-mode-hook
+                 'bibtex-mode-hook
+                 'clojure-mode-hook
+                 'clojurec-mode-hook
+                 'clojurescript-mode-hook
+                 'clojurex-mode-hook
+                 'sh-mode-hook
+                 'web-mode-hook))
+    (add-hook hook (lambda ()
+                     (setq-local corfu-auto nil) ;; let lsp-bridge control when popup completion frame
+                     (lsp-bridge-mode 1))))
+  :config
+  (setq lsp-bridge-enable-log t)
+  (require 'lsp-bridge-orderless) ;; make lsp-bridge support fuzzy match, optional
+  (require 'lsp-bridge-icon) ;; show icon for completion items, optional
+
+  (general-evil-define-key 'normal lsp-bridge-mode-map
+    "ga" 'xref-find-apropos
+    "gd" 'lsp-bridge-find-def
+    "K"  'lsp-bridge-lookup-documentation
+    "gi" 'lsp-bridge-find-impl
+    "gr" 'lsp-bridge-find-references))
+
 (use-package lsp-mode
+  :disabled
   :diminish lsp-mode
   :hook (lsp-mode . lsp-enable-which-key-integration)
   :bind(:map lisp-mode-map
-        ("C-c C-d" . lsp-describe-thing-at-point)
-        ("C-c C-n" . lsp-rename)
-        ([remap xref-find-definitions] . lsp-find-definition)
-        ([remap xref-find-references] . lsp-find-references))
+             ("C-c C-d" . lsp-describe-thing-at-point)
+             ("C-c C-n" . lsp-rename)
+             ([remap xref-find-definitions] . lsp-find-definition)
+             ([remap xref-find-references] . lsp-find-references))
   :init
   (dolist (hook (list
                  'c-mode-hook
@@ -116,9 +169,9 @@
     :custom-face
     (lsp-ui-sideline-code-action ((t (:inherit warning))))
     :bind (:map lsp-ui-mode-map
-           ([remap evil-goto-definition] . lsp-ui-peek-find-definitions)
-           ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
-           ([remap xref-find-references] . lsp-ui-peek-find-references))
+                ([remap evil-goto-definition] . lsp-ui-peek-find-definitions)
+                ([remap xref-find-definitions] . lsp-ui-peek-find-definitions)
+                ([remap xref-find-references] . lsp-ui-peek-find-references))
     :hook (lsp-mode . lsp-ui-mode)
     :init
     (setq lsp-ui-doc-enable (display-graphic-p)

@@ -21,7 +21,7 @@
   :mode ("\\.h|\\.cpp" . c++-mode)
   :hook ((c-mode c++-mode) . my-cxx-mode-setup)
   :bind (:map c++-mode-map
-         ("C-c C-o" . ff-find-other-file))
+              ("C-c C-o" . ff-find-other-file))
   :init
   (setq cc-other-file-alist
         '(("\\.c\\'"   (".h"))

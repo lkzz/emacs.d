@@ -25,21 +25,32 @@ install:
 	@emacs --batch -l $(EMACS_DIR)/init.el
 	@echo "make install done."
 
+optimize:
+	# 加速gui emacs启动，https://emacs-china.org/t/topic/6453/6
+	@defaults write org.gnu.Emacs Emacs.ToolBar -string no
+	@defaults write org.gnu.Emacs Emacs.ScrollBar -string no
+	@defaults write org.gnu.Emacs Emacs.MenuBar -string no
+
 install_lsp_server:
 	@go install golang.org/x/tools/gopls@latest # golang
 	@pip install cmake-language-server	# cmake
 	@npm install vue-language-server -g # vue
 	@npm install -g pyright             # python
+	@npm i -g bash-language-server      # bash
+	@npm i -g typescript typescript-language-server # Javascript
 
 install_tools:
-	@brew install coreutils direnv ripgrep
-	@brew install prettier # formatter
-	@brew install golangci-lint
+	# utils
+	@brew install coreutils direnv sqlite hub gpg2 coreutils gnu-tar mplayer direnv libtool git-delta
+	# lsp-bridge
 	@pip install epc
+	# search tool
+	@brew install ripgrep grep exa zstd fd
+	# language
+	@brew install golangci-lint shellcheck aspell languagetool clang-format
 	@echo "install tools done."
 
 install_go_tools:
-	@go install golang.org/x/tools/gopls@latest
 	@go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 	@go install github.com/gogo/protobuf/protoc-gen-gogo@latest
 	@go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest

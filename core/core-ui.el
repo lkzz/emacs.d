@@ -197,15 +197,15 @@
 (use-package minibuffer
   :straight (:type built-in)
   :bind (:map minibuffer-local-map
-         ([escape] . abort-recursive-edit)
-         :map minibuffer-local-ns-map
-         ([escape] . abort-recursive-edit)
-         :map minibuffer-local-completion-map
-         ([escape] . abort-recursive-edit)
-         :map minibuffer-local-must-match-map
-         ([escape] . abort-recursive-edit)
-         :map minibuffer-local-isearch-map
-         ([escape] . abort-recursive-edit))
+              ([escape] . abort-recursive-edit)
+              :map minibuffer-local-ns-map
+              ([escape] . abort-recursive-edit)
+              :map minibuffer-local-completion-map
+              ([escape] . abort-recursive-edit)
+              :map minibuffer-local-must-match-map
+              ([escape] . abort-recursive-edit)
+              :map minibuffer-local-isearch-map
+              ([escape] . abort-recursive-edit))
   :custom
   (completion-auto-help t)
   (completion-show-help nil)

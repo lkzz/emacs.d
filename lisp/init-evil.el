@@ -87,8 +87,8 @@
   (defvar my-default-cursor-color "#ffffff")
   (defvar my-emacs-cursor-color "#ff9999")
   (add-hook 'my-load-theme-hook (lambda ()
-                                     (setq my-default-cursor-color (face-background 'cursor)
-                                           my-emacs-cursor-color (face-foreground 'warning))))
+                                  (setq my-default-cursor-color (face-background 'cursor)
+                                        my-emacs-cursor-color (face-foreground 'warning))))
 
   (use-package evil-escape
     :diminish evil-escape-mode

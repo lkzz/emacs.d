@@ -48,6 +48,7 @@
     "b" '(:ignore t :wk "Buffer")
     "bb" '(counsel-switch-buffer :wk "Switch buffer")
     "bc" '(my-create-scratch-buffer :wk "Create buffer")
+    "bf" '(format-all-buffer :wk "Format buffer")
     "bi" '(my-indent-region-or-buffer :wk "Indent buffer")
     "bk" '(kill-current-buffer :wk "Kill buffer")
     "bK" '(my-kill-other-buffers :wk "Kill other buffer")
@@ -58,7 +59,6 @@
     "bs" '(basic-save-buffer :wk "Save buffer")
     "bS" '(evil-write-all :wk "Save all buffer")
     "c" '(:wk "Code")
-    "cf" '(format-all-buffer :wk "Format buffer")
     "cr" '(lsp-bridge-rename :wk "Rename")
     "cm" '(symbol-overlay-put :wk "Symbol Mark")
     "e"   '(:ignore t :wk "Error")
@@ -107,27 +107,18 @@
     "md" 'bookmark-delete
     "mj" 'counsel-bookmark
     "ml" 'bookmark-bmenu-list
-    "p"   '(:ignore t :wk "Project")
+    "p"  '(:ignore t :wk "Project")
     "p!" 'projectile-run-shell-command-in-root
-    "p&" 'projectile-run-async-shell-command-in-root
     "p%" 'projectile-replace-regexp
     "p/" 'projectile-ripgrep
-    "pa" 'projectile-toggle-between-implementation-and-test
     "pb" 'projectile-switch-to-buffer
-    "pc" 'projectile-compile-project
     "pd" 'projectile-find-dir
-    "pD" 'projectile-dired
     "pf" 'projectile-find-file
-    "pF" 'projectile-find-file-dwim
     "pg" 'projectile-find-tag
-    "pG" 'projectile-regenerate-tags
-    "pI" 'projectile-invalidate-cache
     "pk" 'projectile-kill-buffers
     "pp" 'projectile-switch-project
     "pr" 'projectile-recentf
-    "pR" 'projectile-replace
     "pT" 'projectile-test-project
-    "pv" 'projectile-vc
     "s"   '(:ignore t :wk "Search")
     "sh" '((lambda() (interactive) (counsel-rg nil default-directory)) :wk "Search current directory")
     "s/" '(counsel-rg :wk "Search ripgrep")

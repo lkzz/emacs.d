@@ -43,7 +43,7 @@
 ;; Personal package config
 (require 'init-evil)
 (require 'init-ui)
-(require 'init-dashboard)
+;; (require 'init-dashboard)
 (require 'init-highlight)
 
 ;; Misc packages
@@ -56,18 +56,14 @@
 ;; Programming releated packages
 (require 'init-org)
 (require 'init-prog)
+(require 'init-format)
 (require 'init-golang)
 (require 'init-python)
 (require 'init-rust)
 (require 'init-cxx)
-(require 'init-elisp)
-(require 'init-web)
 (require 'init-markdown)
-(require 'init-yasnippet)
-(require 'init-corfu)
-(require 'init-lsp-bridge)
-;; (require 'init-company)
-;; (require 'init-lsp)
+(require 'init-completion)
+(require 'init-lsp)
 
 ;; Tools
 (require 'init-vc)
