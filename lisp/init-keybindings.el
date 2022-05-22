@@ -29,10 +29,13 @@
       (global-set-key [(meta s)] 'save-buffer)
       (global-set-key [(meta z)] 'undo))
 
+(define-key global-map (kbd "M-y") 'yank-pop)
+
 (my/global-leader-define
   "SPC" '(execute-extended-command :wk "M-x")
-  "b" '(:ignore t :wk "Buffer")
+  "b"  '(:ignore t :wk "Buffer")
   "bb" '(switch-to-buffer :wk "Switch buffer")
+  "bB" '(switch-to-buffer-other-window :wk "Switch buffer other window")
   "bc" '(my/create-scratch-buffer :wk "Create buffer")
   "bk" '(kill-current-buffer :wk "Kill buffer")
   "bK" '(my/kill-other-buffers :wk "Kill other buffer")
@@ -54,13 +57,14 @@
   "ev" '(flycheck-verify-setup :wk "Verify setup")
   "es" '(flycheck-select-checker :wk "Select checker")
   "f"   '(:ignore t :wk "File")
-  "fc" '(my/copy-file :wk "Copy file")
-  "fd" '(my/delete-file :wk "Delete file")
-  "ff" '(counsel-fzf :wk "Fuzzy find file")
-  "fh" '(find-file :wk "Find file here")
+  "fC" '(my/copy-file :wk "Copy file")
+  "fd" '(consult-dir :wk "Open file under dir")
+  "fD" '(my/delete-file :wk "Delete file")
+  "ff" '(find-file :wk "Find file")
+  "fh" '((lambda() (interactive)(consult-fd default-directory)) :wk "Find file here")
+  "fH" '((lambda() (interactive)(find-file (read-file-name "Remote: " "/scp:"))) :wk "Remote")
   "fi" '(my/open-init-file :wk "Open init.el")
   "fr" '(recentf-open-files :wk "Recent file")
-  "fs" '(my/save-file :wk "Save file")
   "fR" '(my/rename-file :wk "Rename file")
   "g"   '(:ignore t :wk "Git")
   "ga" '(my/git-add-current-file :wk "add-current-file")
@@ -78,20 +82,19 @@
   "gt" '(hydra-git-timemachine/body :wk "Git timemachine")
   "gu" 'magit-unstage-file
   "gv" 'vc-annotate
-  "j"   '(:ignore t :wk "Jump")
-  "jc" 'avy-goto-char-2
-  "jd" 'dired-jump
+  "j"  '(:ignore t :wk "Jump")
+  "jc" '(avy-goto-char-2 :wk "Jump char")
+  "jd" '(dired-jump :wk "Jump dired")
   "jf" 'beginning-of-defun
   "jj" 'scroll-other-window-down
-  "jl" 'avy-goto-line
-  "jm" '(my/jump-match-delimiter :wk "goto-match-delimiter")
+  "jl" '(goto-line :wk "Jump line")
+  "jm" '(evil-show-marks :wk "Jump mark")
   "jw" 'avy-goto-word-or-subword-1
-  "m"   '(:ignore t :wk "Bookmark")
-  "ms" 'bookmark-set
-  "mr" 'bookmark-rename
-  "md" 'bookmark-delete
-  "mj" 'counsel-bookmark
-  "ml" 'bookmark-bmenu-list
+  "m"  '(:ignore t :wk "Bookmark")
+  "ms" '(bookmark-set :wk "Add bookmark")
+  "mr" '(bookmark-rename :wk "Rename bookmark")
+  "md" '(bookmark-delete :wk "Delete bookmark")
+  "mj" '(bookmark-jump :wk "Open bookmark")
   "p"  '(:ignore t :wk "Project")
   "p!" 'projectile-run-shell-command-in-root
   "p%" 'projectile-replace-regexp
@@ -105,20 +108,22 @@
   "pr" 'projectile-recentf
   "pT" 'projectile-test-project
   "s"  '(:ignore t :wk "Search")
-  "sh" '((lambda() (interactive) (consult-ripgrep default-directory)) :wk "Search here")
-  "s/" '(consult-ripgrep :wk "Search all")
-  "sp" '(color-rg-search-project :wk "Color-rg Search project")
-  "ss" '(color-rg-search-symbol-in-project :wk "Color-rg Search symbol")
-  "t"   '(:ignore t :wk "Toggle")
-  "tb" '(toggle-scroll-bar :wk "scroll-bar")
-  "td" '(my/toggle-darkroom-mode :wk "darkroom")
-  "tf" '(neotree-toggle :wk "neotree")
-  "tF" '(toggle-frame-fullscreen :wk "fullscreen")
-  "tg" '(my/toggle-golden-ratio :wk "golden-ratio")
-  "ti" 'maple-imenu
-  "tl" '(toggle-truncate-lines :wk "truncate-line")
-  "ts" 'symbol-overlay-mode
-  "tt" 'vterm-toggle
+  "sb" '(my/consult-line-symbol-at-point :wk "Buffer")
+  "sg" '(consult-git-grep :wk "Git")
+  "sh" '((lambda() (interactive) (consult-ripgrep default-directory)) :wk "Current dir")
+  "sp" '(consult-ripgrep :wk "Project")
+  "ss" '(my/consult-ripgrep-at-point :wk "Symbol")
+  "st" '(load-theme :wk "Theme")
+  "si" '(imenu :wk "Imenu")
+  "t"  '(:ignore t :wk "Toggle")
+  "td" '(my/toggle-darkroom-mode :wk "Darkroom")
+  "tf" '(neotree-toggle :wk "Neotree")
+  "tF" '(toggle-frame-fullscreen :wk "Fullscreen")
+  "tg" '(my/toggle-golden-ratio :wk "Golden ratio")
+  "ti" '(maple-imenu :wk "Imenu")
+  "tl" '(toggle-truncate-lines :wk "Truncate line")
+  "ts" '(symbol-overlay-mode :wk "Symbol overlay")
+  "tt" '(vterm-toggle :wk "Term")
   "1"  'winum-select-window-1
   "2"  'winum-select-window-2
   "3"  'winum-select-window-3
@@ -134,8 +139,8 @@
   "wo" '(other-window :wk "Other window")
   "wt" '(my/toggle-two-split-window :wk "toggle-two-split-window")
   "wz" '(zoom-window-zoom :wk "Zoom window")
-  "w/" '(my/split-window-right-and-focus :wk "Split window right")
-  "w-" '(my/split-window-below-and-focus :wk "Split window below")
+  "wl" '(my/split-window-right-and-focus :wk "Split window right")
+  "wj" '(my/split-window-below-and-focus :wk "Split window below")
   "w=" '(balance-windows :wk "Balance window")
   "q" '(:wk "Quit")
   "qq" '(save-buffers-kill-terminal :wk "Quit")

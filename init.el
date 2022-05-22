@@ -48,6 +48,7 @@
 (require 'init-ui)
 ;; (require 'init-dashboard)
 (require 'init-highlight)
+(require 'init-minibuffer)
 
 ;; Misc packages
 ;; (require 'init-ivy)
@@ -57,16 +58,16 @@
 (require 'init-projectile)
 
 ;; Programming releated packages
-(require 'init-org)
+(require 'init-markdown)
 (require 'init-prog)
-(require 'init-format)
+(require 'init-org)
 (require 'init-golang)
 (require 'init-python)
 (require 'init-rust)
 (require 'init-cxx)
-(require 'init-markdown)
 (require 'init-completion)
 (require 'init-lsp)
+(require 'init-format)
 
 ;; Tools
 (require 'init-vc)

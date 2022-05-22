@@ -59,8 +59,14 @@
 (defconst my-local-leader-prefix ","
   "Local leader key prefix.")
 
-(defconst my-lsp-backend 'eglot
+(defconst my-lsp-backend 'lsp-bridge
   "Which language server to use, eglot, lsp-mode or lsp-bridge")
+
+(defvar my-first-input-hook nil)
+(add-hook 'pre-command-hook #'(lambda ()
+                                (when my-first-input-hook
+                                  (run-hooks 'my-first-input-hook)
+                                  (setq my-first-input-hook nil))))
 
 ;; Ensure core dir is in `load-path'
 (add-to-list 'load-path (file-name-directory load-file-name))

@@ -79,18 +79,6 @@
   :hook (after-init . avy-setup-default)
   :init (setq avy-background t))
 
-(use-package savehist
-  :straight (:type built-in)
-  :hook (after-init . savehist-mode)
-  :init
-  (setq history-length 1000
-        savehist-autosave-interval 300
-        savehist-additional-variables '(mark-ring
-                                        global-mark-ring
-                                        search-ring
-                                        regexp-search-ring
-                                        extended-command-history)))
-
 ;; Move to the beginning/end of line or code
 (use-package mwim
   :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
@@ -138,11 +126,6 @@
       (helpful--goto-char-widen pos)))
   (advice-add #'helpful--navigate :override #'my/helpful--navigate))
 
-;; Writable `grep' buffer
-(use-package wgrep
-  :commands wgrep-change-to-wgrep-mode
-  :config (setq wgrep-auto-save-buffer t))
-
 (use-package direnv
   :hook (after-init . direnv-mode)
   :config
@@ -156,30 +139,6 @@
 (use-package amx
   :defer t
   :init (setq amx-history-length 10))
-
-(use-package popup-kill-ring
-  :defer t
-  :bind ("M-y" . popup-kill-ring))
-
-
-(use-package color-rg
-  :commands (color-rg-search-input color-rg-search-project color-rg-search-symbol-in-project)
-  :when (executable-find "rg")
-  :straight (:host github :repo "manateelazycat/color-rg")
-  :bind
-  (:map color-rg-mode-map
-        ("q" . my/quit-color-rg))
-  :init
-  (setq color-rg-mac-load-path-from-shell nil)
-  :config
-  (fset 'color-rg-project-root-dir #'my/project-root)
-  (evil-make-overriding-map color-rg-mode-map 'normal)
-  ;; force update evil keymaps after git-timemachine-mode loaded
-  (add-hook 'color-rg-mode-hook #'evil-normalize-keymaps)
-  (defun my/quit-color-rg ()
-    (interactive)
-    (kill-current-buffer)
-    (evil-quit)))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

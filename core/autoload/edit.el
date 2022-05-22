@@ -13,6 +13,19 @@
 ;;; Code:
 
 ;;;###autoload
+(defun get-enc-char (c)
+  (cond
+   ((string= c "(") ")")
+   ((string= c "[") "]")
+   ((string= c "{") "}")
+   ((string= c ">") "<")
+   ((string= c "<") ">")
+   ((string= c "'") "'")
+   ((string= c "\"") "\"")
+   (t nil)))
+(defvar empty-enclose 0)
+
+;;;###autoload
 (defun get-point (symbol &optional arg)
   "get the point"
   (funcall symbol arg)

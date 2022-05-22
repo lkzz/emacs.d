@@ -12,312 +12,143 @@
 ;;; Commentary:
 ;;; Code:
 
-
 ;; Completion style.
 (use-package orderless
-  :init
-  (setq completion-styles '(orderless basic)
+  :demand t
+  :config
+  (defvar +orderless-dispatch-alist
+    '((?% . char-fold-to-regexp)
+      (?! . orderless-without-literal)
+      (?`. orderless-initialism)
+      (?= . orderless-literal)
+      (?~ . orderless-flex)))
+
+  (defun +orderless-dispatch (pattern index _total)
+    (cond
+     ;; Ensure that $ works with Consult commands, which add disambiguation suffixes
+     ((string-suffix-p "$" pattern)
+      `(orderless-regexp . ,(concat (substring pattern 0 -1) "[\x100000-\x10FFFD]*$")))
+     ;; File extensions
+     ((and
+       ;; Completing filename or eshell
+       (or minibuffer-completing-file-name
+           (derived-mode-p 'eshell-mode))
+       ;; File extension
+       (string-match-p "\\`\\.." pattern))
+      `(orderless-regexp . ,(concat "\\." (substring pattern 1) "[\x100000-\x10FFFD]*$")))
+     ;; Ignore single !
+     ((string= "!" pattern) `(orderless-literal . ""))
+     ;; Prefix and suffix
+     ((if-let (x (assq (aref pattern 0) +orderless-dispatch-alist))
+          (cons (cdr x) (substring pattern 1))
+        (when-let (x (assq (aref pattern (1- (length pattern))) +orderless-dispatch-alist))
+          (cons (cdr x) (substring pattern 0 -1)))))))
+
+  ;; Define orderless style with initialism by default
+  (orderless-define-completion-style +orderless-with-initialism
+    (orderless-matching-styles '(orderless-initialism orderless-literal orderless-regexp)))
+
+  (setq completion-styles '(orderless partial-completion)
         completion-category-defaults nil
-        completion-category-overrides '((file (styles . (partial-completion))))))
+        completion-category-overrides '((file (styles partial-completion)) ;; partial-completion is tried first
+                                        (command (styles +orderless-with-initialism))
+                                        (variable (styles +orderless-with-initialism))
+                                        (symbol (styles +orderless-with-initialism)))
+        orderless-component-separator #'orderless-escapable-split-on-space ;; allow escaping space with backslash!
+        orderless-style-dispatchers '(+orderless-dispatch)))
 
 ;; Enhance completion at point.
 (use-package corfu
-  :straight (:host github :files (:defaults "extensions/*") :includes (corfu-indexed
-                                                                       corfu-quick
-                                                                       corfu-info
-                                                                       corfu-history))
+  :straight (corfu :includes (corfu-indexed corfu-quick) :files (:defaults "extensions/corfu-*.el"))
   :custom
   (corfu-auto t)
   (corfu-cycle t)
   (corfu-count 15)
   (corfu-bar-width 0.5)
-  (corfu-bar-width 0.5)
   (corfu-quit-at-boundary t)
   (corfu-quit-no-match t)
-  (corfu-min-width 60)
   (corfu-max-width 100)
   (corfu-auto-delay 0.1)
   (corfu-auto-prefix 1)
+  (corfu-preview-current nil)
   :bind (:map corfu-map
-              ("C-n" . corfu-next)
-              ("C-p" . corfu-previous)
-              ("C-g" . corfu-quit)
               ("TAB" . corfu-next)
-              ("S-TAB" . corfu-previous))
-  :hook (eshell-mode . (lambda () (setq-local corfu-auto nil)))
+              ([tab] . corfu-next)
+              ("C-n" . corfu-next)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous)
+              ("C-p" . corfu-previous)
+              ("C-j" . corfu-insert)
+              ("C-g" . corfu-quit))
   :init (global-corfu-mode)
   :config
+  (setq corfu-excluded-modes '(shell-mode
+                               eshell-mode
+                               comint-mode
+                               erc-mode
+                               gud-mode
+                               rcirc-mode
+                               text-mode
+                               minibuffer-inactive-mode))
+  (advice-add #'keyboard-quit :before #'corfu-quit)
+  (with-eval-after-load 'evil
+    ;; https://github.com/minad/corfu/issues/12#issuecomment-869037519
+    (advice-add 'corfu--setup :after 'evil-normalize-keymaps)
+    (advice-add 'corfu--teardown :after 'evil-normalize-keymaps)
+    (evil-make-overriding-map corfu-map)
+    ;; auto quit corfu when exit insert state
+    (add-hook 'evil-normal-state-entry-hook (lambda ()
+                                              (when corfu--candidates (corfu-quit)))))
+
+  ;; extensions
+  (use-package corfu-quick
+    :after corfu
+    :bind (:map corfu-map
+                ("C-q" . corfu-quick-insert)))
+
   (use-package corfu-doc
-    :init
-    (add-hook 'corfu-mode-hook #'corfu-doc-mode))
+    :after corfu
+    :straight (:host github :repo "galeo/corfu-doc")
+    :hook (corfu-mode . corfu-doc-mode)
+    :bind (:map corfu-map
+                ("K" . corfu-doc-toggle)))
 
-  ;; A bunch of completion at point extensions which can be used in corfu
+  (use-package kind-icon
+    :after corfu
+    :custom
+    (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+    :config
+    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+  (use-package corfu-english-helper
+    :after corfu
+    :commands (corfu-english-helper-search)
+    :bind (("C-c t e" . corfu-english-helper-search))
+    :straight (:host github :repo "manateelazycat/corfu-english-helper"))
+
+  ;; A bunch of completion at point extensions
   (use-package cape
-    :init
+    :after corfu
+    :hook ((lsp-completion-mode eglot-managed-mode lsp-bridge-mode). my/set-lsp-capf)
+    :config
+    (defun my/set-multi-lsp-capf ()
+      (setq-local completion-category-defaults nil)
+      (setq-local completion-at-point-functions (list
+		                                         (cape-capf-buster
+                                                  (cape-super-capf
+                                                   #'lsp-bridge-capf
+                                                   ;; #'eglot-completion-at-point
+                                                   ;; #'lsp-completion-at-point
+                                                   #'cape-file
+                                                   #'cape-keyword
+                                                   #'cape-dabbrev
+                                                   )
+                                                  'equal)
+		                                         )))
+    ;; 默认补全后端
     (add-to-list 'completion-at-point-functions #'cape-file)
-    (add-to-list 'completion-at-point-functions #'cape-tex)
-    (add-to-list 'completion-at-point-functions #'cape-dabbrev)
-    (setq cape-dabbrev-check-other-buffers nil)
-    (add-to-list 'completion-at-point-functions #'cape-keyword)))
-
-;; Completion framework
-(use-package company
-  :disabled
-  :diminish company-mode "ⓒ"
-  :hook (prog-mode . global-company-mode)
-  :bind (:map company-mode-map
-              ("<backtab>" . company-yasnippet)
-              :map company-active-map
-              ("C-s". company-filter-candidates)
-              ("C-p" . company-select-previous)
-              ("C-n" . company-select-next)
-              ("C-u" . company-previous-page)
-              ("C-d" . company-next-page)
-              ("<tab>" . company-complete-common-or-cycle)
-              :map company-search-map
-              ("C-p" . company-select-previous)
-              ("C-n" . company-select-next))
-  :init
-  ;; aligns annotation to the right hand side
-  (setq company-tooltip-align-annotations t
-        company-tooltip-flip-when-above nil
-        company-echo-delay 0            ; remove annoying blinking
-        company-idle-delay 0.0          ; set the completion menu pop-up delay
-        company-minimum-prefix-length 1 ; pop up a completion menu by tapping a character
-        company-show-quick-access t     ; display numbers on the left
-        company-tooltip-limit 10
-        company-require-match nil
-        company-selection-wrap-around t     ; make previous/next selection in the popup cycle
-        company-dabbrev-ignore-case t
-        company-dabbrev-downcase nil
-        company-global-modes '(not comint-mode erc-mode message-mode help-mode gud-mode)
-        company-backends '((company-capf :with company-tabnine :separate)
-                           (company-dabbrev company-keywords company-files)))
-  :config
-  (add-hook 'evil-normal-state-entry-hook (lambda ()
-                                            (when company-candidates (company-abort))))
-  ;; Remove duplicate candidate.
-  (add-to-list 'company-transformers #'delete-dups)
-
-  (defun my-lsp-fix-company-capf ()
-    "Remove redundant `company-capf'."
-    (setq company-backends
-          (remove 'company-backends (remq 'company-capf company-backends))))
-  (advice-add #'lsp-completion--enable :after #'my-lsp-fix-company-capf)
-
-  ;; Uses machine learning to provide suggestions.
-  (use-package company-tabnine
-    :config
-    (setq company-tabnine-max-num-results 3)
-    ;; The free version of TabNine is good enough,
-    ;; and below code is recommended that TabNine not always
-    ;; prompt me to purchase a paid version in a large project.
-    (defadvice company-echo-show (around disable-tabnine-upgrade-message activate)
-      (let ((company-message-func (ad-get-arg 0)))
-        (when (and company-message-func
-                   (stringp (funcall company-message-func)))
-          (unless (string-match "The free version of TabNine only indexes up to" (funcall company-message-func))
-            ad-do-it))))
-
-    (defun company//sort-by-tabnine (candidates)
-      "实现前2个候选项是company-capf的,接着的2个是TabNine的."
-      (if (or (functionp company-backend)
-              (not (and (listp company-backend) (memq 'company-tabnine company-backend))))
-          candidates
-        (let ((candidates-table (make-hash-table :test #'equal))
-              candidates-1
-              candidates-2)
-          (dolist (candidate candidates)
-            (if (eq (get-text-property 0 'company-backend candidate)
-                    'company-tabnine)
-                (unless (gethash candidate candidates-table)
-                  (push candidate candidates-2))
-              (push candidate candidates-1)
-              (puthash candidate t candidates-table)))
-          (setq candidates-1 (nreverse candidates-1))
-          (setq candidates-2 (nreverse candidates-2))
-          (nconc (seq-take candidates-1 2)
-                 (seq-take candidates-2 2)
-                 (seq-drop candidates-1 2)
-                 (seq-drop candidates-2 2)))))
-    (add-to-list 'company-transformers 'company//sort-by-tabnine t))
-
-  ;; Simple but effective sorting and filtering for Emacs.
-  (use-package company-prescient
-    :hook (company-mode . company-prescient-mode)
-    :config (prescient-persist-mode +1))
-
-  (use-package company-box
-    :if (display-graphic-p)
-    :diminish
-    :defines company-box-icons-all-the-icons
-    :hook (company-mode . company-box-mode)
-    :init (setq company-box-backends-colors nil
-                company-box-doc-delay 0.1)
-    :config
-    ;; Prettify icons
-    (defun my-company-box-icons--elisp (candidate)
-      (when (or (derived-mode-p 'emacs-lisp-mode) (derived-mode-p 'lisp-mode))
-        (let ((sym (intern candidate)))
-          (cond ((fboundp sym) 'Function)
-                ((featurep sym) 'Module)
-                ((facep sym) 'Color)
-                ((boundp sym) 'Variable)
-                ((symbolp sym) 'Text)
-                (t . nil)))))
-    (advice-add #'company-box-icons--elisp :override #'my-company-box-icons--elisp)
-    ;; Display borders and optimize performance
-    (defun my-company-box--display (string on-update)
-      "Display the completions."
-      (company-box--render-buffer string on-update)
-      (let ((frame (company-box--get-frame))
-            (border-color (face-foreground 'font-lock-comment-face nil t)))
-        (unless frame
-          (setq frame (company-box--make-frame))
-          (company-box--set-frame frame))
-        (company-box--compute-frame-position frame)
-        (company-box--move-selection t)
-        (company-box--update-frame-position frame)
-        (unless (frame-visible-p frame)
-          (make-frame-visible frame))
-        (company-box--update-scrollbar frame t)
-        (set-face-background 'internal-border border-color frame)
-        (when (facep 'child-frame-border)
-          (set-face-background 'child-frame-border border-color frame)))
-      (with-current-buffer (company-box--get-buffer)
-        (company-box--maybe-move-number (or company-box--last-start 1))))
-    (advice-add #'company-box--display :override #'my-company-box--display)
-
-    (setq company-box-doc-frame-parameters '((internal-border-width . 1)
-                                             (left-fringe . 8)
-                                             (right-fringe . 8)))
-
-    (defun my-company-box-doc--make-buffer (object)
-      (let* ((buffer-list-update-hook nil)
-             (inhibit-modification-hooks t)
-             (string (cond ((stringp object) object)
-                           ((bufferp object) (with-current-buffer object (buffer-string))))))
-        (when (and string (> (length (string-trim string)) 0))
-          (with-current-buffer (company-box--get-buffer "doc")
-            (erase-buffer)
-            (insert (propertize "\n" 'face '(:height 0.5)))
-            (insert string)
-            (insert (propertize "\n\n" 'face '(:height 0.5)))
-            (setq mode-line-format nil
-                  display-line-numbers nil
-                  header-line-format nil
-                  show-trailing-whitespace nil
-                  cursor-in-non-selected-windows nil)
-            (current-buffer)))))
-    (advice-add #'company-box-doc--make-buffer :override #'my-company-box-doc--make-buffer)
-
-    (defun my-company-box-doc--show (selection frame)
-      (cl-letf (((symbol-function 'completing-read) #'company-box-completing-read)
-                (window-configuration-change-hook nil)
-                (inhibit-redisplay t)
-                (display-buffer-alist nil)
-                (buffer-list-update-hook nil))
-        (-when-let* ((valid-state (and (eq (selected-frame) frame)
-                                       company-box--bottom
-                                       company-selection
-                                       (company-box--get-frame)
-                                       (frame-visible-p (company-box--get-frame))))
-                     (candidate (nth selection company-candidates))
-                     (doc (or (company-call-backend 'quickhelp-string candidate)
-                              (company-box-doc--fetch-doc-buffer candidate)))
-                     (doc (company-box-doc--make-buffer doc)))
-          (let ((frame (frame-local-getq company-box-doc-frame))
-                (border-color (face-foreground 'font-lock-comment-face nil t)))
-            (unless (frame-live-p frame)
-              (setq frame (company-box-doc--make-frame doc))
-              (frame-local-setq company-box-doc-frame frame))
-            (set-face-background 'internal-border border-color frame)
-            (when (facep 'child-frame-border)
-              (set-face-background 'child-frame-border border-color frame))
-            (company-box-doc--set-frame-position frame)
-            (unless (frame-visible-p frame)
-              (make-frame-visible frame))))))
-    (advice-add #'company-box-doc--show :override #'my-company-box-doc--show)
-
-    (defun my-company-box-doc--set-frame-position (frame)
-      (-let* ((frame-resize-pixelwise t)
-
-              (box-frame (company-box--get-frame))
-              (box-position (frame-position box-frame))
-              (box-width (frame-pixel-width box-frame))
-              (box-height (frame-pixel-height box-frame))
-              (box-border-width (frame-border-width box-frame))
-
-              (window (frame-root-window frame))
-              ((text-width . text-height) (window-text-pixel-size window nil nil
-                                                                  (/ (frame-pixel-width) 2)
-                                                                  (/ (frame-pixel-height) 2)))
-              (border-width (or (alist-get 'internal-border-width company-box-doc-frame-parameters) 0))
-
-              (x (- (+ (car box-position) box-width) border-width))
-              (space-right (- (frame-pixel-width) x))
-              (space-left (car box-position))
-              (fringe-left (or (alist-get 'left-fringe company-box-doc-frame-parameters) 0))
-              (fringe-right (or (alist-get 'right-fringe company-box-doc-frame-parameters) 0))
-              (width (+ text-width border-width fringe-left fringe-right))
-              (x (if (> width space-right)
-                     (if (> space-left width)
-                         (- space-left width)
-                       space-left)
-                   x))
-              (y (cdr box-position))
-              (bottom (+ company-box--bottom (frame-border-width)))
-              (height (+ text-height (* 2 border-width)))
-              (y (cond ((= x space-left)
-                        (if (> (+ y box-height height) bottom)
-                            (+ (- y height) border-width)
-                          (- (+ y box-height) border-width)))
-                       ((> (+ y height) bottom)
-                        (- (+ y box-height) height))
-                       (t y))))
-        (set-frame-position frame (max x 0) (max y 0))
-        (set-frame-size frame text-width text-height t)))
-    (advice-add #'company-box-doc--set-frame-position :override #'my-company-box-doc--set-frame-position)
-
-    (setq company-box-icons-all-the-icons
-          `((Unknown . ,(all-the-icons-material "find_in_page" :height 1.0 :v-adjust -0.2))
-            (Text . ,(all-the-icons-faicon "text-width" :height 1.0 :v-adjust -0.02))
-            (Method . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
-            (Function . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
-            (Constructor . ,(all-the-icons-faicon "cube" :height 1.0 :v-adjust -0.02 :face 'all-the-icons-purple))
-            (Field . ,(all-the-icons-octicon "tag" :height 1.1 :v-adjust 0 :face 'all-the-icons-lblue))
-            (Variable . ,(all-the-icons-octicon "tag" :height 1.1 :v-adjust 0 :face 'all-the-icons-lblue))
-            (Class . ,(all-the-icons-material "settings_input_component" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
-            (Interface . ,(all-the-icons-material "share" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
-            (Module . ,(all-the-icons-material "view_module" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
-            (Property . ,(all-the-icons-faicon "wrench" :height 1.0 :v-adjust -0.02))
-            (Unit . ,(all-the-icons-material "settings_system_daydream" :height 1.0 :v-adjust -0.2))
-            (Value . ,(all-the-icons-material "format_align_right" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-lblue))
-            (Enum . ,(all-the-icons-material "storage" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
-            (Keyword . ,(all-the-icons-material "filter_center_focus" :height 1.0 :v-adjust -0.2))
-            (Snippet . ,(all-the-icons-material "format_align_center" :height 1.0 :v-adjust -0.2))
-            (Color . ,(all-the-icons-material "palette" :height 1.0 :v-adjust -0.2))
-            (File . ,(all-the-icons-faicon "file-o" :height 1.0 :v-adjust -0.02))
-            (Reference . ,(all-the-icons-material "collections_bookmark" :height 1.0 :v-adjust -0.2))
-            (Folder . ,(all-the-icons-faicon "folder-open" :height 1.0 :v-adjust -0.02))
-            (EnumMember . ,(all-the-icons-material "format_align_right" :height 1.0 :v-adjust -0.2))
-            (Constant . ,(all-the-icons-faicon "square-o" :height 1.0 :v-adjust -0.1))
-            (Struct . ,(all-the-icons-material "settings_input_component" :height 1.0 :v-adjust -0.2 :face 'all-the-icons-orange))
-            (Event . ,(all-the-icons-octicon "zap" :height 1.0 :v-adjust 0 :face 'all-the-icons-orange))
-            (Operator . ,(all-the-icons-material "control_point" :height 1.0 :v-adjust -0.2))
-            (TypeParameter . ,(all-the-icons-faicon "arrows" :height 1.0 :v-adjust -0.02))
-            (Template . ,(all-the-icons-material "format_align_left" :height 1.0 :v-adjust -0.2)))
-          company-box-icons-alist 'company-box-icons-all-the-icons))
-
-  ;; Display documentation for completion candidates in terminal
-  (use-package company-quickhelp-terminal
-    :unless (display-graphic-p)
-    :defines company-quickhelp-delay
-    :bind (:map company-active-map
-                ([remap company-show-doc-buffer] . company-quickhelp-manual-begin))
-    :hook ((global-company-mode . company-quickhelp-mode)
-           (company-quickhelp-mode  . company-quickhelp-terminal-mode))
-    :init (setq company-quickhelp-delay 0.3)))
+    (add-to-list 'completion-at-point-functions #'cape-keyword)
+    (add-to-list 'completion-at-point-functions #'cape-file)))
 
 (provide 'init-completion)
 ;;; init-completion.el ends here

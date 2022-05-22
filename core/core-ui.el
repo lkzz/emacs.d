@@ -191,53 +191,9 @@
 (add-hook 'my/load-theme-hook #'window-divider-mode)
 ;;============================ window end ==========================================
 
-;;============================ minibuffer start ====================================
-
-;; Completion engine
-(use-package minibuffer
-  :straight (:type built-in)
-  :bind (:map minibuffer-local-map
-              ([escape] . abort-recursive-edit)
-              :map minibuffer-local-ns-map
-              ([escape] . abort-recursive-edit)
-              :map minibuffer-local-completion-map
-              ([escape] . abort-recursive-edit)
-              :map minibuffer-local-must-match-map
-              ([escape] . abort-recursive-edit)
-              :map minibuffer-local-isearch-map
-              ([escape] . abort-recursive-edit))
-  :custom
-  (completion-auto-help t)
-  (completion-show-help nil)
-  ;; TAB cycle if there are only few candidates
-  (completion-cycle-threshold 3)
-  ;; Allow commands in minibuffers
-  (enable-recursive-minibuffers t)
-  (minibuffer-depth-indicate-mode t)
-  (minibuffer-eldef-shorten-default t)
-  (minibuffer-electric-default-mode t)
-  ;; One frame one minibuffer.
-  (minibuffer-follows-selected-frame nil)
-  ;; Ignore cases when complete
-  (completion-ignore-case t)
-  (read-buffer-completion-ignore-case t)
-  (read-file-name-completion-ignore-case t)
-  ;; `selectrum', `vertico' and `icomplete' will honoring
-  (completion-styles '(basic partial-completion substring flex))
-  (completion-category-overrides '((buffer (styles . (flex)))))
-  ;; vertical view
-  (completions-format 'one-column)
-  (completions-detailed t))
-
 (setq echo-keystrokes 0.02
       resize-mini-windows 'grow-only
       max-mini-window-height 0.15)
-
-;; Try really hard to keep the cursor from getting stuck in the read-only prompt
-;; portion of the minibuffer.
-(setq minibuffer-prompt-properties '(read-only t intangible t cursor-intangible t face minibuffer-prompt))
-(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
-;;============================ minibuffer end ======================================
 
 ;; Improve display
 (setq display-raw-bytes-as-hex t)
