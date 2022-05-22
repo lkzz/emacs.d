@@ -94,10 +94,5 @@
                 cal-china-x-general-holidays
                 holiday-other-holidays)))
 
-;; https://github.com/manateelazycat/company-english-helper
-(use-package company-english-helper
-  :straight (:host github :repo "manateelazycat/company-english-helper")
-  :bind (("C-c t e" . toggle-company-english-helper)))
-
 (provide 'init-chinese)
 ;;; init-chinese ends here

@@ -106,6 +106,7 @@
     :hook (evil-mode . global-evil-surround-mode))
 
   (use-package evil-nerd-commenter
+    :bind ([remap comment-dwim] . evilnc-comment-or-uncomment-lines)
     :init
     (evil-define-key '(normal visual) global-map
       (kbd "gcc") 'evilnc-comment-or-uncomment-lines

@@ -113,25 +113,12 @@
     :bind (:map corfu-map
                 ("K" . corfu-doc-toggle)))
 
-  (use-package kind-icon
-    :after corfu
-    :custom
-    (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-    :config
-    (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
-
-  (use-package corfu-english-helper
-    :after corfu
-    :commands (corfu-english-helper-search)
-    :bind (("C-c t e" . corfu-english-helper-search))
-    :straight (:host github :repo "manateelazycat/corfu-english-helper"))
-
   ;; A bunch of completion at point extensions
   (use-package cape
     :after corfu
-    :hook ((lsp-completion-mode eglot-managed-mode lsp-bridge-mode). my/set-lsp-capf)
+    :hook ((lsp-completion-mode eglot-managed-mode lsp-bridge-mode). my/set-mixed-capf)
     :config
-    (defun my/set-multi-lsp-capf ()
+    (defun my/set-mixed-capf ()
       (setq-local completion-category-defaults nil)
       (setq-local completion-at-point-functions (list
 		                                         (cape-capf-buster

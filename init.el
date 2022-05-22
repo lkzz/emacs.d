@@ -46,7 +46,7 @@
 ;; Personal package config
 (require 'init-evil)
 (require 'init-ui)
-;; (require 'init-dashboard)
+(require 'init-dashboard)
 (require 'init-highlight)
 (require 'init-minibuffer)
 

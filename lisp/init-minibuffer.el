@@ -89,7 +89,7 @@
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
-  ;; :straight (:type built-in)
+  :straight (:type built-in)
   :hook (after-init . savehist-mode)
   :init
   (setq history-length 1000
@@ -103,7 +103,6 @@
 (use-package consult
   :defer t
   :after orderless
-  :straight (:host github :repo "minad/consult")
   :bind (([remap isearch-forward]               . consult-line)
          ([remap apropos]                       . consult-apropos)
          ([remap bookmark-jump]                 . consult-bookmark)
@@ -130,9 +129,8 @@
         consult-async-min-input 2
         consult-async-refresh-delay  0.15
         consult-async-input-throttle 0.2
-        consult-async-input-debounce 0.1)
-  (setq xref-show-xrefs-function #'consult-xref
-        xref-show-definitions-function #'consult-xref)
+        consult-async-input-debounce 0.1
+        consult-project-root-function #'projectile-project-root)
 
   ;; consult-fd
   (defvar consult--fd-command nil)
@@ -175,74 +173,16 @@
       (consult-line (thing-at-point 'symbol))
       (my/consult-set-evil-search-pattern)))
 
-  (defcustom noct-consult-ripgrep-or-line-limit 300000
-    "Buffer size threshold for `noct-consult-ripgrep-or-line'.
-When the number of characters in a buffer exceeds this threshold,
-`consult-ripgrep' will be used instead of `consult-line'."
-    :type 'integer)
-
-  (defun noct-consult-ripgrep-or-line ()
-    "Call `consult-line' for small buffers or `consult-ripgrep' for large files."
-    (interactive)
-    (evil-without-repeat ;; I use evil always
-      (if (or (not buffer-file-name)
-              (buffer-narrowed-p)
-              (ignore-errors
-                (file-remote-p buffer-file-name))
-              (jka-compr-get-compression-info buffer-file-name)
-              (<= (buffer-size)
-                  (/ noct-consult-ripgrep-or-line-limit
-                     (if (eq major-mode 'org-mode) 4 1))))
-          (progn (consult-line)
-                 (my-consult-set-evil-search-pattern))
-        (when (file-writable-p buffer-file-name)
-          (save-buffer))
-        (let ((consult-ripgrep-args
-               (concat "rg "
-                       "--null "
-                       "--line-buffered "
-                       "--color=ansi "
-                       "--max-columns=250 "
-                       "--no-heading "
-                       "--line-number "
-                       ;; adding these to default
-                       "--smart-case "
-                       "--hidden "
-                       "--max-columns-preview "
-                       ;; add back filename to get parsing to work
-                       "--with-filename "
-                       ;; defaults
-                       "-e ARG OPTS "
-                       (shell-quote-argument buffer-file-name))))
-          (consult-ripgrep)
-          (my-consult-set-evil-search-pattern 'rg)))))
-
   (defun my/consult-ripgrep-at-point (&optional dir initial)
     (interactive (list prefix-arg (when-let ((s (symbol-at-point)))
                                     (symbol-name s))))
-    (consult-ripgrep dir initial))
-
-  ;; HACK add `ignore' according to upstream, wihout meaning
-  (defun consult--orderless-regexp-compiler (input type igore)
-    (setq input (orderless-pattern-compiler input))
-    (cons
-     (mapcar (lambda (r) (consult--convert-regexp r type)) input)
-     (lambda (str) (orderless--highlight input str))))
-  (defun consult--with-orderless (&rest args)
-    (minibuffer-with-setup-hook
-        (lambda ()
-          (setq-local consult--regexp-compiler #'consult--orderless-regexp-compiler))
-      (apply args)))
-  (advice-add #'consult-ripgrep :around #'consult--with-orderless))
+    (consult-ripgrep dir initial)))
 
 (use-package consult-dir
   :bind (([remap list-directory] . consult-dir)
          :map vertico-map
          ("C-x C-d" . consult-dir)
          ("C-x C-j" . consult-dir-jump-file)))
-
-(use-package consult-flycheck
-  :after (consult flycheck))
 
 (use-package marginalia
   :after consult
@@ -285,7 +225,6 @@ targets."
 
   ;; Embark indicators
   (setq embark-indicators '(embark-which-key-indicator
-                            ;; embark-minimal-indicator
                             embark-highlight-indicator
                             embark-isearch-highlight-indicator))
   (setq embark-verbose-indicator-display-action
@@ -300,13 +239,11 @@ targets."
                  (window-parameters (mode-line-format . none)))))
 
 (use-package embark-consult
-  :after (embark consult)
-  :config
-  (add-hook 'embark-collect-mode-hook #'consult-preview-at-point-mode))
+  :after embark consult)
 
 ;; Writable `grep' buffer
 (use-package wgrep
-  :commands wgrep-change-to-wgrep-mode
+  :hook (grep-setup . wgrep-setup)
   :config (setq wgrep-auto-save-buffer t))
 
 (provide 'init-minibuffer)
