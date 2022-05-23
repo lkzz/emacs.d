@@ -133,7 +133,6 @@
   (consult-customize consult-ripgrep consult-git-grep consult-grep
                      consult-bookmark
                      consult-recent-file
-                     consult-buffer
                      :preview-key nil))
 
 (use-package consult-dir
