@@ -14,7 +14,6 @@
 
 ;; Completion style.
 (use-package orderless
-  :demand t
   :config
   (defvar +orderless-dispatch-alist
     '((?% . char-fold-to-regexp)
@@ -102,9 +101,14 @@
 
   ;; extensions
   (use-package corfu-quick
+    :straight nil
     :after corfu
     :bind (:map corfu-map
                 ("C-q" . corfu-quick-insert)))
+  (use-package corfu-history
+    :straight nil
+    :after corfu
+    :hook (corfu-mode . corfu-history-mode))
 
   (use-package corfu-doc
     :after corfu
@@ -116,26 +120,36 @@
   ;; A bunch of completion at point extensions
   (use-package cape
     :after corfu
-    :hook ((lsp-completion-mode eglot-managed-mode lsp-bridge-mode). my/set-mixed-capf)
     :config
-    (defun my/set-mixed-capf ()
-      (setq-local completion-category-defaults nil)
-      (setq-local completion-at-point-functions (list
-		                                         (cape-capf-buster
-                                                  (cape-super-capf
-                                                   #'lsp-bridge-capf
-                                                   ;; #'eglot-completion-at-point
-                                                   ;; #'lsp-completion-at-point
-                                                   #'cape-file
-                                                   #'cape-keyword
-                                                   #'cape-dabbrev
-                                                   )
-                                                  'equal)
-		                                         )))
     ;; 默认补全后端
     (add-to-list 'completion-at-point-functions #'cape-file)
     (add-to-list 'completion-at-point-functions #'cape-keyword)
-    (add-to-list 'completion-at-point-functions #'cape-file)))
+    (add-to-list 'completion-at-point-functions #'cape-dabbrev))
+
+  (use-package tabnine-capf
+    :after cape
+    :straight (:host github :repo "50ways2sayhard/tabnine-capf" :files ("*.el" "*.sh"))
+    :hook (kill-emacs . tabnine-capf-kill-process))
+
+  (defun my/set-mixed-capf ()
+    (setq-local completion-category-defaults nil)
+    (setq-local completion-at-point-functions (list
+		                                       (cape-capf-buster
+                                                (cape-super-capf
+                                                 (pcase my-lsp-backend
+                                                   ('lsp-bridge #'lsp-bridge-capf)
+                                                   ('eglot #'eglot-completion-at-point)
+                                                   ('lsp-mode #'lsp-completion-at-point)
+                                                   (_ #'eglot-completion-at-point))
+                                                 #'tabnine-completion-at-point
+                                                 #'cape-file
+                                                 #'cape-keyword
+                                                 #'cape-dabbrev)
+                                                'equal))))
+
+  (add-hook 'lsp-bridge-mode-hook #'my/set-mixed-capf)
+  (add-hook 'eglot-managed-mode-hook #'my/set-mixed-capf)
+  (add-hook 'lsp-completion-mode-hook #'my/set-mixed-capf))
 
 (provide 'init-completion)
 ;;; init-completion.el ends here

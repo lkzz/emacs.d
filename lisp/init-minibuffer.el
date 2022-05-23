@@ -101,7 +101,6 @@
                                         extended-command-history)))
 
 (use-package consult
-  :defer t
   :after orderless
   :bind (([remap isearch-forward]               . consult-line)
          ([remap apropos]                       . consult-apropos)
@@ -131,52 +130,11 @@
         consult-async-input-throttle 0.2
         consult-async-input-debounce 0.1
         consult-project-root-function #'projectile-project-root)
-
-  ;; consult-fd
-  (defvar consult--fd-command nil)
-  (defun consult--fd-builder (input)
-    (unless consult--fd-command
-      (setq consult--fd-command
-            (if (eq 0 (call-process-shell-command "fdfind"))
-                "fdfind"
-              "fd")))
-    (pcase-let* ((`(,arg . ,opts) (consult--command-split input))
-                 (`(,re . ,hl) (funcall consult--regexp-compiler
-                                        arg 'extended t)))
-      (when re
-        (list :command (append
-                        (list consult--fd-command
-                              "--color=never" "--full-path"
-                              (consult--join-regexps re 'extended))
-                        opts)
-              :highlight hl))))
-
-  (defun consult-fd (&optional dir initial)
-    (interactive "P")
-    (let* ((prompt-dir (consult--directory-prompt "Fd" dir))
-           (default-directory (cdr prompt-dir)))
-      (call-interactively #'find-file (consult--find (car prompt-dir) #'consult--fd-builder initial))))
-
-  (defun my/consult-set-evil-search-pattern (&optional condition)
-    (let ((re
-           (cond
-            ((eq condition 'rg) (substring (car consult--grep-history) 1)) ;; HACK: assume the history begins with `#'
-            ((or t (eq condition 'line)) (car consult--line-history)))))
-      (add-to-history 'evil-ex-search-history re)
-      (setq evil-ex-search-pattern (list re t t))
-      (setq evil-ex-search-direction 'forward)
-      (anzu-mode t)))
-
-  (defun my/consult-line-symbol-at-point ()
-    (interactive)
-    (evil-without-repeat ;; I use evil always
-      (consult-line (thing-at-point 'symbol))
-      (my/consult-set-evil-search-pattern)))
-
-  (defun my/consult-ripgrep-at-point (&optional dir initial)
-    (interactive (list prefix-arg (when-let ((s (symbol-at-point)))
-                                    (symbol-name s))))
-    (consult-ripgrep dir initial)))
+  (consult-customize consult-ripgrep consult-git-grep consult-grep
+                     consult-bookmark
+                     consult-recent-file
+                     consult-buffer
+                     :preview-key nil))
 
 (use-package consult-dir
   :bind (([remap list-directory] . consult-dir)

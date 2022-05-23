@@ -55,12 +55,10 @@
                         (setq-local corfu-auto nil) ;; let lsp-bridge control when popup completion frame
                         (lsp-bridge-mode 1))))
      :config
+     (setq lsp-bridge-completion-provider 'corfu)
      ;; (setq lsp-bridge-enable-log t)
-     (require 'lsp-bridge-ui)
-     (require 'lsp-bridge-ui-history)
+     (require 'lsp-bridge-icon)        ;; show icons for completion items, optional
      (require 'lsp-bridge-orderless)   ;; make lsp-bridge support fuzzy match, optional
-     (global-lsp-bridge-ui-mode)       ;; use lsp-bridge-ui as completion ui
-     (lsp-bridge-ui-history-mode t)
      ;; For Xref support
      (add-hook 'lsp-bridge-mode-hook (lambda ()
                                        (add-hook 'xref-backend-functions #'lsp-bridge-xref-backend nil t)))

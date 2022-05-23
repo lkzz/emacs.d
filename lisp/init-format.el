@@ -12,11 +12,24 @@
 ;;; Commentary:
 ;;; Code:
 
+;; FIXME: 只在evil insert mode下开启，normal mode会莫名跳到行首
+;; issue: https://github.com/lassik/emacs-format-all-the-code/issues/173
+(defun my/enable-format-before-save ()
+  (format-all-ensure-formatter)
+  (add-hook 'before-save-hook (lambda ()
+                                (when (eq evil-state 'insert)
+                                  (format-all-buffer)))))
 
+;; Set up 'format-all' to format on save
 (use-package format-all
-  :diminish
+  :defer t
   :commands format-all-buffer
-  :hook ((prog-mode) . format-all-ensure-formatter))
+  :config
+  (format-all-ensure-formatter))
+
+(use-package aggressive-indent-mode
+  :defer t
+  :hook (emacs-lisp-mode . aggressive-indent-mode))
 
 (provide 'init-format)
 ;;; init-format.el ends here
