@@ -105,3 +105,46 @@
   (interactive)
   (my/delete-word)
   (evil-paste-before 1))
+
+;;;###autoload
+(defun my/insert-cc-file-header ()
+  "Add ifndef header to an c/c++ header file."
+  (interactive)
+  (when (string= ".h" (substring (buffer-file-name (current-buffer)) -2))
+    (let* ((file-name (buffer-file-name (current-buffer)))
+           (fbasename (replace-regexp-in-string ".*/" "" file-name))
+           (inc-guard-base (replace-regexp-in-string "[.-]" "_" fbasename))
+           (include-guard (string-remove-suffix "_" (concat (upcase inc-guard-base) "_"))))
+      (insert "#ifndef " include-guard)
+      (newline 1)
+      (insert "#define " include-guard)
+      (newline 4)
+      (insert (format "#endif // %s" include-guard))
+      (newline 1)
+      (previous-line 3)
+      (set-buffer-modified-p nil))))
+
+;;;###autoload
+(defun my/insert-elisp-file-header ()
+  "Add minimal header and footer to an elisp buffer in order to placate flycheck."
+  (interactive)
+  (let ((fname (if (buffer-file-name)
+                   (file-name-nondirectory (buffer-file-name))
+                 (error "This buffer is not visiting a file"))))
+    (save-excursion
+      (goto-char (point-min))
+      (insert ";;; " fname " --- insert description here -*- lexical-binding: t -*-\n"
+              ";;\n"
+              ";; Copyright (C) 2017-2022 kevin.scnu@gmail.com\n"
+              ";;\n"
+              ";; Author: Kevin Leung <kevin.scnu@gmail.com>\n"
+              ";; URL: https://github.com/lkzz/emacs.d\n"
+              ";;\n"
+              ";; This file is not part of GNU Emacs.\n"
+              ";;\n"
+              ";;; License: GPLv3\n"
+              ";;\n"
+              ";;; Commentary:\n"
+              ";;; Code:\n\n")
+      (goto-char (point-max))
+      (insert ";;; " fname " ends here\n"))))
