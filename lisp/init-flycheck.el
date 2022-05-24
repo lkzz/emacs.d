@@ -40,22 +40,19 @@
     (flycheck-posframe-info-face ((t (:foreground ,(face-foreground 'success)))))
     (flycheck-posframe-background-face ((t (:inherit tooltip))))
     (flycheck-posframe-border-face ((t (:inherit font-lock-comment-face))))
-    :hook (flycheck-mode . my/maybe-flycheck-posframe-mode)
+    :hook (flycheck-mode . flycheck-posframe-mode)
     :init
     (setq flycheck-posframe-border-width 1)
     :config
-    (setq flycheck-posframe-warning-prefix "! "
-          flycheck-posframe-info-prefix "··· "
-          flycheck-posframe-error-prefix "X ")
-    (with-eval-after-load 'company
-      (add-hook 'flycheck-posframe-inhibit-functions #'company--active-p))
+    ;; (with-eval-after-load 'company
+    ;;   (add-hook 'flycheck-posframe-inhibit-functions #'company--active-p))
     (with-eval-after-load 'evil-mode
       (add-hook 'flycheck-posframe-inhibit-functions #'evil-insert-state-p)
       (add-hook 'flycheck-posframe-inhibit-functions #'evil-replace-state-p)))
 
   (use-package flycheck-popup-tip
     :unless (display-graphic-p)
-    :hook (flycheck-mode . my/maybe-flycheck-posframe-mode)))
+    :hook (flycheck-mode . flycheck-popup-tip-mode)))
 
 (provide 'init-flycheck)
 ;;; init-flycheck.el ends here
