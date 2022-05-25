@@ -161,7 +161,7 @@
 (defun my/enable-trailing-whitespace ()
   "Show trailing spaces and delete on saving."
   (setq show-trailing-whitespace t)
-  (add-hook 'before-save-hook #'my/delete-trailing-whitespace nil t))
+  (add-hook 'before-save-hook 'delete-trailing-whitespace nil t))
 
 ;; Only enable whitespace trailing in specify mode
 (add-hook 'prog-mode-hook #'my/enable-trailing-whitespace)
