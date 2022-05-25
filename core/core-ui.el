@@ -24,6 +24,8 @@
 (setq inhibit-startup-screen t            ; 禁止启动画面
       inhibit-startup-echo-area-message t ; 禁止echo area message
       inhibit-default-init t              ; 禁止加载default lib
+      inhibit-x-resources t
+      inhibit-startup-buffer-menu t
       mouse-yank-at-point t
       initial-buffer-choice nil
       initial-scratch-message (format ";; Happy Hacking, %s - Emacs ♥ You!\n" user-full-name)

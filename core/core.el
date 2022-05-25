@@ -72,14 +72,6 @@
 (add-to-list 'load-path (file-name-directory load-file-name))
 (add-to-list 'load-path (concat user-emacs-directory "lisp"))
 
-;; UTF-8 as the default coding system
-(when (fboundp 'set-charset-priority)
-  (set-charset-priority 'unicode))
-(prefer-coding-system 'utf-8)
-(setq locale-coding-system 'utf-8)
-(unless is-windows-p
-  (setq selection-coding-system 'utf-8)) ; with sugar on top
-
 ;; 简化yes-or-no 输入
 (defalias 'yes-or-no-p 'y-or-n-p)
 
@@ -99,9 +91,6 @@
 ;; Emacs "updates" its ui more often than it needs to, so we slow it down slightly.
 (setq idle-update-delay 1)
 
-;; Non-nil means reorder bidirectional text for display in the visual order.
-;; Disabling this gives Emacs a tiny performance boost.
-(setq-default bidi-display-reordering nil)
 ;; Optimize for very long lines
 (setq bidi-paragraph-direction 'left-to-right
       bidi-inhibit-bpa t)
@@ -116,8 +105,14 @@
 ;; More performant rapid scrolling over unfontified regions. May cause brief
 ;; spells of inaccurate fontification immediately after scrolling.
 (setq fast-but-imprecise-scrolling t)
+
 ;; Make scrolling smoother by avoiding unnecessary fontification
 (setq redisplay-skip-fontification-on-input t)
+
+;; Remove command line options that aren't relevant to our current OS; means
+;; slightly less to process at startup.
+(unless (eq system-type 'darwin) (setq command-line-ns-option-alist nil))
+(unless (eq system-type 'gnu/linux) (setq command-line-x-option-alist nil))
 
 (defun my/initialize-core ()
   "Load core config file for Emacs."

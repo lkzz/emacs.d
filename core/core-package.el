@@ -135,5 +135,12 @@
     (cl-pushnew item which-key-replacement-alist :test #'equal))
   (set-face-attribute 'which-key-local-map-description-face nil :weight 'bold))
 
+(cl-letf (((symbol-function 'define-obsolete-function-alias) #'defalias))
+  (use-package benchmark-init
+    :demand t
+    :config
+    (require 'benchmark-init-modes)
+    (add-hook 'after-init-hook #'benchmark-init/deactivate)))
+
 (provide 'core-package)
 ;;; core-package.el ends here
