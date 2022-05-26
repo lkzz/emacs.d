@@ -58,7 +58,8 @@
   :config
   (setq vertico-resize nil
         vertico-count 17
-        vertico-cycle t)
+        vertico-cycle nil)
+
   ;; Quick action
   (use-package vertico-quick
     :after vertico
@@ -126,7 +127,7 @@
   (setq consult-narrow-key "<"
         consult-line-numbers-widen t
         consult-async-min-input 2
-        consult-async-refresh-delay  0.15
+        consult-async-refresh-delay  0.10
         consult-async-input-throttle 0.2
         consult-async-input-debounce 0.1
         consult-project-root-function #'projectile-project-root)
@@ -202,6 +203,11 @@ targets."
 (use-package wgrep
   :hook (grep-setup . wgrep-setup)
   :config (setq wgrep-auto-save-buffer t))
+
+;; HACK: Filter boring message in echo area.
+(defadvice message (around my-message-filter activate)
+  (unless (string-match "gofmt\\|skipped\\|tsc-dyn-get" (or (ad-get-arg 0) ""))
+    ad-do-it))
 
 (provide 'init-minibuffer)
 ;;; init-minibuffer.el ends here
