@@ -33,9 +33,8 @@
     "x" '(nil :wk "run")
     "x x" 'go-run)
 
-  (if (executable-find "goimports")
-      (setq gofmt-command "goimports") ;; go install golang.org/x/tools/cmd/goimports@latest
-    (message "command goimports not found"))
+  (when (executable-find "goimports")
+    (setq gofmt-command "goimports")) ;; go install golang.org/x/tools/cmd/goimports@latest
 
   ;; (if (executable-find "gofumpt")
   ;;     (setq gofmt-command "gofumpt") ;; go install mvdan.cc/gofumpt@latest
@@ -55,7 +54,7 @@
     :defines flycheck-disabled-checkers
     :init
     (setq flycheck-golangci-lint-tests t
-          flycheck-golangci-lint-disable-linters '("unused" "staticcheck" "misspell" "errcheck"))
+          flycheck-golangci-lint-disable-linters '("staticcheck" "misspell" "errcheck"))
     :hook (go-mode . (lambda ()
                        ;; Remove default go flycheck-checkers except:go-build and go-test
                        (setq flycheck-disabled-checkers '(go-gofmt
@@ -64,16 +63,13 @@
                                                           go-errcheck
                                                           go-unconvert
                                                           go-staticcheck))
-                       "Enable golangci-lint."
                        (flycheck-golangci-lint-setup)
-
                        ;; Make sure to only run golangci after go-build
                        ;; to ensure we show at least basic errors in the buffer
                        ;; when golangci fails. Make also sure to run go-test if possible.
                        ;; See #13580 for details
                        (flycheck-add-next-checker 'go-build '(warning . golangci-lint) t)
                        (flycheck-add-next-checker 'go-test '(warning . golangci-lint) t)
-
                        ;; Set basic checkers explicitly as flycheck will
                        ;; select the better golangci-lint automatically.
                        ;; However if it fails we require these as fallbacks.
