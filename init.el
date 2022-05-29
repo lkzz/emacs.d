@@ -52,7 +52,6 @@
 
 ;; Misc packages
 ;; (require 'init-ivy)
-(require 'init-chinese)
 (require 'init-misc)
 (require 'init-edit)
 (require 'init-projectile)

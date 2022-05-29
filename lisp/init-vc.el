@@ -30,8 +30,6 @@
 
 ;; Show TODOs in magit
 (use-package magit-todos
-  :disabled
-  :bind ("C-c C-t" . ivy-magit-todos)
   :init
   (setq magit-todos-nice (if (executable-find "nice") t nil))
   (let ((inhibit-message t))

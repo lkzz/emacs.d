@@ -33,11 +33,10 @@
               hungry-delete-except-modes
               '(help-mode minibuffer-mode minibuffer-inactive-mode calc-mode)))
 
-
+;; Start server
 (use-package server
-  :config
-  (unless (server-running-p)
-    (server-start)))
+  :ensure nil
+  :hook (after-init . server-mode))
 
 ;; History
 (use-package saveplace
@@ -84,7 +83,7 @@
   :bind (([remap move-beginning-of-line] . mwim-beginning-of-code-or-line)
          ([remap move-end-of-line] . mwim-end-of-code-or-line)))
 
-;; A better *Help* buffer, from centaur emacs
+;; A better *Help* buffer.
 (use-package helpful
   :commands helpful--buffer
   :bind (("C-c C-d" . helpful-at-point)
@@ -93,38 +92,7 @@
          ([remap describe-variable] . helpful-variable)
          ([remap describe-key] . helpful-key)
          ([remap describe-symbol] . helpful-symbol))
-  :hook (helpful-mode . cursor-sensor-mode) ; for remove-advice button
-  :init
-  (with-no-warnings
-    (with-eval-after-load 'counsel
-      (setq counsel-describe-function-function #'helpful-callable
-            counsel-describe-variable-function #'helpful-variable
-            counsel-describe-symbol-function #'helpful-symbol
-            counsel-descbinds-function #'helpful-callable))
-
-    (with-eval-after-load 'apropos
-      ;; patch apropos buttons to call helpful instead of help
-      (dolist (fun-bt '(apropos-function apropos-macro apropos-command))
-        (button-type-put
-         fun-bt 'action
-         (lambda (button)
-           (helpful-callable (button-get button 'apropos-symbol)))))
-      (dolist (var-bt '(apropos-variable apropos-user-option))
-        (button-type-put
-         var-bt 'action
-         (lambda (button)
-           (helpful-variable (button-get button 'apropos-symbol)))))))
-  :config
-  ;; Open the buffer in other window
-  (defun my/helpful--navigate (button)
-    "Navigate to the path this BUTTON represents."
-    (find-file-other-window (substring-no-properties (button-get button 'path)))
-    ;; We use `get-text-property' to work around an Emacs 25 bug:
-    ;; http://git.savannah.gnu.org/cgit/emacs.git/commit/?id=f7c4bad17d83297ee9a1b57552b1944020f23aea
-    (-when-let (pos (get-text-property button 'position
-                                       (marker-buffer button)))
-      (helpful--goto-char-widen pos)))
-  (advice-add #'helpful--navigate :override #'my/helpful--navigate))
+  :hook (helpful-mode . cursor-sensor-mode)) ; for remove-advice button
 
 (use-package direnv
   :hook (after-init . direnv-mode)
@@ -132,13 +100,38 @@
   (setq direnv-always-show-summary nil))
 
 (use-package restart-emacs
-  :defer t
   :commands restart-emacs)
 
 ;; An alternative M-x interface for Emacs
 (use-package amx
   :defer t
   :init (setq amx-history-length 10))
+
+(use-package youdao-dictionary
+  :bind (("C-c y" . my/youdao-dictionary-search-at-point))
+  :init (setq url-automatic-caching t
+              youdao-dictionary-use-chinese-word-segmentation t) ; 中文分词
+  (defun my/youdao-dictionary-search-at-point ()
+    "Search word at point and display result with `posframe' or `popup'"
+    (interactive)
+    (if (display-graphic-p)
+        (youdao-dictionary-search-at-point-posframe)
+      (youdao-dictionary-search-at-point+))))
+
+(use-package rime
+  :disabled
+  :custom
+  (rime-librime-root "~/Dropbox/librime/dist")
+  (rime-user-data-dir "~/Dropbox/RimeSync")
+  (default-input-method "rime")
+  (rime-show-candidate 'posframe)
+  :custom-face
+  (rime-code-face ((t (:foreground "#ee6363"))))
+  (rime-candidate-num-face ((t (:foreground "#ee6363"))))
+  :config
+  (setq rime-posframe-properties
+        (list :font "STKaiti-16"
+              :internal-border-width 10)))
 
 (provide 'init-misc)
 ;;; init-misc.el ends here

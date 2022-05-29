@@ -150,6 +150,8 @@
           youdao-dictionary-mode osx-dictionary-mode fanyi-mode
           lsp-bridge-ref-mode
 
+          flycheck-error-list-mode
+
           "^\\*eshell.*\\*$" eshell-mode
           "^\\*shell.*\\*$"  shell-mode
           "^\\*term.*\\*$"   term-mode

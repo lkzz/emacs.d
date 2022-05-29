@@ -15,7 +15,10 @@
 
 (use-package solaire-mode)
 
+(use-package vscode-dark-plus-theme)
+
 (use-package doom-themes
+  :disabled
   :init
   (add-hook 'my/load-theme-hook #'doom-themes-org-config)
   (add-hook 'my/load-theme-hook #'doom-themes-neotree-config)
@@ -32,7 +35,7 @@
   ;; 加载主题
   (if (daemonp)
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
-    (load-theme 'doom-one t))
+    (load-theme 'vscode-dark-plus t))
 
   (when (display-graphic-p)
     ;; Frame maximized
@@ -62,7 +65,6 @@
   :hook ((prog-mode text-mode conf-mode) . vi-tilde-fringe-mode))
 
 (use-package display-line-numbers
-  :defer t
   :straight (:type built-in)
   :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
   :init
@@ -90,7 +92,6 @@
            ("xpm"    all-the-icons-octicon "file-media"  :v-adjust 0.0 :face all-the-icons-dgreen))))
     (dolist (icon extension-icon-alist)
       (add-to-list 'all-the-icons-extension-icon-alist icon)))
-
   (let ((regexp-icon-alist
          '(("\\.[bB][iI][nN]$"               all-the-icons-octicon "file-binary" :v-adjust 0.0 :face all-the-icons-yellow)
            ("^config$"                       all-the-icons-octicon "settings"    :v-adjust 0.0 :face all-the-icons-dorange)
@@ -104,7 +105,6 @@
            ("^go.\\(sum\\|mod\\)$"           all-the-icons-fileicon "go"         :face all-the-icons-dpurple))))
     (dolist (icon regexp-icon-alist)
       (add-to-list 'all-the-icons-regexp-icon-alist icon)))
-
   (let ((mode-icon-alist
          '((xwidget-webkit-mode           all-the-icons-faicon "chrome"          :v-adjust -0.1 :face all-the-icons-blue)
            (bongo-playlist-mode           all-the-icons-material "queue_music"   :height 1.2 :face all-the-icons-green)
@@ -197,7 +197,8 @@
                                        "<~" "<~~" "</" "</>" "~@" "~-" "~>" "~~" "~~>" "%%")))
 
 (use-package darkroom
-  :init
+  :defer t
+  :config
   (setq darkroom-margins 0.15
         darkroom-text-scale-increase 0
         darkroom-fringes-outside-margins nil))

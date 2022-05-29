@@ -147,9 +147,9 @@
 
 ;; Indentation
 (setq-default tab-width 4
+              fill-column 80
               tab-always-indent t
-              indent-tabs-mode nil
-              fill-column 80)
+              indent-tabs-mode nil)
 
 ;; Word wrapping
 (setq-default word-wrap nil

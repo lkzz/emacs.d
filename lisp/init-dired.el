@@ -113,20 +113,16 @@
   ;; Shows icons
   (use-package all-the-icons-dired
     :if (display-graphic-p)
+    :straight (:host github :repo "wyuenho/all-the-icons-dired")
     :diminish
-    :hook (dired-mode . all-the-icons-dired-mode)
-    :config
-    ;; FIXME: Refresh after creating or renaming the files/directories.
-    ;; @see https://github.com/jtbm37/all-the-icons-dired/issues/34.
-    (advice-add 'dired-do-create-files :around #'all-the-icons-dired--refresh-advice)
-    (advice-add 'dired-create-directory :around #'all-the-icons-dired--refresh-advice)
-    (advice-add #'all-the-icons-dired--refresh :override #'my/all-the-icons-dired--refresh))
+    :hook (dired-mode . all-the-icons-dired-mode))
 
   (use-package dired-x
     :straight (:type built-in)
     :diminish dired-omit-mode
     :hook (dired-mode . dired-omit-mode)
     :config
+    (setq dired-omit-verbose nil)
     (let ((cmd (cond
                 (is-mac-p "open")
                 (is-linux-p "xdg-open")

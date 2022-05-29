@@ -40,6 +40,7 @@
   ;;     (setq gofmt-command "gofumpt") ;; go install mvdan.cc/gofumpt@latest
   ;;   (message "command gofumpt not found"))
 
+  (setq gofmt-show-errors nil)
   (add-hook 'before-save-hook #'gofmt-before-save)
 
   (with-eval-after-load 'exec-path-from-shell

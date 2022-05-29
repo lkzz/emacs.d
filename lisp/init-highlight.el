@@ -53,33 +53,21 @@
 (use-package highlight-indent-guides
   :if (display-graphic-p)
   :diminish highlight-indent-guides-mode
-  :hook ((prog-mode conf-mode protobuf-mode) . highlight-indent-guides-mode)
+  :hook ((prog-mode text-mode conf-mode protobuf-mode) . highlight-indent-guides-mode)
   :config
   (setq highlight-indent-guides-delay 0.3
         highlight-indent-guides-method 'character
         highlight-indent-guides-responsive 'top
-        highlight-indent-guides-auto-enabled nil)
+        highlight-indent-guides-auto-enabled nil
+        highlight-indent-guides-suppress-auto-error t)
   (set-face-foreground 'highlight-indent-guides-character-face "dimgray")
   ;; Don't display first level of indentation
   (defun my/indent-guides-for-all-but-first-column (level responsive display)
     (unless (< level 1)
       (highlight-indent-guides--highlighter-default level responsive display)))
-  (setq highlight-indent-guides-highlighter-function
-        #'my/indent-guides-for-all-but-first-column)
-  ;; Don't display indentations in `swiper'
-  ;; https://github.com/DarthFennec/highlight-indent-guides/issues/40
-  (with-eval-after-load 'ivy
-    (defun my/ivy-cleanup-indentation (str)
-      "Clean up indentation highlighting in ivy minibuffer."
-      (let ((pos 0) (next 0) (limit (length str)) (prop 'highlight-indent-guides-prop))
-        (while (and pos next)
-          (setq next (text-property-not-all pos limit prop nil str))
-          (when next
-            (setq pos (text-property-any next limit prop nil str))
-            (ignore-errors
-              (remove-text-properties next pos '(display nil face nil) str))))))
-    (advice-add #'ivy-cleanup-string :after #'my/ivy-cleanup-indentation)))
+  (setq highlight-indent-guides-highlighter-function #'my/indent-guides-for-all-but-first-column))
 
+;; Highlight number.
 (use-package highlight-numbers
   :if (display-graphic-p)
   :hook ((prog-mode conf-mode protobuf-mode yaml-mode) . highlight-numbers-mode)
@@ -152,6 +140,7 @@
                  winum-select-window-9
                  winum-select-window-0-or-10
                  pager-page-down pager-page-up
+                 lsp-bridge-ref-jump-next-keyword lsp-bridge-ref-jump-prev-keyword
                  symbol-overlay-basic-jump))
     (advice-add cmd :after #'my/pulse-momentary-line))
 
@@ -171,12 +160,10 @@
   :functions (turn-off-symbol-overlay turn-on-symbol-overlay)
   :custom-face (symbol-overlay-default-face ((t (:inherit (region bold)))))
   :bind (("M-i" . symbol-overlay-put)
+         ("M-r" . symbol-overlay-rename)
          ("M-n" . symbol-overlay-jump-next)
          ("M-p" . symbol-overlay-jump-prev)
-         ("M-N" . symbol-overlay-switch-forward)
-         ("M-P" . symbol-overlay-switch-backward)
-         ("M-C" . symbol-overlay-remove-all)
-         ([M-f3] . symbol-overlay-remove-all))
+         ("M-C" . symbol-overlay-remove-all))
   :hook (((prog-mode yaml-mode) . symbol-overlay-mode)
          (iedit-mode . turn-off-symbol-overlay)
          (iedit-mode-end . turn-on-symbol-overlay))
