@@ -18,7 +18,6 @@
 (use-package vscode-dark-plus-theme)
 
 (use-package doom-themes
-  :disabled
   :init
   (add-hook 'my/load-theme-hook #'doom-themes-org-config)
   (add-hook 'my/load-theme-hook #'doom-themes-neotree-config)
@@ -35,7 +34,9 @@
   ;; 加载主题
   (if (daemonp)
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
-    (load-theme 'vscode-dark-plus t))
+    (load-theme 'vscode-dark-plus t)
+    ;; (load-theme 'doom-one t)
+    )
 
   (when (display-graphic-p)
     ;; Frame maximized
@@ -154,7 +155,7 @@
         doom-modeline-env-version nil
         doom-modeline-env-enable-python t
         doom-modeline-icon (display-graphic-p)
-        doom-modeline-minor-modes nil
+        doom-modeline-minor-modes t
         doom-modeline-major-mode-icon t
         doom-modeline-major-mode-color-icon t
         doom-modeline-modal-icon t
@@ -166,6 +167,10 @@
         doom-modeline-buffer-state-icon t
         doom-modeline-buffer-modification-icon t
         doom-modeline-buffer-file-name-style 'auto))
+
+;; A minor-mode menu for mode-line
+(use-package minions
+  :hook (doom-modeline-mode . minions-mode))
 
 (use-package hide-mode-line
   :hook (((neotree-mode
