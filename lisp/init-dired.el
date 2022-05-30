@@ -113,9 +113,11 @@
   ;; Shows icons
   (use-package all-the-icons-dired
     :if (display-graphic-p)
-    :straight (:host github :repo "wyuenho/all-the-icons-dired")
+    :straight (:host github :repo "wyuenho/all-the-icons-dired") ;; use fork version
     :diminish
-    :hook (dired-mode . all-the-icons-dired-mode))
+    :hook (dired-mode . all-the-icons-dired-mode)
+    :config
+    (setq all-the-icons-dired-monochrome nil))
 
   (use-package dired-x
     :straight (:type built-in)
