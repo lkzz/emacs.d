@@ -139,5 +139,15 @@
   :custom
   (hs-set-up-overlay #'hideshow-folded-overlay-fn))
 
+(use-package yasnippet
+  :diminish yas-minor-mode
+  :hook (go-mode . yas-minor-mode)
+  :custom
+  (yas-use-menu nil)
+  :config
+  (setq yas-inhibit-overlay-modification-protection t)
+  (advice-add 'yas--on-protection-overlay-modification :override #'ignore)
+  (use-package yasnippet-snippets))
+
 (provide 'init-prog)
 ;;; init-prog.el ends here

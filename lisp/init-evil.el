@@ -113,7 +113,7 @@
       (kbd "gcp") 'evilnc-comment-or-uncomment-paragraphs))
 
   (use-package evil-collection
-    :init
+    :config
     ;; The list of supported modes is configured by evil-collection-mode-list
     (evil-collection-init 'view)
     (evil-collection-init 'magit)

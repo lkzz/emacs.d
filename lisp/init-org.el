@@ -29,7 +29,7 @@
   "The org idea file.")
 
 (use-package org
-  ;; :straight (:type built-in)
+  :straight (:type built-in)
   :bind (("C-c a" . org-agenda)
          ("C-c c" . org-capture)
          :map org-mode-map

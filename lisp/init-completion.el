@@ -91,7 +91,9 @@
   (use-package tabnine-capf
     :after cape
     :straight (:host github :repo "50ways2sayhard/tabnine-capf" :files ("*.el" "*.sh"))
-    :hook (kill-emacs . tabnine-capf-kill-process))
+    :hook (kill-emacs . tabnine-capf-kill-process)
+    :config
+    (add-to-list 'completion-at-point-functions #'tabnine-completion-at-point))
 
   (defun my/set-mixed-capf ()
     (setq-local completion-category-defaults nil)
@@ -109,7 +111,7 @@
                                                  #'cape-dabbrev)
                                                 'equal))))
 
-  (add-hook 'lsp-bridge-mode-hook #'my/set-mixed-capf)
+  ;; (add-hook 'lsp-bridge-mode-hook #'my/set-mixed-capf)
   (add-hook 'eglot-managed-mode-hook #'my/set-mixed-capf)
   (add-hook 'lsp-completion-mode-hook #'my/set-mixed-capf))
 

@@ -72,7 +72,7 @@
   (use-package vertico-repeat
     :after vertico
     :ensure nil
-    :bind ("C-c r" . vertico-repeat)
+    :bind ("C-c C-r" . vertico-repeat)
     :config
     (add-hook 'minibuffer-setup-hook #'vertico-repeat-save))
   ;;  Ido-like directory navigation
@@ -88,21 +88,29 @@
     ;; cleans ~/foo/bar/// to /, and ~/foo/bar/~/ to ~/.
     :hook (rfn-eshadow-update-overlay . vertico-directory-tidy)))
 
+(use-package marginalia
+  :after vertico
+  :hook (vertico-mode . marginalia-mode))
+
+(use-package all-the-icons-completion
+  :if (display-graphic-p)
+  :after all-the-icons marginalia
+  :straight (:host github :repo "iyefrat/all-the-icons-completion")
+  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
+
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
   :straight (:type built-in)
-  :hook (after-init . savehist-mode)
+  :hook (my-first-input . savehist-mode)
   :init
-  (setq history-length 1000
-        savehist-autosave-interval 300
-        savehist-additional-variables '(mark-ring
-                                        global-mark-ring
-                                        search-ring
-                                        regexp-search-ring
-                                        extended-command-history)))
+  (setq history-length 200
+        savehist-autosave-interval nil     ; save on kill only
+        savehist-additional-variables '(kill-ring                         ; persist clipboard
+                                        register-alist                    ; persist macros
+                                        mark-ring global-mark-ring        ; persist marks
+                                        search-ring regexp-search-ring))) ; persist searches
 
 (use-package consult
-  :after orderless
   :bind (([remap isearch-forward]               . consult-line)
          ([remap apropos]                       . consult-apropos)
          ([remap bookmark-jump]                 . consult-bookmark)
@@ -119,36 +127,38 @@
          ([remap switch-to-buffer-other-frame]  . consult-buffer-other-frame)
          ([remap yank-pop]                      . consult-yank-pop))
   :init
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
   (setq register-preview-delay 0
         register-preview-function #'consult-register-format)
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+  ;; Optionally replace `completing-read-multiple' with an enhanced version.
   (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
-  (advice-add #'multi-occur :override #'consult-multi-occur)
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
   :config
-  (setq consult-narrow-key "<"
-        consult-line-numbers-widen t
+  (setq consult-line-numbers-widen t
         consult-async-min-input 2
-        consult-async-refresh-delay  0.10
+        consult-async-refresh-delay  0.15
         consult-async-input-throttle 0.2
         consult-async-input-debounce 0.1
         consult-project-root-function #'projectile-project-root)
-  (consult-customize consult-ripgrep consult-git-grep consult-grep
-                     consult-bookmark
-                     consult-recent-file
-                     :preview-key nil))
+  (consult-customize  consult-bookmark consult-recent-file
+                      :preview-key nil
+                      consult-theme consult-xref consult-buffer
+                      consult-ripgrep consult-git-grep consult-grep
+                      my/consult-ripgrep-at-point
+                      :preview-key '(:debounce 0.5 any)))
 
-(use-package consult-dir
-  :bind (([remap list-directory] . consult-dir)
-         :map vertico-map
-         ("C-x C-d" . consult-dir)
-         ("C-x C-j" . consult-dir-jump-file)))
-
-(use-package marginalia
-  :after consult
-  :hook (my-first-input . marginalia-mode))
-
-(use-package all-the-icons-completion
-  :straight (:host github :repo "iyefrat/all-the-icons-completion")
-  :hook (marginalia-mode . all-the-icons-completion-marginalia-setup))
+  (use-package consult-dir
+    :bind (([remap list-directory] . consult-dir)
+           :map vertico-map
+           ("C-x C-d" . consult-dir)
+           ("C-x C-j" . consult-dir-jump-file)))
 
 (use-package embark
   :bind  (([remap describe-bindings] . embark-bindings)

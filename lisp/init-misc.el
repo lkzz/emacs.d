@@ -15,6 +15,7 @@
 
 ;; Bookmark 设置
 (use-package bookmark
+  :defer t
   :straight (:type built-in))
 
 ;; Elec pair

@@ -18,23 +18,31 @@
 
 ;; Speed up startup
 (setq auto-mode-case-fold nil)
+(setq site-run-file nil)
 
-;; Adjust garbage collection thresholds during startup, Optimize loading performance
-(defvar default-file-name-handler-alist file-name-handler-alist)
-
-(setq file-name-handler-alist nil
-      site-run-file nil)
+;; Optimize loading performance
+(unless (or (daemonp) noninteractive init-file-debug)
+  (let ((old-file-name-handler-alist file-name-handler-alist))
+    (setq file-name-handler-alist nil)
+    (add-hook 'emacs-startup-hook
+              (lambda ()
+                "Recover file name handlers."
+                (setq file-name-handler-alist
+                      (delete-dups (append file-name-handler-alist old-file-name-handler-alist)))))))
 
 ;; Optimize emacs garbage collect.
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.5)
+(setq gc-cons-threshold most-positive-fixnum)
 
 ;; Hook run after loading init files
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq file-name-handler-alist default-file-name-handler-alist
-                  gc-cons-threshold 800000
-                  gc-cons-percentage 0.1)))
+(add-hook 'emacs-startup-hook (lambda () (setq gc-cons-threshold 800000)))
+
+;; Suppress flashing at startup
+(setq-default inhibit-message t
+              inhibit-redisplay t)
+(add-hook 'window-setup-hook (lambda ()
+                               (setq-default inhibit-message nil
+                                             inhibit-redisplay nil)
+                               (redisplay)))
 
 ;; Load core config of emacs
 (load (concat user-emacs-directory "core/core") nil 'nomessage)
@@ -57,8 +65,9 @@
 (require 'init-projectile)
 
 ;; Programming releated packages
-(require 'init-markdown)
 (require 'init-prog)
+(require 'init-format)
+(require 'init-markdown)
 (require 'init-org)
 (require 'init-golang)
 (require 'init-python)
@@ -66,7 +75,6 @@
 (require 'init-cxx)
 (require 'init-completion)
 (require 'init-lsp)
-(require 'init-format)
 
 ;; Tools
 (require 'init-vc)

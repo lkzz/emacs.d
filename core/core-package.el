@@ -44,6 +44,12 @@
 (setq byte-compile-warnings '(cl-functions))
 (straight-use-package 'use-package)
 
+(use-package benchmark-init
+  :demand t
+  :config
+  (require 'benchmark-init-modes)
+  (add-hook 'after-init-hook #'benchmark-init/deactivate))
+
 (use-package simple
   :straight (:type built-in)
   :hook ((after-init . size-indication-mode) ; 显示百分比进度
@@ -55,8 +61,7 @@
         line-move-visual nil            ; Move line by visual line
         track-eol t                     ; Keep cursor at end of lines. Require line-move-visual is nil.
         column-number-indicator-zero-based nil ; column starts from 1
-        kill-do-not-save-duplicates t   ; eliminate duplicates
-        set-mark-command-repeat-pop t)  ; Repeating C-SPC after popping mark pops it again
+        kill-do-not-save-duplicates t)   ; eliminate duplicates
   ;; 设置visual line fringe bitmap
   (when (and (fboundp 'define-fringe-bitmap) (display-graphic-p))
     (define-fringe-bitmap 'right-curly-arrow
@@ -174,7 +179,8 @@
   :straight (:host github :repo "emacsmirror/gcmh")
   :hook (my-first-input . gcmh-mode)
   :init
-  (setq gcmh-idle-delay 5
+  (setq gcmh-idle-delay 'auto
+        gcmh-auto-idle-delay-factor 10
         gcmh-high-cons-threshold #x1000000)) ; 16MB
 
 (use-package which-key

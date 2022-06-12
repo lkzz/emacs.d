@@ -15,6 +15,8 @@
 ;; used as tmux prefix key
 (global-unset-key (kbd "C-q"))
 (define-key global-map (kbd "RET") 'newline-and-indent)
+(define-key global-map (kbd "C--") 'text-scale-decrease)
+(define-key global-map (kbd "C-=") 'text-scale-increase)
 
 (global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1)))
 (global-set-key [mouse-5] (lambda () (interactive) (scroll-up   1)))

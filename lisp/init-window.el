@@ -15,6 +15,7 @@
 
 ;; Quickly switch windows
 (use-package ace-window
+  :defer t
   :bind ([remap other-window] . ace-window)
   :custom-face
   (aw-leading-char-face ((t (:inherit font-lock-keyword-face :bold t :height 3.0))))
@@ -27,7 +28,7 @@
 ;; Numbered window shortcuts
 (use-package winum
   :hook (after-init . winum-mode)
-  :init
+  :config
   (setq window-numbering-scope 'global
         winum-auto-setup-mode-line nil
         winum-ignored-buffers '(" *which-key*")
@@ -35,9 +36,11 @@
 
 ;; Zoom window like tmux
 (use-package zoom-window
+  :defer t
   :init (setq zoom-window-mode-line-color "DarkGreen"))
 
 (use-package golden-ratio
+  :defer t
   :diminish golden-ratio-mode "ⓖ"
   :config
   ;; golden-ratio-exclude-modes
@@ -149,8 +152,6 @@
           process-menu-mode list-environment-mode cargo-process-mode
           youdao-dictionary-mode osx-dictionary-mode fanyi-mode
           lsp-bridge-ref-mode
-
-          flycheck-error-list-mode
 
           "^\\*eshell.*\\*$" eshell-mode
           "^\\*shell.*\\*$"  shell-mode

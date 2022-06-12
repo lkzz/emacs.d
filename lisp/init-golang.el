@@ -77,9 +77,9 @@
                        (cond ((flycheck-may-use-checker 'go-test) (flycheck-select-checker 'go-test))
                              ((flycheck-may-use-checker 'go-build) (flycheck-select-checker 'go-build))))))
 
-  (use-package go-gen-test)
   (use-package gotest
-    :init (setq go-test-verbose t)))
+    :init
+    (setq go-test-verbose t)))
 
 (provide 'init-golang)
 ;;; init-golang ends here

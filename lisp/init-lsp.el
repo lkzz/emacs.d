@@ -17,56 +17,17 @@
   ('lsp-bridge
    (use-package lsp-bridge
      :straight (:host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*"))
-     :init
-     (when is-mac-p
-       (setq lsp-bridge-python-command "/usr/local/bin/python3"))
-     (dolist (hook (list
-                    'c-mode-hook
-                    'c++-mode-hook
-                    'java-mode-hook
-                    'python-mode-hook
-                    'ruby-mode-hook
-                    'rust-mode-hook
-                    'elixir-mode-hook
-                    'go-mode-hook
-                    'haskell-mode-hook
-                    'haskell-literate-mode-hook
-                    'dart-mode-hook
-                    'scala-mode-hook
-                    'typescript-mode-hook
-                    'typescript-tsx-mode-hook
-                    'js2-mode-hook
-                    'js-mode-hook
-                    'rjsx-mode-hook
-                    'tuareg-mode-hook
-                    'latex-mode-hook
-                    'Tex-latex-mode-hook
-                    'texmode-hook
-                    'context-mode-hook
-                    'texinfo-mode-hook
-                    'bibtex-mode-hook
-                    'clojure-mode-hook
-                    'clojurec-mode-hook
-                    'clojurescript-mode-hook
-                    'clojurex-mode-hook
-                    'sh-mode-hook
-                    'web-mode-hook))
-       (add-hook hook (lambda ()
-                        (setq-local corfu-auto nil) ;; let lsp-bridge control when popup completion frame
-                        (lsp-bridge-mode 1))))
+     :hook ((go-mode c++-mode python-mode) . lsp-bridge-mode)
      :config
-     (setq lsp-bridge-completion-provider 'corfu)
-     ;; (setq lsp-bridge-enable-log t)
-     (require 'lsp-bridge-icon)        ;; show icons for completion items, optional
-     (require 'lsp-bridge-orderless)   ;; make lsp-bridge support fuzzy match, optional
-     ;; For Xref support
-     (add-hook 'lsp-bridge-mode-hook (lambda ()
-                                       (add-hook 'xref-backend-functions #'lsp-bridge-xref-backend nil t)))
+     (setq acm-enable-dabbrev nil
+           lsp-bridge-enable-diagnostics nil)
      (general-evil-define-key 'normal lsp-bridge-mode-map
        "ga" 'xref-find-apropos
        "gd" 'lsp-bridge-find-def
+       "gD" 'lsp-bridge-find-def-other-window
        "K"  'lsp-bridge-lookup-documentation
        "gi" 'lsp-bridge-find-impl
+       "gI" 'lsp-bridge-find-impl-other-window
        "gr" 'lsp-bridge-find-references)))
   ('eglot
    (use-package eglot
@@ -82,13 +43,13 @@
            eglot-auto-display-help-buffer nil
            eldoc-echo-area-use-multiline-p nil
            eglot-stay-out-of '(flymake))
-     ;; (evil-define-key 'normal 'global "K" 'my/eglot-help-at-point)
-     (general-evil-define-key 'normal lsp-bridge-mode-map
-       "ga" 'xref-find-apropos
-       "gd" 'eglot-find-declaration
-       "K"  'lsp-bridge-lookup-documentation
-       "gi" 'eglot-find-implementation
-       "gr" 'eglot-find-typeDefinition)
+     (general-define-key
+      :keymaps 'eglot-mode-map
+      "ga" 'xref-find-apropos
+      "gd" 'eglot-find-declaration
+      "K"  'lsp-bridge-lookup-documentation
+      "gi" 'eglot-find-implementation
+      "gr" 'eglot-find-typeDefinition)
      (my/global-leader-define :keymaps 'override
        "ca" '(eglot-code-actions :wk "Code Action")
        "cr" '(eglot-rename :wk "Rename symbol")

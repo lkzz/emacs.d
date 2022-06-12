@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package vterm
+  :defer t
   :init
   (setq vterm-always-compile-module t)
   (add-hook 'vterm-mode-hook (lambda ()
@@ -21,6 +22,6 @@
                                                                     (evil-refresh-cursor evil-state))))))
 
 (use-package vterm-toggle
-  :after vterm)
+  :defer t)
 
 (provide 'init-shell)

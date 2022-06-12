@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package neotree
+  :defer t
   :init
   (setq neo-create-file-auto-open t
         neo-auto-indent-point nil

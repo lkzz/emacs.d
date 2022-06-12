@@ -21,6 +21,9 @@
   ;; Suppress native compilation warnings.
   (setq native-comp-async-report-warnings-errors nil))
 
+;; Load the newest file
+(setq load-prefer-newer noninteractive)
+
 ;; Defer garbage collection further back in the startup process
 (setq gc-cons-threshold most-positive-fixnum)
 

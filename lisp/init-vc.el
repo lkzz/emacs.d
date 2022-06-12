@@ -14,11 +14,15 @@
 ;;; Code:
 
 (use-package magit
+  :defer 3
   :init
   ;; Suppress the message we get about "Turning on magit-auto-revert-mode" when loading Magit.
   (setq magit-no-message '("Turning on magit-auto-revert-mode...")
         magit-diff-refine-hunk t)
   :config
+  ;; Close transient with esc and q
+  (define-key transient-map [escape] #'transient-quit-one)
+  (define-key transient-map "q" #'transient-quit-one)
   ;; see https://chris.beams.io/posts/git-commit/
   (setq fill-column 72
         magit-auto-revert-mode t
@@ -30,6 +34,7 @@
 
 ;; Show TODOs in magit
 (use-package magit-todos
+  :after magit
   :init
   (setq magit-todos-nice (if (executable-find "nice") t nil))
   (let ((inhibit-message t))
@@ -52,15 +57,8 @@
         blamer-datetime-formatter "[%s] "
         blamer-commit-formatter "- %s"))
 
-;; Package `transient' is the interface used by Magit to display popups.
-(use-package transient
-  :config
-  ;; Allow using `q' to quit out of popups, in addition to `C-g'. See
-  ;; <https://magit.vc/manual/transient.html#Why-does-q-not-quit-popups-anymore_003f>
-  ;; for discussion.
-  (transient-bind-q-to-quit))
-
 (use-package smerge-mode
+  :defer t
   :straight (:type built-in)
   :diminish smerge-mode
   :init
@@ -173,6 +171,7 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
 
 ;; Walk through git revisions of a file
 (use-package git-timemachine
+  :defer t
   :custom-face
   (git-timemachine-minibuffer-author-face ((t (:inherit success))))
   (git-timemachine-minibuffer-detail-face ((t (:inherit warning))))
@@ -203,12 +202,12 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
   :init
   (setq git-messenger:show-detail t
         git-messenger:use-magit-popup t)
-  :config
   (defhydra git-messenger-hydra (:color blue)
     ("s" git-messenger:popup-show "show")
     ("c" git-messenger:copy-commit-id "copy hash")
     ("m" git-messenger:copy-message "copy message")
     ("q" git-messenger:popup-close "quit"))
+  :config
   (defun my/git-messenger:format-detail (vcs commit-id author message)
     (if (eq vcs 'git)
         (let ((date (git-messenger:commit-date commit-id))
@@ -258,7 +257,7 @@ _k_: previous _j_: next _m_: mark _g_: goto nth _r_: revert _q_: quit"
                               :left-fringe 8
                               :right-fringe 8
                               :internal-border-width 1
-                              :internal-border-color (face-foreground 'font-lock-comment-face nil t)
+                              :internal-border-color (face-foreground 'default)
                               :background-color (face-background 'tooltip nil t))
                (unwind-protect
                    (push (read-event) unread-command-events)

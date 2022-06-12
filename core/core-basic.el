@@ -22,15 +22,16 @@
       '(:eval (if (buffer-file-name)
                   (abbreviate-file-name (buffer-file-name)) "%b")))
 
+;; Transparent title bar
+(when (featurep 'ns)
+  (push '(ns-transparent-titlebar . t) default-frame-alist))
+
 ;; 简化yes-or-no 输入
 (setq use-short-answers t)
 
 ;; Inhibit switching out from `y-or-n-p' and `read-char-choice'
 (setq y-or-n-p-use-read-key t
       read-char-choice-use-read-key t)
-
-;; Always load the newest file
-(setq load-prefer-newer t)
 
 ;; Cutting and pasting use primary/clipboard
 (setq select-enable-primary t
@@ -214,6 +215,9 @@
 (add-hook 'after-change-major-mode-hook
           (lambda ()
             (modify-syntax-entry ?_ "w")))
+
+;; Suppressing ad-handle-definition warnings.
+(setq ad-redefinition-action 'accept)
 
 (provide 'core-basic)
 ;;; core-basic.el ends here

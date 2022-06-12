@@ -34,9 +34,7 @@
   ;; 加载主题
   (if (daemonp)
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
-    (load-theme 'vscode-dark-plus t)
-    ;; (load-theme 'doom-one t)
-    )
+    (load-theme 'vscode-dark-plus t))
 
   (when (display-graphic-p)
     ;; Frame maximized
@@ -166,7 +164,7 @@
         doom-modeline-buffer-encoding t
         doom-modeline-buffer-state-icon t
         doom-modeline-buffer-modification-icon t
-        doom-modeline-buffer-file-name-style 'auto))
+        doom-modeline-buffer-file-name-style 'relative-to-project))
 
 ;; A minor-mode menu for mode-line
 (use-package minions

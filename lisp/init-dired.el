@@ -14,6 +14,7 @@
 ;;; Code:
 
 (use-package dired
+  :defer t
   :straight (:type built-in)
   :init
   (setq dired-dwim-target t            ; select another buffer as target when this is two dired buffer
