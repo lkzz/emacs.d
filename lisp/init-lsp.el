@@ -16,8 +16,9 @@
 (pcase my-lsp-backend
   ('lsp-bridge
    (use-package lsp-bridge
+     :defer t
      :straight (:host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*"))
-     :hook ((go-mode c++-mode python-mode) . lsp-bridge-mode)
+     :hook (prog-mode . global-lsp-bridge-mode)
      :config
      (setq acm-enable-dabbrev nil
            lsp-bridge-enable-diagnostics nil)
@@ -31,6 +32,7 @@
        "gr" 'lsp-bridge-find-references)))
   ('eglot
    (use-package eglot
+     :defer t
      :hook ((python-mode c-mode c++-mode go-mode) . eglot-ensure)
      :config
      (setq eglot-sync-connect 1
@@ -60,6 +62,7 @@
        "cD" '(eglot-find-typeDefinition :wk "Find type definition"))))
   ('lsp-mode
    (use-package lsp-mode
+     :defer t
      :diminish lsp-mode
      :hook (lsp-mode . lsp-enable-which-key-integration)
      :bind(:map lisp-mode-map

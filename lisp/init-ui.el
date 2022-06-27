@@ -24,7 +24,7 @@
   (add-hook 'my/load-theme-hook #'doom-themes-visual-bell-config)
   (setq doom-dark+-blue-modeline t
         doom-gruvbox-dark-variant "medium"
-        doom-themes-neotree-file-icons 't
+        doom-themes-neotree-file-icons t
         doom-themes-neotree-line-spacing 2))
 
 ;; 延迟部分ui设置
@@ -34,7 +34,7 @@
   ;; 加载主题
   (if (daemonp)
       (add-hook 'after-make-frame-functions (lambda (frame) (load-theme 'doom-gruvbox t)))
-    (load-theme 'vscode-dark-plus t))
+    (load-theme 'doom-one t))
 
   (when (display-graphic-p)
     ;; Frame maximized
@@ -65,7 +65,7 @@
 
 (use-package display-line-numbers
   :straight (:type built-in)
-  :hook ((prog-mode text-mode conf-mode protobuf-mode) . display-line-numbers-mode)
+  :hook (after-init . global-display-line-numbers-mode)
   :init
   (setq display-line-numbers-width 2
         display-line-numbers-widen t

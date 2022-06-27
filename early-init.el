@@ -18,10 +18,16 @@
 
 ;; Native comp
 (when (fboundp 'native-comp-available-p)
+  ;; Prevent unwanted runtime compilation for gccemacs (native-comp) users;
+  ;; packages are compiled ahead-of-time when they are installed and site files
+  ;; are compiled when gccemacs is installed.
+  (setq native-comp-deferred-compilation nil)
   ;; Suppress native compilation warnings.
   (setq native-comp-async-report-warnings-errors nil))
 
-;; Load the newest file
+;; In noninteractive sessions, prioritize non-byte-compiled source files to
+;; prevent the use of stale byte-code. Otherwise, it saves us a little IO time
+;; to skip the mtime checks on every *.elc file.
 (setq load-prefer-newer noninteractive)
 
 ;; Defer garbage collection further back in the startup process

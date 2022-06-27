@@ -14,24 +14,28 @@
 
 ;; used as tmux prefix key
 (global-unset-key (kbd "C-q"))
-(define-key global-map (kbd "RET") 'newline-and-indent)
-(define-key global-map (kbd "C--") 'text-scale-decrease)
-(define-key global-map (kbd "C-=") 'text-scale-increase)
-
+(global-set-key (kbd "RET") 'newline-and-indent)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+(global-set-key (kbd "C-=") 'text-scale-increase)
+(global-set-key (kbd "M-y") 'yank-pop)
 (global-set-key [mouse-4] (lambda () (interactive) (scroll-down 1)))
 (global-set-key [mouse-5] (lambda () (interactive) (scroll-up   1)))
+
 ;; Use ESC as universal get me out of here command
 (define-key key-translation-map (kbd "ESC") (kbd "C-g"))
 
-(when is-mac-p (setq mac-command-modifier 'meta
-                     mac-option-modifier 'alt)
-      (global-set-key [(meta a)] 'mark-whole-buffer)
-      (global-set-key [(meta v)] 'yank)
-      (global-set-key [(meta c)] 'kill-ring-save)
-      (global-set-key [(meta s)] 'save-buffer)
-      (global-set-key [(meta z)] 'undo))
-
-(define-key global-map (kbd "M-y") 'yank-pop)
+(when is-mac-p
+  ;; mac-* variables are used by the special emacs-mac build of Emacs by
+  ;; Yamamoto Mitsuharu, while other builds use ns-*.
+  (setq mac-command-modifier      'super
+        ns-command-modifier       'super
+        mac-option-modifier       'meta
+        ns-option-modifier        'meta)
+  (global-set-key [(super a)] 'mark-whole-buffer)
+  (global-set-key [(super v)] 'yank)
+  (global-set-key [(super c)] 'kill-ring-save)
+  (global-set-key [(super s)] 'save-buffer)
+  (global-set-key [(super z)] 'undo))
 
 (my/global-leader-define
   "SPC" '(execute-extended-command :wk "M-x")
@@ -58,11 +62,11 @@
   "ev" '(flycheck-verify-setup :wk "Verify setup")
   "es" '(flycheck-select-checker :wk "Select checker")
   "f"  '(:ignore t :wk "File")
+  "fc" '(consult-find :wk "FD find here")
   "fC" '(my/copy-file :wk "Copy file")
   "fd" '(consult-dir :wk "Open file under dir")
   "fD" '(my/delete-file :wk "Delete file")
-  "ff" '(consult-find :wk "Find file")
-  "fh" '(find-file :wk "FD find here")
+  "ff" '(find-file :wk "Find file")
   "fH" '((lambda() (interactive)(find-file (read-file-name "Remote: " "/scp:"))) :wk "Remote")
   "fr" '(recentf-open-files :wk "Recent file")
   "fR" '(my/rename-file :wk "Rename file")
@@ -101,12 +105,12 @@
   "p!" 'projectile-run-shell-command-in-root
   "p%" 'projectile-replace-regexp
   "p/" 'projectile-ripgrep
-  "pb" 'projectile-switch-to-buffer
-  "pd" 'projectile-find-dir
-  "pf" 'projectile-find-file
+  "pb" 'project-switch-to-buffer
+  "pd" 'project-find-dir
+  "pf" 'project-find-file
   "pg" 'projectile-find-tag
   "pk" 'projectile-kill-buffers
-  "pp" 'projectile-switch-project
+  "pp" 'project-switch-project
   "pr" 'projectile-recentf
   "pT" 'projectile-test-project
   "s"  '(:ignore t :wk "Search")

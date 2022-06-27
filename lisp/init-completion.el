@@ -41,7 +41,6 @@
               ("C-p" . corfu-previous)
               ("C-j" . corfu-insert)
               ("C-g" . corfu-quit))
-  :init (global-corfu-mode)
   :config
   (setq corfu-excluded-modes '(shell-mode
                                eshell-mode
