@@ -20,8 +20,7 @@
      :straight (:host github :repo "manateelazycat/lsp-bridge" :files (:defaults "*"))
      :hook (prog-mode . global-lsp-bridge-mode)
      :config
-     (setq acm-enable-dabbrev nil
-           lsp-bridge-enable-diagnostics nil)
+     (setq lsp-bridge-enable-diagnostics t)
      (general-evil-define-key 'normal lsp-bridge-mode-map
        "ga" 'xref-find-apropos
        "gd" 'lsp-bridge-find-def
