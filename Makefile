@@ -57,7 +57,7 @@ install_go_tools:
 	@go install github.com/godoctor/godoctor@latest
 	@go install github.com/ramya-rao-a/go-outline@latest
 	@go install github.com/smartystreets/goconvey@latest
-	@go install github.com/golang/mock/mockgen@v1.5.0
+	@go install github.com/golang/mock/mockgen@latest
 	@go install rsc.io/2fa@latest
 	@go install github.com/cweill/gotests/...@latest
 	@go install honnef.co/go/tools/cmd/staticcheck@latest
@@ -67,11 +67,12 @@ install_go_tools:
 	@go install github.com/fatih/gomodifytags@latest
 	@go install github.com/davidrjenni/reftools/cmd/fillstruct@latest
 	@go install github.com/google/wire/cmd/wire@latest
-	@go install git.bilibili.co/golang-lint/bilibodyclose@latest
-	@go install git.bilibili.co/golang-lint/bilidurationcheck/cmd/durationcheck@latest
-	@go install git.bilibili.co/golang-lint/bilisqlclosecheck@latest
+	# @go install git.bilibili.co/golang-lint/bilibodyclose@latest
+	# @go install git.bilibili.co/golang-lint/bilidurationcheck/cmd/durationcheck@latest
+	# @go install git.bilibili.co/golang-lint/bilisqlclosecheck@latest
 	# @go install git.bilibili.co/golang-lint/bililoopclosure@latest
-	@go install git.bilibili.co/golang-lint/biliautomaxprocs@latest
+	# @go install git.bilibili.co/golang-lint/biliautomaxprocs@latest
 	@go install mvdan.cc/gofumpt@latest # A stricter gofmt
+	@go install go.uber.org/automaxprocs@latest
 
 .PHONY:clean install install_tools install_lsp_server

@@ -26,9 +26,15 @@
        "gd" 'lsp-bridge-find-def
        "gD" 'lsp-bridge-find-def-other-window
        "K"  'lsp-bridge-lookup-documentation
+       "gj" 'lsp-bridge-diagnostic-jump-next
+       "gk" 'lsp-bridge-diagnostic-jump-prev
+       "gl" 'lsp-bridge-diagnostic-list
        "gi" 'lsp-bridge-find-impl
        "gI" 'lsp-bridge-find-impl-other-window
-       "gr" 'lsp-bridge-find-references)))
+       "gr" 'lsp-bridge-find-references
+       "gR" 'lsp-bridge-rename
+
+       )))
   ('eglot
    (use-package eglot
      :defer t
